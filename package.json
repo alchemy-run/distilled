@@ -21,7 +21,8 @@
     "test:services": "bun test:local ./test/services/",
     "test:services:live": "bun test:live ./test/services/",
     "format": "bun oxfmt ./scripts ./src ./test",
-    "find:errors": "bun run scripts/find-errors.ts"
+    "find:errors": "bun run scripts/find-errors.ts",
+    "symlink": "bun run scripts/symlink.ts"
   },
   "exports": {
     "./*": {

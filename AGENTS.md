@@ -35,3 +35,6 @@ Do not use random suffixes for the names of test resources. They must be determi
 
 Style:
 Prefer const arrow functions over function declarations. Avoid return statements if everythign can be inlined with Effect.gen and pipe (e.g. use Effect.retry and Schedule over while loops and sleeps)
+
+Commits:
+Use conventional commits (e.g. `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`)
