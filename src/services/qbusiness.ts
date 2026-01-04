@@ -3077,7 +3077,7 @@ export class SourceAttribution extends S.Class<SourceAttribution>(
   indexId: S.optional(S.String),
   datasourceId: S.optional(S.String),
 }) {}
-export const SourceAttributions = S.Array(SourceAttribution);
+export const SourceAttributions = S.Array(SourceAttribution).pipe(T.Sparse());
 export class MetadataEvent extends S.Class<MetadataEvent>("MetadataEvent")({
   conversationId: S.optional(S.String),
   userMessageId: S.optional(S.String),

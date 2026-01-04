@@ -425,7 +425,7 @@ const rules = T.EndpointRuleSet({
 export const CcEmailAddressList = S.Array(S.String);
 export const CaseIdList = S.Array(S.String);
 export const ServiceCodeList = S.Array(S.String);
-export const StringList = S.Array(S.String);
+export const StringList = S.Array(S.String).pipe(T.Sparse());
 export class AddCommunicationToCaseRequest extends S.Class<AddCommunicationToCaseRequest>(
   "AddCommunicationToCaseRequest",
 )(

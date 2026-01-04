@@ -263,7 +263,9 @@ export class ListSearchResultExportJobsInput extends S.Class<ListSearchResultExp
 export const ResourceTypeList = S.Array(S.String);
 export const ResourceArnList = S.Array(S.String);
 export const RecoveryPointArnList = S.Array(S.String);
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export const TagMap = S.Record({ key: S.String, value: S.String }).pipe(
+  T.Sparse(),
+);
 export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
   "ListTagsForResourceResponse",
 )({ Tags: S.optional(TagMap) }) {}

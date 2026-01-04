@@ -3405,6 +3405,7 @@ export const updateEventSourceMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ResourceNotFoundException,
       ServiceException,
       TooManyRequestsException,
+      ParseError,
     ],
   }),
 );

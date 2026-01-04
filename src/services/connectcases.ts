@@ -951,7 +951,9 @@ export const CaseFilterList = S.Array(
 export class CommentFilter extends S.Class<CommentFilter>("CommentFilter")(
   {},
 ) {}
-export const Tags = S.Record({ key: S.String, value: S.String });
+export const Tags = S.Record({ key: S.String, value: S.String }).pipe(
+  T.Sparse(),
+);
 export const FieldIdentifierList = S.Array(FieldIdentifier);
 export class Sort extends S.Class<Sort>("Sort")({
   fieldId: S.String,
@@ -1501,7 +1503,7 @@ export class AuditEventField extends S.Class<AuditEventField>(
   oldValue: S.optional(AuditEventFieldValueUnion),
   newValue: AuditEventFieldValueUnion,
 }) {}
-export const AuditEventFieldList = S.Array(AuditEventField);
+export const AuditEventFieldList = S.Array(AuditEventField).pipe(T.Sparse());
 export class AuditEvent extends S.Class<AuditEvent>("AuditEvent")({
   eventId: S.String,
   type: S.String,
@@ -1510,7 +1512,7 @@ export class AuditEvent extends S.Class<AuditEvent>("AuditEvent")({
   fields: AuditEventFieldList,
   performedBy: S.optional(AuditEventPerformedBy),
 }) {}
-export const AuditEventsList = S.Array(AuditEvent);
+export const AuditEventsList = S.Array(AuditEvent).pipe(T.Sparse());
 export class SearchCasesResponseItem extends S.Class<SearchCasesResponseItem>(
   "SearchCasesResponseItem",
 )({
@@ -1519,7 +1521,9 @@ export class SearchCasesResponseItem extends S.Class<SearchCasesResponseItem>(
   fields: FieldValueList,
   tags: S.optional(Tags),
 }) {}
-export const SearchCasesResponseItemList = S.Array(SearchCasesResponseItem);
+export const SearchCasesResponseItemList = S.Array(
+  SearchCasesResponseItem,
+).pipe(T.Sparse());
 export class ContactContent extends S.Class<ContactContent>("ContactContent")({
   contactArn: S.String,
   channel: S.String,
@@ -1574,7 +1578,7 @@ export class SearchRelatedItemsResponseItem extends S.Class<SearchRelatedItemsRe
 }) {}
 export const SearchRelatedItemsResponseItemList = S.Array(
   SearchRelatedItemsResponseItem,
-);
+).pipe(T.Sparse());
 export class SearchRelatedItemsResponse extends S.Class<SearchRelatedItemsResponse>(
   "SearchRelatedItemsResponse",
 )({
@@ -1612,7 +1616,7 @@ export class SearchAllRelatedItemsResponseItem extends S.Class<SearchAllRelatedI
 }) {}
 export const SearchAllRelatedItemsResponseItemList = S.Array(
   SearchAllRelatedItemsResponseItem,
-);
+).pipe(T.Sparse());
 export class CreateCaseRuleResponse extends S.Class<CreateCaseRuleResponse>(
   "CreateCaseRuleResponse",
 )({ caseRuleId: S.String, caseRuleArn: S.String }) {}

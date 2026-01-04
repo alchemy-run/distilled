@@ -703,7 +703,10 @@ export class ConfigurationCheckOperation extends S.Class<ConfigurationCheckOpera
 export const ConfigurationCheckOperationList = S.Array(
   ConfigurationCheckOperation,
 );
-export const OperationProperties = S.Record({ key: S.String, value: S.String });
+export const OperationProperties = S.Record({
+  key: S.String,
+  value: S.String,
+}).pipe(T.Sparse());
 export class Operation extends S.Class<Operation>("Operation")({
   Id: S.optional(S.String),
   Type: S.optional(S.String),
