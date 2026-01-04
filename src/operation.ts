@@ -1,6 +1,8 @@
 import type { Effect } from "effect/Effect";
 import * as S from "effect/Schema";
-import type { Credentials, Endpoint, Region } from "./aws/index.ts";
+import type { Credentials } from "./aws/credentials.ts";
+import type { Endpoint } from "./aws/endpoint.ts";
+import type { Region } from "./aws/region.ts";
 
 export declare namespace Operation {
   export type Input<Op extends Operation> = S.Schema.Type<Op["input"]>;

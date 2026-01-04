@@ -863,6 +863,8 @@ const convertShapeToSchema: (
               const isMemberErrorShape = sdkFile.errorShapeIds.has(
                 s.member.target,
               );
+              // Check for @sparse trait on the list
+              const isSparse = s.traits?.["smithy.api#sparse"] != null;
               return addAlias(
                 convertShapeToSchema(s.member.target).pipe(
                   Effect.flatMap(Deferred.await),
@@ -884,6 +886,9 @@ const convertShapeToSchema: (
                     // Apply serialization traits (xmlName, timestampFormat, etc.) using unified function
                     innerType = applyTraitsToSchema(innerType, s.member.traits);
 
+                    // Build the array schema with optional sparse annotation
+                    const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
+
                     if (isCyclic) {
                       // For cyclic arrays, generate explicit type alias to help TypeScript inference
                       const memberTsType = schemaExprToTsType(
@@ -891,10 +896,10 @@ const convertShapeToSchema: (
                         sdkFile.allStructNames,
                         sdkFile.cyclicSchemas,
                       );
-                      return `export type ${schemaName} = ${memberTsType}[];\nexport const ${schemaName} = S.Array(${innerType}) as any as S.Schema<${schemaName}>;`;
+                      return `export type ${schemaName} = ${memberTsType}[];\nexport const ${schemaName} = S.Array(${innerType})${sparsePipe} as any as S.Schema<${schemaName}>;`;
                     }
 
-                    return `export const ${schemaName} = S.Array(${innerType});`;
+                    return `export const ${schemaName} = S.Array(${innerType})${sparsePipe};`;
                   }),
                 ),
                 [memberName],
@@ -1262,6 +1267,8 @@ const convertShapeToSchema: (
               const isValueErrorShape = sdkFile.errorShapeIds.has(
                 s.value.target,
               );
+              // Check for @sparse trait on the map
+              const isSparse = s.traits?.["smithy.api#sparse"] != null;
               return addAlias(
                 Effect.all(
                   [
@@ -1302,6 +1309,9 @@ const convertShapeToSchema: (
                       s.value.traits,
                     );
 
+                    // Build the record schema with optional sparse annotation
+                    const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
+
                     if (isCyclic) {
                       // For cyclic maps, generate explicit type alias to help TypeScript inference
                       const keyTsType = schemaExprToTsType(
@@ -1314,10 +1324,10 @@ const convertShapeToSchema: (
                         sdkFile.allStructNames,
                         sdkFile.cyclicSchemas,
                       );
-                      return `export type ${schemaName} = { [key: ${keyTsType}]: ${valueTsType} };\nexport const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}}) as any as S.Schema<${schemaName}>;`;
+                      return `export type ${schemaName} = { [key: ${keyTsType}]: ${valueTsType} };\nexport const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe} as any as S.Schema<${schemaName}>;`;
                     }
 
-                    return `export const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}});`;
+                    return `export const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe};`;
                   }),
                 ),
                 [keyTargetName, valueTargetName],

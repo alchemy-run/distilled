@@ -101,18 +101,13 @@ export const makeResponseParser = <A, I, R>(
         | Record<string, unknown>
         | undefined;
 
-      // Convert null values to undefined (AWS returns null, schemas expect undefined)
-      const normalized = nullToUndefined(deserialized) as
-        | Record<string, unknown>
-        | undefined;
-
       // If the output has an event stream member, parse and decode it
-      const stream = streamParser?.(normalized);
+      const stream = streamParser?.(deserialized);
       if (stream) {
         return stream as A;
       }
 
-      return yield* decode(normalized);
+      return yield* decode(deserialized);
     }
 
     // Error path
@@ -135,30 +130,4 @@ export const makeResponseParser = <A, I, R>(
       new UnknownAwsError({ errorTag: errorCode, errorData: data }),
     );
   });
-};
-
-/**
- * Recursively convert null values to undefined.
- * AWS APIs often return null for optional fields, but our schemas expect undefined.
- */
-const nullToUndefined = (value: unknown): unknown => {
-  if (value === null) {
-    return undefined;
-  }
-  if (Array.isArray(value)) {
-    return value.map(nullToUndefined);
-  }
-  if (typeof value === "object" && value !== null) {
-    // Skip special objects like streams (check for channel property)
-    const obj = value as Record<string, unknown>;
-    if ("channel" in obj || Symbol.iterator in obj) {
-      return value;
-    }
-    const result: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(obj)) {
-      result[k] = nullToUndefined(v);
-    }
-    return result;
-  }
-  return value;
 };

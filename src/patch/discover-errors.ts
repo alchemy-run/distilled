@@ -12,13 +12,10 @@ import * as Effect from "effect/Effect";
 import * as Logger from "effect/Logger";
 import * as S from "effect/Schema";
 import * as Credentials from "../aws/credentials.ts";
-import {
-  COMMON_ERRORS,
-  Endpoint,
-  Region,
-  UnknownAwsError,
-} from "../aws/index.ts";
+import { Endpoint } from "../aws/endpoint.ts";
+import { COMMON_ERRORS, UnknownAwsError } from "../aws/errors.ts";
 import type { AWSRegion } from "../aws/region.ts";
+import { Region } from "../aws/region.ts";
 import type { Operation } from "../operation.ts";
 // import * as AWS from "../services/index.ts";
 const AWS = (await import("../services/index.ts")) as any;

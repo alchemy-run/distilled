@@ -272,10 +272,12 @@ export const restJson1Protocol: Protocol = (
         result[outputPayloadProp.name] = bodyText;
       }
 
-      // Parse JSON body
+      // Parse JSON body (reviver converts null → undefined since AWS returns null for absent fields)
       if (bodyText) {
         try {
-          const parsed = JSON.parse(bodyText);
+          const parsed = JSON.parse(bodyText, (_, v) =>
+            v === null ? undefined : v,
+          );
           if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
             Object.assign(result, parsed);
           }
@@ -293,11 +295,13 @@ export const restJson1Protocol: Protocol = (
       // Read body as text
       const bodyText = yield* readStreamAsText(response.body);
 
-      // Parse JSON body
+      // Parse JSON body (reviver converts null → undefined)
       let body: Record<string, unknown> = {};
       if (bodyText) {
         try {
-          const parsed = JSON.parse(bodyText);
+          const parsed = JSON.parse(bodyText, (_, v) =>
+            v === null ? undefined : v,
+          );
           if (parsed && typeof parsed === "object") {
             body = parsed as Record<string, unknown>;
           }

@@ -124,10 +124,12 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
         // Read body as text
         const bodyText = yield* readStreamAsText(response.body);
 
-        // Parse JSON body - Effect Schema handles jsonName key renaming via S.fromKey
+        // Parse JSON body (reviver converts null → undefined since AWS returns null for absent fields)
         if (bodyText) {
           try {
-            const parsed = JSON.parse(bodyText);
+            const parsed = JSON.parse(bodyText, (_, v) =>
+              v === null ? undefined : v,
+            );
             if (parsed && typeof parsed === "object") {
               return parsed as Record<string, unknown>;
             }
@@ -145,11 +147,13 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
         // Read body as text
         const bodyText = yield* readStreamAsText(response.body);
 
-        // Parse JSON body
+        // Parse JSON body (reviver converts null → undefined)
         let body: Record<string, unknown> = {};
         if (bodyText) {
           try {
-            const parsed = JSON.parse(bodyText);
+            const parsed = JSON.parse(bodyText, (_, v) =>
+              v === null ? undefined : v,
+            );
             if (parsed && typeof parsed === "object") {
               body = parsed as Record<string, unknown>;
             }

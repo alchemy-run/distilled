@@ -278,12 +278,22 @@ test(
         { id: 3, message: "Hello from record 3" },
       ];
 
+      // Retry schedule for eventual consistency
+      const retrySchedule = Schedule.spaced("2 seconds").pipe(
+        Schedule.intersect(Schedule.recurs(10)),
+      );
+
       for (const record of testRecords) {
         yield* putRecord({
           StreamName: streamName,
           Data: new TextEncoder().encode(JSON.stringify(record)),
           PartitionKey: `partition-${record.id}`,
-        });
+        }).pipe(
+          Effect.retry({
+            while: (err) => err._tag === "ResourceNotFoundException",
+            schedule: retrySchedule,
+          }),
+        );
       }
 
       // Register a stream consumer (required for SubscribeToShard)
@@ -291,7 +301,12 @@ test(
       const registerResult = yield* registerStreamConsumer({
         StreamARN: streamArn,
         ConsumerName: consumerName,
-      });
+      }).pipe(
+        Effect.retry({
+          while: (err) => err._tag === "ResourceNotFoundException",
+          schedule: retrySchedule,
+        }),
+      );
 
       const consumerArn = registerResult.Consumer?.ConsumerARN;
       if (!consumerArn) {
@@ -302,7 +317,12 @@ test(
       yield* waitForConsumerActive(consumerArn);
 
       // Get shard ID
-      const shardsResult = yield* listShards({ StreamName: streamName });
+      const shardsResult = yield* listShards({ StreamName: streamName }).pipe(
+        Effect.retry({
+          while: (err) => err._tag === "ResourceNotFoundException",
+          schedule: retrySchedule,
+        }),
+      );
       const shardId = shardsResult.Shards?.[0]?.ShardId;
       if (!shardId) {
         return yield* Effect.fail(new Error("No shards found"));
@@ -316,7 +336,12 @@ test(
           StartingPosition: {
             Type: "TRIM_HORIZON",
           },
-        });
+        }).pipe(
+          Effect.retry({
+            while: (err) => err._tag === "ResourceNotFoundException",
+            schedule: retrySchedule,
+          }),
+        );
 
         // The EventStream should be an Effect Stream
         const eventStream = subscribeResult.EventStream;

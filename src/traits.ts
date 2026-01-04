@@ -138,6 +138,10 @@ export const XmlName = (name: string) => makeAnnotation(xmlNameSymbol, name);
 export const xmlFlattenedSymbol = Symbol.for("itty-aws/xml-flattened");
 export const XmlFlattened = () => makeAnnotation(xmlFlattenedSymbol, true);
 
+/** smithy.api#sparse - List/map may contain null values */
+export const sparseSymbol = Symbol.for("itty-aws/sparse");
+export const Sparse = () => makeAnnotation(sparseSymbol, true);
+
 /** smithy.api#xmlAttribute - Serialize as XML attribute instead of element */
 export const xmlAttributeSymbol = Symbol.for("itty-aws/xml-attribute");
 export const XmlAttribute = () => makeAnnotation(xmlAttributeSymbol, true);
@@ -1035,6 +1039,14 @@ export const getXmlNameProp = (
 /** Check if property has xmlFlattened annotation */
 export const hasXmlFlattened = (prop: AST.PropertySignature): boolean =>
   hasPropAnnotation(prop, xmlFlattenedSymbol);
+
+/** Check if property has sparse annotation */
+export const hasSparse = (prop: AST.PropertySignature): boolean =>
+  hasPropAnnotation(prop, sparseSymbol);
+
+/** Check if an AST has the sparse annotation */
+export const isSparse = (ast: AST.AST): boolean =>
+  hasAnnotation(ast, sparseSymbol);
 
 /** Get ec2QueryName annotation value from property */
 export const getEc2QueryName = (
