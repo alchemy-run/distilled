@@ -136,3 +136,95 @@ export const parseEventStream = (
     }),
   );
 };
+
+// ============================================================================
+// Event Stream to Union Transformation
+// ============================================================================
+
+/**
+ * Parsed event in tagged union format: { EventType: payload }
+ */
+export type ParsedEvent = Record<string, unknown>;
+
+/**
+ * Payload parser function - protocol-specific (JSON, XML, etc.)
+ */
+export type PayloadParser = (payload: Uint8Array) => unknown;
+
+/**
+ * Default JSON payload parser
+ */
+export const jsonPayloadParser: PayloadParser = (payload: Uint8Array) => {
+  const text = new TextDecoder().decode(payload);
+  if (!text) return {};
+  try {
+    return JSON.parse(text);
+  } catch {
+    // If payload isn't valid JSON, return as raw text
+    return { payload: text };
+  }
+};
+
+/**
+ * Raw text payload parser - returns payload as { payload: string }
+ * Useful when caller wants to handle parsing themselves
+ */
+export const rawPayloadParser: PayloadParser = (payload: Uint8Array) => {
+  const text = new TextDecoder().decode(payload);
+  return text ? { payload: text } : {};
+};
+
+/**
+ * Transform a stream of StreamEvents into typed union members.
+ *
+ * Converts internal event types to the Smithy union format:
+ * - MessageEvent → { eventType: parsedPayload }
+ * - ExceptionEvent → { exceptionType: parsedPayload }
+ * - ErrorEvent → { UnmodeledError: { errorCode, errorMessage } }
+ *
+ * @param eventStream - Stream of raw StreamEvents from parseEventStream
+ * @param payloadParser - Function to parse the payload bytes (default: JSON)
+ */
+export const transformEventStreamToUnion = (
+  eventStream: Stream.Stream<StreamEvent, EventStreamParseError>,
+  payloadParser: PayloadParser = jsonPayloadParser,
+): Stream.Stream<ParsedEvent, EventStreamParseError> =>
+  eventStream.pipe(
+    Stream.map((streamEvent) => {
+      if (streamEvent._tag === "MessageEvent") {
+        // Normal message event - parse payload and wrap in tagged union
+        const eventType = streamEvent.eventType;
+        const payload = payloadParser(streamEvent.payload);
+        return { [eventType]: payload };
+      } else if (streamEvent._tag === "ExceptionEvent") {
+        // Modeled exception - parse payload and wrap in tagged union
+        const errorType = streamEvent.exceptionType;
+        const payload = payloadParser(streamEvent.payload);
+        return { [errorType]: payload };
+      } else {
+        // ErrorEvent - unmodeled error, use standard structure
+        return {
+          UnmodeledError: {
+            errorCode: streamEvent.errorCode,
+            errorMessage: streamEvent.errorMessage,
+          },
+        };
+      }
+    }),
+  );
+
+/**
+ * Parse a ReadableStream of bytes into a Stream of typed union events.
+ *
+ * This is the high-level API that combines:
+ * 1. parseEventStream - decode wire format to StreamEvents
+ * 2. transformEventStreamToUnion - convert to typed union members
+ *
+ * @param input - ReadableStream of event stream bytes
+ * @param payloadParser - Function to parse event payloads (default: JSON)
+ */
+export const parseEventStreamToUnion = (
+  input: ReadableStream<Uint8Array>,
+  payloadParser: PayloadParser = jsonPayloadParser,
+): Stream.Stream<ParsedEvent, EventStreamParseError> =>
+  transformEventStreamToUnion(parseEventStream(input), payloadParser);

@@ -4,7 +4,7 @@
  * Handles formatting of Date objects according to AWS timestamp format types.
  */
 
-import type { TimestampFormatType } from "../../traits.ts";
+import type { TimestampFormatType } from "../traits.ts";
 
 /**
  * Format a timestamp according to the specified format.

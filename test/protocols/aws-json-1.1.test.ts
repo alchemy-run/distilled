@@ -69,7 +69,7 @@ describe("awsJson1_1 protocol", () => {
           expect(request.query).toEqual({});
           expect(request.headers).toMatchObject({
             "Content-Type": "application/x-amz-json-1.1",
-            "X-Amz-Target": "KMS_20141101.CancelKeyDeletion",
+            "X-Amz-Target": "TrentService.CancelKeyDeletion",
           });
           expect(JSON.parse(request.body as string)).toEqual({
             KeyId: "1234abcd-12ab-34cd-56ef-1234567890ab",
@@ -87,7 +87,7 @@ describe("awsJson1_1 protocol", () => {
         expect(request.path).toBe("/");
         expect(request.headers).toMatchObject({
           "Content-Type": "application/x-amz-json-1.1",
-          "X-Amz-Target": "KMS_20141101.ConnectCustomKeyStore",
+          "X-Amz-Target": "TrentService.ConnectCustomKeyStore",
         });
         expect(JSON.parse(request.body as string)).toEqual({
           CustomKeyStoreId: "cks-1234567890abcdef0",
@@ -106,7 +106,7 @@ describe("awsJson1_1 protocol", () => {
         expect(request.path).toBe("/");
         expect(request.headers).toMatchObject({
           "Content-Type": "application/x-amz-json-1.1",
-          "X-Amz-Target": "KMS_20141101.CreateAlias",
+          "X-Amz-Target": "TrentService.CreateAlias",
         });
         expect(JSON.parse(request.body as string)).toEqual({
           AliasName: "alias/my-key",
@@ -125,7 +125,7 @@ describe("awsJson1_1 protocol", () => {
         expect(request.path).toBe("/");
         expect(request.headers).toMatchObject({
           "Content-Type": "application/x-amz-json-1.1",
-          "X-Amz-Target": "KMS_20141101.DescribeKey",
+          "X-Amz-Target": "TrentService.DescribeKey",
         });
         expect(JSON.parse(request.body as string)).toEqual({
           KeyId: "1234abcd-12ab-34cd-56ef-1234567890ab",
@@ -144,7 +144,7 @@ describe("awsJson1_1 protocol", () => {
         expect(request.path).toBe("/");
         expect(request.headers).toMatchObject({
           "Content-Type": "application/x-amz-json-1.1",
-          "X-Amz-Target": "KMS_20141101.DescribeKey",
+          "X-Amz-Target": "TrentService.DescribeKey",
         });
         expect(JSON.parse(request.body as string)).toEqual({
           KeyId: "1234abcd-12ab-34cd-56ef-1234567890ab",
@@ -176,7 +176,7 @@ describe("awsJson1_1 protocol", () => {
           expect(request.path).toBe("/");
           expect(request.headers).toMatchObject({
             "Content-Type": "application/x-amz-json-1.1",
-            "X-Amz-Target": "KMS_20141101.Encrypt",
+            "X-Amz-Target": "TrentService.Encrypt",
           });
 
           const body = JSON.parse(request.body as string);
@@ -327,7 +327,7 @@ describe("awsJson1_1 protocol", () => {
           KeyId: "key-id",
         });
 
-        expect(request.headers["X-Amz-Target"]).toBe("KMS_20141101.DisableKey");
+        expect(request.headers["X-Amz-Target"]).toBe("TrentService.DisableKey");
       }),
     );
   });
@@ -352,7 +352,7 @@ describe("awsJson1_1 protocol", () => {
         expect(request.path).toBe("/");
         expect(request.headers).toMatchObject({
           "Content-Type": "application/x-amz-json-1.1",
-          "X-Amz-Target": "KMS_20141101.GenerateDataKey",
+          "X-Amz-Target": "TrentService.GenerateDataKey",
         });
         expect(JSON.parse(request.body as string)).toEqual({
           KeyId: "1234abcd-12ab-34cd-56ef-1234567890ab",

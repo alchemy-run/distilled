@@ -24,6 +24,12 @@ type Provided =
   | Region
   | Credentials;
 
+const platform = Layer.mergeAll(
+  NodeContext.layer,
+  FetchHttpClient.layer,
+  Logger.pretty,
+);
+
 export function test(
   name: string,
   options: {
@@ -50,51 +56,61 @@ export function test(
 ) {
   const [options = {}, testCase] =
     args.length === 1 ? [undefined, args[0]] : args;
-  const platform = Layer.mergeAll(
-    NodeContext.layer,
-    FetchHttpClient.layer,
-    Logger.pretty,
-  );
 
   return it.scopedLive(
     name,
-    () => {
-      let eff = Effect.gen(function* () {
-        const fs = yield* FileSystem.FileSystem;
-        if (yield* fs.exists(".env")) {
-          const configProvider = ConfigProvider.orElse(
-            yield* PlatformConfigProvider.fromDotEnv(".env"),
-            ConfigProvider.fromEnv,
-          );
-          return yield* testCase.pipe(
-            Effect.withConfigProvider(configProvider),
-          );
-        } else {
-          return yield* testCase.pipe(
-            Effect.withConfigProvider(ConfigProvider.fromEnv()),
-          );
-        }
-      }).pipe(
-        Effect.provide(platform),
-        Effect.provideService(Region, "us-east-1"),
-        Logger.withMinimumLogLevel(
-          process.env.DEBUG ? LogLevel.Debug : LogLevel.Info,
-        ),
-        Effect.provide(NodeContext.layer),
-      );
-
-      if (process.env.LOCAL) {
-        return eff.pipe(
-          Effect.provideService(
-            Endpoint,
-            process.env.LOCALSTACK_HOST ?? "http://localhost:4566",
-          ),
-          Effect.provide(LocalstackCredentialsLive),
-        );
-      } else {
-        return eff.pipe(Effect.provide(NodeProviderChainCredentialsLive));
-      }
-    },
+    () =>
+      provideTestEnv(
+        Effect.gen(function* () {
+          const fs = yield* FileSystem.FileSystem;
+          if (yield* fs.exists(".env")) {
+            const configProvider = ConfigProvider.orElse(
+              yield* PlatformConfigProvider.fromDotEnv(".env"),
+              ConfigProvider.fromEnv,
+            );
+            return yield* testCase.pipe(
+              Effect.withConfigProvider(configProvider),
+            );
+          } else {
+            return yield* testCase.pipe(
+              Effect.withConfigProvider(ConfigProvider.fromEnv()),
+            );
+          }
+        }),
+      ),
     options.timeout ?? 120_000,
   );
+}
+
+/** Run an Effect for use in beforeAll/beforeEach hooks */
+export async function run<E>(
+  effect: Effect.Effect<void, E, Provided>,
+): Promise<void> {
+  await Effect.runPromise(provideTestEnv(Effect.scoped(effect)));
+}
+
+/** Provide common layers and services to an effect */
+function provideTestEnv<A, E, R extends Provided>(
+  effect: Effect.Effect<A, E, R>,
+) {
+  let eff = effect.pipe(
+    Effect.provide(platform),
+    Effect.provideService(Region, "us-east-1"),
+    Logger.withMinimumLogLevel(
+      process.env.DEBUG ? LogLevel.Debug : LogLevel.Info,
+    ),
+    Effect.provide(NodeContext.layer),
+  );
+
+  if (process.env.LOCAL) {
+    return eff.pipe(
+      Effect.provideService(
+        Endpoint,
+        process.env.LOCALSTACK_HOST ?? "http://localhost:4566",
+      ),
+      Effect.provide(LocalstackCredentialsLive),
+    );
+  } else {
+    return eff.pipe(Effect.provide(NodeProviderChainCredentialsLive));
+  }
 }

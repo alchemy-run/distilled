@@ -41,7 +41,12 @@ const resolveEndpoint = <A, I>(
   if (!resolver) {
     return Effect.fail(new Error("No rules resolver available"));
   }
-  return resolver({ input, region });
+  // Provide a mock request for testing - path adjustment is tested separately
+  const mockRequest = { method: "GET", path: "/", query: {}, headers: {} };
+  return Effect.map(
+    resolver({ input, region, request: mockRequest }),
+    (result) => result.endpoint,
+  );
 };
 
 // =============================================================================

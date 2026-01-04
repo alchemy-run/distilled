@@ -21,13 +21,14 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as AST from "effect/SchemaAST";
 import { ParseError } from "../error-parser.ts";
+import { parseEventStreamToUnion } from "../eventstream/parser.ts";
 import type { Operation } from "../operation.ts";
 import type { Protocol, ProtocolHandler } from "../protocol.ts";
 import type { Request } from "../request.ts";
 import type { Response } from "../response.ts";
 import {
   getAwsApiService,
-  getServiceVersion,
+  isOutputEventStream,
   isStreamingType,
 } from "../traits.ts";
 import { getEncodedPropertySignatures, getIdentifier } from "../util/ast.ts";
@@ -68,10 +69,15 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
     const targetHeader = buildXAmzTarget(inputAst, operationName);
 
     // Check for streaming output member (event stream)
-    let streamingOutputProp: { name: string } | undefined;
+    let streamingOutputProp:
+      | { name: string; isEventStream: boolean }
+      | undefined;
     for (const prop of getEncodedPropertySignatures(outputAst)) {
       if (isStreamingType(prop.type)) {
-        streamingOutputProp = { name: String(prop.name) };
+        streamingOutputProp = {
+          name: String(prop.name),
+          isEventStream: isOutputEventStream(prop.type),
+        };
         break;
       }
     }
@@ -99,8 +105,17 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
       }),
 
       deserializeResponse: Effect.fn(function* (response: Response) {
-        // Handle streaming output (event stream) - return the raw stream
-        if (streamingOutputProp) {
+        // Handle streaming output (event stream)
+        if (streamingOutputProp && response.body) {
+          if (streamingOutputProp.isEventStream) {
+            // Parse event stream to typed union events
+            return {
+              [streamingOutputProp.name]: parseEventStreamToUnion(
+                response.body as ReadableStream<Uint8Array>,
+              ),
+            };
+          }
+          // Raw streaming output (shouldn't happen for awsJson, but handle it)
           return {
             [streamingOutputProp.name]: response.body,
           };
@@ -171,23 +186,24 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
 
 /**
  * Build the X-Amz-Target header value.
- * Format: ServiceName_ServiceVersion.OperationName
- * Example: Kinesis_20131202.CreateStream
+ * Format: ServiceShapeName.OperationName
+ * Example: TrentService.CreateKey, AWSStepFunctions.CreateStateMachine
+ *
+ * Per the Smithy spec, the X-Amz-Target is the service's shape name joined
+ * to the operation's shape name with a period.
+ * @see https://smithy.io/2.0/aws/protocols/aws-json-1_1-protocol.html
  */
 function buildXAmzTarget(ast: AST.AST, operationName: string): string {
   const awsApiService = getAwsApiService(ast);
-  const serviceVersion = getServiceVersion(ast);
 
-  // Use sdkId as the service name (e.g., "Kinesis", "DynamoDB")
-  const serviceName = awsApiService?.sdkId ?? "";
-
-  // Format version: remove hyphens from date (2013-12-02 -> 20131202)
-  const versionSuffix = serviceVersion
-    ? `_${serviceVersion.replace(/-/g, "")}`
-    : "";
+  // Use the service shape name from the Smithy model
+  // This is the proper spec-compliant value (e.g., "TrentService" for KMS,
+  // "AWSStepFunctions" for SFN, "DynamoDB_20120810" for DynamoDB)
+  const serviceName =
+    awsApiService?.serviceShapeName ?? awsApiService?.sdkId ?? "";
 
   if (serviceName) {
-    return `${serviceName}${versionSuffix}.${operationName}`;
+    return `${serviceName}.${operationName}`;
   }
 
   return operationName;

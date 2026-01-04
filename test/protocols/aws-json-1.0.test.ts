@@ -436,7 +436,7 @@ describe("awsJson1_0 protocol", () => {
           query: {},
           headers: {
             "Content-Type": "application/x-amz-json-1.0",
-            "X-Amz-Target": "SFN_20161123.CreateActivity",
+            "X-Amz-Target": "AWSStepFunctions.CreateActivity",
           },
           body: JSON.stringify({
             name: "my-activity",

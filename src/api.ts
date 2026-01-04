@@ -24,7 +24,6 @@ export const make = <Op extends Operation>(
   Operation.Output<Op>,
   | Operation.Error<Op>
   | ParseResult.ParseError
-  | Error
   | UnknownAwsError
   | CommonAwsError
   | EndpointError
@@ -70,27 +69,30 @@ export const make = <Op extends Operation>(
     const creds = yield* credentials.getCredentials();
     const serviceName = sigv4?.name ?? "s3";
 
-    // Resolve endpoint - use rules engine if available, otherwise static endpoint
+    // Resolve endpoint and adjust request path if needed
     let endpoint: string;
+    let resolvedRequest = request;
     const customEndpoint = yield* Effect.serviceOption(Endpoint);
 
     if (Option.isSome(customEndpoint)) {
       // User provided a custom endpoint - use it directly
       endpoint = customEndpoint.value;
     } else if (rulesResolver) {
-      // Use the rules resolver
+      // Use the rules resolver - it handles endpoint resolution AND path adjustment
       const resolved = yield* rulesResolver({
         input: payload,
         region,
+        request,
       });
-      endpoint = resolved.url;
+      endpoint = resolved.endpoint.url;
+      resolvedRequest = resolved.request;
     } else {
       // Fallback to static endpoint
       endpoint = `https://${serviceName}.${region}.amazonaws.com`;
     }
 
     // Build full URL with query string
-    const queryString = Object.entries(request.query)
+    const queryString = Object.entries(resolvedRequest.query)
       .filter(([_, v]) => v !== undefined)
       .map(([k, v]) =>
         v
@@ -98,27 +100,36 @@ export const make = <Op extends Operation>(
           : encodeURIComponent(k),
       )
       .join("&");
+
     const fullPath = queryString
-      ? `${request.path}?${queryString}`
-      : request.path;
+      ? `${resolvedRequest.path}?${queryString}`
+      : resolvedRequest.path;
 
     // For streaming bodies (ReadableStream), we can't compute a hash
     // so we use UNSIGNED-PAYLOAD and don't pass the body to the signer
-    const isStreamingBody = request.body instanceof ReadableStream;
-    const signingHeaders = isStreamingBody
-      ? { ...request.headers, "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD" }
-      : request.headers;
+    const isStreamingBody = resolvedRequest.body instanceof ReadableStream;
+    // Check if content-sha256 header is already set (e.g., by checksum middleware)
+    const hasContentSha256 = Object.keys(resolvedRequest.headers).some(
+      (k) => k.toLowerCase() === "x-amz-content-sha256",
+    );
+    const signingHeaders =
+      isStreamingBody && !hasContentSha256
+        ? {
+            ...resolvedRequest.headers,
+            "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD",
+          }
+        : resolvedRequest.headers;
 
     const signer = new AwsV4Signer({
-      method: request.method,
+      method: resolvedRequest.method,
       url: `${endpoint}${fullPath}`,
       headers: signingHeaders,
       // Don't pass streaming body to signer - it can't be hashed
       body: isStreamingBody
         ? undefined
-        : request.body instanceof Uint8Array
-          ? Buffer.from(request.body)
-          : request.body,
+        : resolvedRequest.body instanceof Uint8Array
+          ? Buffer.from(resolvedRequest.body)
+          : resolvedRequest.body,
       accessKeyId: creds.accessKeyId,
       secretAccessKey: creds.secretAccessKey,
       sessionToken: creds.sessionToken,
@@ -127,15 +138,13 @@ export const make = <Op extends Operation>(
     });
     const signedRequest = yield* Effect.promise(() => signer.sign());
 
-    yield* Effect.logDebug("Signed Request", signedRequest);
-
     // Determine the body for fetch
     // For streaming bodies, use the original request.body (not from signedRequest)
     let fetchBody: BodyInit | undefined;
 
     if (isStreamingBody) {
       // Streaming body was not passed to signer, use original
-      fetchBody = request.body as ReadableStream;
+      fetchBody = resolvedRequest.body as ReadableStream;
     } else if (signedRequest.body) {
       if (typeof signedRequest.body === "string") {
         fetchBody = signedRequest.body;

@@ -261,6 +261,8 @@ export interface AwsApiServiceTrait {
   cloudFormationName?: string;
   cloudTrailEventSource?: string;
   endpointPrefix?: string;
+  /** The service shape name from the Smithy model (e.g., "TrentService" for KMS) - used for X-Amz-Target */
+  serviceShapeName?: string;
 }
 export const AwsApiService = (trait: AwsApiServiceTrait) =>
   makeAnnotation(awsApiServiceSymbol, trait);
@@ -473,6 +475,14 @@ export const ClientContextParams = (
 export const contextParamSymbol = Symbol.for("itty-aws/context-param");
 export const ContextParam = (name: string) =>
   makeAnnotation(contextParamSymbol, name);
+
+/** smithy.rules#staticContextParams - Static endpoint parameters for an operation */
+export const staticContextParamsSymbol = Symbol.for(
+  "itty-aws/smithy.rules#staticContextParams",
+);
+export type StaticContextParamsDefinition = Record<string, { value: unknown }>;
+export const StaticContextParams = (params: StaticContextParamsDefinition) =>
+  makeAnnotation(staticContextParamsSymbol, params);
 
 /** smithy.api#hostLabel - Bind member to a label in the endpoint hostPrefix */
 export const hostLabelSymbol = Symbol.for("itty-aws/host-label");
@@ -1105,6 +1115,15 @@ export const getClientContextParams = (
 export const getContextParam = (
   prop: AST.PropertySignature,
 ): string | undefined => getPropAnnotation<string>(prop, contextParamSymbol);
+
+/** Get smithy.rules#staticContextParams trait from a schema */
+export const getStaticContextParams = (
+  ast: AST.AST,
+): StaticContextParamsDefinition | undefined =>
+  getAnnotationUnwrap<StaticContextParamsDefinition>(
+    ast,
+    staticContextParamsSymbol,
+  );
 
 // =============================================================================
 // Protocol and Middleware Discovery (for use by api.ts)

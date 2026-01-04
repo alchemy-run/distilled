@@ -1,4 +1,4 @@
-import { Effect, Stream } from "effect";
+import { Data, Effect, Schedule, Stream } from "effect";
 import {
   createStream,
   deleteStream,
@@ -12,126 +12,114 @@ import {
   putRecord,
   registerStreamConsumer,
   subscribeToShard,
-  SubscribeToShardEvent,
 } from "../../src/services/kinesis.ts";
 import { test } from "../test.ts";
 
-const TEST_STREAM_NAME = "itty-aws-kinesis-test-stream";
+class NotReady extends Data.TaggedError("NotReady")<{
+  status: string | undefined;
+}> {}
+class StillExists extends Data.TaggedError("StillExists")<{}> {}
+class ConsumerDeleting extends Data.TaggedError("ConsumerDeleting")<{}> {}
+class StreamNotActive extends Data.TaggedError("StreamNotActive")<{}> {}
+class StreamNotDeleted extends Data.TaggedError("StreamNotDeleted")<{}> {}
+class ConsumerNotActive extends Data.TaggedError("ConsumerNotActive")<{}> {}
 
 // Helper to wait for stream to become active
-function waitForStreamActive(streamName: string) {
-  return Effect.gen(function* () {
-    let attempts = 0;
-    const maxAttempts = 30;
-
-    while (attempts < maxAttempts) {
-      const result = yield* describeStream({ StreamName: streamName });
+const waitForStreamActive = (streamName: string) =>
+  describeStream({ StreamName: streamName }).pipe(
+    Effect.tapError(Effect.logDebug),
+    // If stream doesn't exist yet, treat as NotReady
+    Effect.catchTag("ResourceNotFoundException", () =>
+      Effect.fail(new NotReady({ status: undefined })),
+    ),
+    Effect.flatMap((result) => {
       const status = result.StreamDescription?.StreamStatus;
-
       if (status === "ACTIVE") {
-        return result;
+        return Effect.succeed(result);
       }
+      return Effect.fail(new NotReady({ status }));
+    }),
+    Effect.retry({
+      while: (err) => err instanceof NotReady && err.status !== "DELETING",
+      schedule: Schedule.spaced("2 seconds").pipe(
+        Schedule.intersect(Schedule.recurs(30)),
+      ),
+    }),
+    Effect.mapError(() => new StreamNotActive()),
+  );
 
-      if (status === "DELETING") {
-        return yield* Effect.fail(new Error("Stream is being deleted"));
-      }
-
-      yield* Effect.sleep("2 seconds");
-      attempts++;
-    }
-
-    return yield* Effect.fail(new Error("Stream did not become active"));
-  });
-}
+// Helper to wait for stream to be deleted
+const waitForStreamDeleted = (streamName: string) =>
+  describeStream({ StreamName: streamName }).pipe(
+    // If stream exists, fail with StillExists to trigger retry
+    Effect.flatMap(() => Effect.fail(new StillExists())),
+    Effect.tapError(Effect.logDebug),
+    // Stream doesn't exist = deleted successfully
+    Effect.catchTag("ResourceNotFoundException", () => Effect.void),
+    Effect.retry({
+      while: (err) => err instanceof StillExists,
+      schedule: Schedule.spaced("2 seconds").pipe(
+        Schedule.intersect(Schedule.recurs(30)),
+      ),
+    }),
+    Effect.mapError(() => new StreamNotDeleted()),
+  );
 
 // Helper to wait for consumer to become active
-function waitForConsumerActive(consumerArn: string) {
-  return Effect.gen(function* () {
-    let attempts = 0;
-    const maxAttempts = 60;
-
-    while (attempts < maxAttempts) {
-      const result = yield* describeStreamConsumer({
-        ConsumerARN: consumerArn,
-      });
-      const status = result.ConsumerDescription?.ConsumerStatus;
-
-      if (status === "ACTIVE") {
-        return result;
-      }
-
-      if (status === "DELETING") {
-        return yield* Effect.fail(new Error("Consumer is being deleted"));
-      }
-
-      yield* Effect.sleep("2 seconds");
-      attempts++;
-    }
-
-    return yield* Effect.fail(new Error("Consumer did not become active"));
-  });
-}
-
-// Helper to create a stream, handling the case where it already exists
-function ensureStreamCreated(streamName: string) {
-  return Effect.gen(function* () {
-    let attempts = 0;
-    const maxAttempts = 30;
-
-    while (attempts < maxAttempts) {
-      // Try to create the stream
-      const createResult = yield* createStream({
-        StreamName: streamName,
-        ShardCount: 1,
-      }).pipe(
-        Effect.map(() => "created" as const),
-        Effect.catchAll((error) => {
-          // Check if stream already exists
-          if (
-            error &&
-            typeof error === "object" &&
-            "_tag" in error &&
-            error._tag === "ResourceInUseException"
-          ) {
-            return Effect.succeed("in_use" as const);
-          }
-          return Effect.fail(error);
-        }),
-      );
-
-      if (createResult === "created") {
-        return;
-      }
-
-      // Stream is in use (being deleted) - wait and retry
-      yield* deleteStream({
-        StreamName: streamName,
-        EnforceConsumerDeletion: true,
-      }).pipe(Effect.ignore);
-
-      yield* Effect.sleep("2 seconds");
-      attempts++;
-    }
-
-    return yield* Effect.fail(
-      new Error("Failed to create stream after retries"),
+const waitForConsumerActive = (consumerArn: string) =>
+  Effect.gen(function* () {
+    const result = yield* describeStreamConsumer({
+      ConsumerARN: consumerArn,
+    }).pipe(
+      // If consumer doesn't exist yet, treat as NotReady
+      Effect.catchTag("ResourceNotFoundException", () =>
+        Effect.fail(new NotReady({ status: undefined })),
+      ),
     );
-  });
-}
 
-// Helper to ensure cleanup happens even on failure
-function withStream<A, E, R>(
+    const status = result.ConsumerDescription?.ConsumerStatus;
+    if (status === "ACTIVE") {
+      return result;
+    }
+    if (status === "DELETING") {
+      return yield* new ConsumerDeleting();
+    }
+    return yield* new NotReady({ status });
+  }).pipe(
+    Effect.retry({
+      while: (err) => err instanceof NotReady,
+      schedule: Schedule.spaced("2 seconds").pipe(
+        Schedule.intersect(Schedule.recurs(60)),
+      ),
+    }),
+    Effect.mapError((err) =>
+      err instanceof ConsumerDeleting ? err : new ConsumerNotActive(),
+    ),
+  );
+
+// Helper to create a stream and ensure cleanup
+const withStream = <A, E, R>(
+  streamName: string,
   testFn: (streamName: string) => Effect.Effect<A, E, R>,
-) {
-  return Effect.gen(function* () {
-    const streamName = TEST_STREAM_NAME;
+) =>
+  Effect.gen(function* () {
+    // Delete existing stream if it exists (cleanup from previous runs)
+    yield* deleteStream({
+      StreamName: streamName,
+      EnforceConsumerDeletion: true,
+    }).pipe(Effect.ignore);
+    yield* waitForStreamDeleted(streamName);
 
-    // Create stream (handles ResourceInUseException by waiting)
-    yield* ensureStreamCreated(streamName);
+    // Create stream
+    yield* createStream({
+      StreamName: streamName,
+      ShardCount: 1,
+    });
 
     // Wait for stream to become active
     yield* waitForStreamActive(streamName);
 
+    // Run the test
     return yield* testFn(streamName).pipe(
       Effect.ensuring(
         deleteStream({
@@ -141,7 +129,6 @@ function withStream<A, E, R>(
       ),
     );
   });
-}
 
 // ============================================================================
 // Basic Kinesis Tests
@@ -149,7 +136,8 @@ function withStream<A, E, R>(
 
 test(
   "create stream, list streams, describe, and delete",
-  withStream((streamName) =>
+  { timeout: 300_000 },
+  withStream("itty-aws-kinesis-basic-test", (streamName) =>
     Effect.gen(function* () {
       // List streams and verify our stream is in the list
       const listResult = yield* listStreams({});
@@ -167,13 +155,22 @@ test(
           new Error("Stream name mismatch in describe result"),
         );
       }
+
+      if (describeResult.StreamDescription?.StreamStatus !== "ACTIVE") {
+        return yield* Effect.fail(
+          new Error(
+            `Expected StreamStatus=ACTIVE, got ${describeResult.StreamDescription?.StreamStatus}`,
+          ),
+        );
+      }
     }),
   ),
 );
 
 test(
   "put record and get records",
-  withStream((streamName) =>
+  { timeout: 300_000 },
+  withStream("itty-aws-kinesis-putget-test", (streamName) =>
     Effect.gen(function* () {
       // Put a record
       const testData = new TextEncoder().encode(
@@ -234,8 +231,8 @@ test(
 // supported in LocalStack. This test verifies the event stream receives real events.
 test(
   "subscribeToShard receives records matching sent data",
-  { timeout: 180_000 },
-  withStream((streamName) =>
+  { timeout: 300_000 },
+  withStream("itty-aws-kinesis-subscribe-test", (streamName) =>
     Effect.gen(function* () {
       // Get stream ARN
       const describeResult = yield* describeStream({ StreamName: streamName });
@@ -315,16 +312,31 @@ test(
         }
 
         // Find SubscribeToShardEvent events with records
+        // Events are tagged union members like { SubscribeToShardEvent: {...} }
         const allReceivedRecords: Array<{ id: number; message: string }> = [];
 
         for (const event of events) {
-          // Events are now properly typed as SubscribeToShardEvent instances
-          if (event instanceof SubscribeToShardEvent) {
+          if (
+            typeof event === "object" &&
+            event !== null &&
+            "SubscribeToShardEvent" in event
+          ) {
+            const shardEvent = (event as Record<string, unknown>)
+              .SubscribeToShardEvent as Record<string, unknown>;
+            const records = shardEvent.Records as Array<
+              Record<string, unknown>
+            >;
             // Records contain the data we sent
-            for (const record of event.Records) {
+            for (const record of records) {
               if (record.Data) {
-                // Data is Uint8Array (decoded from base64 by schema)
-                const dataText = new TextDecoder().decode(record.Data);
+                // Data comes as base64 string from event stream JSON parsing
+                const dataBytes =
+                  record.Data instanceof Uint8Array
+                    ? record.Data
+                    : Uint8Array.from(atob(record.Data as string), (c) =>
+                        c.charCodeAt(0),
+                      );
+                const dataText = new TextDecoder().decode(dataBytes);
                 const data = JSON.parse(dataText) as {
                   id: number;
                   message: string;
@@ -380,7 +392,7 @@ test(
 test(
   "subscribeToShard handles continuous streaming",
   { timeout: 300_000 },
-  withStream((streamName) =>
+  withStream("itty-aws-kinesis-continuous-test", (streamName) =>
     Effect.gen(function* () {
       // Get stream ARN
       const describeResult = yield* describeStream({ StreamName: streamName });
@@ -457,10 +469,27 @@ test(
           }).pipe(
             Stream.runForEach((event) =>
               Effect.gen(function* () {
-                if (event instanceof SubscribeToShardEvent) {
-                  for (const record of event.Records) {
+                // Events are tagged union members like { SubscribeToShardEvent: {...} }
+                if (
+                  typeof event === "object" &&
+                  event !== null &&
+                  "SubscribeToShardEvent" in event
+                ) {
+                  const shardEvent = (event as Record<string, unknown>)
+                    .SubscribeToShardEvent as Record<string, unknown>;
+                  const records = shardEvent.Records as Array<
+                    Record<string, unknown>
+                  >;
+                  for (const record of records) {
                     if (record.Data) {
-                      const dataText = new TextDecoder().decode(record.Data);
+                      // Data comes as base64 string from event stream JSON parsing
+                      const dataBytes =
+                        record.Data instanceof Uint8Array
+                          ? record.Data
+                          : Uint8Array.from(atob(record.Data as string), (c) =>
+                              c.charCodeAt(0),
+                            );
+                      const dataText = new TextDecoder().decode(dataBytes);
                       const data = JSON.parse(dataText) as {
                         id: number;
                         timestamp: number;

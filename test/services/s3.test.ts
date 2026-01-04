@@ -16,6 +16,7 @@ import {
   deleteBucketWebsite,
   deleteObject,
   deletePublicAccessBlock,
+  EndEvent,
   getBucketAccelerateConfiguration,
   // ACL
   getBucketAcl,
@@ -57,20 +58,23 @@ import {
   putObject,
   // Public Access Block
   putPublicAccessBlock,
+  RecordsEvent,
+  // SelectObjectContent (event stream)
+  selectObjectContent,
+  StatsEvent,
   uploadPart,
 } from "../../src/services/s3.ts";
 import { test } from "../test.ts";
 
-const TEST_BUCKET = "itty-aws-test";
-
 // Helper to ensure cleanup happens even on failure
-function withBucket<A, E, R>(testFn: Effect.Effect<A, E, R>) {
+function withBucket<A, E, R>(
+  bucket: string,
+  testFn: (bucket: string) => Effect.Effect<A, E, R>,
+) {
   return Effect.gen(function* () {
-    yield* createBucket({ Bucket: TEST_BUCKET });
-    return yield* testFn.pipe(
-      Effect.ensuring(
-        deleteBucket({ Bucket: TEST_BUCKET }).pipe(Effect.ignore),
-      ),
+    yield* createBucket({ Bucket: bucket });
+    return yield* testFn(bucket).pipe(
+      Effect.ensuring(deleteBucket({ Bucket: bucket }).pipe(Effect.ignore)),
     );
   });
 }
@@ -81,21 +85,19 @@ function withBucket<A, E, R>(testFn: Effect.Effect<A, E, R>) {
 
 test(
   "create bucket, head bucket, get location, list buckets, and delete",
-  withBucket(
+  withBucket("itty-s3-lifecycle", (bucket) =>
     Effect.gen(function* () {
       // Head bucket to verify it exists
-      const headResult = yield* headBucket({ Bucket: TEST_BUCKET });
+      const headResult = yield* headBucket({ Bucket: bucket });
       // Should not throw - bucket exists
 
       // Get bucket location
-      const locationResult = yield* getBucketLocation({ Bucket: TEST_BUCKET });
+      const locationResult = yield* getBucketLocation({ Bucket: bucket });
       // Location will be null for us-east-1, or the region name otherwise
 
       // List buckets and verify our bucket is in the list
       const listResult = yield* listBuckets({});
-      const foundBucket = listResult.Buckets?.find(
-        (b) => b.Name === TEST_BUCKET,
-      );
+      const foundBucket = listResult.Buckets?.find((b) => b.Name === bucket);
       if (!foundBucket) {
         return yield* Effect.fail(new Error("Bucket not found in list"));
       }
@@ -109,11 +111,11 @@ test(
 
 test(
   "bucket tagging: put, get, and delete tags",
-  withBucket(
+  withBucket("itty-s3-tagging", (bucket) =>
     Effect.gen(function* () {
       // Put tags
       yield* putBucketTagging({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Tagging: {
           TagSet: [
             { Key: "Environment", Value: "Test" },
@@ -124,7 +126,7 @@ test(
       });
 
       // Get and verify tags
-      const tags = yield* getBucketTagging({ Bucket: TEST_BUCKET });
+      const tags = yield* getBucketTagging({ Bucket: bucket });
       if (tags.TagSet?.length !== 3) {
         return yield* Effect.fail(
           new Error(`Expected 3 tags, got ${tags.TagSet?.length}`),
@@ -140,14 +142,14 @@ test(
 
       // Update tags (replace all)
       yield* putBucketTagging({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Tagging: {
           TagSet: [{ Key: "UpdatedTag", Value: "NewValue" }],
         },
       });
 
       // Verify update
-      const updatedTags = yield* getBucketTagging({ Bucket: TEST_BUCKET });
+      const updatedTags = yield* getBucketTagging({ Bucket: bucket });
       if (updatedTags.TagSet?.length !== 1) {
         return yield* Effect.fail(
           new Error(
@@ -157,10 +159,10 @@ test(
       }
 
       // Delete tags
-      yield* deleteBucketTagging({ Bucket: TEST_BUCKET });
+      yield* deleteBucketTagging({ Bucket: bucket });
 
       // Verify deletion - should throw NoSuchTagSet error
-      const result = yield* getBucketTagging({ Bucket: TEST_BUCKET }).pipe(
+      const result = yield* getBucketTagging({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
         Effect.catchAll(() => Effect.succeed("error" as const)),
       );
@@ -179,7 +181,7 @@ test(
 
 test(
   "bucket policy: put, get, and delete policy",
-  withBucket(
+  withBucket("itty-s3-policy", (bucket) =>
     Effect.gen(function* () {
       // First we need to get the bucket owner account ID
       // We'll construct a simple policy
@@ -191,7 +193,7 @@ test(
             Effect: "Deny",
             Principal: "*",
             Action: "s3:DeleteBucket",
-            Resource: `arn:aws:s3:::${TEST_BUCKET}`,
+            Resource: `arn:aws:s3:::${bucket}`,
             Condition: {
               StringNotEquals: {
                 "aws:PrincipalAccount": "000000000000", // Dummy account that won't match
@@ -203,12 +205,12 @@ test(
 
       // Put policy
       yield* putBucketPolicy({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Policy: policy,
       });
 
       // Get and verify policy
-      const policyResult = yield* getBucketPolicy({ Bucket: TEST_BUCKET });
+      const policyResult = yield* getBucketPolicy({ Bucket: bucket });
       if (!policyResult.Policy) {
         return yield* Effect.fail(new Error("Expected policy to be returned"));
       }
@@ -219,10 +221,10 @@ test(
       }
 
       // Delete policy
-      yield* deleteBucketPolicy({ Bucket: TEST_BUCKET });
+      yield* deleteBucketPolicy({ Bucket: bucket });
 
       // Verify deletion
-      const result = yield* getBucketPolicy({ Bucket: TEST_BUCKET }).pipe(
+      const result = yield* getBucketPolicy({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
         Effect.catchAll(() => Effect.succeed("error" as const)),
       );
@@ -241,11 +243,11 @@ test(
 
 test(
   "bucket CORS: put, get, and delete CORS configuration",
-  withBucket(
+  withBucket("itty-s3-cors", (bucket) =>
     Effect.gen(function* () {
       // Put CORS configuration
       yield* putBucketCors({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         CORSConfiguration: {
           CORSRules: [
             {
@@ -268,7 +270,7 @@ test(
       });
 
       // Get and verify CORS
-      const corsResult = yield* getBucketCors({ Bucket: TEST_BUCKET });
+      const corsResult = yield* getBucketCors({ Bucket: bucket });
       if (corsResult.CORSRules?.length !== 2) {
         return yield* Effect.fail(
           new Error(
@@ -290,10 +292,10 @@ test(
       }
 
       // Delete CORS
-      yield* deleteBucketCors({ Bucket: TEST_BUCKET });
+      yield* deleteBucketCors({ Bucket: bucket });
 
       // Verify deletion
-      const result = yield* getBucketCors({ Bucket: TEST_BUCKET }).pipe(
+      const result = yield* getBucketCors({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
         Effect.catchAll(() => Effect.succeed("error" as const)),
       );
@@ -312,17 +314,16 @@ test(
 
 test(
   "bucket versioning: enable and suspend versioning",
-  withBucket(
+  withBucket("itty-s3-versioning", (bucket) =>
     Effect.gen(function* () {
       // Initially, versioning is not enabled
       const initialVersioning = yield* getBucketVersioning({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
-      // Status should be undefined or empty for new buckets
 
       // Enable versioning
       yield* putBucketVersioning({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         VersioningConfiguration: {
           Status: "Enabled",
         },
@@ -330,7 +331,7 @@ test(
 
       // Verify enabled
       const enabledVersioning = yield* getBucketVersioning({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (enabledVersioning.Status !== "Enabled") {
         return yield* Effect.fail(
@@ -340,7 +341,7 @@ test(
 
       // Suspend versioning (can't disable once enabled, only suspend)
       yield* putBucketVersioning({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         VersioningConfiguration: {
           Status: "Suspended",
         },
@@ -348,7 +349,7 @@ test(
 
       // Verify suspended
       const suspendedVersioning = yield* getBucketVersioning({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (suspendedVersioning.Status !== "Suspended") {
         return yield* Effect.fail(
@@ -367,11 +368,11 @@ test(
 
 test(
   "bucket website: put, get, and delete website configuration",
-  withBucket(
+  withBucket("itty-s3-website", (bucket) =>
     Effect.gen(function* () {
       // Put website configuration
       yield* putBucketWebsite({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         WebsiteConfiguration: {
           IndexDocument: {
             Suffix: "index.html",
@@ -383,7 +384,7 @@ test(
       });
 
       // Get and verify website config
-      const websiteResult = yield* getBucketWebsite({ Bucket: TEST_BUCKET });
+      const websiteResult = yield* getBucketWebsite({ Bucket: bucket });
       if (websiteResult.IndexDocument?.Suffix !== "index.html") {
         return yield* Effect.fail(
           new Error(
@@ -401,7 +402,7 @@ test(
 
       // Update with routing rules
       yield* putBucketWebsite({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         WebsiteConfiguration: {
           IndexDocument: {
             Suffix: "index.html",
@@ -420,7 +421,7 @@ test(
       });
 
       // Verify routing rules
-      const updatedWebsite = yield* getBucketWebsite({ Bucket: TEST_BUCKET });
+      const updatedWebsite = yield* getBucketWebsite({ Bucket: bucket });
       if (updatedWebsite.RoutingRules?.length !== 1) {
         return yield* Effect.fail(
           new Error(
@@ -430,10 +431,10 @@ test(
       }
 
       // Delete website config
-      yield* deleteBucketWebsite({ Bucket: TEST_BUCKET });
+      yield* deleteBucketWebsite({ Bucket: bucket });
 
       // Verify deletion
-      const result = yield* getBucketWebsite({ Bucket: TEST_BUCKET }).pipe(
+      const result = yield* getBucketWebsite({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
         Effect.catchAll(() => Effect.succeed("error" as const)),
       );
@@ -452,11 +453,11 @@ test(
 
 test(
   "bucket encryption: put, get, and delete encryption configuration",
-  withBucket(
+  withBucket("itty-s3-encryption", (bucket) =>
     Effect.gen(function* () {
       // Put encryption configuration (SSE-S3)
       yield* putBucketEncryption({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         ServerSideEncryptionConfiguration: {
           Rules: [
             {
@@ -471,7 +472,7 @@ test(
 
       // Get and verify encryption
       const encryptionResult = yield* getBucketEncryption({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       const rule =
         encryptionResult.ServerSideEncryptionConfiguration?.Rules?.[0];
@@ -484,7 +485,7 @@ test(
       }
 
       // Delete encryption
-      yield* deleteBucketEncryption({ Bucket: TEST_BUCKET });
+      yield* deleteBucketEncryption({ Bucket: bucket });
 
       // Note: After deleting, S3 may return default encryption settings
       // so we don't check for error here
@@ -498,11 +499,11 @@ test(
 
 test(
   "bucket lifecycle: put, get, and delete lifecycle configuration",
-  withBucket(
+  withBucket("itty-s3-lifecycle-cfg", (bucket) =>
     Effect.gen(function* () {
       // Put lifecycle configuration
       yield* putBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         LifecycleConfiguration: {
           Rules: [
             {
@@ -544,7 +545,7 @@ test(
 
       // Get and verify lifecycle
       const lifecycleResult = yield* getBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (lifecycleResult.Rules?.length !== 3) {
         return yield* Effect.fail(
@@ -573,11 +574,11 @@ test(
       }
 
       // Delete lifecycle
-      yield* deleteBucketLifecycle({ Bucket: TEST_BUCKET });
+      yield* deleteBucketLifecycle({ Bucket: bucket });
 
       // Verify deletion
       const result = yield* getBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       }).pipe(
         Effect.map(() => "success" as const),
         Effect.catchAll(() => Effect.succeed("error" as const)),
@@ -594,11 +595,11 @@ test(
 // Test various lifecycle configurations that have been reported to produce MalformedXML
 test(
   "bucket lifecycle: test various rule configurations",
-  withBucket(
+  withBucket("itty-s3-lifecycle-rules", (bucket) =>
     Effect.gen(function* () {
       // Test 1: Simple rule with Filter and Transitions (like AWS example)
       yield* putBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         LifecycleConfiguration: {
           Rules: [
             {
@@ -620,7 +621,7 @@ test(
 
       // Verify it was set correctly
       let lifecycleResult = yield* getBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (lifecycleResult.Rules?.length !== 1) {
         return yield* Effect.fail(
@@ -632,7 +633,7 @@ test(
 
       // Test 2: Rule with Expiration and Filter
       yield* putBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         LifecycleConfiguration: {
           Rules: [
             {
@@ -650,7 +651,7 @@ test(
       });
 
       lifecycleResult = yield* getBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (lifecycleResult.Rules?.[0]?.Expiration?.Days !== 7) {
         return yield* Effect.fail(
@@ -662,7 +663,7 @@ test(
 
       // Test 3: Complete rule with ID, Filter, Expiration, and Transitions (like AWS smithy example)
       yield* putBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         LifecycleConfiguration: {
           Rules: [
             {
@@ -686,7 +687,7 @@ test(
       });
 
       lifecycleResult = yield* getBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (lifecycleResult.Rules?.[0]?.ID !== "TestComplete") {
         return yield* Effect.fail(
@@ -698,7 +699,7 @@ test(
 
       // Test 4: Empty Filter prefix (applies to all objects)
       yield* putBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         LifecycleConfiguration: {
           Rules: [
             {
@@ -716,7 +717,7 @@ test(
       });
 
       lifecycleResult = yield* getBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (
         lifecycleResult.Rules?.[0]?.AbortIncompleteMultipartUpload
@@ -728,7 +729,7 @@ test(
       }
 
       // Cleanup
-      yield* deleteBucketLifecycle({ Bucket: TEST_BUCKET });
+      yield* deleteBucketLifecycle({ Bucket: bucket });
     }),
   ),
 );
@@ -739,11 +740,11 @@ test(
 
 test(
   "bucket public access block: put, get, and delete",
-  withBucket(
+  withBucket("itty-s3-public-access", (bucket) =>
     Effect.gen(function* () {
       // Put public access block
       yield* putPublicAccessBlock({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         PublicAccessBlockConfiguration: {
           BlockPublicAcls: true,
           IgnorePublicAcls: true,
@@ -753,7 +754,7 @@ test(
       });
 
       // Get and verify
-      const pabResult = yield* getPublicAccessBlock({ Bucket: TEST_BUCKET });
+      const pabResult = yield* getPublicAccessBlock({ Bucket: bucket });
       const config = pabResult.PublicAccessBlockConfiguration;
       if (config?.BlockPublicAcls !== true) {
         return yield* Effect.fail(new Error("Expected BlockPublicAcls=true"));
@@ -772,7 +773,7 @@ test(
 
       // Update with partial block
       yield* putPublicAccessBlock({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         PublicAccessBlockConfiguration: {
           BlockPublicAcls: true,
           IgnorePublicAcls: false,
@@ -782,7 +783,7 @@ test(
       });
 
       // Verify update
-      const updatedPab = yield* getPublicAccessBlock({ Bucket: TEST_BUCKET });
+      const updatedPab = yield* getPublicAccessBlock({ Bucket: bucket });
       if (
         updatedPab.PublicAccessBlockConfiguration?.IgnorePublicAcls !== false
       ) {
@@ -792,10 +793,10 @@ test(
       }
 
       // Delete public access block
-      yield* deletePublicAccessBlock({ Bucket: TEST_BUCKET });
+      yield* deletePublicAccessBlock({ Bucket: bucket });
 
       // Verify deletion
-      const result = yield* getPublicAccessBlock({ Bucket: TEST_BUCKET }).pipe(
+      const result = yield* getPublicAccessBlock({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
         Effect.catchAll(() => Effect.succeed("error" as const)),
       );
@@ -814,11 +815,11 @@ test(
 
 test(
   "bucket ownership controls: put, get, and delete",
-  withBucket(
+  withBucket("itty-s3-ownership", (bucket) =>
     Effect.gen(function* () {
       // Put ownership controls - BucketOwnerEnforced disables ACLs
       yield* putBucketOwnershipControls({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         OwnershipControls: {
           Rules: [
             {
@@ -830,7 +831,7 @@ test(
 
       // Get and verify
       const ownershipResult = yield* getBucketOwnershipControls({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       const rule = ownershipResult.OwnershipControls?.Rules?.[0];
       if (rule?.ObjectOwnership !== "BucketOwnerEnforced") {
@@ -843,7 +844,7 @@ test(
 
       // Update to ObjectWriter (allows ACLs)
       yield* putBucketOwnershipControls({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         OwnershipControls: {
           Rules: [
             {
@@ -855,7 +856,7 @@ test(
 
       // Verify update
       const updatedOwnership = yield* getBucketOwnershipControls({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (
         updatedOwnership.OwnershipControls?.Rules?.[0]?.ObjectOwnership !==
@@ -867,11 +868,11 @@ test(
       }
 
       // Delete ownership controls
-      yield* deleteBucketOwnershipControls({ Bucket: TEST_BUCKET });
+      yield* deleteBucketOwnershipControls({ Bucket: bucket });
 
       // Verify deletion
       const result = yield* getBucketOwnershipControls({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       }).pipe(
         Effect.map(() => "success" as const),
         Effect.catchAll(() => Effect.succeed("error" as const)),
@@ -891,11 +892,11 @@ test(
 
 test(
   "bucket ACL: get bucket ACL",
-  withBucket(
+  withBucket("itty-s3-acl", (bucket) =>
     Effect.gen(function* () {
       // First set ownership to allow ACLs
       yield* putBucketOwnershipControls({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         OwnershipControls: {
           Rules: [
             {
@@ -906,7 +907,7 @@ test(
       });
 
       // Get bucket ACL
-      const aclResult = yield* getBucketAcl({ Bucket: TEST_BUCKET });
+      const aclResult = yield* getBucketAcl({ Bucket: bucket });
 
       // Should have an owner
       if (!aclResult.Owner?.ID) {
@@ -937,17 +938,17 @@ test(
 
 test(
   "bucket accelerate: put and get accelerate configuration",
-  withBucket(
+  withBucket("itty-s3-accelerate", (bucket) =>
     Effect.gen(function* () {
       // Get initial state (should be Suspended or undefined)
       const initialAccelerate = yield* getBucketAccelerateConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       // New buckets have no accelerate config
 
       // Enable accelerate (note: bucket name must not contain dots)
       yield* putBucketAccelerateConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         AccelerateConfiguration: {
           Status: "Enabled",
         },
@@ -955,7 +956,7 @@ test(
 
       // Get and verify
       const enabledAccelerate = yield* getBucketAccelerateConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (enabledAccelerate.Status !== "Enabled") {
         return yield* Effect.fail(
@@ -965,7 +966,7 @@ test(
 
       // Disable accelerate
       yield* putBucketAccelerateConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         AccelerateConfiguration: {
           Status: "Suspended",
         },
@@ -973,7 +974,7 @@ test(
 
       // Verify suspended
       const suspendedAccelerate = yield* getBucketAccelerateConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (suspendedAccelerate.Status !== "Suspended") {
         return yield* Effect.fail(
@@ -992,11 +993,11 @@ test(
 
 test(
   "bucket request payment: put and get request payment configuration",
-  withBucket(
+  withBucket("itty-s3-payment", (bucket) =>
     Effect.gen(function* () {
       // Get initial state (should be BucketOwner)
       const initialPayment = yield* getBucketRequestPayment({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (initialPayment.Payer !== "BucketOwner") {
         return yield* Effect.fail(
@@ -1008,7 +1009,7 @@ test(
 
       // Set to Requester pays
       yield* putBucketRequestPayment({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         RequestPaymentConfiguration: {
           Payer: "Requester",
         },
@@ -1016,7 +1017,7 @@ test(
 
       // Get and verify
       const requesterPayment = yield* getBucketRequestPayment({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (requesterPayment.Payer !== "Requester") {
         return yield* Effect.fail(
@@ -1026,7 +1027,7 @@ test(
 
       // Set back to BucketOwner
       yield* putBucketRequestPayment({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         RequestPaymentConfiguration: {
           Payer: "BucketOwner",
         },
@@ -1034,7 +1035,7 @@ test(
 
       // Verify
       const ownerPayment = yield* getBucketRequestPayment({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
       });
       if (ownerPayment.Payer !== "BucketOwner") {
         return yield* Effect.fail(
@@ -1051,14 +1052,14 @@ test(
 
 test(
   "putObject and getObject with string body",
-  withBucket(
+  withBucket("itty-s3-string-obj", (bucket) =>
     Effect.gen(function* () {
       const testKey = "test-string.txt";
       const testContent = "Hello, itty-aws! This is a test string.";
 
       // Put object with string body
       yield* putObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
         Body: testContent,
         ContentType: "text/plain",
@@ -1066,7 +1067,7 @@ test(
 
       // Get object and verify
       const result = yield* getObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
       });
 
@@ -1107,14 +1108,14 @@ test(
       }
 
       // Cleanup
-      yield* deleteObject({ Bucket: TEST_BUCKET, Key: testKey });
+      yield* deleteObject({ Bucket: bucket, Key: testKey });
     }),
   ),
 );
 
 test(
   "putObject with Uint8Array body",
-  withBucket(
+  withBucket("itty-s3-binary-obj", (bucket) =>
     Effect.gen(function* () {
       const testKey = "test-binary.bin";
       const testContent = new Uint8Array([
@@ -1123,7 +1124,7 @@ test(
 
       // Put object with Uint8Array body
       yield* putObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
         Body: testContent,
         ContentType: "application/octet-stream",
@@ -1131,7 +1132,7 @@ test(
 
       // Get object and verify
       const result = yield* getObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
       });
 
@@ -1171,14 +1172,14 @@ test(
       }
 
       // Cleanup
-      yield* deleteObject({ Bucket: TEST_BUCKET, Key: testKey });
+      yield* deleteObject({ Bucket: bucket, Key: testKey });
     }),
   ),
 );
 
 test(
   "putObject with Effect Stream body",
-  withBucket(
+  withBucket("itty-s3-stream-obj", (bucket) =>
     Effect.gen(function* () {
       const testKey = "test-stream.txt";
       const testChunks = ["Hello, ", "Effect ", "Stream!"];
@@ -1191,15 +1192,20 @@ test(
 
       // Put object with Effect Stream body
       yield* putObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
         Body: inputStream,
+        // S3 requires Content-Length for streaming uploads (use multipart for unknown-length)
+        ContentLength: testChunks.reduce(
+          (acc, s) => acc + encoder.encode(s).length,
+          0,
+        ),
         ContentType: "text/plain",
       });
 
       // Get object and verify
       const result = yield* getObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
       });
 
@@ -1236,21 +1242,21 @@ test(
       }
 
       // Cleanup
-      yield* deleteObject({ Bucket: TEST_BUCKET, Key: testKey });
+      yield* deleteObject({ Bucket: bucket, Key: testKey });
     }),
   ),
 );
 
 test(
   "getObject returns headers (ContentType, ContentLength, ETag)",
-  withBucket(
+  withBucket("itty-s3-headers", (bucket) =>
     Effect.gen(function* () {
       const testKey = "test-headers.json";
       const testContent = JSON.stringify({ message: "hello" });
 
       // Put object
       yield* putObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
         Body: testContent,
         ContentType: "application/json",
@@ -1258,7 +1264,7 @@ test(
 
       // Get object and check headers
       const result = yield* getObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
       });
 
@@ -1313,7 +1319,7 @@ test(
         );
       }
 
-      yield* deleteObject({ Bucket: TEST_BUCKET, Key: testKey });
+      yield* deleteObject({ Bucket: bucket, Key: testKey });
     }),
   ),
 );
@@ -1324,13 +1330,13 @@ test(
 
 test(
   "apply multiple control plane configurations to a single bucket",
-  withBucket(
+  withBucket("itty-s3-multi-config", (bucket) =>
     Effect.gen(function* () {
       // Apply multiple configurations in sequence
 
       // 1. Tagging
       yield* putBucketTagging({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Tagging: {
           TagSet: [
             { Key: "Environment", Value: "Integration" },
@@ -1341,7 +1347,7 @@ test(
 
       // 2. Versioning
       yield* putBucketVersioning({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         VersioningConfiguration: {
           Status: "Enabled",
         },
@@ -1349,7 +1355,7 @@ test(
 
       // 3. Encryption
       yield* putBucketEncryption({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         ServerSideEncryptionConfiguration: {
           Rules: [
             {
@@ -1363,7 +1369,7 @@ test(
 
       // 4. Public Access Block
       yield* putPublicAccessBlock({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         PublicAccessBlockConfiguration: {
           BlockPublicAcls: true,
           IgnorePublicAcls: true,
@@ -1374,7 +1380,7 @@ test(
 
       // 5. Lifecycle
       yield* putBucketLifecycleConfiguration({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         LifecycleConfiguration: {
           Rules: [
             {
@@ -1391,11 +1397,11 @@ test(
 
       // Verify all configurations are in place
       const [tags, versioning, encryption, pab, lifecycle] = yield* Effect.all([
-        getBucketTagging({ Bucket: TEST_BUCKET }),
-        getBucketVersioning({ Bucket: TEST_BUCKET }),
-        getBucketEncryption({ Bucket: TEST_BUCKET }),
-        getPublicAccessBlock({ Bucket: TEST_BUCKET }),
-        getBucketLifecycleConfiguration({ Bucket: TEST_BUCKET }),
+        getBucketTagging({ Bucket: bucket }),
+        getBucketVersioning({ Bucket: bucket }),
+        getBucketEncryption({ Bucket: bucket }),
+        getPublicAccessBlock({ Bucket: bucket }),
+        getBucketLifecycleConfiguration({ Bucket: bucket }),
       ]);
 
       // Verify each config
@@ -1433,7 +1439,7 @@ test(
 
 test(
   "putObject with streaming body and ChecksumAlgorithm triggers aws-chunked encoding",
-  withBucket(
+  withBucket("itty-s3-checksum", (bucket) =>
     Effect.gen(function* () {
       const testKey = "test-streaming-checksum.txt";
       const testChunks = ["Hello, ", "streaming ", "checksum ", "test!"];
@@ -1454,17 +1460,17 @@ test(
       // Put object with Effect Stream body AND ChecksumAlgorithm
       // This triggers the aws-chunked encoding path in checksum.ts
       yield* putObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
         Body: inputStream,
-        ContentType: "text/plain",
+        // S3 requires Content-Length for streaming uploads (use multipart for unknown-length)
         ContentLength: contentLength,
         ChecksumAlgorithm: "CRC32",
       });
 
       // Get object and verify content was uploaded correctly
       const result = yield* getObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
       });
 
@@ -1500,14 +1506,14 @@ test(
       }
 
       // Cleanup
-      yield* deleteObject({ Bucket: TEST_BUCKET, Key: testKey });
+      yield* deleteObject({ Bucket: bucket, Key: testKey });
     }),
   ),
 );
 
 test(
   "multipart upload with uploadPart streaming body and ChecksumAlgorithm",
-  withBucket(
+  withBucket("itty-s3-multipart", (bucket) =>
     Effect.gen(function* () {
       const testKey = "test-multipart-streaming-checksum.txt";
 
@@ -1517,7 +1523,7 @@ test(
 
       // 1. Initiate multipart upload
       const initResult = yield* createMultipartUpload({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
         ContentType: "text/plain",
       });
@@ -1537,7 +1543,7 @@ test(
         const part1Stream = Stream.fromIterable([part1Bytes]);
 
         const part1Result = yield* uploadPart({
-          Bucket: TEST_BUCKET,
+          Bucket: bucket,
           Key: testKey,
           UploadId: uploadId,
           PartNumber: 1,
@@ -1557,7 +1563,7 @@ test(
         const part2Stream = Stream.fromIterable([part2Bytes]);
 
         const part2Result = yield* uploadPart({
-          Bucket: TEST_BUCKET,
+          Bucket: bucket,
           Key: testKey,
           UploadId: uploadId,
           PartNumber: 2,
@@ -1574,7 +1580,7 @@ test(
 
         // 4. Complete multipart upload
         yield* completeMultipartUpload({
-          Bucket: TEST_BUCKET,
+          Bucket: bucket,
           Key: testKey,
           UploadId: uploadId,
           MultipartUpload: {
@@ -1587,7 +1593,7 @@ test(
 
         // 5. Verify the content
         const result = yield* getObject({
-          Bucket: TEST_BUCKET,
+          Bucket: bucket,
           Key: testKey,
         });
 
@@ -1657,11 +1663,11 @@ test(
         }
 
         // Cleanup
-        yield* deleteObject({ Bucket: TEST_BUCKET, Key: testKey });
+        yield* deleteObject({ Bucket: bucket, Key: testKey });
       } catch (e) {
         // Abort multipart upload on failure
         yield* abortMultipartUpload({
-          Bucket: TEST_BUCKET,
+          Bucket: bucket,
           Key: testKey,
           UploadId: uploadId,
         }).pipe(Effect.ignore);
@@ -1677,7 +1683,7 @@ test(
 
 test(
   "streaming upload can be interrupted",
-  withBucket(
+  withBucket("itty-s3-interrupt", (bucket) =>
     Effect.gen(function* () {
       const testKey = "test-interruption.txt";
 
@@ -1701,7 +1707,7 @@ test(
 
       // Try to upload but interrupt after 100ms
       const uploadEffect = putObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
         Body: slowStream,
         ContentType: "text/plain",
@@ -1735,16 +1741,14 @@ test(
       // The key is that the Effect was interrupted and didn't complete all chunks
 
       // Cleanup - object may or may not exist
-      yield* deleteObject({ Bucket: TEST_BUCKET, Key: testKey }).pipe(
-        Effect.ignore,
-      );
+      yield* deleteObject({ Bucket: bucket, Key: testKey }).pipe(Effect.ignore);
     }),
   ),
 );
 
 test(
   "streaming upload interruption via Effect.raceFirst with Effect.interrupt",
-  withBucket(
+  withBucket("itty-s3-race-interrupt", (bucket) =>
     Effect.gen(function* () {
       const testKey = "test-interruption-explicit.txt";
       let chunksRead = 0;
@@ -1763,7 +1767,7 @@ test(
       });
 
       const uploadEffect = putObject({
-        Bucket: TEST_BUCKET,
+        Bucket: bucket,
         Key: testKey,
         Body: slowStream,
         ContentType: "text/plain",
@@ -1792,9 +1796,316 @@ test(
       }
 
       // Cleanup
-      yield* deleteObject({ Bucket: TEST_BUCKET, Key: testKey }).pipe(
-        Effect.ignore,
-      );
+      yield* deleteObject({ Bucket: bucket, Key: testKey }).pipe(Effect.ignore);
     }),
   ),
 );
+
+// ============================================================================
+// SelectObjectContent Event Stream Tests
+// ============================================================================
+
+const isLocalStack = process.env.LOCAL === "true" || process.env.LOCAL === "1";
+if (isLocalStack) {
+  // it's a deprecated API so we can't test live but we can test in localstack
+  test(
+    "selectObjectContent returns event stream with CSV data",
+    { timeout: 60_000 },
+    withBucket("itty-s3-select-csv", (bucket) =>
+      Effect.gen(function* () {
+        const testKey = "test-select-csv.csv";
+        const csvContent =
+          "id,name,value\n1,Alice,100\n2,Bob,200\n3,Charlie,300\n";
+
+        // Upload CSV file
+        yield* putObject({
+          Bucket: bucket,
+          Key: testKey,
+          Body: csvContent,
+          ContentType: "text/csv",
+        });
+
+        // Select data from the CSV using S3 Select
+        const response = yield* selectObjectContent({
+          Bucket: bucket,
+          Key: testKey,
+          ExpressionType: "SQL",
+          Expression: "SELECT * FROM S3Object WHERE CAST(value AS INT) > 150",
+          InputSerialization: {
+            CSV: {
+              FileHeaderInfo: "USE",
+            },
+          },
+          OutputSerialization: {
+            CSV: {},
+          },
+        });
+
+        if (!response.Payload) {
+          return yield* Effect.fail(
+            new Error("Expected Payload event stream in response"),
+          );
+        }
+
+        // Collect events from the stream
+        const events: unknown[] = [];
+        let recordsData = "";
+
+        yield* Stream.runForEach(response.Payload, (event) =>
+          Effect.gen(function* () {
+            events.push(event);
+
+            // Check if this is a RecordsEvent with data
+            if ("Records" in event) {
+              const recordsEvent = event.Records;
+              if (
+                recordsEvent instanceof RecordsEvent &&
+                recordsEvent.Payload
+              ) {
+                const text = new TextDecoder().decode(recordsEvent.Payload);
+                recordsData += text;
+              }
+            }
+          }),
+        );
+
+        yield* Effect.logInfo(`Received ${events.length} events`);
+        yield* Effect.logInfo(`Records data: ${recordsData}`);
+
+        // We should have received at least one event
+        if (events.length === 0) {
+          return yield* Effect.fail(
+            new Error("Expected at least one event from SelectObjectContent"),
+          );
+        }
+
+        // Verify we got End event
+        const hasEndEvent = events.some(
+          (e) => typeof e === "object" && e !== null && "End" in e,
+        );
+        if (!hasEndEvent) {
+          return yield* Effect.fail(new Error("Expected End event in stream"));
+        }
+
+        // Verify records contain expected rows (value > 150 means Bob and Charlie)
+        if (!recordsData.includes("Bob") || !recordsData.includes("Charlie")) {
+          return yield* Effect.fail(
+            new Error(
+              `Expected records to contain Bob and Charlie, got: ${recordsData}`,
+            ),
+          );
+        }
+
+        // Alice should NOT be included (value=100 < 150)
+        if (recordsData.includes("Alice")) {
+          return yield* Effect.fail(
+            new Error("Alice should not be included (value < 150)"),
+          );
+        }
+
+        // Cleanup
+        yield* deleteObject({ Bucket: bucket, Key: testKey });
+      }),
+    ),
+  );
+
+  test(
+    "selectObjectContent with JSON data",
+    { timeout: 60_000 },
+    withBucket("itty-s3-select-json", (bucket) =>
+      Effect.gen(function* () {
+        const testKey = "test-select-json.json";
+        const jsonContent = [
+          { id: 1, name: "Alice", active: true },
+          { id: 2, name: "Bob", active: false },
+          { id: 3, name: "Charlie", active: true },
+        ]
+          .map((obj) => JSON.stringify(obj))
+          .join("\n");
+
+        // Upload JSON Lines file
+        yield* putObject({
+          Bucket: bucket,
+          Key: testKey,
+          Body: jsonContent,
+          ContentType: "application/json",
+        });
+
+        // Select only active users
+        const response = yield* selectObjectContent({
+          Bucket: bucket,
+          Key: testKey,
+          ExpressionType: "SQL",
+          Expression: "SELECT s.name FROM S3Object s WHERE s.active = true",
+          InputSerialization: {
+            JSON: {
+              Type: "LINES",
+            },
+          },
+          OutputSerialization: {
+            JSON: {},
+          },
+        });
+
+        if (!response.Payload) {
+          return yield* Effect.fail(
+            new Error("Expected Payload event stream in response"),
+          );
+        }
+
+        // Collect all record data
+        let recordsData = "";
+        let hasStats = false;
+
+        yield* Stream.runForEach(response.Payload, (event) =>
+          Effect.gen(function* () {
+            if ("Records" in event) {
+              const recordsEvent = event.Records;
+              if (
+                recordsEvent instanceof RecordsEvent &&
+                recordsEvent.Payload
+              ) {
+                recordsData += new TextDecoder().decode(recordsEvent.Payload);
+              }
+            }
+            if ("Stats" in event) {
+              hasStats = true;
+              const stats = event.Stats;
+              if (stats instanceof StatsEvent && stats.Details) {
+                yield* Effect.logInfo(
+                  `Stats: BytesScanned=${stats.Details.BytesScanned}, BytesReturned=${stats.Details.BytesReturned}`,
+                );
+              }
+            }
+            if ("End" in event) {
+              const end = event.End;
+              if (end instanceof EndEvent) {
+                yield* Effect.logInfo("Received End event");
+              }
+            }
+          }),
+        );
+
+        yield* Effect.logInfo(`JSON Select results: ${recordsData}`);
+
+        // Verify active users (Alice and Charlie)
+        if (
+          !recordsData.includes("Alice") ||
+          !recordsData.includes("Charlie")
+        ) {
+          return yield* Effect.fail(
+            new Error(
+              `Expected Alice and Charlie in results, got: ${recordsData}`,
+            ),
+          );
+        }
+
+        // Bob should NOT be included (active=false)
+        if (recordsData.includes("Bob")) {
+          return yield* Effect.fail(
+            new Error("Bob should not be included (active=false)"),
+          );
+        }
+
+        // Verify we got stats
+        if (!hasStats) {
+          yield* Effect.logWarning("No Stats event received");
+        }
+
+        // Cleanup
+        yield* deleteObject({ Bucket: bucket, Key: testKey });
+      }),
+    ),
+  );
+
+  test(
+    "selectObjectContent with large CSV file streams multiple events",
+    { timeout: 120_000 },
+    withBucket("itty-s3-select-large", (bucket) =>
+      Effect.gen(function* () {
+        const testKey = "test-select-large.csv";
+
+        // Generate a larger CSV file (1000 rows)
+        const rows = ["id,name,value"];
+        for (let i = 1; i <= 1000; i++) {
+          rows.push(`${i},User${i},${i * 10}`);
+        }
+        const csvContent = rows.join("\n");
+
+        // Upload the file
+        yield* putObject({
+          Bucket: bucket,
+          Key: testKey,
+          Body: csvContent,
+          ContentType: "text/csv",
+        });
+
+        // Select rows where value > 5000 (should be ~500 rows)
+        const response = yield* selectObjectContent({
+          Bucket: bucket,
+          Key: testKey,
+          ExpressionType: "SQL",
+          Expression:
+            "SELECT id, name, value FROM S3Object WHERE CAST(value AS INT) > 5000",
+          InputSerialization: {
+            CSV: {
+              FileHeaderInfo: "USE",
+            },
+          },
+          OutputSerialization: {
+            CSV: {},
+          },
+        });
+
+        if (!response.Payload) {
+          return yield* Effect.fail(
+            new Error("Expected Payload event stream in response"),
+          );
+        }
+
+        // Count events and collect data
+        let eventCount = 0;
+        let recordEventCount = 0;
+        let totalBytes = 0;
+
+        yield* Stream.runForEach(response.Payload, (event) =>
+          Effect.gen(function* () {
+            eventCount++;
+
+            if ("Records" in event) {
+              recordEventCount++;
+              const recordsEvent = event.Records;
+              if (
+                recordsEvent instanceof RecordsEvent &&
+                recordsEvent.Payload
+              ) {
+                totalBytes += recordsEvent.Payload.length;
+              }
+            }
+          }),
+        );
+
+        yield* Effect.logInfo(
+          `Large file: ${eventCount} total events, ${recordEventCount} record events, ${totalBytes} bytes`,
+        );
+
+        // Should have multiple events for a larger response
+        if (eventCount < 2) {
+          return yield* Effect.fail(
+            new Error(`Expected multiple events, got ${eventCount}`),
+          );
+        }
+
+        // Should have received actual data
+        if (totalBytes === 0) {
+          return yield* Effect.fail(
+            new Error("Expected to receive data bytes"),
+          );
+        }
+
+        // Cleanup
+        yield* deleteObject({ Bucket: bucket, Key: testKey });
+      }),
+    ),
+  );
+}

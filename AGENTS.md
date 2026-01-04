@@ -32,3 +32,6 @@ Smithy traits are implemented in [src/traits.ts](./src/traits.ts).
 :::warning
 Do not use random suffixes for the names of test resources. They must be deterministic. random names create mess
 :::
+
+Style:
+Prefer const arrow functions over function declarations. Avoid return statements if everythign can be inlined with Effect.gen and pipe (e.g. use Effect.retry and Schedule over while loops and sleeps)

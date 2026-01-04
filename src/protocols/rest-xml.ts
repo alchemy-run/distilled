@@ -8,6 +8,10 @@ import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import { ParseError } from "../error-parser.ts";
+import {
+  parseEventStreamToUnion,
+  type PayloadParser,
+} from "../eventstream/parser.ts";
 import type { Operation } from "../operation.ts";
 import type { Protocol, ProtocolHandler } from "../protocol.ts";
 import type { Request } from "../request.ts";
@@ -24,6 +28,7 @@ import {
   hasS3UnwrappedXmlOutput,
   hasXmlAttribute,
   hasXmlFlattened,
+  isOutputEventStream,
   isStreamingType,
   type StreamingInputBody,
 } from "../traits.ts";
@@ -108,6 +113,7 @@ export const restXmlProtocol: Protocol = (
     name: string;
     type: AST.AST;
     isStreaming: boolean;
+    isEventStream: boolean;
     isRawString: boolean;
     xmlName?: string;
   };
@@ -137,6 +143,7 @@ export const restXmlProtocol: Protocol = (
         name,
         type: prop.type,
         isStreaming: isStreamingType(prop.type),
+        isEventStream: isOutputEventStream(prop.type),
         isRawString:
           unwrapped._tag === "Union" || unwrapped._tag === "StringKeyword",
         xmlName: getXmlNameFromAST(prop.type) ?? getIdentifier(prop.type),
@@ -225,7 +232,27 @@ export const restXmlProtocol: Protocol = (
 
       // Handle streaming output payload - return early
       if (outputPayloadProp?.isStreaming) {
-        result[outputPayloadProp.name] = readableToEffectStream(response.body);
+        if (outputPayloadProp.isEventStream && response.body) {
+          // Parse event stream with XML payload parser
+          const xmlPayloadParser: PayloadParser = (payload: Uint8Array) => {
+            const text = new TextDecoder().decode(payload);
+            if (!text) return {};
+            try {
+              return parseXml(text);
+            } catch {
+              return { payload: text };
+            }
+          };
+          result[outputPayloadProp.name] = parseEventStreamToUnion(
+            response.body as ReadableStream<Uint8Array>,
+            xmlPayloadParser,
+          );
+        } else {
+          // Raw streaming output (blob)
+          result[outputPayloadProp.name] = readableToEffectStream(
+            response.body,
+          );
+        }
         return result;
       }
 

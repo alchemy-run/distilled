@@ -1,4 +1,6 @@
-import { Effect } from "effect";
+import { Console, Effect, Schedule } from "effect";
+import { afterAll, beforeAll } from "vitest";
+import { createRole, deleteRole } from "../../src/services/iam.ts";
 import {
   createActivity,
   createStateMachine,
@@ -13,13 +15,14 @@ import {
   startExecution,
   stopExecution,
 } from "../../src/services/sfn.ts";
-import { test } from "../test.ts";
+import { run, test } from "../test.ts";
 
 const TEST_ACTIVITY_NAME = "itty-aws-test-activity";
 const TEST_STATE_MACHINE_NAME = "itty-aws-test-state-machine";
 const TEST_EXEC_STATE_MACHINE_NAME = "itty-aws-test-exec-sm";
 const TEST_STOP_STATE_MACHINE_NAME = "itty-aws-test-stop-sm";
 const TEST_MULTI_STATE_MACHINE_NAME = "itty-aws-test-multi-sm";
+const TEST_ROLE_NAME = "itty-aws-test-stepfunctions-role";
 
 // Simple pass state machine definition
 const PASS_STATE_MACHINE_DEFINITION = JSON.stringify({
@@ -46,9 +49,53 @@ const WAIT_STATE_MACHINE_DEFINITION = JSON.stringify({
   },
 });
 
-// Role ARN for state machines (LocalStack typically accepts any ARN)
-const TEST_ROLE_ARN =
-  "arn:aws:iam::000000000000:role/itty-aws-test-stepfunctions-role";
+// Trust policy that allows Step Functions to assume the role
+const STEP_FUNCTIONS_TRUST_POLICY = JSON.stringify({
+  Version: "2012-10-17",
+  Statement: [
+    {
+      Effect: "Allow",
+      Principal: {
+        Service: "states.amazonaws.com",
+      },
+      Action: "sts:AssumeRole",
+    },
+  ],
+});
+
+// Role ARN will be set by beforeAll
+let TEST_ROLE_ARN = "";
+
+// Create the IAM role before tests
+beforeAll(async () => {
+  await run(
+    Effect.gen(function* () {
+      // Delete existing role if it exists (cleanup from previous runs)
+      yield* deleteRole({ RoleName: TEST_ROLE_NAME }).pipe(Effect.ignore);
+
+      // Create the role
+      const result = yield* createRole({
+        RoleName: TEST_ROLE_NAME,
+        AssumeRolePolicyDocument: STEP_FUNCTIONS_TRUST_POLICY,
+        Description: "Test role for itty-aws Step Functions tests",
+      });
+
+      TEST_ROLE_ARN = result.Role?.Arn ?? "";
+
+      // Wait a bit for IAM to propagate (AWS eventually consistent)
+      yield* Effect.sleep("2 seconds");
+    }),
+  );
+});
+
+// Delete the IAM role after tests
+afterAll(async () => {
+  await run(
+    Effect.gen(function* () {
+      yield* deleteRole({ RoleName: TEST_ROLE_NAME }).pipe(Effect.ignore);
+    }),
+  );
+});
 
 // ============================================================================
 // Activity Tests
@@ -186,21 +233,22 @@ test(
       // Delete state machine
       yield* deleteStateMachine({ stateMachineArn: stateMachineArn });
 
-      // Verify state machine is gone (may take a moment)
-      yield* Effect.sleep("1 second");
-
-      const describeAfterDelete = yield* describeStateMachine({
+      // Verify state machine is gone or in DELETING status
+      yield* describeStateMachine({
         stateMachineArn: stateMachineArn,
       }).pipe(
-        Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.flatMap((result) =>
+          result.status === "DELETING"
+            ? Effect.void
+            : Effect.fail("still exists" as const),
+        ),
+        Effect.catchTag("StateMachineDoesNotExist", () => Effect.void),
+        Effect.tapError(Console.log),
+        Effect.retry({
+          while: (err) => err === "still exists",
+          schedule: Schedule.spaced("1 second"),
+        }),
       );
-
-      if (describeAfterDelete !== "error") {
-        return yield* Effect.fail(
-          new Error("State machine should not exist after deletion"),
-        );
-      }
     } finally {
       // Clean up if not already deleted
       yield* deleteStateMachine({ stateMachineArn: stateMachineArn }).pipe(

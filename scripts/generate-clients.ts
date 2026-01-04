@@ -61,6 +61,8 @@ class SdkFile extends Context.Tag("SdkFile")<
       sigV4ServiceName: string;
       version: string;
       protocol: string;
+      /** The service shape name from the Smithy model (e.g., "TrentService" for KMS) */
+      serviceShapeName: string;
     };
     // Set of shape IDs that are input event streams (vs output event streams)
     inputEventStreamShapeIds: Set<string>;
@@ -555,6 +557,7 @@ interface OperationInputTraits {
     responseAlgorithms?: string[];
   };
   httpChecksumRequired?: boolean;
+  staticContextParams?: Record<string, { value: unknown }>;
 }
 
 // Collect operation traits for input schemas
@@ -579,12 +582,16 @@ function collectOperationInputTraits(
             responseAlgorithms?: string[];
           }
         | undefined;
+      const staticContextParamsTrait = shape.traits?.[
+        "smithy.rules#staticContextParams"
+      ] as Record<string, { value: unknown }> | undefined;
 
       const inputName = formatName(shape.input.target);
       inputTraits.set(inputName, {
         method: httpTrait.method ?? "POST",
         uri: httpTrait.uri ?? "/",
         httpChecksum: httpChecksumTrait,
+        staticContextParams: staticContextParamsTrait,
       });
     }
   }
@@ -1100,6 +1107,12 @@ const convertShapeToSchema: (
                           `T.AwsProtocolsHttpChecksum({ ${checksumParts.join(", ")} })`,
                         );
                       }
+                      // Add staticContextParams trait if present
+                      if (opTraits.staticContextParams) {
+                        classAnnotations.push(
+                          `T.StaticContextParams(${JSON.stringify(opTraits.staticContextParams)})`,
+                        );
+                      }
                     }
                     // Add operation-level annotations for response schemas
                     if (isOperationOutput && opOutputTraits) {
@@ -1556,9 +1569,10 @@ const generateClient = Effect.fn(function* (
       sigV4ServiceName,
       version,
       protocol: svcProtocol,
+      serviceShapeName: svcShapeName,
     } = sdkFile.serviceTraits;
     serviceConstants.push(
-      `const svc = T.AwsApiService({ sdkId: "${sdkId}" });`,
+      `const svc = T.AwsApiService({ sdkId: "${sdkId}", serviceShapeName: "${svcShapeName}" });`,
     );
     serviceConstants.push(
       `const auth = T.AwsAuthSigv4({ name: "${sigV4ServiceName}" });`,
@@ -1647,6 +1661,7 @@ const generateClient = Effect.fn(function* (
       )?.name ?? serviceNameForTraits,
     version: serviceShape?.version ?? "",
     protocol: serviceProtocol,
+    serviceShapeName: serviceNameForTraits,
   };
 
   // Extract endpoint rule set and client context params

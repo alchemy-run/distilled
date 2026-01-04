@@ -12,7 +12,7 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as AST from "effect/SchemaAST";
-import * as Stream from "effect/Stream";
+import type * as Stream from "effect/Stream";
 import {
   applyApiGatewayCustomizations,
   isApiGateway,
@@ -22,7 +22,7 @@ import {
   isGlacier,
 } from "../customizations/glacier.ts";
 import { ParseError } from "../error-parser.ts";
-import { parseEventStream } from "../eventstream/parser.ts";
+import { parseEventStreamToUnion } from "../eventstream/parser.ts";
 import {
   serializeInputEventStream,
   serializeInputEventStreamWithPayloads,
@@ -240,50 +240,10 @@ export const restJson1Protocol: Protocol = (
       // Handle streaming output payload - return early
       if (outputPayloadProp?.isStreaming) {
         if (outputPayloadProp.isEventStream && response.body) {
-          // Parse event stream - converts raw bytes to typed events
-          const eventStream = parseEventStream(
+          // Parse event stream - converts raw bytes to typed union events
+          result[outputPayloadProp.name] = parseEventStreamToUnion(
             response.body as ReadableStream<Uint8Array>,
-          ).pipe(
-            // Convert StreamEvent to the expected union type structure
-            Stream.map((streamEvent) => {
-              if (streamEvent._tag === "MessageEvent") {
-                // Parse JSON payload to create union member
-                const eventType = streamEvent.eventType;
-                const payloadText = new TextDecoder().decode(
-                  streamEvent.payload,
-                );
-                try {
-                  const payload = payloadText ? JSON.parse(payloadText) : {};
-                  // Create tagged union member: { EventType: payload }
-                  return { [eventType]: payload };
-                } catch {
-                  // If payload isn't JSON, pass through raw
-                  return { [eventType]: { payload: payloadText } };
-                }
-              } else if (streamEvent._tag === "ExceptionEvent") {
-                // Handle exception events
-                const errorType = streamEvent.exceptionType;
-                const payloadText = new TextDecoder().decode(
-                  streamEvent.payload,
-                );
-                try {
-                  const payload = payloadText ? JSON.parse(payloadText) : {};
-                  return { [errorType]: payload };
-                } catch {
-                  return { [errorType]: { message: payloadText } };
-                }
-              } else {
-                // ErrorEvent - unmodeled error
-                return {
-                  UnmodeledError: {
-                    errorCode: streamEvent.errorCode,
-                    errorMessage: streamEvent.errorMessage,
-                  },
-                };
-              }
-            }),
           );
-          result[outputPayloadProp.name] = eventStream;
         } else {
           // Raw streaming output (blob)
           result[outputPayloadProp.name] = readableToEffectStream(

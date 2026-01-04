@@ -6,9 +6,14 @@
 
 import { Effect } from "effect";
 import {
+  isVirtualHostableS3Bucket,
+  parseArn,
+  partition,
+} from "./aws-functions.ts";
+import {
   type ConditionObject,
-  type EndpointObject,
   EndpointError,
+  type EndpointObject,
   type EndpointParams,
   type EndpointResolverOptions,
   type EvaluationScope,
@@ -36,11 +41,6 @@ import {
   substring,
   uriEncode,
 } from "./standard-functions.ts";
-import {
-  isVirtualHostableS3Bucket,
-  parseArn,
-  partition,
-} from "./aws-functions.ts";
 
 // Registry uses loose typing since dispatch inherently loses type info
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,11 +72,12 @@ function evaluateExpression(
     return expr;
   }
 
-  if (
-    typeof expr === "string" ||
-    typeof expr === "number" ||
-    typeof expr === "boolean"
-  ) {
+  if (typeof expr === "string") {
+    // Interpolate template strings like "{arn#partition}"
+    return interpolateTemplate(expr, scope);
+  }
+
+  if (typeof expr === "number" || typeof expr === "boolean") {
     return expr;
   }
 

@@ -72,10 +72,6 @@ if (!isLocalStack) {
     "startStreamTranscription bi-directional event stream",
     { timeout: 60_000 },
     Effect.gen(function* () {
-      yield* Effect.logInfo(
-        "Starting Transcribe Streaming bi-directional test",
-      );
-
       // Generate audio chunks (100ms each, total 1 second)
       const audioChunks: Uint8Array[] = [];
       for (let i = 0; i < 10; i++) {
@@ -85,10 +81,6 @@ if (!isLocalStack) {
         audioChunks.push(chunk);
       }
 
-      yield* Effect.logInfo(
-        `Generated ${audioChunks.length} audio chunks, total ${audioChunks.reduce((sum, c) => sum + c.length, 0)} bytes`,
-      );
-
       // Create the input event stream with AudioEvents
       const inputEvents = Stream.fromIterable(
         audioChunks.map((chunk) => ({
@@ -97,8 +89,6 @@ if (!isLocalStack) {
           }),
         })),
       );
-
-      yield* Effect.logInfo("Calling startStreamTranscription...");
 
       // Start the transcription stream
       const response = yield* startStreamTranscription({
@@ -112,18 +102,12 @@ if (!isLocalStack) {
         ),
       );
 
-      yield* Effect.logInfo(
-        "Got response, sessionId:",
-        response.SessionId ?? "none",
-      );
-
       // Collect transcript events
       const transcriptEvents: unknown[] = [];
 
       if (response.TranscriptResultStream) {
         yield* Stream.runForEach(response.TranscriptResultStream, (event) =>
           Effect.gen(function* () {
-            yield* Effect.logInfo("Received transcript event:", event);
             transcriptEvents.push(event);
           }),
         ).pipe(
@@ -136,10 +120,6 @@ if (!isLocalStack) {
         yield* Effect.logWarning("No TranscriptResultStream in response");
       }
 
-      yield* Effect.logInfo(
-        `Received ${transcriptEvents.length} transcript events`,
-      );
-
       // We expect at least one event (even if it's an error about signing)
       // This proves the bi-directional event stream infrastructure works
       if (transcriptEvents.length === 0) {
@@ -151,7 +131,6 @@ if (!isLocalStack) {
       // The event should be properly parsed as a typed object (not raw bytes)
       const firstEvent = transcriptEvents[0] as Record<string, unknown>;
       const eventType = Object.keys(firstEvent)[0];
-      yield* Effect.logInfo(`First event type: ${eventType}`);
 
       // Verify it's a proper object structure (parsed, not raw Uint8Array)
       if (firstEvent[eventType] instanceof Uint8Array) {
@@ -166,8 +145,6 @@ if (!isLocalStack) {
     "startStreamTranscription handles streaming audio chunks",
     { timeout: 120_000 },
     Effect.gen(function* () {
-      yield* Effect.logInfo("Starting streaming audio chunks test");
-
       // Simulate real-time audio streaming with delays between chunks
       const createDelayedAudioStream = () =>
         Stream.fromIterable(Array.from({ length: 20 }, (_, i) => i)).pipe(
@@ -191,16 +168,12 @@ if (!isLocalStack) {
 
       const inputStream = createDelayedAudioStream();
 
-      yield* Effect.logInfo("Starting transcription with delayed chunks...");
-
       const response = yield* startStreamTranscription({
         MediaSampleRateHertz: 16000,
         MediaEncoding: "pcm",
         LanguageCode: "en-US",
         AudioStream: inputStream,
       });
-
-      yield* Effect.logInfo("Response received, collecting events...");
 
       let eventCount = 0;
 
@@ -215,20 +188,6 @@ if (!isLocalStack) {
           Effect.catchAll(() => Effect.void),
         );
       }
-
-      yield* Effect.logInfo(
-        `Streaming test completed with ${eventCount} events`,
-      );
-    }),
-  );
-} else {
-  // Placeholder test when running in LocalStack
-  test(
-    "transcribe streaming - skipped in LocalStack",
-    Effect.gen(function* () {
-      yield* Effect.logInfo(
-        "Skipping Transcribe Streaming tests - not supported in LocalStack",
-      );
     }),
   );
 }

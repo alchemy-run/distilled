@@ -1,9 +1,16 @@
 {
-  "name": "distilled-aws-sdk",
+  "name": "effect-aws",
   "module": "index.ts",
+  "version": "0.0.0",
   "type": "module",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false,
+  "files": [
+    "src",
+    "lib"
+  ],
   "scripts": {
     "setup": "bun run scripts/setup.ts",
     "generate": "bun run scripts/generate-clients.ts",
@@ -12,13 +19,10 @@
     "test:live": "bun run scripts/test.ts",
     "test:protocols": "bun vitest run ./test/protocols/",
     "test:services": "bun test:local ./test/services/",
+    "test:services:live": "bun test:live ./test/services/",
     "format": "bun oxfmt ./scripts ./src ./test",
     "find:errors": "bun run scripts/find-errors.ts"
   },
-  "files": [
-    "src",
-    "lib"
-  ],
   "exports": {
     "./*": {
       "types": "./lib/services/*.d.ts",

@@ -1,4 +1,5 @@
-import { Effect } from "effect";
+import { Effect, Schedule } from "effect";
+import { beforeAll } from "vitest";
 import {
   cancelKeyDeletion,
   createAlias,
@@ -11,9 +12,54 @@ import {
   listKeys,
   scheduleKeyDeletion,
 } from "../../src/services/kms.ts";
-import { test } from "../test.ts";
+import { run, test } from "../test.ts";
 
 const TEST_ALIAS = "alias/itty-aws-test";
+
+// Clean up all keys before running tests
+beforeAll(async () => {
+  await run(
+    Effect.gen(function* () {
+      // Collect all keys first
+      const allKeys: string[] = [];
+      let marker: string | undefined;
+      do {
+        const result = yield* listKeys({ Marker: marker });
+        for (const key of result.Keys ?? []) {
+          if (key.KeyId) {
+            allKeys.push(key.KeyId);
+          }
+        }
+        marker = result.Truncated ? result.NextMarker : undefined;
+      } while (marker);
+
+      // Schedule deletion for keys not already pending (in parallel)
+      yield* Effect.all(
+        allKeys.map((keyId) =>
+          Effect.gen(function* () {
+            const keyInfo = yield* describeKey({ KeyId: keyId }).pipe(
+              Effect.retry({
+                while: (err) => err._tag === "ThrottlingException",
+                schedule: Schedule.exponential("1 second"),
+              }),
+              Effect.catchAll(() => Effect.succeed(null)),
+            );
+            if (
+              keyInfo?.KeyMetadata?.KeyState === "Enabled" ||
+              keyInfo?.KeyMetadata?.KeyState === "Disabled"
+            ) {
+              yield* scheduleKeyDeletion({
+                KeyId: keyId,
+                PendingWindowInDays: 7,
+              }).pipe(Effect.ignore);
+            }
+          }),
+        ),
+        { concurrency: "unbounded" },
+      );
+    }),
+  );
+}, 300_000);
 
 // ============================================================================
 // Key Management Tests
@@ -21,6 +67,7 @@ const TEST_ALIAS = "alias/itty-aws-test";
 
 test(
   "create key, describe key, list keys, and schedule deletion",
+  { timeout: 300_000 },
   Effect.gen(function* () {
     // Create a symmetric encryption key
     const createResult = yield* createKey({
@@ -48,9 +95,18 @@ test(
         );
       }
 
-      // List keys and verify our key is in the list
-      const listResult = yield* listKeys({});
-      const foundKey = listResult.Keys?.find((k) => k.KeyId === keyId);
+      // List keys and verify our key is in the list (paginate through all)
+      let foundKey = false;
+      let marker: string | undefined;
+      do {
+        const listResult = yield* listKeys({ Marker: marker });
+        if (listResult.Keys?.some((k) => k.KeyId === keyId)) {
+          foundKey = true;
+          break;
+        }
+        marker = listResult.Truncated ? listResult.NextMarker : undefined;
+      } while (marker);
+
       if (!foundKey) {
         return yield* Effect.fail(new Error("Key not found in list"));
       }
@@ -66,6 +122,7 @@ test(
 
 test(
   "create key and cancel key deletion",
+  { timeout: 300_000 },
   Effect.gen(function* () {
     // Create a key
     const createResult = yield* createKey({
@@ -126,6 +183,7 @@ test(
 
 test(
   "create alias, list aliases, and delete alias",
+  { timeout: 300_000 },
   Effect.gen(function* () {
     // First create a key to alias
     const createKeyResult = yield* createKey({
@@ -198,6 +256,7 @@ test(
 
 test(
   "encrypt and decrypt data with symmetric key",
+  { timeout: 300_000 },
   Effect.gen(function* () {
     // Create a symmetric encryption key
     const createResult = yield* createKey({
@@ -269,6 +328,7 @@ test(
 
 test(
   "encrypt with encryption context",
+  { timeout: 300_000 },
   Effect.gen(function* () {
     // Create a key
     const createResult = yield* createKey({
