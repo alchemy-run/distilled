@@ -724,66 +724,66 @@ export class GetAWSDefaultServiceQuotaResponse extends S.Class<GetAWSDefaultServ
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class AWSServiceAccessNotEnabledException extends S.TaggedError<AWSServiceAccessNotEnabledException>()(
   "AWSServiceAccessNotEnabledException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DependencyAccessDeniedException extends S.TaggedError<DependencyAccessDeniedException>()(
   "DependencyAccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class IllegalArgumentException extends S.TaggedError<IllegalArgumentException>()(
   "IllegalArgumentException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class NoAvailableOrganizationException extends S.TaggedError<NoAvailableOrganizationException>()(
-  "NoAvailableOrganizationException",
-  {},
-) {}
-export class ServiceException extends S.TaggedError<ServiceException>()(
-  "ServiceException",
-  {},
+export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
+  "InvalidPaginationTokenException",
+  { Message: S.optional(S.String) },
 ) {}
 export class NoSuchResourceException extends S.TaggedError<NoSuchResourceException>()(
   "NoSuchResourceException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+export class NoAvailableOrganizationException extends S.TaggedError<NoAvailableOrganizationException>()(
+  "NoAvailableOrganizationException",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
   "InvalidResourceStateException",
   { Message: S.optional(S.String) },
 ) {}
-export class ServiceQuotaTemplateNotInUseException extends S.TaggedError<ServiceQuotaTemplateNotInUseException>()(
-  "ServiceQuotaTemplateNotInUseException",
-  {},
-) {}
-export class TemplatesNotAvailableInRegionException extends S.TaggedError<TemplatesNotAvailableInRegionException>()(
-  "TemplatesNotAvailableInRegionException",
-  {},
-) {}
-export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
-  "InvalidPaginationTokenException",
-  {},
-) {}
-export class QuotaExceededException extends S.TaggedError<QuotaExceededException>()(
-  "QuotaExceededException",
-  {},
+export class ServiceException extends S.TaggedError<ServiceException>()(
+  "ServiceException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class OrganizationNotInAllFeaturesModeException extends S.TaggedError<OrganizationNotInAllFeaturesModeException>()(
   "OrganizationNotInAllFeaturesModeException",
   { Message: S.optional(S.String) },
 ) {}
+export class QuotaExceededException extends S.TaggedError<QuotaExceededException>()(
+  "QuotaExceededException",
+  { Message: S.optional(S.String) },
+) {}
 export class TagPolicyViolationException extends S.TaggedError<TagPolicyViolationException>()(
   "TagPolicyViolationException",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { Message: S.optional(S.String) },
+) {}
+export class TemplatesNotAvailableInRegionException extends S.TaggedError<TemplatesNotAvailableInRegionException>()(
+  "TemplatesNotAvailableInRegionException",
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceQuotaTemplateNotInUseException extends S.TaggedError<ServiceQuotaTemplateNotInUseException>()(
+  "ServiceQuotaTemplateNotInUseException",
   { Message: S.optional(S.String) },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
@@ -793,39 +793,39 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 
 //# Operations
 /**
- * Updates your Service Quotas Automatic Management configuration, including notification preferences and
- * excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you
- * run out of your allocated quotas.
+ * Creates a Support case for an existing quota increase request. This call only creates
+ * a Support case if the request has a `Pending` status.
  */
-export const updateAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAutoManagementRequest,
-    output: UpdateAutoManagementResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const createSupportCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSupportCaseRequest,
+  output: CreateSupportCaseResponse,
+  errors: [
+    AccessDeniedException,
+    DependencyAccessDeniedException,
+    IllegalArgumentException,
+    InvalidResourceStateException,
+    NoSuchResourceException,
+    ResourceAlreadyExistsException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
- * Disables your quota request template. After a template is disabled, the quota increase
- * requests in the template are not applied to new Amazon Web Services accounts in your organization.
- * Disabling a quota request template does not apply its quota increase requests.
+ * Deletes the quota increase request for the specified quota from your quota request
+ * template.
  */
-export const disassociateServiceQuotaTemplate =
+export const deleteServiceQuotaIncreaseRequestFromTemplate =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateServiceQuotaTemplateRequest,
-    output: DisassociateServiceQuotaTemplateResponse,
+    input: DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
+    output: DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
     errors: [
       AccessDeniedException,
       AWSServiceAccessNotEnabledException,
       DependencyAccessDeniedException,
+      IllegalArgumentException,
       NoAvailableOrganizationException,
+      NoSuchResourceException,
       ServiceException,
-      ServiceQuotaTemplateNotInUseException,
       TemplatesNotAvailableInRegionException,
       TooManyRequestsException,
     ],
@@ -848,22 +848,6 @@ export const getAssociationForServiceQuotaTemplate =
       TooManyRequestsException,
     ],
   }));
-/**
- * Retrieves the applied quota value for the specified account-level or resource-level
- * quota. For some quotas, only the default values are available. If the applied quota
- * value is not available for a quota, the quota is not retrieved.
- */
-export const getServiceQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetServiceQuotaRequest,
-  output: GetServiceQuotaResponse,
-  errors: [
-    AccessDeniedException,
-    IllegalArgumentException,
-    NoSuchResourceException,
-    ServiceException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * Lists the default values for the quotas for the specified Amazon Web Services service. A default
  * value does not reflect any quota increases.
@@ -918,24 +902,6 @@ export const listRequestedServiceQuotaChangeHistoryByQuota =
     ],
   }));
 /**
- * Lists the quota increase requests in the specified quota request template.
- */
-export const listServiceQuotaIncreaseRequestsInTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
-    output: ListServiceQuotaIncreaseRequestsInTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      IllegalArgumentException,
-      NoAvailableOrganizationException,
-      ServiceException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
  * Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only
  * the default values are available. If the applied quota value is not available for a
  * quota, the quota is not retrieved. Filter responses to return applied quota values at
@@ -954,11 +920,26 @@ export const listServiceQuotas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of the tags assigned to the specified applied quota.
+ * Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    InvalidPaginationTokenException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Removes tags from the specified applied quota. You can specify one or more tags to
+ * remove.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     AccessDeniedException,
     IllegalArgumentException,
@@ -968,59 +949,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Submits a quota increase request for the specified quota at the account or resource
- * level.
- */
-export const requestServiceQuotaIncrease = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RequestServiceQuotaIncreaseRequest,
-    output: RequestServiceQuotaIncreaseResponse,
-    errors: [
-      AccessDeniedException,
-      DependencyAccessDeniedException,
-      IllegalArgumentException,
-      InvalidResourceStateException,
-      NoSuchResourceException,
-      QuotaExceededException,
-      ResourceAlreadyExistsException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences
- * and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you
+ * Updates your Service Quotas Automatic Management configuration, including notification preferences and
+ * excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
  */
-export const startAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartAutoManagementRequest,
-  output: StartAutoManagementResponse,
-  errors: [
-    AccessDeniedException,
-    IllegalArgumentException,
-    NoSuchResourceException,
-    ServiceException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Initiates the generation of a quota utilization report for your Amazon Web Services account. This
- * asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns
- * a unique report identifier that you can use to retrieve the results.
- *
- * The report generation process may take several seconds to complete, depending on the
- * number of quotas in your account. Use the `GetQuotaUtilizationReport` operation
- * to check the status and retrieve the results when the report is ready.
- */
-export const startQuotaUtilizationReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartQuotaUtilizationReportRequest,
-    output: StartQuotaUtilizationReportResponse,
+    input: UpdateAutoManagementRequest,
+    output: UpdateAutoManagementResponse,
     errors: [
       AccessDeniedException,
       IllegalArgumentException,
-      InvalidPaginationTokenException,
       NoSuchResourceException,
       ServiceException,
       TooManyRequestsException,
@@ -1044,12 +983,13 @@ export const stopAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes tags from the specified applied quota. You can specify one or more tags to
- * remove.
+ * Retrieves the applied quota value for the specified account-level or resource-level
+ * quota. For some quotas, only the default values are available. If the applied quota
+ * value is not available for a quota, the quota is not retrieved.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const getServiceQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceQuotaRequest,
+  output: GetServiceQuotaResponse,
   errors: [
     AccessDeniedException,
     IllegalArgumentException,
@@ -1059,64 +999,35 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Associates your quota request template with your organization. When a new
- * Amazon Web Services account is created in your organization, the quota increase requests in the
- * template are automatically applied to the account. You can add a quota increase request
- * for any adjustable quota to your template.
+ * Returns a list of the tags assigned to the specified applied quota.
  */
-export const associateServiceQuotaTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateServiceQuotaTemplateRequest,
-    output: AssociateServiceQuotaTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      NoAvailableOrganizationException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Creates a Support case for an existing quota increase request. This call only creates
- * a Support case if the request has a `Pending` status.
- */
-export const createSupportCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSupportCaseRequest,
-  output: CreateSupportCaseResponse,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
     AccessDeniedException,
-    DependencyAccessDeniedException,
     IllegalArgumentException,
-    InvalidResourceStateException,
     NoSuchResourceException,
-    ResourceAlreadyExistsException,
     ServiceException,
     TooManyRequestsException,
   ],
 }));
 /**
- * Deletes the quota increase request for the specified quota from your quota request
- * template.
+ * Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences
+ * and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you
+ * run out of your allocated quotas.
  */
-export const deleteServiceQuotaIncreaseRequestFromTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
-    output: DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      IllegalArgumentException,
-      NoAvailableOrganizationException,
-      NoSuchResourceException,
-      ServiceException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-  }));
+export const startAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAutoManagementRequest,
+  output: StartAutoManagementResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
@@ -1176,6 +1087,85 @@ export const getRequestedServiceQuotaChange =
     ],
   }));
 /**
+ * Initiates the generation of a quota utilization report for your Amazon Web Services account. This
+ * asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns
+ * a unique report identifier that you can use to retrieve the results.
+ *
+ * The report generation process may take several seconds to complete, depending on the
+ * number of quotas in your account. Use the `GetQuotaUtilizationReport` operation
+ * to check the status and retrieve the results when the report is ready.
+ */
+export const startQuotaUtilizationReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartQuotaUtilizationReportRequest,
+    output: StartQuotaUtilizationReportResponse,
+    errors: [
+      AccessDeniedException,
+      IllegalArgumentException,
+      InvalidPaginationTokenException,
+      NoSuchResourceException,
+      ServiceException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Submits a quota increase request for the specified quota at the account or resource
+ * level.
+ */
+export const requestServiceQuotaIncrease = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RequestServiceQuotaIncreaseRequest,
+    output: RequestServiceQuotaIncreaseResponse,
+    errors: [
+      AccessDeniedException,
+      DependencyAccessDeniedException,
+      IllegalArgumentException,
+      InvalidResourceStateException,
+      NoSuchResourceException,
+      QuotaExceededException,
+      ResourceAlreadyExistsException,
+      ServiceException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves the default value for the specified quota. The default value does not
+ * reflect any quota increases.
+ */
+export const getAWSDefaultServiceQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAWSDefaultServiceQuotaRequest,
+    output: GetAWSDefaultServiceQuotaResponse,
+    errors: [
+      AccessDeniedException,
+      IllegalArgumentException,
+      NoSuchResourceException,
+      ServiceException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Lists the quota increase requests in the specified quota request template.
+ */
+export const listServiceQuotaIncreaseRequestsInTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
+    output: ListServiceQuotaIncreaseRequestsInTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      AWSServiceAccessNotEnabledException,
+      DependencyAccessDeniedException,
+      IllegalArgumentException,
+      NoAvailableOrganizationException,
+      ServiceException,
+      TemplatesNotAvailableInRegionException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
  * Retrieves information about the specified quota increase request in your quota request
  * template.
  */
@@ -1196,19 +1186,26 @@ export const getServiceQuotaIncreaseRequestFromTemplate =
     ],
   }));
 /**
- * Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
+ * Associates your quota request template with your organization. When a new
+ * Amazon Web Services account is created in your organization, the quota increase requests in the
+ * template are automatically applied to the account. You can add a quota increase request
+ * for any adjustable quota to your template.
  */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListServicesRequest,
-  output: ListServicesResponse,
-  errors: [
-    AccessDeniedException,
-    IllegalArgumentException,
-    InvalidPaginationTokenException,
-    ServiceException,
-    TooManyRequestsException,
-  ],
-}));
+export const associateServiceQuotaTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateServiceQuotaTemplateRequest,
+    output: AssociateServiceQuotaTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      AWSServiceAccessNotEnabledException,
+      DependencyAccessDeniedException,
+      NoAvailableOrganizationException,
+      OrganizationNotInAllFeaturesModeException,
+      ServiceException,
+      TemplatesNotAvailableInRegionException,
+      TooManyRequestsException,
+    ],
+  }));
 /**
  * Adds a quota increase request to your quota request template.
  */
@@ -1230,6 +1227,26 @@ export const putServiceQuotaIncreaseRequestIntoTemplate =
     ],
   }));
 /**
+ * Disables your quota request template. After a template is disabled, the quota increase
+ * requests in the template are not applied to new Amazon Web Services accounts in your organization.
+ * Disabling a quota request template does not apply its quota increase requests.
+ */
+export const disassociateServiceQuotaTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateServiceQuotaTemplateRequest,
+    output: DisassociateServiceQuotaTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      AWSServiceAccessNotEnabledException,
+      DependencyAccessDeniedException,
+      NoAvailableOrganizationException,
+      ServiceException,
+      ServiceQuotaTemplateNotInUseException,
+      TemplatesNotAvailableInRegionException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
  * Adds tags to the specified applied quota. You can include one or more tags to add to
  * the quota.
  */
@@ -1246,20 +1263,3 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyTagsException,
   ],
 }));
-/**
- * Retrieves the default value for the specified quota. The default value does not
- * reflect any quota increases.
- */
-export const getAWSDefaultServiceQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAWSDefaultServiceQuotaRequest,
-    output: GetAWSDefaultServiceQuotaResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);

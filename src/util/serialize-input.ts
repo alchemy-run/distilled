@@ -74,7 +74,12 @@ export function bindInputToRequest(
         encodeURIComponent(String(value)),
       );
     } else if (queryParam !== undefined) {
-      request.query[queryParam] = String(value);
+      // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
+      if (Array.isArray(value)) {
+        request.query[queryParam] = value.map(String);
+      } else {
+        request.query[queryParam] = String(value);
+      }
     } else if (queryParams && typeof value === "object") {
       Object.assign(request.query, value);
     } else if (prefixHeaders !== undefined && typeof value === "object") {

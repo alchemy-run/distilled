@@ -1588,30 +1588,87 @@ export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Lists the versions of a particular DataBrew recipe, except for
+ * `LATEST_WORKING`.
+ */
+export const listRecipeVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRecipeVersionsRequest,
+  output: ListRecipeVersionsResponse,
+  errors: [ValidationException],
+}));
+/**
+ * List all rulesets available in the current account or rulesets associated
+ * with a specific resource (dataset).
+ */
+export const listRulesets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRulesetsRequest,
+  output: ListRulesetsResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Lists the DataBrew schedules that are defined.
+ */
+export const listSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSchedulesRequest,
+  output: ListSchedulesResponse,
+  errors: [ValidationException],
+}));
+/**
+ * Performs a recipe step within an interactive DataBrew session that's currently
+ * open.
+ */
+export const sendProjectSessionAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SendProjectSessionActionRequest,
+    output: SendProjectSessionActionResponse,
+    errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  }),
+);
+/**
+ * Modifies the definition of an existing DataBrew dataset.
+ */
+export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDatasetRequest,
+  output: UpdateDatasetResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a dataset from DataBrew.
+ */
+export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetRequest,
+  output: DeleteDatasetResponse,
+  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+}));
 /**
  * Deletes the specified DataBrew job.
  */
@@ -1645,13 +1702,43 @@ export const deleteRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
 /**
- * Deletes the specified DataBrew schedule.
+ * Deletes one or more versions of a recipe at a time.
+ *
+ * The entire request will be rejected if:
+ *
+ * - The recipe does not exist.
+ *
+ * - There is an invalid version identifier in the list of versions.
+ *
+ * - The version list is empty.
+ *
+ * - The version list size exceeds 50.
+ *
+ * - The version list contains duplicate entries.
+ *
+ * The request will complete successfully, but with partial failures, if:
+ *
+ * - A version does not exist.
+ *
+ * - A version is being used by a job.
+ *
+ * - You specify `LATEST_WORKING`, but it's being used by a
+ * project.
+ *
+ * - The version fails to be deleted.
+ *
+ * The `LATEST_WORKING` version will only be deleted if the recipe has no
+ * other versions. If you try to delete `LATEST_WORKING` while other versions
+ * exist (or if they can't be deleted), then `LATEST_WORKING` will be listed as
+ * partial failure in the response.
  */
-export const deleteSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteScheduleRequest,
-  output: DeleteScheduleResponse,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
+export const batchDeleteRecipeVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchDeleteRecipeVersionRequest,
+    output: BatchDeleteRecipeVersionResponse,
+    errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  }),
+);
 /**
  * Returns the definition of a specific DataBrew dataset.
  */
@@ -1710,54 +1797,6 @@ export const describeSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
- * Lists the versions of a particular DataBrew recipe, except for
- * `LATEST_WORKING`.
- */
-export const listRecipeVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRecipeVersionsRequest,
-  output: ListRecipeVersionsResponse,
-  errors: [ValidationException],
-}));
-/**
- * Lists all the tags for a DataBrew resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Runs a DataBrew job.
- */
-export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartJobRunRequest,
-  output: StartJobRunResponse,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an interactive session, enabling you to manipulate data in a DataBrew
- * project.
- */
-export const startProjectSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartProjectSessionRequest,
-  output: StartProjectSessionResponse,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
  * Stops a particular run of a job.
  */
 export const stopJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1774,30 +1813,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: TagResourceResponse,
   errors: [
     InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes metadata tags from a DataBrew resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Modifies the definition of an existing profile job.
- */
-export const updateProfileJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProfileJobRequest,
-  output: UpdateProfileJobResponse,
-  errors: [
-    AccessDeniedException,
     ResourceNotFoundException,
     ValidationException,
   ],
@@ -1820,18 +1835,6 @@ export const updateRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
- * Modifies the definition of an existing DataBrew recipe job.
- */
-export const updateRecipeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRecipeJobRequest,
-  output: UpdateRecipeJobResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates specified ruleset.
  */
 export const updateRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1840,88 +1843,36 @@ export const updateRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
- * Modifies the definition of an existing DataBrew schedule.
+ * Removes metadata tags from a DataBrew resource.
  */
-export const updateSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateScheduleRequest,
-  output: UpdateScheduleResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes one or more versions of a recipe at a time.
- *
- * The entire request will be rejected if:
- *
- * - The recipe does not exist.
- *
- * - There is an invalid version identifier in the list of versions.
- *
- * - The version list is empty.
- *
- * - The version list size exceeds 50.
- *
- * - The version list contains duplicate entries.
- *
- * The request will complete successfully, but with partial failures, if:
- *
- * - A version does not exist.
- *
- * - A version is being used by a job.
- *
- * - You specify `LATEST_WORKING`, but it's being used by a
- * project.
- *
- * - The version fails to be deleted.
- *
- * The `LATEST_WORKING` version will only be deleted if the recipe has no
- * other versions. If you try to delete `LATEST_WORKING` while other versions
- * exist (or if they can't be deleted), then `LATEST_WORKING` will be listed as
- * partial failure in the response.
- */
-export const batchDeleteRecipeVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteRecipeVersionRequest,
-    output: BatchDeleteRecipeVersionResponse,
-    errors: [ConflictException, ResourceNotFoundException, ValidationException],
-  }),
-);
-/**
- * Creates a new DataBrew project.
- */
-export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProjectRequest,
-  output: CreateProjectResponse,
-  errors: [
-    ConflictException,
     InternalServerException,
-    ServiceQuotaExceededException,
+    ResourceNotFoundException,
     ValidationException,
   ],
 }));
 /**
- * Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific
- * date and time, or at regular intervals.
+ * Lists all the tags for a DataBrew resource.
  */
-export const createSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateScheduleRequest,
-  output: CreateScheduleResponse,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
-    ConflictException,
-    ServiceQuotaExceededException,
+    InternalServerException,
+    ResourceNotFoundException,
     ValidationException,
   ],
 }));
 /**
- * Deletes a dataset from DataBrew.
+ * Deletes the specified DataBrew schedule.
  */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatasetRequest,
-  output: DeleteDatasetResponse,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+export const deleteSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScheduleRequest,
+  output: DeleteScheduleResponse,
+  errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
  * Lists all of the DataBrew datasets.
@@ -1964,21 +1915,81 @@ export const listRecipes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ValidationException],
 }));
 /**
- * List all rulesets available in the current account or rulesets associated
- * with a specific resource (dataset).
+ * Modifies the definition of an existing profile job.
  */
-export const listRulesets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRulesetsRequest,
-  output: ListRulesetsResponse,
-  errors: [ResourceNotFoundException, ValidationException],
+export const updateProfileJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProfileJobRequest,
+  output: UpdateProfileJobResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
 }));
 /**
- * Lists the DataBrew schedules that are defined.
+ * Modifies the definition of an existing DataBrew recipe job.
  */
-export const listSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSchedulesRequest,
-  output: ListSchedulesResponse,
-  errors: [ValidationException],
+export const updateRecipeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRecipeJobRequest,
+  output: UpdateRecipeJobResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific
+ * date and time, or at regular intervals.
+ */
+export const createSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateScheduleRequest,
+  output: CreateScheduleResponse,
+  errors: [
+    ConflictException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Runs a DataBrew job.
+ */
+export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartJobRunRequest,
+  output: StartJobRunResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an interactive session, enabling you to manipulate data in a DataBrew
+ * project.
+ */
+export const startProjectSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartProjectSessionRequest,
+  output: StartProjectSessionResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new DataBrew project.
+ */
+export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectRequest,
+  output: CreateProjectResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
 }));
 /**
  * Publishes a new version of a DataBrew recipe.
@@ -1993,25 +2004,14 @@ export const publishRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Performs a recipe step within an interactive DataBrew session that's currently
- * open.
+ * Modifies the definition of an existing DataBrew schedule.
  */
-export const sendProjectSessionAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendProjectSessionActionRequest,
-    output: SendProjectSessionActionResponse,
-    errors: [ConflictException, ResourceNotFoundException, ValidationException],
-  }),
-);
-/**
- * Modifies the definition of an existing DataBrew dataset.
- */
-export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDatasetRequest,
-  output: UpdateDatasetResponse,
+export const updateSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateScheduleRequest,
+  output: UpdateScheduleResponse,
   errors: [
-    AccessDeniedException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
 }));

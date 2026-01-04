@@ -316,31 +316,33 @@ export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
 export class EndpointTemporarilyUnavailableException extends S.TaggedError<EndpointTemporarilyUnavailableException>()(
   "EndpointTemporarilyUnavailableException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
@@ -350,6 +352,14 @@ export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExc
     resourceType: S.optional(S.String),
     limitCode: S.String,
     serviceCode: S.String,
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.optional(S.String),
+    fields: S.optional(ValidationExceptionFieldList),
   },
 ) {}
 
@@ -396,46 +406,6 @@ export const getRoutingControlState = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * List routing control names and Amazon Resource Names (ARNs), as well as the routing control
- * state for each routing control, along with the control panel name and control panel ARN for the routing controls.
- * If you specify a control panel ARN, this call lists the routing controls in the control panel. Otherwise, it lists
- * all the routing controls in the cluster.
- *
- * A routing control is a simple on/off switch in Route 53 ARC that you
- * can use to route traffic to cells. When a routing control state is set to ON, traffic flows to a cell. When
- * the state is set to OFF, traffic does not flow.
- *
- * Before you can create a routing control, you must first create a cluster, and then host the control
- * in a control panel on the cluster. For more information, see
- * Create routing control structures in the Amazon Route 53 Application Recovery Controller Developer Guide.
- * You access one of the endpoints for the cluster to get or update the routing control state to
- * redirect traffic for your application.
- *
- * You must specify Regional endpoints when you work with API cluster operations
- * to use this API operation to list routing controls in Route 53 ARC.
- *
- * Learn more about working with routing controls in the following topics in the
- * Amazon Route 53 Application Recovery Controller Developer Guide:
- *
- * -
- * Viewing and updating routing control states
- *
- * - Working with
- * routing controls in Route 53 ARC
- */
-export const listRoutingControls = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRoutingControlsRequest,
-  output: ListRoutingControlsResponse,
-  errors: [
-    AccessDeniedException,
-    EndpointTemporarilyUnavailableException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Set multiple routing control states. You can set the value for each state to be ON or OFF.
  * When the state is ON, traffic flows to a cell. When it's OFF, traffic does not
  * flow.
@@ -481,6 +451,46 @@ export const updateRoutingControlStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * List routing control names and Amazon Resource Names (ARNs), as well as the routing control
+ * state for each routing control, along with the control panel name and control panel ARN for the routing controls.
+ * If you specify a control panel ARN, this call lists the routing controls in the control panel. Otherwise, it lists
+ * all the routing controls in the cluster.
+ *
+ * A routing control is a simple on/off switch in Route 53 ARC that you
+ * can use to route traffic to cells. When a routing control state is set to ON, traffic flows to a cell. When
+ * the state is set to OFF, traffic does not flow.
+ *
+ * Before you can create a routing control, you must first create a cluster, and then host the control
+ * in a control panel on the cluster. For more information, see
+ * Create routing control structures in the Amazon Route 53 Application Recovery Controller Developer Guide.
+ * You access one of the endpoints for the cluster to get or update the routing control state to
+ * redirect traffic for your application.
+ *
+ * You must specify Regional endpoints when you work with API cluster operations
+ * to use this API operation to list routing controls in Route 53 ARC.
+ *
+ * Learn more about working with routing controls in the following topics in the
+ * Amazon Route 53 Application Recovery Controller Developer Guide:
+ *
+ * -
+ * Viewing and updating routing control states
+ *
+ * - Working with
+ * routing controls in Route 53 ARC
+ */
+export const listRoutingControls = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRoutingControlsRequest,
+  output: ListRoutingControlsResponse,
+  errors: [
+    AccessDeniedException,
+    EndpointTemporarilyUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Set the state of the routing control to reroute traffic. You can set the value to ON or
  * OFF. When the state is ON, traffic flows to a cell. When the state is OFF, traffic does not

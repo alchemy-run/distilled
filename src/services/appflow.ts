@@ -1788,35 +1788,35 @@ export class CreateFlowResponse extends S.Class<CreateFlowResponse>(
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class ConnectorAuthenticationException extends S.TaggedError<ConnectorAuthenticationException>()(
   "ConnectorAuthenticationException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
 ) {}
 export class ConnectorServerException extends S.TaggedError<ConnectorServerException>()(
   "ConnectorServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
   "UnsupportedOperationException",
@@ -1824,10 +1824,55 @@ export class UnsupportedOperationException extends S.TaggedError<UnsupportedOper
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Returns the list of all registered custom connectors in your Amazon Web Services account.
+ * This API lists only custom connectors registered in this account, not the Amazon Web Services
+ * authored connectors.
+ */
+export const listConnectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can
+ * delete flows one at a time.
+ */
+export const deleteFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFlowRequest,
+  output: DeleteFlowResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Resets metadata about your connector entities that Amazon AppFlow stored in its
+ * cache. Use this action when you want Amazon AppFlow to return the latest information
+ * about the data that you have in a source application.
+ *
+ * Amazon AppFlow returns metadata about your entities when you use the
+ * ListConnectorEntities or DescribeConnectorEntities actions. Following these actions, Amazon AppFlow caches the metadata to reduce the number of API requests that it must send to
+ * the source application. Amazon AppFlow automatically resets the cache once every hour,
+ * but you can use this action when you want to get the latest metadata right away.
+ */
+export const resetConnectorMetadataCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResetConnectorMetadataCacheRequest,
+    output: ResetConnectorMetadataCacheResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Unregisters the custom connector registered in your account that matches the connector
  * label provided in the request.
@@ -1868,29 +1913,6 @@ export const deleteConnectorProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can
- * delete flows one at a time.
- */
-export const deleteFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFlowRequest,
-  output: DeleteFlowResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns the list of all registered custom connectors in your Amazon Web Services account.
- * This API lists only custom connectors registered in this account, not the Amazon Web Services
- * authored connectors.
- */
-export const listConnectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListConnectorsRequest,
-  output: ListConnectorsResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
  * Retrieves the tags that are associated with a specified flow.
  */
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1899,57 +1921,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     InternalServerException,
     ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Resets metadata about your connector entities that Amazon AppFlow stored in its
- * cache. Use this action when you want Amazon AppFlow to return the latest information
- * about the data that you have in a source application.
- *
- * Amazon AppFlow returns metadata about your entities when you use the
- * ListConnectorEntities or DescribeConnectorEntities actions. Following these actions, Amazon AppFlow caches the metadata to reduce the number of API requests that it must send to
- * the source application. Amazon AppFlow automatically resets the cache once every hour,
- * but you can use this action when you want to get the latest metadata right away.
- */
-export const resetConnectorMetadataCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetConnectorMetadataCacheRequest,
-    output: ResetConnectorMetadataCacheResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Applies a tag to the specified flow.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing flow.
- */
-export const updateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFlowRequest,
-  output: UpdateFlowResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ConnectorAuthenticationException,
-    ConnectorServerException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ValidationException,
   ],
 }));
@@ -1971,6 +1942,57 @@ export const listFlows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFlowsRequest,
   output: ListFlowsResponse,
   errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Applies a tag to the specified flow.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a given connector profile associated with your account.
+ */
+export const updateConnectorProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConnectorProfileRequest,
+    output: UpdateConnectorProfileResponse,
+    errors: [
+      ConflictException,
+      ConnectorAuthenticationException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a list of `connector-profile` details matching the provided
+ * `connector-profile` names and `connector-types`. Both input lists are
+ * optional, and you can use them to filter the result.
+ *
+ * If no names or `connector-types` are provided, returns all connector profiles
+ * in a paginated form. If there is no match, this operation returns an empty list.
+ */
+export const describeConnectorProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeConnectorProfilesRequest,
+    output: DescribeConnectorProfilesResponse,
+    errors: [InternalServerException, ValidationException],
+  }),
+);
+/**
+ * Provides a description of the specified flow.
+ */
+export const describeFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFlowRequest,
+  output: DescribeFlowResponse,
+  errors: [InternalServerException, ResourceNotFoundException],
 }));
 /**
  * Activates an existing flow. For on-demand flows, this operation runs the flow
@@ -2001,47 +2023,6 @@ export const stopFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnsupportedOperationException,
   ],
 }));
-/**
- * Updates a given connector profile associated with your account.
- */
-export const updateConnectorProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectorProfileRequest,
-    output: UpdateConnectorProfileResponse,
-    errors: [
-      ConflictException,
-      ConnectorAuthenticationException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a custom connector that you've previously registered. This operation updates the
- * connector with one of the following:
- *
- * - The latest version of the AWS Lambda function that's assigned to the connector
- *
- * - A new AWS Lambda function that you specify
- */
-export const updateConnectorRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectorRegistrationRequest,
-    output: UpdateConnectorRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ConnectorAuthenticationException,
-      ConnectorServerException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Cancels active runs for a flow.
  *
@@ -2079,27 +2060,21 @@ export const cancelFlowExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns a list of `connector-profile` details matching the provided
- * `connector-profile` names and `connector-types`. Both input lists are
- * optional, and you can use them to filter the result.
- *
- * If no names or `connector-types` are provided, returns all connector profiles
- * in a paginated form. If there is no match, this operation returns an empty list.
+ * Updates an existing flow.
  */
-export const describeConnectorProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConnectorProfilesRequest,
-    output: DescribeConnectorProfilesResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
-/**
- * Provides a description of the specified flow.
- */
-export const describeFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFlowRequest,
-  output: DescribeFlowResponse,
-  errors: [InternalServerException, ResourceNotFoundException],
+export const updateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFlowRequest,
+  output: UpdateFlowResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ConnectorAuthenticationException,
+    ConnectorServerException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
 }));
 /**
  * Returns the list of available connector entities supported by Amazon AppFlow. For
@@ -2140,6 +2115,31 @@ export const registerConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Updates a custom connector that you've previously registered. This operation updates the
+ * connector with one of the following:
+ *
+ * - The latest version of the AWS Lambda function that's assigned to the connector
+ *
+ * - A new AWS Lambda function that you specify
+ */
+export const updateConnectorRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConnectorRegistrationRequest,
+    output: UpdateConnectorRegistrationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      ConnectorAuthenticationException,
+      ConnectorServerException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Fetches the execution history of the flow.
  */

@@ -835,61 +835,78 @@ export class CreateGroupResult extends S.Class<CreateGroupResult>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DirectoryUnavailableException extends S.TaggedError<DirectoryUnavailableException>()(
   "DirectoryUnavailableException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  {
+    Message: S.String,
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Adds an existing user, group, or computer as a group member.
+ * Returns group information for the specified directory.
+ *
+ * This operation supports pagination with the use of the `NextToken` request and
+ * response parameters. If more results are available, the `ListGroups.NextToken`
+ * member contains a token that you pass in the next call to `ListGroups`. This
+ * retrieves the next set of items.
+ *
+ * You can also specify a maximum number of return results with the `MaxResults`
+ * parameter.
  */
-export const addGroupMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddGroupMemberRequest,
-  output: AddGroupMemberResult,
+export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupsRequest,
+  output: ListGroupsResult,
   errors: [
     AccessDeniedException,
-    ConflictException,
     DirectoryUnavailableException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Creates a new user.
+ * Returns member information for the specified group.
+ *
+ * This operation supports pagination with the use of the `NextToken` request and
+ * response parameters. If more results are available, the
+ * `ListGroupMembers.NextToken` member contains a token that you pass in the next
+ * call to `ListGroupMembers`. This retrieves the next set of items.
+ *
+ * You can also specify a maximum number of return results with the `MaxResults`
+ * parameter.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResult,
+export const listGroupMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupMembersRequest,
+  output: ListGroupMembersResult,
   errors: [
     AccessDeniedException,
-    ConflictException,
     DirectoryUnavailableException,
     InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -927,36 +944,6 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about a specific group.
- */
-export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeGroupRequest,
-  output: DescribeGroupResult,
-  errors: [
-    AccessDeniedException,
-    DirectoryUnavailableException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a specific user.
- */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUserRequest,
-  output: DescribeUserResult,
-  errors: [
-    AccessDeniedException,
-    DirectoryUnavailableException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Deactivates an active user account. For information about how to enable an inactive user
  * account, see ResetUserPassword
  * in the *Directory Service API Reference*.
@@ -967,29 +954,6 @@ export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     ConflictException,
-    DirectoryUnavailableException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns group information for the specified member.
- *
- * This operation supports pagination with the use of the `NextToken` request and
- * response parameters. If more results are available, the
- * `ListGroupsForMember.NextToken` member contains a token that you pass in the next
- * call to `ListGroupsForMember`. This retrieves the next set of items.
- *
- * You can also specify a maximum number of return results with the `MaxResults`
- * parameter.
- */
-export const listGroupsForMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGroupsForMemberRequest,
-  output: ListGroupsForMemberResult,
-  errors: [
-    AccessDeniedException,
     DirectoryUnavailableException,
     InternalServerException,
     ResourceNotFoundException,
@@ -1046,19 +1010,11 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns member information for the specified group.
- *
- * This operation supports pagination with the use of the `NextToken` request and
- * response parameters. If more results are available, the
- * `ListGroupMembers.NextToken` member contains a token that you pass in the next
- * call to `ListGroupMembers`. This retrieves the next set of items.
- *
- * You can also specify a maximum number of return results with the `MaxResults`
- * parameter.
+ * Returns information about a specific user.
  */
-export const listGroupMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGroupMembersRequest,
-  output: ListGroupMembersResult,
+export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserRequest,
+  output: DescribeUserResult,
   errors: [
     AccessDeniedException,
     DirectoryUnavailableException,
@@ -1069,23 +1025,40 @@ export const listGroupMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns group information for the specified directory.
+ * Returns group information for the specified member.
  *
  * This operation supports pagination with the use of the `NextToken` request and
- * response parameters. If more results are available, the `ListGroups.NextToken`
- * member contains a token that you pass in the next call to `ListGroups`. This
- * retrieves the next set of items.
+ * response parameters. If more results are available, the
+ * `ListGroupsForMember.NextToken` member contains a token that you pass in the next
+ * call to `ListGroupsForMember`. This retrieves the next set of items.
  *
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGroupsRequest,
-  output: ListGroupsResult,
+export const listGroupsForMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupsForMemberRequest,
+  output: ListGroupsForMemberResult,
   errors: [
     AccessDeniedException,
     DirectoryUnavailableException,
     InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds an existing user, group, or computer as a group member.
+ */
+export const addGroupMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddGroupMemberRequest,
+  output: AddGroupMemberResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DirectoryUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1161,6 +1134,21 @@ export const searchUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Creates a new user.
+ */
+export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserRequest,
+  output: CreateUserResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DirectoryUnavailableException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Creates a new group.
  */
 export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1171,6 +1159,21 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConflictException,
     DirectoryUnavailableException,
     InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a specific group.
+ */
+export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGroupRequest,
+  output: DescribeGroupResult,
+  errors: [
+    AccessDeniedException,
+    DirectoryUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

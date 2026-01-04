@@ -1417,58 +1417,334 @@ export class StartCompositionResponse extends S.Class<StartCompositionResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class PendingVerification extends S.TaggedError<PendingVerification>()(
-  "PendingVerification",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  {
+    accessControlAllowOrigin: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Allow-Origin"),
+    ),
+    accessControlExposeHeaders: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Expose-Headers"),
+    ),
+    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    contentSecurityPolicy: S.optional(S.String).pipe(
+      T.HttpHeader("Content-Security-Policy"),
+    ),
+    strictTransportSecurity: S.optional(S.String).pipe(
+      T.HttpHeader("Strict-Transport-Security"),
+    ),
+    xContentTypeOptions: S.optional(S.String).pipe(
+      T.HttpHeader("X-Content-Type-Options"),
+    ),
+    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+    xAmznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+    exceptionMessage: S.optional(S.String),
+  },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  {
+    accessControlAllowOrigin: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Allow-Origin"),
+    ),
+    accessControlExposeHeaders: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Expose-Headers"),
+    ),
+    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    contentSecurityPolicy: S.optional(S.String).pipe(
+      T.HttpHeader("Content-Security-Policy"),
+    ),
+    strictTransportSecurity: S.optional(S.String).pipe(
+      T.HttpHeader("Strict-Transport-Security"),
+    ),
+    xContentTypeOptions: S.optional(S.String).pipe(
+      T.HttpHeader("X-Content-Type-Options"),
+    ),
+    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+    xAmznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+    exceptionMessage: S.optional(S.String),
+  },
 ) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  {
+    accessControlAllowOrigin: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Allow-Origin"),
+    ),
+    accessControlExposeHeaders: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Expose-Headers"),
+    ),
+    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    contentSecurityPolicy: S.optional(S.String).pipe(
+      T.HttpHeader("Content-Security-Policy"),
+    ),
+    strictTransportSecurity: S.optional(S.String).pipe(
+      T.HttpHeader("Strict-Transport-Security"),
+    ),
+    xContentTypeOptions: S.optional(S.String).pipe(
+      T.HttpHeader("X-Content-Type-Options"),
+    ),
+    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+    xAmznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+    exceptionMessage: S.optional(S.String),
+  },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    accessControlAllowOrigin: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Allow-Origin"),
+    ),
+    accessControlExposeHeaders: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Expose-Headers"),
+    ),
+    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    contentSecurityPolicy: S.optional(S.String).pipe(
+      T.HttpHeader("Content-Security-Policy"),
+    ),
+    strictTransportSecurity: S.optional(S.String).pipe(
+      T.HttpHeader("Strict-Transport-Security"),
+    ),
+    xContentTypeOptions: S.optional(S.String).pipe(
+      T.HttpHeader("X-Content-Type-Options"),
+    ),
+    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+    xAmznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+    exceptionMessage: S.optional(S.String),
+  },
+) {}
+export class PendingVerification extends S.TaggedError<PendingVerification>()(
+  "PendingVerification",
+  {
+    accessControlAllowOrigin: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Allow-Origin"),
+    ),
+    accessControlExposeHeaders: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Expose-Headers"),
+    ),
+    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    contentSecurityPolicy: S.optional(S.String).pipe(
+      T.HttpHeader("Content-Security-Policy"),
+    ),
+    strictTransportSecurity: S.optional(S.String).pipe(
+      T.HttpHeader("Strict-Transport-Security"),
+    ),
+    xContentTypeOptions: S.optional(S.String).pipe(
+      T.HttpHeader("X-Content-Type-Options"),
+    ),
+    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+    xAmznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+    exceptionMessage: S.optional(S.String),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    accessControlAllowOrigin: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Allow-Origin"),
+    ),
+    accessControlExposeHeaders: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Expose-Headers"),
+    ),
+    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    contentSecurityPolicy: S.optional(S.String).pipe(
+      T.HttpHeader("Content-Security-Policy"),
+    ),
+    strictTransportSecurity: S.optional(S.String).pipe(
+      T.HttpHeader("Strict-Transport-Security"),
+    ),
+    xContentTypeOptions: S.optional(S.String).pipe(
+      T.HttpHeader("X-Content-Type-Options"),
+    ),
+    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+    xAmznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+    exceptionMessage: S.optional(S.String),
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    accessControlAllowOrigin: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Allow-Origin"),
+    ),
+    accessControlExposeHeaders: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Expose-Headers"),
+    ),
+    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    contentSecurityPolicy: S.optional(S.String).pipe(
+      T.HttpHeader("Content-Security-Policy"),
+    ),
+    strictTransportSecurity: S.optional(S.String).pipe(
+      T.HttpHeader("Strict-Transport-Security"),
+    ),
+    xContentTypeOptions: S.optional(S.String).pipe(
+      T.HttpHeader("X-Content-Type-Options"),
+    ),
+    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+    xAmznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+    exceptionMessage: S.optional(S.String),
+  },
 ) {}
 
 //# Operations
 /**
- * Adds or updates tags for the AWS resource with the specified ARN.
+ * Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const listIngestConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListIngestConfigurationsRequest,
+    output: ListIngestConfigurationsResponse,
+    errors: [AccessDeniedException, ValidationException],
+  }),
+);
+/**
+ * Lists events for a specified participant that occurred during a specified stage
+ * session.
+ */
+export const listParticipantEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListParticipantEventsRequest,
+    output: ListParticipantEventsResponse,
+    errors: [AccessDeniedException, ValidationException],
+  }),
+);
+/**
+ * Gets summary information about all storage configurations in your account,
+ * in the AWS region where the API request is processed.
+ */
+export const listStorageConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListStorageConfigurationsRequest,
+    output: ListStorageConfigurationsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Import a public key to be used for signing stage participant tokens.
+ */
+export const importPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportPublicKeyRequest,
+  output: ImportPublicKeyResponse,
   errors: [
-    InternalServerException,
-    ResourceNotFoundException,
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
 }));
 /**
- * Removes tags from the resource with the specified ARN.
+ * Starts replicating a publishing participant from a source stage to a destination stage.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const startParticipantReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartParticipantReplicationRequest,
+    output: StartParticipantReplicationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a stage’s configuration.
+ */
+export const updateStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStageRequest,
+  output: UpdateStageResponse,
   errors: [
-    InternalServerException,
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
 }));
+/**
+ * Deletes the storage configuration for the specified ARN.
+ *
+ * If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException).
+ * To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete,
+ * then use DeleteStorageConfiguration.
+ */
+export const deleteStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteStorageConfigurationRequest,
+    output: DeleteStorageConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Stops and deletes a Composition resource. Any broadcast from the Composition resource
+ * is stopped.
+ */
+export const stopComposition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopCompositionRequest,
+  output: StopCompositionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an EncoderConfiguration object.
+ */
+export const createEncoderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEncoderConfigurationRequest,
+    output: CreateEncoderConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a new storage configuration, used to enable recording to Amazon S3.
+ * When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket.
+ * This will ensure that IVS has sufficient permissions to write content to the provided bucket.
+ */
+export const createStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateStorageConfigurationRequest,
+    output: CreateStorageConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this
  * template; otherwise, returns an error.
@@ -1483,6 +1759,192 @@ export const deleteEncoderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InternalServerException,
       ResourceNotFoundException,
       ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets information about the specified EncoderConfiguration resource.
+ */
+export const getEncoderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetEncoderConfigurationRequest,
+    output: GetEncoderConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets the storage configuration for the specified ARN.
+ */
+export const getStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetStorageConfigurationRequest,
+    output: GetStorageConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
+ */
+export const createIngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateIngestConfigurationRequest,
+    output: CreateIngestConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      PendingVerification,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates an additional token for a specified stage. This can be done after stage creation
+ * or when tokens expire. Tokens always are scoped to the stage for which they are
+ * created.
+ *
+ * Encryption keys are owned by Amazon IVS and never used directly by your
+ * application.
+ */
+export const createParticipantToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateParticipantTokenRequest,
+    output: CreateParticipantTokenResponse,
+    errors: [
+      AccessDeniedException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a new stage (and optionally participant tokens).
+ */
+export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStageRequest,
+  output: CreateStageResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets summary information about all Compositions in your account, in the AWS region
+ * where the API request is processed.
+ */
+export const listCompositions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCompositionsRequest,
+  output: ListCompositionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all the replicas for a participant from a source stage.
+ */
+export const listParticipantReplicas = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListParticipantReplicasRequest,
+    output: ListParticipantReplicasResponse,
+    errors: [AccessDeniedException, ValidationException],
+  }),
+);
+/**
+ * Lists all participants in a specified stage session.
+ */
+export const listParticipants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListParticipantsRequest,
+  output: ListParticipantsResponse,
+  errors: [AccessDeniedException, ValidationException],
+}));
+/**
+ * Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
+ */
+export const listPublicKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPublicKeysRequest,
+  output: ListPublicKeysResponse,
+  errors: [AccessDeniedException, ValidationException],
+}));
+/**
+ * Gets summary information about all stages in your account, in the AWS region where the
+ * API request is processed.
+ */
+export const listStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStagesRequest,
+  output: ListStagesResponse,
+  errors: [AccessDeniedException, ConflictException, ValidationException],
+}));
+/**
+ * Gets all sessions for a specified stage.
+ */
+export const listStageSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStageSessionsRequest,
+  output: ListStageSessionsResponse,
+  errors: [AccessDeniedException, ValidationException],
+}));
+/**
+ * Adds or updates tags for the AWS resource with the specified ARN.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Disconnects a specified participant from a specified stage. If the participant is publishing using
+ * an IngestConfiguration, DisconnectParticipant also updates the `stageArn`
+ * in the IngestConfiguration to be an empty string.
+ */
+export const disconnectParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisconnectParticipantRequest,
+    output: DisconnectParticipantResponse,
+    errors: [
+      AccessDeniedException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
+ */
+export const updateIngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateIngestConfigurationRequest,
+    output: UpdateIngestConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      PendingVerification,
+      ResourceNotFoundException,
       ValidationException,
     ],
   }),
@@ -1535,54 +1997,14 @@ export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes the storage configuration for the specified ARN.
- *
- * If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException).
- * To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete,
- * then use DeleteStorageConfiguration.
+ * Removes tags from the resource with the specified ARN.
  */
-export const deleteStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStorageConfigurationRequest,
-    output: DeleteStorageConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Disconnects a specified participant from a specified stage. If the participant is publishing using
- * an IngestConfiguration, DisconnectParticipant also updates the `stageArn`
- * in the IngestConfiguration to be an empty string.
- */
-export const disconnectParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisconnectParticipantRequest,
-    output: DisconnectParticipantResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Import a public key to be used for signing stage participant tokens.
- */
-export const importPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportPublicKeyRequest,
-  output: ImportPublicKeyResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
-    AccessDeniedException,
-    ConflictException,
-    PendingVerification,
-    ServiceQuotaExceededException,
+    InternalServerException,
+    ResourceNotFoundException,
     ValidationException,
   ],
 }));
@@ -1599,40 +2021,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts replicating a publishing participant from a source stage to a destination stage.
- */
-export const startParticipantReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartParticipantReplicationRequest,
-    output: StartParticipantReplicationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Stops and deletes a Composition resource. Any broadcast from the Composition resource
- * is stopped.
- */
-export const stopComposition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopCompositionRequest,
-  output: StopCompositionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
  * Stops a replicated participant session.
  */
 export const stopParticipantReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1643,107 +2031,6 @@ export const stopParticipantReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
       AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
- */
-export const updateIngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIngestConfigurationRequest,
-    output: UpdateIngestConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a stage’s configuration.
- */
-export const updateStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateStageRequest,
-  output: UpdateStageResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    PendingVerification,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an EncoderConfiguration object.
- */
-export const createEncoderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEncoderConfigurationRequest,
-    output: CreateEncoderConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
- */
-export const createIngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIngestConfigurationRequest,
-    output: CreateIngestConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a new storage configuration, used to enable recording to Amazon S3.
- * When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket.
- * This will ensure that IVS has sufficient permissions to write content to the provided bucket.
- */
-export const createStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStorageConfigurationRequest,
-    output: CreateStorageConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about the specified EncoderConfiguration resource.
- */
-export const getEncoderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEncoderConfigurationRequest,
-    output: GetEncoderConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
       ValidationException,
     ],
   }),
@@ -1799,22 +2086,17 @@ export const getStageSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets the storage configuration for the specified ARN.
+ * Gets information for the specified stage.
  */
-export const getStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetStorageConfigurationRequest,
-    output: GetStorageConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStageRequest,
+  output: GetStageResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets summary information about all EncoderConfigurations in your account, in the AWS
  * region where the API request is processed.
@@ -1830,148 +2112,6 @@ export const listEncoderConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ServiceQuotaExceededException,
       ValidationException,
     ],
-  }),
-);
-/**
- * Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
- */
-export const listIngestConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIngestConfigurationsRequest,
-    output: ListIngestConfigurationsResponse,
-    errors: [AccessDeniedException, ValidationException],
-  }),
-);
-/**
- * Lists all the replicas for a participant from a source stage.
- */
-export const listParticipantReplicas = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListParticipantReplicasRequest,
-    output: ListParticipantReplicasResponse,
-    errors: [AccessDeniedException, ValidationException],
-  }),
-);
-/**
- * Lists all participants in a specified stage session.
- */
-export const listParticipants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListParticipantsRequest,
-  output: ListParticipantsResponse,
-  errors: [AccessDeniedException, ValidationException],
-}));
-/**
- * Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
- */
-export const listPublicKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPublicKeysRequest,
-  output: ListPublicKeysResponse,
-  errors: [AccessDeniedException, ValidationException],
-}));
-/**
- * Gets summary information about all stages in your account, in the AWS region where the
- * API request is processed.
- */
-export const listStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStagesRequest,
-  output: ListStagesResponse,
-  errors: [AccessDeniedException, ConflictException, ValidationException],
-}));
-/**
- * Gets all sessions for a specified stage.
- */
-export const listStageSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStageSessionsRequest,
-  output: ListStageSessionsResponse,
-  errors: [AccessDeniedException, ValidationException],
-}));
-/**
- * Gets summary information about all storage configurations in your account,
- * in the AWS region where the API request is processed.
- */
-export const listStorageConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListStorageConfigurationsRequest,
-    output: ListStorageConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates an additional token for a specified stage. This can be done after stage creation
- * or when tokens expire. Tokens always are scoped to the stage for which they are
- * created.
- *
- * Encryption keys are owned by Amazon IVS and never used directly by your
- * application.
- */
-export const createParticipantToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateParticipantTokenRequest,
-    output: CreateParticipantTokenResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a new stage (and optionally participant tokens).
- */
-export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStageRequest,
-  output: CreateStageResponse,
-  errors: [
-    AccessDeniedException,
-    PendingVerification,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information for the specified stage.
- */
-export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStageRequest,
-  output: GetStageResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets summary information about all Compositions in your account, in the AWS region
- * where the API request is processed.
- */
-export const listCompositions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCompositionsRequest,
-  output: ListCompositionsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists events for a specified participant that occurred during a specified stage
- * session.
- */
-export const listParticipantEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListParticipantEventsRequest,
-    output: ListParticipantEventsResponse,
-    errors: [AccessDeniedException, ValidationException],
   }),
 );
 /**

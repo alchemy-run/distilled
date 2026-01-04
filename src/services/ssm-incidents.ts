@@ -1117,27 +1117,32 @@ export class StartIncidentOutput extends S.Class<StartIncidentOutput>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    message: S.String,
+    resourceIdentifier: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    retryAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.String, serviceCode: S.String, quotaCode: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    message: S.String,
+    resourceIdentifier: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -1149,55 +1154,12 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
     quotaCode: S.String,
   },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.String },
+) {}
 
 //# Operations
-/**
- * Removes a tag from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update deletion protection to either allow or deny deletion of the final Region in a
- * replication set.
- */
-export const updateDeletionProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDeletionProtectionInput,
-    output: UpdateDeletionProtectionOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a timeline event. You can update events of type `Custom Event`.
- */
-export const updateTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTimelineEventInput,
-  output: UpdateTimelineEventOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Delete an incident record from Incident Manager.
  */
@@ -1214,76 +1176,71 @@ export const deleteIncidentRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes all Regions in your replication set. Deleting the replication set deletes all
- * Incident Manager data.
+ * Retrieve your Incident Manager replication set.
  */
-export const deleteReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReplicationSetInput,
-    output: DeleteReplicationSetOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes the resource policy that Resource Access Manager uses to share your Incident Manager
- * resource.
- */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyInput,
-    output: DeleteResourcePolicyOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response
- * plan.
- */
-export const deleteResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteResponsePlanInput,
-  output: DeleteResponsePlanOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a timeline event from an incident.
- */
-export const deleteTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTimelineEventInput,
-  output: DeleteTimelineEventOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the details of the specified response plan.
- */
-export const getResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResponsePlanInput,
-  output: GetResponsePlanOutput,
+export const getReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReplicationSetInput,
+  output: GetReplicationSetOutput,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a tag to a response plan.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the resource policies attached to the specified response plan.
+ */
+export const getResourcePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePoliciesInput,
+  output: GetResourcePoliciesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all response plans in your account.
+ */
+export const listResponsePlans = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResponsePlansInput,
+  output: ListResponsePlansOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists timeline events for the specified incident record.
+ */
+export const listTimelineEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTimelineEventsInput,
+  output: ListTimelineEventsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1315,112 +1272,28 @@ export const listReplicationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the tags that are attached to the specified response plan or incident.
+ * Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response
+ * plan.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const deleteResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResponsePlanInput,
+  output: DeleteResponsePlanOutput,
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Adds a resource policy to the specified response plan. The resource policy is used to
- * share the response plan using Resource Access Manager (RAM). For more
- * information about cross-account sharing, see Cross-Region and cross-account incident management.
+ * Deletes a timeline event from an incident.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyInput,
-  output: PutResourcePolicyOutput,
+export const deleteTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTimelineEventInput,
+  output: DeleteTimelineEventOutput,
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update the details of an incident record. You can use this operation to update an incident
- * record from the defined chat channel. For more information about using actions in chat
- * channels, see Interacting through chat.
- */
-export const updateIncidentRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIncidentRecordInput,
-    output: UpdateIncidentRecordOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Add or remove related items from the related items tab of an incident record.
- */
-export const updateRelatedItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRelatedItemsInput,
-  output: UpdateRelatedItemsOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the specified response plan.
- */
-export const updateResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateResponsePlanInput,
-  output: UpdateResponsePlanOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a custom timeline event on the incident details page of an incident record.
- * Incident Manager automatically creates timeline events that mark key moments during an incident.
- * You can create custom timeline events to mark important events that Incident Manager can detect
- * automatically.
- */
-export const createTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTimelineEventInput,
-  output: CreateTimelineEventOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the resource policies attached to the specified response plan.
- */
-export const getResourcePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePoliciesInput,
-  output: GetResourcePoliciesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1459,47 +1332,24 @@ export const listIncidentFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists all response plans in your account.
+ * Update the details of an incident record. You can use this operation to update an incident
+ * record from the defined chat channel. For more information about using actions in chat
+ * channels, see Interacting through chat.
  */
-export const listResponsePlans = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListResponsePlansInput,
-  output: ListResponsePlansOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists timeline events for the specified incident record.
- */
-export const listTimelineEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTimelineEventsInput,
-  output: ListTimelineEventsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a tag to a response plan.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const updateIncidentRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateIncidentRecordInput,
+    output: UpdateIncidentRecordOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Add or delete Regions from your replication set.
  */
@@ -1518,23 +1368,178 @@ export const updateReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * A replication set replicates and encrypts your data to the provided Regions with the
- * provided KMS key.
+ * Retrieves the details of the specified response plan.
  */
-export const createReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResponsePlanInput,
+  output: GetResponsePlanOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the tags that are attached to the specified response plan or incident.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a resource policy to the specified response plan. The resource policy is used to
+ * share the response plan using Resource Access Manager (RAM). For more
+ * information about cross-account sharing, see Cross-Region and cross-account incident management.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyInput,
+  output: PutResourcePolicyOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes all Regions in your replication set. Deleting the replication set deletes all
+ * Incident Manager data.
+ */
+export const deleteReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateReplicationSetInput,
-    output: CreateReplicationSetOutput,
+    input: DeleteReplicationSetInput,
+    output: DeleteReplicationSetOutput,
     errors: [
       AccessDeniedException,
-      ConflictException,
       InternalServerException,
-      ServiceQuotaExceededException,
+      ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],
   }),
 );
+/**
+ * Deletes the resource policy that Resource Access Manager uses to share your Incident Manager
+ * resource.
+ */
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyInput,
+    output: DeleteResourcePolicyOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Update deletion protection to either allow or deny deletion of the final Region in a
+ * replication set.
+ */
+export const updateDeletionProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDeletionProtectionInput,
+    output: UpdateDeletionProtectionOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Add or remove related items from the related items tab of an incident record.
+ */
+export const updateRelatedItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRelatedItemsInput,
+  output: UpdateRelatedItemsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified response plan.
+ */
+export const updateResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResponsePlanInput,
+  output: UpdateResponsePlanOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a tag from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a timeline event. You can update events of type `Custom Event`.
+ */
+export const updateTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTimelineEventInput,
+  output: UpdateTimelineEventOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a custom timeline event on the incident details page of an incident record.
+ * Incident Manager automatically creates timeline events that mark key moments during an incident.
+ * You can create custom timeline events to mark important events that Incident Manager can detect
+ * automatically.
+ */
+export const createTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTimelineEventInput,
+  output: CreateTimelineEventOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the details for the specified incident record.
  */
@@ -1569,19 +1574,23 @@ export const batchGetIncidentFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieve your Incident Manager replication set.
+ * A replication set replicates and encrypts your data to the provided Regions with the
+ * provided KMS key.
  */
-export const getReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetReplicationSetInput,
-  output: GetReplicationSetOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const createReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateReplicationSetInput,
+    output: CreateReplicationSetOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Creates a response plan that automates the initial response to incidents. A response plan
  * engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning

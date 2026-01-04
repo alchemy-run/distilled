@@ -1082,38 +1082,168 @@ export class ListServicesResponse extends S.Class<ListServicesResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { Message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
 export class InvalidResourcePolicyException extends S.TaggedError<InvalidResourcePolicyException>()(
   "InvalidResourcePolicyException",
   { Message: S.String },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    Message: S.String,
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  {
+    Message: S.String,
+    ResourceId: S.String,
+    ResourceType: S.String,
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.String,
+  },
+) {}
 
 //# Operations
+/**
+ * Removes the tags of a given resource. Tags are metadata which can be used to manage a
+ * resource. To tag a resource, the caller account must be the same as the resource’s
+ * `OwnerAccountId`. Tagging resources in other accounts is not supported.
+ *
+ * Amazon Web Services Migration Hub Refactor Spaces does not propagate tags to orchestrated resources, such as an
+ * environment’s transit gateway.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy
+ * must contain the same actions and condition statements as the
+ * `arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment`
+ * permission in Resource Access Manager. The policy must not contain new lines or blank lines.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidResourcePolicyException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an Amazon Web Services Migration Hub Refactor Spaces environment. The caller owns the environment resource, and all
+ * Refactor Spaces applications, services, and routes created within the environment. They are referred
+ * to as the *environment owner*. The environment owner has cross-account
+ * visibility and control of Refactor Spaces resources that are added to the environment by other
+ * accounts that the environment is shared with.
+ *
+ * When creating an environment with a CreateEnvironment:NetworkFabricType of `TRANSIT_GATEWAY`, Refactor Spaces
+ * provisions a transit gateway to enable services in VPCs to communicate directly across
+ * accounts. If CreateEnvironment:NetworkFabricType is `NONE`, Refactor Spaces does not create
+ * a transit gateway and you must use your network infrastructure to route traffic to services
+ * with private URL endpoints.
+ */
+export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEnvironmentRequest,
+  output: CreateEnvironmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds to or modifies the tags of the given resource. Tags are metadata which can be used to
+ * manage a resource. To untag a resource, the caller account must be the same as the resource’s
+ * `OwnerAccountId`. Untagging resources across accounts is not supported.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the tags of a resource. The caller account must be the same as the resource’s
+ * `OwnerAccountId`. Listing tags in other accounts is not supported.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
+ */
+export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceRequest,
+  output: DeleteServiceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first
+ * delete any services or routes within the application.
+ */
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces environment. Before you can delete an environment, you must first
  * delete any applications and services within the environment.
@@ -1124,6 +1254,20 @@ export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an Amazon Web Services Migration Hub Refactor Spaces route.
+ */
+export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRouteRequest,
+  output: UpdateRouteResponse,
+  errors: [
+    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -1146,36 +1290,6 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
- */
-export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRouteRequest,
-  output: DeleteRouteResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
- */
-export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteServiceRequest,
-  output: DeleteServiceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
  */
@@ -1205,55 +1319,26 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the tags of a resource. The caller account must be the same as the resource’s
- * `OwnerAccountId`. Listing tags in other accounts is not supported.
+ * Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRouteRequest,
+  output: DeleteRouteResponse,
   errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Removes the tags of a given resource. Tags are metadata which can be used to manage a
- * resource. To tag a resource, the caller account must be the same as the resource’s
- * `OwnerAccountId`. Tagging resources in other accounts is not supported.
- *
- * Amazon Web Services Migration Hub Refactor Spaces does not propagate tags to orchestrated resources, such as an
- * environment’s transit gateway.
+ * Gets an Amazon Web Services Migration Hub Refactor Spaces route.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds to or modifies the tags of the given resource. Tags are metadata which can be used to
- * manage a resource. To untag a resource, the caller account must be the same as the resource’s
- * `OwnerAccountId`. Untagging resources across accounts is not supported.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an Amazon Web Services Migration Hub Refactor Spaces route.
- */
-export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRouteRequest,
-  output: UpdateRouteResponse,
+export const getRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRouteRequest,
+  output: GetRouteResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1263,21 +1348,78 @@ export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates an Amazon Web Services Migration Hub Refactor Spaces environment. The caller owns the environment resource, and all
- * Refactor Spaces applications, services, and routes created within the environment. They are referred
- * to as the *environment owner*. The environment owner has cross-account
- * visibility and control of Refactor Spaces resources that are added to the environment by other
- * accounts that the environment is shared with.
- *
- * When creating an environment with a CreateEnvironment:NetworkFabricType of `TRANSIT_GATEWAY`, Refactor Spaces
- * provisions a transit gateway to enable services in VPCs to communicate directly across
- * accounts. If CreateEnvironment:NetworkFabricType is `NONE`, Refactor Spaces does not create
- * a transit gateway and you must use your network infrastructure to route traffic to services
- * with private URL endpoints.
+ * Gets an Amazon Web Services Migration Hub Refactor Spaces service.
  */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEnvironmentRequest,
-  output: CreateEnvironmentResponse,
+export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceRequest,
+  output: GetServiceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists Amazon Web Services Migration Hub Refactor Spaces environments owned by a caller account or shared with the caller
+ * account.
+ */
+export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEnvironmentsRequest,
+  output: ListEnvironmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the
+ * environment.
+ */
+export const listEnvironmentVpcs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEnvironmentVpcsRequest,
+  output: ListEnvironmentVpcsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets an Amazon Web Services Migration Hub Refactor Spaces application.
+ */
+export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationRequest,
+  output: GetApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an Amazon Web Services Migration Hub Refactor Spaces application. The account that owns the environment also owns the
+ * applications created inside the environment, regardless of the account that creates the
+ * application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and
+ * Network Load Balancer for the application proxy inside your account.
+ *
+ * In environments created with a CreateEnvironment:NetworkFabricType of `NONE` you need to configure
+ * VPC to VPC connectivity between your service VPC and the application proxy VPC to
+ * route traffic through the application proxy to a service with a private URL endpoint. For more
+ * information, see
+ * Create an application in the *Refactor Spaces User Guide*.
+ */
+export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationRequest,
+  output: CreateApplicationResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1396,80 +1538,6 @@ export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first
- * delete any services or routes within the application.
- */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets an Amazon Web Services Migration Hub Refactor Spaces route.
- */
-export const getRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRouteRequest,
-  output: GetRouteResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets an Amazon Web Services Migration Hub Refactor Spaces service.
- */
-export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetServiceRequest,
-  output: GetServiceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists Amazon Web Services Migration Hub Refactor Spaces environments owned by a caller account or shared with the caller
- * account.
- */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEnvironmentsRequest,
-  output: ListEnvironmentsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the
- * environment.
- */
-export const listEnvironmentVpcs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEnvironmentVpcsRequest,
-  output: ListEnvironmentVpcsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application.
  */
 export const listRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1481,63 +1549,6 @@ export const listRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy
- * must contain the same actions and condition statements as the
- * `arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment`
- * permission in Resource Access Manager. The policy must not contain new lines or blank lines.
- */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidResourcePolicyException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an Amazon Web Services Migration Hub Refactor Spaces application. The account that owns the environment also owns the
- * applications created inside the environment, regardless of the account that creates the
- * application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and
- * Network Load Balancer for the application proxy inside your account.
- *
- * In environments created with a CreateEnvironment:NetworkFabricType of `NONE` you need to configure
- * VPC to VPC connectivity between your service VPC and the application proxy VPC to
- * route traffic through the application proxy to a service with a private URL endpoint. For more
- * information, see
- * Create an application in the *Refactor Spaces User Guide*.
- */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets an Amazon Web Services Migration Hub Refactor Spaces application.
- */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApplicationRequest,
-  output: GetApplicationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

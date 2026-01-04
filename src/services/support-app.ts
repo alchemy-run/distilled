@@ -486,23 +486,23 @@ export class ListSlackWorkspaceConfigurationsResult extends S.Class<ListSlackWor
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -520,16 +520,6 @@ export const getAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerException],
 }));
 /**
- * Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the
- * Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the
- * Amazon Web Services Support App.
- */
-export const putAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutAccountAliasRequest,
-  output: PutAccountAliasResult,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
-}));
-/**
  * Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the
  * Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
  */
@@ -543,6 +533,34 @@ export const deleteAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Lists the Slack channel configurations for an Amazon Web Services account.
+ */
+export const listSlackChannelConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSlackChannelConfigurationsRequest,
+    output: ListSlackChannelConfigurationsResult,
+    errors: [AccessDeniedException, InternalServerException],
+  }));
+/**
+ * Lists the Slack workspace configurations for an Amazon Web Services account.
+ */
+export const listSlackWorkspaceConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSlackWorkspaceConfigurationsRequest,
+    output: ListSlackWorkspaceConfigurationsResult,
+    errors: [AccessDeniedException, InternalServerException],
+  }));
+/**
+ * Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the
+ * Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the
+ * Amazon Web Services Support App.
+ */
+export const putAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAccountAliasRequest,
+  output: PutAccountAliasResult,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+}));
+/**
  * Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't
  * delete your Slack channel.
  */
@@ -550,22 +568,6 @@ export const deleteSlackChannelConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     input: DeleteSlackChannelConfigurationRequest,
     output: DeleteSlackChannelConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't
- * delete your Slack workspace.
- */
-export const deleteSlackWorkspaceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteSlackWorkspaceConfigurationRequest,
-    output: DeleteSlackWorkspaceConfigurationResult,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -629,6 +631,22 @@ export const updateSlackChannelConfiguration =
     ],
   }));
 /**
+ * Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't
+ * delete your Slack workspace.
+ */
+export const deleteSlackWorkspaceConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteSlackWorkspaceConfigurationRequest,
+    output: DeleteSlackWorkspaceConfigurationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
  * Creates a Slack channel configuration for your Amazon Web Services account.
  *
  * - You can add up to 5 Slack workspaces for your account.
@@ -656,22 +674,4 @@ export const createSlackChannelConfiguration =
       ServiceQuotaExceededException,
       ValidationException,
     ],
-  }));
-/**
- * Lists the Slack channel configurations for an Amazon Web Services account.
- */
-export const listSlackChannelConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSlackChannelConfigurationsRequest,
-    output: ListSlackChannelConfigurationsResult,
-    errors: [AccessDeniedException, InternalServerException],
-  }));
-/**
- * Lists the Slack workspace configurations for an Amazon Web Services account.
- */
-export const listSlackWorkspaceConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSlackWorkspaceConfigurationsRequest,
-    output: ListSlackWorkspaceConfigurationsResult,
-    errors: [AccessDeniedException, InternalServerException],
   }));

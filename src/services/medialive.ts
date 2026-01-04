@@ -6693,13 +6693,6 @@ export class SignalMapSummary extends S.Class<SignalMapSummary>(
   Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
 }) {}
 export const __listOfSignalMapSummary = S.Array(SignalMapSummary);
-export class ValidationError extends S.Class<ValidationError>(
-  "ValidationError",
-)({
-  ElementPath: S.optional(S.String).pipe(T.JsonName("elementPath")),
-  ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
-}) {}
-export const __listOfValidationError = S.Array(ValidationError);
 export class Channel extends S.Class<Channel>("Channel")({
   Arn: S.optional(S.String).pipe(T.JsonName("arn")),
   CdiInputSpecification: S.optional(CdiInputSpecification).pipe(
@@ -7774,6 +7767,13 @@ export class DescribeInputResponse extends S.Class<DescribeInputResponse>(
     T.JsonName("routerSettings"),
   ),
 }) {}
+export class ValidationError extends S.Class<ValidationError>(
+  "ValidationError",
+)({
+  ElementPath: S.optional(S.String).pipe(T.JsonName("elementPath")),
+  ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
+}) {}
+export const __listOfValidationError = S.Array(ValidationError);
 export class CreateInputResponse extends S.Class<CreateInputResponse>(
   "CreateInputResponse",
 )({ Input: S.optional(Input).pipe(T.JsonName("input")) }) {}
@@ -7880,351 +7880,47 @@ export class BatchUpdateScheduleResponse extends S.Class<BatchUpdateScheduleResp
 //# Errors
 export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
   "BadGatewayException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class GatewayTimeoutException extends S.TaggedError<GatewayTimeoutException>()(
   "GatewayTimeoutException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
-  {},
+  {
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+    ValidationErrors: S.optional(__listOfValidationError).pipe(
+      T.JsonName("validationErrors"),
+    ),
+  },
 ) {}
 
 //# Operations
-/**
- * Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
- */
-export const deleteEventBridgeRuleTemplateGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteEventBridgeRuleTemplateGroupRequest,
-    output: DeleteEventBridgeRuleTemplateGroupResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Deletes an Input Security Group
- */
-export const deleteInputSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInputSecurityGroupRequest,
-    output: DeleteInputSecurityGroupResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Delete all schedule actions on a channel.
- */
-export const deleteSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteScheduleRequest,
-  output: DeleteScheduleResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes the specified signal map.
- */
-export const deleteSignalMap = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSignalMapRequest,
-  output: DeleteSignalMapResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Removes tags for a resource
- */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTagsRequest,
-  output: DeleteTagsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-  ],
-}));
-/**
- * Reject the transfer of the specified input device to your AWS account.
- */
-export const rejectInputDeviceTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectInputDeviceTransferRequest,
-    output: RejectInputDeviceTransferResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
- * Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
- */
-export const startInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartInputDeviceRequest,
-  output: StartInputDeviceResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
- */
-export const startInputDeviceMaintenanceWindow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartInputDeviceMaintenanceWindowRequest,
-    output: StartInputDeviceMaintenanceWindowResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }));
-/**
- * Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
- */
-export const stopInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopInputDeviceRequest,
-  output: StopInputDeviceResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
- */
-export const transferInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TransferInputDeviceRequest,
-  output: TransferInputDeviceResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
- */
-export const acceptInputDeviceTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptInputDeviceTransferRequest,
-    output: AcceptInputDeviceTransferResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
- * Starts existing resources
- */
-export const batchStart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchStartRequest,
-  output: BatchStartResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Stops running resources
- */
-export const batchStop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchStopRequest,
-  output: BatchStopResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Cancel an input device transfer that you have requested.
- */
-export const cancelInputDeviceTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelInputDeviceTransferRequest,
-    output: CancelInputDeviceTransferResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
- * Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
- */
-export const claimDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ClaimDeviceRequest,
-  output: ClaimDeviceResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and ChannelPlacementGroup to Nodes. This association means that all the Channels in the group are able to run on any of the Nodes associated with the group.
- */
-export const createChannelPlacementGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateChannelPlacementGroupRequest,
-    output: CreateChannelPlacementGroupResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
- * Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to attach to signal maps for dynamically creating alarms.
- */
-export const createCloudWatchAlarmTemplateGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCloudWatchAlarmTemplateGroupRequest,
-    output: CreateCloudWatchAlarmTemplateGroupResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Creates an eventbridge rule template group to group your eventbridge rule templates and to attach to signal maps for dynamically creating notification rules.
- */
-export const createEventBridgeRuleTemplateGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateEventBridgeRuleTemplateGroupRequest,
-    output: CreateEventBridgeRuleTemplateGroupResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
 /**
  * Create tags for a resource
  */
@@ -8236,6 +7932,21 @@ export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ForbiddenException,
     InternalServerErrorException,
     NotFoundException,
+  ],
+}));
+/**
+ * Retrieve a list of the existing multiplexes.
+ */
+export const listMultiplexes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMultiplexesRequest,
+  output: ListMultiplexesResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
   ],
 }));
 /**
@@ -8257,6 +7968,379 @@ export const deleteChannelPlacementGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Delete a Cluster. The Cluster must be idle.
+ */
+export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterRequest,
+  output: DeleteClusterResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Delete a multiplex. The multiplex must be idle.
+ */
+export const deleteMultiplex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMultiplexRequest,
+  output: DeleteMultiplexResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets the details for the input device
+ */
+export const describeInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInputDeviceRequest,
+  output: DescribeInputDeviceResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Describe the latest thumbnails data.
+ */
+export const describeThumbnails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThumbnailsRequest,
+  output: DescribeThumbnailsResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates an input.
+ */
+export const updateInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInputRequest,
+  output: UpdateInputResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Lists cloudwatch alarm template groups.
+ */
+export const listCloudWatchAlarmTemplateGroups =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCloudWatchAlarmTemplateGroupsRequest,
+    output: ListCloudWatchAlarmTemplateGroupsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Lists cloudwatch alarm templates.
+ */
+export const listCloudWatchAlarmTemplates =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCloudWatchAlarmTemplatesRequest,
+    output: ListCloudWatchAlarmTemplatesResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Lists eventbridge rule template groups.
+ */
+export const listEventBridgeRuleTemplateGroups =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListEventBridgeRuleTemplateGroupsRequest,
+    output: ListEventBridgeRuleTemplateGroupsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Lists eventbridge rule templates.
+ */
+export const listEventBridgeRuleTemplates =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListEventBridgeRuleTemplatesRequest,
+    output: ListEventBridgeRuleTemplatesResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Lists signal maps.
+ */
+export const listSignalMaps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSignalMapsRequest,
+  output: ListSignalMapsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves the specified cloudwatch alarm template.
+ */
+export const getCloudWatchAlarmTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCloudWatchAlarmTemplateRequest,
+    output: GetCloudWatchAlarmTemplateResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves the specified cloudwatch alarm template group.
+ */
+export const getCloudWatchAlarmTemplateGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetCloudWatchAlarmTemplateGroupRequest,
+    output: GetCloudWatchAlarmTemplateGroupResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Retrieves the specified eventbridge rule template.
+ */
+export const getEventBridgeRuleTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetEventBridgeRuleTemplateRequest,
+    output: GetEventBridgeRuleTemplateResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves the specified eventbridge rule template group.
+ */
+export const getEventBridgeRuleTemplateGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetEventBridgeRuleTemplateGroupRequest,
+    output: GetEventBridgeRuleTemplateGroupResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Retrieves the specified signal map.
+ */
+export const getSignalMap = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSignalMapRequest,
+  output: GetSignalMapResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Produces list of tags that have been created for a resource
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Removes tags for a resource
+ */
+export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTagsRequest,
+  output: DeleteTagsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Initiates a deployment to delete the monitor of the specified signal map.
+ */
+export const startDeleteMonitorDeployment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartDeleteMonitorDeploymentRequest,
+    output: StartDeleteMonitorDeploymentResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Initiates a deployment to deploy the latest monitor of the specified signal map.
+ */
+export const startMonitorDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartMonitorDeploymentRequest,
+    output: StartMonitorDeploymentResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided.
+ */
+export const startUpdateSignalMap = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartUpdateSignalMapRequest,
+    output: StartUpdateSignalMapResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Updates the specified cloudwatch alarm template.
+ */
+export const updateCloudWatchAlarmTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateCloudWatchAlarmTemplateRequest,
+    output: UpdateCloudWatchAlarmTemplateResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Updates the specified cloudwatch alarm template group.
+ */
+export const updateCloudWatchAlarmTemplateGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateCloudWatchAlarmTemplateGroupRequest,
+    output: UpdateCloudWatchAlarmTemplateGroupResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Updates the specified eventbridge rule template.
+ */
+export const updateEventBridgeRuleTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateEventBridgeRuleTemplateRequest,
+    output: UpdateEventBridgeRuleTemplateResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Updates the specified eventbridge rule template group.
+ */
+export const updateEventBridgeRuleTemplateGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateEventBridgeRuleTemplateGroupRequest,
+    output: UpdateEventBridgeRuleTemplateGroupResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
 /**
  * Deletes a cloudwatch alarm template.
  */
@@ -8306,55 +8390,271 @@ export const deleteEventBridgeRuleTemplate =
     ],
   }));
 /**
- * Deletes the input end point
+ * Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
  */
-export const deleteInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteInputRequest,
-  output: DeleteInputResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input.
- */
-export const deleteSdiSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSdiSourceRequest,
-  output: DeleteSdiSourceResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Describe account configuration
- */
-export const describeAccountConfiguration =
+export const deleteEventBridgeRuleTemplateGroup =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAccountConfigurationRequest,
-    output: DescribeAccountConfigurationResponse,
+    input: DeleteEventBridgeRuleTemplateGroupRequest,
+    output: DeleteEventBridgeRuleTemplateGroupResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Deletes the specified signal map.
+ */
+export const deleteSignalMap = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSignalMapRequest,
+  output: DeleteSignalMapResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to attach to signal maps for dynamically creating alarms.
+ */
+export const createCloudWatchAlarmTemplateGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateCloudWatchAlarmTemplateGroupRequest,
+    output: CreateCloudWatchAlarmTemplateGroupResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Creates an eventbridge rule template group to group your eventbridge rule templates and to attach to signal maps for dynamically creating notification rules.
+ */
+export const createEventBridgeRuleTemplateGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateEventBridgeRuleTemplateGroupRequest,
+    output: CreateEventBridgeRuleTemplateGroupResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
+ */
+export const createCloudWatchAlarmTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateCloudWatchAlarmTemplateRequest,
+    output: CreateCloudWatchAlarmTemplateResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Creates an eventbridge rule template to monitor events and send notifications to your targeted resources.
+ */
+export const createEventBridgeRuleTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateEventBridgeRuleTemplateRequest,
+    output: CreateEventBridgeRuleTemplateResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Delete a program from a multiplex.
+ */
+export const deleteMultiplexProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMultiplexProgramRequest,
+    output: DeleteMultiplexProgramResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Delete a Network. The Network must have no resources associated with it.
+ */
+export const deleteNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkRequest,
+  output: DeleteNetworkResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Delete a Node. The Node must be IDLE.
+ */
+export const deleteNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNodeRequest,
+  output: DeleteNodeResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Delete an expired reservation.
+ */
+export const deleteReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReservationRequest,
+  output: DeleteReservationResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Produces a summary of an Input Security Group
+ */
+export const describeInputSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeInputSecurityGroupRequest,
+    output: DescribeInputSecurityGroupResponse,
     errors: [
       BadGatewayException,
       BadRequestException,
       ForbiddenException,
       GatewayTimeoutException,
       InternalServerErrorException,
+      NotFoundException,
       TooManyRequestsException,
     ],
-  }));
+  }),
+);
+/**
+ * List the alerts for a channel with optional filtering based on alert state.
+ */
+export const listAlerts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAlertsRequest,
+  output: ListAlertsResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * List the alerts for a cluster with optional filtering based on alert state.
+ */
+export const listClusterAlerts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListClusterAlertsRequest,
+  output: ListClusterAlertsResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * List the alerts for a multiplex with optional filtering based on alert state.
+ */
+export const listMultiplexAlerts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMultiplexAlertsRequest,
+  output: ListMultiplexAlertsResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * List the programs that currently exist for a specific multiplex.
+ */
+export const listMultiplexPrograms = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMultiplexProgramsRequest,
+    output: ListMultiplexProgramsResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Purchase an offering and create a reservation.
+ */
+export const purchaseOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseOfferingRequest,
+  output: PurchaseOfferingResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets details about a channel
  */
@@ -8552,15 +8852,17 @@ export const describeSdiSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves the specified cloudwatch alarm template.
+ * Deletes an Input Security Group
  */
-export const getCloudWatchAlarmTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteInputSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetCloudWatchAlarmTemplateRequest,
-    output: GetCloudWatchAlarmTemplateResponse,
+    input: DeleteInputSecurityGroupRequest,
+    output: DeleteInputSecurityGroupResponse,
     errors: [
+      BadGatewayException,
       BadRequestException,
       ForbiddenException,
+      GatewayTimeoutException,
       InternalServerErrorException,
       NotFoundException,
       TooManyRequestsException,
@@ -8568,91 +8870,36 @@ export const getCloudWatchAlarmTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves the specified cloudwatch alarm template group.
+ * Delete all schedule actions on a channel.
  */
-export const getCloudWatchAlarmTemplateGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCloudWatchAlarmTemplateGroupRequest,
-    output: GetCloudWatchAlarmTemplateGroupResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Retrieves the specified eventbridge rule template.
- */
-export const getEventBridgeRuleTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEventBridgeRuleTemplateRequest,
-    output: GetEventBridgeRuleTemplateResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves the specified eventbridge rule template group.
- */
-export const getEventBridgeRuleTemplateGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEventBridgeRuleTemplateGroupRequest,
-    output: GetEventBridgeRuleTemplateGroupResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Retrieves the specified signal map.
- */
-export const getSignalMap = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSignalMapRequest,
-  output: GetSignalMapResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Produces list of inputs that have been created
- */
-export const listInputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInputsRequest,
-  output: ListInputsResponse,
+export const deleteSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScheduleRequest,
+  output: DeleteScheduleResponse,
   errors: [
     BadGatewayException,
     BadRequestException,
     ForbiddenException,
     GatewayTimeoutException,
     InternalServerErrorException,
+    NotFoundException,
     TooManyRequestsException,
   ],
 }));
 /**
- * Produces list of tags that have been created for a resource
+ * Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const deleteSdiSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSdiSourceRequest,
+  output: DeleteSdiSourceResponse,
   errors: [
+    BadGatewayException,
     BadRequestException,
+    ConflictException,
     ForbiddenException,
+    GatewayTimeoutException,
     InternalServerErrorException,
     NotFoundException,
+    TooManyRequestsException,
   ],
 }));
 /**
@@ -8709,39 +8956,6 @@ export const startChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Initiates a deployment to delete the monitor of the specified signal map.
- */
-export const startDeleteMonitorDeployment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDeleteMonitorDeploymentRequest,
-    output: StartDeleteMonitorDeploymentResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Initiates a deployment to deploy the latest monitor of the specified signal map.
- */
-export const startMonitorDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMonitorDeploymentRequest,
-    output: StartMonitorDeploymentResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
  * Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
  */
 export const startMultiplex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -8758,23 +8972,6 @@ export const startMultiplex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
-/**
- * Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided.
- */
-export const startUpdateSignalMap = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartUpdateSignalMapRequest,
-    output: StartUpdateSignalMapResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
 /**
  * Stops a running channel
  */
@@ -8810,107 +9007,6 @@ export const stopMultiplex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Update account configuration
- */
-export const updateAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountConfigurationRequest,
-    output: UpdateAccountConfigurationResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
- * Change the settings for a ChannelPlacementGroup.
- */
-export const updateChannelPlacementGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateChannelPlacementGroupRequest,
-    output: UpdateChannelPlacementGroupResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
- * Updates the specified cloudwatch alarm template.
- */
-export const updateCloudWatchAlarmTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCloudWatchAlarmTemplateRequest,
-    output: UpdateCloudWatchAlarmTemplateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Updates the specified cloudwatch alarm template group.
- */
-export const updateCloudWatchAlarmTemplateGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCloudWatchAlarmTemplateGroupRequest,
-    output: UpdateCloudWatchAlarmTemplateGroupResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Updates the specified eventbridge rule template.
- */
-export const updateEventBridgeRuleTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEventBridgeRuleTemplateRequest,
-    output: UpdateEventBridgeRuleTemplateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Updates the specified eventbridge rule template group.
- */
-export const updateEventBridgeRuleTemplateGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEventBridgeRuleTemplateGroupRequest,
-    output: UpdateEventBridgeRuleTemplateGroupResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
  * Update an Input Security Group's Whilelists.
  */
 export const updateInputSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -8929,23 +9025,6 @@ export const updateInputSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Update the state of a node.
- */
-export const updateNodeState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateNodeStateRequest,
-  output: UpdateNodeStateResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
  * Update reservation.
  */
 export const updateReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -8963,11 +9042,11 @@ export const updateReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Change some of the settings in an SdiSource.
+ * Deletes the input end point
  */
-export const updateSdiSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSdiSourceRequest,
-  output: UpdateSdiSourceResponse,
+export const deleteInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInputRequest,
+  output: DeleteInputResponse,
   errors: [
     BadGatewayException,
     BadRequestException,
@@ -8975,6 +9054,41 @@ export const updateSdiSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ForbiddenException,
     GatewayTimeoutException,
     InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Starts existing resources
+ */
+export const batchStart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchStartRequest,
+  output: BatchStartResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Stops running resources
+ */
+export const batchStop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchStopRequest,
+  output: BatchStopResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
     TooManyRequestsException,
   ],
 }));
@@ -8996,159 +9110,11 @@ export const batchDelete = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
+ * Starts deletion of channel. The associated outputs are also deleted.
  */
-export const createCloudWatchAlarmTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCloudWatchAlarmTemplateRequest,
-    output: CreateCloudWatchAlarmTemplateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Creates an eventbridge rule template to monitor events and send notifications to your targeted resources.
- */
-export const createEventBridgeRuleTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateEventBridgeRuleTemplateRequest,
-    output: CreateEventBridgeRuleTemplateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Creates a Input Security Group
- */
-export const createInputSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInputSecurityGroupRequest,
-    output: CreateInputSecurityGroupResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Create as many Networks as you need. You will associate one or more Clusters with each Network.Each Network provides MediaLive Anywhere with required information about the network in your organization that you are using for video encoding using MediaLive.
- */
-export const createNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateNetworkRequest,
-  output: CreateNetworkResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create a Node in the specified Cluster. You can also create Nodes using the CreateNodeRegistrationScript. Note that you can't move a Node to another Cluster.
- */
-export const createNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateNodeRequest,
-  output: CreateNodeResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere.
- */
-export const createNodeRegistrationScript =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateNodeRegistrationScriptRequest,
-    output: CreateNodeRegistrationScriptResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Create a partner input
- */
-export const createPartnerInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePartnerInputRequest,
-  output: CreatePartnerInputResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses.
- */
-export const createSdiSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSdiSourceRequest,
-  output: CreateSdiSourceResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Delete a program from a multiplex.
- */
-export const deleteMultiplexProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMultiplexProgramRequest,
-    output: DeleteMultiplexProgramResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Delete a Network. The Network must have no resources associated with it.
- */
-export const deleteNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteNetworkRequest,
-  output: DeleteNetworkResponse,
+export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelRequest,
+  output: DeleteChannelResponse,
   errors: [
     BadGatewayException,
     BadRequestException,
@@ -9161,11 +9127,26 @@ export const deleteNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Delete a Node. The Node must be IDLE.
+ * Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
  */
-export const deleteNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteNodeRequest,
-  output: DeleteNodeResponse,
+export const createSignalMap = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSignalMapRequest,
+  output: CreateSignalMapResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Change the settings for a Cluster.
+ */
+export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterRequest,
+  output: UpdateClusterResponse,
   errors: [
     BadGatewayException,
     BadRequestException,
@@ -9173,58 +9154,6 @@ export const deleteNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ForbiddenException,
     GatewayTimeoutException,
     InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Delete an expired reservation.
- */
-export const deleteReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteReservationRequest,
-  output: DeleteReservationResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Produces a summary of an Input Security Group
- */
-export const describeInputSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInputSecurityGroupRequest,
-    output: DescribeInputSecurityGroupResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * List the alerts for a channel with optional filtering based on alert state.
- */
-export const listAlerts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAlertsRequest,
-  output: ListAlertsResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
     TooManyRequestsException,
   ],
 }));
@@ -9261,52 +9190,6 @@ export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists cloudwatch alarm template groups.
- */
-export const listCloudWatchAlarmTemplateGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCloudWatchAlarmTemplateGroupsRequest,
-    output: ListCloudWatchAlarmTemplateGroupsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Lists cloudwatch alarm templates.
- */
-export const listCloudWatchAlarmTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCloudWatchAlarmTemplatesRequest,
-    output: ListCloudWatchAlarmTemplatesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * List the alerts for a cluster with optional filtering based on alert state.
- */
-export const listClusterAlerts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListClusterAlertsRequest,
-  output: ListClusterAlertsResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Retrieve the list of Clusters.
  */
 export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -9321,36 +9204,6 @@ export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
-/**
- * Lists eventbridge rule template groups.
- */
-export const listEventBridgeRuleTemplateGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListEventBridgeRuleTemplateGroupsRequest,
-    output: ListEventBridgeRuleTemplateGroupsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Lists eventbridge rule templates.
- */
-export const listEventBridgeRuleTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListEventBridgeRuleTemplatesRequest,
-    output: ListEventBridgeRuleTemplatesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
 /**
  * List input devices
  */
@@ -9367,24 +9220,6 @@ export const listInputDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
- */
-export const listInputDeviceTransfers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListInputDeviceTransfersRequest,
-    output: ListInputDeviceTransfersResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
  * Produces a list of Input Security Groups for an account
  */
 export const listInputSecurityGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -9397,40 +9232,6 @@ export const listInputSecurityGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ForbiddenException,
       GatewayTimeoutException,
       InternalServerErrorException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * List the alerts for a multiplex with optional filtering based on alert state.
- */
-export const listMultiplexAlerts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMultiplexAlertsRequest,
-  output: ListMultiplexAlertsResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * List the programs that currently exist for a specific multiplex.
- */
-export const listMultiplexPrograms = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMultiplexProgramsRequest,
-    output: ListMultiplexProgramsResponse,
-    errors: [
-      BadGatewayException,
-      BadRequestException,
-      ForbiddenException,
-      GatewayTimeoutException,
-      InternalServerErrorException,
-      NotFoundException,
       TooManyRequestsException,
     ],
   }),
@@ -9511,25 +9312,11 @@ export const listSdiSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists signal maps.
+ * Change the settings for a Network.
  */
-export const listSignalMaps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSignalMapsRequest,
-  output: ListSignalMapsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Purchase an offering and create a reservation.
- */
-export const purchaseOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PurchaseOfferingRequest,
-  output: PurchaseOfferingResponse,
+export const updateNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNetworkRequest,
+  output: UpdateNetworkResponse,
   errors: [
     BadGatewayException,
     BadRequestException,
@@ -9537,16 +9324,175 @@ export const purchaseOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ForbiddenException,
     GatewayTimeoutException,
     InternalServerErrorException,
-    NotFoundException,
     TooManyRequestsException,
   ],
 }));
 /**
- * Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
+ * Change the settings for a Node.
  */
-export const rebootInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RebootInputDeviceRequest,
-  output: RebootInputDeviceResponse,
+export const updateNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNodeRequest,
+  output: UpdateNodeResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Describe account configuration
+ */
+export const describeAccountConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAccountConfigurationRequest,
+    output: DescribeAccountConfigurationResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Produces list of inputs that have been created
+ */
+export const listInputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInputsRequest,
+  output: ListInputsResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a Input Security Group
+ */
+export const createInputSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateInputSecurityGroupRequest,
+    output: CreateInputSecurityGroupResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Create a partner input
+ */
+export const createPartnerInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePartnerInputRequest,
+  output: CreatePartnerInputResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Change some of the settings in an SdiSource.
+ */
+export const updateSdiSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSdiSourceRequest,
+  output: UpdateSdiSourceResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create as many Networks as you need. You will associate one or more Clusters with each Network.Each Network provides MediaLive Anywhere with required information about the network in your organization that you are using for video encoding using MediaLive.
+ */
+export const createNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkRequest,
+  output: CreateNetworkResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere.
+ */
+export const createNodeRegistrationScript =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateNodeRegistrationScriptRequest,
+    output: CreateNodeRegistrationScriptResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses.
+ */
+export const createSdiSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSdiSourceRequest,
+  output: CreateSdiSourceResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a new Cluster.
+ */
+export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterRequest,
+  output: CreateClusterResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Produces details about an input
+ */
+export const describeInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInputRequest,
+  output: DescribeInputResponse,
   errors: [
     BadGatewayException,
     BadRequestException,
@@ -9555,7 +9501,21 @@ export const rebootInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerErrorException,
     NotFoundException,
     TooManyRequestsException,
-    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Create an input
+ */
+export const createInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInputRequest,
+  output: CreateInputResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
   ],
 }));
 /**
@@ -9571,6 +9531,40 @@ export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ForbiddenException,
     GatewayTimeoutException,
     InternalServerErrorException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Updates the parameters for the input device.
+ */
+export const updateInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInputDeviceRequest,
+  output: UpdateInputDeviceResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Updates a multiplex.
+ */
+export const updateMultiplex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMultiplexRequest,
+  output: UpdateMultiplexResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
     UnprocessableEntityException,
   ],
 }));
@@ -9612,43 +9606,264 @@ export const updateMultiplexProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Change the settings for a Network.
+ * Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
  */
-export const updateNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateNetworkRequest,
-  output: UpdateNetworkResponse,
+export const claimDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ClaimDeviceRequest,
+  output: ClaimDeviceResponse,
   errors: [
     BadGatewayException,
     BadRequestException,
-    ConflictException,
     ForbiddenException,
     GatewayTimeoutException,
     InternalServerErrorException,
+    NotFoundException,
     TooManyRequestsException,
+    UnprocessableEntityException,
   ],
 }));
 /**
- * Change the settings for a Node.
+ * Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
  */
-export const updateNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateNodeRequest,
-  output: UpdateNodeResponse,
+export const rebootInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RebootInputDeviceRequest,
+  output: RebootInputDeviceResponse,
   errors: [
     BadGatewayException,
     BadRequestException,
-    ConflictException,
     ForbiddenException,
     GatewayTimeoutException,
     InternalServerErrorException,
+    NotFoundException,
     TooManyRequestsException,
+    UnprocessableEntityException,
   ],
 }));
 /**
- * Create a new Cluster.
+ * Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateClusterRequest,
-  output: CreateClusterResponse,
+export const startInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartInputDeviceRequest,
+  output: StartInputDeviceResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
+ */
+export const startInputDeviceMaintenanceWindow =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartInputDeviceMaintenanceWindowRequest,
+    output: StartInputDeviceMaintenanceWindowResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }));
+/**
+ * Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
+ */
+export const stopInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopInputDeviceRequest,
+  output: StopInputDeviceResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Cancel an input device transfer that you have requested.
+ */
+export const cancelInputDeviceTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelInputDeviceTransferRequest,
+    output: CancelInputDeviceTransferResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Reject the transfer of the specified input device to your AWS account.
+ */
+export const rejectInputDeviceTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RejectInputDeviceTransferRequest,
+    output: RejectInputDeviceTransferResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
+ */
+export const transferInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TransferInputDeviceRequest,
+  output: TransferInputDeviceResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
+ */
+export const acceptInputDeviceTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AcceptInputDeviceTransferRequest,
+    output: AcceptInputDeviceTransferResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
+ */
+export const listInputDeviceTransfers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListInputDeviceTransfersRequest,
+    output: ListInputDeviceTransfersResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Update account configuration
+ */
+export const updateAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountConfigurationRequest,
+    output: UpdateAccountConfigurationResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and ChannelPlacementGroup to Nodes. This association means that all the Channels in the group are able to run on any of the Nodes associated with the group.
+ */
+export const createChannelPlacementGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateChannelPlacementGroupRequest,
+    output: CreateChannelPlacementGroupResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Create a Node in the specified Cluster. You can also create Nodes using the CreateNodeRegistrationScript. Note that you can't move a Node to another Cluster.
+ */
+export const createNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNodeRequest,
+  output: CreateNodeResponse,
+  errors: [
+    BadGatewayException,
+    BadRequestException,
+    ForbiddenException,
+    GatewayTimeoutException,
+    InternalServerErrorException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Change the settings for a ChannelPlacementGroup.
+ */
+export const updateChannelPlacementGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateChannelPlacementGroupRequest,
+    output: UpdateChannelPlacementGroupResponse,
+    errors: [
+      BadGatewayException,
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      GatewayTimeoutException,
+      InternalServerErrorException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Update the state of a node.
+ */
+export const updateNodeState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNodeStateRequest,
+  output: UpdateNodeStateResponse,
   errors: [
     BadGatewayException,
     BadRequestException,
@@ -9657,6 +9872,7 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     GatewayTimeoutException,
     InternalServerErrorException,
     TooManyRequestsException,
+    UnprocessableEntityException,
   ],
 }));
 /**
@@ -9673,171 +9889,6 @@ export const createMultiplex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     GatewayTimeoutException,
     InternalServerErrorException,
     TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Starts deletion of channel. The associated outputs are also deleted.
- */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Delete a Cluster. The Cluster must be idle.
- */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterRequest,
-  output: DeleteClusterResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Delete a multiplex. The multiplex must be idle.
- */
-export const deleteMultiplex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMultiplexRequest,
-  output: DeleteMultiplexResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets the details for the input device
- */
-export const describeInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeInputDeviceRequest,
-  output: DescribeInputDeviceResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Describe the latest thumbnails data.
- */
-export const describeThumbnails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeThumbnailsRequest,
-  output: DescribeThumbnailsResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve a list of the existing multiplexes.
- */
-export const listMultiplexes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMultiplexesRequest,
-  output: ListMultiplexesResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Change the settings for a Cluster.
- */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateClusterRequest,
-  output: UpdateClusterResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates an input.
- */
-export const updateInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateInputRequest,
-  output: UpdateInputResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-  ],
-}));
-/**
- * Updates the parameters for the input device.
- */
-export const updateInputDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateInputDeviceRequest,
-  output: UpdateInputDeviceResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Updates a multiplex.
- */
-export const updateMultiplex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateMultiplexRequest,
-  output: UpdateMultiplexResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
     UnprocessableEntityException,
   ],
 }));
@@ -9860,52 +9911,6 @@ export const createMultiplexProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
- */
-export const createSignalMap = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSignalMapRequest,
-  output: CreateSignalMapResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Produces details about an input
- */
-export const describeInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeInputRequest,
-  output: DescribeInputResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create an input
- */
-export const createInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInputRequest,
-  output: CreateInputResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ForbiddenException,
-    GatewayTimeoutException,
-    InternalServerErrorException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * Creates a new channel
  */

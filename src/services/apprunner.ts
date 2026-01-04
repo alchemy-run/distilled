@@ -1006,31 +1006,338 @@ export class CreateServiceResponse extends S.Class<CreateServiceResponse>(
 //# Errors
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
   "InternalServiceErrorException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServiceError", httpResponseCode: 500 }),
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidRequest", httpResponseCode: 400 }),
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourceNotfound", httpResponseCode: 400 }),
 ) {}
 export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
   "InvalidStateException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidState", httpResponseCode: 400 }),
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotfound", httpResponseCode: 400 }),
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ServiceQuotaExceeded", httpResponseCode: 402 }),
 ) {}
 
 //# Operations
+/**
+ * Returns a list of App Runner VPC connectors in your Amazon Web Services account.
+ */
+export const listVpcConnectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVpcConnectorsRequest,
+  output: ListVpcConnectorsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+}));
+/**
+ * Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific
+ * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
+ * name.
+ *
+ * To retrieve a full description of a particular configuration revision, call and provide one of
+ * the ARNs returned by `ListAutoScalingConfigurations`.
+ */
+export const listAutoScalingConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAutoScalingConfigurationsRequest,
+    output: ListAutoScalingConfigurationsResponse,
+    errors: [InternalServiceErrorException, InvalidRequestException],
+  }));
+/**
+ * Returns a list of App Runner connections that are associated with your Amazon Web Services account.
+ */
+export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConnectionsRequest,
+  output: ListConnectionsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+}));
+/**
+ * Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific
+ * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
+ * name.
+ *
+ * To retrieve a full description of a particular configuration revision, call and provide one
+ * of the ARNs returned by `ListObservabilityConfigurations`.
+ */
+export const listObservabilityConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListObservabilityConfigurationsRequest,
+    output: ListObservabilityConfigurationsResponse,
+    errors: [InternalServiceErrorException, InvalidRequestException],
+  }));
+/**
+ * Returns a list of running App Runner services in your Amazon Web Services account.
+ */
+export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+}));
+/**
+ * Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
+ */
+export const listVpcIngressConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListVpcIngressConnectionsRequest,
+    output: ListVpcIngressConnectionsResponse,
+    errors: [InternalServiceErrorException, InvalidRequestException],
+  }),
+);
+/**
+ * Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default
+ * automatically.
+ */
+export const updateDefaultAutoScalingConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateDefaultAutoScalingConfigurationRequest,
+    output: UpdateDefaultAutoScalingConfigurationResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Create an App Runner automatic scaling configuration resource. App Runner requires this resource when you create or update App Runner services and you require
+ * non-default auto scaling settings. You can share an auto scaling configuration across multiple services.
+ *
+ * Create multiple revisions of a configuration by calling this action multiple times using the same `AutoScalingConfigurationName`. The call
+ * returns incremental `AutoScalingConfigurationRevision` values. When you create a service and configure an auto scaling configuration resource,
+ * the service uses the latest active revision of the auto scaling configuration by default. You can optionally configure the service to use a specific
+ * revision.
+ *
+ * Configure a higher `MinSize` to increase the spread of your App Runner service over more Availability Zones in the Amazon Web Services Region. The
+ * tradeoff is a higher minimal cost.
+ *
+ * Configure a lower `MaxSize` to control your cost. The tradeoff is lower responsiveness during peak demand.
+ */
+export const createAutoScalingConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateAutoScalingConfigurationRequest,
+    output: CreateAutoScalingConfigurationResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidRequestException,
+      ServiceQuotaExceededException,
+    ],
+  }));
+/**
+ * Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto
+ * scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service.
+ * These can be set only when you create the service.
+ *
+ * To update the tags applied to your service, use the separate actions TagResource and UntagResource.
+ *
+ * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
+ * call to track the operation's progress.
+ */
+export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceRequest,
+  output: UpdateServiceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated:
+ *
+ * - AVAILABLE
+ *
+ * - FAILED_CREATION
+ *
+ * - FAILED_UPDATE
+ */
+export const updateVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateVpcIngressConnectionRequest,
+    output: UpdateVpcIngressConnectionResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidRequestException,
+      InvalidStateException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Remove tags from an App Runner resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Disassociate a custom domain name from an App Runner service.
+ *
+ * Certificates tracking domain validity are associated with a custom domain and are stored in AWS
+ * Certificate Manager (ACM). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for
+ * 30 days after a domain is disassociated from your service.
+ */
+export const disassociateCustomDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateCustomDomainRequest,
+    output: DisassociateCustomDomainResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidRequestException,
+      InvalidStateException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is
+ * removed).
+ *
+ * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
+ * call to track the operation's progress.
+ */
+export const pauseService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PauseServiceRequest,
+  output: PauseServiceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Resume an active App Runner service. App Runner provisions compute capacity for the service.
+ *
+ * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
+ * call to track the operation's progress.
+ */
+export const resumeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResumeServiceRequest,
+  output: ResumeServiceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
+ */
+export const createVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateVpcIngressConnectionRequest,
+    output: CreateVpcIngressConnectionResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidRequestException,
+      InvalidStateException,
+      ServiceQuotaExceededException,
+    ],
+  }),
+);
+/**
+ * Delete an App Runner service.
+ *
+ * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
+ * call to track the operation's progress.
+ *
+ * Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
+ */
+export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceRequest,
+  output: DeleteServiceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted:
+ *
+ * - `AVAILABLE`
+ *
+ * - `FAILED_CREATION`
+ *
+ * - `FAILED_UPDATE`
+ *
+ * - `FAILED_DELETION`
+ */
+export const deleteVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteVpcIngressConnectionRequest,
+    output: DeleteVpcIngressConnectionResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidRequestException,
+      InvalidStateException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Associate your own domain name with the App Runner subdomain URL of your App Runner service.
+ *
+ * After you call `AssociateCustomDomain` and receive a successful response, use the information in the CustomDomain record
+ * that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or
+ * more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks
+ * domain validity in a certificate stored in AWS Certificate Manager (ACM).
+ */
+export const associateCustomDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateCustomDomainRequest,
+    output: AssociateCustomDomainResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidRequestException,
+      InvalidStateException,
+    ],
+  }),
+);
+/**
+ * Delete an App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the
+ * `DeleteConnection` action fails.
+ */
+export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionRequest,
+  output: DeleteConnectionResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Delete an App Runner VPC connector resource. You can't delete a
  * connector that's used by one or more App Runner services.
@@ -1137,60 +1444,6 @@ export const listServicesForAutoScalingConfiguration =
     ],
   }));
 /**
- * List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns a list of App Runner VPC connectors in your Amazon Web Services account.
- */
-export const listVpcConnectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListVpcConnectorsRequest,
-  output: ListVpcConnectorsResponse,
-  errors: [InternalServiceErrorException, InvalidRequestException],
-}));
-/**
- * Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is
- * removed).
- *
- * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
- * call to track the operation's progress.
- */
-export const pauseService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PauseServiceRequest,
-  output: PauseServiceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Resume an active App Runner service. App Runner provisions compute capacity for the service.
- *
- * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
- * call to track the operation's progress.
- */
-export const resumeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResumeServiceRequest,
-  output: ResumeServiceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
  * Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an App Runner
  * service.
  *
@@ -1210,6 +1463,50 @@ export const startDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all
+ * revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or
+ * more App Runner services.
+ */
+export const deleteAutoScalingConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteAutoScalingConfigurationRequest,
+    output: DeleteAutoScalingConfigurationResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Delete an App Runner observability configuration resource. You can delete a specific revision or the latest active revision. You can't delete a
+ * configuration that's used by one or more App Runner services.
+ */
+export const deleteObservabilityConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteObservabilityConfigurationRequest,
+    output: DeleteObservabilityConfigurationResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Return a list of operations that occurred on an App Runner service.
+ *
+ * The resulting list of OperationSummary objects is sorted in reverse chronological order. The first object on the list represents the
+ * last started operation.
+ */
+export const listOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
  * Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
  */
 export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1222,74 +1519,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
   ],
 }));
-/**
- * Remove tags from an App Runner resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default
- * automatically.
- */
-export const updateDefaultAutoScalingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDefaultAutoScalingConfigurationRequest,
-    output: UpdateDefaultAutoScalingConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto
- * scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service.
- * These can be set only when you create the service.
- *
- * To update the tags applied to your service, use the separate actions TagResource and UntagResource.
- *
- * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
- * call to track the operation's progress.
- */
-export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateServiceRequest,
-  output: UpdateServiceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated:
- *
- * - AVAILABLE
- *
- * - FAILED_CREATION
- *
- * - FAILED_UPDATE
- */
-export const updateVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateVpcIngressConnectionRequest,
-    output: UpdateVpcIngressConnectionResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from
  * certain third-party providers. You can share a connection across multiple services.
@@ -1343,235 +1572,6 @@ export const createVpcConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceQuotaExceededException,
   ],
 }));
-/**
- * Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
- */
-export const createVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVpcIngressConnectionRequest,
-    output: CreateVpcIngressConnectionResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
-/**
- * Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all
- * revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or
- * more App Runner services.
- */
-export const deleteAutoScalingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAutoScalingConfigurationRequest,
-    output: DeleteAutoScalingConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Delete an App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the
- * `DeleteConnection` action fails.
- */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConnectionRequest,
-  output: DeleteConnectionResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Delete an App Runner observability configuration resource. You can delete a specific revision or the latest active revision. You can't delete a
- * configuration that's used by one or more App Runner services.
- */
-export const deleteObservabilityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteObservabilityConfigurationRequest,
-    output: DeleteObservabilityConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Delete an App Runner service.
- *
- * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
- * call to track the operation's progress.
- *
- * Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
- */
-export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteServiceRequest,
-  output: DeleteServiceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted:
- *
- * - `AVAILABLE`
- *
- * - `FAILED_CREATION`
- *
- * - `FAILED_UPDATE`
- *
- * - `FAILED_DELETION`
- */
-export const deleteVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVpcIngressConnectionRequest,
-    output: DeleteVpcIngressConnectionResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Disassociate a custom domain name from an App Runner service.
- *
- * Certificates tracking domain validity are associated with a custom domain and are stored in AWS
- * Certificate Manager (ACM). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for
- * 30 days after a domain is disassociated from your service.
- */
-export const disassociateCustomDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateCustomDomainRequest,
-    output: DisassociateCustomDomainResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific
- * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
- * name.
- *
- * To retrieve a full description of a particular configuration revision, call and provide one of
- * the ARNs returned by `ListAutoScalingConfigurations`.
- */
-export const listAutoScalingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAutoScalingConfigurationsRequest,
-    output: ListAutoScalingConfigurationsResponse,
-    errors: [InternalServiceErrorException, InvalidRequestException],
-  }));
-/**
- * Returns a list of App Runner connections that are associated with your Amazon Web Services account.
- */
-export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListConnectionsRequest,
-  output: ListConnectionsResponse,
-  errors: [InternalServiceErrorException, InvalidRequestException],
-}));
-/**
- * Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific
- * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
- * name.
- *
- * To retrieve a full description of a particular configuration revision, call and provide one
- * of the ARNs returned by `ListObservabilityConfigurations`.
- */
-export const listObservabilityConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListObservabilityConfigurationsRequest,
-    output: ListObservabilityConfigurationsResponse,
-    errors: [InternalServiceErrorException, InvalidRequestException],
-  }));
-/**
- * Return a list of operations that occurred on an App Runner service.
- *
- * The resulting list of OperationSummary objects is sorted in reverse chronological order. The first object on the list represents the
- * last started operation.
- */
-export const listOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListOperationsRequest,
-  output: ListOperationsResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns a list of running App Runner services in your Amazon Web Services account.
- */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListServicesRequest,
-  output: ListServicesResponse,
-  errors: [InternalServiceErrorException, InvalidRequestException],
-}));
-/**
- * Associate your own domain name with the App Runner subdomain URL of your App Runner service.
- *
- * After you call `AssociateCustomDomain` and receive a successful response, use the information in the CustomDomain record
- * that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or
- * more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks
- * domain validity in a certificate stored in AWS Certificate Manager (ACM).
- */
-export const associateCustomDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateCustomDomainRequest,
-    output: AssociateCustomDomainResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-    ],
-  }),
-);
-/**
- * Create an App Runner automatic scaling configuration resource. App Runner requires this resource when you create or update App Runner services and you require
- * non-default auto scaling settings. You can share an auto scaling configuration across multiple services.
- *
- * Create multiple revisions of a configuration by calling this action multiple times using the same `AutoScalingConfigurationName`. The call
- * returns incremental `AutoScalingConfigurationRevision` values. When you create a service and configure an auto scaling configuration resource,
- * the service uses the latest active revision of the auto scaling configuration by default. You can optionally configure the service to use a specific
- * revision.
- *
- * Configure a higher `MinSize` to increase the spread of your App Runner service over more Availability Zones in the Amazon Web Services Region. The
- * tradeoff is a higher minimal cost.
- *
- * Configure a lower `MaxSize` to control your cost. The tradeoff is lower responsiveness during peak demand.
- */
-export const createAutoScalingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAutoScalingConfigurationRequest,
-    output: CreateAutoScalingConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ServiceQuotaExceededException,
-    ],
-  }));
-/**
- * Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
- */
-export const listVpcIngressConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVpcIngressConnectionsRequest,
-    output: ListVpcIngressConnectionsResponse,
-    errors: [InternalServiceErrorException, InvalidRequestException],
-  }),
-);
 /**
  * Create an App Runner service. After the service is created, the action also automatically starts a deployment.
  *

@@ -1085,35 +1085,35 @@ export class GetApplicationComponentDetailsResponse extends S.Class<GetApplicati
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.String },
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DependencyException extends S.TaggedError<DependencyException>()(
   "DependencyException",
   { message: S.optional(S.String) },
 ) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceLinkedRoleLockClientException extends S.TaggedError<ServiceLinkedRoleLockClientException>()(
   "ServiceLinkedRoleLockClientException",
@@ -1121,77 +1121,6 @@ export class ServiceLinkedRoleLockClientException extends S.TaggedError<ServiceL
 ) {}
 
 //# Operations
-/**
- * Saves the specified migration and modernization preferences.
- */
-export const putPortfolioPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutPortfolioPreferencesRequest,
-    output: PutPortfolioPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Starts generating a recommendation report.
- */
-export const startRecommendationReportGeneration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartRecommendationReportGenerationRequest,
-    output: StartRecommendationReportGenerationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Stops the assessment of an on-premises environment.
- */
-export const stopAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopAssessmentRequest,
-  output: StopAssessmentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the configuration of an application component.
- */
-export const updateApplicationComponentConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApplicationComponentConfigRequest,
-    output: UpdateApplicationComponentConfigResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates the configuration of the specified server.
- */
-export const updateServerConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateServerConfigRequest,
-  output: UpdateServerConfigResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Retrieves a list of all the recommended strategies and tools for an application component
  * running on a server.
@@ -1220,17 +1149,25 @@ export const getAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves the details about a specific import task.
+ * Retrieves overall summary including the number of servers to rehost and the overall
+ * number of anti-patterns.
  */
-export const getImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetImportFileTaskRequest,
-  output: GetImportFileTaskResponse,
+export const getPortfolioSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPortfolioSummaryRequest,
+  output: GetPortfolioSummaryResponse,
+  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+}));
+/**
+ * Starts the assessment of an on-premises environment.
+ */
+export const startAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAssessmentRequest,
+  output: StartAssessmentResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
-    ValidationException,
   ],
 }));
 /**
@@ -1249,14 +1186,106 @@ export const getLatestAssessmentId = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves overall summary including the number of servers to rehost and the overall
- * number of anti-patterns.
+ * Retrieves your migration and modernization preferences.
  */
-export const getPortfolioSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPortfolioSummaryRequest,
-  output: GetPortfolioSummaryResponse,
-  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+export const getPortfolioPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPortfolioPreferencesRequest,
+    output: GetPortfolioPreferencesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves a list of all the application components (processes).
+ */
+export const listApplicationComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListApplicationComponentsRequest,
+    output: ListApplicationComponentsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ServiceLinkedRoleLockClientException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Stops the assessment of an on-premises environment.
+ */
+export const stopAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopAssessmentRequest,
+  output: StopAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
+/**
+ * Saves the specified migration and modernization preferences.
+ */
+export const putPortfolioPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutPortfolioPreferencesRequest,
+    output: PutPortfolioPreferencesResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Starts a file import.
+ */
+export const startImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartImportFileTaskRequest,
+  output: StartImportFileTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the details about a specific import task.
+ */
+export const getImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImportFileTaskRequest,
+  output: GetImportFileTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration of an application component.
+ */
+export const updateApplicationComponentConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateApplicationComponentConfigRequest,
+    output: UpdateApplicationComponentConfigResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * Retrieves detailed information about the specified recommendation report.
  */
@@ -1282,6 +1311,19 @@ export const getServerStrategies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of all the servers.
+ */
+export const listServers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListServersRequest,
+  output: ListServersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1315,75 +1357,33 @@ export const listImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of all the servers.
+ * Starts generating a recommendation report.
  */
-export const listServers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListServersRequest,
-  output: ListServersResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts the assessment of an on-premises environment.
- */
-export const startAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartAssessmentRequest,
-  output: StartAssessmentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Starts a file import.
- */
-export const startImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartImportFileTaskRequest,
-  output: StartImportFileTaskResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves your migration and modernization preferences.
- */
-export const getPortfolioPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPortfolioPreferencesRequest,
-    output: GetPortfolioPreferencesResponse,
+export const startRecommendationReportGeneration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartRecommendationReportGenerationRequest,
+    output: StartRecommendationReportGenerationResponse,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
-      ResourceNotFoundException,
       ThrottlingException,
-    ],
-  }),
-);
-/**
- * Retrieves a list of all the application components (processes).
- */
-export const listApplicationComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListApplicationComponentsRequest,
-    output: ListApplicationComponentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceLinkedRoleLockClientException,
       ValidationException,
     ],
-  }),
-);
+  }));
+/**
+ * Updates the configuration of the specified server.
+ */
+export const updateServerConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServerConfigRequest,
+  output: UpdateServerConfigResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves detailed information about a specified server.
  */

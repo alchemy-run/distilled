@@ -1634,42 +1634,249 @@ export class GetRDSDatabaseRecommendationsResponse extends S.Class<GetRDSDatabas
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class MissingAuthenticationToken extends S.TaggedError<MissingAuthenticationToken>()(
   "MissingAuthenticationToken",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
-) {}
-export class OptInRequiredException extends S.TaggedError<OptInRequiredException>()(
-  "OptInRequiredException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class OptInRequiredException extends S.TaggedError<OptInRequiredException>()(
+  "OptInRequiredException",
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Returns the enrollment (opt in) status of an account to the Compute Optimizer
+ * service.
+ *
+ * If the account is the management account of an organization, this action also confirms
+ * the enrollment status of member accounts of the organization. Use the GetEnrollmentStatusesForOrganization action to get detailed information
+ * about the enrollment status of member accounts of an organization.
+ */
+export const getEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEnrollmentStatusRequest,
+  output: GetEnrollmentStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns license recommendations for Amazon EC2 instances that run on a specific license.
+ *
+ * Compute Optimizer generates recommendations for licenses that meet a specific set of requirements. For more
+ * information, see the Supported resources and
+ * requirements in the Compute Optimizer User
+ * Guide.
+ */
+export const getLicenseRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetLicenseRecommendationsRequest,
+    output: GetLicenseRecommendationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      MissingAuthenticationToken,
+      OptInRequiredException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Returns the Compute Optimizer enrollment (opt-in) status of organization member
+ * accounts, if your account is an organization management account.
+ *
+ * To get the enrollment status of standalone accounts, use the GetEnrollmentStatus action.
+ */
+export const getEnrollmentStatusesForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetEnrollmentStatusesForOrganizationRequest,
+    output: GetEnrollmentStatusesForOrganizationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      MissingAuthenticationToken,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service.
+ *
+ * If the account is a management account of an organization, this action can also be
+ * used to enroll member accounts of the organization.
+ *
+ * You must have the appropriate permissions to opt in to Compute Optimizer, to view its
+ * recommendations, and to opt out. For more information, see Controlling access with Amazon Web Services Identity and Access Management in the *Compute Optimizer User Guide*.
+ *
+ * When you opt in, Compute Optimizer automatically creates a service-linked role in your
+ * account to access its data. For more information, see Using
+ * Service-Linked Roles for Compute Optimizer in the *Compute Optimizer User Guide*.
+ */
+export const updateEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEnrollmentStatusRequest,
+    output: UpdateEnrollmentStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      MissingAuthenticationToken,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Returns the optimization findings for an account.
+ *
+ * It returns the number of:
+ *
+ * - Amazon EC2 instances in an account that are
+ * `Underprovisioned`, `Overprovisioned`, or
+ * `Optimized`.
+ *
+ * - EC2Amazon EC2 Auto Scaling groups in an account that are `NotOptimized`, or
+ * `Optimized`.
+ *
+ * - Amazon EBS volumes in an account that are `NotOptimized`,
+ * or `Optimized`.
+ *
+ * - Lambda functions in an account that are `NotOptimized`,
+ * or `Optimized`.
+ *
+ * - Amazon ECS services in an account that are `Underprovisioned`,
+ * `Overprovisioned`, or `Optimized`.
+ *
+ * - Commercial software licenses in an account that are `InsufficientMetrics`,
+ * `NotOptimized` or `Optimized`.
+ *
+ * - Amazon Aurora and Amazon RDS databases in an account that are `Underprovisioned`,
+ * `Overprovisioned`, `Optimized`, or `NotOptimized`.
+ */
+export const getRecommendationSummaries = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetRecommendationSummariesRequest,
+    output: GetRecommendationSummariesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      MissingAuthenticationToken,
+      OptInRequiredException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Exports optimization recommendations for Amazon EC2 Auto Scaling groups.
+ *
+ * Recommendations are exported in a comma-separated values (.csv) file, and its metadata
+ * in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting
+ * Recommendations in the Compute Optimizer User
+ * Guide.
+ *
+ * You can have only one Amazon EC2 Auto Scaling group export job in progress per Amazon Web Services Region.
+ */
+export const exportAutoScalingGroupRecommendations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ExportAutoScalingGroupRecommendationsRequest,
+    output: ExportAutoScalingGroupRecommendationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      MissingAuthenticationToken,
+      OptInRequiredException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Exports optimization recommendations for Amazon EBS volumes.
+ *
+ * Recommendations are exported in a comma-separated values (.csv) file, and its metadata
+ * in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting
+ * Recommendations in the Compute Optimizer User
+ * Guide.
+ *
+ * You can have only one Amazon EBS volume export job in progress per Amazon Web Services Region.
+ */
+export const exportEBSVolumeRecommendations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ExportEBSVolumeRecommendationsRequest,
+    output: ExportEBSVolumeRecommendationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      MissingAuthenticationToken,
+      OptInRequiredException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Exports optimization recommendations for Amazon EC2 instances.
+ *
+ * Recommendations are exported in a comma-separated values (.csv) file, and its metadata
+ * in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting
+ * Recommendations in the Compute Optimizer User
+ * Guide.
+ *
+ * You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region.
+ */
+export const exportEC2InstanceRecommendations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ExportEC2InstanceRecommendationsRequest,
+    output: ExportEC2InstanceRecommendationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      MissingAuthenticationToken,
+      OptInRequiredException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
 /**
  * Exports optimization recommendations for Amazon ECS services on Fargate.
  *
@@ -1797,25 +2004,70 @@ export const exportRDSDatabaseRecommendations =
     ],
   }));
 /**
- * Returns the enrollment (opt in) status of an account to the Compute Optimizer
- * service.
+ * Returns Lambda function recommendations.
  *
- * If the account is the management account of an organization, this action also confirms
- * the enrollment status of member accounts of the organization. Use the GetEnrollmentStatusesForOrganization action to get detailed information
- * about the enrollment status of member accounts of an organization.
+ * Compute Optimizer generates recommendations for functions that meet a specific set
+ * of requirements. For more information, see the Supported resources and
+ * requirements in the Compute Optimizer User
+ * Guide.
  */
-export const getEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEnrollmentStatusRequest,
-  output: GetEnrollmentStatusResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidParameterValueException,
-    MissingAuthenticationToken,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
+export const getLambdaFunctionRecommendations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetLambdaFunctionRecommendationsRequest,
+    output: GetLambdaFunctionRecommendationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      MissingAuthenticationToken,
+      OptInRequiredException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Returns Amazon Aurora and RDS database recommendations.
+ *
+ * Compute Optimizer generates recommendations for Amazon Aurora and RDS databases that
+ * meet a specific set of requirements. For more
+ * information, see the Supported resources and
+ * requirements in the Compute Optimizer User
+ * Guide.
+ */
+export const getRDSDatabaseRecommendations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRDSDatabaseRecommendationsRequest,
+    output: GetRDSDatabaseRecommendationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      MissingAuthenticationToken,
+      OptInRequiredException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Returns the projected metrics of Aurora and RDS database recommendations.
+ */
+export const getRDSDatabaseRecommendationProjectedMetrics =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRDSDatabaseRecommendationProjectedMetricsRequest,
+    output: GetRDSDatabaseRecommendationProjectedMetricsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterValueException,
+      MissingAuthenticationToken,
+      OptInRequiredException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
 /**
  * Returns existing recommendation preferences, such as enhanced infrastructure
  * metrics.
@@ -1867,33 +2119,6 @@ export const putRecommendationPreferences =
     ],
   }));
 /**
- * Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service.
- *
- * If the account is a management account of an organization, this action can also be
- * used to enroll member accounts of the organization.
- *
- * You must have the appropriate permissions to opt in to Compute Optimizer, to view its
- * recommendations, and to opt out. For more information, see Controlling access with Amazon Web Services Identity and Access Management in the *Compute Optimizer User Guide*.
- *
- * When you opt in, Compute Optimizer automatically creates a service-linked role in your
- * account to access its data. For more information, see Using
- * Service-Linked Roles for Compute Optimizer in the *Compute Optimizer User Guide*.
- */
-export const updateEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEnrollmentStatusRequest,
-    output: UpdateEnrollmentStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Deletes a recommendation preference, such as enhanced infrastructure metrics.
  *
  * For more information, see Activating
@@ -1916,76 +2141,25 @@ export const deleteRecommendationPreferences =
     ],
   }));
 /**
- * Exports optimization recommendations for Amazon EC2 Auto Scaling groups.
+ * Returns the recommendation preferences that are in effect for a given resource, such
+ * as enhanced infrastructure metrics. Considers all applicable preferences that you might
+ * have set at the resource, account, and organization level.
  *
- * Recommendations are exported in a comma-separated values (.csv) file, and its metadata
- * in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting
- * Recommendations in the Compute Optimizer User
- * Guide.
- *
- * You can have only one Amazon EC2 Auto Scaling group export job in progress per Amazon Web Services Region.
+ * When you create a recommendation preference, you can set its status to
+ * `Active` or `Inactive`. Use this action to view the
+ * recommendation preferences that are in effect, or `Active`.
  */
-export const exportAutoScalingGroupRecommendations =
+export const getEffectiveRecommendationPreferences =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportAutoScalingGroupRecommendationsRequest,
-    output: ExportAutoScalingGroupRecommendationsResponse,
+    input: GetEffectiveRecommendationPreferencesRequest,
+    output: GetEffectiveRecommendationPreferencesResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
       InvalidParameterValueException,
-      LimitExceededException,
       MissingAuthenticationToken,
       OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Exports optimization recommendations for Amazon EBS volumes.
- *
- * Recommendations are exported in a comma-separated values (.csv) file, and its metadata
- * in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting
- * Recommendations in the Compute Optimizer User
- * Guide.
- *
- * You can have only one Amazon EBS volume export job in progress per Amazon Web Services Region.
- */
-export const exportEBSVolumeRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportEBSVolumeRecommendationsRequest,
-    output: ExportEBSVolumeRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Exports optimization recommendations for Amazon EC2 instances.
- *
- * Recommendations are exported in a comma-separated values (.csv) file, and its metadata
- * in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting
- * Recommendations in the Compute Optimizer User
- * Guide.
- *
- * You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region.
- */
-export const exportEC2InstanceRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportEC2InstanceRecommendationsRequest,
-    output: ExportEC2InstanceRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
+      ResourceNotFoundException,
       ServiceUnavailableException,
       ThrottlingException,
     ],
@@ -2033,67 +2207,6 @@ export const getECSServiceRecommendationProjectedMetrics =
     ],
   }));
 /**
- * Returns the recommendation preferences that are in effect for a given resource, such
- * as enhanced infrastructure metrics. Considers all applicable preferences that you might
- * have set at the resource, account, and organization level.
- *
- * When you create a recommendation preference, you can set its status to
- * `Active` or `Inactive`. Use this action to view the
- * recommendation preferences that are in effect, or `Active`.
- */
-export const getEffectiveRecommendationPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEffectiveRecommendationPreferencesRequest,
-    output: GetEffectiveRecommendationPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Returns the Compute Optimizer enrollment (opt-in) status of organization member
- * accounts, if your account is an organization management account.
- *
- * To get the enrollment status of standalone accounts, use the GetEnrollmentStatus action.
- */
-export const getEnrollmentStatusesForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEnrollmentStatusesForOrganizationRequest,
-    output: GetEnrollmentStatusesForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Returns the projected metrics of Aurora and RDS database recommendations.
- */
-export const getRDSDatabaseRecommendationProjectedMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRDSDatabaseRecommendationProjectedMetricsRequest,
-    output: GetRDSDatabaseRecommendationProjectedMetricsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
  * Describes recommendation export jobs created in the last seven days.
  *
  * Use the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRecommendations actions to request an export of your
@@ -2115,72 +2228,6 @@ export const describeRecommendationExportJobs =
       ThrottlingException,
     ],
   }));
-/**
- * Returns license recommendations for Amazon EC2 instances that run on a specific license.
- *
- * Compute Optimizer generates recommendations for licenses that meet a specific set of requirements. For more
- * information, see the Supported resources and
- * requirements in the Compute Optimizer User
- * Guide.
- */
-export const getLicenseRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLicenseRecommendationsRequest,
-    output: GetLicenseRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Returns the optimization findings for an account.
- *
- * It returns the number of:
- *
- * - Amazon EC2 instances in an account that are
- * `Underprovisioned`, `Overprovisioned`, or
- * `Optimized`.
- *
- * - EC2Amazon EC2 Auto Scaling groups in an account that are `NotOptimized`, or
- * `Optimized`.
- *
- * - Amazon EBS volumes in an account that are `NotOptimized`,
- * or `Optimized`.
- *
- * - Lambda functions in an account that are `NotOptimized`,
- * or `Optimized`.
- *
- * - Amazon ECS services in an account that are `Underprovisioned`,
- * `Overprovisioned`, or `Optimized`.
- *
- * - Commercial software licenses in an account that are `InsufficientMetrics`,
- * `NotOptimized` or `Optimized`.
- *
- * - Amazon Aurora and Amazon RDS databases in an account that are `Underprovisioned`,
- * `Overprovisioned`, `Optimized`, or `NotOptimized`.
- */
-export const getRecommendationSummaries = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRecommendationSummariesRequest,
-    output: GetRecommendationSummariesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Returns Amazon EC2 Auto Scaling group recommendations.
  *
@@ -2297,50 +2344,3 @@ export const getIdleRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Returns Lambda function recommendations.
- *
- * Compute Optimizer generates recommendations for functions that meet a specific set
- * of requirements. For more information, see the Supported resources and
- * requirements in the Compute Optimizer User
- * Guide.
- */
-export const getLambdaFunctionRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetLambdaFunctionRecommendationsRequest,
-    output: GetLambdaFunctionRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Returns Amazon Aurora and RDS database recommendations.
- *
- * Compute Optimizer generates recommendations for Amazon Aurora and RDS databases that
- * meet a specific set of requirements. For more
- * information, see the Supported resources and
- * requirements in the Compute Optimizer User
- * Guide.
- */
-export const getRDSDatabaseRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRDSDatabaseRecommendationsRequest,
-    output: GetRDSDatabaseRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));

@@ -618,10 +618,6 @@ export class MetricsSummary extends S.Class<MetricsSummary>("MetricsSummary")({
     ScansWithMostOpenCriticalFindings,
   ),
 }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class Recommendation extends S.Class<Recommendation>("Recommendation")({
   text: S.optional(S.String),
   url: S.optional(S.String),
@@ -679,6 +675,10 @@ export class BatchGetFindingsResponse extends S.Class<BatchGetFindingsResponse>(
 export class GetMetricsSummaryResponse extends S.Class<GetMetricsSummaryResponse>(
   "GetMetricsSummaryResponse",
 )({ metricsSummary: S.optional(MetricsSummary) }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class GetFindingsResponse extends S.Class<GetFindingsResponse>(
   "GetFindingsResponse",
 )({ findings: S.optional(Findings), nextToken: S.optional(S.String) }) {}
@@ -686,30 +686,70 @@ export class GetFindingsResponse extends S.Class<GetFindingsResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
+  {
+    errorCode: S.String,
+    message: S.String,
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    errorCode: S.String,
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+  },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { error: S.optional(S.String), message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  {
+    errorCode: S.String,
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+  },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  {
+    errorCode: S.String,
+    message: S.String,
+    serviceCode: S.optional(S.String),
+    quotaCode: S.optional(S.String),
+  },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  {
+    errorCode: S.String,
+    message: S.String,
+    reason: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
+/**
+ * Use to get the encryption configuration for an account.
+ */
+export const getAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAccountConfigurationRequest,
+    output: GetAccountConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Use to remove one or more tags from an existing scan.
  */
@@ -726,27 +766,55 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Use to update the encryption configuration for an account.
+ * Returns a list of all tags associated with a scan.
  */
-export const updateAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountConfigurationRequest,
-    output: UpdateAccountConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use to create a scan using code uploaded to an Amazon S3 bucket.
  */
 export const createScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScanRequest,
   output: CreateScanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns details about a scan, including whether or not a scan has completed.
+ */
+export const getScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetScanRequest,
+  output: GetScanResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Use to add one or more tags to an existing scan.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -767,35 +835,6 @@ export const createUploadUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Use to get the encryption configuration for an account.
- */
-export const getAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccountConfigurationRequest,
-    output: GetAccountConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns details about a scan, including whether or not a scan has completed.
- */
-export const getScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetScanRequest,
-  output: GetScanResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -827,21 +866,6 @@ export const listScans = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of all tags associated with a scan.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Returns a list of requested findings from standard scans.
  */
 export const batchGetFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -868,20 +892,21 @@ export const getMetricsSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Use to add one or more tags to an existing scan.
+ * Use to update the encryption configuration for an account.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const updateAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountConfigurationRequest,
+    output: UpdateAccountConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Returns a list of all findings generated by a particular scan.
  */

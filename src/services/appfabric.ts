@@ -883,10 +883,6 @@ export class UserAccessTaskItem extends S.Class<UserAccessTaskItem>(
   error: S.optional(TaskError),
 }) {}
 export const UserAccessTasksList = S.Array(UserAccessTaskItem);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class ConnectAppAuthorizationResponse extends S.Class<ConnectAppAuthorizationResponse>(
   "ConnectAppAuthorizationResponse",
 )({ appAuthorizationSummary: AppAuthorizationSummary }) {}
@@ -996,6 +992,10 @@ export class CreateIngestionDestinationRequest extends S.Class<CreateIngestionDe
     rules,
   ),
 ) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class CreateIngestionDestinationResponse extends S.Class<CreateIngestionDestinationResponse>(
   "CreateIngestionDestinationResponse",
 )({ ingestionDestination: IngestionDestination }) {}
@@ -1003,40 +1003,71 @@ export class CreateIngestionDestinationResponse extends S.Class<CreateIngestionD
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    message: S.String,
+    serviceCode: S.optional(S.String),
+    quotaCode: S.optional(S.String),
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+    serviceCode: S.String,
+    quotaCode: S.String,
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
 /**
- * Assigns one or more tags (key-value pairs) to the specified resource.
+ * Returns a list of app bundles.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const listAppBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAppBundlesRequest,
+  output: ListAppBundlesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about an app authorization.
+ */
+export const getAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAppAuthorizationRequest,
+  output: GetAppAuthorizationResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1046,27 +1077,12 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes a tag or tags from a resource.
+ * Returns information about an ingestion destination.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an app authorization. You must delete the associated ingestion before you can
- * delete an app authorization.
- */
-export const deleteAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getIngestionDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteAppAuthorizationRequest,
-    output: DeleteAppAuthorizationResponse,
+    input: GetIngestionDestinationRequest,
+    output: GetIngestionDestinationResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -1077,27 +1093,43 @@ export const deleteAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes an app bundle. You must delete all associated app authorizations before you can
- * delete an app bundle.
+ * Returns a list of all app authorizations configured for an app bundle.
  */
-export const deleteAppBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAppBundleRequest,
-  output: DeleteAppBundleResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const listAppAuthorizations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAppAuthorizationsRequest,
+    output: ListAppAuthorizationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
- * Deletes an ingestion. You must stop (disable) the ingestion and you must delete all
- * associated ingestion destinations before you can delete an app ingestion.
+ * Returns a list of all ingestion destinations configured for an ingestion.
  */
-export const deleteIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIngestionRequest,
-  output: DeleteIngestionResponse,
+export const listIngestionDestinations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListIngestionDestinationsRequest,
+    output: ListIngestionDestinationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a list of all ingestions configured for an app bundle.
+ */
+export const listIngestions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIngestionsRequest,
+  output: ListIngestionsResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1107,17 +1139,15 @@ export const deleteIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes an ingestion destination.
+ * Starts the tasks to search user access status for a specific email address.
  *
- * This deletes the association between an ingestion and it's destination. It doesn't
- * delete previously ingested data or the storage destination, such as the Amazon S3
- * bucket where the data is delivered. If the ingestion destination is deleted while the
- * associated ingestion is enabled, the ingestion will fail and is eventually disabled.
+ * The tasks are stopped when the user access status data is found. The tasks are
+ * terminated when the API calls to the application time out.
  */
-export const deleteIngestionDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const startUserAccessTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteIngestionDestinationRequest,
-    output: DeleteIngestionDestinationResponse,
+    input: StartUserAccessTasksRequest,
+    output: StartUserAccessTasksResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -1170,21 +1200,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts (enables) an ingestion, which collects data from an application.
- */
-export const startIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartIngestionRequest,
-  output: StartIngestionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates an app authorization within an app bundle, which allows AppFabric to connect to an
  * application.
  *
@@ -1205,6 +1220,70 @@ export const updateAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deletes an ingestion. You must stop (disable) the ingestion and you must delete all
+ * associated ingestion destinations before you can delete an app ingestion.
+ */
+export const deleteIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIngestionRequest,
+  output: DeleteIngestionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an ingestion destination.
+ *
+ * This deletes the association between an ingestion and it's destination. It doesn't
+ * delete previously ingested data or the storage destination, such as the Amazon S3
+ * bucket where the data is delivered. If the ingestion destination is deleted while the
+ * associated ingestion is enabled, the ingestion will fail and is eventually disabled.
+ */
+export const deleteIngestionDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteIngestionDestinationRequest,
+    output: DeleteIngestionDestinationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Assigns one or more tags (key-value pairs) to the specified resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a tag or tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to
  * call the APIs of the application.
  */
@@ -1212,6 +1291,87 @@ export const connectAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: ConnectAppAuthorizationRequest,
     output: ConnectAppAuthorizationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Starts (enables) an ingestion, which collects data from an application.
+ */
+export const startIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartIngestionRequest,
+  output: StartIngestionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Stops (disables) an ingestion.
+ */
+export const stopIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopIngestionRequest,
+  output: StopIngestionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets user access details in a batch request.
+ *
+ * This action polls data from the tasks that are kicked off by the
+ * `StartUserAccessTasks` action.
+ */
+export const batchGetUserAccessTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchGetUserAccessTasksRequest,
+    output: BatchGetUserAccessTasksResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an app bundle. You must delete all associated app authorizations before you can
+ * delete an app bundle.
+ */
+export const deleteAppBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppBundleRequest,
+  output: DeleteAppBundleResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an app authorization. You must delete the associated ingestion before you can
+ * delete an app authorization.
+ */
+export const deleteAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAppAuthorizationRequest,
+    output: DeleteAppAuthorizationResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -1252,129 +1412,6 @@ export const createIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about an app authorization.
- */
-export const getAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAppAuthorizationRequest,
-  output: GetAppAuthorizationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about an ingestion destination.
- */
-export const getIngestionDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIngestionDestinationRequest,
-    output: GetIngestionDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of all app authorizations configured for an app bundle.
- */
-export const listAppAuthorizations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAppAuthorizationsRequest,
-    output: ListAppAuthorizationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of app bundles.
- */
-export const listAppBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAppBundlesRequest,
-  output: ListAppBundlesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of all ingestion destinations configured for an ingestion.
- */
-export const listIngestionDestinations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIngestionDestinationsRequest,
-    output: ListIngestionDestinationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of all ingestions configured for an app bundle.
- */
-export const listIngestions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListIngestionsRequest,
-  output: ListIngestionsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts the tasks to search user access status for a specific email address.
- *
- * The tasks are stopped when the user access status data is found. The tasks are
- * terminated when the API calls to the application time out.
- */
-export const startUserAccessTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartUserAccessTasksRequest,
-    output: StartUserAccessTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Stops (disables) an ingestion.
- */
-export const stopIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopIngestionRequest,
-  output: StopIngestionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates an ingestion destination, which specifies how an application's ingested data is
  * processed by Amazon Web Services AppFabric and where it's delivered.
  */
@@ -1388,25 +1425,6 @@ export const updateIngestionDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InternalServerException,
       ResourceNotFoundException,
       ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets user access details in a batch request.
- *
- * This action polls data from the tasks that are kicked off by the
- * `StartUserAccessTasks` action.
- */
-export const batchGetUserAccessTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetUserAccessTasksRequest,
-    output: BatchGetUserAccessTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],

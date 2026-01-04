@@ -783,14 +783,6 @@ export class ListTagsForResourceResult extends S.Class<ListTagsForResourceResult
 export class StartEngagementResult extends S.Class<StartEngagementResult>(
   "StartEngagementResult",
 )({ EngagementArn: S.String }) {}
-export class DependentEntity extends S.Class<DependentEntity>(
-  "DependentEntity",
-)({ RelationType: S.String, DependentResourceIds: SsmContactsArnList }) {}
-export const DependentEntityList = S.Array(DependentEntity);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class ContactChannel extends S.Class<ContactChannel>("ContactChannel")({
   ContactChannelArn: S.String,
   ContactArn: S.String,
@@ -890,6 +882,10 @@ export class Engagement extends S.Class<Engagement>("Engagement")({
   StopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
 }) {}
 export const EngagementsList = S.Array(Engagement);
+export class DependentEntity extends S.Class<DependentEntity>(
+  "DependentEntity",
+)({ RelationType: S.String, DependentResourceIds: SsmContactsArnList }) {}
+export const DependentEntityList = S.Array(DependentEntity);
 export class CreateRotationRequest extends S.Class<CreateRotationRequest>(
   "CreateRotationRequest",
 )(
@@ -929,6 +925,10 @@ export class CreateContactRequest extends S.Class<CreateContactRequest>(
 export class CreateRotationResult extends S.Class<CreateRotationResult>(
   "CreateRotationResult",
 )({ RotationArn: S.String }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, Message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class CreateContactResult extends S.Class<CreateContactResult>(
   "CreateContactResult",
 )({ ContactArn: S.String }) {}
@@ -936,62 +936,97 @@ export class CreateContactResult extends S.Class<CreateContactResult>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    Message: S.String,
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class DataEncryptionException extends S.TaggedError<DataEncryptionException>()(
   "DataEncryptionException",
-  {},
+  { Message: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    Message: S.String,
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  {
+    Message: S.String,
+    ResourceId: S.String,
+    ResourceType: S.String,
+    DependentEntities: S.optional(DependentEntityList),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    Message: S.String,
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    QuotaCode: S.String,
+    ServiceCode: S.String,
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.String,
+    Reason: S.optional(S.String),
+    Fields: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
 /**
- * Deletes an existing override for an on-call rotation.
+ * Lists all contacts and escalation plans in Incident Manager.
  */
-export const deleteRotationOverride = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRotationOverrideRequest,
-    output: DeleteRotationOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListContactsRequest,
+  output: ListContactsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
- * Adds a resource policy to the specified contact or escalation plan. The resource policy
- * is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Setting up
- * cross-account functionality.
+ * Lists all engagements that have happened in an incident.
  */
-export const putContactPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutContactPolicyRequest,
-  output: PutContactPolicyResult,
+export const listEngagements = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEngagementsRequest,
+  output: ListEngagementsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * To remove a contact from Incident Manager, you can delete the contact. However, deleting a
+ * contact does not remove it from escalation plans and related response plans. Deleting an
+ * escalation plan also does not remove it from all related response plans. To modify an
+ * escalation plan, we recommend using the UpdateContact action to specify a
+ * different existing contact.
+ */
+export const deleteContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactRequest,
+  output: DeleteContactResult,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1001,169 +1036,6 @@ export const putContactPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Stops an engagement before it finishes the final stage of the escalation plan or
- * engagement plan. Further contacts aren't engaged.
- */
-export const stopEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopEngagementRequest,
-  output: StopEngagementResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes tags from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the contact or escalation plan specified.
- */
-export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateContactRequest,
-  output: UpdateContactResult,
-  errors: [
-    AccessDeniedException,
-    DataEncryptionException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a contact's contact channel.
- */
-export const updateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactChannelRequest,
-    output: UpdateContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DataEncryptionException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the information specified for an on-call rotation.
- */
-export const updateRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRotationRequest,
-  output: UpdateRotationResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Used to acknowledge an engagement to a contact channel during an incident.
- */
-export const acceptPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AcceptPageRequest,
-  output: AcceptPageResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Activates a contact's contact channel. Incident Manager can't engage a contact until the
- * contact channel has been activated.
- */
-export const activateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ActivateContactChannelRequest,
-    output: ActivateContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates an override for a rotation in an on-call schedule.
- */
-export const createRotationOverride = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRotationOverrideRequest,
-    output: CreateRotationOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * To no longer receive Incident Manager engagements to a contact channel, you can deactivate
- * the channel.
- */
-export const deactivateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeactivateContactChannelRequest,
-    output: DeactivateContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * To stop receiving engagements on a contact channel, you can delete the channel from a
- * contact. Deleting the contact channel does not remove it from the contact's engagement
- * plan, but the stage that includes the channel will be ignored. If you delete the only
- * contact channel for a contact, you'll no longer be able to engage that contact during an
- * incident.
- */
-export const deleteContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContactChannelRequest,
-    output: DeleteContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Incident Manager uses engagements to engage contacts and escalation plans during an incident.
  * Use this command to describe the engagement that occurred during an incident.
@@ -1181,11 +1053,11 @@ export const describeEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists details of the engagement to a contact channel.
+ * Lists all contact channels for the specified contact.
  */
-export const describePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribePageRequest,
-  output: DescribePageResult,
+export const listContactChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListContactChannelsRequest,
+  output: ListContactChannelsResult,
   errors: [
     AccessDeniedException,
     DataEncryptionException,
@@ -1196,14 +1068,13 @@ export const describePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves information about the specified contact or escalation plan.
+ * Lists all of the engagements to contact channels that have been acknowledged.
  */
-export const getContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetContactRequest,
-  output: GetContactResult,
+export const listPageReceipts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPageReceiptsRequest,
+  output: ListPageReceiptsResult,
   errors: [
     AccessDeniedException,
-    DataEncryptionException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -1211,14 +1082,61 @@ export const getContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * List details about a specific contact channel.
+ * Returns the resolution path of an engagement. For example, the escalation plan engaged
+ * in an incident might target an on-call schedule that includes several contacts in a
+ * rotation, but just one contact on-call when the incident starts. The resolution path
+ * indicates the hierarchy of escalation plan > on-call schedule >
+ * contact.
  */
-export const getContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetContactChannelRequest,
-  output: GetContactChannelResult,
+export const listPageResolutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPageResolutionsRequest,
+  output: ListPageResolutionsResult,
   errors: [
     AccessDeniedException,
-    DataEncryptionException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the engagements to a contact's contact channels.
+ */
+export const listPagesByContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPagesByContactRequest,
+  output: ListPagesByContactResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of overrides currently specified for an on-call rotation.
+ */
+export const listRotationOverrides = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListRotationOverridesRequest,
+    output: ListRotationOverridesResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves a list of on-call rotations.
+ */
+export const listRotations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRotationsRequest,
+  output: ListRotationsResult,
+  errors: [
+    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -1299,19 +1217,145 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Sends an activation code to a contact channel. The contact can use this code to activate
- * the contact channel in the console or with the `ActivateChannel` operation.
- * Incident Manager can't engage a contact channel until it has been activated.
+ * Activates a contact's contact channel. Incident Manager can't engage a contact until the
+ * contact channel has been activated.
  */
-export const sendActivationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendActivationCodeRequest,
-  output: SendActivationCodeResult,
+export const activateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ActivateContactChannelRequest,
+    output: ActivateContactChannelResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * To no longer receive Incident Manager engagements to a contact channel, you can deactivate
+ * the channel.
+ */
+export const deactivateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeactivateContactChannelRequest,
+    output: DeactivateContactChannelResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * To stop receiving engagements on a contact channel, you can delete the channel from a
+ * contact. Deleting the contact channel does not remove it from the contact's engagement
+ * plan, but the stage that includes the channel will be ignored. If you delete the only
+ * contact channel for a contact, you'll no longer be able to engage that contact during an
+ * incident.
+ */
+export const deleteContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteContactChannelRequest,
+    output: DeleteContactChannelResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an existing override for an on-call rotation.
+ */
+export const deleteRotationOverride = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRotationOverrideRequest,
+    output: DeleteRotationOverrideResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Stops an engagement before it finishes the final stage of the escalation plan or
+ * engagement plan. Further contacts aren't engaged.
+ */
+export const stopEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopEngagementRequest,
+  output: StopEngagementResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists details of the engagement to a contact channel.
+ */
+export const describePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePageRequest,
+  output: DescribePageResult,
   errors: [
     AccessDeniedException,
     DataEncryptionException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about the specified contact or escalation plan.
+ */
+export const getContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContactRequest,
+  output: GetContactResult,
+  errors: [
+    AccessDeniedException,
+    DataEncryptionException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List details about a specific contact channel.
+ */
+export const getContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContactChannelRequest,
+  output: GetContactChannelResult,
+  errors: [
+    AccessDeniedException,
+    DataEncryptionException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1326,148 +1370,6 @@ export const startEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     DataEncryptionException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Tags a contact or escalation plan. You can tag only contacts and escalation plans in the
- * first region of your replication set.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * A contact channel is the method that Incident Manager uses to engage your contact.
- */
-export const createContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContactChannelRequest,
-    output: CreateContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DataEncryptionException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * To remove a contact from Incident Manager, you can delete the contact. However, deleting a
- * contact does not remove it from escalation plans and related response plans. Deleting an
- * escalation plan also does not remove it from all related response plans. To modify an
- * escalation plan, we recommend using the UpdateContact action to specify a
- * different existing contact.
- */
-export const deleteContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteContactRequest,
-  output: DeleteContactResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a rotation from the system. If a rotation belongs to more than one on-call
- * schedule, this operation deletes it from all of them.
- */
-export const deleteRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRotationRequest,
-  output: DeleteRotationResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all contact channels for the specified contact.
- */
-export const listContactChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListContactChannelsRequest,
-  output: ListContactChannelsResult,
-  errors: [
-    AccessDeniedException,
-    DataEncryptionException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all contacts and escalation plans in Incident Manager.
- */
-export const listContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListContactsRequest,
-  output: ListContactsResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all of the engagements to contact channels that have been acknowledged.
- */
-export const listPageReceipts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPageReceiptsRequest,
-  output: ListPageReceiptsResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the resolution path of an engagement. For example, the escalation plan engaged
- * in an incident might target an on-call schedule that includes several contacts in a
- * rotation, but just one contact on-call when the incident starts. The resolution path
- * indicates the hierarchy of escalation plan > on-call schedule >
- * contact.
- */
-export const listPageResolutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPageResolutionsRequest,
-  output: ListPageResolutionsResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the engagements to a contact's contact channels.
- */
-export const listPagesByContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPagesByContactRequest,
-  output: ListPagesByContactResult,
-  errors: [
-    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -1492,27 +1394,11 @@ export const listPreviewRotationShifts = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves a list of overrides currently specified for an on-call rotation.
+ * Used to acknowledge an engagement to a contact channel during an incident.
  */
-export const listRotationOverrides = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRotationOverridesRequest,
-    output: ListRotationOverridesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves a list of on-call rotations.
- */
-export const listRotations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRotationsRequest,
-  output: ListRotationsResult,
+export const acceptPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptPageRequest,
+  output: AcceptPageResult,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1522,18 +1408,88 @@ export const listRotations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all engagements that have happened in an incident.
+ * Deletes a rotation from the system. If a rotation belongs to more than one on-call
+ * schedule, this operation deletes it from all of them.
  */
-export const listEngagements = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEngagementsRequest,
-  output: ListEngagementsResult,
+export const deleteRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRotationRequest,
+  output: DeleteRotationResult,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
+/**
+ * Adds a resource policy to the specified contact or escalation plan. The resource policy
+ * is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Setting up
+ * cross-account functionality.
+ */
+export const putContactPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutContactPolicyRequest,
+  output: PutContactPolicyResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a contact's contact channel.
+ */
+export const updateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContactChannelRequest,
+    output: UpdateContactChannelResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      DataEncryptionException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the information specified for an on-call rotation.
+ */
+export const updateRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRotationRequest,
+  output: UpdateRotationResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * A contact channel is the method that Incident Manager uses to engage your contact.
+ */
+export const createContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateContactChannelRequest,
+    output: CreateContactChannelResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      DataEncryptionException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Returns a list of shifts generated by an existing rotation in the system.
  */
@@ -1545,6 +1501,73 @@ export const listRotationShifts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an override for a rotation in an on-call schedule.
+ */
+export const createRotationOverride = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRotationOverrideRequest,
+    output: CreateRotationOverrideResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Tags a contact or escalation plan. You can tag only contacts and escalation plans in the
+ * first region of your replication set.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Sends an activation code to a contact channel. The contact can use this code to activate
+ * the contact channel in the console or with the `ActivateChannel` operation.
+ * Incident Manager can't engage a contact channel until it has been activated.
+ */
+export const sendActivationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendActivationCodeRequest,
+  output: SendActivationCodeResult,
+  errors: [
+    AccessDeniedException,
+    DataEncryptionException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the contact or escalation plan specified.
+ */
+export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactRequest,
+  output: UpdateContactResult,
+  errors: [
+    AccessDeniedException,
+    DataEncryptionException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],

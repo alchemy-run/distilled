@@ -847,6 +847,84 @@ export class ValidateTelemetryPipelineConfigurationInput extends S.Class<Validat
     rules,
   ),
 ) {}
+export class CreateTelemetryPipelineInput extends S.Class<CreateTelemetryPipelineInput>(
+  "CreateTelemetryPipelineInput",
+)(
+  {
+    Name: S.String,
+    Configuration: TelemetryPipelineConfiguration,
+    Tags: S.optional(TagMapInput),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/CreateTelemetryPipeline" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetTelemetryPipelineInput extends S.Class<GetTelemetryPipelineInput>(
+  "GetTelemetryPipelineInput",
+)(
+  { PipelineIdentifier: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/GetTelemetryPipeline" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateTelemetryPipelineInput extends S.Class<UpdateTelemetryPipelineInput>(
+  "UpdateTelemetryPipelineInput",
+)(
+  {
+    PipelineIdentifier: S.String,
+    Configuration: TelemetryPipelineConfiguration,
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/UpdateTelemetryPipeline" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateTelemetryPipelineOutput extends S.Class<UpdateTelemetryPipelineOutput>(
+  "UpdateTelemetryPipelineOutput",
+)({}) {}
+export class DeleteTelemetryPipelineInput extends S.Class<DeleteTelemetryPipelineInput>(
+  "DeleteTelemetryPipelineInput",
+)(
+  { PipelineIdentifier: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/DeleteTelemetryPipeline" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteTelemetryPipelineOutput extends S.Class<DeleteTelemetryPipelineOutput>(
+  "DeleteTelemetryPipelineOutput",
+)({}) {}
+export class ListTelemetryPipelinesInput extends S.Class<ListTelemetryPipelinesInput>(
+  "ListTelemetryPipelinesInput",
+)(
+  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
+  T.all(
+    T.Http({ method: "POST", uri: "/ListTelemetryPipelines" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export class Encryption extends S.Class<Encryption>("Encryption")({
   SseAlgorithm: S.String,
   KmsKeyArn: S.optional(S.String),
@@ -973,18 +1051,9 @@ export class UpdateTelemetryRuleOutput extends S.Class<UpdateTelemetryRuleOutput
 export class UpdateTelemetryRuleForOrganizationOutput extends S.Class<UpdateTelemetryRuleForOrganizationOutput>(
   "UpdateTelemetryRuleForOrganizationOutput",
 )({ RuleArn: S.optional(S.String) }) {}
-export const FieldMap = S.Record({ key: S.String, value: S.String });
-export class ValidationError extends S.Class<ValidationError>(
-  "ValidationError",
-)({
-  Message: S.optional(S.String),
-  Reason: S.optional(S.String),
-  FieldMap: S.optional(FieldMap),
-}) {}
-export const ValidationErrors = S.Array(ValidationError);
-export class ValidateTelemetryPipelineConfigurationOutput extends S.Class<ValidateTelemetryPipelineConfigurationOutput>(
-  "ValidateTelemetryPipelineConfigurationOutput",
-)({ Errors: S.optional(ValidationErrors) }) {}
+export class CreateTelemetryPipelineOutput extends S.Class<CreateTelemetryPipelineOutput>(
+  "CreateTelemetryPipelineOutput",
+)({ Arn: S.optional(S.String) }) {}
 export class CentralizationRuleSummary extends S.Class<CentralizationRuleSummary>(
   "CentralizationRuleSummary",
 )({
@@ -1016,6 +1085,8 @@ export class IntegrationSummary extends S.Class<IntegrationSummary>(
   "IntegrationSummary",
 )({ Arn: S.optional(S.String), Status: S.optional(S.String) }) {}
 export const IntegrationSummaries = S.Array(IntegrationSummary);
+export const Processors = S.Array(S.String);
+export const Sinks = S.Array(S.String);
 export class CreateS3TableIntegrationOutput extends S.Class<CreateS3TableIntegrationOutput>(
   "CreateS3TableIntegrationOutput",
 )({ Arn: S.optional(S.String) }) {}
@@ -1052,14 +1123,74 @@ export class ListTelemetryRulesOutput extends S.Class<ListTelemetryRulesOutput>(
   TelemetryRuleSummaries: S.optional(TelemetryRuleSummaries),
   NextToken: S.optional(S.String),
 }) {}
+export const FieldMap = S.Record({ key: S.String, value: S.String });
+export class TelemetryPipelineStatusReason extends S.Class<TelemetryPipelineStatusReason>(
+  "TelemetryPipelineStatusReason",
+)({ Description: S.optional(S.String) }) {}
+export class ValidationError extends S.Class<ValidationError>(
+  "ValidationError",
+)({
+  Message: S.optional(S.String),
+  Reason: S.optional(S.String),
+  FieldMap: S.optional(FieldMap),
+}) {}
+export const ValidationErrors = S.Array(ValidationError);
+export class TelemetryPipeline extends S.Class<TelemetryPipeline>(
+  "TelemetryPipeline",
+)({
+  CreatedTimeStamp: S.optional(S.Number),
+  LastUpdateTimeStamp: S.optional(S.Number),
+  Arn: S.optional(S.String),
+  Name: S.optional(S.String),
+  Configuration: S.optional(TelemetryPipelineConfiguration),
+  Status: S.optional(S.String),
+  StatusReason: S.optional(TelemetryPipelineStatusReason),
+  Tags: S.optional(TagMapOutput),
+}) {}
+export class Source extends S.Class<Source>("Source")({
+  Type: S.optional(S.String),
+}) {}
+export const Sources = S.Array(Source);
+export class DataSource extends S.Class<DataSource>("DataSource")({
+  Name: S.optional(S.String),
+  Type: S.optional(S.String),
+}) {}
+export const DataSources = S.Array(DataSource);
+export class ValidateTelemetryPipelineConfigurationOutput extends S.Class<ValidateTelemetryPipelineConfigurationOutput>(
+  "ValidateTelemetryPipelineConfigurationOutput",
+)({ Errors: S.optional(ValidationErrors) }) {}
+export class GetTelemetryPipelineOutput extends S.Class<GetTelemetryPipelineOutput>(
+  "GetTelemetryPipelineOutput",
+)({ Pipeline: S.optional(TelemetryPipeline) }) {}
 export class PipelineOutputError extends S.Class<PipelineOutputError>(
   "PipelineOutputError",
 )({ Message: S.optional(S.String) }) {}
+export class ConfigurationSummary extends S.Class<ConfigurationSummary>(
+  "ConfigurationSummary",
+)({
+  Sources: S.optional(Sources),
+  DataSources: S.optional(DataSources),
+  Processors: S.optional(Processors),
+  ProcessorCount: S.optional(S.Number),
+  Sinks: S.optional(Sinks),
+}) {}
 export class PipelineOutput extends S.Class<PipelineOutput>("PipelineOutput")({
   Record: S.optional(Record),
   Error: S.optional(PipelineOutputError),
 }) {}
 export const PipelineOutputs = S.Array(PipelineOutput);
+export class TelemetryPipelineSummary extends S.Class<TelemetryPipelineSummary>(
+  "TelemetryPipelineSummary",
+)({
+  CreatedTimeStamp: S.optional(S.Number),
+  LastUpdateTimeStamp: S.optional(S.Number),
+  Arn: S.optional(S.String),
+  Name: S.optional(S.String),
+  Status: S.optional(S.String),
+  Tags: S.optional(TagMapOutput),
+  ConfigurationSummary: S.optional(ConfigurationSummary),
+}) {}
+export const TelemetryPipelineSummaries = S.Array(TelemetryPipelineSummary);
 export class CreateCentralizationRuleForOrganizationInput extends S.Class<CreateCentralizationRuleForOrganizationInput>(
   "CreateCentralizationRuleForOrganizationInput",
 )(
@@ -1080,6 +1211,12 @@ export class CreateCentralizationRuleForOrganizationInput extends S.Class<Create
 export class TestTelemetryPipelineOutput extends S.Class<TestTelemetryPipelineOutput>(
   "TestTelemetryPipelineOutput",
 )({ Results: S.optional(PipelineOutputs) }) {}
+export class ListTelemetryPipelinesOutput extends S.Class<ListTelemetryPipelinesOutput>(
+  "ListTelemetryPipelinesOutput",
+)({
+  PipelineSummaries: S.optional(TelemetryPipelineSummaries),
+  NextToken: S.optional(S.String),
+}) {}
 export class CreateCentralizationRuleForOrganizationOutput extends S.Class<CreateCentralizationRuleForOrganizationOutput>(
   "CreateCentralizationRuleForOrganizationOutput",
 )({ RuleArn: S.optional(S.String) }) {}
@@ -1103,38 +1240,478 @@ export class CreateTelemetryRuleOutput extends S.Class<CreateTelemetryRuleOutput
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  {
+    Message: S.optional(S.String),
+    amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    Message: S.optional(S.String),
+    amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    Message: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    Message: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    Message: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+    QuotaCode: S.optional(S.String),
+    amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
   "InvalidStateException",
   { Message: S.optional(S.String) },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String), Errors: S.optional(ValidationErrors) },
+) {}
 
 //# Operations
+/**
+ * Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata.
+ */
+export const stopTelemetryEnrichment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopTelemetryEnrichmentRequest,
+    output: StopTelemetryEnrichmentOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
+ */
+export const getTelemetryEvaluationStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTelemetryEvaluationStatusRequest,
+    output: GetTelemetryEvaluationStatusOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Resource Explorer to provide richer context for monitoring and observability.
+ */
+export const startTelemetryEnrichment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartTelemetryEnrichmentRequest,
+    output: StartTelemetryEnrichmentOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Resource Explorer.
+ */
+export const getTelemetryEnrichmentStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTelemetryEnrichmentStatusRequest,
+    output: GetTelemetryEnrichmentStatusOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
+ */
+export const startTelemetryEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartTelemetryEvaluationRequest,
+    output: StartTelemetryEvaluationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues.
+ */
+export const validateTelemetryPipelineConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ValidateTelemetryPipelineConfigurationInput,
+    output: ValidateTelemetryPipelineConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata.
+ */
+export const getTelemetryPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetTelemetryPipelineInput,
+    output: GetTelemetryPipelineOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities.
+ */
+export const createTelemetryPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateTelemetryPipelineInput,
+    output: CreateTelemetryPipelineOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
+ */
+export const deleteS3TableIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteS3TableIntegrationInput,
+    output: DeleteS3TableIntegrationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidStateException,
+      ServiceQuotaExceededException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * This actions begins onboarding the organization and all member accounts to the telemetry config feature.
+ */
+export const startTelemetryEvaluationForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartTelemetryEvaluationForOrganizationRequest,
+    output: StartTelemetryEvaluationForOrganizationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
+ */
+export const stopTelemetryEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopTelemetryEvaluationRequest,
+    output: StopTelemetryEvaluationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
+ */
+export const stopTelemetryEvaluationForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StopTelemetryEvaluationForOrganizationRequest,
+    output: StopTelemetryEvaluationForOrganizationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
+ */
+export const getTelemetryEvaluationStatusForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTelemetryEvaluationStatusForOrganizationRequest,
+    output: GetTelemetryEvaluationStatusForOrganizationOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ */
+export const listTelemetryRulesForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListTelemetryRulesForOrganizationInput,
+    output: ListTelemetryRulesForOrganizationOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ */
+export const listCentralizationRulesForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCentralizationRulesForOrganizationInput,
+    output: ListCentralizationRulesForOrganizationOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
+ */
+export const listResourceTelemetry = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListResourceTelemetryInput,
+    output: ListResourceTelemetryOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
+ */
+export const listResourceTelemetryForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListResourceTelemetryForOrganizationInput,
+    output: ListResourceTelemetryForOrganizationOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
+ */
+export const listS3TableIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListS3TableIntegrationsInput,
+    output: ListS3TableIntegrationsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
+ */
+export const listTelemetryRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTelemetryRulesInput,
+  output: ListTelemetryRulesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
+ */
+export const updateTelemetryRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTelemetryRuleInput,
+  output: UpdateTelemetryRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ */
+export const updateTelemetryRuleForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateTelemetryRuleForOrganizationInput,
+    output: UpdateTelemetryRuleForOrganizationOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration of an existing telemetry pipeline.
+ *
+ * The following attributes cannot be updated after pipeline creation:
+ *
+ * - **Pipeline name** - The pipeline name is immutable
+ *
+ * - **Pipeline ARN** - The ARN is automatically generated and cannot be changed
+ *
+ * - **Source type** - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type
+ *
+ * Processors can be added, removed, or modified. However, some processors are not supported for third-party pipelines and cannot be added through updates.
+ *
+ * **Source-Specific Update Rules**
+ *
+ * ### CloudWatch Logs Sources (Vended and Custom)
+ *
+ * **Updatable:** `sts_role_arn`
+ *
+ * **Fixed:** `data_source_name`, `data_source_type`, sink (must remain `@original`)
+ *
+ * ### S3 Sources (Crowdstrike, Zscaler, SentinelOne, Custom)
+ *
+ * **Updatable:** All SQS configuration parameters, `sts_role_arn`, codec settings, compression type, bucket ownership settings, sink log group
+ *
+ * **Fixed:** `notification_type`, `aws.region`
+ *
+ * ### GitHub Audit Logs
+ *
+ * **Updatable:** All Amazon Web Services Secrets Manager attributes, `scope` (can switch between ORGANIZATION/ENTERPRISE), `organization` or `enterprise` name, `range`, authentication credentials (PAT or GitHub App)
+ *
+ * ### Microsoft Sources (Entra ID, Office365, Windows)
+ *
+ * **Updatable:** All Amazon Web Services Secrets Manager attributes, `tenant_id`, `workspace_id` (Windows only), OAuth2 credentials (`client_id`, `client_secret`)
+ *
+ * ### Okta Sources (SSO, Auth0)
+ *
+ * **Updatable:** All Amazon Web Services Secrets Manager attributes, `domain`, `range` (SSO only), OAuth2 credentials (`client_id`, `client_secret`)
+ *
+ * ### Palo Alto Networks
+ *
+ * **Updatable:** All Amazon Web Services Secrets Manager attributes, `hostname`, basic authentication credentials (`username`, `password`)
+ *
+ * ### ServiceNow CMDB
+ *
+ * **Updatable:** All Amazon Web Services Secrets Manager attributes, `instance_url`, `range`, OAuth2 credentials (`client_id`, `client_secret`)
+ *
+ * ### Wiz CNAPP
+ *
+ * **Updatable:** All Amazon Web Services Secrets Manager attributes, `region`, `range`, OAuth2 credentials (`client_id`, `client_secret`)
+ */
+export const updateTelemetryPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTelemetryPipelineInput,
+    output: UpdateTelemetryPipelineOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
+ */
+export const deleteCentralizationRuleForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteCentralizationRuleForOrganizationInput,
+    output: DeleteCentralizationRuleForOrganizationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
 /**
  * Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
  */
@@ -1164,168 +1741,6 @@ export const deleteTelemetryRuleForOrganization =
       ValidationException,
     ],
   }));
-/**
- * Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Resource Explorer.
- */
-export const getTelemetryEnrichmentStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTelemetryEnrichmentStatusRequest,
-    output: GetTelemetryEnrichmentStatusOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
- */
-export const getTelemetryEvaluationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTelemetryEvaluationStatusRequest,
-    output: GetTelemetryEvaluationStatusOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
- */
-export const getTelemetryEvaluationStatusForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTelemetryEvaluationStatusForOrganizationRequest,
-    output: GetTelemetryEvaluationStatusForOrganizationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
- */
-export const startTelemetryEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartTelemetryEvaluationRequest,
-    output: StartTelemetryEvaluationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * This actions begins onboarding the organization and all member accounts to the telemetry config feature.
- */
-export const startTelemetryEvaluationForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartTelemetryEvaluationForOrganizationRequest,
-    output: StartTelemetryEvaluationForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata.
- */
-export const stopTelemetryEnrichment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopTelemetryEnrichmentRequest,
-    output: StopTelemetryEnrichmentOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
- */
-export const stopTelemetryEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopTelemetryEvaluationRequest,
-    output: StopTelemetryEvaluationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
- */
-export const createTelemetryRuleForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTelemetryRuleForOrganizationInput,
-    output: CreateTelemetryRuleForOrganizationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
- */
-export const deleteCentralizationRuleForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCentralizationRuleForOrganizationInput,
-    output: DeleteCentralizationRuleForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
- */
-export const deleteS3TableIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteS3TableIntegrationInput,
-    output: DeleteS3TableIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidStateException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
@@ -1387,107 +1802,48 @@ export const getTelemetryRuleForOrganization =
     ],
   }));
 /**
- * Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ * Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration.
  */
-export const listTelemetryRulesForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListTelemetryRulesForOrganizationInput,
-    output: ListTelemetryRulesForOrganizationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Resource Explorer to provide richer context for monitoring and observability.
- */
-export const startTelemetryEnrichment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteTelemetryPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartTelemetryEnrichmentRequest,
-    output: StartTelemetryEnrichmentOutput,
+    input: DeleteTelemetryPipelineInput,
+    output: DeleteTelemetryPipelineOutput,
     errors: [
       AccessDeniedException,
       ConflictException,
       InternalServerException,
+      ResourceNotFoundException,
       TooManyRequestsException,
+      ValidationException,
     ],
   }),
 );
 /**
- * Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
+ * Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     TooManyRequestsException,
     ValidationException,
   ],
 }));
 /**
- * Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ * Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const updateCentralizationRuleForOrganization =
+export const createTelemetryRuleForOrganization =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCentralizationRuleForOrganizationInput,
-    output: UpdateCentralizationRuleForOrganizationOutput,
+    input: CreateTelemetryRuleForOrganizationInput,
+    output: CreateTelemetryRuleForOrganizationOutput,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
-      ResourceNotFoundException,
       ServiceQuotaExceededException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
- */
-export const updateTelemetryRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTelemetryRuleInput,
-  output: UpdateTelemetryRuleOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
- */
-export const updateTelemetryRuleForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateTelemetryRuleForOrganizationInput,
-    output: UpdateTelemetryRuleForOrganizationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues.
- */
-export const validateTelemetryPipelineConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateTelemetryPipelineConfigurationInput,
-    output: ValidateTelemetryPipelineConfigurationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
       TooManyRequestsException,
       ValidationException,
     ],
@@ -1510,100 +1866,17 @@ export const createS3TableIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ * Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const listCentralizationRulesForOrganization =
+export const updateCentralizationRuleForOrganization =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCentralizationRulesForOrganizationInput,
-    output: ListCentralizationRulesForOrganizationOutput,
+    input: UpdateCentralizationRuleForOrganizationInput,
+    output: UpdateCentralizationRuleForOrganizationOutput,
     errors: [
       AccessDeniedException,
       InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
- */
-export const listResourceTelemetry = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResourceTelemetryInput,
-    output: ListResourceTelemetryOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
- */
-export const listResourceTelemetryForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListResourceTelemetryForOrganizationInput,
-    output: ListResourceTelemetryForOrganizationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
- */
-export const listS3TableIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListS3TableIntegrationsInput,
-    output: ListS3TableIntegrationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
- */
-export const listTelemetryRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTelemetryRulesInput,
-  output: ListTelemetryRulesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
- */
-export const stopTelemetryEvaluationForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopTelemetryEvaluationForOrganizationRequest,
-    output: StopTelemetryEvaluationForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
       TooManyRequestsException,
       ValidationException,
     ],
@@ -1615,6 +1888,21 @@ export const testTelemetryPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: TestTelemetryPipelineInput,
     output: TestTelemetryPipelineOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a list of telemetry pipelines in your account. Returns up to 100 results. If more than 100 telemetry pipelines exist, include the `NextToken` value from the response to retrieve the next set of results.
+ */
+export const listTelemetryPipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTelemetryPipelinesInput,
+    output: ListTelemetryPipelinesOutput,
     errors: [
       AccessDeniedException,
       InternalServerException,

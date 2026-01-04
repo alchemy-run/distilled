@@ -375,11 +375,11 @@ export class ListEndpointsResult extends S.Class<ListEndpointsResult>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
@@ -387,22 +387,37 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 ) {}
 export class OutpostOfflineException extends S.TaggedError<OutpostOfflineException>()(
   "OutpostOfflineException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account.
+ * Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user
+ * from Resource Access Manager (RAM).
+ */
+export const listOutpostsWithS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOutpostsWithS3Request,
+  output: ListOutpostsWithS3Result,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM).
  *
@@ -486,21 +501,6 @@ export const listEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account.
- * Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user
- * from Resource Access Manager (RAM).
- */
-export const listOutpostsWithS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListOutpostsWithS3Request,
-  output: ListOutpostsWithS3Result,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
     ValidationException,
   ],

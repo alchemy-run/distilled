@@ -935,34 +935,142 @@ export class DescribeClusterResponse extends S.Class<DescribeClusterResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { Message: S.String.pipe(T.JsonName("message")) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.String.pipe(T.JsonName("message")) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Message: S.String.pipe(T.JsonName("message")) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.String.pipe(T.JsonName("message")) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { Message: S.String.pipe(T.JsonName("message")) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { Message: S.String.pipe(T.JsonName("message")) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.String.pipe(T.JsonName("message")) },
 ) {}
 
 //# Operations
+/**
+ * Get information about the resource policy for a cluster.
+ */
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
+/**
+ * Deletes a safety rule.
+ * />
+ */
+export const deleteSafetyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSafetyRuleRequest,
+  output: DeleteSafetyRuleResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
+ */
+export const listSafetyRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSafetyRulesRequest,
+  output: ListSafetyRulesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
+ */
+export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterRequest,
+  output: CreateClusterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a safety rule.
+ */
+export const describeSafetyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSafetyRuleRequest,
+  output: DescribeSafetyRuleResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Update a safety rule (an assertion rule or gating rule). You can only update the name and the waiting period for a safety rule. To make other updates, delete the safety rule and create a new one.
+ */
+export const updateSafetyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSafetyRuleRequest,
+  output: UpdateSafetyRuleResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
+ */
+export const listAssociatedRoute53HealthChecks =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAssociatedRoute53HealthChecksRequest,
+    output: ListAssociatedRoute53HealthChecksResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the tags for a resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a tag to a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes a tag from a resource.
  */
@@ -976,49 +1084,20 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a control panel.
+ * Creates a safety rule in a control panel. Safety rules let you add safeguards around changing routing control states, and for enabling and disabling routing controls, to help prevent unexpected outcomes.
+ *
+ * There are two types of safety rules: assertion rules and gating rules.
+ *
+ * Assertion rule: An assertion rule enforces that, when you change a routing control state, that a certain criteria is met. For example, the criteria might be that at least one routing control state is On after the transaction so that traffic continues to flow to at least one cell for the application. This ensures that you avoid a fail-open scenario.
+ *
+ * Gating rule: A gating rule lets you configure a gating routing control as an overall "on/off" switch for a group of routing controls. Or, you can configure more complex gating scenarios, for example by configuring multiple gating routing controls.
+ *
+ * For more information, see Safety rules in the Amazon Route 53 Application Recovery Controller Developer Guide.
  */
-export const deleteControlPanel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteControlPanelRequest,
-  output: DeleteControlPanelResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a routing control.
- */
-export const deleteRoutingControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRoutingControlRequest,
-    output: DeleteRoutingControlResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a safety rule.
- * />
- */
-export const deleteSafetyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSafetyRuleRequest,
-  output: DeleteSafetyRuleResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+export const createSafetyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSafetyRuleRequest,
+  output: CreateSafetyRuleResponse,
+  errors: [InternalServerException, ValidationException],
 }));
 /**
  * Displays details about a control panel.
@@ -1056,93 +1135,6 @@ export const describeRoutingControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Get information about the resource policy for a cluster.
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
-  errors: [InternalServerException, ResourceNotFoundException],
-}));
-/**
- * Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
- */
-export const listAssociatedRoute53HealthChecks =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAssociatedRoute53HealthChecksRequest,
-    output: ListAssociatedRoute53HealthChecksResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns an array of all the clusters in an account.
- */
-export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListClustersRequest,
-  output: ListClustersResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns an array of control panels in an account or in a cluster.
- */
-export const listControlPanels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListControlPanelsRequest,
-  output: ListControlPanelsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
- */
-export const listRoutingControls = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRoutingControlsRequest,
-  output: ListRoutingControlsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the tags for a resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a tag to a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Updates an existing cluster. You can only update the network type of a cluster.
  */
@@ -1191,6 +1183,110 @@ export const updateRoutingControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deletes a control panel.
+ */
+export const deleteControlPanel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteControlPanelRequest,
+  output: DeleteControlPanelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a routing control.
+ */
+export const deleteRoutingControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRoutingControlRequest,
+    output: DeleteRoutingControlResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns an array of all the clusters in an account.
+ */
+export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListClustersRequest,
+  output: ListClustersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns an array of control panels in an account or in a cluster.
+ */
+export const listControlPanels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListControlPanelsRequest,
+  output: ListControlPanelsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
+ */
+export const listRoutingControls = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRoutingControlsRequest,
+  output: ListRoutingControlsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete a cluster.
+ */
+export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterRequest,
+  output: DeleteClusterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Display the details about a cluster. The response includes the cluster name, endpoints, status, and Amazon Resource Name (ARN).
+ */
+export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeClusterRequest,
+  output: DescribeClusterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region.
  */
 export const createControlPanel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1228,99 +1324,3 @@ export const createRoutingControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Delete a cluster.
- */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterRequest,
-  output: DeleteClusterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a safety rule.
- */
-export const describeSafetyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSafetyRuleRequest,
-  output: DescribeSafetyRuleResponse,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
- * List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
- */
-export const listSafetyRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSafetyRulesRequest,
-  output: ListSafetyRulesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update a safety rule (an assertion rule or gating rule). You can only update the name and the waiting period for a safety rule. To make other updates, delete the safety rule and create a new one.
- */
-export const updateSafetyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSafetyRuleRequest,
-  output: UpdateSafetyRuleResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
- */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateClusterRequest,
-  output: CreateClusterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a safety rule in a control panel. Safety rules let you add safeguards around changing routing control states, and for enabling and disabling routing controls, to help prevent unexpected outcomes.
- *
- * There are two types of safety rules: assertion rules and gating rules.
- *
- * Assertion rule: An assertion rule enforces that, when you change a routing control state, that a certain criteria is met. For example, the criteria might be that at least one routing control state is On after the transaction so that traffic continues to flow to at least one cell for the application. This ensures that you avoid a fail-open scenario.
- *
- * Gating rule: A gating rule lets you configure a gating routing control as an overall "on/off" switch for a group of routing controls. Or, you can configure more complex gating scenarios, for example by configuring multiple gating routing controls.
- *
- * For more information, see Safety rules in the Amazon Route 53 Application Recovery Controller Developer Guide.
- */
-export const createSafetyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSafetyRuleRequest,
-  output: CreateSafetyRuleResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Display the details about a cluster. The response includes the cluster name, endpoints, status, and Amazon Resource Name (ARN).
- */
-export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeClusterRequest,
-  output: DescribeClusterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));

@@ -2628,214 +2628,214 @@ export class SetRiskConfigurationResponse extends S.Class<SetRiskConfigurationRe
 //# Errors
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
-  {},
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
-  "NotAuthorizedException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-) {}
-export class UserNotFoundException extends S.TaggedError<UserNotFoundException>()(
-  "UserNotFoundException",
-  {},
-) {}
-export class InvalidUserPoolConfigurationException extends S.TaggedError<InvalidUserPoolConfigurationException>()(
-  "InvalidUserPoolConfigurationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AliasExistsException extends S.TaggedError<AliasExistsException>()(
   "AliasExistsException",
-  {},
-) {}
-export class InvalidEmailRoleAccessPolicyException extends S.TaggedError<InvalidEmailRoleAccessPolicyException>()(
-  "InvalidEmailRoleAccessPolicyException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class PasswordResetRequiredException extends S.TaggedError<PasswordResetRequiredException>()(
-  "PasswordResetRequiredException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class UserNotConfirmedException extends S.TaggedError<UserNotConfirmedException>()(
-  "UserNotConfirmedException",
-  {},
-) {}
-export class UserPoolAddOnNotEnabledException extends S.TaggedError<UserPoolAddOnNotEnabledException>()(
-  "UserPoolAddOnNotEnabledException",
-  {},
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { message: S.optional(S.String), reasonCode: S.optional(S.String) },
 ) {}
 export class InvalidLambdaResponseException extends S.TaggedError<InvalidLambdaResponseException>()(
   "InvalidLambdaResponseException",
-  {},
-) {}
-export class InvalidPasswordException extends S.TaggedError<InvalidPasswordException>()(
-  "InvalidPasswordException",
   { message: S.optional(S.String) },
-) {}
-export class InvalidSmsRoleAccessPolicyException extends S.TaggedError<InvalidSmsRoleAccessPolicyException>()(
-  "InvalidSmsRoleAccessPolicyException",
-  {},
-) {}
-export class PasswordHistoryPolicyViolationException extends S.TaggedError<PasswordHistoryPolicyViolationException>()(
-  "PasswordHistoryPolicyViolationException",
-  {},
 ) {}
 export class CodeMismatchException extends S.TaggedError<CodeMismatchException>()(
   "CodeMismatchException",
-  {},
-) {}
-export class ExpiredCodeException extends S.TaggedError<ExpiredCodeException>()(
-  "ExpiredCodeException",
-  {},
-) {}
-export class TooManyFailedAttemptsException extends S.TaggedError<TooManyFailedAttemptsException>()(
-  "TooManyFailedAttemptsException",
-  {},
-) {}
-export class UserImportInProgressException extends S.TaggedError<UserImportInProgressException>()(
-  "UserImportInProgressException",
-  { message: S.optional(S.String) },
-) {}
-export class CodeDeliveryFailureException extends S.TaggedError<CodeDeliveryFailureException>()(
-  "CodeDeliveryFailureException",
-  {},
-) {}
-export class InvalidSmsRoleTrustRelationshipException extends S.TaggedError<InvalidSmsRoleTrustRelationshipException>()(
-  "InvalidSmsRoleTrustRelationshipException",
-  {},
-) {}
-export class UnexpectedLambdaException extends S.TaggedError<UnexpectedLambdaException>()(
-  "UnexpectedLambdaException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  { message: S.optional(S.String) },
-) {}
-export class UserLambdaValidationException extends S.TaggedError<UserLambdaValidationException>()(
-  "UserLambdaValidationException",
-  {},
-) {}
-export class PreconditionNotMetException extends S.TaggedError<PreconditionNotMetException>()(
-  "PreconditionNotMetException",
-  {},
-) {}
-export class UnsupportedIdentityProviderException extends S.TaggedError<UnsupportedIdentityProviderException>()(
-  "UnsupportedIdentityProviderException",
-  {},
-) {}
-export class FeatureUnavailableInTierException extends S.TaggedError<FeatureUnavailableInTierException>()(
-  "FeatureUnavailableInTierException",
-  { message: S.optional(S.String) },
-) {}
-export class MFAMethodNotFoundException extends S.TaggedError<MFAMethodNotFoundException>()(
-  "MFAMethodNotFoundException",
-  {},
-) {}
-export class SoftwareTokenMFANotFoundException extends S.TaggedError<SoftwareTokenMFANotFoundException>()(
-  "SoftwareTokenMFANotFoundException",
-  {},
-) {}
-export class WebAuthnChallengeNotFoundException extends S.TaggedError<WebAuthnChallengeNotFoundException>()(
-  "WebAuthnChallengeNotFoundException",
   { message: S.optional(S.String) },
 ) {}
 export class GroupExistsException extends S.TaggedError<GroupExistsException>()(
   "GroupExistsException",
   { message: S.optional(S.String) },
 ) {}
-export class TermsExistsException extends S.TaggedError<TermsExistsException>()(
-  "TermsExistsException",
-  {},
-) {}
-export class InvalidOAuthFlowException extends S.TaggedError<InvalidOAuthFlowException>()(
-  "InvalidOAuthFlowException",
-  {},
-) {}
-export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
-  "UnsupportedOperationException",
-  {},
-) {}
-export class UsernameExistsException extends S.TaggedError<UsernameExistsException>()(
-  "UsernameExistsException",
+export class CodeDeliveryFailureException extends S.TaggedError<CodeDeliveryFailureException>()(
+  "CodeDeliveryFailureException",
   { message: S.optional(S.String) },
 ) {}
-export class WebAuthnConfigurationMissingException extends S.TaggedError<WebAuthnConfigurationMissingException>()(
-  "WebAuthnConfigurationMissingException",
+export class FeatureUnavailableInTierException extends S.TaggedError<FeatureUnavailableInTierException>()(
+  "FeatureUnavailableInTierException",
   { message: S.optional(S.String) },
 ) {}
-export class TierChangeNotAllowedException extends S.TaggedError<TierChangeNotAllowedException>()(
-  "TierChangeNotAllowedException",
+export class InvalidEmailRoleAccessPolicyException extends S.TaggedError<InvalidEmailRoleAccessPolicyException>()(
+  "InvalidEmailRoleAccessPolicyException",
   { message: S.optional(S.String) },
 ) {}
-export class UserPoolTaggingException extends S.TaggedError<UserPoolTaggingException>()(
-  "UserPoolTaggingException",
-  {},
-) {}
-export class ScopeDoesNotExistException extends S.TaggedError<ScopeDoesNotExistException>()(
-  "ScopeDoesNotExistException",
-  {},
-) {}
-export class EnableSoftwareTokenMFAException extends S.TaggedError<EnableSoftwareTokenMFAException>()(
-  "EnableSoftwareTokenMFAException",
+export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
+  "NotAuthorizedException",
   { message: S.optional(S.String) },
 ) {}
-export class UnsupportedUserStateException extends S.TaggedError<UnsupportedUserStateException>()(
-  "UnsupportedUserStateException",
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class WebAuthnClientMismatchException extends S.TaggedError<WebAuthnClientMismatchException>()(
-  "WebAuthnClientMismatchException",
+export class InvalidUserPoolConfigurationException extends S.TaggedError<InvalidUserPoolConfigurationException>()(
+  "InvalidUserPoolConfigurationException",
   { message: S.optional(S.String) },
 ) {}
 export class DeviceKeyExistsException extends S.TaggedError<DeviceKeyExistsException>()(
   "DeviceKeyExistsException",
   { message: S.optional(S.String) },
 ) {}
+export class ExpiredCodeException extends S.TaggedError<ExpiredCodeException>()(
+  "ExpiredCodeException",
+  { message: S.optional(S.String) },
+) {}
 export class DuplicateProviderException extends S.TaggedError<DuplicateProviderException>()(
   "DuplicateProviderException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidOAuthFlowException extends S.TaggedError<InvalidOAuthFlowException>()(
+  "InvalidOAuthFlowException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidSmsRoleAccessPolicyException extends S.TaggedError<InvalidSmsRoleAccessPolicyException>()(
+  "InvalidSmsRoleAccessPolicyException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidPasswordException extends S.TaggedError<InvalidPasswordException>()(
+  "InvalidPasswordException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { message: S.optional(S.String) },
+) {}
+export class EnableSoftwareTokenMFAException extends S.TaggedError<EnableSoftwareTokenMFAException>()(
+  "EnableSoftwareTokenMFAException",
+  { message: S.optional(S.String) },
+) {}
+export class RefreshTokenReuseException extends S.TaggedError<RefreshTokenReuseException>()(
+  "RefreshTokenReuseException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidSmsRoleTrustRelationshipException extends S.TaggedError<InvalidSmsRoleTrustRelationshipException>()(
+  "InvalidSmsRoleTrustRelationshipException",
+  { message: S.optional(S.String) },
+) {}
+export class PasswordHistoryPolicyViolationException extends S.TaggedError<PasswordHistoryPolicyViolationException>()(
+  "PasswordHistoryPolicyViolationException",
+  { message: S.optional(S.String) },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.optional(S.String) },
+) {}
+export class UserNotFoundException extends S.TaggedError<UserNotFoundException>()(
+  "UserNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class UserPoolAddOnNotEnabledException extends S.TaggedError<UserPoolAddOnNotEnabledException>()(
+  "UserPoolAddOnNotEnabledException",
+  { message: S.optional(S.String) },
+) {}
+export class UserPoolTaggingException extends S.TaggedError<UserPoolTaggingException>()(
+  "UserPoolTaggingException",
+  { message: S.optional(S.String) },
+) {}
+export class PasswordResetRequiredException extends S.TaggedError<PasswordResetRequiredException>()(
+  "PasswordResetRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class UnsupportedIdentityProviderException extends S.TaggedError<UnsupportedIdentityProviderException>()(
+  "UnsupportedIdentityProviderException",
+  { message: S.optional(S.String) },
+) {}
+export class PreconditionNotMetException extends S.TaggedError<PreconditionNotMetException>()(
+  "PreconditionNotMetException",
+  { message: S.optional(S.String) },
+) {}
+export class TermsExistsException extends S.TaggedError<TermsExistsException>()(
+  "TermsExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class UserImportInProgressException extends S.TaggedError<UserImportInProgressException>()(
+  "UserImportInProgressException",
+  { message: S.optional(S.String) },
+) {}
+export class SoftwareTokenMFANotFoundException extends S.TaggedError<SoftwareTokenMFANotFoundException>()(
+  "SoftwareTokenMFANotFoundException",
   { message: S.optional(S.String) },
 ) {}
 export class ManagedLoginBrandingExistsException extends S.TaggedError<ManagedLoginBrandingExistsException>()(
   "ManagedLoginBrandingExistsException",
   { message: S.optional(S.String) },
 ) {}
-export class UnsupportedTokenTypeException extends S.TaggedError<UnsupportedTokenTypeException>()(
-  "UnsupportedTokenTypeException",
+export class WebAuthnConfigurationMissingException extends S.TaggedError<WebAuthnConfigurationMissingException>()(
+  "WebAuthnConfigurationMissingException",
+  { message: S.optional(S.String) },
+) {}
+export class WebAuthnChallengeNotFoundException extends S.TaggedError<WebAuthnChallengeNotFoundException>()(
+  "WebAuthnChallengeNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyFailedAttemptsException extends S.TaggedError<TooManyFailedAttemptsException>()(
+  "TooManyFailedAttemptsException",
+  { message: S.optional(S.String) },
+) {}
+export class ScopeDoesNotExistException extends S.TaggedError<ScopeDoesNotExistException>()(
+  "ScopeDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class UnexpectedLambdaException extends S.TaggedError<UnexpectedLambdaException>()(
+  "UnexpectedLambdaException",
+  { message: S.optional(S.String) },
+) {}
+export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
+  "UnsupportedOperationException",
+  { message: S.optional(S.String) },
+) {}
+export class UserNotConfirmedException extends S.TaggedError<UserNotConfirmedException>()(
+  "UserNotConfirmedException",
   { message: S.optional(S.String) },
 ) {}
 export class WebAuthnNotEnabledException extends S.TaggedError<WebAuthnNotEnabledException>()(
   "WebAuthnNotEnabledException",
   { message: S.optional(S.String) },
 ) {}
+export class WebAuthnClientMismatchException extends S.TaggedError<WebAuthnClientMismatchException>()(
+  "WebAuthnClientMismatchException",
+  { message: S.optional(S.String) },
+) {}
+export class MFAMethodNotFoundException extends S.TaggedError<MFAMethodNotFoundException>()(
+  "MFAMethodNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class TierChangeNotAllowedException extends S.TaggedError<TierChangeNotAllowedException>()(
+  "TierChangeNotAllowedException",
+  { message: S.optional(S.String) },
+) {}
+export class UsernameExistsException extends S.TaggedError<UsernameExistsException>()(
+  "UsernameExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class UserLambdaValidationException extends S.TaggedError<UserLambdaValidationException>()(
+  "UserLambdaValidationException",
+  { message: S.optional(S.String) },
+) {}
+export class UnsupportedTokenTypeException extends S.TaggedError<UnsupportedTokenTypeException>()(
+  "UnsupportedTokenTypeException",
+  { message: S.optional(S.String) },
+) {}
 export class WebAuthnCredentialNotSupportedException extends S.TaggedError<WebAuthnCredentialNotSupportedException>()(
   "WebAuthnCredentialNotSupportedException",
   { message: S.optional(S.String) },
 ) {}
-export class RefreshTokenReuseException extends S.TaggedError<RefreshTokenReuseException>()(
-  "RefreshTokenReuseException",
+export class UnsupportedUserStateException extends S.TaggedError<UnsupportedUserStateException>()(
+  "UnsupportedUserStateException",
   { message: S.optional(S.String) },
 ) {}
 export class WebAuthnOriginNotAllowedException extends S.TaggedError<WebAuthnOriginNotAllowedException>()(
@@ -2849,12 +2849,14 @@ export class WebAuthnRelyingPartyMismatchException extends S.TaggedError<WebAuth
 
 //# Operations
 /**
- * Updates the status of a user's device so that it is marked as remembered or not
- * remembered for the purpose of device authentication. Device authentication is a
- * "remember me" mechanism that silently completes sign-in from trusted devices with a
- * device key instead of a user-provided MFA code. This operation changes the status of a
- * device without deleting it, so you can enable it again later. For more information about
- * device authentication, see Working with devices.
+ * Given a user pool ID, returns the signing certificate for SAML 2.0 federation.
+ *
+ * Issued certificates are valid for 10 years from the date of issue. Amazon Cognito issues and
+ * assigns a new signing certificate annually. This renewal process returns a new value in
+ * the response to `GetSigningCertificate`, but doesn't invalidate the original
+ * certificate.
+ *
+ * For more information, see Signing SAML requests.
  *
  * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
  * this operation, you must use IAM credentials to authorize requests, and you must
@@ -2866,150 +2868,25 @@ export class WebAuthnRelyingPartyMismatchException extends S.TaggedError<WebAuth
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminUpdateDeviceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AdminUpdateDeviceStatusRequest,
-    output: AdminUpdateDeviceStatusResponse,
+    input: GetSigningCertificateRequest,
+    output: GetSigningCertificateResponse,
     errors: [
       InternalErrorException,
       InvalidParameterException,
-      InvalidUserPoolConfigurationException,
-      NotAuthorizedException,
       ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
     ],
   }),
 );
 /**
- * Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call
- * this operation with your administrative credentials when your user signs out of your
- * app. This results in the following behavior.
- *
- * - Amazon Cognito no longer accepts *token-authorized* user operations
- * that you authorize with a signed-out user's access tokens. For more information,
- * see Using the Amazon Cognito user pools API and user pool
- * endpoints.
- *
- * Amazon Cognito returns an `Access Token has been revoked` error when your
- * app attempts to authorize a user pools API request with a revoked access token
- * that contains the scope `aws.cognito.signin.user.admin`.
- *
- * - Amazon Cognito no longer accepts a signed-out user's ID token in a GetId request to an identity pool with
- * `ServerSideTokenCheck` enabled for its user pool IdP
- * configuration in CognitoIdentityProvider.
- *
- * - Amazon Cognito no longer accepts a signed-out user's refresh tokens in refresh
- * requests.
- *
- * Other requests might be valid until your user's token expires. This operation
- * doesn't clear the managed login session cookie. To clear the session for
- * a user who signed in with managed login or the classic hosted UI, direct their browser
- * session to the logout endpoint.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
+ * Given a user pool ID and identity provider (IdP) name, returns details about the
+ * IdP.
  */
-export const adminUserGlobalSignOut = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AdminUserGlobalSignOutRequest,
-    output: AdminUserGlobalSignOutResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes a group from the specified user pool. When you delete a group, that group no
- * longer contributes to users' `cognito:preferred_group` or
- * `cognito:groups` claims, and no longer influence access-control decision
- * that are based on group membership. For more information about user pool groups, see
- * Adding groups to a user pool.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGroupRequest,
-  output: DeleteGroupResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes a managed login branding style. When you delete a style, you delete the
- * branding association for an app client. When an app client doesn't have a style
- * assigned, your managed login pages for that app client are nonfunctional until you
- * create a new style or switch the domain branding version.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const deleteManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteManagedLoginBrandingRequest,
-    output: DeleteManagedLoginBrandingResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Deletes a resource server. After you delete a resource server, users can no longer
- * generate access tokens with scopes that are associate with that resource server.
- *
- * Resource servers are associated with custom scopes and machine-to-machine (M2M)
- * authorization. For more information, see Access control with resource servers.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const deleteResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourceServerRequest,
-    output: DeleteResourceServerResponse,
+    input: DescribeIdentityProviderRequest,
+    output: DescribeIdentityProviderResponse,
     errors: [
       InternalErrorException,
       InvalidParameterException,
@@ -3020,885 +2897,282 @@ export const deleteResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the terms documents with the requested ID from your app client.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
+ * Given the ID of a managed login branding style, returns detailed information about the
+ * style.
  */
-export const deleteTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTermsRequest,
-  output: DeleteTermsResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes a user pool app client. After you delete an app client, users can no longer
- * sign in to the associated application.
- */
-export const deleteUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserPoolClientRequest,
-    output: DeleteUserPoolClientResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Given a user pool ID and domain identifier, deletes a user pool domain. After you
- * delete a user pool domain, your managed login pages and authorization server are no
- * longer available.
- */
-export const deleteUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserPoolDomainRequest,
-    output: DeleteUserPoolDomainResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes a registered passkey, or WebAuthn, authenticator for the currently signed-in
- * user.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const deleteWebAuthnCredential = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWebAuthnCredentialRequest,
-    output: DeleteWebAuthnCredentialResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Given a device key, deletes a remembered device as the currently signed-in user. For
- * more information about device authentication, see Working with user devices in your user pool.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const forgetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ForgetDeviceRequest,
-  output: ForgetDeviceResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidUserPoolConfigurationException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call
- * this operation when your user signs out of your app. This results in the following
- * behavior.
- *
- * - Amazon Cognito no longer accepts *token-authorized* user operations
- * that you authorize with a signed-out user's access tokens. For more information,
- * see Using the Amazon Cognito user pools API and user pool
- * endpoints.
- *
- * Amazon Cognito returns an `Access Token has been revoked` error when your
- * app attempts to authorize a user pools API request with a revoked access token
- * that contains the scope `aws.cognito.signin.user.admin`.
- *
- * - Amazon Cognito no longer accepts a signed-out user's ID token in a GetId request to an identity pool with
- * `ServerSideTokenCheck` enabled for its user pool IdP
- * configuration in CognitoIdentityProvider.
- *
- * - Amazon Cognito no longer accepts a signed-out user's refresh tokens in refresh
- * requests.
- *
- * Other requests might be valid until your user's token expires. This operation
- * doesn't clear the managed login session cookie. To clear the session for
- * a user who signed in with managed login or the classic hosted UI, direct their browser
- * session to the logout endpoint.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const globalSignOut = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GlobalSignOutRequest,
-  output: GlobalSignOutResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-  ],
-}));
-/**
- * Set the user's multi-factor authentication (MFA) method preference, including which
- * MFA factors are activated and if any are preferred. Only one factor can be set as
- * preferred. The preferred MFA factor will be used to authenticate a user if multiple
- * factors are activated. If multiple options are activated and no preference is set, a
- * challenge to choose an MFA option will be returned during sign-in. If an MFA type is
- * activated for a user, the user will be prompted for MFA during all sign-in attempts
- * unless device tracking is turned on and the device has been trusted. If you want MFA to
- * be applied selectively based on the assessed risk level of sign-in attempts, deactivate
- * MFA for users and turn on Adaptive Authentication for the user pool.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const setUserMFAPreference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetUserMFAPreferenceRequest,
-    output: SetUserMFAPreferenceResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      PasswordResetRequiredException,
-      ResourceNotFoundException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }),
-);
-/**
- * *This action is no longer supported.* You can use it to configure
- * only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software
- * token or email MFA.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const setUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetUserSettingsRequest,
-  output: SetUserSettingsResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to
- * categorize and manage user pools in different ways, such as by purpose, owner,
- * environment, or other criteria.
- *
- * Each tag consists of a key and value, both of which you define. A key is a general
- * category for more specific values. For example, if you have two versions of a user pool,
- * one for testing and another for production, you might assign an `Environment`
- * tag key to both user pools. The value of this key might be `Test` for one
- * user pool, and `Production` for the other.
- *
- * Tags are useful for cost tracking and access control. You can activate your tags so
- * that they appear on the Billing and Cost Management console, where you can track the
- * costs associated with your user pools. In an Identity and Access Management policy, you can constrain
- * permissions for user pools based on specific tags or tag values.
- *
- * You can use this action up to 5 times per second, per account. A user pool can have as
- * many as 50 tags.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Given tag IDs that you previously assigned to a user pool, removes them.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Provides the feedback for an authentication event generated by threat protection
- * features. The user's response indicates that you think that the event either was from a
- * valid user or was an unwanted authentication attempt. This feedback improves the risk
- * evaluation decision for the user pool as part of Amazon Cognito threat protection.
- * To activate this setting, your user pool must be on the
- * Plus tier.
- *
- * This operation requires a `FeedbackToken` that Amazon Cognito generates and adds to
- * notification emails when users have potentially suspicious authentication events. Users
- * invoke this operation when they select the link that corresponds to
- * `{one-click-link-valid}` or `{one-click-link-invalid}` in your
- * notification template. Because `FeedbackToken` is a required parameter, you
- * can't make requests to `UpdateAuthEventFeedback` without the contents of
- * the notification email message.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const updateAuthEventFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAuthEventFeedbackRequest,
-    output: UpdateAuthEventFeedbackResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-      UserPoolAddOnNotEnabledException,
-    ],
-  }),
-);
-/**
- * Updates the status of a the currently signed-in user's device so that it is
- * marked as remembered or not remembered for the purpose of device authentication. Device
- * authentication is a "remember me" mechanism that silently completes sign-in from trusted
- * devices with a device key instead of a user-provided MFA code. This operation changes
- * the status of a device without deleting it, so you can enable it again later. For more
- * information about device authentication, see Working with devices.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const updateDeviceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDeviceStatusRequest,
-  output: UpdateDeviceStatusResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidUserPoolConfigurationException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Adds a user to a group. A user who is in a group can present a preferred-role claim to
- * an identity pool, and populates a `cognito:groups` claim to their access and
- * identity tokens.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminAddUserToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AdminAddUserToGroupRequest,
-  output: AdminAddUserToGroupResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Deletes a user profile in your user pool.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminDeleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AdminDeleteUserRequest,
-  output: AdminDeleteUserResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Deletes attribute values from a user. This operation doesn't affect tokens for
- * existing user sessions. The next ID token that the user receives will no longer have the
- * deleted attributes.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminDeleteUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminDeleteUserAttributesRequest,
-    output: AdminDeleteUserAttributesResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
-/**
- * Prevents the user from signing in with the specified external (SAML or social)
- * identity provider (IdP). If the user that you want to deactivate is a Amazon Cognito user pools
- * native username + password user, they can't use their password to sign in. If the user
- * to deactivate is a linked external IdP user, any link between that user and an existing
- * user is removed. When the external user signs in again, and the user is no longer
- * attached to the previously linked `DestinationUser`, the user must create a
- * new user account.
- *
- * The value of `ProviderName` must match the name of a user pool IdP.
- *
- * To deactivate a local user, set `ProviderName` to `Cognito` and
- * the `ProviderAttributeName` to `Cognito_Subject`. The
- * `ProviderAttributeValue` must be user's local username.
- *
- * The `ProviderAttributeName` must always be `Cognito_Subject` for
- * social IdPs. The `ProviderAttributeValue` must always be the exact subject
- * that was used when the user was originally linked as a source user.
- *
- * For de-linking a SAML identity, there are two scenarios. If the linked identity has
- * not yet been used to sign in, the `ProviderAttributeName` and
- * `ProviderAttributeValue` must be the same values that were used for the
- * `SourceUser` when the identities were originally linked using
- * AdminLinkProviderForUser call. This is also true if the linking was done with
- * `ProviderAttributeName` set to `Cognito_Subject`. If the user
- * has already signed in, the `ProviderAttributeName` must be
- * `Cognito_Subject` and `ProviderAttributeValue` must be the
- * `NameID` from their SAML assertion.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminDisableProviderForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminDisableProviderForUserRequest,
-    output: AdminDisableProviderForUserResponse,
-    errors: [
-      AliasExistsException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
-/**
- * Deactivates a user profile and revokes all access tokens for the user. A deactivated
- * user can't sign in, but still appears in the responses to `ListUsers`
- * API requests.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminDisableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AdminDisableUserRequest,
-  output: AdminDisableUserResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Activates sign-in for a user profile that previously had sign-in access
- * disabled.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminEnableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AdminEnableUserRequest,
-  output: AdminEnableUserResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Forgets, or deletes, a remembered device from a user's profile. After you forget
- * the device, the user can no longer complete device authentication with that device and
- * when applicable, must submit MFA codes again. For more information, see Working with devices.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminForgetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AdminForgetDeviceRequest,
-  output: AdminForgetDeviceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidUserPoolConfigurationException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Given a username, returns details about a user profile in a user pool. You can specify
- * alias attributes in the `Username` request parameter.
- *
- * This operation contributes to your monthly active user (MAU) count for the purpose of
- * billing.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminGetUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AdminGetUserRequest,
-  output: AdminGetUserResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Links an existing user account in a user pool, or `DestinationUser`, to an
- * identity from an external IdP, or `SourceUser`, based on a specified
- * attribute name and value from the external IdP.
- *
- * This operation connects a local user profile with a user identity who hasn't yet
- * signed in from their third-party IdP. When the user signs in with their IdP, they get
- * access-control configuration from the local user profile. Linked local users can also
- * sign in with SDK-based API operations like `InitiateAuth` after they sign in
- * at least once through their IdP. For more information, see Linking federated users.
- *
- * The maximum number of federated identities linked to a user is five.
- *
- * Because this API allows a user with an external federated identity to sign in as a
- * local user, it is critical that it only be used with external IdPs and linked
- * attributes that you trust.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminLinkProviderForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminLinkProviderForUserRequest,
-    output: AdminLinkProviderForUserResponse,
-    errors: [
-      AliasExistsException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
-/**
- * Lists a user's registered devices. Remembered devices are used in authentication
- * services where you offer a "Remember me" option for users who you want to permit to sign
- * in without MFA from a trusted device. Users can bypass MFA while your application
- * performs device SRP authentication on the back end. For more information, see Working with devices.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminListDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AdminListDevicesRequest,
-  output: AdminListDevicesResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidUserPoolConfigurationException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Given a username and a group name, removes them from the group. User pool groups are
- * identifiers that you can reference from the contents of ID and access tokens, and set
- * preferred IAM roles for identity-pool authentication. For more information, see Adding groups to a user pool.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminRemoveUserFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminRemoveUserFromGroupRequest,
-    output: AdminRemoveUserFromGroupResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
-/**
- * Sets the user's multi-factor authentication (MFA) preference, including which MFA
- * options are activated, and if any are preferred. Only one factor can be set as
- * preferred. The preferred MFA factor will be used to authenticate a user if multiple
- * factors are activated. If multiple options are activated and no preference is set, a
- * challenge to choose an MFA option will be returned during sign-in.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminSetUserMFAPreference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminSetUserMFAPreferenceRequest,
-    output: AdminSetUserMFAPreferenceResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      PasswordResetRequiredException,
-      ResourceNotFoundException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }),
-);
-/**
- * *This action is no longer supported.* You can use it to configure
- * only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software
- * token MFA.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminSetUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminSetUserSettingsRequest,
-    output: AdminSetUserSettingsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      UserNotFoundException,
-    ],
-  }),
-);
-/**
- * Provides the feedback for an authentication event generated by threat protection
- * features. Your response indicates that you think that the event either was from a valid
- * user or was an unwanted authentication attempt. This feedback improves the risk
- * evaluation decision for the user pool as part of Amazon Cognito threat protection.
- * To activate this setting, your user pool must be on the
- * Plus tier.
- *
- * To train the threat-protection model to recognize trusted and untrusted sign-in
- * characteristics, configure threat protection in audit-only mode and provide a mechanism
- * for users or administrators to submit feedback. Your feedback can tell Amazon Cognito that a risk
- * rating was assigned at a level you don't agree with.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminUpdateAuthEventFeedback =
+export const describeManagedLoginBranding =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AdminUpdateAuthEventFeedbackRequest,
-    output: AdminUpdateAuthEventFeedbackResponse,
+    input: DescribeManagedLoginBrandingRequest,
+    output: DescribeManagedLoginBrandingResponse,
     errors: [
       InternalErrorException,
       InvalidParameterException,
       NotAuthorizedException,
       ResourceNotFoundException,
       TooManyRequestsException,
-      UserNotFoundException,
-      UserPoolAddOnNotEnabledException,
     ],
   }));
 /**
- * Changes the password for the currently signed-in user.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ * Describes a resource server. For more information about resource servers, see Access control with resource servers.
  */
-export const changePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ChangePasswordRequest,
-  output: ChangePasswordResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidPasswordException,
-    LimitExceededException,
-    NotAuthorizedException,
-    PasswordHistoryPolicyViolationException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Deletes the profile of the currently signed-in user. A deleted user profile can no
- * longer be used to sign in and can't be restored.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Deletes attributes from the currently signed-in user. For example, your application
- * can submit a request to this operation when a user wants to remove their
- * `birthdate` attribute value.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const deleteUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteUserAttributesRequest,
-    output: DeleteUserAttributesResponse,
+    input: DescribeResourceServerRequest,
+    output: DescribeResourceServerResponse,
     errors: [
-      ForbiddenException,
       InternalErrorException,
       InvalidParameterException,
       NotAuthorizedException,
-      PasswordResetRequiredException,
       ResourceNotFoundException,
       TooManyRequestsException,
-      UserNotConfirmedException,
-      UserNotFoundException,
     ],
   }),
 );
 /**
- * Deletes a user pool. After you delete a user pool, users can no longer sign in to any
- * associated applications.
+ * Returns details for the requested terms documents ID. For more information, see Terms documents.
  *
- * When you delete a user pool, it's no longer visible or operational in your Amazon Web Services account. Amazon Cognito retains deleted user pools in an inactive state for 14
- * days, then begins a cleanup process that fully removes them from Amazon Web Services systems. In case
- * of accidental deletion, contact Amazon Web ServicesSupport within 14 days for restoration
- * assistance.
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
  *
- * Amazon Cognito begins full deletion of all resources from deleted user pools after 14 days. In
- * the case of large user pools, the cleanup process might take significant additional time
- * before all user data is permanently deleted.
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserPoolRequest,
-  output: DeleteUserPoolResponse,
+export const describeTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTermsRequest,
+  output: DescribeTermsResponse,
   errors: [
     InternalErrorException,
     InvalidParameterException,
     NotAuthorizedException,
     ResourceNotFoundException,
     TooManyRequestsException,
-    UserImportInProgressException,
+  ],
+}));
+/**
+ * Given an app client ID, returns configuration information. This operation is useful
+ * when you want to inspect an existing app client and programmatically replicate the
+ * configuration to another app client. For more information about app clients, see App clients.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const describeUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeUserPoolClientRequest,
+    output: DescribeUserPoolClientResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Given a user pool domain name, returns information about the domain
+ * configuration.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const describeUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeUserPoolDomainRequest,
+    output: DescribeUserPoolDomainResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Given a user pool ID, returns the logging configuration. User pools can export
+ * message-delivery error and threat-protection activity logs to external Amazon Web Services services. For more information, see Exporting user pool logs.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const getLogDeliveryConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetLogDeliveryConfigurationRequest,
+    output: GetLogDeliveryConfigurationResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Given a user pool ID or app client, returns information about classic hosted UI
+ * branding that you applied, if any. Returns user-pool level branding information if no
+ * app client branding is applied, or if you don't specify an app client ID. Returns
+ * an empty object if you haven't applied hosted UI branding to either the client or
+ * the user pool. For more information, see Hosted UI (classic) branding.
+ */
+export const getUICustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUICustomizationRequest,
+  output: GetUICustomizationResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Given a user pool ID, returns information about configured identity providers (IdPs).
+ * For more information about IdPs, see Third-party IdP sign-in.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const listIdentityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListIdentityProvidersRequest,
+    output: ListIdentityProvidersResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Returns details about all terms documents for the requested user pool.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const listTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTermsRequest,
+  output: ListTermsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Given a user pool ID, lists app clients. App clients are sets of rules for the access
+ * that you want a user pool to grant to one application. For more information, see App clients.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const listUserPoolClients = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUserPoolClientsRequest,
+  output: ListUserPoolClientsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Lists user pools and their details in the current Amazon Web Services account.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const listUserPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUserPoolsRequest,
+  output: ListUserPoolsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Given a user pool ID, returns a list of users and their basic details in a user
+ * pool.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUsersRequest,
+  output: ListUsersResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
   ],
 }));
 /**
@@ -3963,33 +3237,6 @@ export const getCSVHeader = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Given a device key, returns information about a remembered device for the current
- * user. For more information about device authentication, see Working with user devices in your user pool.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const getDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDeviceRequest,
-  output: GetDeviceResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidUserPoolConfigurationException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
  * Given a user pool ID and a group name, returns information about the user
  * group.
  *
@@ -4034,93 +3281,6 @@ export const getIdentityProviderByIdentifier =
     ],
   }));
 /**
- * Given a user pool ID, returns the signing certificate for SAML 2.0 federation.
- *
- * Issued certificates are valid for 10 years from the date of issue. Amazon Cognito issues and
- * assigns a new signing certificate annually. This renewal process returns a new value in
- * the response to `GetSigningCertificate`, but doesn't invalidate the original
- * certificate.
- *
- * For more information, see Signing SAML requests.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const getSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSigningCertificateRequest,
-    output: GetSigningCertificateResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Gets user attributes and and MFA settings for the currently signed-in user.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUserRequest,
-  output: GetUserResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Lists the authentication options for the currently signed-in user. Returns the
- * following:
- *
- * - The user's multi-factor authentication (MFA) preferences.
- *
- * - The user's options for choice-based authentication with the
- * `USER_AUTH` flow.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const getUserAuthFactors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUserAuthFactorsRequest,
-  output: GetUserAuthFactorsResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
  * Given a user pool ID, returns configuration for sign-in with WebAuthn authenticators
  * and for multi-factor authentication (MFA). This operation describes the
  * following:
@@ -4158,33 +3318,6 @@ export const getUserPoolMfaConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists the devices that Amazon Cognito has registered to the currently signed-in user. For more
- * information about device authentication, see Working with user devices in your user pool.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDevicesRequest,
-  output: ListDevicesResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidUserPoolConfigurationException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
 /**
  * Given a user pool ID, returns user pool groups and their details.
  *
@@ -4332,23 +3465,6 @@ export const setUICustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Instructs your user pool to stop a running job that's importing users from a CSV
- * file that contains their usernames and attributes. For more information about importing
- * users from a CSV file, see Importing users from a CSV file.
- */
-export const stopUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopUserImportJobRequest,
-  output: StopUserImportJobResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Given the name of a user pool group, updates any of the properties for precedence,
  * IAM role, or description. For more information about user pool groups, see Adding groups to a user pool.
  *
@@ -4373,37 +3489,6 @@ export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
-/**
- * Modifies the configuration and trust relationship between a third-party identity
- * provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity
- * providers through managed login and OIDC relying-party libraries. For more information,
- * see Third-party IdP sign-in.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const updateIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIdentityProviderRequest,
-    output: UpdateIdentityProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnsupportedIdentityProviderException,
-    ],
-  }),
-);
 /**
  * Configures the branding settings for a user pool style. This operation is the
  * programmatic option for the configuration of a style in the branding editor.
@@ -4472,60 +3557,195 @@ export const updateResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the currently signed-in user's attributes. To delete an attribute from
- * the user, submit the attribute in your API request with a blank value.
+ * Deletes a group from the specified user pool. When you delete a group, that group no
+ * longer contributes to users' `cognito:preferred_group` or
+ * `cognito:groups` claims, and no longer influence access-control decision
+ * that are based on group membership. For more information about user pool groups, see
+ * Adding groups to a user pool.
  *
- * For custom attributes, you must add a `custom:` prefix to the attribute
- * name, for example `custom:department`.
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
  *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ * **Learn more**
  *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ * - Signing Amazon Web Services API Requests
  *
- * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
- * require you to register an origination phone number before you can send SMS messages
- * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
- * phone number with Amazon Pinpoint.
- * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
- * receive SMS messages might not be able to sign up, activate their accounts, or sign
- * in.
- *
- * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
- * Amazon Simple Notification Service might place your account in the SMS sandbox. In
- * sandbox
- * mode
- * , you can send messages only to verified phone
- * numbers. After you test your app while in the sandbox environment, you can move out
- * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
- * Developer Guide.
+ * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupRequest,
+  output: DeleteGroupResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a resource server. After you delete a resource server, users can no longer
+ * generate access tokens with scopes that are associate with that resource server.
+ *
+ * Resource servers are associated with custom scopes and machine-to-machine (M2M)
+ * authorization. For more information, see Access control with resource servers.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const deleteResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateUserAttributesRequest,
-    output: UpdateUserAttributesResponse,
+    input: DeleteResourceServerRequest,
+    output: DeleteResourceServerResponse,
     errors: [
-      AliasExistsException,
-      CodeDeliveryFailureException,
-      CodeMismatchException,
-      ExpiredCodeException,
-      ForbiddenException,
       InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
       InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
       NotAuthorizedException,
-      PasswordResetRequiredException,
       ResourceNotFoundException,
       TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotConfirmedException,
-      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to
+ * categorize and manage user pools in different ways, such as by purpose, owner,
+ * environment, or other criteria.
+ *
+ * Each tag consists of a key and value, both of which you define. A key is a general
+ * category for more specific values. For example, if you have two versions of a user pool,
+ * one for testing and another for production, you might assign an `Environment`
+ * tag key to both user pools. The value of this key might be `Test` for one
+ * user pool, and `Production` for the other.
+ *
+ * Tags are useful for cost tracking and access control. You can activate your tags so
+ * that they appear on the Billing and Cost Management console, where you can track the
+ * costs associated with your user pools. In an Identity and Access Management policy, you can constrain
+ * permissions for user pools based on specific tags or tag values.
+ *
+ * You can use this action up to 5 times per second, per account. A user pool can have as
+ * many as 50 tags.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Given tag IDs that you previously assigned to a user pool, removes them.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a managed login branding style. When you delete a style, you delete the
+ * branding association for an app client. When an app client doesn't have a style
+ * assigned, your managed login pages for that app client are nonfunctional until you
+ * create a new style or switch the domain branding version.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const deleteManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteManagedLoginBrandingRequest,
+    output: DeleteManagedLoginBrandingResponse,
+    errors: [
+      ConcurrentModificationException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Deletes the terms documents with the requested ID from your app client.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const deleteTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTermsRequest,
+  output: DeleteTermsResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a user pool app client. After you delete an app client, users can no longer
+ * sign in to the associated application.
+ */
+export const deleteUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteUserPoolClientRequest,
+    output: DeleteUserPoolClientResponse,
+    errors: [
+      ConcurrentModificationException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Given a user pool ID and domain identifier, deletes a user pool domain. After you
+ * delete a user pool domain, your managed login pages and authorization server are no
+ * longer available.
+ */
+export const deleteUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteUserPoolDomainRequest,
+    output: DeleteUserPoolDomainResponse,
+    errors: [
+      ConcurrentModificationException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
     ],
   }),
 );
@@ -4579,13 +3799,64 @@ export const updateUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Submits a verification code for a signed-in user who has added or changed a value of
- * an auto-verified attribute. When successful, the user's attribute becomes verified
- * and the attribute `email_verified` or `phone_number_verified`
- * becomes `true`.
+ * Creates a new group in the specified user pool. For more information about user pool
+ * groups, see Adding groups to a user pool.
  *
- * If your user pool requires verification before Amazon Cognito updates the attribute value,
- * this operation updates the affected attribute to its pending value.
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGroupRequest,
+  output: CreateGroupResponse,
+  errors: [
+    GroupExistsException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a new OAuth2.0 resource server and defines custom scopes within it. Resource
+ * servers are associated with custom scopes and machine-to-machine (M2M) authorization.
+ * For more information, see Access control with resource servers.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const createResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateResourceServerRequest,
+    output: CreateResourceServerResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      LimitExceededException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Generates a list of the currently signed-in user's registered passkey, or
+ * WebAuthn, credentials.
  *
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  *
@@ -4594,29 +3865,59 @@ export const updateUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const verifyUserAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: VerifyUserAttributeRequest,
-  output: VerifyUserAttributeResponse,
-  errors: [
-    AliasExistsException,
-    CodeMismatchException,
-    ExpiredCodeException,
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    LimitExceededException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
+export const listWebAuthnCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListWebAuthnCredentialsRequest,
+    output: ListWebAuthnCredentialsResponse,
+    errors: [
+      ForbiddenException,
+      InternalErrorException,
+      InvalidParameterException,
+      LimitExceededException,
+      NotAuthorizedException,
+      TooManyRequestsException,
+    ],
+  }),
+);
 /**
- * Adds additional user attributes to the user pool schema. Custom attributes can be
- * mutable or immutable and have a `custom:` or `dev:` prefix. For
- * more information, see Custom attributes.
+ * Deletes a registered passkey, or WebAuthn, authenticator for the currently signed-in
+ * user.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const deleteWebAuthnCredential = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteWebAuthnCredentialRequest,
+    output: DeleteWebAuthnCredentialResponse,
+    errors: [
+      ForbiddenException,
+      InternalErrorException,
+      InvalidParameterException,
+      LimitExceededException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * A user pool domain hosts managed login, an authorization server and web server for
+ * authentication in your application. This operation creates a new user pool prefix domain
+ * or custom domain and sets the managed login branding version. Set the branding version
+ * to `1` for hosted UI (classic) or `2` for managed login. When you
+ * choose a custom domain, you must provide an SSL certificate in the US East (N. Virginia)
+ * Amazon Web Services Region in your request.
+ *
+ * Your prefix domain might take up to one minute to take effect. Your custom domain is
+ * online within five minutes, but it can take up to one hour to distribute your SSL
+ * certificate.
+ *
+ * For more information about adding a custom domain to your user pool, see Configuring a user pool domain.
  *
  * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
  * this operation, you must use IAM credentials to authorize requests, and you must
@@ -4628,24 +3929,26 @@ export const verifyUserAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const addCustomAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddCustomAttributesRequest,
-  output: AddCustomAttributesResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserImportInProgressException,
-  ],
-}));
+export const createUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateUserPoolDomainRequest,
+    output: CreateUserPoolDomainResponse,
+    errors: [
+      ConcurrentModificationException,
+      FeatureUnavailableInTierException,
+      InternalErrorException,
+      InvalidParameterException,
+      LimitExceededException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
- * Confirms user sign-up as an administrator.
- *
- * This request sets a user account active in a user pool that requires confirmation of new user accounts before they can sign in. You can
- * configure your user pool to not send confirmation codes to new users and instead confirm
- * them with this API operation on the back end.
+ * Lists a user's registered devices. Remembered devices are used in authentication
+ * services where you offer a "Remember me" option for users who you want to permit to sign
+ * in without MFA from a trusted device. Users can bypass MFA while your application
+ * performs device SRP authentication on the back end. For more information, see Working with devices.
  *
  * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
  * this operation, you must use IAM credentials to authorize requests, and you must
@@ -4656,26 +3959,17 @@ export const addCustomAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Signing Amazon Web Services API Requests
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
- *
- * To configure your user pool to require administrative confirmation of users, set
- * `AllowAdminCreateUserOnly` to `true` in a
- * `CreateUserPool` or `UpdateUserPool` request.
  */
-export const adminConfirmSignUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AdminConfirmSignUpRequest,
-  output: AdminConfirmSignUpResponse,
+export const adminListDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminListDevicesRequest,
+  output: AdminListDevicesResponse,
   errors: [
     InternalErrorException,
-    InvalidLambdaResponseException,
     InvalidParameterException,
-    LimitExceededException,
+    InvalidUserPoolConfigurationException,
     NotAuthorizedException,
     ResourceNotFoundException,
-    TooManyFailedAttemptsException,
     TooManyRequestsException,
-    UnexpectedLambdaException,
-    UserLambdaValidationException,
-    UserNotFoundException,
   ],
 }));
 /**
@@ -4704,6 +3998,56 @@ export const adminGetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
+/**
+ * Adds a configuration and trust relationship between a third-party identity provider
+ * (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity providers through
+ * managed login and OIDC relying-party libraries. For more information, see Third-party IdP sign-in.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const createIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateIdentityProviderRequest,
+    output: CreateIdentityProviderResponse,
+    errors: [
+      DuplicateProviderException,
+      InternalErrorException,
+      InvalidParameterException,
+      LimitExceededException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Sets up or modifies the logging configuration of a user pool. User pools can export
+ * user notification logs and, when threat protection is active, user-activity logs. For
+ * more information, see Exporting user
+ * pool logs.
+ */
+export const setLogDeliveryConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetLogDeliveryConfigurationRequest,
+    output: SetLogDeliveryConfigurationResponse,
+    errors: [
+      FeatureUnavailableInTierException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
 /**
  * Lists the groups that a user belongs to. User pool groups are identifiers that you can
  * reference from the contents of ID and access tokens, and set preferred IAM roles for
@@ -4734,73 +4078,276 @@ export const adminListGroupsForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Begins the password reset process. Sets the requested user’s account into a
- * `RESET_REQUIRED` status, and sends them a password-reset code. Your user
- * pool also sends the user a notification with a reset code and the information that their
- * password has been reset. At sign-in, your application or the managed login session
- * receives a challenge to complete the reset by confirming the code and setting a new
- * password.
- *
- * To use this API operation, your user pool must have self-service account recovery
- * configured.
- *
- * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
- * require you to register an origination phone number before you can send SMS messages
- * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
- * phone number with Amazon Pinpoint.
- * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
- * receive SMS messages might not be able to sign up, activate their accounts, or sign
- * in.
- *
- * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
- * Amazon Simple Notification Service might place your account in the SMS sandbox. In
- * sandbox
- * mode
- * , you can send messages only to verified phone
- * numbers. After you test your app while in the sandbox environment, you can move out
- * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
- * Developer Guide.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
+ * Given an app client or user pool ID where threat protection is configured, describes
+ * the risk configuration. This operation returns details about adaptive authentication,
+ * compromised credentials, and IP-address allow- and denylists. For more information about
+ * threat protection, see Threat protection.
  */
-export const adminResetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeRiskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AdminResetUserPasswordRequest,
-    output: AdminResetUserPasswordResponse,
+    input: DescribeRiskConfigurationRequest,
+    output: DescribeRiskConfigurationResponse,
     errors: [
       InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
       InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
-      LimitExceededException,
       NotAuthorizedException,
       ResourceNotFoundException,
       TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotFoundException,
+      UserPoolAddOnNotEnabledException,
     ],
   }),
 );
 /**
- * Some API operations in a user pool generate a challenge, like a prompt for an MFA
- * code, for device authentication that bypasses MFA, or for a custom authentication
- * challenge. An `AdminRespondToAuthChallenge` API request provides the answer
- * to that challenge, like a code or a secure remote password (SRP). The parameters of a
- * response to an authentication challenge vary with the type of challenge.
+ * Given a user pool ID, returns configuration information. This operation is useful when
+ * you want to inspect an existing user pool and programmatically replicate the
+ * configuration to another user pool.
  *
- * For more information about custom authentication challenges, see Custom
- * authentication challenge Lambda triggers.
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const describeUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserPoolRequest,
+  output: DescribeUserPoolResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserPoolTaggingException,
+  ],
+}));
+/**
+ * Deletes a user pool identity provider (IdP). After you delete an IdP, users can no
+ * longer sign in to your user pool through that IdP. For more information about user pool
+ * IdPs, see Third-party IdP sign-in.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const deleteIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteIdentityProviderRequest,
+    output: DeleteIdentityProviderResponse,
+    errors: [
+      ConcurrentModificationException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UnsupportedIdentityProviderException,
+    ],
+  }),
+);
+/**
+ * Instructs your user pool to start importing users from a CSV file that contains their
+ * usernames and attributes. For more information about importing users from a CSV file,
+ * see Importing users from a CSV file.
+ */
+export const startUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartUserImportJobRequest,
+  output: StartUserImportJobResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Modifies existing terms documents for the requested app client. When Terms and
+ * conditions and Privacy policy documents are configured, the app client displays links to
+ * them in the sign-up page of managed login for the app client.
+ *
+ * You can provide URLs for terms documents in the languages that are supported by managed login localization. Amazon Cognito directs users to the terms documents for
+ * their current language, with fallback to `default` if no document exists for
+ * the language.
+ *
+ * Each request accepts one type of terms document and a map of language-to-link for that
+ * document type. You must provide both types of terms documents in at least one language
+ * before Amazon Cognito displays your terms documents. Supply each type in separate
+ * requests.
+ *
+ * For more information, see Terms documents.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const updateTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTermsRequest,
+  output: UpdateTermsResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TermsExistsException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a user pool. After you delete a user pool, users can no longer sign in to any
+ * associated applications.
+ *
+ * When you delete a user pool, it's no longer visible or operational in your Amazon Web Services account. Amazon Cognito retains deleted user pools in an inactive state for 14
+ * days, then begins a cleanup process that fully removes them from Amazon Web Services systems. In case
+ * of accidental deletion, contact Amazon Web ServicesSupport within 14 days for restoration
+ * assistance.
+ *
+ * Amazon Cognito begins full deletion of all resources from deleted user pools after 14 days. In
+ * the case of large user pools, the cleanup process might take significant additional time
+ * before all user data is permanently deleted.
+ */
+export const deleteUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserPoolRequest,
+  output: DeleteUserPoolResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserImportInProgressException,
+  ],
+}));
+/**
+ * Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA)
+ * for a user, with a unique private key that Amazon Cognito generates and returns in the API
+ * response. You can authorize an `AssociateSoftwareToken` request with either
+ * the user's access token, or a session string from a challenge response that you received
+ * from Amazon Cognito.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ */
+export const associateSoftwareToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateSoftwareTokenRequest,
+    output: AssociateSoftwareTokenResponse,
+    errors: [
+      ConcurrentModificationException,
+      ForbiddenException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      SoftwareTokenMFANotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a new set of branding settings for a user pool style and associates it with an
+ * app client. This operation is the programmatic option for the creation of a new style in
+ * the branding editor.
+ *
+ * Provides values for UI customization in a `Settings` JSON object and image
+ * files in an `Assets` array. To send the JSON object `Document`
+ * type parameter in `Settings`, you might need to update to the most recent
+ * version of your Amazon Web Services SDK. To create a new style with default settings, set
+ * `UseCognitoProvidedValues` to `true` and don't provide
+ * values for any other options.
+ *
+ * This operation has a 2-megabyte request-size limit and include the CSS settings and
+ * image assets for your app client. Your branding settings might exceed 2MB in size. Amazon Cognito
+ * doesn't require that you pass all parameters in one request and preserves existing
+ * style settings that you don't specify. If your request is larger than 2MB, separate it
+ * into multiple requests, each with a size smaller than the limit.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const createManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateManagedLoginBrandingRequest,
+    output: CreateManagedLoginBrandingResponse,
+    errors: [
+      ConcurrentModificationException,
+      InternalErrorException,
+      InvalidParameterException,
+      LimitExceededException,
+      ManagedLoginBrandingExistsException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Creates an app client in a user pool. This operation sets basic and advanced
+ * configuration options.
+ *
+ * Unlike app clients created in the console, Amazon Cognito doesn't automatically assign a
+ * branding style to app clients that you configure with this API operation. Managed login and classic hosted UI pages aren't
+ * available for your client until after you apply a branding style.
+ *
+ * If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const createUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateUserPoolClientRequest,
+    output: CreateUserPoolClientResponse,
+    errors: [
+      FeatureUnavailableInTierException,
+      InternalErrorException,
+      InvalidOAuthFlowException,
+      InvalidParameterException,
+      LimitExceededException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      ScopeDoesNotExistException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Sets user pool multi-factor authentication (MFA) and passkey configuration. For more
+ * information about user pool MFA, see Adding MFA. For more information about WebAuthn passkeys see Authentication flows.
  *
  * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
  * require you to register an origination phone number before you can send SMS messages
@@ -4818,44 +4365,21 @@ export const adminResetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * numbers. After you test your app while in the sandbox environment, you can move out
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminRespondToAuthChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const setUserPoolMfaConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AdminRespondToAuthChallengeRequest,
-    output: AdminRespondToAuthChallengeResponse,
+    input: SetUserPoolMfaConfigRequest,
+    output: SetUserPoolMfaConfigResponse,
     errors: [
-      AliasExistsException,
-      CodeMismatchException,
-      ExpiredCodeException,
+      ConcurrentModificationException,
+      FeatureUnavailableInTierException,
       InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
       InvalidParameterException,
-      InvalidPasswordException,
       InvalidSmsRoleAccessPolicyException,
       InvalidSmsRoleTrustRelationshipException,
-      InvalidUserPoolConfigurationException,
-      MFAMethodNotFoundException,
       NotAuthorizedException,
-      PasswordHistoryPolicyViolationException,
-      PasswordResetRequiredException,
       ResourceNotFoundException,
-      SoftwareTokenMFANotFoundException,
       TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotConfirmedException,
-      UserNotFoundException,
     ],
   }),
 );
@@ -4917,16 +4441,11 @@ export const adminSetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the specified user's attributes. To delete an attribute from your user,
- * submit the attribute in your API request with a blank value.
+ * Given a username, returns details about a user profile in a user pool. You can specify
+ * alias attributes in the `Username` request parameter.
  *
- * For custom attributes, you must add a `custom:` prefix to the attribute
- * name, for example `custom:department`.
- *
- * This operation can set a user's email address or phone number as verified and
- * permit immediate sign-in in user pools that require verification of these attributes. To
- * do this, set the `email_verified` or `phone_number_verified`
- * attribute to `true`.
+ * This operation contributes to your monthly active user (MAU) count for the purpose of
+ * billing.
  *
  * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
  * this operation, you must use IAM credentials to authorize requests, and you must
@@ -4937,6 +4456,800 @@ export const adminSetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Signing Amazon Web Services API Requests
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminGetUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminGetUserRequest,
+  output: AdminGetUserResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * *This action is no longer supported.* You can use it to configure
+ * only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software
+ * token MFA.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminSetUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AdminSetUserSettingsRequest,
+    output: AdminSetUserSettingsResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes a user profile in your user pool.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminDeleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminDeleteUserRequest,
+  output: AdminDeleteUserResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Deletes attribute values from a user. This operation doesn't affect tokens for
+ * existing user sessions. The next ID token that the user receives will no longer have the
+ * deleted attributes.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminDeleteUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AdminDeleteUserAttributesRequest,
+    output: AdminDeleteUserAttributesResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deactivates a user profile and revokes all access tokens for the user. A deactivated
+ * user can't sign in, but still appears in the responses to `ListUsers`
+ * API requests.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminDisableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminDisableUserRequest,
+  output: AdminDisableUserResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Activates sign-in for a user profile that previously had sign-in access
+ * disabled.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminEnableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminEnableUserRequest,
+  output: AdminEnableUserResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Given a username and a group name, removes them from the group. User pool groups are
+ * identifiers that you can reference from the contents of ID and access tokens, and set
+ * preferred IAM roles for identity-pool authentication. For more information, see Adding groups to a user pool.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminRemoveUserFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AdminRemoveUserFromGroupRequest,
+    output: AdminRemoveUserFromGroupResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Provides the feedback for an authentication event generated by threat protection
+ * features. Your response indicates that you think that the event either was from a valid
+ * user or was an unwanted authentication attempt. This feedback improves the risk
+ * evaluation decision for the user pool as part of Amazon Cognito threat protection.
+ * To activate this setting, your user pool must be on the
+ * Plus tier.
+ *
+ * To train the threat-protection model to recognize trusted and untrusted sign-in
+ * characteristics, configure threat protection in audit-only mode and provide a mechanism
+ * for users or administrators to submit feedback. Your feedback can tell Amazon Cognito that a risk
+ * rating was assigned at a level you don't agree with.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminUpdateAuthEventFeedback =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AdminUpdateAuthEventFeedbackRequest,
+    output: AdminUpdateAuthEventFeedbackResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotFoundException,
+      UserPoolAddOnNotEnabledException,
+    ],
+  }));
+/**
+ * Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call
+ * this operation with your administrative credentials when your user signs out of your
+ * app. This results in the following behavior.
+ *
+ * - Amazon Cognito no longer accepts *token-authorized* user operations
+ * that you authorize with a signed-out user's access tokens. For more information,
+ * see Using the Amazon Cognito user pools API and user pool
+ * endpoints.
+ *
+ * Amazon Cognito returns an `Access Token has been revoked` error when your
+ * app attempts to authorize a user pools API request with a revoked access token
+ * that contains the scope `aws.cognito.signin.user.admin`.
+ *
+ * - Amazon Cognito no longer accepts a signed-out user's ID token in a GetId request to an identity pool with
+ * `ServerSideTokenCheck` enabled for its user pool IdP
+ * configuration in CognitoIdentityProvider.
+ *
+ * - Amazon Cognito no longer accepts a signed-out user's refresh tokens in refresh
+ * requests.
+ *
+ * Other requests might be valid until your user's token expires. This operation
+ * doesn't clear the managed login session cookie. To clear the session for
+ * a user who signed in with managed login or the classic hosted UI, direct their browser
+ * session to the logout endpoint.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminUserGlobalSignOut = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AdminUserGlobalSignOutRequest,
+    output: AdminUserGlobalSignOutResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Provides the feedback for an authentication event generated by threat protection
+ * features. The user's response indicates that you think that the event either was from a
+ * valid user or was an unwanted authentication attempt. This feedback improves the risk
+ * evaluation decision for the user pool as part of Amazon Cognito threat protection.
+ * To activate this setting, your user pool must be on the
+ * Plus tier.
+ *
+ * This operation requires a `FeedbackToken` that Amazon Cognito generates and adds to
+ * notification emails when users have potentially suspicious authentication events. Users
+ * invoke this operation when they select the link that corresponds to
+ * `{one-click-link-valid}` or `{one-click-link-invalid}` in your
+ * notification template. Because `FeedbackToken` is a required parameter, you
+ * can't make requests to `UpdateAuthEventFeedback` without the contents of
+ * the notification email message.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const updateAuthEventFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAuthEventFeedbackRequest,
+    output: UpdateAuthEventFeedbackResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotFoundException,
+      UserPoolAddOnNotEnabledException,
+    ],
+  }),
+);
+/**
+ * Prevents the user from signing in with the specified external (SAML or social)
+ * identity provider (IdP). If the user that you want to deactivate is a Amazon Cognito user pools
+ * native username + password user, they can't use their password to sign in. If the user
+ * to deactivate is a linked external IdP user, any link between that user and an existing
+ * user is removed. When the external user signs in again, and the user is no longer
+ * attached to the previously linked `DestinationUser`, the user must create a
+ * new user account.
+ *
+ * The value of `ProviderName` must match the name of a user pool IdP.
+ *
+ * To deactivate a local user, set `ProviderName` to `Cognito` and
+ * the `ProviderAttributeName` to `Cognito_Subject`. The
+ * `ProviderAttributeValue` must be user's local username.
+ *
+ * The `ProviderAttributeName` must always be `Cognito_Subject` for
+ * social IdPs. The `ProviderAttributeValue` must always be the exact subject
+ * that was used when the user was originally linked as a source user.
+ *
+ * For de-linking a SAML identity, there are two scenarios. If the linked identity has
+ * not yet been used to sign in, the `ProviderAttributeName` and
+ * `ProviderAttributeValue` must be the same values that were used for the
+ * `SourceUser` when the identities were originally linked using
+ * AdminLinkProviderForUser call. This is also true if the linking was done with
+ * `ProviderAttributeName` set to `Cognito_Subject`. If the user
+ * has already signed in, the `ProviderAttributeName` must be
+ * `Cognito_Subject` and `ProviderAttributeValue` must be the
+ * `NameID` from their SAML assertion.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminDisableProviderForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AdminDisableProviderForUserRequest,
+    output: AdminDisableProviderForUserResponse,
+    errors: [
+      AliasExistsException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Links an existing user account in a user pool, or `DestinationUser`, to an
+ * identity from an external IdP, or `SourceUser`, based on a specified
+ * attribute name and value from the external IdP.
+ *
+ * This operation connects a local user profile with a user identity who hasn't yet
+ * signed in from their third-party IdP. When the user signs in with their IdP, they get
+ * access-control configuration from the local user profile. Linked local users can also
+ * sign in with SDK-based API operations like `InitiateAuth` after they sign in
+ * at least once through their IdP. For more information, see Linking federated users.
+ *
+ * The maximum number of federated identities linked to a user is five.
+ *
+ * Because this API allows a user with an external federated identity to sign in as a
+ * local user, it is critical that it only be used with external IdPs and linked
+ * attributes that you trust.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminLinkProviderForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AdminLinkProviderForUserRequest,
+    output: AdminLinkProviderForUserResponse,
+    errors: [
+      AliasExistsException,
+      InternalErrorException,
+      InvalidParameterException,
+      LimitExceededException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Forgets, or deletes, a remembered device from a user's profile. After you forget
+ * the device, the user can no longer complete device authentication with that device and
+ * when applicable, must submit MFA codes again. For more information, see Working with devices.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminForgetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminForgetDeviceRequest,
+  output: AdminForgetDeviceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidUserPoolConfigurationException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Updates the status of a user's device so that it is marked as remembered or not
+ * remembered for the purpose of device authentication. Device authentication is a
+ * "remember me" mechanism that silently completes sign-in from trusted devices with a
+ * device key instead of a user-provided MFA code. This operation changes the status of a
+ * device without deleting it, so you can enable it again later. For more information about
+ * device authentication, see Working with devices.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminUpdateDeviceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AdminUpdateDeviceStatusRequest,
+    output: AdminUpdateDeviceStatusResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      InvalidUserPoolConfigurationException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Adds a user to a group. A user who is in a group can present a preferred-role claim to
+ * an identity pool, and populates a `cognito:groups` claim to their access and
+ * identity tokens.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminAddUserToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminAddUserToGroupRequest,
+  output: AdminAddUserToGroupResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Requests a history of user activity and any risks detected as part of Amazon Cognito threat
+ * protection. For more information, see Viewing user event history.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminListUserAuthEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AdminListUserAuthEventsRequest,
+    output: AdminListUserAuthEventsResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotFoundException,
+      UserPoolAddOnNotEnabledException,
+    ],
+  }),
+);
+/**
+ * Configures threat protection for a user pool or app client. Sets configuration for the
+ * following.
+ *
+ * - Responses to risks with adaptive authentication
+ *
+ * - Responses to vulnerable passwords with compromised-credentials
+ * detection
+ *
+ * - Notifications to users who have had risky activity detected
+ *
+ * - IP-address denylist and allowlist
+ *
+ * To set the risk configuration for the user pool to defaults, send this request with
+ * only the `UserPoolId` parameter. To reset the threat protection settings of
+ * an app client to be inherited from the user pool, send `UserPoolId` and
+ * `ClientId` parameters only. To change threat protection to audit-only or
+ * off, update the value of `UserPoolAddOns` in an `UpdateUserPool`
+ * request. To activate this setting, your user pool must be on the
+ * Plus tier.
+ */
+export const setRiskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetRiskConfigurationRequest,
+    output: SetRiskConfigurationResponse,
+    errors: [
+      CodeDeliveryFailureException,
+      InternalErrorException,
+      InvalidEmailRoleAccessPolicyException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserPoolAddOnNotEnabledException,
+    ],
+  }),
+);
+/**
+ * Modifies the configuration and trust relationship between a third-party identity
+ * provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity
+ * providers through managed login and OIDC relying-party libraries. For more information,
+ * see Third-party IdP sign-in.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const updateIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateIdentityProviderRequest,
+    output: UpdateIdentityProviderResponse,
+    errors: [
+      ConcurrentModificationException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UnsupportedIdentityProviderException,
+    ],
+  }),
+);
+/**
+ * Instructs your user pool to stop a running job that's importing users from a CSV
+ * file that contains their usernames and attributes. For more information about importing
+ * users from a CSV file, see Importing users from a CSV file.
+ */
+export const stopUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopUserImportJobRequest,
+  output: StopUserImportJobResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a user import job. You can import users into user pools from a comma-separated
+ * values (CSV) file without adding Amazon Cognito MAU costs to your Amazon Web Services bill.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const createUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserImportJobRequest,
+  output: CreateUserImportJobResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates terms documents for the requested app client. When Terms and conditions and
+ * Privacy policy documents are configured, the app client displays links to them in the
+ * sign-up page of managed login for the app client.
+ *
+ * You can provide URLs for terms documents in the languages that are supported by managed login localization. Amazon Cognito directs users to the terms documents for
+ * their current language, with fallback to `default` if no document exists for
+ * the language.
+ *
+ * Each request accepts one type of terms document and a map of language-to-link for that
+ * document type. You must provide both types of terms documents in at least one language
+ * before Amazon Cognito displays your terms documents. Supply each type in separate
+ * requests.
+ *
+ * For more information, see Terms documents.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const createTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTermsRequest,
+  output: CreateTermsResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TermsExistsException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Adds additional user attributes to the user pool schema. Custom attributes can be
+ * mutable or immutable and have a `custom:` or `dev:` prefix. For
+ * more information, see Custom attributes.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const addCustomAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddCustomAttributesRequest,
+  output: AddCustomAttributesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserImportInProgressException,
+  ],
+}));
+/**
+ * Given a user pool app client ID, updates the configuration. To avoid setting
+ * parameters to Amazon Cognito defaults, construct this API request to pass the existing
+ * configuration of your app client, modified to include the changes that you want to
+ * make.
+ *
+ * If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
+ *
+ * Unlike app clients created in the console, Amazon Cognito doesn't automatically assign a
+ * branding style to app clients that you configure with this API operation. Managed login and classic hosted UI pages aren't
+ * available for your client until after you apply a branding style.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const updateUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateUserPoolClientRequest,
+    output: UpdateUserPoolClientResponse,
+    errors: [
+      ConcurrentModificationException,
+      FeatureUnavailableInTierException,
+      InternalErrorException,
+      InvalidOAuthFlowException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      ScopeDoesNotExistException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Sets the user's multi-factor authentication (MFA) preference, including which MFA
+ * options are activated, and if any are preferred. Only one factor can be set as
+ * preferred. The preferred MFA factor will be used to authenticate a user if multiple
+ * factors are activated. If multiple options are activated and no preference is set, a
+ * challenge to choose an MFA option will be returned during sign-in.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminSetUserMFAPreference = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AdminSetUserMFAPreferenceRequest,
+    output: AdminSetUserMFAPreferenceResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      PasswordResetRequiredException,
+      ResourceNotFoundException,
+      UserNotConfirmedException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Requests credential creation options from your user pool for the currently signed-in
+ * user. Returns information about the user pool, the user profile, and authentication
+ * requirements. Users must provide this information in their request to enroll your
+ * application with their passkey provider.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ */
+export const startWebAuthnRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartWebAuthnRegistrationRequest,
+    output: StartWebAuthnRegistrationResponse,
+    errors: [
+      ForbiddenException,
+      InternalErrorException,
+      InvalidParameterException,
+      LimitExceededException,
+      NotAuthorizedException,
+      TooManyRequestsException,
+      WebAuthnConfigurationMissingException,
+      WebAuthnNotEnabledException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito
+ * defaults, construct this API request to pass the existing configuration of your user
+ * pool, modified to include the changes that you want to make.
+ *
+ * If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
  *
  * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
  * require you to register an origination phone number before you can send SMS messages
@@ -4954,20 +5267,560 @@ export const adminSetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * numbers. After you test your app while in the sandbox environment, you can move out
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminUpdateUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserPoolRequest,
+  output: UpdateUserPoolResponse,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidParameterException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TierChangeNotAllowedException,
+    TooManyRequestsException,
+    UserImportInProgressException,
+    UserPoolTaggingException,
+  ],
+}));
+/**
+ * Confirms a device that a user wants to remember. A remembered device is a "Remember me
+ * on this device" option for user pools that perform authentication with the device key of
+ * a trusted device in the back end, instead of a user-provided MFA code. For more
+ * information about device authentication, see Working with user devices in your user pool.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const confirmDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfirmDeviceRequest,
+  output: ConfirmDeviceResponse,
+  errors: [
+    DeviceKeyExistsException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    InvalidUserPoolConfigurationException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UsernameExistsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Gets user attributes and and MFA settings for the currently signed-in user.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserRequest,
+  output: GetUserResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Lists the authentication options for the currently signed-in user. Returns the
+ * following:
+ *
+ * - The user's multi-factor authentication (MFA) preferences.
+ *
+ * - The user's options for choice-based authentication with the
+ * `USER_AUTH` flow.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const getUserAuthFactors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserAuthFactorsRequest,
+  output: GetUserAuthFactorsResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Deletes the profile of the currently signed-in user. A deleted user profile can no
+ * longer be used to sign in and can't be restored.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserRequest,
+  output: DeleteUserResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Deletes attributes from the currently signed-in user. For example, your application
+ * can submit a request to this operation when a user wants to remove their
+ * `birthdate` attribute value.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const deleteUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AdminUpdateUserAttributesRequest,
-    output: AdminUpdateUserAttributesResponse,
+    input: DeleteUserAttributesRequest,
+    output: DeleteUserAttributesResponse,
     errors: [
-      AliasExistsException,
+      ForbiddenException,
       InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      PasswordResetRequiredException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UserNotConfirmedException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call
+ * this operation when your user signs out of your app. This results in the following
+ * behavior.
+ *
+ * - Amazon Cognito no longer accepts *token-authorized* user operations
+ * that you authorize with a signed-out user's access tokens. For more information,
+ * see Using the Amazon Cognito user pools API and user pool
+ * endpoints.
+ *
+ * Amazon Cognito returns an `Access Token has been revoked` error when your
+ * app attempts to authorize a user pools API request with a revoked access token
+ * that contains the scope `aws.cognito.signin.user.admin`.
+ *
+ * - Amazon Cognito no longer accepts a signed-out user's ID token in a GetId request to an identity pool with
+ * `ServerSideTokenCheck` enabled for its user pool IdP
+ * configuration in CognitoIdentityProvider.
+ *
+ * - Amazon Cognito no longer accepts a signed-out user's refresh tokens in refresh
+ * requests.
+ *
+ * Other requests might be valid until your user's token expires. This operation
+ * doesn't clear the managed login session cookie. To clear the session for
+ * a user who signed in with managed login or the classic hosted UI, direct their browser
+ * session to the logout endpoint.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const globalSignOut = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GlobalSignOutRequest,
+  output: GlobalSignOutResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+  ],
+}));
+/**
+ * Set the user's multi-factor authentication (MFA) method preference, including which
+ * MFA factors are activated and if any are preferred. Only one factor can be set as
+ * preferred. The preferred MFA factor will be used to authenticate a user if multiple
+ * factors are activated. If multiple options are activated and no preference is set, a
+ * challenge to choose an MFA option will be returned during sign-in. If an MFA type is
+ * activated for a user, the user will be prompted for MFA during all sign-in attempts
+ * unless device tracking is turned on and the device has been trusted. If you want MFA to
+ * be applied selectively based on the assessed risk level of sign-in attempts, deactivate
+ * MFA for users and turn on Adaptive Authentication for the user pool.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const setUserMFAPreference = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetUserMFAPreferenceRequest,
+    output: SetUserMFAPreferenceResponse,
+    errors: [
+      ForbiddenException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      PasswordResetRequiredException,
+      ResourceNotFoundException,
+      UserNotConfirmedException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * *This action is no longer supported.* You can use it to configure
+ * only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software
+ * token or email MFA.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const setUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetUserSettingsRequest,
+  output: SetUserSettingsResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Given a device key, returns information about a remembered device for the current
+ * user. For more information about device authentication, see Working with user devices in your user pool.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const getDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeviceRequest,
+  output: GetDeviceResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidUserPoolConfigurationException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Lists the devices that Amazon Cognito has registered to the currently signed-in user. For more
+ * information about device authentication, see Working with user devices in your user pool.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDevicesRequest,
+  output: ListDevicesResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidUserPoolConfigurationException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Given a device key, deletes a remembered device as the currently signed-in user. For
+ * more information about device authentication, see Working with user devices in your user pool.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const forgetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ForgetDeviceRequest,
+  output: ForgetDeviceResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidUserPoolConfigurationException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Updates the status of a the currently signed-in user's device so that it is
+ * marked as remembered or not remembered for the purpose of device authentication. Device
+ * authentication is a "remember me" mechanism that silently completes sign-in from trusted
+ * devices with a device key instead of a user-provided MFA code. This operation changes
+ * the status of a device without deleting it, so you can enable it again later. For more
+ * information about device authentication, see Working with devices.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const updateDeviceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDeviceStatusRequest,
+  output: UpdateDeviceStatusResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidUserPoolConfigurationException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Registers the current user's time-based one-time password (TOTP) authenticator
+ * with a code generated in their authenticator app from a private key that's supplied
+ * by your user pool. Marks the user's software token MFA status as "verified" if
+ * successful. The request takes an access token or a session string, but not both.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const verifySoftwareToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifySoftwareTokenRequest,
+  output: VerifySoftwareTokenResponse,
+  errors: [
+    CodeMismatchException,
+    EnableSoftwareTokenMFAException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidUserPoolConfigurationException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    SoftwareTokenMFANotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Submits a verification code for a signed-in user who has added or changed a value of
+ * an auto-verified attribute. When successful, the user's attribute becomes verified
+ * and the attribute `email_verified` or `phone_number_verified`
+ * becomes `true`.
+ *
+ * If your user pool requires verification before Amazon Cognito updates the attribute value,
+ * this operation updates the affected attribute to its pending value.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const verifyUserAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyUserAttributeRequest,
+  output: VerifyUserAttributeResponse,
+  errors: [
+    AliasExistsException,
+    CodeMismatchException,
+    ExpiredCodeException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Changes the password for the currently signed-in user.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const changePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChangePasswordRequest,
+  output: ChangePasswordResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    LimitExceededException,
+    NotAuthorizedException,
+    PasswordHistoryPolicyViolationException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Creates a new Amazon Cognito user pool. This operation sets basic and advanced configuration
+ * options.
+ *
+ * If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
+ *
+ * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
+ * require you to register an origination phone number before you can send SMS messages
+ * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
+ * phone number with Amazon Pinpoint.
+ * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
+ * receive SMS messages might not be able to sign up, activate their accounts, or sign
+ * in.
+ *
+ * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+ * Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ * sandbox
+ * mode
+ * , you can send messages only to verified phone
+ * numbers. After you test your app while in the sandbox environment, you can move out
+ * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
+ * Developer Guide.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const createUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserPoolRequest,
+  output: CreateUserPoolResponse,
+  errors: [
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidParameterException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    LimitExceededException,
+    NotAuthorizedException,
+    TierChangeNotAllowedException,
+    TooManyRequestsException,
+    UserPoolTaggingException,
+  ],
+}));
+/**
+ * Given a refresh token, issues new ID, access, and optionally refresh tokens for the
+ * user who owns the submitted token. This operation issues a new refresh token and
+ * invalidates the original refresh token after an optional grace period when refresh token
+ * rotation is enabled. If refresh token rotation is disabled, issues new ID and access
+ * tokens only.
+ */
+export const getTokensFromRefreshToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetTokensFromRefreshTokenRequest,
+    output: GetTokensFromRefreshTokenResponse,
+    errors: [
+      ForbiddenException,
+      InternalErrorException,
       InvalidLambdaResponseException,
       InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
       NotAuthorizedException,
+      RefreshTokenReuseException,
       ResourceNotFoundException,
       TooManyRequestsException,
       UnexpectedLambdaException,
@@ -4977,64 +5830,153 @@ export const adminUpdateUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA)
- * for a user, with a unique private key that Amazon Cognito generates and returns in the API
- * response. You can authorize an `AssociateSoftwareToken` request with either
- * the user's access token, or a session string from a challenge response that you received
- * from Amazon Cognito.
+ * Revokes all of the access tokens generated by, and at the same time as, the specified
+ * refresh token. After a token is revoked, you can't use the revoked token to access Amazon Cognito
+ * user APIs, or to authorize access to your resource server.
  *
  * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
  * this operation, you can't use IAM credentials to authorize requests, and you can't
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
-export const associateSoftwareToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSoftwareTokenRequest,
-    output: AssociateSoftwareTokenResponse,
-    errors: [
-      ConcurrentModificationException,
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      SoftwareTokenMFANotFoundException,
-    ],
-  }),
-);
+export const revokeToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeTokenRequest,
+  output: RevokeTokenResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    TooManyRequestsException,
+    UnauthorizedException,
+    UnsupportedOperationException,
+    UnsupportedTokenTypeException,
+  ],
+}));
 /**
- * This public API operation accepts a confirmation code that Amazon Cognito sent to a user and
- * accepts a new password for that user.
+ * Creates a new user in the specified user pool.
  *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ * If `MessageAction` isn't set, the default is to send a welcome message via
+ * email or phone (SMS).
+ *
+ * This message is based on a template that you configured in your call to create or
+ * update a user pool. This template includes your custom sign-up instructions and
+ * placeholders for user name and temporary password.
+ *
+ * Alternatively, you can call `AdminCreateUser` with `SUPPRESS`
+ * for the `MessageAction` parameter, and Amazon Cognito won't send any email.
+ *
+ * In either case, if the user has a password, they will be in the
+ * `FORCE_CHANGE_PASSWORD` state until they sign in and set their password.
+ * Your invitation message template must have the `{####}` password placeholder
+ * if your users have passwords. If your template doesn't have this placeholder, Amazon Cognito
+ * doesn't deliver the invitation message. In this case, you must update your message
+ * template and resend the password with a new `AdminCreateUser` request with a
+ * `MessageAction` value of `RESEND`.
+ *
+ * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
+ * require you to register an origination phone number before you can send SMS messages
+ * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
+ * phone number with Amazon Pinpoint.
+ * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
+ * receive SMS messages might not be able to sign up, activate their accounts, or sign
+ * in.
+ *
+ * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+ * Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ * sandbox
+ * mode
+ * , you can send messages only to verified phone
+ * numbers. After you test your app while in the sandbox environment, you can move out
+ * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
+ * Developer Guide.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const confirmForgotPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const adminCreateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminCreateUserRequest,
+  output: AdminCreateUserResponse,
+  errors: [
+    CodeDeliveryFailureException,
+    InternalErrorException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    NotAuthorizedException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UnsupportedUserStateException,
+    UserLambdaValidationException,
+    UsernameExistsException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Begins the password reset process. Sets the requested user’s account into a
+ * `RESET_REQUIRED` status, and sends them a password-reset code. Your user
+ * pool also sends the user a notification with a reset code and the information that their
+ * password has been reset. At sign-in, your application or the managed login session
+ * receives a challenge to complete the reset by confirming the code and setting a new
+ * password.
+ *
+ * To use this API operation, your user pool must have self-service account recovery
+ * configured.
+ *
+ * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
+ * require you to register an origination phone number before you can send SMS messages
+ * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
+ * phone number with Amazon Pinpoint.
+ * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
+ * receive SMS messages might not be able to sign up, activate their accounts, or sign
+ * in.
+ *
+ * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+ * Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ * sandbox
+ * mode
+ * , you can send messages only to verified phone
+ * numbers. After you test your app while in the sandbox environment, you can move out
+ * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
+ * Developer Guide.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const adminResetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ConfirmForgotPasswordRequest,
-    output: ConfirmForgotPasswordResponse,
+    input: AdminResetUserPasswordRequest,
+    output: AdminResetUserPasswordResponse,
     errors: [
-      CodeMismatchException,
-      ExpiredCodeException,
-      ForbiddenException,
       InternalErrorException,
+      InvalidEmailRoleAccessPolicyException,
       InvalidLambdaResponseException,
       InvalidParameterException,
-      InvalidPasswordException,
+      InvalidSmsRoleAccessPolicyException,
+      InvalidSmsRoleTrustRelationshipException,
       LimitExceededException,
       NotAuthorizedException,
-      PasswordHistoryPolicyViolationException,
       ResourceNotFoundException,
-      TooManyFailedAttemptsException,
       TooManyRequestsException,
       UnexpectedLambdaException,
       UserLambdaValidationException,
-      UserNotConfirmedException,
       UserNotFoundException,
     ],
   }),
@@ -5078,341 +6020,112 @@ export const confirmSignUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a new group in the specified user pool. For more information about user pool
- * groups, see Adding groups to a user pool.
+ * Updates the currently signed-in user's attributes. To delete an attribute from
+ * the user, submit the attribute in your API request with a blank value.
  *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
+ * For custom attributes, you must add a `custom:` prefix to the attribute
+ * name, for example `custom:department`.
  *
- * **Learn more**
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  *
- * - Signing Amazon Web Services API Requests
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  *
- * - Using the Amazon Cognito user pools API and user pool endpoints
+ * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
+ * require you to register an origination phone number before you can send SMS messages
+ * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
+ * phone number with Amazon Pinpoint.
+ * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
+ * receive SMS messages might not be able to sign up, activate their accounts, or sign
+ * in.
+ *
+ * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+ * Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ * sandbox
+ * mode
+ * , you can send messages only to verified phone
+ * numbers. After you test your app while in the sandbox environment, you can move out
+ * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
+ * Developer Guide.
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGroupRequest,
-  output: CreateGroupResponse,
-  errors: [
-    GroupExistsException,
-    InternalErrorException,
-    InvalidParameterException,
-    LimitExceededException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a new OAuth2.0 resource server and defines custom scopes within it. Resource
- * servers are associated with custom scopes and machine-to-machine (M2M) authorization.
- * For more information, see Access control with resource servers.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const createResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateResourceServerRequest,
-    output: CreateResourceServerResponse,
+    input: UpdateUserAttributesRequest,
+    output: UpdateUserAttributesResponse,
     errors: [
+      AliasExistsException,
+      CodeDeliveryFailureException,
+      CodeMismatchException,
+      ExpiredCodeException,
+      ForbiddenException,
       InternalErrorException,
+      InvalidEmailRoleAccessPolicyException,
+      InvalidLambdaResponseException,
       InvalidParameterException,
+      InvalidSmsRoleAccessPolicyException,
+      InvalidSmsRoleTrustRelationshipException,
+      NotAuthorizedException,
+      PasswordResetRequiredException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      UnexpectedLambdaException,
+      UserLambdaValidationException,
+      UserNotConfirmedException,
+      UserNotFoundException,
+    ],
+  }),
+);
+/**
+ * Resends the code that confirms a new account for a user who has signed up in your user
+ * pool. Amazon Cognito sends confirmation codes to the user attribute in the
+ * `AutoVerifiedAttributes` property of your user pool. When you prompt new
+ * users for the confirmation code, include a "Resend code" option that generates a call to
+ * this API operation.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ *
+ * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
+ * require you to register an origination phone number before you can send SMS messages
+ * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
+ * phone number with Amazon Pinpoint.
+ * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
+ * receive SMS messages might not be able to sign up, activate their accounts, or sign
+ * in.
+ *
+ * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+ * Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ * sandbox
+ * mode
+ * , you can send messages only to verified phone
+ * numbers. After you test your app while in the sandbox environment, you can move out
+ * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
+ * Developer Guide.
+ */
+export const resendConfirmationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResendConfirmationCodeRequest,
+    output: ResendConfirmationCodeResponse,
+    errors: [
+      CodeDeliveryFailureException,
+      ForbiddenException,
+      InternalErrorException,
+      InvalidEmailRoleAccessPolicyException,
+      InvalidLambdaResponseException,
+      InvalidParameterException,
+      InvalidSmsRoleAccessPolicyException,
+      InvalidSmsRoleTrustRelationshipException,
       LimitExceededException,
       NotAuthorizedException,
       ResourceNotFoundException,
       TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates terms documents for the requested app client. When Terms and conditions and
- * Privacy policy documents are configured, the app client displays links to them in the
- * sign-up page of managed login for the app client.
- *
- * You can provide URLs for terms documents in the languages that are supported by managed login localization. Amazon Cognito directs users to the terms documents for
- * their current language, with fallback to `default` if no document exists for
- * the language.
- *
- * Each request accepts one type of terms document and a map of language-to-link for that
- * document type. You must provide both types of terms documents in at least one language
- * before Amazon Cognito displays your terms documents. Supply each type in separate
- * requests.
- *
- * For more information, see Terms documents.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const createTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTermsRequest,
-  output: CreateTermsResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalErrorException,
-    InvalidParameterException,
-    LimitExceededException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TermsExistsException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a user import job. You can import users into user pools from a comma-separated
- * values (CSV) file without adding Amazon Cognito MAU costs to your Amazon Web Services bill.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const createUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserImportJobRequest,
-  output: CreateUserImportJobResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    LimitExceededException,
-    NotAuthorizedException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * A user pool domain hosts managed login, an authorization server and web server for
- * authentication in your application. This operation creates a new user pool prefix domain
- * or custom domain and sets the managed login branding version. Set the branding version
- * to `1` for hosted UI (classic) or `2` for managed login. When you
- * choose a custom domain, you must provide an SSL certificate in the US East (N. Virginia)
- * Amazon Web Services Region in your request.
- *
- * Your prefix domain might take up to one minute to take effect. Your custom domain is
- * online within five minutes, but it can take up to one hour to distribute your SSL
- * certificate.
- *
- * For more information about adding a custom domain to your user pool, see Configuring a user pool domain.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const createUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateUserPoolDomainRequest,
-    output: CreateUserPoolDomainResponse,
-    errors: [
-      ConcurrentModificationException,
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes a user pool identity provider (IdP). After you delete an IdP, users can no
- * longer sign in to your user pool through that IdP. For more information about user pool
- * IdPs, see Third-party IdP sign-in.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const deleteIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIdentityProviderRequest,
-    output: DeleteIdentityProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnsupportedIdentityProviderException,
-    ],
-  }),
-);
-/**
- * Given a user pool ID and identity provider (IdP) name, returns details about the
- * IdP.
- */
-export const describeIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIdentityProviderRequest,
-    output: DescribeIdentityProviderResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Given the ID of a managed login branding style, returns detailed information about the
- * style.
- */
-export const describeManagedLoginBranding =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeManagedLoginBrandingRequest,
-    output: DescribeManagedLoginBrandingResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Describes a resource server. For more information about resource servers, see Access control with resource servers.
- */
-export const describeResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourceServerRequest,
-    output: DescribeResourceServerResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Given an app client or user pool ID where threat protection is configured, describes
- * the risk configuration. This operation returns details about adaptive authentication,
- * compromised credentials, and IP-address allow- and denylists. For more information about
- * threat protection, see Threat protection.
- */
-export const describeRiskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRiskConfigurationRequest,
-    output: DescribeRiskConfigurationResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserPoolAddOnNotEnabledException,
-    ],
-  }),
-);
-/**
- * Returns details for the requested terms documents ID. For more information, see Terms documents.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const describeTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTermsRequest,
-  output: DescribeTermsResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Given an app client ID, returns configuration information. This operation is useful
- * when you want to inspect an existing app client and programmatically replicate the
- * configuration to another app client. For more information about app clients, see App clients.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const describeUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeUserPoolClientRequest,
-    output: DescribeUserPoolClientResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Given a user pool domain name, returns information about the domain
- * configuration.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const describeUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeUserPoolDomainRequest,
-    output: DescribeUserPoolDomainResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
+      UnexpectedLambdaException,
+      UserLambdaValidationException,
+      UserNotFoundException,
     ],
   }),
 );
@@ -5474,8 +6187,16 @@ export const forgotPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Given a user pool ID, returns the logging configuration. User pools can export
- * message-delivery error and threat-protection activity logs to external Amazon Web Services services. For more information, see Exporting user pool logs.
+ * Updates the specified user's attributes. To delete an attribute from your user,
+ * submit the attribute in your API request with a blank value.
+ *
+ * For custom attributes, you must add a `custom:` prefix to the attribute
+ * name, for example `custom:department`.
+ *
+ * This operation can set a user's email address or phone number as verified and
+ * permit immediate sign-in in user pools that require verification of these attributes. To
+ * do this, set the `email_verified` or `phone_number_verified`
+ * attribute to `true`.
  *
  * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
  * this operation, you must use IAM credentials to authorize requests, and you must
@@ -5486,38 +6207,45 @@ export const forgotPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Signing Amazon Web Services API Requests
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
+ *
+ * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
+ * require you to register an origination phone number before you can send SMS messages
+ * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
+ * phone number with Amazon Pinpoint.
+ * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
+ * receive SMS messages might not be able to sign up, activate their accounts, or sign
+ * in.
+ *
+ * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+ * Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ * sandbox
+ * mode
+ * , you can send messages only to verified phone
+ * numbers. After you test your app while in the sandbox environment, you can move out
+ * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
+ * Developer Guide.
  */
-export const getLogDeliveryConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const adminUpdateUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetLogDeliveryConfigurationRequest,
-    output: GetLogDeliveryConfigurationResponse,
+    input: AdminUpdateUserAttributesRequest,
+    output: AdminUpdateUserAttributesResponse,
     errors: [
+      AliasExistsException,
       InternalErrorException,
+      InvalidEmailRoleAccessPolicyException,
+      InvalidLambdaResponseException,
       InvalidParameterException,
+      InvalidSmsRoleAccessPolicyException,
+      InvalidSmsRoleTrustRelationshipException,
       NotAuthorizedException,
       ResourceNotFoundException,
       TooManyRequestsException,
+      UnexpectedLambdaException,
+      UserLambdaValidationException,
+      UserNotFoundException,
     ],
   }),
 );
-/**
- * Given a user pool ID or app client, returns information about classic hosted UI
- * branding that you applied, if any. Returns user-pool level branding information if no
- * app client branding is applied, or if you don't specify an app client ID. Returns
- * an empty object if you haven't applied hosted UI branding to either the client or
- * the user pool. For more information, see Hosted UI (classic) branding.
- */
-export const getUICustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUICustomizationRequest,
-  output: GetUICustomizationResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * Given an attribute name, sends a user attribute verification code for the specified
  * attribute name to the currently signed-in user.
@@ -5623,160 +6351,8 @@ export const initiateAuth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Given a user pool ID, returns information about configured identity providers (IdPs).
- * For more information about IdPs, see Third-party IdP sign-in.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const listIdentityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIdentityProvidersRequest,
-    output: ListIdentityProvidersResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Returns details about all terms documents for the requested user pool.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const listTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTermsRequest,
-  output: ListTermsResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Given a user pool ID, lists app clients. App clients are sets of rules for the access
- * that you want a user pool to grant to one application. For more information, see App clients.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const listUserPoolClients = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListUserPoolClientsRequest,
-  output: ListUserPoolClientsResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Lists user pools and their details in the current Amazon Web Services account.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const listUserPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListUserPoolsRequest,
-  output: ListUserPoolsResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Given a user pool ID, returns a list of users and their basic details in a user
- * pool.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListUsersRequest,
-  output: ListUsersResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Generates a list of the currently signed-in user's registered passkey, or
- * WebAuthn, credentials.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const listWebAuthnCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListWebAuthnCredentialsRequest,
-    output: ListWebAuthnCredentialsResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Resends the code that confirms a new account for a user who has signed up in your user
- * pool. Amazon Cognito sends confirmation codes to the user attribute in the
- * `AutoVerifiedAttributes` property of your user pool. When you prompt new
- * users for the confirmation code, include a "Resend code" option that generates a call to
- * this API operation.
+ * Registers a user with an app client and requests a user name, password, and user
+ * attributes in the user pool.
  *
  * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
  * this operation, you can't use IAM credentials to authorize requests, and you can't
@@ -5799,30 +6375,107 @@ export const listWebAuthnCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * numbers. After you test your app while in the sandbox environment, you can move out
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
+ *
+ * You might receive a `LimitExceeded` exception in response to this request
+ * if you have exceeded a rate quota for email or SMS messages, and if your user pool
+ * automatically verifies email addresses or phone numbers. When you get this exception in
+ * the response, the user is successfully created and is in an `UNCONFIRMED`
+ * state.
  */
-export const resendConfirmationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const signUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SignUpRequest,
+  output: SignUpResponse,
+  errors: [
+    CodeDeliveryFailureException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UsernameExistsException,
+  ],
+}));
+/**
+ * This public API operation accepts a confirmation code that Amazon Cognito sent to a user and
+ * accepts a new password for that user.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const confirmForgotPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ResendConfirmationCodeRequest,
-    output: ResendConfirmationCodeResponse,
+    input: ConfirmForgotPasswordRequest,
+    output: ConfirmForgotPasswordResponse,
     errors: [
-      CodeDeliveryFailureException,
+      CodeMismatchException,
+      ExpiredCodeException,
       ForbiddenException,
       InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
       InvalidLambdaResponseException,
       InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
+      InvalidPasswordException,
       LimitExceededException,
       NotAuthorizedException,
+      PasswordHistoryPolicyViolationException,
       ResourceNotFoundException,
+      TooManyFailedAttemptsException,
       TooManyRequestsException,
       UnexpectedLambdaException,
       UserLambdaValidationException,
+      UserNotConfirmedException,
       UserNotFoundException,
     ],
   }),
 );
+/**
+ * Confirms user sign-up as an administrator.
+ *
+ * This request sets a user account active in a user pool that requires confirmation of new user accounts before they can sign in. You can
+ * configure your user pool to not send confirmation codes to new users and instead confirm
+ * them with this API operation on the back end.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ *
+ * To configure your user pool to require administrative confirmation of users, set
+ * `AllowAdminCreateUserOnly` to `true` in a
+ * `CreateUserPool` or `UpdateUserPool` request.
+ */
+export const adminConfirmSignUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminConfirmSignUpRequest,
+  output: AdminConfirmSignUpResponse,
+  errors: [
+    InternalErrorException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyFailedAttemptsException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Some API operations in a user pool generate a challenge, like a prompt for an MFA
  * code, for device authentication that bypasses MFA, or for a custom authentication
@@ -5887,8 +6540,14 @@ export const respondToAuthChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Sets user pool multi-factor authentication (MFA) and passkey configuration. For more
- * information about user pool MFA, see Adding MFA. For more information about WebAuthn passkeys see Authentication flows.
+ * Some API operations in a user pool generate a challenge, like a prompt for an MFA
+ * code, for device authentication that bypasses MFA, or for a custom authentication
+ * challenge. An `AdminRespondToAuthChallenge` API request provides the answer
+ * to that challenge, like a code or a secure remote password (SRP). The parameters of a
+ * response to an authentication challenge vary with the type of challenge.
+ *
+ * For more information about custom authentication challenges, see Custom
+ * authentication challenge Lambda triggers.
  *
  * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
  * require you to register an origination phone number before you can send SMS messages
@@ -5906,326 +6565,47 @@ export const respondToAuthChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * numbers. After you test your app while in the sandbox environment, you can move out
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const setUserPoolMfaConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const adminRespondToAuthChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: SetUserPoolMfaConfigRequest,
-    output: SetUserPoolMfaConfigResponse,
+    input: AdminRespondToAuthChallengeRequest,
+    output: AdminRespondToAuthChallengeResponse,
     errors: [
-      ConcurrentModificationException,
-      FeatureUnavailableInTierException,
+      AliasExistsException,
+      CodeMismatchException,
+      ExpiredCodeException,
       InternalErrorException,
+      InvalidEmailRoleAccessPolicyException,
+      InvalidLambdaResponseException,
       InvalidParameterException,
+      InvalidPasswordException,
       InvalidSmsRoleAccessPolicyException,
       InvalidSmsRoleTrustRelationshipException,
+      InvalidUserPoolConfigurationException,
+      MFAMethodNotFoundException,
       NotAuthorizedException,
+      PasswordHistoryPolicyViolationException,
+      PasswordResetRequiredException,
       ResourceNotFoundException,
+      SoftwareTokenMFANotFoundException,
       TooManyRequestsException,
+      UnexpectedLambdaException,
+      UserLambdaValidationException,
+      UserNotConfirmedException,
+      UserNotFoundException,
     ],
   }),
 );
-/**
- * Registers a user with an app client and requests a user name, password, and user
- * attributes in the user pool.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- *
- * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
- * require you to register an origination phone number before you can send SMS messages
- * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
- * phone number with Amazon Pinpoint.
- * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
- * receive SMS messages might not be able to sign up, activate their accounts, or sign
- * in.
- *
- * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
- * Amazon Simple Notification Service might place your account in the SMS sandbox. In
- * sandbox
- * mode
- * , you can send messages only to verified phone
- * numbers. After you test your app while in the sandbox environment, you can move out
- * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
- * Developer Guide.
- *
- * You might receive a `LimitExceeded` exception in response to this request
- * if you have exceeded a rate quota for email or SMS messages, and if your user pool
- * automatically verifies email addresses or phone numbers. When you get this exception in
- * the response, the user is successfully created and is in an `UNCONFIRMED`
- * state.
- */
-export const signUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SignUpRequest,
-  output: SignUpResponse,
-  errors: [
-    CodeDeliveryFailureException,
-    ForbiddenException,
-    InternalErrorException,
-    InvalidEmailRoleAccessPolicyException,
-    InvalidLambdaResponseException,
-    InvalidParameterException,
-    InvalidPasswordException,
-    InvalidSmsRoleAccessPolicyException,
-    InvalidSmsRoleTrustRelationshipException,
-    LimitExceededException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UnexpectedLambdaException,
-    UserLambdaValidationException,
-    UsernameExistsException,
-  ],
-}));
-/**
- * Instructs your user pool to start importing users from a CSV file that contains their
- * usernames and attributes. For more information about importing users from a CSV file,
- * see Importing users from a CSV file.
- */
-export const startUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartUserImportJobRequest,
-  output: StartUserImportJobResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Modifies existing terms documents for the requested app client. When Terms and
- * conditions and Privacy policy documents are configured, the app client displays links to
- * them in the sign-up page of managed login for the app client.
- *
- * You can provide URLs for terms documents in the languages that are supported by managed login localization. Amazon Cognito directs users to the terms documents for
- * their current language, with fallback to `default` if no document exists for
- * the language.
- *
- * Each request accepts one type of terms document and a map of language-to-link for that
- * document type. You must provide both types of terms documents in at least one language
- * before Amazon Cognito displays your terms documents. Supply each type in separate
- * requests.
- *
- * For more information, see Terms documents.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const updateTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTermsRequest,
-  output: UpdateTermsResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TermsExistsException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito
- * defaults, construct this API request to pass the existing configuration of your user
- * pool, modified to include the changes that you want to make.
- *
- * If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
- *
- * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
- * require you to register an origination phone number before you can send SMS messages
- * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
- * phone number with Amazon Pinpoint.
- * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
- * receive SMS messages might not be able to sign up, activate their accounts, or sign
- * in.
- *
- * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
- * Amazon Simple Notification Service might place your account in the SMS sandbox. In
- * sandbox
- * mode
- * , you can send messages only to verified phone
- * numbers. After you test your app while in the sandbox environment, you can move out
- * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
- * Developer Guide.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const updateUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserPoolRequest,
-  output: UpdateUserPoolResponse,
-  errors: [
-    ConcurrentModificationException,
-    FeatureUnavailableInTierException,
-    InternalErrorException,
-    InvalidEmailRoleAccessPolicyException,
-    InvalidParameterException,
-    InvalidSmsRoleAccessPolicyException,
-    InvalidSmsRoleTrustRelationshipException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TierChangeNotAllowedException,
-    TooManyRequestsException,
-    UserImportInProgressException,
-    UserPoolTaggingException,
-  ],
-}));
-/**
- * Given a user pool app client ID, updates the configuration. To avoid setting
- * parameters to Amazon Cognito defaults, construct this API request to pass the existing
- * configuration of your app client, modified to include the changes that you want to
- * make.
- *
- * If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
- *
- * Unlike app clients created in the console, Amazon Cognito doesn't automatically assign a
- * branding style to app clients that you configure with this API operation. Managed login and classic hosted UI pages aren't
- * available for your client until after you apply a branding style.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const updateUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserPoolClientRequest,
-    output: UpdateUserPoolClientResponse,
-    errors: [
-      ConcurrentModificationException,
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidOAuthFlowException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      ScopeDoesNotExistException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Registers the current user's time-based one-time password (TOTP) authenticator
- * with a code generated in their authenticator app from a private key that's supplied
- * by your user pool. Marks the user's software token MFA status as "verified" if
- * successful. The request takes an access token or a session string, but not both.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const verifySoftwareToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: VerifySoftwareTokenRequest,
-  output: VerifySoftwareTokenResponse,
-  errors: [
-    CodeMismatchException,
-    EnableSoftwareTokenMFAException,
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidUserPoolConfigurationException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    SoftwareTokenMFANotFoundException,
-    TooManyRequestsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Creates a new user in the specified user pool.
- *
- * If `MessageAction` isn't set, the default is to send a welcome message via
- * email or phone (SMS).
- *
- * This message is based on a template that you configured in your call to create or
- * update a user pool. This template includes your custom sign-up instructions and
- * placeholders for user name and temporary password.
- *
- * Alternatively, you can call `AdminCreateUser` with `SUPPRESS`
- * for the `MessageAction` parameter, and Amazon Cognito won't send any email.
- *
- * In either case, if the user has a password, they will be in the
- * `FORCE_CHANGE_PASSWORD` state until they sign in and set their password.
- * Your invitation message template must have the `{####}` password placeholder
- * if your users have passwords. If your template doesn't have this placeholder, Amazon Cognito
- * doesn't deliver the invitation message. In this case, you must update your message
- * template and resend the password with a new `AdminCreateUser` request with a
- * `MessageAction` value of `RESEND`.
- *
- * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
- * require you to register an origination phone number before you can send SMS messages
- * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
- * phone number with Amazon Pinpoint.
- * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
- * receive SMS messages might not be able to sign up, activate their accounts, or sign
- * in.
- *
- * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
- * Amazon Simple Notification Service might place your account in the SMS sandbox. In
- * sandbox
- * mode
- * , you can send messages only to verified phone
- * numbers. After you test your app while in the sandbox environment, you can move out
- * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
- * Developer Guide.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminCreateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AdminCreateUserRequest,
-  output: AdminCreateUserResponse,
-  errors: [
-    CodeDeliveryFailureException,
-    InternalErrorException,
-    InvalidLambdaResponseException,
-    InvalidParameterException,
-    InvalidPasswordException,
-    InvalidSmsRoleAccessPolicyException,
-    InvalidSmsRoleTrustRelationshipException,
-    NotAuthorizedException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UnexpectedLambdaException,
-    UnsupportedUserStateException,
-    UserLambdaValidationException,
-    UsernameExistsException,
-    UserNotFoundException,
-  ],
-}));
 /**
  * Starts sign-in for applications with a server-side component, for example a
  * traditional web application. This operation specifies the authentication flow that
@@ -6283,386 +6663,6 @@ export const adminInitiateAuth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UserNotFoundException,
   ],
 }));
-/**
- * Requests a history of user activity and any risks detected as part of Amazon Cognito threat
- * protection. For more information, see Viewing user event history.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const adminListUserAuthEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminListUserAuthEventsRequest,
-    output: AdminListUserAuthEventsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-      UserPoolAddOnNotEnabledException,
-    ],
-  }),
-);
-/**
- * Confirms a device that a user wants to remember. A remembered device is a "Remember me
- * on this device" option for user pools that perform authentication with the device key of
- * a trusted device in the back end, instead of a user-provided MFA code. For more
- * information about device authentication, see Working with user devices in your user pool.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const confirmDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ConfirmDeviceRequest,
-  output: ConfirmDeviceResponse,
-  errors: [
-    DeviceKeyExistsException,
-    ForbiddenException,
-    InternalErrorException,
-    InvalidLambdaResponseException,
-    InvalidParameterException,
-    InvalidPasswordException,
-    InvalidUserPoolConfigurationException,
-    NotAuthorizedException,
-    PasswordResetRequiredException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UsernameExistsException,
-    UserNotConfirmedException,
-    UserNotFoundException,
-  ],
-}));
-/**
- * Adds a configuration and trust relationship between a third-party identity provider
- * (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity providers through
- * managed login and OIDC relying-party libraries. For more information, see Third-party IdP sign-in.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const createIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIdentityProviderRequest,
-    output: CreateIdentityProviderResponse,
-    errors: [
-      DuplicateProviderException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates a new set of branding settings for a user pool style and associates it with an
- * app client. This operation is the programmatic option for the creation of a new style in
- * the branding editor.
- *
- * Provides values for UI customization in a `Settings` JSON object and image
- * files in an `Assets` array. To send the JSON object `Document`
- * type parameter in `Settings`, you might need to update to the most recent
- * version of your Amazon Web Services SDK. To create a new style with default settings, set
- * `UseCognitoProvidedValues` to `true` and don't provide
- * values for any other options.
- *
- * This operation has a 2-megabyte request-size limit and include the CSS settings and
- * image assets for your app client. Your branding settings might exceed 2MB in size. Amazon Cognito
- * doesn't require that you pass all parameters in one request and preserves existing
- * style settings that you don't specify. If your request is larger than 2MB, separate it
- * into multiple requests, each with a size smaller than the limit.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const createManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateManagedLoginBrandingRequest,
-    output: CreateManagedLoginBrandingResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      ManagedLoginBrandingExistsException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates a new Amazon Cognito user pool. This operation sets basic and advanced configuration
- * options.
- *
- * If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
- *
- * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
- * require you to register an origination phone number before you can send SMS messages
- * to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a
- * phone number with Amazon Pinpoint.
- * Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
- * receive SMS messages might not be able to sign up, activate their accounts, or sign
- * in.
- *
- * If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
- * Amazon Simple Notification Service might place your account in the SMS sandbox. In
- * sandbox
- * mode
- * , you can send messages only to verified phone
- * numbers. After you test your app while in the sandbox environment, you can move out
- * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
- * Developer Guide.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const createUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserPoolRequest,
-  output: CreateUserPoolResponse,
-  errors: [
-    FeatureUnavailableInTierException,
-    InternalErrorException,
-    InvalidEmailRoleAccessPolicyException,
-    InvalidParameterException,
-    InvalidSmsRoleAccessPolicyException,
-    InvalidSmsRoleTrustRelationshipException,
-    LimitExceededException,
-    NotAuthorizedException,
-    TierChangeNotAllowedException,
-    TooManyRequestsException,
-    UserPoolTaggingException,
-  ],
-}));
-/**
- * Creates an app client in a user pool. This operation sets basic and advanced
- * configuration options.
- *
- * Unlike app clients created in the console, Amazon Cognito doesn't automatically assign a
- * branding style to app clients that you configure with this API operation. Managed login and classic hosted UI pages aren't
- * available for your client until after you apply a branding style.
- *
- * If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const createUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateUserPoolClientRequest,
-    output: CreateUserPoolClientResponse,
-    errors: [
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidOAuthFlowException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      ScopeDoesNotExistException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Given a user pool ID, returns configuration information. This operation is useful when
- * you want to inspect an existing user pool and programmatically replicate the
- * configuration to another user pool.
- *
- * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you must use IAM credentials to authorize requests, and you must
- * grant yourself the corresponding IAM permission in a policy.
- *
- * **Learn more**
- *
- * - Signing Amazon Web Services API Requests
- *
- * - Using the Amazon Cognito user pools API and user pool endpoints
- */
-export const describeUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUserPoolRequest,
-  output: DescribeUserPoolResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UserPoolTaggingException,
-  ],
-}));
-/**
- * Revokes all of the access tokens generated by, and at the same time as, the specified
- * refresh token. After a token is revoked, you can't use the revoked token to access Amazon Cognito
- * user APIs, or to authorize access to your resource server.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const revokeToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokeTokenRequest,
-  output: RevokeTokenResponse,
-  errors: [
-    ForbiddenException,
-    InternalErrorException,
-    InvalidParameterException,
-    TooManyRequestsException,
-    UnauthorizedException,
-    UnsupportedOperationException,
-    UnsupportedTokenTypeException,
-  ],
-}));
-/**
- * Sets up or modifies the logging configuration of a user pool. User pools can export
- * user notification logs and, when threat protection is active, user-activity logs. For
- * more information, see Exporting user
- * pool logs.
- */
-export const setLogDeliveryConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetLogDeliveryConfigurationRequest,
-    output: SetLogDeliveryConfigurationResponse,
-    errors: [
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Requests credential creation options from your user pool for the currently signed-in
- * user. Returns information about the user pool, the user profile, and authentication
- * requirements. Users must provide this information in their request to enroll your
- * application with their passkey provider.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- */
-export const startWebAuthnRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartWebAuthnRegistrationRequest,
-    output: StartWebAuthnRegistrationResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      TooManyRequestsException,
-      WebAuthnConfigurationMissingException,
-      WebAuthnNotEnabledException,
-    ],
-  }),
-);
-/**
- * Given a refresh token, issues new ID, access, and optionally refresh tokens for the
- * user who owns the submitted token. This operation issues a new refresh token and
- * invalidates the original refresh token after an optional grace period when refresh token
- * rotation is enabled. If refresh token rotation is disabled, issues new ID and access
- * tokens only.
- */
-export const getTokensFromRefreshToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTokensFromRefreshTokenRequest,
-    output: GetTokensFromRefreshTokenResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      RefreshTokenReuseException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotFoundException,
-    ],
-  }),
-);
-/**
- * Configures threat protection for a user pool or app client. Sets configuration for the
- * following.
- *
- * - Responses to risks with adaptive authentication
- *
- * - Responses to vulnerable passwords with compromised-credentials
- * detection
- *
- * - Notifications to users who have had risky activity detected
- *
- * - IP-address denylist and allowlist
- *
- * To set the risk configuration for the user pool to defaults, send this request with
- * only the `UserPoolId` parameter. To reset the threat protection settings of
- * an app client to be inherited from the user pool, send `UserPoolId` and
- * `ClientId` parameters only. To change threat protection to audit-only or
- * off, update the value of `UserPoolAddOns` in an `UpdateUserPool`
- * request. To activate this setting, your user pool must be on the
- * Plus tier.
- */
-export const setRiskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetRiskConfigurationRequest,
-    output: SetRiskConfigurationResponse,
-    errors: [
-      CodeDeliveryFailureException,
-      InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserPoolAddOnNotEnabledException,
-    ],
-  }),
-);
 /**
  * Completes registration of a passkey authenticator for the currently signed-in
  * user.

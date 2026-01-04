@@ -1429,210 +1429,22 @@ export class CreateDirectConnectGatewayAssociationResult extends S.Class<CreateD
 //# Errors
 export class DirectConnectClientException extends S.TaggedError<DirectConnectClientException>()(
   "DirectConnectClientException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DirectConnectServerException extends S.TaggedError<DirectConnectServerException>()(
   "DirectConnectServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DuplicateTagKeysException extends S.TaggedError<DuplicateTagKeysException>()(
   "DuplicateTagKeysException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Deletes the specified connection.
- *
- * Deleting a connection only stops the Direct Connect port hour and data transfer charges.
- * If you are partnering with any third parties to connect with the Direct Connect location,
- * you must cancel your service with them separately.
- */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConnectionRequest,
-  output: Connection,
-  errors: [DirectConnectClientException, DirectConnectServerException],
-}));
-/**
- * Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active
- * virtual interfaces or hosted connections.
- */
-export const deleteLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLagRequest,
-  output: Lag,
-  errors: [DirectConnectClientException, DirectConnectServerException],
-}));
-/**
- * Deprecated. Use DescribeHostedConnections instead.
- *
- * Lists the connections that have been provisioned on the specified interconnect.
- *
- * Intended for use by Direct Connect Partners only.
- */
-export const describeConnectionsOnInterconnect =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConnectionsOnInterconnectRequest,
-    output: Connections,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
-/**
- * Lists the hosted connections that have been provisioned on the specified
- * interconnect or link aggregation group (LAG).
- *
- * Intended for use by Direct Connect Partners only.
- */
-export const describeHostedConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeHostedConnectionsRequest,
-    output: Connections,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
-/**
- * Disassociates a connection from a link aggregation group (LAG). The connection is
- * interrupted and re-established as a standalone connection (the connection is not
- * deleted; to delete the connection, use the DeleteConnection request).
- * If the LAG has associated virtual interfaces or hosted connections, they remain
- * associated with the LAG. A disassociated connection owned by an Direct Connect Partner is
- * automatically converted to an interconnect.
- *
- * If disassociating the connection would cause the LAG to fall below its setting for
- * minimum number of operational connections, the request fails, except when it's the last
- * member of the LAG. If all connections are disassociated, the LAG continues to exist as
- * an empty LAG with no physical connections.
- */
-export const disassociateConnectionFromLag =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateConnectionFromLagRequest,
-    output: Connection,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
-/**
- * Removes one or more tags from the specified Direct Connect resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [DirectConnectClientException, DirectConnectServerException],
-}));
-/**
- * Updates the Direct Connect connection configuration.
- *
- * You can update the following parameters for a connection:
- *
- * - The connection name
- *
- * - The connection's MAC Security (MACsec) encryption mode.
- */
-export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateConnectionRequest,
-  output: Connection,
-  errors: [DirectConnectClientException, DirectConnectServerException],
-}));
-/**
- * Updates the attributes of the specified link aggregation group (LAG).
- *
- * You can update the following LAG attributes:
- *
- * - The name of the LAG.
- *
- * - The value for the minimum number of connections that must be operational
- * for the LAG itself to be operational.
- *
- * - The LAG's MACsec encryption mode.
- *
- * Amazon Web Services assigns this value to each connection which is part of the LAG.
- *
- * - The tags
- *
- * If you adjust the threshold value for the minimum number of operational connections, ensure
- * that the new value does not cause the LAG to fall below the threshold and become
- * non-operational.
- */
-export const updateLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateLagRequest,
-  output: Lag,
-  errors: [DirectConnectClientException, DirectConnectServerException],
-}));
-/**
- * Updates the specified attributes of the specified virtual private interface.
- *
- * Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to
- * the underlying physical connection if it wasn't updated to support jumbo frames. Updating
- * the connection disrupts network connectivity for all virtual interfaces associated with
- * the connection for up to 30 seconds. To check whether your connection supports jumbo
- * frames, call DescribeConnections. To check whether your virtual
- * interface supports jumbo frames, call DescribeVirtualInterfaces.
- */
-export const updateVirtualInterfaceAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateVirtualInterfaceAttributesRequest,
-    output: VirtualInterface,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
-/**
- * Creates a hosted connection on the specified interconnect or a link aggregation group (LAG) of interconnects.
- *
- * Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by a hosted connection on the specified interconnect or LAG of interconnects.
- * Amazon Web Services polices the hosted connection for the specified capacity and the Direct Connect Partner must also police the hosted connection for the specified capacity.
- *
- * Intended for use by Direct Connect Partners only.
- */
-export const allocateHostedConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AllocateHostedConnectionRequest,
-    output: Connection,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
- * Provisions a private virtual interface to be owned by the specified Amazon Web Services account.
- *
- * Virtual interfaces created using this action must be confirmed by the owner using ConfirmPrivateVirtualInterface.
- * Until then, the virtual interface is in the `Confirming` state and is not available to handle traffic.
- */
-export const allocatePrivateVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AllocatePrivateVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
-/**
- * Provisions a public virtual interface to be owned by the specified Amazon Web Services account.
- *
- * The owner of a connection calls this function to provision a public virtual interface to be owned by the specified Amazon Web Services account.
- *
- * Virtual interfaces created using this function must be confirmed by the owner using ConfirmPublicVirtualInterface.
- * Until this step has been completed, the virtual interface is in the `confirming` state and is not available to handle traffic.
- *
- * When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from
- * the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
- */
-export const allocatePublicVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AllocatePublicVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
 /**
  * Associates an existing connection with a link aggregation group (LAG). The connection
  * is interrupted and re-established as a member of the LAG (connectivity to Amazon Web Services is
@@ -1659,21 +1471,118 @@ export const associateConnectionWithLag = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Associates a hosted connection and its virtual interfaces with a link aggregation
- * group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted
- * connection with a conflicting VLAN number or IP address, the operation fails. This
- * action temporarily interrupts the hosted connection's connectivity to Amazon Web Services
- * as it is being migrated.
+ * Associates a virtual interface with a specified link aggregation group (LAG) or
+ * connection. Connectivity to Amazon Web Services is temporarily interrupted as the virtual interface is
+ * being migrated. If the target connection or LAG has an associated virtual interface with
+ * a conflicting VLAN number or a conflicting IP address, the operation fails.
  *
- * Intended for use by Direct Connect Partners only.
+ * Virtual interfaces associated with a hosted connection cannot be associated with a
+ * LAG; hosted connections must be migrated along with their virtual interfaces using AssociateHostedConnection.
+ *
+ * To reassociate a virtual interface to a new connection or LAG, the requester
+ * must own either the virtual interface itself or the connection to which the virtual
+ * interface is currently associated. Additionally, the requester must own the connection
+ * or LAG for the association.
  */
-export const associateHostedConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const associateVirtualInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AssociateHostedConnectionRequest,
-    output: Connection,
+    input: AssociateVirtualInterfaceRequest,
+    output: VirtualInterface,
     errors: [DirectConnectClientException, DirectConnectServerException],
   }),
 );
+/**
+ * Creates a BGP peer on the specified virtual interface.
+ *
+ * You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order to
+ * access Amazon Web Services resources that also use that address family.
+ *
+ * If logical redundancy is not supported by the connection, interconnect, or LAG, the BGP peer cannot
+ * be in the same address family as an existing BGP peer on the virtual interface.
+ *
+ * When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from
+ * the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
+ *
+ * If you let Amazon Web Services auto-assign IPv4 addresses, a /30 CIDR will be allocated
+ * from 169.254.0.0/16. Amazon Web Services does not recommend this option if you intend to use
+ * the customer router peer IP address as the source and destination for traffic. Instead you
+ * should use RFC 1918 or other addressing, and specify the address yourself. For more
+ * information about RFC 1918 see
+ * Address Allocation for Private Internets.
+ *
+ * For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
+ */
+export const createBGPPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBGPPeerRequest,
+  output: CreateBGPPeerResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
+/**
+ * Creates a Direct Connect gateway, which is an intermediate object that enables you to connect a set
+ * of virtual interfaces and virtual private gateways. A Direct Connect gateway is global and visible in any
+ * Amazon Web Services Region after it is created. The virtual interfaces and virtual private gateways that
+ * are connected through a Direct Connect gateway can be in different Amazon Web Services Regions. This enables you to
+ * connect to a VPC in any Region, regardless of the Region in which the virtual interfaces
+ * are located, and pass traffic between them.
+ */
+export const createDirectConnectGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDirectConnectGatewayRequest,
+    output: CreateDirectConnectGatewayResult,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }),
+);
+/**
+ * Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway.
+ *
+ * You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account.
+ */
+export const createDirectConnectGatewayAssociationProposal =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateDirectConnectGatewayAssociationProposalRequest,
+    output: CreateDirectConnectGatewayAssociationProposalResult,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }));
+/**
+ * Lists the attachments between your Direct Connect gateways and virtual interfaces. You must specify
+ * a Direct Connect gateway, a virtual interface, or both. If you specify a Direct Connect gateway, the response contains
+ * all virtual interfaces attached to the Direct Connect gateway. If you specify a virtual interface, the
+ * response contains all Direct Connect gateways attached to the virtual interface. If you specify both,
+ * the response contains the attachment between the Direct Connect gateway and the virtual interface.
+ */
+export const describeDirectConnectGatewayAttachments =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeDirectConnectGatewayAttachmentsRequest,
+    output: DescribeDirectConnectGatewayAttachmentsResult,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }));
+/**
+ * Details about the router.
+ */
+export const describeRouterConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeRouterConfigurationRequest,
+    output: DescribeRouterConfigurationResponse,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }),
+);
+/**
+ * Describes the tags associated with the specified Direct Connect resources.
+ */
+export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTagsRequest,
+  output: DescribeTagsResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
+/**
+ * Lists the virtual interface failover test history.
+ */
+export const listVirtualInterfaceTestHistory =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListVirtualInterfaceTestHistoryRequest,
+    output: ListVirtualInterfaceTestHistoryResponse,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }));
 /**
  * Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with a Direct Connect connection.
  *
@@ -1742,137 +1651,6 @@ export const confirmTransitVirtualInterface =
     input: ConfirmTransitVirtualInterfaceRequest,
     output: ConfirmTransitVirtualInterfaceResponse,
     errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
-/**
- * Creates a connection between a customer network and a specific Direct Connect location.
- *
- * A connection links your internal network to an Direct Connect location over a standard Ethernet fiber-optic
- * cable. One end of the cable is connected to your router, the other to an Direct Connect router.
- *
- * To find the locations for your Region, use DescribeLocations.
- *
- * You can automatically add the new connection to a link aggregation group (LAG) by
- * specifying a LAG ID in the request. This ensures that the new connection is allocated on the
- * same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint,
- * the request fails and no connection is created.
- */
-export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateConnectionRequest,
-  output: Connection,
-  errors: [
-    DirectConnectClientException,
-    DirectConnectServerException,
-    DuplicateTagKeysException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Creates an interconnect between an Direct Connect Partner's network and a specific Direct Connect location.
- *
- * An interconnect is a connection that is capable of hosting other connections. The
- * Direct Connect Partner can use an interconnect to provide Direct Connect hosted
- * connections to customers through their own network services. Like a standard connection, an
- * interconnect links the partner's network to an Direct Connect location over a standard Ethernet
- * fiber-optic cable. One end is connected to the partner's router, the other to an Direct Connect
- * router.
- *
- * You can automatically add the new interconnect to a link aggregation group (LAG) by
- * specifying a LAG ID in the request. This ensures that the new interconnect is allocated on
- * the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the
- * endpoint, the request fails and no interconnect is created.
- *
- * For each end customer, the Direct Connect Partner provisions a connection on their interconnect by calling AllocateHostedConnection.
- * The end customer can then connect to Amazon Web Services resources by creating a virtual interface on their connection, using the VLAN assigned to them by the Direct Connect Partner.
- *
- * Intended for use by Direct Connect Partners only.
- */
-export const createInterconnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInterconnectRequest,
-  output: Interconnect,
-  errors: [
-    DirectConnectClientException,
-    DirectConnectServerException,
-    DuplicateTagKeysException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Creates a link aggregation group (LAG) with the specified number of bundled
- * physical dedicated connections between the customer network and a specific Direct Connect location.
- * A LAG is a logical interface that uses the Link Aggregation Control Protocol
- * (LACP) to aggregate multiple interfaces, enabling you to treat them as a single
- * interface.
- *
- * All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps,
- * or 400Gbps) and must terminate at the same Direct Connect endpoint.
- *
- * You can have up to 10 dedicated connections per location. Regardless of this limit, if you
- * request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is
- * created..
- *
- * You can specify an existing physical dedicated connection or interconnect to include in
- * the LAG (which counts towards the total number of connections). Doing so interrupts the
- * current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG
- * will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any
- * virtual interfaces associated with the dedicated connection are automatically disassociated
- * and re-associated with the LAG. The connection ID does not change.
- *
- * If the Amazon Web Services account used to create a LAG is a registered Direct Connect Partner, the LAG is
- * automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual
- * interfaces cannot be directly configured.
- */
-export const createLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLagRequest,
-  output: Lag,
-  errors: [
-    DirectConnectClientException,
-    DirectConnectServerException,
-    DuplicateTagKeysException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic.
- * A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW).
- * Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple
- * VPCs, including VPCs in different Amazon Web Services Regions. Connecting the private virtual interface
- * to a VGW only provides access to a single VPC within the same Region.
- *
- * Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to
- * the underlying physical connection if it wasn't updated to support jumbo frames. Updating
- * the connection disrupts network connectivity for all virtual interfaces associated with
- * the connection for up to 30 seconds. To check whether your connection supports jumbo
- * frames, call DescribeConnections. To check whether your virtual
- * interface supports jumbo frames, call DescribeVirtualInterfaces.
- */
-export const createPrivateVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePrivateVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
-/**
- * Creates a public virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic.
- * A public virtual interface supports sending traffic to public services of Amazon Web Services such as Amazon S3.
- *
- * When creating an IPv6 public virtual interface (`addressFamily` is `ipv6`), leave the `customer`
- * and `amazon` address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
- */
-export const createPublicVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePublicVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
   }));
 /**
  * Deletes the specified BGP peer on the specified virtual interface with the specified customer address and ASN.
@@ -2150,21 +1928,6 @@ export const stopBgpFailoverTest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [DirectConnectClientException, DirectConnectServerException],
 }));
 /**
- * Adds the specified tags to the specified Direct Connect resource. Each resource can have a maximum of 50 tags.
- *
- * Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    DirectConnectClientException,
-    DirectConnectServerException,
-    DuplicateTagKeysException,
-    TooManyTagsException,
-  ],
-}));
-/**
  * Updates the name of a current Direct Connect gateway.
  */
 export const updateDirectConnectGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2183,6 +1946,151 @@ export const updateDirectConnectGatewayAssociation =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     input: UpdateDirectConnectGatewayAssociationRequest,
     output: UpdateDirectConnectGatewayAssociationResult,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }));
+/**
+ * Associates a hosted connection and its virtual interfaces with a link aggregation
+ * group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted
+ * connection with a conflicting VLAN number or IP address, the operation fails. This
+ * action temporarily interrupts the hosted connection's connectivity to Amazon Web Services
+ * as it is being migrated.
+ *
+ * Intended for use by Direct Connect Partners only.
+ */
+export const associateHostedConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateHostedConnectionRequest,
+    output: Connection,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }),
+);
+/**
+ * Deletes the specified connection.
+ *
+ * Deleting a connection only stops the Direct Connect port hour and data transfer charges.
+ * If you are partnering with any third parties to connect with the Direct Connect location,
+ * you must cancel your service with them separately.
+ */
+export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionRequest,
+  output: Connection,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
+/**
+ * Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active
+ * virtual interfaces or hosted connections.
+ */
+export const deleteLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLagRequest,
+  output: Lag,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
+/**
+ * Deprecated. Use DescribeHostedConnections instead.
+ *
+ * Lists the connections that have been provisioned on the specified interconnect.
+ *
+ * Intended for use by Direct Connect Partners only.
+ */
+export const describeConnectionsOnInterconnect =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeConnectionsOnInterconnectRequest,
+    output: Connections,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }));
+/**
+ * Lists the hosted connections that have been provisioned on the specified
+ * interconnect or link aggregation group (LAG).
+ *
+ * Intended for use by Direct Connect Partners only.
+ */
+export const describeHostedConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeHostedConnectionsRequest,
+    output: Connections,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }),
+);
+/**
+ * Disassociates a connection from a link aggregation group (LAG). The connection is
+ * interrupted and re-established as a standalone connection (the connection is not
+ * deleted; to delete the connection, use the DeleteConnection request).
+ * If the LAG has associated virtual interfaces or hosted connections, they remain
+ * associated with the LAG. A disassociated connection owned by an Direct Connect Partner is
+ * automatically converted to an interconnect.
+ *
+ * If disassociating the connection would cause the LAG to fall below its setting for
+ * minimum number of operational connections, the request fails, except when it's the last
+ * member of the LAG. If all connections are disassociated, the LAG continues to exist as
+ * an empty LAG with no physical connections.
+ */
+export const disassociateConnectionFromLag =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateConnectionFromLagRequest,
+    output: Connection,
+    errors: [DirectConnectClientException, DirectConnectServerException],
+  }));
+/**
+ * Removes one or more tags from the specified Direct Connect resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
+/**
+ * Updates the Direct Connect connection configuration.
+ *
+ * You can update the following parameters for a connection:
+ *
+ * - The connection name
+ *
+ * - The connection's MAC Security (MACsec) encryption mode.
+ */
+export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectionRequest,
+  output: Connection,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
+/**
+ * Updates the attributes of the specified link aggregation group (LAG).
+ *
+ * You can update the following LAG attributes:
+ *
+ * - The name of the LAG.
+ *
+ * - The value for the minimum number of connections that must be operational
+ * for the LAG itself to be operational.
+ *
+ * - The LAG's MACsec encryption mode.
+ *
+ * Amazon Web Services assigns this value to each connection which is part of the LAG.
+ *
+ * - The tags
+ *
+ * If you adjust the threshold value for the minimum number of operational connections, ensure
+ * that the new value does not cause the LAG to fall below the threshold and become
+ * non-operational.
+ */
+export const updateLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLagRequest,
+  output: Lag,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
+/**
+ * Updates the specified attributes of the specified virtual private interface.
+ *
+ * Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to
+ * the underlying physical connection if it wasn't updated to support jumbo frames. Updating
+ * the connection disrupts network connectivity for all virtual interfaces associated with
+ * the connection for up to 30 seconds. To check whether your connection supports jumbo
+ * frames, call DescribeConnections. To check whether your virtual
+ * interface supports jumbo frames, call DescribeVirtualInterfaces.
+ */
+export const updateVirtualInterfaceAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateVirtualInterfaceAttributesRequest,
+    output: VirtualInterface,
     errors: [DirectConnectClientException, DirectConnectServerException],
   }));
 /**
@@ -2210,94 +2118,13 @@ export const allocateConnectionOnInterconnect =
     errors: [DirectConnectClientException, DirectConnectServerException],
   }));
 /**
- * Provisions a transit virtual interface to be owned by the specified Amazon Web Services account. Use this type of interface to connect a transit gateway to your Direct Connect gateway.
- *
- * The owner of a connection provisions a transit virtual interface to be owned by the specified Amazon Web Services account.
- *
- * After you create a transit virtual interface, it must be confirmed by the owner using ConfirmTransitVirtualInterface. Until this step has been completed, the transit virtual interface is in the `requested` state and is not available to handle traffic.
+ * Creates an association between a Direct Connect gateway and a virtual private gateway. The virtual
+ * private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
  */
-export const allocateTransitVirtualInterface =
+export const createDirectConnectGatewayAssociation =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AllocateTransitVirtualInterfaceRequest,
-    output: AllocateTransitVirtualInterfaceResult,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
-/**
- * Associates a virtual interface with a specified link aggregation group (LAG) or
- * connection. Connectivity to Amazon Web Services is temporarily interrupted as the virtual interface is
- * being migrated. If the target connection or LAG has an associated virtual interface with
- * a conflicting VLAN number or a conflicting IP address, the operation fails.
- *
- * Virtual interfaces associated with a hosted connection cannot be associated with a
- * LAG; hosted connections must be migrated along with their virtual interfaces using AssociateHostedConnection.
- *
- * To reassociate a virtual interface to a new connection or LAG, the requester
- * must own either the virtual interface itself or the connection to which the virtual
- * interface is currently associated. Additionally, the requester must own the connection
- * or LAG for the association.
- */
-export const associateVirtualInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
-/**
- * Creates a BGP peer on the specified virtual interface.
- *
- * You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order to
- * access Amazon Web Services resources that also use that address family.
- *
- * If logical redundancy is not supported by the connection, interconnect, or LAG, the BGP peer cannot
- * be in the same address family as an existing BGP peer on the virtual interface.
- *
- * When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from
- * the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
- *
- * If you let Amazon Web Services auto-assign IPv4 addresses, a /30 CIDR will be allocated
- * from 169.254.0.0/16. Amazon Web Services does not recommend this option if you intend to use
- * the customer router peer IP address as the source and destination for traffic. Instead you
- * should use RFC 1918 or other addressing, and specify the address yourself. For more
- * information about RFC 1918 see
- * Address Allocation for Private Internets.
- *
- * For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
- */
-export const createBGPPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBGPPeerRequest,
-  output: CreateBGPPeerResponse,
-  errors: [DirectConnectClientException, DirectConnectServerException],
-}));
-/**
- * Creates a Direct Connect gateway, which is an intermediate object that enables you to connect a set
- * of virtual interfaces and virtual private gateways. A Direct Connect gateway is global and visible in any
- * Amazon Web Services Region after it is created. The virtual interfaces and virtual private gateways that
- * are connected through a Direct Connect gateway can be in different Amazon Web Services Regions. This enables you to
- * connect to a VPC in any Region, regardless of the Region in which the virtual interfaces
- * are located, and pass traffic between them.
- */
-export const createDirectConnectGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDirectConnectGatewayRequest,
-    output: CreateDirectConnectGatewayResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
-/**
- * Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway.
- *
- * You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account.
- */
-export const createDirectConnectGatewayAssociationProposal =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDirectConnectGatewayAssociationProposalRequest,
-    output: CreateDirectConnectGatewayAssociationProposalResult,
+    input: CreateDirectConnectGatewayAssociationRequest,
+    output: CreateDirectConnectGatewayAssociationResult,
     errors: [DirectConnectClientException, DirectConnectServerException],
   }));
 /**
@@ -2324,52 +2151,225 @@ export const createTransitVirtualInterface =
     ],
   }));
 /**
- * Lists the attachments between your Direct Connect gateways and virtual interfaces. You must specify
- * a Direct Connect gateway, a virtual interface, or both. If you specify a Direct Connect gateway, the response contains
- * all virtual interfaces attached to the Direct Connect gateway. If you specify a virtual interface, the
- * response contains all Direct Connect gateways attached to the virtual interface. If you specify both,
- * the response contains the attachment between the Direct Connect gateway and the virtual interface.
+ * Creates an interconnect between an Direct Connect Partner's network and a specific Direct Connect location.
+ *
+ * An interconnect is a connection that is capable of hosting other connections. The
+ * Direct Connect Partner can use an interconnect to provide Direct Connect hosted
+ * connections to customers through their own network services. Like a standard connection, an
+ * interconnect links the partner's network to an Direct Connect location over a standard Ethernet
+ * fiber-optic cable. One end is connected to the partner's router, the other to an Direct Connect
+ * router.
+ *
+ * You can automatically add the new interconnect to a link aggregation group (LAG) by
+ * specifying a LAG ID in the request. This ensures that the new interconnect is allocated on
+ * the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the
+ * endpoint, the request fails and no interconnect is created.
+ *
+ * For each end customer, the Direct Connect Partner provisions a connection on their interconnect by calling AllocateHostedConnection.
+ * The end customer can then connect to Amazon Web Services resources by creating a virtual interface on their connection, using the VLAN assigned to them by the Direct Connect Partner.
+ *
+ * Intended for use by Direct Connect Partners only.
  */
-export const describeDirectConnectGatewayAttachments =
+export const createInterconnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInterconnectRequest,
+  output: Interconnect,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Creates a link aggregation group (LAG) with the specified number of bundled
+ * physical dedicated connections between the customer network and a specific Direct Connect location.
+ * A LAG is a logical interface that uses the Link Aggregation Control Protocol
+ * (LACP) to aggregate multiple interfaces, enabling you to treat them as a single
+ * interface.
+ *
+ * All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps,
+ * or 400Gbps) and must terminate at the same Direct Connect endpoint.
+ *
+ * You can have up to 10 dedicated connections per location. Regardless of this limit, if you
+ * request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is
+ * created..
+ *
+ * You can specify an existing physical dedicated connection or interconnect to include in
+ * the LAG (which counts towards the total number of connections). Doing so interrupts the
+ * current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG
+ * will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any
+ * virtual interfaces associated with the dedicated connection are automatically disassociated
+ * and re-associated with the LAG. The connection ID does not change.
+ *
+ * If the Amazon Web Services account used to create a LAG is a registered Direct Connect Partner, the LAG is
+ * automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual
+ * interfaces cannot be directly configured.
+ */
+export const createLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLagRequest,
+  output: Lag,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic.
+ * A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW).
+ * Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple
+ * VPCs, including VPCs in different Amazon Web Services Regions. Connecting the private virtual interface
+ * to a VGW only provides access to a single VPC within the same Region.
+ *
+ * Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to
+ * the underlying physical connection if it wasn't updated to support jumbo frames. Updating
+ * the connection disrupts network connectivity for all virtual interfaces associated with
+ * the connection for up to 30 seconds. To check whether your connection supports jumbo
+ * frames, call DescribeConnections. To check whether your virtual
+ * interface supports jumbo frames, call DescribeVirtualInterfaces.
+ */
+export const createPrivateVirtualInterface =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDirectConnectGatewayAttachmentsRequest,
-    output: DescribeDirectConnectGatewayAttachmentsResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
+    input: CreatePrivateVirtualInterfaceRequest,
+    output: VirtualInterface,
+    errors: [
+      DirectConnectClientException,
+      DirectConnectServerException,
+      DuplicateTagKeysException,
+      TooManyTagsException,
+    ],
   }));
 /**
- * Details about the router.
+ * Creates a public virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic.
+ * A public virtual interface supports sending traffic to public services of Amazon Web Services such as Amazon S3.
+ *
+ * When creating an IPv6 public virtual interface (`addressFamily` is `ipv6`), leave the `customer`
+ * and `amazon` address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
  */
-export const describeRouterConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createPublicVirtualInterface =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreatePublicVirtualInterfaceRequest,
+    output: VirtualInterface,
+    errors: [
+      DirectConnectClientException,
+      DirectConnectServerException,
+      DuplicateTagKeysException,
+      TooManyTagsException,
+    ],
+  }));
+/**
+ * Creates a connection between a customer network and a specific Direct Connect location.
+ *
+ * A connection links your internal network to an Direct Connect location over a standard Ethernet fiber-optic
+ * cable. One end of the cable is connected to your router, the other to an Direct Connect router.
+ *
+ * To find the locations for your Region, use DescribeLocations.
+ *
+ * You can automatically add the new connection to a link aggregation group (LAG) by
+ * specifying a LAG ID in the request. This ensures that the new connection is allocated on the
+ * same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint,
+ * the request fails and no connection is created.
+ */
+export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectionRequest,
+  output: Connection,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Adds the specified tags to the specified Direct Connect resource. Each resource can have a maximum of 50 tags.
+ *
+ * Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Creates a hosted connection on the specified interconnect or a link aggregation group (LAG) of interconnects.
+ *
+ * Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by a hosted connection on the specified interconnect or LAG of interconnects.
+ * Amazon Web Services polices the hosted connection for the specified capacity and the Direct Connect Partner must also police the hosted connection for the specified capacity.
+ *
+ * Intended for use by Direct Connect Partners only.
+ */
+export const allocateHostedConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeRouterConfigurationRequest,
-    output: DescribeRouterConfigurationResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
+    input: AllocateHostedConnectionRequest,
+    output: Connection,
+    errors: [
+      DirectConnectClientException,
+      DirectConnectServerException,
+      DuplicateTagKeysException,
+      TooManyTagsException,
+    ],
   }),
 );
 /**
- * Describes the tags associated with the specified Direct Connect resources.
+ * Provisions a private virtual interface to be owned by the specified Amazon Web Services account.
+ *
+ * Virtual interfaces created using this action must be confirmed by the owner using ConfirmPrivateVirtualInterface.
+ * Until then, the virtual interface is in the `Confirming` state and is not available to handle traffic.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTagsRequest,
-  output: DescribeTagsResponse,
-  errors: [DirectConnectClientException, DirectConnectServerException],
-}));
-/**
- * Lists the virtual interface failover test history.
- */
-export const listVirtualInterfaceTestHistory =
+export const allocatePrivateVirtualInterface =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListVirtualInterfaceTestHistoryRequest,
-    output: ListVirtualInterfaceTestHistoryResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
+    input: AllocatePrivateVirtualInterfaceRequest,
+    output: VirtualInterface,
+    errors: [
+      DirectConnectClientException,
+      DirectConnectServerException,
+      DuplicateTagKeysException,
+      TooManyTagsException,
+    ],
   }));
 /**
- * Creates an association between a Direct Connect gateway and a virtual private gateway. The virtual
- * private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
+ * Provisions a public virtual interface to be owned by the specified Amazon Web Services account.
+ *
+ * The owner of a connection calls this function to provision a public virtual interface to be owned by the specified Amazon Web Services account.
+ *
+ * Virtual interfaces created using this function must be confirmed by the owner using ConfirmPublicVirtualInterface.
+ * Until this step has been completed, the virtual interface is in the `confirming` state and is not available to handle traffic.
+ *
+ * When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from
+ * the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
  */
-export const createDirectConnectGatewayAssociation =
+export const allocatePublicVirtualInterface =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDirectConnectGatewayAssociationRequest,
-    output: CreateDirectConnectGatewayAssociationResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
+    input: AllocatePublicVirtualInterfaceRequest,
+    output: VirtualInterface,
+    errors: [
+      DirectConnectClientException,
+      DirectConnectServerException,
+      DuplicateTagKeysException,
+      TooManyTagsException,
+    ],
+  }));
+/**
+ * Provisions a transit virtual interface to be owned by the specified Amazon Web Services account. Use this type of interface to connect a transit gateway to your Direct Connect gateway.
+ *
+ * The owner of a connection provisions a transit virtual interface to be owned by the specified Amazon Web Services account.
+ *
+ * After you create a transit virtual interface, it must be confirmed by the owner using ConfirmTransitVirtualInterface. Until this step has been completed, the transit virtual interface is in the `requested` state and is not available to handle traffic.
+ */
+export const allocateTransitVirtualInterface =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AllocateTransitVirtualInterfaceRequest,
+    output: AllocateTransitVirtualInterfaceResult,
+    errors: [
+      DirectConnectClientException,
+      DirectConnectServerException,
+      DuplicateTagKeysException,
+      TooManyTagsException,
+    ],
   }));

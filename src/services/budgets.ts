@@ -1036,60 +1036,127 @@ export class DescribeBudgetActionHistoriesResponse extends S.Class<DescribeBudge
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
-  "InternalErrorException",
-  {},
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class DuplicateRecordException extends S.TaggedError<DuplicateRecordException>()(
-  "DuplicateRecordException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class CreationLimitExceededException extends S.TaggedError<CreationLimitExceededException>()(
   "CreationLimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
+export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
+  "InternalErrorException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ExpiredNextTokenException extends S.TaggedError<ExpiredNextTokenException>()(
   "ExpiredNextTokenException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
 ) {}
 export class BillingViewHealthStatusException extends S.TaggedError<BillingViewHealthStatusException>()(
   "BillingViewHealthStatusException",
   { Message: S.optional(S.String) },
 ) {}
+export class DuplicateRecordException extends S.TaggedError<DuplicateRecordException>()(
+  "DuplicateRecordException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { Message: S.optional(S.String) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String) },
+) {}
 export class ResourceLockedException extends S.TaggedError<ResourceLockedException>()(
   "ResourceLockedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Updates a subscriber.
+ * Describes all of the budget actions for an account.
  */
-export const updateSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSubscriberRequest,
-  output: UpdateSubscriberResponse,
+export const describeBudgetActionsForAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeBudgetActionsForAccountRequest,
+    output: DescribeBudgetActionsForAccountResponse,
+    errors: [
+      AccessDeniedException,
+      InternalErrorException,
+      InvalidNextTokenException,
+      InvalidParameterException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Describes a budget.
+ *
+ * The Request Syntax section shows the `BudgetLimit` syntax. For
+ * `PlannedBudgetLimits`, see the Examples section.
+ */
+export const describeBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBudgetRequest,
+  output: DescribeBudgetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes a budget action history detail.
+ */
+export const describeBudgetActionHistories =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeBudgetActionHistoriesRequest,
+    output: DescribeBudgetActionHistoriesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalErrorException,
+      InvalidNextTokenException,
+      InvalidParameterException,
+      NotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists the budgets that are associated with an account.
+ *
+ * The Request Syntax section shows the `BudgetLimit` syntax. For
+ * `PlannedBudgetLimits`, see the Examples section.
+ */
+export const describeBudgets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBudgetsRequest,
+  output: DescribeBudgetsResponse,
+  errors: [
+    AccessDeniedException,
+    ExpiredNextTokenException,
+    InternalErrorException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    NotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a notification.
+ */
+export const updateNotification = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNotificationRequest,
+  output: UpdateNotificationResponse,
   errors: [
     AccessDeniedException,
     DuplicateRecordException,
@@ -1100,15 +1167,45 @@ export const updateSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
+ * Creates a notification. You must create the budget before you create the associated notification.
  */
-export const createSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSubscriberRequest,
-  output: CreateSubscriberResponse,
+export const createNotification = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNotificationRequest,
+  output: CreateNotificationResponse,
   errors: [
     AccessDeniedException,
     CreationLimitExceededException,
     DuplicateRecordException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes a budget action detail.
+ */
+export const describeBudgetAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeBudgetActionRequest,
+    output: DescribeBudgetActionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists tags associated with a budget or budget action resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
     InternalErrorException,
     InvalidParameterException,
     NotFoundException,
@@ -1164,14 +1261,11 @@ export const deleteSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Describes a budget.
- *
- * The Request Syntax section shows the `BudgetLimit` syntax. For
- * `PlannedBudgetLimits`, see the Examples section.
+ * Deletes tags associated with a budget or budget action resource.
  */
-export const describeBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBudgetRequest,
-  output: DescribeBudgetResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     AccessDeniedException,
     InternalErrorException,
@@ -1181,21 +1275,36 @@ export const describeBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Describes a budget action detail.
+ * Updates a subscriber.
  */
-export const describeBudgetAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBudgetActionRequest,
-    output: DescribeBudgetActionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSubscriberRequest,
+  output: UpdateSubscriberResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateRecordException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
+ */
+export const createSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSubscriberRequest,
+  output: CreateSubscriberResponse,
+  errors: [
+    AccessDeniedException,
+    CreationLimitExceededException,
+    DuplicateRecordException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes all of the budget actions for a budget.
  */
@@ -1247,48 +1356,40 @@ export const describeSubscribersForNotification =
     ],
   }));
 /**
- * Lists tags associated with a budget or budget action resource.
+ * Lists the budget names and notifications that are associated with an account.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    ThrottlingException,
-  ],
-}));
+export const describeBudgetNotificationsForAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeBudgetNotificationsForAccountRequest,
+    output: DescribeBudgetNotificationsForAccountResponse,
+    errors: [
+      AccessDeniedException,
+      ExpiredNextTokenException,
+      InternalErrorException,
+      InvalidNextTokenException,
+      InvalidParameterException,
+      NotFoundException,
+      ThrottlingException,
+    ],
+  }));
 /**
- * Creates tags for a budget or budget action resource.
+ * Describes the history for `DAILY`, `MONTHLY`, and `QUARTERLY` budgets. Budget history isn't available for `ANNUAL` budgets.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes tags associated with a budget or budget action resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    ThrottlingException,
-  ],
-}));
+export const describeBudgetPerformanceHistory =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeBudgetPerformanceHistoryRequest,
+    output: DescribeBudgetPerformanceHistoryResponse,
+    errors: [
+      AccessDeniedException,
+      BillingViewHealthStatusException,
+      ExpiredNextTokenException,
+      InternalErrorException,
+      InvalidNextTokenException,
+      InvalidParameterException,
+      NotFoundException,
+      ThrottlingException,
+    ],
+  }));
 /**
  * Updates a budget. You can change every part of a budget except for the `budgetName` and the `calculatedSpend`. When you modify a budget, the `calculatedSpend` drops to zero until Amazon Web Services has new usage data to use for forecasting.
  *
@@ -1318,118 +1419,6 @@ export const updateBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a budget action.
- */
-export const updateBudgetAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBudgetActionRequest,
-  output: UpdateBudgetActionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    ResourceLockedException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates a notification.
- */
-export const updateNotification = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateNotificationRequest,
-  output: UpdateNotificationResponse,
-  errors: [
-    AccessDeniedException,
-    DuplicateRecordException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a notification. You must create the budget before you create the associated notification.
- */
-export const createNotification = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateNotificationRequest,
-  output: CreateNotificationResponse,
-  errors: [
-    AccessDeniedException,
-    CreationLimitExceededException,
-    DuplicateRecordException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a budget action.
- */
-export const deleteBudgetAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBudgetActionRequest,
-  output: DeleteBudgetActionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    ResourceLockedException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Describes all of the budget actions for an account.
- */
-export const describeBudgetActionsForAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBudgetActionsForAccountRequest,
-    output: DescribeBudgetActionsForAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalErrorException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Lists the budget names and notifications that are associated with an account.
- */
-export const describeBudgetNotificationsForAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBudgetNotificationsForAccountRequest,
-    output: DescribeBudgetNotificationsForAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ExpiredNextTokenException,
-      InternalErrorException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      NotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Lists the budgets that are associated with an account.
- *
- * The Request Syntax section shows the `BudgetLimit` syntax. For
- * `PlannedBudgetLimits`, see the Examples section.
- */
-export const describeBudgets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBudgetsRequest,
-  output: DescribeBudgetsResponse,
-  errors: [
-    AccessDeniedException,
-    ExpiredNextTokenException,
-    InternalErrorException,
-    InvalidNextTokenException,
-    InvalidParameterException,
-    NotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Executes a budget action.
  */
 export const executeBudgetAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1441,6 +1430,21 @@ export const executeBudgetAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidParameterException,
     NotFoundException,
     ResourceLockedException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates tags for a budget or budget action resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
   ],
 }));
@@ -1492,36 +1496,32 @@ export const createBudgetAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Describes the history for `DAILY`, `MONTHLY`, and `QUARTERLY` budgets. Budget history isn't available for `ANNUAL` budgets.
+ * Updates a budget action.
  */
-export const describeBudgetPerformanceHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBudgetPerformanceHistoryRequest,
-    output: DescribeBudgetPerformanceHistoryResponse,
-    errors: [
-      AccessDeniedException,
-      BillingViewHealthStatusException,
-      ExpiredNextTokenException,
-      InternalErrorException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      NotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateBudgetAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBudgetActionRequest,
+  output: UpdateBudgetActionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ResourceLockedException,
+    ThrottlingException,
+  ],
+}));
 /**
- * Describes a budget action history detail.
+ * Deletes a budget action.
  */
-export const describeBudgetActionHistories =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBudgetActionHistoriesRequest,
-    output: DescribeBudgetActionHistoriesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalErrorException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      NotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteBudgetAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBudgetActionRequest,
+  output: DeleteBudgetActionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ResourceLockedException,
+    ThrottlingException,
+  ],
+}));

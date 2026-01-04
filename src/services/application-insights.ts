@@ -882,28 +882,28 @@ export class DescribeComponentResponse extends S.Class<DescribeComponentResponse
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
 ) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "BadRequestException", httpResponseCode: 400 }),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceInUseException", httpResponseCode: 400 }),
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
@@ -921,11 +921,41 @@ export class TagsAlreadyExistException extends S.TaggedError<TagsAlreadyExistExc
 
 //# Operations
 /**
- * Remove workload from a component.
+ * Lists the IDs of the applications that you are monitoring.
  */
-export const removeWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveWorkloadRequest,
-  output: RemoveWorkloadResponse,
+export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by
+ * Application Insights. Examples of events represented are:
+ *
+ * - INFO: creating a new alarm or updating an alarm threshold.
+ *
+ * - WARN: alarm not created due to insufficient data points used to predict
+ * thresholds.
+ *
+ * - ERROR: alarm not created due to permission errors or exceeding quotas.
+ */
+export const listConfigurationHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListConfigurationHistoryRequest,
+    output: ListConfigurationHistoryResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the workloads that are configured on a given component.
+ */
+export const listWorkloads = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWorkloadsRequest,
+  output: ListWorkloadsResponse,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -933,12 +963,51 @@ export const removeWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Remove one or more tags (keys and values) from a specified application.
+ * Add one or more tags (keys and values) to a specified application. A
+ * *tag* is a label that you optionally define and associate with an
+ * application. Tags can help you categorize and manage application in different ways, such as
+ * by purpose, owner, environment, or other criteria.
+ *
+ * Each tag consists of a required *tag key* and an associated
+ * *tag value*, both of which you define. A tag key is a general label
+ * that acts as a category for more specific tag values. A tag value acts as a descriptor
+ * within a tag key.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [ResourceNotFoundException, ValidationException],
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ResourceNotFoundException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a log pattern to a `LogPatternSet`.
+ */
+export const updateLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLogPatternRequest,
+  output: UpdateLogPatternResponse,
+  errors: [
+    InternalServerException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the custom component name and/or the list of resources that make up the
+ * component.
+ */
+export const updateComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateComponentRequest,
+  output: UpdateComponentResponse,
+  errors: [
+    InternalServerException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
 }));
 /**
  * Updates the monitoring configurations for the component. The configuration input
@@ -957,24 +1026,11 @@ export const updateComponentConfiguration =
     ],
   }));
 /**
- * Updates the visibility of the problem or specifies the problem as
- * `RESOLVED`.
+ * Adds a workload to a component. Each component can have at most five workloads.
  */
-export const updateProblem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProblemRequest,
-  output: UpdateProblemResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a custom component by grouping similar standalone instances to monitor.
- */
-export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateComponentRequest,
-  output: CreateComponentResponse,
+export const addWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddWorkloadRequest,
+  output: AddWorkloadResponse,
   errors: [
     InternalServerException,
     ResourceInUseException,
@@ -983,14 +1039,24 @@ export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes the specified application from monitoring. Does not delete the
- * application.
+ * Updates the application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResponse,
   errors: [
-    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a workload to a component. Each component can have at most five workloads.
+ */
+export const updateWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkloadRequest,
+  output: UpdateWorkloadResponse,
+  errors: [
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
@@ -1011,11 +1077,58 @@ export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Remove workload from a component.
+ */
+export const removeWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveWorkloadRequest,
+  output: RemoveWorkloadResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the visibility of the problem or specifies the problem as
+ * `RESOLVED`.
+ */
+export const updateProblem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProblemRequest,
+  output: UpdateProblemResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
  * Removes the specified log pattern from a `LogPatternSet`.
  */
 export const deleteLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLogPatternRequest,
   output: DeleteLogPatternResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Remove one or more tags (keys and values) from a specified application.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Removes the specified application from monitoring. Does not delete the
+ * application.
+ */
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
   errors: [
     BadRequestException,
     InternalServerException,
@@ -1072,14 +1185,6 @@ export const describeWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
     ValidationException,
   ],
-}));
-/**
- * Lists the IDs of the applications that you are monitoring.
- */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
-  errors: [InternalServerException, ValidationException],
 }));
 /**
  * Lists the auto-grouped, standalone, and custom components of the application.
@@ -1143,82 +1248,11 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
- * Add one or more tags (keys and values) to a specified application. A
- * *tag* is a label that you optionally define and associate with an
- * application. Tags can help you categorize and manage application in different ways, such as
- * by purpose, owner, environment, or other criteria.
- *
- * Each tag consists of a required *tag key* and an associated
- * *tag value*, both of which you define. A tag key is a general label
- * that acts as a category for more specific tag values. A tag value acts as a descriptor
- * within a tag key.
+ * Creates a custom component by grouping similar standalone instances to monitor.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    ResourceNotFoundException,
-    TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the application.
- */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the custom component name and/or the list of resources that make up the
- * component.
- */
-export const updateComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateComponentRequest,
-  output: UpdateComponentResponse,
-  errors: [
-    InternalServerException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a log pattern to a `LogPatternSet`.
- */
-export const updateLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateLogPatternRequest,
-  output: UpdateLogPatternResponse,
-  errors: [
-    InternalServerException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a workload to a component. Each component can have at most five workloads.
- */
-export const updateWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWorkloadRequest,
-  output: UpdateWorkloadResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a workload to a component. Each component can have at most five workloads.
- */
-export const addWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddWorkloadRequest,
-  output: AddWorkloadResponse,
+export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateComponentRequest,
+  output: CreateComponentResponse,
   errors: [
     InternalServerException,
     ResourceInUseException,
@@ -1277,40 +1311,6 @@ export const describeProblemObservations = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by
- * Application Insights. Examples of events represented are:
- *
- * - INFO: creating a new alarm or updating an alarm threshold.
- *
- * - WARN: alarm not created due to insufficient data points used to predict
- * thresholds.
- *
- * - ERROR: alarm not created due to permission errors or exceeding quotas.
- */
-export const listConfigurationHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListConfigurationHistoryRequest,
-    output: ListConfigurationHistoryResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists the workloads that are configured on a given component.
- */
-export const listWorkloads = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListWorkloadsRequest,
-  output: ListWorkloadsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Describes an application problem.
  */

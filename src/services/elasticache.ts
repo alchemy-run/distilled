@@ -2277,17 +2277,12 @@ export class UpdateActionsMessage extends S.Class<UpdateActionsMessage>(
 //# Errors
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
-) {}
-export class CacheClusterNotFoundFault extends S.TaggedError<CacheClusterNotFoundFault>()(
-  "CacheClusterNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "CacheClusterNotFound", httpResponseCode: 404 }),
 ) {}
 export class CacheParameterGroupNotFoundFault extends S.TaggedError<CacheParameterGroupNotFoundFault>()(
   "CacheParameterGroupNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "CacheParameterGroupNotFound",
     httpResponseCode: 404,
@@ -2295,18 +2290,10 @@ export class CacheParameterGroupNotFoundFault extends S.TaggedError<CacheParamet
 ) {}
 export class CacheSecurityGroupNotFoundFault extends S.TaggedError<CacheSecurityGroupNotFoundFault>()(
   "CacheSecurityGroupNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "CacheSecurityGroupNotFound",
     httpResponseCode: 404,
-  }),
-) {}
-export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
-  "InvalidParameterCombinationException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidParameterCombination",
-    httpResponseCode: 400,
   }),
 ) {}
 export class CacheSubnetGroupInUse extends S.TaggedError<CacheSubnetGroupInUse>()(
@@ -2314,80 +2301,11 @@ export class CacheSubnetGroupInUse extends S.TaggedError<CacheSubnetGroupInUse>(
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "CacheSubnetGroupInUse", httpResponseCode: 400 }),
 ) {}
-export class CacheSubnetGroupNotFoundFault extends S.TaggedError<CacheSubnetGroupNotFoundFault>()(
-  "CacheSubnetGroupNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "CacheSubnetGroupNotFoundFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class GlobalReplicationGroupNotFoundFault extends S.TaggedError<GlobalReplicationGroupNotFoundFault>()(
-  "GlobalReplicationGroupNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "GlobalReplicationGroupNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidUserGroupStateFault extends S.TaggedError<InvalidUserGroupStateFault>()(
-  "InvalidUserGroupStateFault",
+export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
+  "InvalidParameterCombinationException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidUserGroupState", httpResponseCode: 400 }),
-) {}
-export class ServerlessCacheNotFoundFault extends S.TaggedError<ServerlessCacheNotFoundFault>()(
-  "ServerlessCacheNotFoundFault",
-  {},
   T.AwsQueryError({
-    code: "ServerlessCacheNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class ServiceLinkedRoleNotFoundFault extends S.TaggedError<ServiceLinkedRoleNotFoundFault>()(
-  "ServiceLinkedRoleNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "ServiceLinkedRoleNotFoundFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidGlobalReplicationGroupStateFault extends S.TaggedError<InvalidGlobalReplicationGroupStateFault>()(
-  "InvalidGlobalReplicationGroupStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidGlobalReplicationGroupState",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidServerlessCacheSnapshotStateFault extends S.TaggedError<InvalidServerlessCacheSnapshotStateFault>()(
-  "InvalidServerlessCacheSnapshotStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidServerlessCacheSnapshotStateFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ServerlessCacheSnapshotNotFoundFault extends S.TaggedError<ServerlessCacheSnapshotNotFoundFault>()(
-  "ServerlessCacheSnapshotNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "ServerlessCacheSnapshotNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class ReplicationGroupNotFoundFault extends S.TaggedError<ReplicationGroupNotFoundFault>()(
-  "ReplicationGroupNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "ReplicationGroupNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidCacheParameterGroupStateFault extends S.TaggedError<InvalidCacheParameterGroupStateFault>()(
-  "InvalidCacheParameterGroupStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidCacheParameterGroupState",
+    code: "InvalidParameterCombination",
     httpResponseCode: 400,
   }),
 ) {}
@@ -2396,55 +2314,14 @@ export class DefaultUserRequired extends S.TaggedError<DefaultUserRequired>()(
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "DefaultUserRequired", httpResponseCode: 400 }),
 ) {}
-export class DuplicateUserNameFault extends S.TaggedError<DuplicateUserNameFault>()(
-  "DuplicateUserNameFault",
-  {},
-  T.AwsQueryError({ code: "DuplicateUserName", httpResponseCode: 400 }),
-) {}
-export class UserGroupNotFoundFault extends S.TaggedError<UserGroupNotFoundFault>()(
-  "UserGroupNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "UserGroupNotFound", httpResponseCode: 404 }),
-) {}
-export class InvalidCacheClusterStateFault extends S.TaggedError<InvalidCacheClusterStateFault>()(
-  "InvalidCacheClusterStateFault",
-  {},
-  T.AwsQueryError({ code: "InvalidCacheClusterState", httpResponseCode: 400 }),
-) {}
-export class InvalidARNFault extends S.TaggedError<InvalidARNFault>()(
-  "InvalidARNFault",
-  {},
-  T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }),
-) {}
-export class InvalidReplicationGroupStateFault extends S.TaggedError<InvalidReplicationGroupStateFault>()(
-  "InvalidReplicationGroupStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidReplicationGroupState",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidServerlessCacheStateFault extends S.TaggedError<InvalidServerlessCacheStateFault>()(
-  "InvalidServerlessCacheStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidServerlessCacheStateFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ReservedCacheNodeNotFoundFault extends S.TaggedError<ReservedCacheNodeNotFoundFault>()(
-  "ReservedCacheNodeNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "ReservedCacheNodeNotFound", httpResponseCode: 404 }),
-) {}
-export class SnapshotNotFoundFault extends S.TaggedError<SnapshotNotFoundFault>()(
-  "SnapshotNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "SnapshotNotFoundFault", httpResponseCode: 404 }),
+export class CacheClusterNotFoundFault extends S.TaggedError<CacheClusterNotFoundFault>()(
+  "CacheClusterNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "CacheClusterNotFound", httpResponseCode: 404 }),
 ) {}
 export class ServiceUpdateNotFoundFault extends S.TaggedError<ServiceUpdateNotFoundFault>()(
   "ServiceUpdateNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ServiceUpdateNotFoundFault",
     httpResponseCode: 404,
@@ -2458,35 +2335,24 @@ export class CacheSecurityGroupAlreadyExistsFault extends S.TaggedError<CacheSec
     httpResponseCode: 400,
   }),
 ) {}
-export class ClusterQuotaForCustomerExceededFault extends S.TaggedError<ClusterQuotaForCustomerExceededFault>()(
-  "ClusterQuotaForCustomerExceededFault",
-  {},
+export class DuplicateUserNameFault extends S.TaggedError<DuplicateUserNameFault>()(
+  "DuplicateUserNameFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DuplicateUserName", httpResponseCode: 400 }),
+) {}
+export class GlobalReplicationGroupNotFoundFault extends S.TaggedError<GlobalReplicationGroupNotFoundFault>()(
+  "GlobalReplicationGroupNotFoundFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "ClusterQuotaForCustomerExceeded",
-    httpResponseCode: 400,
+    code: "GlobalReplicationGroupNotFoundFault",
+    httpResponseCode: 404,
   }),
 ) {}
-export class InsufficientCacheClusterCapacityFault extends S.TaggedError<InsufficientCacheClusterCapacityFault>()(
-  "InsufficientCacheClusterCapacityFault",
-  {},
+export class InvalidCacheParameterGroupStateFault extends S.TaggedError<InvalidCacheParameterGroupStateFault>()(
+  "InvalidCacheParameterGroupStateFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InsufficientCacheClusterCapacity",
-    httpResponseCode: 400,
-  }),
-) {}
-export class TagQuotaPerResourceExceeded extends S.TaggedError<TagQuotaPerResourceExceeded>()(
-  "TagQuotaPerResourceExceeded",
-  {},
-  T.AwsQueryError({
-    code: "TagQuotaPerResourceExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidVPCNetworkStateFault extends S.TaggedError<InvalidVPCNetworkStateFault>()(
-  "InvalidVPCNetworkStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidVPCNetworkStateFault",
+    code: "InvalidCacheParameterGroupState",
     httpResponseCode: 400,
   }),
 ) {}
@@ -2498,75 +2364,36 @@ export class InvalidCacheSecurityGroupStateFault extends S.TaggedError<InvalidCa
     httpResponseCode: 400,
   }),
 ) {}
-export class SnapshotAlreadyExistsFault extends S.TaggedError<SnapshotAlreadyExistsFault>()(
-  "SnapshotAlreadyExistsFault",
-  {},
+export class CacheSubnetGroupNotFoundFault extends S.TaggedError<CacheSubnetGroupNotFoundFault>()(
+  "CacheSubnetGroupNotFoundFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "SnapshotAlreadyExistsFault",
+    code: "CacheSubnetGroupNotFoundFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidServerlessCacheSnapshotStateFault extends S.TaggedError<InvalidServerlessCacheSnapshotStateFault>()(
+  "InvalidServerlessCacheSnapshotStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidServerlessCacheSnapshotStateFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ClusterQuotaForCustomerExceededFault extends S.TaggedError<ClusterQuotaForCustomerExceededFault>()(
+  "ClusterQuotaForCustomerExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ClusterQuotaForCustomerExceeded",
     httpResponseCode: 400,
   }),
 ) {}
 export class InvalidCredentialsException extends S.TaggedError<InvalidCredentialsException>()(
   "InvalidCredentialsException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "InvalidCredentialsException",
     httpResponseCode: 408,
-  }),
-) {}
-export class ServerlessCacheSnapshotAlreadyExistsFault extends S.TaggedError<ServerlessCacheSnapshotAlreadyExistsFault>()(
-  "ServerlessCacheSnapshotAlreadyExistsFault",
-  {},
-  T.AwsQueryError({
-    code: "ServerlessCacheSnapshotAlreadyExistsFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidSnapshotStateFault extends S.TaggedError<InvalidSnapshotStateFault>()(
-  "InvalidSnapshotStateFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidSnapshotState", httpResponseCode: 400 }),
-) {}
-export class UserNotFoundFault extends S.TaggedError<UserNotFoundFault>()(
-  "UserNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "UserNotFound", httpResponseCode: 404 }),
-) {}
-export class CacheSubnetQuotaExceededFault extends S.TaggedError<CacheSubnetQuotaExceededFault>()(
-  "CacheSubnetQuotaExceededFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "CacheSubnetQuotaExceededFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidKMSKeyFault extends S.TaggedError<InvalidKMSKeyFault>()(
-  "InvalidKMSKeyFault",
-  {},
-  T.AwsQueryError({ code: "InvalidKMSKeyFault", httpResponseCode: 400 }),
-) {}
-export class NodeQuotaForClusterExceededFault extends S.TaggedError<NodeQuotaForClusterExceededFault>()(
-  "NodeQuotaForClusterExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "NodeQuotaForClusterExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class NodeGroupsPerReplicationGroupQuotaExceededFault extends S.TaggedError<NodeGroupsPerReplicationGroupQuotaExceededFault>()(
-  "NodeGroupsPerReplicationGroupQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "NodeGroupsPerReplicationGroupQuotaExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class NodeQuotaForCustomerExceededFault extends S.TaggedError<NodeQuotaForCustomerExceededFault>()(
-  "NodeQuotaForCustomerExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "NodeQuotaForCustomerExceeded",
-    httpResponseCode: 400,
   }),
 ) {}
 export class InvalidUserStateFault extends S.TaggedError<InvalidUserStateFault>()(
@@ -2587,19 +2414,79 @@ export class AuthorizationNotFoundFault extends S.TaggedError<AuthorizationNotFo
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "AuthorizationNotFound", httpResponseCode: 404 }),
 ) {}
-export class ReplicationGroupAlreadyUnderMigrationFault extends S.TaggedError<ReplicationGroupAlreadyUnderMigrationFault>()(
-  "ReplicationGroupAlreadyUnderMigrationFault",
-  {},
-  T.AwsQueryError({
-    code: "ReplicationGroupAlreadyUnderMigrationFault",
-    httpResponseCode: 400,
-  }),
-) {}
 export class APICallRateForCustomerExceededFault extends S.TaggedError<APICallRateForCustomerExceededFault>()(
   "APICallRateForCustomerExceededFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "APICallRateForCustomerExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidReplicationGroupStateFault extends S.TaggedError<InvalidReplicationGroupStateFault>()(
+  "InvalidReplicationGroupStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidReplicationGroupState",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidUserGroupStateFault extends S.TaggedError<InvalidUserGroupStateFault>()(
+  "InvalidUserGroupStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidUserGroupState", httpResponseCode: 400 }),
+) {}
+export class InvalidServerlessCacheStateFault extends S.TaggedError<InvalidServerlessCacheStateFault>()(
+  "InvalidServerlessCacheStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidServerlessCacheStateFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidSnapshotStateFault extends S.TaggedError<InvalidSnapshotStateFault>()(
+  "InvalidSnapshotStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidSnapshotState", httpResponseCode: 400 }),
+) {}
+export class ReplicationGroupNotFoundFault extends S.TaggedError<ReplicationGroupNotFoundFault>()(
+  "ReplicationGroupNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ReplicationGroupNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
+export class ServerlessCacheNotFoundFault extends S.TaggedError<ServerlessCacheNotFoundFault>()(
+  "ServerlessCacheNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ServerlessCacheNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
+export class ServiceLinkedRoleNotFoundFault extends S.TaggedError<ServiceLinkedRoleNotFoundFault>()(
+  "ServiceLinkedRoleNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ServiceLinkedRoleNotFoundFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidCacheClusterStateFault extends S.TaggedError<InvalidCacheClusterStateFault>()(
+  "InvalidCacheClusterStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidCacheClusterState", httpResponseCode: 400 }),
+) {}
+export class SnapshotNotFoundFault extends S.TaggedError<SnapshotNotFoundFault>()(
+  "SnapshotNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SnapshotNotFoundFault", httpResponseCode: 404 }),
+) {}
+export class InsufficientCacheClusterCapacityFault extends S.TaggedError<InsufficientCacheClusterCapacityFault>()(
+  "InsufficientCacheClusterCapacityFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InsufficientCacheClusterCapacity",
     httpResponseCode: 400,
   }),
 ) {}
@@ -2619,39 +2506,21 @@ export class CacheSecurityGroupQuotaExceededFault extends S.TaggedError<CacheSec
     httpResponseCode: 400,
   }),
 ) {}
-export class ServerlessCacheSnapshotQuotaExceededFault extends S.TaggedError<ServerlessCacheSnapshotQuotaExceededFault>()(
-  "ServerlessCacheSnapshotQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "ServerlessCacheSnapshotQuotaExceededFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class SnapshotFeatureNotSupportedFault extends S.TaggedError<SnapshotFeatureNotSupportedFault>()(
-  "SnapshotFeatureNotSupportedFault",
-  {},
-  T.AwsQueryError({
-    code: "SnapshotFeatureNotSupportedFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class SnapshotQuotaExceededFault extends S.TaggedError<SnapshotQuotaExceededFault>()(
-  "SnapshotQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "SnapshotQuotaExceededFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class UserAlreadyExistsFault extends S.TaggedError<UserAlreadyExistsFault>()(
-  "UserAlreadyExistsFault",
+export class InvalidGlobalReplicationGroupStateFault extends S.TaggedError<InvalidGlobalReplicationGroupStateFault>()(
+  "InvalidGlobalReplicationGroupStateFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "UserAlreadyExists", httpResponseCode: 400 }),
+  T.AwsQueryError({
+    code: "InvalidGlobalReplicationGroupState",
+    httpResponseCode: 400,
+  }),
 ) {}
-export class UserGroupAlreadyExistsFault extends S.TaggedError<UserGroupAlreadyExistsFault>()(
-  "UserGroupAlreadyExistsFault",
+export class ServerlessCacheSnapshotNotFoundFault extends S.TaggedError<ServerlessCacheSnapshotNotFoundFault>()(
+  "ServerlessCacheSnapshotNotFoundFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "UserGroupAlreadyExists", httpResponseCode: 400 }),
+  T.AwsQueryError({
+    code: "ServerlessCacheSnapshotNotFoundFault",
+    httpResponseCode: 404,
+  }),
 ) {}
 export class DefaultUserAssociatedToUserGroupFault extends S.TaggedError<DefaultUserAssociatedToUserGroupFault>()(
   "DefaultUserAssociatedToUserGroupFault",
@@ -2669,16 +2538,6 @@ export class ReservedCacheNodesOfferingNotFoundFault extends S.TaggedError<Reser
     httpResponseCode: 404,
   }),
 ) {}
-export class NoOperationFault extends S.TaggedError<NoOperationFault>()(
-  "NoOperationFault",
-  {},
-  T.AwsQueryError({ code: "NoOperationFault", httpResponseCode: 400 }),
-) {}
-export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
-  "InvalidSubnet",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
-) {}
 export class ReservedCacheNodeQuotaExceededFault extends S.TaggedError<ReservedCacheNodeQuotaExceededFault>()(
   "ReservedCacheNodeQuotaExceededFault",
   { message: S.optional(S.String) },
@@ -2687,15 +2546,73 @@ export class ReservedCacheNodeQuotaExceededFault extends S.TaggedError<ReservedC
     httpResponseCode: 400,
   }),
 ) {}
-export class TagNotFoundFault extends S.TaggedError<TagNotFoundFault>()(
-  "TagNotFoundFault",
+export class ReplicationGroupAlreadyUnderMigrationFault extends S.TaggedError<ReplicationGroupAlreadyUnderMigrationFault>()(
+  "ReplicationGroupAlreadyUnderMigrationFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TagNotFound", httpResponseCode: 404 }),
+  T.AwsQueryError({
+    code: "ReplicationGroupAlreadyUnderMigrationFault",
+    httpResponseCode: 400,
+  }),
 ) {}
-export class NodeGroupNotFoundFault extends S.TaggedError<NodeGroupNotFoundFault>()(
-  "NodeGroupNotFoundFault",
+export class CacheSubnetQuotaExceededFault extends S.TaggedError<CacheSubnetQuotaExceededFault>()(
+  "CacheSubnetQuotaExceededFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "NodeGroupNotFoundFault", httpResponseCode: 404 }),
+  T.AwsQueryError({
+    code: "CacheSubnetQuotaExceededFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidARNFault extends S.TaggedError<InvalidARNFault>()(
+  "InvalidARNFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }),
+) {}
+export class UserGroupNotFoundFault extends S.TaggedError<UserGroupNotFoundFault>()(
+  "UserGroupNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UserGroupNotFound", httpResponseCode: 404 }),
+) {}
+export class SnapshotAlreadyExistsFault extends S.TaggedError<SnapshotAlreadyExistsFault>()(
+  "SnapshotAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SnapshotAlreadyExistsFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidKMSKeyFault extends S.TaggedError<InvalidKMSKeyFault>()(
+  "InvalidKMSKeyFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidKMSKeyFault", httpResponseCode: 400 }),
+) {}
+export class ServerlessCacheSnapshotAlreadyExistsFault extends S.TaggedError<ServerlessCacheSnapshotAlreadyExistsFault>()(
+  "ServerlessCacheSnapshotAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ServerlessCacheSnapshotAlreadyExistsFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class TagQuotaPerResourceExceeded extends S.TaggedError<TagQuotaPerResourceExceeded>()(
+  "TagQuotaPerResourceExceeded",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "TagQuotaPerResourceExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class UserNotFoundFault extends S.TaggedError<UserNotFoundFault>()(
+  "UserNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UserNotFound", httpResponseCode: 404 }),
+) {}
+export class InvalidVPCNetworkStateFault extends S.TaggedError<InvalidVPCNetworkStateFault>()(
+  "InvalidVPCNetworkStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidVPCNetworkStateFault",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class AuthorizationAlreadyExistsFault extends S.TaggedError<AuthorizationAlreadyExistsFault>()(
   "AuthorizationAlreadyExistsFault",
@@ -2721,14 +2638,6 @@ export class GlobalReplicationGroupAlreadyExistsFault extends S.TaggedError<Glob
     httpResponseCode: 400,
   }),
 ) {}
-export class ReplicationGroupAlreadyExistsFault extends S.TaggedError<ReplicationGroupAlreadyExistsFault>()(
-  "ReplicationGroupAlreadyExistsFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ReplicationGroupAlreadyExists",
-    httpResponseCode: 400,
-  }),
-) {}
 export class ServerlessCacheAlreadyExistsFault extends S.TaggedError<ServerlessCacheAlreadyExistsFault>()(
   "ServerlessCacheAlreadyExistsFault",
   { message: S.optional(S.String) },
@@ -2737,28 +2646,70 @@ export class ServerlessCacheAlreadyExistsFault extends S.TaggedError<ServerlessC
     httpResponseCode: 400,
   }),
 ) {}
-export class UserQuotaExceededFault extends S.TaggedError<UserQuotaExceededFault>()(
-  "UserQuotaExceededFault",
+export class ReservedCacheNodeNotFoundFault extends S.TaggedError<ReservedCacheNodeNotFoundFault>()(
+  "ReservedCacheNodeNotFoundFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "UserQuotaExceeded", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "ReservedCacheNodeNotFound", httpResponseCode: 404 }),
 ) {}
-export class UserGroupQuotaExceededFault extends S.TaggedError<UserGroupQuotaExceededFault>()(
-  "UserGroupQuotaExceededFault",
+export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
+  "InvalidSubnet",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "UserGroupQuotaExceeded", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
 ) {}
-export class SubnetInUse extends S.TaggedError<SubnetInUse>()(
-  "SubnetInUse",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }),
-) {}
-export class TestFailoverNotAvailableFault extends S.TaggedError<TestFailoverNotAvailableFault>()(
-  "TestFailoverNotAvailableFault",
+export class SnapshotFeatureNotSupportedFault extends S.TaggedError<SnapshotFeatureNotSupportedFault>()(
+  "SnapshotFeatureNotSupportedFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "TestFailoverNotAvailableFault",
+    code: "SnapshotFeatureNotSupportedFault",
     httpResponseCode: 400,
   }),
+) {}
+export class UserAlreadyExistsFault extends S.TaggedError<UserAlreadyExistsFault>()(
+  "UserAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UserAlreadyExists", httpResponseCode: 400 }),
+) {}
+export class SnapshotQuotaExceededFault extends S.TaggedError<SnapshotQuotaExceededFault>()(
+  "SnapshotQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SnapshotQuotaExceededFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class NodeQuotaForClusterExceededFault extends S.TaggedError<NodeQuotaForClusterExceededFault>()(
+  "NodeQuotaForClusterExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "NodeQuotaForClusterExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class NodeGroupNotFoundFault extends S.TaggedError<NodeGroupNotFoundFault>()(
+  "NodeGroupNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NodeGroupNotFoundFault", httpResponseCode: 404 }),
+) {}
+export class NodeGroupsPerReplicationGroupQuotaExceededFault extends S.TaggedError<NodeGroupsPerReplicationGroupQuotaExceededFault>()(
+  "NodeGroupsPerReplicationGroupQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "NodeGroupsPerReplicationGroupQuotaExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ServerlessCacheSnapshotQuotaExceededFault extends S.TaggedError<ServerlessCacheSnapshotQuotaExceededFault>()(
+  "ServerlessCacheSnapshotQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ServerlessCacheSnapshotQuotaExceededFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class UserGroupAlreadyExistsFault extends S.TaggedError<UserGroupAlreadyExistsFault>()(
+  "UserGroupAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UserGroupAlreadyExists", httpResponseCode: 400 }),
 ) {}
 export class CacheClusterAlreadyExistsFault extends S.TaggedError<CacheClusterAlreadyExistsFault>()(
   "CacheClusterAlreadyExistsFault",
@@ -2781,10 +2732,41 @@ export class ServerlessCacheQuotaForCustomerExceededFault extends S.TaggedError<
     httpResponseCode: 400,
   }),
 ) {}
-export class SubnetNotAllowedFault extends S.TaggedError<SubnetNotAllowedFault>()(
-  "SubnetNotAllowedFault",
+export class SubnetInUse extends S.TaggedError<SubnetInUse>()(
+  "SubnetInUse",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }),
+) {}
+export class TagNotFoundFault extends S.TaggedError<TagNotFoundFault>()(
+  "TagNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TagNotFound", httpResponseCode: 404 }),
+) {}
+export class UserQuotaExceededFault extends S.TaggedError<UserQuotaExceededFault>()(
+  "UserQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UserQuotaExceeded", httpResponseCode: 400 }),
+) {}
+export class NodeQuotaForCustomerExceededFault extends S.TaggedError<NodeQuotaForCustomerExceededFault>()(
+  "NodeQuotaForCustomerExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "NodeQuotaForCustomerExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class TestFailoverNotAvailableFault extends S.TaggedError<TestFailoverNotAvailableFault>()(
+  "TestFailoverNotAvailableFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "TestFailoverNotAvailableFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class UserGroupQuotaExceededFault extends S.TaggedError<UserGroupQuotaExceededFault>()(
+  "UserGroupQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UserGroupQuotaExceeded", httpResponseCode: 400 }),
 ) {}
 export class ReplicationGroupNotUnderMigrationFault extends S.TaggedError<ReplicationGroupNotUnderMigrationFault>()(
   "ReplicationGroupNotUnderMigrationFault",
@@ -2802,19 +2784,54 @@ export class CacheSubnetGroupQuotaExceededFault extends S.TaggedError<CacheSubne
     httpResponseCode: 400,
   }),
 ) {}
+export class SubnetNotAllowedFault extends S.TaggedError<SubnetNotAllowedFault>()(
+  "SubnetNotAllowedFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
+) {}
+export class NoOperationFault extends S.TaggedError<NoOperationFault>()(
+  "NoOperationFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NoOperationFault", httpResponseCode: 400 }),
+) {}
+export class ReplicationGroupAlreadyExistsFault extends S.TaggedError<ReplicationGroupAlreadyExistsFault>()(
+  "ReplicationGroupAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ReplicationGroupAlreadyExists",
+    httpResponseCode: 400,
+  }),
+) {}
 
 //# Operations
 /**
- * Deletes a cache subnet group.
- *
- * You cannot delete a default cache subnet group or one that is associated with any
- * clusters.
+ * Returns a list of cache parameter group descriptions. If a cache parameter group name
+ * is specified, the list contains only the descriptions for that group.
  */
-export const deleteCacheSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeCacheParameterGroups =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeCacheParameterGroupsMessage,
+    output: CacheParameterGroupsMessage,
+    errors: [
+      CacheParameterGroupNotFoundFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Returns a list of cache security group descriptions. If a cache security group name is
+ * specified, the list contains only the description of that group. This applicable only
+ * when you have ElastiCache in Classic setup
+ */
+export const describeCacheSecurityGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteCacheSubnetGroupMessage,
-    output: DeleteCacheSubnetGroupResponse,
-    errors: [CacheSubnetGroupInUse, CacheSubnetGroupNotFoundFault],
+    input: DescribeCacheSecurityGroupsMessage,
+    output: CacheSecurityGroupMessage,
+    errors: [
+      CacheSecurityGroupNotFoundFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
   }),
 );
 /**
@@ -2852,226 +2869,6 @@ export const describeCacheClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns a list of cache parameter group descriptions. If a cache parameter group name
- * is specified, the list contains only the descriptions for that group.
- */
-export const describeCacheParameterGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCacheParameterGroupsMessage,
-    output: CacheParameterGroupsMessage,
-    errors: [
-      CacheParameterGroupNotFoundFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Returns a list of cache security group descriptions. If a cache security group name is
- * specified, the list contains only the description of that group. This applicable only
- * when you have ElastiCache in Classic setup
- */
-export const describeCacheSecurityGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCacheSecurityGroupsMessage,
-    output: CacheSecurityGroupMessage,
-    errors: [
-      CacheSecurityGroupNotFoundFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }),
-);
-/**
- * Returns a list of cache subnet group descriptions. If a subnet group name is
- * specified, the list contains only the description of that group. This is applicable only
- * when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by
- * default.
- */
-export const describeCacheSubnetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCacheSubnetGroupsMessage,
-    output: CacheSubnetGroupMessage,
-    errors: [CacheSubnetGroupNotFoundFault],
-  }),
-);
-/**
- * Returns information about a particular global replication group. If no identifier is
- * specified, returns information about all Global datastores.
- */
-export const describeGlobalReplicationGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeGlobalReplicationGroupsMessage,
-    output: DescribeGlobalReplicationGroupsResult,
-    errors: [
-      GlobalReplicationGroupNotFoundFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Remove a secondary cluster from the Global datastore using the Global datastore name.
- * The secondary cluster will no longer receive updates from the primary cluster, but will
- * remain as a standalone cluster in that Amazon region.
- */
-export const disassociateGlobalReplicationGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateGlobalReplicationGroupMessage,
-    output: DisassociateGlobalReplicationGroupResult,
-    errors: [
-      GlobalReplicationGroupNotFoundFault,
-      InvalidGlobalReplicationGroupStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only.
- */
-export const exportServerlessCacheSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportServerlessCacheSnapshotRequest,
-    output: ExportServerlessCacheSnapshotResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidServerlessCacheSnapshotStateFault,
-      ServerlessCacheSnapshotNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }));
-/**
- * Used to failover the primary region to a secondary region. The secondary region will
- * become primary, and all other clusters will become secondary.
- */
-export const failoverGlobalReplicationGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: FailoverGlobalReplicationGroupMessage,
-    output: FailoverGlobalReplicationGroupResult,
-    errors: [
-      GlobalReplicationGroupNotFoundFault,
-      InvalidGlobalReplicationGroupStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Lists all available node types that you can scale with your cluster's replication
- * group's current node type.
- *
- * When you use the `ModifyCacheCluster` or
- * `ModifyReplicationGroup` operations to scale your cluster or replication
- * group, the value of the `CacheNodeType` parameter must be one of the node
- * types returned by this operation.
- */
-export const listAllowedNodeTypeModifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAllowedNodeTypeModificationsMessage,
-    output: AllowedNodeTypeModificationsMessage,
-    errors: [
-      CacheClusterNotFoundFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ReplicationGroupNotFoundFault,
-    ],
-  }));
-/**
- * Modifies the parameters of a cache parameter group. You can modify up to 20 parameters
- * in a single request by submitting a list parameter name and value pairs.
- */
-export const modifyCacheParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyCacheParameterGroupMessage,
-    output: CacheParameterGroupNameMessage,
-    errors: [
-      CacheParameterGroupNotFoundFault,
-      InvalidCacheParameterGroupStateFault,
-      InvalidGlobalReplicationGroupStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }),
-);
-/**
- * Modifies the settings for a Global datastore.
- */
-export const modifyGlobalReplicationGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyGlobalReplicationGroupMessage,
-    output: ModifyGlobalReplicationGroupResult,
-    errors: [
-      GlobalReplicationGroupNotFoundFault,
-      InvalidGlobalReplicationGroupStateFault,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Redistribute slots to ensure uniform distribution across existing shards in the
- * cluster.
- */
-export const rebalanceSlotsInGlobalReplicationGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RebalanceSlotsInGlobalReplicationGroupMessage,
-    output: RebalanceSlotsInGlobalReplicationGroupResult,
-    errors: [
-      GlobalReplicationGroupNotFoundFault,
-      InvalidGlobalReplicationGroupStateFault,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Reboots some, or all, of the cache nodes within a provisioned cluster. This operation
- * applies any modified cache parameter groups to the cluster. The reboot operation takes
- * place as soon as possible, and results in a momentary outage to the cluster. During the
- * reboot, the cluster status is set to REBOOTING.
- *
- * The reboot causes the contents of the cache (for each cache node being rebooted) to be
- * lost.
- *
- * When the reboot is complete, a cluster event is created.
- *
- * Rebooting a cluster is currently supported on Memcached, Valkey and Redis OSS (cluster mode
- * disabled) clusters. Rebooting is not supported on Valkey or Redis OSS (cluster mode enabled)
- * clusters.
- *
- * If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled) cluster
- * reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
- */
-export const rebootCacheCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RebootCacheClusterMessage,
-  output: RebootCacheClusterResult,
-  errors: [CacheClusterNotFoundFault, InvalidCacheClusterStateFault],
-}));
-/**
- * Modifies the parameters of a cache parameter group to the engine or system default
- * value. You can reset specific parameters by submitting a list of parameter names. To
- * reset the entire cache parameter group, specify the `ResetAllParameters` and
- * `CacheParameterGroupName` parameters.
- */
-export const resetCacheParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetCacheParameterGroupMessage,
-    output: CacheParameterGroupNameMessage,
-    errors: [
-      CacheParameterGroupNotFoundFault,
-      InvalidCacheParameterGroupStateFault,
-      InvalidGlobalReplicationGroupStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }),
-);
-/**
- * Apply the service update. For more information on service updates and applying them,
- * see Applying Service
- * Updates.
- */
-export const batchApplyUpdateAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchApplyUpdateActionMessage,
-    output: UpdateActionResultsMessage,
-    errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
-  }),
-);
-/**
  * Stop the service update. For more information on service updates and stopping them,
  * see Stopping
  * Service Updates.
@@ -3083,20 +2880,6 @@ export const batchStopUpdateAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
   }),
 );
-/**
- * Decreases the number of node groups in a Global datastore
- */
-export const decreaseNodeGroupsInGlobalReplicationGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DecreaseNodeGroupsInGlobalReplicationGroupMessage,
-    output: DecreaseNodeGroupsInGlobalReplicationGroupResult,
-    errors: [
-      GlobalReplicationGroupNotFoundFault,
-      InvalidGlobalReplicationGroupStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }));
 /**
  * Deletes the specified cache parameter group. You cannot delete a cache parameter group
  * if it is associated with any cache clusters. You cannot delete the default cache
@@ -3133,103 +2916,18 @@ export const deleteCacheSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deleting a Global datastore is a two-step process:
+ * Deletes a cache subnet group.
  *
- * - First, you must DisassociateGlobalReplicationGroup to remove
- * the secondary clusters in the Global datastore.
- *
- * - Once the Global datastore contains only the primary cluster, you can use the
- * `DeleteGlobalReplicationGroup` API to delete the Global datastore
- * while retainining the primary cluster using
- * `RetainPrimaryReplicationGroup=true`.
- *
- * Since the Global Datastore has only a primary cluster, you can delete the Global
- * Datastore while retaining the primary by setting
- * `RetainPrimaryReplicationGroup=true`. The primary cluster is never
- * deleted when deleting a Global Datastore. It can only be deleted when it no longer is
- * associated with any Global Datastore.
- *
- * When you receive a successful response from this operation, Amazon ElastiCache
- * immediately begins deleting the selected resources; you cannot cancel or revert this
- * operation.
+ * You cannot delete a default cache subnet group or one that is associated with any
+ * clusters.
  */
-export const deleteGlobalReplicationGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteGlobalReplicationGroupMessage,
-    output: DeleteGlobalReplicationGroupResult,
-    errors: [
-      GlobalReplicationGroupNotFoundFault,
-      InvalidGlobalReplicationGroupStateFault,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Deletes a specified existing serverless cache.
- *
- * `CreateServerlessCacheSnapshot` permission is required to create a final snapshot.
- * Without this permission, the API call will fail with an `Access Denied` exception.
- */
-export const deleteServerlessCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteCacheSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteServerlessCacheRequest,
-    output: DeleteServerlessCacheResponse,
-    errors: [
-      InvalidCredentialsException,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      InvalidServerlessCacheStateFault,
-      ServerlessCacheNotFoundFault,
-      ServerlessCacheSnapshotAlreadyExistsFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
+    input: DeleteCacheSubnetGroupMessage,
+    output: DeleteCacheSubnetGroupResponse,
+    errors: [CacheSubnetGroupInUse, CacheSubnetGroupNotFoundFault],
   }),
 );
-/**
- * Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
- */
-export const deleteServerlessCacheSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServerlessCacheSnapshotRequest,
-    output: DeleteServerlessCacheSnapshotResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidServerlessCacheSnapshotStateFault,
-      ServerlessCacheSnapshotNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }));
-/**
- * Deletes an existing snapshot. When you receive a successful response from this
- * operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or
- * revert this operation.
- *
- * This operation is valid for Valkey or Redis OSS only.
- */
-export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSnapshotMessage,
-  output: DeleteSnapshotResult,
-  errors: [
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    InvalidSnapshotStateFault,
-    SnapshotNotFoundFault,
-  ],
-}));
-/**
- * For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user group. The user group must first
- * be disassociated from the replication group before it can be deleted. For more
- * information, see Using Role Based Access Control (RBAC).
- */
-export const deleteUserGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserGroupMessage,
-  output: UserGroup,
-  errors: [
-    InvalidParameterValueException,
-    InvalidUserGroupStateFault,
-    ServiceLinkedRoleNotFoundFault,
-    UserGroupNotFoundFault,
-  ],
-}));
 /**
  * Returns a list of the available cache engines and their versions.
  */
@@ -3270,6 +2968,75 @@ export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Returns details of the service updates
+ */
+export const describeServiceUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeServiceUpdatesMessage,
+    output: ServiceUpdatesMessage,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ServiceUpdateNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Revokes ingress from a cache security group. Use this operation to disallow access
+ * from an Amazon EC2 security group that had been previously authorized.
+ */
+export const revokeCacheSecurityGroupIngress =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RevokeCacheSecurityGroupIngressMessage,
+    output: RevokeCacheSecurityGroupIngressResult,
+    errors: [
+      AuthorizationNotFoundFault,
+      CacheSecurityGroupNotFoundFault,
+      InvalidCacheSecurityGroupStateFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Apply the service update. For more information on service updates and applying them,
+ * see Applying Service
+ * Updates.
+ */
+export const batchApplyUpdateAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchApplyUpdateActionMessage,
+    output: UpdateActionResultsMessage,
+    errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
+  }),
+);
+/**
+ * Returns information about a particular global replication group. If no identifier is
+ * specified, returns information about all Global datastores.
+ */
+export const describeGlobalReplicationGroups =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeGlobalReplicationGroupsMessage,
+    output: DescribeGlobalReplicationGroupsResult,
+    errors: [
+      GlobalReplicationGroupNotFoundFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Returns a list of cache subnet group descriptions. If a subnet group name is
+ * specified, the list contains only the description of that group. This is applicable only
+ * when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by
+ * default.
+ */
+export const describeCacheSubnetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCacheSubnetGroupsMessage,
+    output: CacheSubnetGroupMessage,
+    errors: [CacheSubnetGroupNotFoundFault],
+  }),
+);
+/**
  * Returns information about a particular replication group. If no identifier is
  * specified, `DescribeReplicationGroups` returns information about all
  * replication groups.
@@ -3304,37 +3071,6 @@ export const describeServerlessCaches = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns information about serverless cache snapshots.
- * By default, this API lists all of the customer’s serverless cache snapshots.
- * It can also describe a single serverless cache snapshot, or the snapshots associated with
- * a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
- */
-export const describeServerlessCacheSnapshots =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeServerlessCacheSnapshotsRequest,
-    output: DescribeServerlessCacheSnapshotsResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ServerlessCacheNotFoundFault,
-      ServerlessCacheSnapshotNotFoundFault,
-    ],
-  }));
-/**
- * Returns details of the service updates
- */
-export const describeServiceUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeServiceUpdatesMessage,
-    output: ServiceUpdatesMessage,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ServiceUpdateNotFoundFault,
-    ],
-  }),
-);
-/**
  * Returns information about cluster or replication group snapshots. By default,
  * `DescribeSnapshots` lists all of your snapshots; it can optionally
  * describe a single snapshot, or just the snapshots associated with a particular cache
@@ -3353,27 +3089,131 @@ export const describeSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of user groups.
+ * Lists all available node types that you can scale with your cluster's replication
+ * group's current node type.
+ *
+ * When you use the `ModifyCacheCluster` or
+ * `ModifyReplicationGroup` operations to scale your cluster or replication
+ * group, the value of the `CacheNodeType` parameter must be one of the node
+ * types returned by this operation.
  */
-export const describeUserGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUserGroupsMessage,
-  output: DescribeUserGroupsResult,
+export const listAllowedNodeTypeModifications =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAllowedNodeTypeModificationsMessage,
+    output: AllowedNodeTypeModificationsMessage,
+    errors: [
+      CacheClusterNotFoundFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ReplicationGroupNotFoundFault,
+    ],
+  }));
+/**
+ * Reboots some, or all, of the cache nodes within a provisioned cluster. This operation
+ * applies any modified cache parameter groups to the cluster. The reboot operation takes
+ * place as soon as possible, and results in a momentary outage to the cluster. During the
+ * reboot, the cluster status is set to REBOOTING.
+ *
+ * The reboot causes the contents of the cache (for each cache node being rebooted) to be
+ * lost.
+ *
+ * When the reboot is complete, a cluster event is created.
+ *
+ * Rebooting a cluster is currently supported on Memcached, Valkey and Redis OSS (cluster mode
+ * disabled) clusters. Rebooting is not supported on Valkey or Redis OSS (cluster mode enabled)
+ * clusters.
+ *
+ * If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled) cluster
+ * reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
+ */
+export const rebootCacheCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RebootCacheClusterMessage,
+  output: RebootCacheClusterResult,
+  errors: [CacheClusterNotFoundFault, InvalidCacheClusterStateFault],
+}));
+/**
+ * Deletes an existing snapshot. When you receive a successful response from this
+ * operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or
+ * revert this operation.
+ *
+ * This operation is valid for Valkey or Redis OSS only.
+ */
+export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSnapshotMessage,
+  output: DeleteSnapshotResult,
   errors: [
     InvalidParameterCombinationException,
-    ServiceLinkedRoleNotFoundFault,
-    UserGroupNotFoundFault,
+    InvalidParameterValueException,
+    InvalidSnapshotStateFault,
+    SnapshotNotFoundFault,
   ],
 }));
 /**
- * Returns a list of users.
+ * Decreases the number of node groups in a Global datastore
  */
-export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUsersMessage,
-  output: DescribeUsersResult,
+export const decreaseNodeGroupsInGlobalReplicationGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DecreaseNodeGroupsInGlobalReplicationGroupMessage,
+    output: DecreaseNodeGroupsInGlobalReplicationGroupResult,
+    errors: [
+      GlobalReplicationGroupNotFoundFault,
+      InvalidGlobalReplicationGroupStateFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
+ */
+export const deleteServerlessCacheSnapshot =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteServerlessCacheSnapshotRequest,
+    output: DeleteServerlessCacheSnapshotResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidServerlessCacheSnapshotStateFault,
+      ServerlessCacheSnapshotNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
+    ],
+  }));
+/**
+ * Returns the detailed parameter list for a particular cache parameter group.
+ */
+export const describeCacheParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCacheParametersMessage,
+    output: CacheParameterGroupDetails,
+    errors: [
+      CacheParameterGroupNotFoundFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }),
+);
+/**
+ * Lists available reserved cache node offerings.
+ */
+export const describeReservedCacheNodesOfferings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeReservedCacheNodesOfferingsMessage,
+    output: ReservedCacheNodesOfferingMessage,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ReservedCacheNodesOfferingNotFoundFault,
+    ],
+  }));
+/**
+ * Async API to test connection between source and target replication group.
+ */
+export const testMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestMigrationMessage,
+  output: TestMigrationResponse,
   errors: [
-    InvalidParameterCombinationException,
-    ServiceLinkedRoleNotFoundFault,
-    UserNotFoundFault,
+    InvalidParameterValueException,
+    InvalidReplicationGroupStateFault,
+    ReplicationGroupAlreadyUnderMigrationFault,
+    ReplicationGroupNotFoundFault,
   ],
 }));
 /**
@@ -3390,59 +3230,219 @@ export const increaseNodeGroupsInGlobalReplicationGroup =
     ],
   }));
 /**
- * Lists all tags currently on a named resource.
+ * Deleting a Global datastore is a two-step process:
  *
- * A tag is a key-value pair where the key and value are case-sensitive. You can use
- * tags to categorize and track all your ElastiCache resources, with the exception of
- * global replication group. When you add or remove tags on replication groups, those
- * actions will be replicated to all nodes in the replication group. For more information,
- * see Resource-level permissions.
+ * - First, you must DisassociateGlobalReplicationGroup to remove
+ * the secondary clusters in the Global datastore.
  *
- * If the cluster is not in the *available* state,
- * `ListTagsForResource` returns an error.
+ * - Once the Global datastore contains only the primary cluster, you can use the
+ * `DeleteGlobalReplicationGroup` API to delete the Global datastore
+ * while retainining the primary cluster using
+ * `RetainPrimaryReplicationGroup=true`.
+ *
+ * Since the Global Datastore has only a primary cluster, you can delete the Global
+ * Datastore while retaining the primary by setting
+ * `RetainPrimaryReplicationGroup=true`. The primary cluster is never
+ * deleted when deleting a Global Datastore. It can only be deleted when it no longer is
+ * associated with any Global Datastore.
+ *
+ * When you receive a successful response from this operation, Amazon ElastiCache
+ * immediately begins deleting the selected resources; you cannot cancel or revert this
+ * operation.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceMessage,
-  output: TagListMessage,
+export const deleteGlobalReplicationGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteGlobalReplicationGroupMessage,
+    output: DeleteGlobalReplicationGroupResult,
+    errors: [
+      GlobalReplicationGroupNotFoundFault,
+      InvalidGlobalReplicationGroupStateFault,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Remove a secondary cluster from the Global datastore using the Global datastore name.
+ * The secondary cluster will no longer receive updates from the primary cluster, but will
+ * remain as a standalone cluster in that Amazon region.
+ */
+export const disassociateGlobalReplicationGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateGlobalReplicationGroupMessage,
+    output: DisassociateGlobalReplicationGroupResult,
+    errors: [
+      GlobalReplicationGroupNotFoundFault,
+      InvalidGlobalReplicationGroupStateFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Used to failover the primary region to a secondary region. The secondary region will
+ * become primary, and all other clusters will become secondary.
+ */
+export const failoverGlobalReplicationGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: FailoverGlobalReplicationGroupMessage,
+    output: FailoverGlobalReplicationGroupResult,
+    errors: [
+      GlobalReplicationGroupNotFoundFault,
+      InvalidGlobalReplicationGroupStateFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Modifies the settings for a Global datastore.
+ */
+export const modifyGlobalReplicationGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyGlobalReplicationGroupMessage,
+    output: ModifyGlobalReplicationGroupResult,
+    errors: [
+      GlobalReplicationGroupNotFoundFault,
+      InvalidGlobalReplicationGroupStateFault,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Redistribute slots to ensure uniform distribution across existing shards in the
+ * cluster.
+ */
+export const rebalanceSlotsInGlobalReplicationGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RebalanceSlotsInGlobalReplicationGroupMessage,
+    output: RebalanceSlotsInGlobalReplicationGroupResult,
+    errors: [
+      GlobalReplicationGroupNotFoundFault,
+      InvalidGlobalReplicationGroupStateFault,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Modifies the parameters of a cache parameter group. You can modify up to 20 parameters
+ * in a single request by submitting a list parameter name and value pairs.
+ */
+export const modifyCacheParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyCacheParameterGroupMessage,
+    output: CacheParameterGroupNameMessage,
+    errors: [
+      CacheParameterGroupNotFoundFault,
+      InvalidCacheParameterGroupStateFault,
+      InvalidGlobalReplicationGroupStateFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }),
+);
+/**
+ * Modifies the parameters of a cache parameter group to the engine or system default
+ * value. You can reset specific parameters by submitting a list of parameter names. To
+ * reset the entire cache parameter group, specify the `ResetAllParameters` and
+ * `CacheParameterGroupName` parameters.
+ */
+export const resetCacheParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResetCacheParameterGroupMessage,
+    output: CacheParameterGroupNameMessage,
+    errors: [
+      CacheParameterGroupNotFoundFault,
+      InvalidCacheParameterGroupStateFault,
+      InvalidGlobalReplicationGroupStateFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }),
+);
+/**
+ * Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only.
+ */
+export const exportServerlessCacheSnapshot =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ExportServerlessCacheSnapshotRequest,
+    output: ExportServerlessCacheSnapshotResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidServerlessCacheSnapshotStateFault,
+      ServerlessCacheSnapshotNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
+    ],
+  }));
+/**
+ * Returns information about serverless cache snapshots.
+ * By default, this API lists all of the customer’s serverless cache snapshots.
+ * It can also describe a single serverless cache snapshot, or the snapshots associated with
+ * a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
+ */
+export const describeServerlessCacheSnapshots =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeServerlessCacheSnapshotsRequest,
+    output: DescribeServerlessCacheSnapshotsResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ServerlessCacheNotFoundFault,
+      ServerlessCacheSnapshotNotFoundFault,
+    ],
+  }));
+/**
+ * Returns a list of user groups.
+ */
+export const describeUserGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserGroupsMessage,
+  output: DescribeUserGroupsResult,
   errors: [
-    CacheClusterNotFoundFault,
-    CacheParameterGroupNotFoundFault,
-    CacheSecurityGroupNotFoundFault,
-    CacheSubnetGroupNotFoundFault,
-    InvalidARNFault,
-    InvalidReplicationGroupStateFault,
-    InvalidServerlessCacheSnapshotStateFault,
-    InvalidServerlessCacheStateFault,
-    ReplicationGroupNotFoundFault,
-    ReservedCacheNodeNotFoundFault,
-    ServerlessCacheNotFoundFault,
-    ServerlessCacheSnapshotNotFoundFault,
-    SnapshotNotFoundFault,
+    InvalidParameterCombinationException,
+    ServiceLinkedRoleNotFoundFault,
     UserGroupNotFoundFault,
-    UserNotFoundFault,
   ],
 }));
 /**
- * Modifies a replication group's shards (node groups) by allowing you to add shards,
- * remove shards, or rebalance the keyspaces among existing shards.
+ * Start the migration of data.
  */
-export const modifyReplicationGroupShardConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyReplicationGroupShardConfigurationMessage,
-    output: ModifyReplicationGroupShardConfigurationResult,
+export const startMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMigrationMessage,
+  output: StartMigrationResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidReplicationGroupStateFault,
+    ReplicationGroupAlreadyUnderMigrationFault,
+    ReplicationGroupNotFoundFault,
+  ],
+}));
+/**
+ * Deletes a specified existing serverless cache.
+ *
+ * `CreateServerlessCacheSnapshot` permission is required to create a final snapshot.
+ * Without this permission, the API call will fail with an `Access Denied` exception.
+ */
+export const deleteServerlessCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteServerlessCacheRequest,
+    output: DeleteServerlessCacheResponse,
     errors: [
-      InsufficientCacheClusterCapacityFault,
-      InvalidCacheClusterStateFault,
-      InvalidKMSKeyFault,
+      InvalidCredentialsException,
       InvalidParameterCombinationException,
       InvalidParameterValueException,
-      InvalidReplicationGroupStateFault,
-      InvalidVPCNetworkStateFault,
-      NodeGroupsPerReplicationGroupQuotaExceededFault,
-      NodeQuotaForCustomerExceededFault,
-      ReplicationGroupNotFoundFault,
+      InvalidServerlessCacheStateFault,
+      ServerlessCacheNotFoundFault,
+      ServerlessCacheSnapshotAlreadyExistsFault,
+      ServiceLinkedRoleNotFoundFault,
     ],
-  }));
+  }),
+);
+/**
+ * Returns a list of users.
+ */
+export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUsersMessage,
+  output: DescribeUsersResult,
+  errors: [
+    InvalidParameterCombinationException,
+    ServiceLinkedRoleNotFoundFault,
+    UserNotFoundFault,
+  ],
+}));
 /**
  * This API modifies the attributes of a serverless cache.
  */
@@ -3463,17 +3463,18 @@ export const modifyServerlessCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Changes user password(s) and/or access string.
+ * For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user group. The user group must first
+ * be disassociated from the replication group before it can be deleted. For more
+ * information, see Using Role Based Access Control (RBAC).
  */
-export const modifyUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyUserMessage,
-  output: User,
+export const deleteUserGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserGroupMessage,
+  output: UserGroup,
   errors: [
-    InvalidParameterCombinationException,
     InvalidParameterValueException,
-    InvalidUserStateFault,
+    InvalidUserGroupStateFault,
     ServiceLinkedRoleNotFoundFault,
-    UserNotFoundFault,
+    UserGroupNotFoundFault,
   ],
 }));
 /**
@@ -3494,15 +3495,87 @@ export const modifyUserGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Revokes ingress from a cache security group. Use this operation to disallow access
- * from an Amazon EC2 security group that had been previously authorized.
+ * Creates a new cache security group. Use a cache security group to control access to
+ * one or more clusters.
+ *
+ * Cache security groups are only used when you are creating a cluster outside of an
+ * Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a
+ * VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup.
  */
-export const revokeCacheSecurityGroupIngress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RevokeCacheSecurityGroupIngressMessage,
-    output: RevokeCacheSecurityGroupIngressResult,
+export const createCacheSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateCacheSecurityGroupMessage,
+    output: CreateCacheSecurityGroupResult,
     errors: [
-      AuthorizationNotFoundFault,
+      CacheSecurityGroupAlreadyExistsFault,
+      CacheSecurityGroupQuotaExceededFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      TagQuotaPerResourceExceeded,
+    ],
+  }),
+);
+/**
+ * Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible
+ * for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes.
+ */
+export const purchaseReservedCacheNodesOffering =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PurchaseReservedCacheNodesOfferingMessage,
+    output: PurchaseReservedCacheNodesOfferingResult,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ReservedCacheNodeAlreadyExistsFault,
+      ReservedCacheNodeQuotaExceededFault,
+      ReservedCacheNodesOfferingNotFoundFault,
+      TagQuotaPerResourceExceeded,
+    ],
+  }));
+/**
+ * Changes user password(s) and/or access string.
+ */
+export const modifyUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyUserMessage,
+  output: User,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    InvalidUserStateFault,
+    ServiceLinkedRoleNotFoundFault,
+    UserNotFoundFault,
+  ],
+}));
+/**
+ * For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user. The user will be removed from
+ * all user groups and in turn removed from all replication groups. For more information,
+ * see Using Role Based Access Control (RBAC).
+ */
+export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserMessage,
+  output: User,
+  errors: [
+    DefaultUserAssociatedToUserGroupFault,
+    InvalidParameterValueException,
+    InvalidUserStateFault,
+    ServiceLinkedRoleNotFoundFault,
+    UserNotFoundFault,
+  ],
+}));
+/**
+ * Allows network ingress to a cache security group. Applications using ElastiCache must
+ * be running on Amazon EC2, and Amazon EC2 security groups are used as the authorization
+ * mechanism.
+ *
+ * You cannot authorize ingress from an Amazon EC2 security group in one region to an
+ * ElastiCache cluster in another region.
+ */
+export const authorizeCacheSecurityGroupIngress =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AuthorizeCacheSecurityGroupIngressMessage,
+    output: AuthorizeCacheSecurityGroupIngressResult,
+    errors: [
+      AuthorizationAlreadyExistsFault,
       CacheSecurityGroupNotFoundFault,
       InvalidCacheSecurityGroupStateFault,
       InvalidParameterCombinationException,
@@ -3510,31 +3583,75 @@ export const revokeCacheSecurityGroupIngress =
     ],
   }));
 /**
- * Start the migration of data.
+ * Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter
+ * group is a collection of parameters and their values that are applied to all of the
+ * nodes in any cluster or replication group using the CacheParameterGroup.
+ *
+ * A newly created CacheParameterGroup is an exact duplicate of the default parameter
+ * group for the CacheParameterGroupFamily. To customize the newly created
+ * CacheParameterGroup you can change the values of specific parameters. For more
+ * information, see:
+ *
+ * - ModifyCacheParameterGroup in the ElastiCache API Reference.
+ *
+ * - Parameters and
+ * Parameter Groups in the ElastiCache User Guide.
  */
-export const startMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartMigrationMessage,
-  output: StartMigrationResponse,
-  errors: [
-    InvalidParameterValueException,
-    InvalidReplicationGroupStateFault,
-    ReplicationGroupAlreadyUnderMigrationFault,
-    ReplicationGroupNotFoundFault,
-  ],
-}));
+export const createCacheParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateCacheParameterGroupMessage,
+    output: CreateCacheParameterGroupResult,
+    errors: [
+      CacheParameterGroupAlreadyExistsFault,
+      CacheParameterGroupQuotaExceededFault,
+      InvalidCacheParameterGroupStateFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      TagQuotaPerResourceExceeded,
+    ],
+  }),
+);
 /**
- * Async API to test connection between source and target replication group.
+ * Global Datastore offers fully managed, fast, reliable and secure
+ * cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region
+ * read replica clusters for ElastiCache to enable low-latency reads and disaster
+ * recovery across regions. For more information, see Replication
+ * Across Regions Using Global Datastore.
+ *
+ * - The **GlobalReplicationGroupIdSuffix** is the
+ * name of the Global datastore.
+ *
+ * - The **PrimaryReplicationGroupId** represents the
+ * name of the primary cluster that accepts writes and will replicate updates to
+ * the secondary cluster.
  */
-export const testMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestMigrationMessage,
-  output: TestMigrationResponse,
-  errors: [
-    InvalidParameterValueException,
-    InvalidReplicationGroupStateFault,
-    ReplicationGroupAlreadyUnderMigrationFault,
-    ReplicationGroupNotFoundFault,
-  ],
-}));
+export const createGlobalReplicationGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateGlobalReplicationGroupMessage,
+    output: CreateGlobalReplicationGroupResult,
+    errors: [
+      GlobalReplicationGroupAlreadyExistsFault,
+      InvalidParameterValueException,
+      InvalidReplicationGroupStateFault,
+      ReplicationGroupNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
+    ],
+  }));
+/**
+ * Returns information about reserved cache nodes for this account, or about a specified
+ * reserved cache node.
+ */
+export const describeReservedCacheNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeReservedCacheNodesMessage,
+    output: ReservedCacheNodeMessage,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ReservedCacheNodeNotFoundFault,
+    ],
+  }),
+);
 /**
  * A tag is a key-value pair where the key and value are case-sensitive. You can use tags
  * to categorize and track all your ElastiCache resources, with the exception of global
@@ -3574,359 +3691,38 @@ export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a new cache security group. Use a cache security group to control access to
- * one or more clusters.
+ * Lists all tags currently on a named resource.
  *
- * Cache security groups are only used when you are creating a cluster outside of an
- * Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a
- * VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup.
+ * A tag is a key-value pair where the key and value are case-sensitive. You can use
+ * tags to categorize and track all your ElastiCache resources, with the exception of
+ * global replication group. When you add or remove tags on replication groups, those
+ * actions will be replicated to all nodes in the replication group. For more information,
+ * see Resource-level permissions.
+ *
+ * If the cluster is not in the *available* state,
+ * `ListTagsForResource` returns an error.
  */
-export const createCacheSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCacheSecurityGroupMessage,
-    output: CreateCacheSecurityGroupResult,
-    errors: [
-      CacheSecurityGroupAlreadyExistsFault,
-      CacheSecurityGroupQuotaExceededFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      TagQuotaPerResourceExceeded,
-    ],
-  }),
-);
-/**
- * This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only.
- */
-export const createServerlessCacheSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateServerlessCacheSnapshotRequest,
-    output: CreateServerlessCacheSnapshotResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      InvalidServerlessCacheStateFault,
-      ServerlessCacheNotFoundFault,
-      ServerlessCacheSnapshotAlreadyExistsFault,
-      ServerlessCacheSnapshotQuotaExceededFault,
-      ServiceLinkedRoleNotFoundFault,
-      TagQuotaPerResourceExceeded,
-    ],
-  }));
-/**
- * Creates a copy of an entire cluster or replication group at a specific moment in
- * time.
- *
- * This operation is valid for Valkey or Redis OSS only.
- */
-export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSnapshotMessage,
-  output: CreateSnapshotResult,
-  errors: [
-    CacheClusterNotFoundFault,
-    InvalidCacheClusterStateFault,
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    InvalidReplicationGroupStateFault,
-    ReplicationGroupNotFoundFault,
-    SnapshotAlreadyExistsFault,
-    SnapshotFeatureNotSupportedFault,
-    SnapshotQuotaExceededFault,
-    TagQuotaPerResourceExceeded,
-  ],
-}));
-/**
- * Deletes a previously provisioned cluster. `DeleteCacheCluster` deletes all
- * associated cache nodes, node endpoints and the cluster itself. When you receive a
- * successful response from this operation, Amazon ElastiCache immediately begins deleting
- * the cluster; you cannot cancel or revert this operation.
- *
- * This operation is not valid for:
- *
- * - Valkey or Redis OSS (cluster mode enabled) clusters
- *
- * - Valkey or Redis OSS (cluster mode disabled) clusters
- *
- * - A cluster that is the last read replica of a replication group
- *
- * - A cluster that is the primary node of a replication group
- *
- * - A node group (shard) that has Multi-AZ mode enabled
- *
- * - A cluster from a Valkey or Redis OSS (cluster mode enabled) replication group
- *
- * - A cluster that is not in the `available` state
- */
-export const deleteCacheCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCacheClusterMessage,
-  output: DeleteCacheClusterResult,
-  errors: [
-    CacheClusterNotFoundFault,
-    InvalidCacheClusterStateFault,
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    SnapshotAlreadyExistsFault,
-    SnapshotFeatureNotSupportedFault,
-    SnapshotQuotaExceededFault,
-  ],
-}));
-/**
- * Deletes an existing replication group. By default, this operation deletes the entire
- * replication group, including the primary/primaries and all of the read replicas. If the
- * replication group has only one primary, you can optionally delete only the read
- * replicas, while retaining the primary by setting
- * `RetainPrimaryCluster=true`.
- *
- * When you receive a successful response from this operation, Amazon ElastiCache
- * immediately begins deleting the selected resources; you cannot cancel or revert this
- * operation.
- *
- * - `CreateSnapshot` permission is required to create a final snapshot.
- * Without this permission, the API call will fail with an `Access Denied` exception.
- *
- * - This operation is valid for Redis OSS only.
- */
-export const deleteReplicationGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReplicationGroupMessage,
-    output: DeleteReplicationGroupResult,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      InvalidReplicationGroupStateFault,
-      ReplicationGroupNotFoundFault,
-      SnapshotAlreadyExistsFault,
-      SnapshotFeatureNotSupportedFault,
-      SnapshotQuotaExceededFault,
-    ],
-  }),
-);
-/**
- * For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user. The user will be removed from
- * all user groups and in turn removed from all replication groups. For more information,
- * see Using Role Based Access Control (RBAC).
- */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserMessage,
-  output: User,
-  errors: [
-    DefaultUserAssociatedToUserGroupFault,
-    InvalidParameterValueException,
-    InvalidUserStateFault,
-    ServiceLinkedRoleNotFoundFault,
-    UserNotFoundFault,
-  ],
-}));
-/**
- * Returns the detailed parameter list for a particular cache parameter group.
- */
-export const describeCacheParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCacheParametersMessage,
-    output: CacheParameterGroupDetails,
-    errors: [
-      CacheParameterGroupNotFoundFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }),
-);
-/**
- * Returns information about reserved cache nodes for this account, or about a specified
- * reserved cache node.
- */
-export const describeReservedCacheNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReservedCacheNodesMessage,
-    output: ReservedCacheNodeMessage,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ReservedCacheNodeNotFoundFault,
-    ],
-  }),
-);
-/**
- * Lists available reserved cache node offerings.
- */
-export const describeReservedCacheNodesOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeReservedCacheNodesOfferingsMessage,
-    output: ReservedCacheNodesOfferingMessage,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ReservedCacheNodesOfferingNotFoundFault,
-    ],
-  }));
-/**
- * Dynamically increases the number of replicas in a Valkey or Redis OSS (cluster mode disabled)
- * replication group or the number of replica nodes in one or more node groups (shards) of
- * a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no
- * cluster down time.
- */
-export const increaseReplicaCount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: IncreaseReplicaCountMessage,
-    output: IncreaseReplicaCountResult,
-    errors: [
-      ClusterQuotaForCustomerExceededFault,
-      InsufficientCacheClusterCapacityFault,
-      InvalidCacheClusterStateFault,
-      InvalidKMSKeyFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      InvalidReplicationGroupStateFault,
-      InvalidVPCNetworkStateFault,
-      NodeGroupsPerReplicationGroupQuotaExceededFault,
-      NodeQuotaForCustomerExceededFault,
-      NoOperationFault,
-      ReplicationGroupNotFoundFault,
-    ],
-  }),
-);
-/**
- * Modifies the settings for a cluster. You can use this operation to change one or more
- * cluster configuration parameters by specifying the parameters and the new values.
- */
-export const modifyCacheCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyCacheClusterMessage,
-  output: ModifyCacheClusterResult,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceMessage,
+  output: TagListMessage,
   errors: [
     CacheClusterNotFoundFault,
     CacheParameterGroupNotFoundFault,
     CacheSecurityGroupNotFoundFault,
-    InsufficientCacheClusterCapacityFault,
-    InvalidCacheClusterStateFault,
-    InvalidCacheSecurityGroupStateFault,
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    InvalidVPCNetworkStateFault,
-    NodeQuotaForClusterExceededFault,
-    NodeQuotaForCustomerExceededFault,
+    CacheSubnetGroupNotFoundFault,
+    InvalidARNFault,
+    InvalidReplicationGroupStateFault,
+    InvalidServerlessCacheSnapshotStateFault,
+    InvalidServerlessCacheStateFault,
+    ReplicationGroupNotFoundFault,
+    ReservedCacheNodeNotFoundFault,
+    ServerlessCacheNotFoundFault,
+    ServerlessCacheSnapshotNotFoundFault,
+    SnapshotNotFoundFault,
+    UserGroupNotFoundFault,
+    UserNotFoundFault,
   ],
 }));
-/**
- * Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above.
- *
- * - Scaling for Valkey or Redis OSS (cluster mode enabled) in
- * the ElastiCache User Guide
- *
- * - ModifyReplicationGroupShardConfiguration in the ElastiCache API
- * Reference
- *
- * This operation is valid for Valkey or Redis OSS only.
- */
-export const modifyReplicationGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyReplicationGroupMessage,
-    output: ModifyReplicationGroupResult,
-    errors: [
-      CacheClusterNotFoundFault,
-      CacheParameterGroupNotFoundFault,
-      CacheSecurityGroupNotFoundFault,
-      InsufficientCacheClusterCapacityFault,
-      InvalidCacheClusterStateFault,
-      InvalidCacheSecurityGroupStateFault,
-      InvalidKMSKeyFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      InvalidReplicationGroupStateFault,
-      InvalidUserGroupStateFault,
-      InvalidVPCNetworkStateFault,
-      NodeQuotaForClusterExceededFault,
-      NodeQuotaForCustomerExceededFault,
-      ReplicationGroupNotFoundFault,
-      UserGroupNotFoundFault,
-    ],
-  }),
-);
-/**
- * Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible
- * for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes.
- */
-export const purchaseReservedCacheNodesOffering =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseReservedCacheNodesOfferingMessage,
-    output: PurchaseReservedCacheNodesOfferingResult,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ReservedCacheNodeAlreadyExistsFault,
-      ReservedCacheNodeQuotaExceededFault,
-      ReservedCacheNodesOfferingNotFoundFault,
-      TagQuotaPerResourceExceeded,
-    ],
-  }));
-/**
- * Removes the tags identified by the `TagKeys` list from the named resource.
- * A tag is a key-value pair where the key and value are case-sensitive. You can use tags
- * to categorize and track all your ElastiCache resources, with the exception of global
- * replication group. When you add or remove tags on replication groups, those actions will
- * be replicated to all nodes in the replication group. For more information, see Resource-level permissions.
- */
-export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTagsFromResourceMessage,
-    output: TagListMessage,
-    errors: [
-      CacheClusterNotFoundFault,
-      CacheParameterGroupNotFoundFault,
-      CacheSecurityGroupNotFoundFault,
-      CacheSubnetGroupNotFoundFault,
-      InvalidARNFault,
-      InvalidReplicationGroupStateFault,
-      InvalidServerlessCacheSnapshotStateFault,
-      InvalidServerlessCacheStateFault,
-      ReplicationGroupNotFoundFault,
-      ReservedCacheNodeNotFoundFault,
-      ServerlessCacheNotFoundFault,
-      ServerlessCacheSnapshotNotFoundFault,
-      SnapshotNotFoundFault,
-      TagNotFoundFault,
-      UserGroupNotFoundFault,
-      UserNotFoundFault,
-    ],
-  }),
-);
-/**
- * Allows network ingress to a cache security group. Applications using ElastiCache must
- * be running on Amazon EC2, and Amazon EC2 security groups are used as the authorization
- * mechanism.
- *
- * You cannot authorize ingress from an Amazon EC2 security group in one region to an
- * ElastiCache cluster in another region.
- */
-export const authorizeCacheSecurityGroupIngress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AuthorizeCacheSecurityGroupIngressMessage,
-    output: AuthorizeCacheSecurityGroupIngressResult,
-    errors: [
-      AuthorizationAlreadyExistsFault,
-      CacheSecurityGroupNotFoundFault,
-      InvalidCacheSecurityGroupStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Creates a copy of an existing serverless cache’s snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
- */
-export const copyServerlessCacheSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CopyServerlessCacheSnapshotRequest,
-    output: CopyServerlessCacheSnapshotResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      InvalidServerlessCacheSnapshotStateFault,
-      ServerlessCacheSnapshotAlreadyExistsFault,
-      ServerlessCacheSnapshotNotFoundFault,
-      ServerlessCacheSnapshotQuotaExceededFault,
-      ServiceLinkedRoleNotFoundFault,
-      TagQuotaPerResourceExceeded,
-    ],
-  }),
-);
 /**
  * Makes a copy of an existing snapshot.
  *
@@ -4014,121 +3810,193 @@ export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter
- * group is a collection of parameters and their values that are applied to all of the
- * nodes in any cluster or replication group using the CacheParameterGroup.
+ * Deletes an existing replication group. By default, this operation deletes the entire
+ * replication group, including the primary/primaries and all of the read replicas. If the
+ * replication group has only one primary, you can optionally delete only the read
+ * replicas, while retaining the primary by setting
+ * `RetainPrimaryCluster=true`.
  *
- * A newly created CacheParameterGroup is an exact duplicate of the default parameter
- * group for the CacheParameterGroupFamily. To customize the newly created
- * CacheParameterGroup you can change the values of specific parameters. For more
- * information, see:
+ * When you receive a successful response from this operation, Amazon ElastiCache
+ * immediately begins deleting the selected resources; you cannot cancel or revert this
+ * operation.
  *
- * - ModifyCacheParameterGroup in the ElastiCache API Reference.
+ * - `CreateSnapshot` permission is required to create a final snapshot.
+ * Without this permission, the API call will fail with an `Access Denied` exception.
  *
- * - Parameters and
- * Parameter Groups in the ElastiCache User Guide.
+ * - This operation is valid for Redis OSS only.
  */
-export const createCacheParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteReplicationGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateCacheParameterGroupMessage,
-    output: CreateCacheParameterGroupResult,
+    input: DeleteReplicationGroupMessage,
+    output: DeleteReplicationGroupResult,
     errors: [
-      CacheParameterGroupAlreadyExistsFault,
-      CacheParameterGroupQuotaExceededFault,
-      InvalidCacheParameterGroupStateFault,
       InvalidParameterCombinationException,
       InvalidParameterValueException,
+      InvalidReplicationGroupStateFault,
+      ReplicationGroupNotFoundFault,
+      SnapshotAlreadyExistsFault,
+      SnapshotFeatureNotSupportedFault,
+      SnapshotQuotaExceededFault,
+    ],
+  }),
+);
+/**
+ * Deletes a previously provisioned cluster. `DeleteCacheCluster` deletes all
+ * associated cache nodes, node endpoints and the cluster itself. When you receive a
+ * successful response from this operation, Amazon ElastiCache immediately begins deleting
+ * the cluster; you cannot cancel or revert this operation.
+ *
+ * This operation is not valid for:
+ *
+ * - Valkey or Redis OSS (cluster mode enabled) clusters
+ *
+ * - Valkey or Redis OSS (cluster mode disabled) clusters
+ *
+ * - A cluster that is the last read replica of a replication group
+ *
+ * - A cluster that is the primary node of a replication group
+ *
+ * - A node group (shard) that has Multi-AZ mode enabled
+ *
+ * - A cluster from a Valkey or Redis OSS (cluster mode enabled) replication group
+ *
+ * - A cluster that is not in the `available` state
+ */
+export const deleteCacheCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCacheClusterMessage,
+  output: DeleteCacheClusterResult,
+  errors: [
+    CacheClusterNotFoundFault,
+    InvalidCacheClusterStateFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    SnapshotAlreadyExistsFault,
+    SnapshotFeatureNotSupportedFault,
+    SnapshotQuotaExceededFault,
+  ],
+}));
+/**
+ * This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only.
+ */
+export const createServerlessCacheSnapshot =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateServerlessCacheSnapshotRequest,
+    output: CreateServerlessCacheSnapshotResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      InvalidServerlessCacheStateFault,
+      ServerlessCacheNotFoundFault,
+      ServerlessCacheSnapshotAlreadyExistsFault,
+      ServerlessCacheSnapshotQuotaExceededFault,
+      ServiceLinkedRoleNotFoundFault,
+      TagQuotaPerResourceExceeded,
+    ],
+  }));
+/**
+ * Creates a copy of an entire cluster or replication group at a specific moment in
+ * time.
+ *
+ * This operation is valid for Valkey or Redis OSS only.
+ */
+export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSnapshotMessage,
+  output: CreateSnapshotResult,
+  errors: [
+    CacheClusterNotFoundFault,
+    InvalidCacheClusterStateFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    InvalidReplicationGroupStateFault,
+    ReplicationGroupNotFoundFault,
+    SnapshotAlreadyExistsFault,
+    SnapshotFeatureNotSupportedFault,
+    SnapshotQuotaExceededFault,
+    TagQuotaPerResourceExceeded,
+  ],
+}));
+/**
+ * Creates a copy of an existing serverless cache’s snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
+ */
+export const copyServerlessCacheSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CopyServerlessCacheSnapshotRequest,
+    output: CopyServerlessCacheSnapshotResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      InvalidServerlessCacheSnapshotStateFault,
+      ServerlessCacheSnapshotAlreadyExistsFault,
+      ServerlessCacheSnapshotNotFoundFault,
+      ServerlessCacheSnapshotQuotaExceededFault,
+      ServiceLinkedRoleNotFoundFault,
       TagQuotaPerResourceExceeded,
     ],
   }),
 );
 /**
- * Global Datastore offers fully managed, fast, reliable and secure
- * cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region
- * read replica clusters for ElastiCache to enable low-latency reads and disaster
- * recovery across regions. For more information, see Replication
- * Across Regions Using Global Datastore.
- *
- * - The **GlobalReplicationGroupIdSuffix** is the
- * name of the Global datastore.
- *
- * - The **PrimaryReplicationGroupId** represents the
- * name of the primary cluster that accepts writes and will replicate updates to
- * the secondary cluster.
+ * Creates a serverless cache.
  */
-export const createGlobalReplicationGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateGlobalReplicationGroupMessage,
-    output: CreateGlobalReplicationGroupResult,
-    errors: [
-      GlobalReplicationGroupAlreadyExistsFault,
-      InvalidParameterValueException,
-      InvalidReplicationGroupStateFault,
-      ReplicationGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }));
-/**
- * Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication
- * group.
- *
- * This API can be used to create a standalone regional replication group or a secondary
- * replication group associated with a Global datastore.
- *
- * A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where
- * one of the nodes is a read/write primary and the others are read-only replicas.
- * Writes to the primary are asynchronously propagated to the replicas.
- *
- * A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI:
- * node groups). Each shard has a primary node and up to 5 read-only replica nodes. The
- * configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which
- * is the maximum number or replicas allowed.
- *
- * The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS
- * engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node
- * cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500
- * shards (single primary and no replicas). Make sure there are enough available IP
- * addresses to accommodate the increase. Common pitfalls include the subnets in the subnet
- * group have too small a CIDR range or the subnets are shared and heavily used by other
- * clusters. For more information, see Creating a Subnet
- * Group. For versions below 5.0.6, the limit is 250 per cluster.
- *
- * To request a limit increase, see Amazon Service Limits and
- * choose the limit type Nodes per cluster per instance
- * type.
- *
- * When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created,
- * you can add one or more read replicas to it, up to a total of 5 read replicas. If you
- * need to increase or decrease the number of node groups (console: shards), you can use scaling.
- * For more information, see Scaling self-designed clusters in the ElastiCache User
- * Guide.
- *
- * This operation is valid for Valkey and Redis OSS only.
- */
-export const createReplicationGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createServerlessCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateReplicationGroupMessage,
-    output: CreateReplicationGroupResult,
+    input: CreateServerlessCacheRequest,
+    output: CreateServerlessCacheResponse,
+    errors: [
+      InvalidCredentialsException,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      InvalidServerlessCacheStateFault,
+      InvalidUserGroupStateFault,
+      ServerlessCacheAlreadyExistsFault,
+      ServerlessCacheNotFoundFault,
+      ServerlessCacheQuotaForCustomerExceededFault,
+      ServiceLinkedRoleNotFoundFault,
+      TagQuotaPerResourceExceeded,
+      UserGroupNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Returns details of the update actions
+ */
+export const describeUpdateActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeUpdateActionsMessage,
+    output: UpdateActionsMessage,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }),
+);
+/**
+ * Removes the tags identified by the `TagKeys` list from the named resource.
+ * A tag is a key-value pair where the key and value are case-sensitive. You can use tags
+ * to categorize and track all your ElastiCache resources, with the exception of global
+ * replication group. When you add or remove tags on replication groups, those actions will
+ * be replicated to all nodes in the replication group. For more information, see Resource-level permissions.
+ */
+export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveTagsFromResourceMessage,
+    output: TagListMessage,
     errors: [
       CacheClusterNotFoundFault,
       CacheParameterGroupNotFoundFault,
       CacheSecurityGroupNotFoundFault,
       CacheSubnetGroupNotFoundFault,
-      ClusterQuotaForCustomerExceededFault,
-      GlobalReplicationGroupNotFoundFault,
-      InsufficientCacheClusterCapacityFault,
-      InvalidCacheClusterStateFault,
-      InvalidGlobalReplicationGroupStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      InvalidUserGroupStateFault,
-      InvalidVPCNetworkStateFault,
-      NodeGroupsPerReplicationGroupQuotaExceededFault,
-      NodeQuotaForClusterExceededFault,
-      NodeQuotaForCustomerExceededFault,
-      ReplicationGroupAlreadyExistsFault,
-      TagQuotaPerResourceExceeded,
+      InvalidARNFault,
+      InvalidReplicationGroupStateFault,
+      InvalidServerlessCacheSnapshotStateFault,
+      InvalidServerlessCacheStateFault,
+      ReplicationGroupNotFoundFault,
+      ReservedCacheNodeNotFoundFault,
+      ServerlessCacheNotFoundFault,
+      ServerlessCacheSnapshotNotFoundFault,
+      SnapshotNotFoundFault,
+      TagNotFoundFault,
       UserGroupNotFoundFault,
+      UserNotFoundFault,
     ],
   }),
 );
@@ -4150,49 +4018,26 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user group. For more
- * information, see Using Role Based Access Control (RBAC)
+ * Modifies the settings for a cluster. You can use this operation to change one or more
+ * cluster configuration parameters by specifying the parameters and the new values.
  */
-export const createUserGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserGroupMessage,
-  output: UserGroup,
+export const modifyCacheCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyCacheClusterMessage,
+  output: ModifyCacheClusterResult,
   errors: [
-    DefaultUserRequired,
-    DuplicateUserNameFault,
+    CacheClusterNotFoundFault,
+    CacheParameterGroupNotFoundFault,
+    CacheSecurityGroupNotFoundFault,
+    InsufficientCacheClusterCapacityFault,
+    InvalidCacheClusterStateFault,
+    InvalidCacheSecurityGroupStateFault,
+    InvalidParameterCombinationException,
     InvalidParameterValueException,
-    ServiceLinkedRoleNotFoundFault,
-    TagQuotaPerResourceExceeded,
-    UserGroupAlreadyExistsFault,
-    UserGroupQuotaExceededFault,
-    UserNotFoundFault,
+    InvalidVPCNetworkStateFault,
+    NodeQuotaForClusterExceededFault,
+    NodeQuotaForCustomerExceededFault,
   ],
 }));
-/**
- * Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster mode disabled)
- * replication group or the number of replica nodes in one or more node groups (shards) of
- * a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no
- * cluster down time.
- */
-export const decreaseReplicaCount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DecreaseReplicaCountMessage,
-    output: DecreaseReplicaCountResult,
-    errors: [
-      ClusterQuotaForCustomerExceededFault,
-      InsufficientCacheClusterCapacityFault,
-      InvalidCacheClusterStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      InvalidReplicationGroupStateFault,
-      InvalidVPCNetworkStateFault,
-      NodeGroupsPerReplicationGroupQuotaExceededFault,
-      NodeQuotaForCustomerExceededFault,
-      NoOperationFault,
-      ReplicationGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }),
-);
 /**
  * Represents the input of a `TestFailover` operation which tests automatic
  * failover on a specified node group (called shard in the console) in a replication group
@@ -4262,6 +4107,80 @@ export const testFailover = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user group. For more
+ * information, see Using Role Based Access Control (RBAC)
+ */
+export const createUserGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserGroupMessage,
+  output: UserGroup,
+  errors: [
+    DefaultUserRequired,
+    DuplicateUserNameFault,
+    InvalidParameterValueException,
+    ServiceLinkedRoleNotFoundFault,
+    TagQuotaPerResourceExceeded,
+    UserGroupAlreadyExistsFault,
+    UserGroupQuotaExceededFault,
+    UserNotFoundFault,
+  ],
+}));
+/**
+ * Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above.
+ *
+ * - Scaling for Valkey or Redis OSS (cluster mode enabled) in
+ * the ElastiCache User Guide
+ *
+ * - ModifyReplicationGroupShardConfiguration in the ElastiCache API
+ * Reference
+ *
+ * This operation is valid for Valkey or Redis OSS only.
+ */
+export const modifyReplicationGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyReplicationGroupMessage,
+    output: ModifyReplicationGroupResult,
+    errors: [
+      CacheClusterNotFoundFault,
+      CacheParameterGroupNotFoundFault,
+      CacheSecurityGroupNotFoundFault,
+      InsufficientCacheClusterCapacityFault,
+      InvalidCacheClusterStateFault,
+      InvalidCacheSecurityGroupStateFault,
+      InvalidKMSKeyFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      InvalidReplicationGroupStateFault,
+      InvalidUserGroupStateFault,
+      InvalidVPCNetworkStateFault,
+      NodeQuotaForClusterExceededFault,
+      NodeQuotaForCustomerExceededFault,
+      ReplicationGroupNotFoundFault,
+      UserGroupNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Modifies a replication group's shards (node groups) by allowing you to add shards,
+ * remove shards, or rebalance the keyspaces among existing shards.
+ */
+export const modifyReplicationGroupShardConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyReplicationGroupShardConfigurationMessage,
+    output: ModifyReplicationGroupShardConfigurationResult,
+    errors: [
+      InsufficientCacheClusterCapacityFault,
+      InvalidCacheClusterStateFault,
+      InvalidKMSKeyFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      InvalidReplicationGroupStateFault,
+      InvalidVPCNetworkStateFault,
+      NodeGroupsPerReplicationGroupQuotaExceededFault,
+      NodeQuotaForCustomerExceededFault,
+      ReplicationGroupNotFoundFault,
+    ],
+  }));
+/**
  * Creates a cluster. All nodes in the cluster run the same protocol-compliant cache
  * engine software, either Memcached, Valkey or Redis OSS.
  *
@@ -4288,40 +4207,17 @@ export const createCacheCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a serverless cache.
+ * Complete the migration of data.
  */
-export const createServerlessCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServerlessCacheRequest,
-    output: CreateServerlessCacheResponse,
-    errors: [
-      InvalidCredentialsException,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      InvalidServerlessCacheStateFault,
-      InvalidUserGroupStateFault,
-      ServerlessCacheAlreadyExistsFault,
-      ServerlessCacheNotFoundFault,
-      ServerlessCacheQuotaForCustomerExceededFault,
-      ServiceLinkedRoleNotFoundFault,
-      TagQuotaPerResourceExceeded,
-      UserGroupNotFoundFault,
-    ],
-  }),
-);
-/**
- * Returns details of the update actions
- */
-export const describeUpdateActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeUpdateActionsMessage,
-    output: UpdateActionsMessage,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }),
-);
+export const completeMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteMigrationMessage,
+  output: CompleteMigrationResponse,
+  errors: [
+    InvalidReplicationGroupStateFault,
+    ReplicationGroupNotFoundFault,
+    ReplicationGroupNotUnderMigrationFault,
+  ],
+}));
 /**
  * Modifies an existing cache subnet group.
  */
@@ -4339,18 +4235,6 @@ export const modifyCacheSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Complete the migration of data.
- */
-export const completeMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CompleteMigrationMessage,
-  output: CompleteMigrationResponse,
-  errors: [
-    InvalidReplicationGroupStateFault,
-    ReplicationGroupNotFoundFault,
-    ReplicationGroupNotUnderMigrationFault,
-  ],
-}));
-/**
  * Creates a new cache subnet group.
  *
  * Use this parameter only when you are creating a cluster in an Amazon Virtual Private
@@ -4367,6 +4251,122 @@ export const createCacheSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InvalidSubnet,
       SubnetNotAllowedFault,
       TagQuotaPerResourceExceeded,
+    ],
+  }),
+);
+/**
+ * Dynamically increases the number of replicas in a Valkey or Redis OSS (cluster mode disabled)
+ * replication group or the number of replica nodes in one or more node groups (shards) of
+ * a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no
+ * cluster down time.
+ */
+export const increaseReplicaCount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: IncreaseReplicaCountMessage,
+    output: IncreaseReplicaCountResult,
+    errors: [
+      ClusterQuotaForCustomerExceededFault,
+      InsufficientCacheClusterCapacityFault,
+      InvalidCacheClusterStateFault,
+      InvalidKMSKeyFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      InvalidReplicationGroupStateFault,
+      InvalidVPCNetworkStateFault,
+      NodeGroupsPerReplicationGroupQuotaExceededFault,
+      NodeQuotaForCustomerExceededFault,
+      NoOperationFault,
+      ReplicationGroupNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication
+ * group.
+ *
+ * This API can be used to create a standalone regional replication group or a secondary
+ * replication group associated with a Global datastore.
+ *
+ * A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where
+ * one of the nodes is a read/write primary and the others are read-only replicas.
+ * Writes to the primary are asynchronously propagated to the replicas.
+ *
+ * A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI:
+ * node groups). Each shard has a primary node and up to 5 read-only replica nodes. The
+ * configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which
+ * is the maximum number or replicas allowed.
+ *
+ * The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS
+ * engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node
+ * cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500
+ * shards (single primary and no replicas). Make sure there are enough available IP
+ * addresses to accommodate the increase. Common pitfalls include the subnets in the subnet
+ * group have too small a CIDR range or the subnets are shared and heavily used by other
+ * clusters. For more information, see Creating a Subnet
+ * Group. For versions below 5.0.6, the limit is 250 per cluster.
+ *
+ * To request a limit increase, see Amazon Service Limits and
+ * choose the limit type Nodes per cluster per instance
+ * type.
+ *
+ * When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created,
+ * you can add one or more read replicas to it, up to a total of 5 read replicas. If you
+ * need to increase or decrease the number of node groups (console: shards), you can use scaling.
+ * For more information, see Scaling self-designed clusters in the ElastiCache User
+ * Guide.
+ *
+ * This operation is valid for Valkey and Redis OSS only.
+ */
+export const createReplicationGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateReplicationGroupMessage,
+    output: CreateReplicationGroupResult,
+    errors: [
+      CacheClusterNotFoundFault,
+      CacheParameterGroupNotFoundFault,
+      CacheSecurityGroupNotFoundFault,
+      CacheSubnetGroupNotFoundFault,
+      ClusterQuotaForCustomerExceededFault,
+      GlobalReplicationGroupNotFoundFault,
+      InsufficientCacheClusterCapacityFault,
+      InvalidCacheClusterStateFault,
+      InvalidGlobalReplicationGroupStateFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      InvalidUserGroupStateFault,
+      InvalidVPCNetworkStateFault,
+      NodeGroupsPerReplicationGroupQuotaExceededFault,
+      NodeQuotaForClusterExceededFault,
+      NodeQuotaForCustomerExceededFault,
+      ReplicationGroupAlreadyExistsFault,
+      TagQuotaPerResourceExceeded,
+      UserGroupNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster mode disabled)
+ * replication group or the number of replica nodes in one or more node groups (shards) of
+ * a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no
+ * cluster down time.
+ */
+export const decreaseReplicaCount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DecreaseReplicaCountMessage,
+    output: DecreaseReplicaCountResult,
+    errors: [
+      ClusterQuotaForCustomerExceededFault,
+      InsufficientCacheClusterCapacityFault,
+      InvalidCacheClusterStateFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      InvalidReplicationGroupStateFault,
+      InvalidVPCNetworkStateFault,
+      NodeGroupsPerReplicationGroupQuotaExceededFault,
+      NodeQuotaForCustomerExceededFault,
+      NoOperationFault,
+      ReplicationGroupNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
     ],
   }),
 );

@@ -1936,42 +1936,42 @@ export class PutTargetsResponse extends S.Class<PutTargetsResponse>(
 //# Errors
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ManagedRuleException extends S.TaggedError<ManagedRuleException>()(
-  "ManagedRuleException",
-  {},
-) {}
-export class OperationDisabledException extends S.TaggedError<OperationDisabledException>()(
-  "OperationDisabledException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
-  "InvalidStateException",
-  {},
-) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
-) {}
-export class InvalidEventPatternException extends S.TaggedError<InvalidEventPatternException>()(
-  "InvalidEventPatternException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class IllegalStatusException extends S.TaggedError<IllegalStatusException>()(
   "IllegalStatusException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
+  "InvalidStateException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class OperationDisabledException extends S.TaggedError<OperationDisabledException>()(
+  "OperationDisabledException",
+  { message: S.optional(S.String) },
+) {}
+export class ManagedRuleException extends S.TaggedError<ManagedRuleException>()(
+  "ManagedRuleException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidEventPatternException extends S.TaggedError<InvalidEventPatternException>()(
+  "InvalidEventPatternException",
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
   { message: S.optional(S.String) },
 ) {}
 export class PolicyLengthExceededException extends S.TaggedError<PolicyLengthExceededException>()(
@@ -1980,41 +1980,60 @@ export class PolicyLengthExceededException extends S.TaggedError<PolicyLengthExc
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Deletes the specified archive.
+ * Retrieves a list of API destination in the account in the current Region.
  */
-export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteArchiveRequest,
-  output: DeleteArchiveResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
+export const listApiDestinations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApiDestinationsRequest,
+  output: ListApiDestinationsResponse,
+  errors: [InternalException],
 }));
 /**
- * Delete an existing global endpoint. For more information about global endpoints, see
- * Making applications Regional-fault tolerant with global endpoints and event
- * replication in the
+ * Retrieves a list of connections from the account.
+ */
+export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConnectionsRequest,
+  output: ListConnectionsResponse,
+  errors: [InternalException],
+}));
+/**
+ * List the global endpoints associated with this account. For more information about global
+ * endpoints, see Making applications
+ * Regional-fault tolerant with global endpoints and event replication in the
+ *
  * *Amazon EventBridge User Guide*
  * .
  */
-export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEndpointRequest,
-  output: DeleteEndpointResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
+export const listEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEndpointsRequest,
+  output: ListEndpointsResponse,
+  errors: [InternalException],
+}));
+/**
+ * Lists all the event buses in your account, including the default event bus, custom event
+ * buses, and partner event buses.
+ */
+export const listEventBuses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEventBusesRequest,
+  output: ListEventBusesResponse,
+  errors: [InternalException],
+}));
+/**
+ * Lists your replays. You can either list all the replays or you can provide a prefix to
+ * match to the replay names. Filter parameters are exclusive.
+ */
+export const listReplays = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListReplaysRequest,
+  output: ListReplaysResponse,
+  errors: [InternalException],
 }));
 /**
  * Deletes the specified custom event bus or partner event bus. All rules associated with
@@ -2026,15 +2045,78 @@ export const deleteEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ConcurrentModificationException, InternalException],
 }));
 /**
- * Disables the specified rule. A disabled rule won't match any events, and won't
- * self-trigger if it has a schedule expression.
- *
- * When you disable a rule, incoming events might continue to match to the disabled rule.
- * Allow a short period of time for changes to take effect.
+ * Cancels the specified replay.
  */
-export const disableRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableRuleRequest,
-  output: DisableRuleResponse,
+export const cancelReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelReplayRequest,
+  output: CancelReplayResponse,
+  errors: [
+    ConcurrentModificationException,
+    IllegalStatusException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * You can use this to see all the partner event sources that have been shared with your
+ * Amazon Web Services account. For more information about partner event sources, see CreateEventBus.
+ */
+export const listEventSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEventSourcesRequest,
+  output: ListEventSourcesResponse,
+  errors: [InternalException, OperationDisabledException],
+}));
+/**
+ * Sends custom events to Amazon EventBridge so that they can be matched to rules.
+ *
+ * You can batch multiple event entries into one request for efficiency.
+ * However, the total entry size must be less than 256KB. You can calculate the entry size before you send the events.
+ * For more information, see Calculating PutEvents event entry
+ * size in the
+ * *Amazon EventBridge User Guide*
+ * .
+ *
+ * PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the
+ * constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of
+ * 9,223,372,036,854,775,807.
+ *
+ * PutEvents will only process nested JSON up to 1000 levels deep.
+ */
+export const putEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutEventsRequest,
+  output: PutEventsResponse,
+  errors: [InternalException],
+}));
+/**
+ * This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation.
+ *
+ * For information on calculating event batch size, see Calculating EventBridge PutEvents event
+ * entry size in the *EventBridge User Guide*.
+ */
+export const putPartnerEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPartnerEventsRequest,
+  output: PutPartnerEventsResponse,
+  errors: [InternalException, OperationDisabledException],
+}));
+/**
+ * Removes the specified targets from the specified rule. When the rule is triggered, those
+ * targets are no longer be invoked.
+ *
+ * A successful execution of `RemoveTargets` doesn't guarantee all targets are
+ * removed from the rule, it means that the target(s) listed in the request are removed.
+ *
+ * When you remove a target, when the associated rule triggers, removed targets might
+ * continue to be invoked. Allow a short period of time for changes to take effect.
+ *
+ * This action can partially fail if too many requests are made at the same time. If that
+ * happens, `FailedEntryCount` is non-zero in the response and each entry in
+ * `FailedEntries` provides the ID of the failed target and the error code.
+ *
+ * The maximum number of entries per request is 10.
+ */
+export const removeTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTargetsRequest,
+  output: RemoveTargetsResponse,
   errors: [
     ConcurrentModificationException,
     InternalException,
@@ -2043,73 +2125,32 @@ export const disableRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Enables the specified rule. If the rule does not exist, the operation fails.
- *
- * When you enable a rule, incoming events might not immediately start matching to a newly
- * enabled rule. Allow a short period of time for changes to take effect.
+ * Retrieves details about an archive.
  */
-export const enableRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableRuleRequest,
-  output: EnableRuleResponse,
+export const describeArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeArchiveRequest,
+  output: DescribeArchiveResponse,
   errors: [
-    ConcurrentModificationException,
     InternalException,
-    ManagedRuleException,
+    ResourceAlreadyExistsException,
     ResourceNotFoundException,
   ],
 }));
 /**
- * Revokes the permission of another Amazon Web Services account to be able to put events to
- * the specified event bus. Specify the account to revoke by the `StatementId` value
- * that you associated with the account when you granted it permission with
- * `PutPermission`. You can find the `StatementId` by using DescribeEventBus.
+ * Creates a new event bus within your account. This can be a custom event bus which you can
+ * use to receive events from your custom applications and services, or it can be a partner event
+ * bus which can be matched to a partner event source.
  */
-export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemovePermissionRequest,
-  output: RemovePermissionResponse,
+export const createEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEventBusRequest,
+  output: CreateEventBusResponse,
   errors: [
     ConcurrentModificationException,
     InternalException,
+    InvalidStateException,
+    LimitExceededException,
     OperationDisabledException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can
- * help you organize and categorize your resources. You can also use them to scope user
- * permissions by granting a user permission to access or change only resources with certain tag
- * values. In EventBridge, rules and event buses can be tagged.
- *
- * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
- * strings of characters.
- *
- * You can use the `TagResource` action with a resource that already has tags. If
- * you specify a new tag key, this tag is appended to the list of tags associated with the
- * resource. If you specify a tag key that is already associated with the resource, the new tag
- * value that you specify replaces the previous value for that tag.
- *
- * You can associate as many as 50 tags with a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ManagedRuleException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge, rules and event buses can be tagged.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ManagedRuleException,
+    ResourceAlreadyExistsException,
     ResourceNotFoundException,
   ],
 }));
@@ -2136,6 +2177,29 @@ export const deactivateEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Lists your archives. You can either list all the archives or you can provide a prefix to
+ * match to the archive names. Filter parameters are exclusive.
+ */
+export const listArchives = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListArchivesRequest,
+  output: ListArchivesResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Lists your Amazon EventBridge rules. You can either list all the rules or you can
+ * provide a prefix to match to the rule names.
+ *
+ * The maximum number of results per page for requests is 100.
+ *
+ * ListRules does not list the targets of a rule. To see the targets associated with a rule,
+ * use ListTargetsByRule.
+ */
+export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRulesRequest,
+  output: ListRulesResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
  * Removes all authorization parameters from the connection. This lets you remove the secret
  * from the connection so you can reuse it without having to create a new connection.
  */
@@ -2143,20 +2207,6 @@ export const deauthorizeConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: DeauthorizeConnectionRequest,
     output: DeauthorizeConnectionResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the specified API destination.
- */
-export const deleteApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApiDestinationRequest,
-    output: DeleteApiDestinationResponse,
     errors: [
       ConcurrentModificationException,
       InternalException,
@@ -2177,52 +2227,6 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This operation is used by SaaS partners to delete a partner event source. This operation
- * is not used by Amazon Web Services customers.
- *
- * When you delete an event source, the status of the corresponding partner event bus in the
- * Amazon Web Services customer account becomes DELETED.
- */
-export const deletePartnerEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePartnerEventSourceRequest,
-    output: DeletePartnerEventSourceResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalException,
-      OperationDisabledException,
-    ],
-  }),
-);
-/**
- * Deletes the specified rule.
- *
- * Before you can delete the rule, you must remove all targets, using RemoveTargets.
- *
- * When you delete a rule, incoming events might continue to match to the deleted rule. Allow
- * a short period of time for changes to take effect.
- *
- * If you call delete rule multiple times for the same rule, all calls will succeed. When you
- * call delete rule for a non-existent custom eventbus, `ResourceNotFoundException` is
- * returned.
- *
- * Managed rules are rules created and managed by another Amazon Web Services service on your
- * behalf. These rules are created by those other Amazon Web Services services to support
- * functionality in those services. You can delete these rules using the `Force`
- * option, but you should do so only if you are sure the other service is not still using that
- * rule.
- */
-export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRuleRequest,
-  output: DeleteRuleResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ManagedRuleException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
  * Retrieves details about an API destination.
  */
 export const describeApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2232,18 +2236,6 @@ export const describeApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InternalException, ResourceNotFoundException],
   }),
 );
-/**
- * Retrieves details about an archive.
- */
-export const describeArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeArchiveRequest,
-  output: DescribeArchiveResponse,
-  errors: [
-    InternalException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Get the information about an existing global endpoint. For more information about global
  * endpoints, see Making applications
@@ -2272,35 +2264,6 @@ export const describeEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DescribeEventBusResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
-/**
- * This operation lists details about a partner event source that is shared with your
- * account.
- */
-export const describeEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEventSourceRequest,
-  output: DescribeEventSourceResponse,
-  errors: [
-    InternalException,
-    OperationDisabledException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * An SaaS partner can use this operation to list details about a partner event source that
- * they have created. Amazon Web Services customers do not use this operation. Instead, Amazon Web Services customers can use DescribeEventSource to see details about a partner event source that is shared with
- * them.
- */
-export const describePartnerEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePartnerEventSourceRequest,
-    output: DescribePartnerEventSourceResponse,
-    errors: [
-      InternalException,
-      OperationDisabledException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Retrieves details about a replay. Use `DescribeReplay` to determine the
  * progress of a running replay. A replay processes events to replay based on the time in the
@@ -2359,6 +2322,304 @@ export const listTargetsByRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTargetsByRuleRequest,
   output: ListTargetsByRuleResponse,
   errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Update an existing endpoint. For more information about global endpoints, see Making
+ * applications Regional-fault tolerant with global endpoints and event replication in
+ * the
+ * *Amazon EventBridge User Guide*
+ * .
+ */
+export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEndpointRequest,
+  output: UpdateEndpointResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified API destination.
+ */
+export const deleteApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteApiDestinationRequest,
+    output: DeleteApiDestinationResponse,
+    errors: [
+      ConcurrentModificationException,
+      InternalException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified archive.
+ */
+export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteArchiveRequest,
+  output: DeleteArchiveResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Delete an existing global endpoint. For more information about global endpoints, see
+ * Making applications Regional-fault tolerant with global endpoints and event
+ * replication in the
+ * *Amazon EventBridge User Guide*
+ * .
+ */
+export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEndpointRequest,
+  output: DeleteEndpointResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * An SaaS partner can use this operation to display the Amazon Web Services account ID that a
+ * particular partner event source name is associated with. This operation is not used by Amazon Web Services customers.
+ */
+export const listPartnerEventSourceAccounts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListPartnerEventSourceAccountsRequest,
+    output: ListPartnerEventSourceAccountsResponse,
+    errors: [
+      InternalException,
+      OperationDisabledException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * An SaaS partner can use this operation to list all the partner event source names that
+ * they have created. This operation is not used by Amazon Web Services customers.
+ */
+export const listPartnerEventSources = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPartnerEventSourcesRequest,
+    output: ListPartnerEventSourcesResponse,
+    errors: [InternalException, OperationDisabledException],
+  }),
+);
+/**
+ * This operation lists details about a partner event source that is shared with your
+ * account.
+ */
+export const describeEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventSourceRequest,
+  output: DescribeEventSourceResponse,
+  errors: [
+    InternalException,
+    OperationDisabledException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * An SaaS partner can use this operation to list details about a partner event source that
+ * they have created. Amazon Web Services customers do not use this operation. Instead, Amazon Web Services customers can use DescribeEventSource to see details about a partner event source that is shared with
+ * them.
+ */
+export const describePartnerEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribePartnerEventSourceRequest,
+    output: DescribePartnerEventSourceResponse,
+    errors: [
+      InternalException,
+      OperationDisabledException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates the specified event bus.
+ */
+export const updateEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEventBusRequest,
+  output: UpdateEventBusResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    OperationDisabledException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * This operation is used by SaaS partners to delete a partner event source. This operation
+ * is not used by Amazon Web Services customers.
+ *
+ * When you delete an event source, the status of the corresponding partner event bus in the
+ * Amazon Web Services customer account becomes DELETED.
+ */
+export const deletePartnerEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePartnerEventSourceRequest,
+    output: DeletePartnerEventSourceResponse,
+    errors: [
+      ConcurrentModificationException,
+      InternalException,
+      OperationDisabledException,
+    ],
+  }),
+);
+/**
+ * Revokes the permission of another Amazon Web Services account to be able to put events to
+ * the specified event bus. Specify the account to revoke by the `StatementId` value
+ * that you associated with the account when you granted it permission with
+ * `PutPermission`. You can find the `StatementId` by using DescribeEventBus.
+ */
+export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemovePermissionRequest,
+  output: RemovePermissionResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    OperationDisabledException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Activates a partner event source that has been deactivated. Once activated, your matching
+ * event bus will start receiving events from the event source.
+ */
+export const activateEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ActivateEventSourceRequest,
+  output: ActivateEventSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    InvalidStateException,
+    OperationDisabledException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified rule.
+ *
+ * Before you can delete the rule, you must remove all targets, using RemoveTargets.
+ *
+ * When you delete a rule, incoming events might continue to match to the deleted rule. Allow
+ * a short period of time for changes to take effect.
+ *
+ * If you call delete rule multiple times for the same rule, all calls will succeed. When you
+ * call delete rule for a non-existent custom eventbus, `ResourceNotFoundException` is
+ * returned.
+ *
+ * Managed rules are rules created and managed by another Amazon Web Services service on your
+ * behalf. These rules are created by those other Amazon Web Services services to support
+ * functionality in those services. You can delete these rules using the `Force`
+ * option, but you should do so only if you are sure the other service is not still using that
+ * rule.
+ */
+export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRuleRequest,
+  output: DeleteRuleResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ManagedRuleException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Disables the specified rule. A disabled rule won't match any events, and won't
+ * self-trigger if it has a schedule expression.
+ *
+ * When you disable a rule, incoming events might continue to match to the disabled rule.
+ * Allow a short period of time for changes to take effect.
+ */
+export const disableRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableRuleRequest,
+  output: DisableRuleResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ManagedRuleException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Enables the specified rule. If the rule does not exist, the operation fails.
+ *
+ * When you enable a rule, incoming events might not immediately start matching to a newly
+ * enabled rule. Allow a short period of time for changes to take effect.
+ */
+export const enableRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableRuleRequest,
+  output: EnableRuleResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ManagedRuleException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can
+ * help you organize and categorize your resources. You can also use them to scope user
+ * permissions by granting a user permission to access or change only resources with certain tag
+ * values. In EventBridge, rules and event buses can be tagged.
+ *
+ * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
+ * strings of characters.
+ *
+ * You can use the `TagResource` action with a resource that already has tags. If
+ * you specify a new tag key, this tag is appended to the list of tags associated with the
+ * resource. If you specify a tag key that is already associated with the resource, the new tag
+ * value that you specify replaces the previous value for that tag.
+ *
+ * You can associate as many as 50 tags with a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ManagedRuleException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge, rules and event buses can be tagged.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ManagedRuleException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Creates an archive of events with the specified settings. When you create an archive,
+ * incoming events might not immediately start being sent to the archive. Allow a short period of
+ * time for changes to take effect. If you do not specify a pattern to filter events sent to the
+ * archive, all events are sent to the archive except replayed events. Replayed events are not
+ * sent to an archive.
+ *
+ * If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a
+ * customer managed key for any archives for the event bus as well.
+ *
+ * For more information, see Encrypting archives in the *Amazon EventBridge User Guide*.
+ */
+export const createArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateArchiveRequest,
+  output: CreateArchiveResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    InvalidEventPatternException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
 }));
 /**
  * Creates or updates the specified rule. Rules are enabled by default, or based on value of
@@ -2441,21 +2702,6 @@ export const testEventPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalException, InvalidEventPatternException],
 }));
 /**
- * Updates an API destination.
- */
-export const updateApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateApiDestinationRequest,
-    output: UpdateApiDestinationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
  * Updates the specified archive.
  */
 export const updateArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2466,127 +2712,6 @@ export const updateArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalException,
     InvalidEventPatternException,
     LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Update an existing endpoint. For more information about global endpoints, see Making
- * applications Regional-fault tolerant with global endpoints and event replication in
- * the
- * *Amazon EventBridge User Guide*
- * .
- */
-export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEndpointRequest,
-  output: UpdateEndpointResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates the specified event bus.
- */
-export const updateEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEventBusRequest,
-  output: UpdateEventBusResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    OperationDisabledException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Activates a partner event source that has been deactivated. Once activated, your matching
- * event bus will start receiving events from the event source.
- */
-export const activateEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ActivateEventSourceRequest,
-  output: ActivateEventSourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    InvalidStateException,
-    OperationDisabledException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Cancels the specified replay.
- */
-export const cancelReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelReplayRequest,
-  output: CancelReplayResponse,
-  errors: [
-    ConcurrentModificationException,
-    IllegalStatusException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates an API destination, which is an HTTP invocation endpoint configured as a target
- * for events.
- *
- * API destinations do not support private destinations, such as interface VPC
- * endpoints.
- *
- * For more information, see API destinations in the
- * *EventBridge User Guide*.
- */
-export const createApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateApiDestinationRequest,
-    output: CreateApiDestinationResponse,
-    errors: [
-      InternalException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Creates an archive of events with the specified settings. When you create an archive,
- * incoming events might not immediately start being sent to the archive. Allow a short period of
- * time for changes to take effect. If you do not specify a pattern to filter events sent to the
- * archive, all events are sent to the archive except replayed events. Replayed events are not
- * sent to an archive.
- *
- * If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a
- * customer managed key for any archives for the event bus as well.
- *
- * For more information, see Encrypting archives in the *Amazon EventBridge User Guide*.
- */
-export const createArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateArchiveRequest,
-  output: CreateArchiveResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    InvalidEventPatternException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates a new event bus within your account. This can be a custom event bus which you can
- * use to receive events from your custom applications and services, or it can be a partner event
- * bus which can be matched to a partner event source.
- */
-export const createEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEventBusRequest,
-  output: CreateEventBusResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    InvalidStateException,
-    LimitExceededException,
-    OperationDisabledException,
-    ResourceAlreadyExistsException,
     ResourceNotFoundException,
   ],
 }));
@@ -2641,107 +2766,87 @@ export const createPartnerEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves a list of API destination in the account in the current Region.
+ * Updates an API destination.
  */
-export const listApiDestinations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApiDestinationsRequest,
-  output: ListApiDestinationsResponse,
-  errors: [InternalException],
-}));
-/**
- * Lists your archives. You can either list all the archives or you can provide a prefix to
- * match to the archive names. Filter parameters are exclusive.
- */
-export const listArchives = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListArchivesRequest,
-  output: ListArchivesResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Retrieves a list of connections from the account.
- */
-export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListConnectionsRequest,
-  output: ListConnectionsResponse,
-  errors: [InternalException],
-}));
-/**
- * List the global endpoints associated with this account. For more information about global
- * endpoints, see Making applications
- * Regional-fault tolerant with global endpoints and event replication in the
- *
- * *Amazon EventBridge User Guide*
- * .
- */
-export const listEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEndpointsRequest,
-  output: ListEndpointsResponse,
-  errors: [InternalException],
-}));
-/**
- * Lists all the event buses in your account, including the default event bus, custom event
- * buses, and partner event buses.
- */
-export const listEventBuses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEventBusesRequest,
-  output: ListEventBusesResponse,
-  errors: [InternalException],
-}));
-/**
- * You can use this to see all the partner event sources that have been shared with your
- * Amazon Web Services account. For more information about partner event sources, see CreateEventBus.
- */
-export const listEventSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEventSourcesRequest,
-  output: ListEventSourcesResponse,
-  errors: [InternalException, OperationDisabledException],
-}));
-/**
- * An SaaS partner can use this operation to display the Amazon Web Services account ID that a
- * particular partner event source name is associated with. This operation is not used by Amazon Web Services customers.
- */
-export const listPartnerEventSourceAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListPartnerEventSourceAccountsRequest,
-    output: ListPartnerEventSourceAccountsResponse,
+export const updateApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateApiDestinationRequest,
+    output: UpdateApiDestinationResponse,
     errors: [
+      ConcurrentModificationException,
       InternalException,
-      OperationDisabledException,
+      LimitExceededException,
       ResourceNotFoundException,
     ],
-  }));
-/**
- * An SaaS partner can use this operation to list all the partner event source names that
- * they have created. This operation is not used by Amazon Web Services customers.
- */
-export const listPartnerEventSources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPartnerEventSourcesRequest,
-    output: ListPartnerEventSourcesResponse,
-    errors: [InternalException, OperationDisabledException],
   }),
 );
 /**
- * Lists your replays. You can either list all the replays or you can provide a prefix to
- * match to the replay names. Filter parameters are exclusive.
+ * Starts the specified replay. Events are not necessarily replayed in the exact same order
+ * that they were added to the archive. A replay processes events to replay based on the time in
+ * the event, and replays them using 1 minute intervals. If you specify an
+ * `EventStartTime` and an `EventEndTime` that covers a 20 minute time
+ * range, the events are replayed from the first minute of that 20 minute range first. Then the
+ * events from the second minute are replayed. You can use `DescribeReplay` to
+ * determine the progress of a replay. The value returned for `EventLastReplayedTime`
+ * indicates the time within the specified time range associated with the last event
+ * replayed.
  */
-export const listReplays = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListReplaysRequest,
-  output: ListReplaysResponse,
-  errors: [InternalException],
+export const startReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartReplayRequest,
+  output: StartReplayResponse,
+  errors: [
+    InternalException,
+    InvalidEventPatternException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
 }));
 /**
- * Lists your Amazon EventBridge rules. You can either list all the rules or you can
- * provide a prefix to match to the rule names.
+ * Creates an API destination, which is an HTTP invocation endpoint configured as a target
+ * for events.
  *
- * The maximum number of results per page for requests is 100.
+ * API destinations do not support private destinations, such as interface VPC
+ * endpoints.
  *
- * ListRules does not list the targets of a rule. To see the targets associated with a rule,
- * use ListTargetsByRule.
+ * For more information, see API destinations in the
+ * *EventBridge User Guide*.
  */
-export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRulesRequest,
-  output: ListRulesResponse,
+export const createApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateApiDestinationRequest,
+    output: CreateApiDestinationResponse,
+    errors: [
+      InternalException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a global endpoint. Global endpoints improve your application's availability by
+ * making it regional-fault tolerant. To do this, you define a primary and secondary Region with
+ * event buses in each Region. You also create a Amazon Route 53 health check that will
+ * tell EventBridge to route events to the secondary Region when an "unhealthy" state is
+ * encountered and events will be routed back to the primary Region when the health check reports
+ * a "healthy" state.
+ */
+export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEndpointRequest,
+  output: CreateEndpointResponse,
+  errors: [
+    InternalException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+  ],
+}));
+/**
+ * Retrieves details about a connection.
+ */
+export const describeConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConnectionRequest,
+  output: DescribeConnectionResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
 /**
@@ -2778,111 +2883,6 @@ export const putPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes the specified targets from the specified rule. When the rule is triggered, those
- * targets are no longer be invoked.
- *
- * A successful execution of `RemoveTargets` doesn't guarantee all targets are
- * removed from the rule, it means that the target(s) listed in the request are removed.
- *
- * When you remove a target, when the associated rule triggers, removed targets might
- * continue to be invoked. Allow a short period of time for changes to take effect.
- *
- * This action can partially fail if too many requests are made at the same time. If that
- * happens, `FailedEntryCount` is non-zero in the response and each entry in
- * `FailedEntries` provides the ID of the failed target and the error code.
- *
- * The maximum number of entries per request is 10.
- */
-export const removeTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTargetsRequest,
-  output: RemoveTargetsResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ManagedRuleException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Starts the specified replay. Events are not necessarily replayed in the exact same order
- * that they were added to the archive. A replay processes events to replay based on the time in
- * the event, and replays them using 1 minute intervals. If you specify an
- * `EventStartTime` and an `EventEndTime` that covers a 20 minute time
- * range, the events are replayed from the first minute of that 20 minute range first. Then the
- * events from the second minute are replayed. You can use `DescribeReplay` to
- * determine the progress of a replay. The value returned for `EventLastReplayedTime`
- * indicates the time within the specified time range associated with the last event
- * replayed.
- */
-export const startReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartReplayRequest,
-  output: StartReplayResponse,
-  errors: [
-    InternalException,
-    InvalidEventPatternException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Sends custom events to Amazon EventBridge so that they can be matched to rules.
- *
- * You can batch multiple event entries into one request for efficiency.
- * However, the total entry size must be less than 256KB. You can calculate the entry size before you send the events.
- * For more information, see Calculating PutEvents event entry
- * size in the
- * *Amazon EventBridge User Guide*
- * .
- *
- * PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the
- * constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of
- * 9,223,372,036,854,775,807.
- *
- * PutEvents will only process nested JSON up to 1000 levels deep.
- */
-export const putEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutEventsRequest,
-  output: PutEventsResponse,
-  errors: [InternalException],
-}));
-/**
- * This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation.
- *
- * For information on calculating event batch size, see Calculating EventBridge PutEvents event
- * entry size in the *EventBridge User Guide*.
- */
-export const putPartnerEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutPartnerEventsRequest,
-  output: PutPartnerEventsResponse,
-  errors: [InternalException, OperationDisabledException],
-}));
-/**
- * Creates a global endpoint. Global endpoints improve your application's availability by
- * making it regional-fault tolerant. To do this, you define a primary and secondary Region with
- * event buses in each Region. You also create a Amazon Route 53 health check that will
- * tell EventBridge to route events to the secondary Region when an "unhealthy" state is
- * encountered and events will be routed back to the primary Region when the health check reports
- * a "healthy" state.
- */
-export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEndpointRequest,
-  output: CreateEndpointResponse,
-  errors: [
-    InternalException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-  ],
-}));
-/**
- * Retrieves details about a connection.
- */
-export const describeConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeConnectionRequest,
-  output: DescribeConnectionResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
  * Creates a connection. A connection defines the authorization type and credentials to use
  * for authorization with an API destination HTTP endpoint.
  *
@@ -2896,21 +2896,6 @@ export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalException,
     LimitExceededException,
     ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates settings for a connection.
- */
-export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateConnectionRequest,
-  output: UpdateConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    InternalException,
-    LimitExceededException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
@@ -3024,5 +3009,20 @@ export const putTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     LimitExceededException,
     ManagedRuleException,
     ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates settings for a connection.
+ */
+export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectionRequest,
+  output: UpdateConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
   ],
 }));

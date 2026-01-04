@@ -796,77 +796,48 @@ export class CreateCloudFormationChangeSetResponse extends S.Class<CreateCloudFo
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
-  "ForbiddenException",
-  {},
-) {}
-export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
-  "InternalServerErrorException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  {
+    ErrorCode: S.optional(S.String).pipe(T.JsonName("errorCode")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    ErrorCode: S.optional(S.String).pipe(T.JsonName("errorCode")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
+  "ForbiddenException",
+  {
+    ErrorCode: S.optional(S.String).pipe(T.JsonName("errorCode")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
+  "InternalServerErrorException",
+  {
+    ErrorCode: S.optional(S.String).pipe(T.JsonName("errorCode")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  {
+    ErrorCode: S.optional(S.String).pipe(T.JsonName("errorCode")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  {
+    ErrorCode: S.optional(S.String).pipe(T.JsonName("errorCode")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 
 //# Operations
-/**
- * Gets the specified AWS CloudFormation template.
- */
-export const getCloudFormationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCloudFormationTemplateRequest,
-    output: GetCloudFormationTemplateResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Unshares an application from an AWS Organization.
- *
- * This operation can be called only from the organization's master account.
- */
-export const unshareApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UnshareApplicationRequest,
-  output: UnshareApplicationResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the specified application.
- */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
  */
@@ -881,82 +852,6 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
-/**
- * Creates an application version.
- */
-export const createApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateApplicationVersionRequest,
-    output: CreateApplicationVersionResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates an AWS CloudFormation template.
- */
-export const createCloudFormationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCloudFormationTemplateRequest,
-    output: CreateCloudFormationTemplateResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Deletes the specified application.
- */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets the specified application.
- */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApplicationRequest,
-  output: GetApplicationResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves the policy for the application.
- */
-export const getApplicationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApplicationPolicyRequest,
-    output: GetApplicationPolicyResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
 /**
  * Retrieves the list of applications nested in the containing application.
  */
@@ -1022,6 +917,115 @@ export const putApplicationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Updates the specified application.
+ */
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves the policy for the application.
+ */
+export const getApplicationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetApplicationPolicyRequest,
+    output: GetApplicationPolicyResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Gets the specified AWS CloudFormation template.
+ */
+export const getCloudFormationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCloudFormationTemplateRequest,
+    output: GetCloudFormationTemplateResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Unshares an application from an AWS Organization.
+ *
+ * This operation can be called only from the organization's master account.
+ */
+export const unshareApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnshareApplicationRequest,
+  output: UnshareApplicationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates an AWS CloudFormation template.
+ */
+export const createCloudFormationTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateCloudFormationTemplateRequest,
+    output: CreateCloudFormationTemplateResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Deletes the specified application.
+ */
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates an application version.
+ */
+export const createApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateApplicationVersionRequest,
+    output: CreateApplicationVersionResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
  * Creates an AWS CloudFormation change set for the given application.
  */
 export const createCloudFormationChangeSet =
@@ -1035,3 +1039,17 @@ export const createCloudFormationChangeSet =
       TooManyRequestsException,
     ],
   }));
+/**
+ * Gets the specified application.
+ */
+export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationRequest,
+  output: GetApplicationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));

@@ -517,28 +517,89 @@ export class CreateRuleResponse extends S.Class<CreateRuleResponse>(
 }) {}
 
 //# Errors
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.optional(S.String) },
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Lists the Recycle Bin retention rules in the Region.
+ */
+export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRulesRequest,
+  output: ListRulesResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Assigns tags to the specified retention rule.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted
+ * only after the unlock delay period expires.
+ */
+export const unlockRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnlockRuleRequest,
+  output: UnlockRuleResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Unassigns a tag from a retention rule.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a Recycle Bin retention rule. For more information, see
+ * Delete Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
+ */
+export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRuleRequest,
+  output: DeleteRuleResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a Recycle Bin retention rule.
  */
@@ -581,32 +642,6 @@ export const lockRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted
- * only after the unlock delay period expires.
- */
-export const unlockRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UnlockRuleRequest,
-  output: UnlockRuleResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Unassigns a tag from a retention rule.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates an existing Recycle Bin retention rule. You can update a retention rule's description,
  * resource tags, and retention period at any time after creation. You can't update a retention rule's
  * resource type after creation. For more information, see
@@ -617,41 +652,6 @@ export const updateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: UpdateRuleResponse,
   errors: [
     ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a Recycle Bin retention rule. For more information, see
- * Delete Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
- */
-export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRuleRequest,
-  output: DeleteRuleResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the Recycle Bin retention rules in the Region.
- */
-export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRulesRequest,
-  output: ListRulesResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Assigns tags to the specified retention rule.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,

@@ -39,6 +39,53 @@ Prefer const arrow functions over function declarations. Avoid return statements
 Commits:
 Use conventional commits (e.g. `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`)
 
+# Finding Missing Errors
+
+Use the `find:errors` script to discover undocumented or incorrectly named error codes in AWS APIs. It uses an AI agent to systematically probe AWS operations with various inputs and automatically records any newly discovered errors.
+
+```bash
+bun find:errors "<prompt>"
+```
+
+The prompt is a single string describing what to explore. The more specific the prompt, the better the agent can target edge cases. Examples:
+
+```bash
+# Explore a service broadly
+bun find:errors "explore S3 errors"
+
+# Focus on state-based errors by creating resources first
+bun find:errors "create S3 buckets with objects then try to delete them to find state conflict errors"
+
+# Test resource dependencies
+bun find:errors "set up EC2 VPCs with dependent resources and try to delete them"
+
+# Test already-exists scenarios
+bun find:errors "create SQS queues then try creating them again"
+
+# Test cross-region behavior
+bun find:errors "test S3 bucket creation with different regions and LocationConstraint values"
+
+# Test validation edge cases
+bun find:errors "test DynamoDB with invalid table names and missing required fields"
+```
+
+By default, the script runs against LocalStack. To run against real AWS (requires credentials):
+
+```bash
+LIVE=1 bun find:errors "discover S3 errors"
+```
+
+The agent will:
+1. List available operations for the target service
+2. Examine input schemas and currently defined errors
+3. Create resources to trigger state-based errors (e.g., create a bucket, then try to create it again)
+4. Test with non-existent resources and invalid inputs
+5. Test region-specific behavior
+6. Automatically record discovered errors to `spec/{service}.json`
+7. Clean up any resources it created
+
+Discovered errors are saved to spec files (e.g., `spec/s3.json`) which can be used to patch generated clients.
+
 # External References
 
 1. [Smithy Docs](./smithy/docs/source-2.0/)

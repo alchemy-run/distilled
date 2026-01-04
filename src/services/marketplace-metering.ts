@@ -468,34 +468,30 @@ export class CustomerNotEntitledException extends S.TaggedError<CustomerNotEntit
 ) {}
 export class DisabledApiException extends S.TaggedError<DisabledApiException>()(
   "DisabledApiException",
-  {},
-) {}
-export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
-  "InternalServiceErrorException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(
   "ExpiredTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
+  "InternalServiceErrorException",
+  { message: S.optional(S.String) },
+) {}
+export class DuplicateRequestException extends S.TaggedError<DuplicateRequestException>()(
+  "DuplicateRequestException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidProductCodeException extends S.TaggedError<InvalidProductCodeException>()(
+  "InvalidProductCodeException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidCustomerIdentifierException extends S.TaggedError<InvalidCustomerIdentifierException>()(
   "InvalidCustomerIdentifierException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidProductCodeException extends S.TaggedError<InvalidProductCodeException>()(
-  "InvalidProductCodeException",
-  {},
-) {}
-export class DuplicateRequestException extends S.TaggedError<DuplicateRequestException>()(
-  "DuplicateRequestException",
-  { message: S.optional(S.String) },
-) {}
 export class InvalidTokenException extends S.TaggedError<InvalidTokenException>()(
   "InvalidTokenException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
-  "InvalidTagException",
   { message: S.optional(S.String) },
 ) {}
 export class IdempotencyConflictException extends S.TaggedError<IdempotencyConflictException>()(
@@ -506,32 +502,36 @@ export class InvalidPublicKeyVersionException extends S.TaggedError<InvalidPubli
   "InvalidPublicKeyVersionException",
   { message: S.optional(S.String) },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
+export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
+  "InvalidTagException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidUsageAllocationsException extends S.TaggedError<InvalidUsageAllocationsException>()(
-  "InvalidUsageAllocationsException",
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidEndpointRegionException extends S.TaggedError<InvalidEndpointRegionException>()(
   "InvalidEndpointRegionException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidUsageDimensionException extends S.TaggedError<InvalidUsageDimensionException>()(
-  "InvalidUsageDimensionException",
-  {},
-) {}
 export class InvalidRegionException extends S.TaggedError<InvalidRegionException>()(
   "InvalidRegionException",
   { message: S.optional(S.String) },
 ) {}
-export class TimestampOutOfBoundsException extends S.TaggedError<TimestampOutOfBoundsException>()(
-  "TimestampOutOfBoundsException",
-  {},
+export class InvalidUsageAllocationsException extends S.TaggedError<InvalidUsageAllocationsException>()(
+  "InvalidUsageAllocationsException",
+  { message: S.optional(S.String) },
 ) {}
 export class PlatformNotSupportedException extends S.TaggedError<PlatformNotSupportedException>()(
   "PlatformNotSupportedException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidUsageDimensionException extends S.TaggedError<InvalidUsageDimensionException>()(
+  "InvalidUsageDimensionException",
+  { message: S.optional(S.String) },
+) {}
+export class TimestampOutOfBoundsException extends S.TaggedError<TimestampOutOfBoundsException>()(
+  "TimestampOutOfBoundsException",
   { message: S.optional(S.String) },
 ) {}
 
@@ -562,6 +562,61 @@ export const resolveCustomer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ExpiredTokenException,
     InternalServiceErrorException,
     InvalidTokenException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Paid container software products sold through Amazon Web Services Marketplace must integrate with the Amazon Web Services Marketplace
+ * Metering Service and call the `RegisterUsage` operation for software
+ * entitlement and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call `RegisterUsage`, but you may choose to
+ * do so if you would like to receive usage data in your seller reports. The sections below
+ * explain the behavior of `RegisterUsage`. `RegisterUsage` performs
+ * two primary functions: metering and entitlement.
+ *
+ * - *Entitlement*: `RegisterUsage` allows you to
+ * verify that the customer running your paid software is subscribed to your
+ * product on Amazon Web Services Marketplace, enabling you to guard against unauthorized use. Your container
+ * image that integrates with `RegisterUsage` is only required to guard
+ * against unauthorized use at container startup, as such a
+ * `CustomerNotSubscribedException` or
+ * `PlatformNotSupportedException` will only be thrown on the
+ * initial call to `RegisterUsage`. Subsequent calls from the same
+ * Amazon ECS task instance (e.g. task-id) or Amazon EKS pod
+ * will not throw a `CustomerNotSubscribedException`, even if the
+ * customer unsubscribes while the Amazon ECS task or Amazon EKS
+ * pod is still running.
+ *
+ * - *Metering*: `RegisterUsage` meters software use
+ * per ECS task, per hour, or per pod for Amazon EKS with usage prorated to
+ * the second. A minimum of 1 minute of usage applies to tasks that are short
+ * lived. For example, if a customer has a 10 node Amazon ECS or Amazon EKS cluster and a service configured as a Daemon Set, then Amazon ECS or Amazon EKS will launch a task on all 10 cluster nodes
+ * and the customer will be charged for 10 tasks. Software metering
+ * is handled by the Amazon Web Services Marketplace metering control plane—your software is
+ * not required to perform metering-specific actions other than to call
+ * `RegisterUsage` to commence metering.
+ * The Amazon Web Services Marketplace metering control plane will also bill customers for
+ * running ECS tasks and Amazon EKS pods, regardless of the customer's
+ * subscription state, which removes the need for your software to run entitlement
+ * checks at runtime. For containers, `RegisterUsage` should be called
+ * immediately at launch. If you don’t register the container within the first 6 hours
+ * of the launch, Amazon Web Services Marketplace Metering Service doesn’t provide any metering
+ * guarantees for previous months. Metering will continue, however, for the
+ * current month forward until the container ends. `RegisterUsage` is
+ * for metering paid hourly container products.
+ *
+ * For Amazon Web Services Regions that support `RegisterUsage`, see RegisterUsage Region support.
+ */
+export const registerUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterUsageRequest,
+  output: RegisterUsageResult,
+  errors: [
+    CustomerNotEntitledException,
+    DisabledApiException,
+    InternalServiceErrorException,
+    InvalidProductCodeException,
+    InvalidPublicKeyVersionException,
+    InvalidRegionException,
+    PlatformNotSupportedException,
     ThrottlingException,
   ],
 }));
@@ -651,60 +706,5 @@ export const meterUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidUsageDimensionException,
     ThrottlingException,
     TimestampOutOfBoundsException,
-  ],
-}));
-/**
- * Paid container software products sold through Amazon Web Services Marketplace must integrate with the Amazon Web Services Marketplace
- * Metering Service and call the `RegisterUsage` operation for software
- * entitlement and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call `RegisterUsage`, but you may choose to
- * do so if you would like to receive usage data in your seller reports. The sections below
- * explain the behavior of `RegisterUsage`. `RegisterUsage` performs
- * two primary functions: metering and entitlement.
- *
- * - *Entitlement*: `RegisterUsage` allows you to
- * verify that the customer running your paid software is subscribed to your
- * product on Amazon Web Services Marketplace, enabling you to guard against unauthorized use. Your container
- * image that integrates with `RegisterUsage` is only required to guard
- * against unauthorized use at container startup, as such a
- * `CustomerNotSubscribedException` or
- * `PlatformNotSupportedException` will only be thrown on the
- * initial call to `RegisterUsage`. Subsequent calls from the same
- * Amazon ECS task instance (e.g. task-id) or Amazon EKS pod
- * will not throw a `CustomerNotSubscribedException`, even if the
- * customer unsubscribes while the Amazon ECS task or Amazon EKS
- * pod is still running.
- *
- * - *Metering*: `RegisterUsage` meters software use
- * per ECS task, per hour, or per pod for Amazon EKS with usage prorated to
- * the second. A minimum of 1 minute of usage applies to tasks that are short
- * lived. For example, if a customer has a 10 node Amazon ECS or Amazon EKS cluster and a service configured as a Daemon Set, then Amazon ECS or Amazon EKS will launch a task on all 10 cluster nodes
- * and the customer will be charged for 10 tasks. Software metering
- * is handled by the Amazon Web Services Marketplace metering control plane—your software is
- * not required to perform metering-specific actions other than to call
- * `RegisterUsage` to commence metering.
- * The Amazon Web Services Marketplace metering control plane will also bill customers for
- * running ECS tasks and Amazon EKS pods, regardless of the customer's
- * subscription state, which removes the need for your software to run entitlement
- * checks at runtime. For containers, `RegisterUsage` should be called
- * immediately at launch. If you don’t register the container within the first 6 hours
- * of the launch, Amazon Web Services Marketplace Metering Service doesn’t provide any metering
- * guarantees for previous months. Metering will continue, however, for the
- * current month forward until the container ends. `RegisterUsage` is
- * for metering paid hourly container products.
- *
- * For Amazon Web Services Regions that support `RegisterUsage`, see RegisterUsage Region support.
- */
-export const registerUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterUsageRequest,
-  output: RegisterUsageResult,
-  errors: [
-    CustomerNotEntitledException,
-    DisabledApiException,
-    InternalServiceErrorException,
-    InvalidProductCodeException,
-    InvalidPublicKeyVersionException,
-    InvalidRegionException,
-    PlatformNotSupportedException,
-    ThrottlingException,
   ],
 }));

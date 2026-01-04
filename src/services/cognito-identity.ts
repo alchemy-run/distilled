@@ -696,50 +696,154 @@ export class SetIdentityPoolRolesResponse extends S.Class<SetIdentityPoolRolesRe
 //# Errors
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
-  {},
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
-  "NotAuthorizedException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ExternalServiceException extends S.TaggedError<ExternalServiceException>()(
   "ExternalServiceException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
-  "ResourceConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { message: S.optional(S.String) },
+) {}
+export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
+  "NotAuthorizedException",
   { message: S.optional(S.String) },
 ) {}
 export class DeveloperUserAlreadyRegisteredException extends S.TaggedError<DeveloperUserAlreadyRegisteredException>()(
   "DeveloperUserAlreadyRegisteredException",
   { message: S.optional(S.String) },
 ) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
 export class InvalidIdentityPoolConfigurationException extends S.TaggedError<InvalidIdentityPoolConfigurationException>()(
   "InvalidIdentityPoolConfigurationException",
   { message: S.optional(S.String) },
 ) {}
+export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
+  "ResourceConflictException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Deletes identities from an identity pool. You can specify a list of 1-60 identities
+ * that you want to delete.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const deleteIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdentitiesInput,
+  output: DeleteIdentitiesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes an identity pool. Once a pool is deleted, users will not be able to
+ * authenticate with the pool.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const deleteIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdentityPoolInput,
+  output: DeleteIdentityPoolResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Registers (or retrieves) a Cognito `IdentityId` and an OpenID Connect
+ * token for a user authenticated by your backend authentication process. Supplying multiple
+ * logins will create an implicit linked account. You can only specify one developer provider
+ * as part of the `Logins` map, which is linked to the identity pool. The developer
+ * provider is the "domain" by which Cognito will refer to your users.
+ *
+ * You can use `GetOpenIdTokenForDeveloperIdentity` to create a new identity
+ * and to link new logins (that is, user credentials issued by a public provider or developer
+ * provider) to an existing identity. When you want to create a new identity, the
+ * `IdentityId` should be null. When you want to associate a new login with an
+ * existing authenticated/unauthenticated identity, you can do so by providing the existing
+ * `IdentityId`. This API will create the identity in the specified
+ * `IdentityPoolId`.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const getOpenIdTokenForDeveloperIdentity =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetOpenIdTokenForDeveloperIdentityInput,
+    output: GetOpenIdTokenForDeveloperIdentityResponse,
+    errors: [
+      DeveloperUserAlreadyRegisteredException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const setIdentityPoolRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetIdentityPoolRolesInput,
+    output: SetIdentityPoolRolesResponse,
+    errors: [
+      ConcurrentModificationException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Lists all of the Cognito identity pools registered for your account.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const listIdentityPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIdentityPoolsInput,
+  output: ListIdentityPoolsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Returns metadata related to the given identity, including when the identity was
  * created and any associated linked logins.
@@ -754,88 +858,6 @@ export const describeIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalErrorException,
     InvalidParameterException,
     NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets details about a particular identity pool, including the pool name, ID
- * description, creation date, and current number of users.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const describeIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIdentityPoolInput,
-    output: IdentityPool,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Generates (or retrieves) IdentityID. Supplying multiple logins will create an
- * implicit linked account.
- *
- * This is a public API. You do not need any credentials to call this API.
- */
-export const getId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIdInput,
-  output: GetIdResponse,
-  errors: [
-    ExternalServiceException,
-    InternalErrorException,
-    InvalidParameterException,
-    LimitExceededException,
-    NotAuthorizedException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets the roles for an identity pool.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const getIdentityPoolRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIdentityPoolRolesInput,
-    output: GetIdentityPoolRolesResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by
- * GetId. You can optionally add additional logins for the identity.
- * Supplying multiple logins creates an implicit link.
- *
- * The OpenID token is valid for 10 minutes.
- *
- * This is a public API. You do not need any credentials to call this API.
- */
-export const getOpenIdToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetOpenIdTokenInput,
-  output: GetOpenIdTokenResponse,
-  errors: [
-    ExternalServiceException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceConflictException,
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
@@ -893,6 +915,131 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
+/**
+ * You can use this operation to use default (username and clientID) attribute or custom
+ * attribute mappings.
+ */
+export const setPrincipalTagAttributeMap = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetPrincipalTagAttributeMapInput,
+    output: SetPrincipalTagAttributeMapResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Gets details about a particular identity pool, including the pool name, ID
+ * description, creation date, and current number of users.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const describeIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeIdentityPoolInput,
+    output: IdentityPool,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label
+ * that you can use to categorize and manage identity pools in different ways, such as by
+ * purpose, owner, environment, or other criteria.
+ *
+ * Each tag consists of a key and value, both of which you define. A key is a general
+ * category for more specific values. For example, if you have two versions of an identity
+ * pool, one for testing and another for production, you might assign an
+ * `Environment` tag key to both identity pools. The value of this key might be
+ * `Test` for one identity pool and `Production` for the
+ * other.
+ *
+ * Tags are useful for cost tracking and access control. You can activate your tags so that
+ * they appear on the Billing and Cost Management console, where you can track the costs
+ * associated with your identity pools. In an IAM policy, you can constrain
+ * permissions for identity pools based on specific tags or tag values.
+ *
+ * You can use this action up to 5 times per second, per account. An identity pool can have
+ * as many as 50 tags.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Removes the specified tags from the specified Amazon Cognito identity pool. You can use
+ * this action up to 5 times per second, per account
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the configuration of an identity pool.
+ *
+ * If you don't provide a value for a parameter, Amazon Cognito sets it to its default value.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const updateIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: IdentityPool,
+  output: IdentityPool,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets the roles for an identity pool.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const getIdentityPoolRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetIdentityPoolRolesInput,
+    output: GetIdentityPoolRolesResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
 /**
  * Retrieves the `IdentityID` associated with a
  * `DeveloperUserIdentifier` or the list of `DeveloperUserIdentifier`
@@ -961,49 +1108,21 @@ export const mergeDeveloperIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * You can use this operation to use default (username and clientID) attribute or custom
- * attribute mappings.
+ * Unlinks a federated identity from an existing account. Unlinked logins will be
+ * considered new identities next time they are seen. Removing the last linked login will make
+ * this identity inaccessible.
+ *
+ * This is a public API. You do not need any credentials to call this API.
  */
-export const setPrincipalTagAttributeMap = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetPrincipalTagAttributeMapInput,
-    output: SetPrincipalTagAttributeMapResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label
- * that you can use to categorize and manage identity pools in different ways, such as by
- * purpose, owner, environment, or other criteria.
- *
- * Each tag consists of a key and value, both of which you define. A key is a general
- * category for more specific values. For example, if you have two versions of an identity
- * pool, one for testing and another for production, you might assign an
- * `Environment` tag key to both identity pools. The value of this key might be
- * `Test` for one identity pool and `Production` for the
- * other.
- *
- * Tags are useful for cost tracking and access control. You can activate your tags so that
- * they appear on the Billing and Cost Management console, where you can track the costs
- * associated with your identity pools. In an IAM policy, you can constrain
- * permissions for identity pools based on specific tags or tag values.
- *
- * You can use this action up to 5 times per second, per account. An identity pool can have
- * as many as 50 tags.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
+export const unlinkIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnlinkIdentityInput,
+  output: UnlinkIdentityResponse,
   errors: [
+    ExternalServiceException,
     InternalErrorException,
     InvalidParameterException,
     NotAuthorizedException,
+    ResourceConflictException,
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
@@ -1032,56 +1151,21 @@ export const unlinkDeveloperIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Unlinks a federated identity from an existing account. Unlinked logins will be
- * considered new identities next time they are seen. Removing the last linked login will make
- * this identity inaccessible.
+ * Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by
+ * GetId. You can optionally add additional logins for the identity.
+ * Supplying multiple logins creates an implicit link.
+ *
+ * The OpenID token is valid for 10 minutes.
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const unlinkIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UnlinkIdentityInput,
-  output: UnlinkIdentityResponse,
+export const getOpenIdToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOpenIdTokenInput,
+  output: GetOpenIdTokenResponse,
   errors: [
     ExternalServiceException,
     InternalErrorException,
     InvalidParameterException,
-    NotAuthorizedException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Removes the specified tags from the specified Amazon Cognito identity pool. You can use
- * this action up to 5 times per second, per account
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the configuration of an identity pool.
- *
- * If you don't provide a value for a parameter, Amazon Cognito sets it to its default value.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const updateIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: IdentityPool,
-  output: IdentityPool,
-  errors: [
-    ConcurrentModificationException,
-    InternalErrorException,
-    InvalidParameterException,
-    LimitExceededException,
     NotAuthorizedException,
     ResourceConflictException,
     ResourceNotFoundException,
@@ -1123,88 +1207,25 @@ export const createIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes identities from an identity pool. You can specify a list of 1-60 identities
- * that you want to delete.
+ * Generates (or retrieves) IdentityID. Supplying multiple logins will create an
+ * implicit linked account.
  *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
+ * This is a public API. You do not need any credentials to call this API.
  */
-export const deleteIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIdentitiesInput,
-  output: DeleteIdentitiesResponse,
+export const getId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdInput,
+  output: GetIdResponse,
   errors: [
+    ExternalServiceException,
     InternalErrorException,
     InvalidParameterException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes an identity pool. Once a pool is deleted, users will not be able to
- * authenticate with the pool.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const deleteIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIdentityPoolInput,
-  output: DeleteIdentityPoolResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
+    LimitExceededException,
     NotAuthorizedException,
+    ResourceConflictException,
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
 }));
-/**
- * Lists all of the Cognito identity pools registered for your account.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const listIdentityPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListIdentityPoolsInput,
-  output: ListIdentityPoolsResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Registers (or retrieves) a Cognito `IdentityId` and an OpenID Connect
- * token for a user authenticated by your backend authentication process. Supplying multiple
- * logins will create an implicit linked account. You can only specify one developer provider
- * as part of the `Logins` map, which is linked to the identity pool. The developer
- * provider is the "domain" by which Cognito will refer to your users.
- *
- * You can use `GetOpenIdTokenForDeveloperIdentity` to create a new identity
- * and to link new logins (that is, user credentials issued by a public provider or developer
- * provider) to an existing identity. When you want to create a new identity, the
- * `IdentityId` should be null. When you want to associate a new login with an
- * existing authenticated/unauthenticated identity, you can do so by providing the existing
- * `IdentityId`. This API will create the identity in the specified
- * `IdentityPoolId`.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const getOpenIdTokenForDeveloperIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOpenIdTokenForDeveloperIdentityInput,
-    output: GetOpenIdTokenForDeveloperIdentityResponse,
-    errors: [
-      DeveloperUserAlreadyRegisteredException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
 /**
  * Returns credentials for the provided identity ID. Any provided logins will be
  * validated against supported login providers. If the token is for
@@ -1220,27 +1241,6 @@ export const getCredentialsForIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ExternalServiceException,
       InternalErrorException,
       InvalidIdentityPoolConfigurationException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const setIdentityPoolRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetIdentityPoolRolesInput,
-    output: SetIdentityPoolRolesResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
       InvalidParameterException,
       NotAuthorizedException,
       ResourceConflictException,

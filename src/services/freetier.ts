@@ -442,26 +442,50 @@ export class GetFreeTierUsageResponse extends S.Class<GetFreeTierUsageResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.String },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.String },
 ) {}
 
 //# Operations
+/**
+ * Returns a list of activities that are available. This operation supports pagination and filtering by status.
+ */
+export const listAccountActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAccountActivitiesRequest,
+    output: ListAccountActivitiesResponse,
+    errors: [InternalServerException, ThrottlingException, ValidationException],
+  }),
+);
+/**
+ * This returns all of the information related to the state of the account plan related to Free Tier.
+ */
+export const getAccountPlanState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountPlanStateRequest,
+  output: GetAccountPlanStateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * The account plan type for the Amazon Web Services account.
  */
@@ -489,30 +513,6 @@ export const getAccountActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * This returns all of the information related to the state of the account plan related to Free Tier.
- */
-export const getAccountPlanState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountPlanStateRequest,
-  output: GetAccountPlanStateResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of activities that are available. This operation supports pagination and filtering by status.
- */
-export const listAccountActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAccountActivitiesRequest,
-    output: ListAccountActivitiesResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-  }),
-);
 /**
  * Returns a list of all Free Tier usage objects that match your filters.
  */

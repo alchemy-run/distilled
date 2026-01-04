@@ -329,19 +329,19 @@ export class JoinStorageSessionAsViewerResponse extends S.Class<JoinStorageSessi
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ClientLimitExceededException extends S.TaggedError<ClientLimitExceededException>()(
   "ClientLimitExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
   "InvalidArgumentException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations

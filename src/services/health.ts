@@ -827,7 +827,7 @@ export class DescribeAffectedEntitiesForOrganizationResponse extends S.Class<Des
 //# Errors
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidPaginationToken extends S.TaggedError<InvalidPaginationToken>()(
   "InvalidPaginationToken",
@@ -835,38 +835,10 @@ export class InvalidPaginationToken extends S.TaggedError<InvalidPaginationToken
 ) {}
 export class UnsupportedLocale extends S.TaggedError<UnsupportedLocale>()(
   "UnsupportedLocale",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Enables Health to work with Organizations. You can use the organizational view feature
- * to aggregate events from all Amazon Web Services accounts in your organization in a centralized location.
- *
- * This operation also creates a service-linked role for the management account in the
- * organization.
- *
- * To call this operation, you must meet the following requirements:
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan from Amazon Web Services Support to use the Health API. If you call
- * the Health API from an Amazon Web Services account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, you receive a `SubscriptionRequiredException`
- * error.
- *
- * - You must have permission to call this operation from the organization's
- * management account. For example IAM policies, see Health
- * identity-based policy examples.
- *
- * If you don't have the required support plan, you can instead use the Health console
- * to enable the organizational view feature. For more information, see Aggregating
- * Health events in the *Health User Guide*.
- */
-export const enableHealthServiceAccessForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableHealthServiceAccessForOrganizationRequest,
-    output: EnableHealthServiceAccessForOrganizationResponse,
-    errors: [ConcurrentModificationException],
-  }));
 /**
  * This operation provides status information on enabling or disabling Health to work
  * with your organization. To call this operation, you must use the organization's
@@ -901,6 +873,34 @@ export const disableHealthServiceAccessForOrganization =
     errors: [ConcurrentModificationException],
   }));
 /**
+ * Enables Health to work with Organizations. You can use the organizational view feature
+ * to aggregate events from all Amazon Web Services accounts in your organization in a centralized location.
+ *
+ * This operation also creates a service-linked role for the management account in the
+ * organization.
+ *
+ * To call this operation, you must meet the following requirements:
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan from Amazon Web Services Support to use the Health API. If you call
+ * the Health API from an Amazon Web Services account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, you receive a `SubscriptionRequiredException`
+ * error.
+ *
+ * - You must have permission to call this operation from the organization's
+ * management account. For example IAM policies, see Health
+ * identity-based policy examples.
+ *
+ * If you don't have the required support plan, you can instead use the Health console
+ * to enable the organizational view feature. For more information, see Aggregating
+ * Health events in the *Health User Guide*.
+ */
+export const enableHealthServiceAccessForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: EnableHealthServiceAccessForOrganizationRequest,
+    output: EnableHealthServiceAccessForOrganizationResponse,
+    errors: [ConcurrentModificationException],
+  }));
+/**
  * Returns a list of accounts in the organization from Organizations that are affected by the
  * provided event. For more information about the different types of Health events, see
  * Event.
@@ -917,52 +917,6 @@ export const describeAffectedAccountsForOrganization =
     output: DescribeAffectedAccountsForOrganizationResponse,
     errors: [InvalidPaginationToken],
   }));
-/**
- * Returns information about events that meet the specified filter criteria. Events are
- * returned in a summary form and do not include the detailed description, any additional
- * metadata that depends on the event type, or any affected resources. To retrieve that
- * information, use the DescribeEventDetails and DescribeAffectedEntities operations.
- *
- * If no filter criteria are specified, all events are returned. Results are sorted by
- * `lastModifiedTime`, starting with the most recent event.
- *
- * - When you call the `DescribeEvents` operation and specify an entity
- * for the `entityValues` parameter, Health might return public
- * events that aren't specific to that resource. For example, if you call
- * `DescribeEvents` and specify an ID for an Amazon Elastic Compute Cloud (Amazon EC2)
- * instance, Health might return events that aren't specific to that resource or
- * service. To get events that are specific to a service, use the
- * `services` parameter in the `filter` object. For more
- * information, see Event.
- *
- * - This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
- */
-export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEventsRequest,
-  output: DescribeEventsResponse,
-  errors: [InvalidPaginationToken, UnsupportedLocale],
-}));
-/**
- * Returns a list of entities that have been affected by the specified events, based on the
- * specified filter criteria. Entities can refer to individual customer resources, groups of
- * customer resources, or any other construct, depending on the Amazon Web Services service. Events that
- * have impact beyond that of the affected entities, or where the extent of impact is unknown,
- * include at least one entity indicating this.
- *
- * At least one event ARN is required.
- *
- * - This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
- *
- * - This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more
- * information, see Resource- and action-based conditions in the *Health User Guide*.
- */
-export const describeAffectedEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAffectedEntitiesRequest,
-    output: DescribeAffectedEntitiesResponse,
-    errors: [InvalidPaginationToken, UnsupportedLocale],
-  }),
-);
 /**
  * Returns the number of entities that are affected by each of the specified events.
  */
@@ -994,25 +948,6 @@ export const describeEventAggregates = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: DescribeEventAggregatesRequest,
     output: DescribeEventAggregatesResponse,
     errors: [InvalidPaginationToken],
-  }),
-);
-/**
- * Returns detailed information about one or more specified events. Information includes
- * standard event data (Amazon Web Services Region, service, and so on, as returned by DescribeEvents), a detailed event description, and possible additional metadata
- * that depends upon the nature of the event. Affected entities are not included. To retrieve
- * the entities, use the DescribeAffectedEntities operation.
- *
- * If a specified event can't be retrieved, an error message is returned for that
- * event.
- *
- * This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more
- * information, see Resource- and action-based conditions in the *Health User Guide*.
- */
-export const describeEventDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventDetailsRequest,
-    output: DescribeEventDetailsResponse,
-    errors: [UnsupportedLocale],
   }),
 );
 /**
@@ -1096,6 +1031,71 @@ export const describeEventTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DescribeEventTypesResponse,
   errors: [InvalidPaginationToken, UnsupportedLocale],
 }));
+/**
+ * Returns information about events that meet the specified filter criteria. Events are
+ * returned in a summary form and do not include the detailed description, any additional
+ * metadata that depends on the event type, or any affected resources. To retrieve that
+ * information, use the DescribeEventDetails and DescribeAffectedEntities operations.
+ *
+ * If no filter criteria are specified, all events are returned. Results are sorted by
+ * `lastModifiedTime`, starting with the most recent event.
+ *
+ * - When you call the `DescribeEvents` operation and specify an entity
+ * for the `entityValues` parameter, Health might return public
+ * events that aren't specific to that resource. For example, if you call
+ * `DescribeEvents` and specify an ID for an Amazon Elastic Compute Cloud (Amazon EC2)
+ * instance, Health might return events that aren't specific to that resource or
+ * service. To get events that are specific to a service, use the
+ * `services` parameter in the `filter` object. For more
+ * information, see Event.
+ *
+ * - This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
+ */
+export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventsRequest,
+  output: DescribeEventsResponse,
+  errors: [InvalidPaginationToken, UnsupportedLocale],
+}));
+/**
+ * Returns a list of entities that have been affected by the specified events, based on the
+ * specified filter criteria. Entities can refer to individual customer resources, groups of
+ * customer resources, or any other construct, depending on the Amazon Web Services service. Events that
+ * have impact beyond that of the affected entities, or where the extent of impact is unknown,
+ * include at least one entity indicating this.
+ *
+ * At least one event ARN is required.
+ *
+ * - This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
+ *
+ * - This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more
+ * information, see Resource- and action-based conditions in the *Health User Guide*.
+ */
+export const describeAffectedEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAffectedEntitiesRequest,
+    output: DescribeAffectedEntitiesResponse,
+    errors: [InvalidPaginationToken, UnsupportedLocale],
+  }),
+);
+/**
+ * Returns detailed information about one or more specified events. Information includes
+ * standard event data (Amazon Web Services Region, service, and so on, as returned by DescribeEvents), a detailed event description, and possible additional metadata
+ * that depends upon the nature of the event. Affected entities are not included. To retrieve
+ * the entities, use the DescribeAffectedEntities operation.
+ *
+ * If a specified event can't be retrieved, an error message is returned for that
+ * event.
+ *
+ * This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more
+ * information, see Resource- and action-based conditions in the *Health User Guide*.
+ */
+export const describeEventDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEventDetailsRequest,
+    output: DescribeEventDetailsResponse,
+    errors: [UnsupportedLocale],
+  }),
+);
 /**
  * Returns a list of entities that have been affected by one or more events for one or more
  * accounts in your organization in Organizations, based on the filter criteria. Entities can refer

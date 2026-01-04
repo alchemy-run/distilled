@@ -2006,50 +2006,32 @@ export class CreateVolumeResponse extends S.Class<CreateVolumeResponse>(
 )({ Volume: S.optional(Volume) }) {}
 
 //# Errors
-export class BadRequest extends S.TaggedError<BadRequest>()("BadRequest", {}) {}
+export class BadRequest extends S.TaggedError<BadRequest>()("BadRequest", {
+  Message: S.optional(S.String),
+}) {}
+export class BackupBeingCopied extends S.TaggedError<BackupBeingCopied>()(
+  "BackupBeingCopied",
+  { Message: S.optional(S.String), BackupId: S.optional(S.String) },
+) {}
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
-  {},
-) {}
-export class FileSystemNotFound extends S.TaggedError<FileSystemNotFound>()(
-  "FileSystemNotFound",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class IncompatibleParameterError extends S.TaggedError<IncompatibleParameterError>()(
   "IncompatibleParameterError",
-  {},
+  { Parameter: S.String, Message: S.optional(S.String) },
 ) {}
-export class NotServiceResourceError extends S.TaggedError<NotServiceResourceError>()(
-  "NotServiceResourceError",
-  {},
-) {}
-export class ResourceDoesNotSupportTagging extends S.TaggedError<ResourceDoesNotSupportTagging>()(
-  "ResourceDoesNotSupportTagging",
-  {},
-) {}
-export class ResourceNotFound extends S.TaggedError<ResourceNotFound>()(
-  "ResourceNotFound",
-  {},
+export class FileSystemNotFound extends S.TaggedError<FileSystemNotFound>()(
+  "FileSystemNotFound",
+  { Message: S.optional(S.String) },
 ) {}
 export class DataRepositoryAssociationNotFound extends S.TaggedError<DataRepositoryAssociationNotFound>()(
   "DataRepositoryAssociationNotFound",
-  {},
-) {}
-export class ServiceLimitExceeded extends S.TaggedError<ServiceLimitExceeded>()(
-  "ServiceLimitExceeded",
-  {},
-) {}
-export class SnapshotNotFound extends S.TaggedError<SnapshotNotFound>()(
-  "SnapshotNotFound",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DataRepositoryTaskEnded extends S.TaggedError<DataRepositoryTaskEnded>()(
   "DataRepositoryTaskEnded",
   { Message: S.optional(S.String) },
-) {}
-export class BackupBeingCopied extends S.TaggedError<BackupBeingCopied>()(
-  "BackupBeingCopied",
-  { Message: S.optional(S.String), BackupId: S.optional(S.String) },
 ) {}
 export class FileCacheNotFound extends S.TaggedError<FileCacheNotFound>()(
   "FileCacheNotFound",
@@ -2057,31 +2039,39 @@ export class FileCacheNotFound extends S.TaggedError<FileCacheNotFound>()(
 ) {}
 export class BackupNotFound extends S.TaggedError<BackupNotFound>()(
   "BackupNotFound",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class VolumeNotFound extends S.TaggedError<VolumeNotFound>()(
-  "VolumeNotFound",
-  {},
+export class BackupInProgress extends S.TaggedError<BackupInProgress>()(
+  "BackupInProgress",
+  { Message: S.optional(S.String) },
+) {}
+export class SnapshotNotFound extends S.TaggedError<SnapshotNotFound>()(
+  "SnapshotNotFound",
+  { Message: S.optional(S.String) },
 ) {}
 export class StorageVirtualMachineNotFound extends S.TaggedError<StorageVirtualMachineNotFound>()(
   "StorageVirtualMachineNotFound",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class VolumeNotFound extends S.TaggedError<VolumeNotFound>()(
+  "VolumeNotFound",
+  { Message: S.optional(S.String) },
 ) {}
 export class S3AccessPointAttachmentNotFound extends S.TaggedError<S3AccessPointAttachmentNotFound>()(
   "S3AccessPointAttachmentNotFound",
   { Message: S.optional(S.String) },
 ) {}
-export class UnsupportedOperation extends S.TaggedError<UnsupportedOperation>()(
-  "UnsupportedOperation",
-  {},
+export class ServiceLimitExceeded extends S.TaggedError<ServiceLimitExceeded>()(
+  "ServiceLimitExceeded",
+  { Limit: S.String, Message: S.optional(S.String) },
 ) {}
 export class DataRepositoryTaskNotFound extends S.TaggedError<DataRepositoryTaskNotFound>()(
   "DataRepositoryTaskNotFound",
   { Message: S.optional(S.String) },
 ) {}
-export class BackupInProgress extends S.TaggedError<BackupInProgress>()(
-  "BackupInProgress",
-  {},
+export class NotServiceResourceError extends S.TaggedError<NotServiceResourceError>()(
+  "NotServiceResourceError",
+  { ResourceARN: S.String, Message: S.optional(S.String) },
 ) {}
 export class MissingFileCacheConfiguration extends S.TaggedError<MissingFileCacheConfiguration>()(
   "MissingFileCacheConfiguration",
@@ -2095,10 +2085,6 @@ export class DataRepositoryTaskExecuting extends S.TaggedError<DataRepositoryTas
   "DataRepositoryTaskExecuting",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidNetworkSettings extends S.TaggedError<InvalidNetworkSettings>()(
-  "InvalidNetworkSettings",
-  {},
-) {}
 export class ActiveDirectoryError extends S.TaggedError<ActiveDirectoryError>()(
   "ActiveDirectoryError",
   {
@@ -2106,10 +2092,6 @@ export class ActiveDirectoryError extends S.TaggedError<ActiveDirectoryError>()(
     Type: S.optional(S.String),
     Message: S.optional(S.String),
   },
-) {}
-export class MissingVolumeConfiguration extends S.TaggedError<MissingVolumeConfiguration>()(
-  "MissingVolumeConfiguration",
-  {},
 ) {}
 export class BackupRestoring extends S.TaggedError<BackupRestoring>()(
   "BackupRestoring",
@@ -2119,6 +2101,27 @@ export class InvalidDataRepositoryType extends S.TaggedError<InvalidDataReposito
   "InvalidDataRepositoryType",
   { Message: S.optional(S.String) },
 ) {}
+export class UnsupportedOperation extends S.TaggedError<UnsupportedOperation>()(
+  "UnsupportedOperation",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidNetworkSettings extends S.TaggedError<InvalidNetworkSettings>()(
+  "InvalidNetworkSettings",
+  {
+    Message: S.optional(S.String),
+    InvalidSubnetId: S.optional(S.String),
+    InvalidSecurityGroupId: S.optional(S.String),
+    InvalidRouteTableId: S.optional(S.String),
+  },
+) {}
+export class MissingVolumeConfiguration extends S.TaggedError<MissingVolumeConfiguration>()(
+  "MissingVolumeConfiguration",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceDoesNotSupportTagging extends S.TaggedError<ResourceDoesNotSupportTagging>()(
+  "ResourceDoesNotSupportTagging",
+  { ResourceARN: S.String, Message: S.optional(S.String) },
+) {}
 export class InvalidDestinationKmsKey extends S.TaggedError<InvalidDestinationKmsKey>()(
   "InvalidDestinationKmsKey",
   { Message: S.optional(S.String) },
@@ -2127,17 +2130,21 @@ export class AccessPointAlreadyOwnedByYou extends S.TaggedError<AccessPointAlrea
   "AccessPointAlreadyOwnedByYou",
   { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
-export class InvalidPerUnitStorageThroughput extends S.TaggedError<InvalidPerUnitStorageThroughput>()(
-  "InvalidPerUnitStorageThroughput",
-  { Message: S.optional(S.String) },
-) {}
 export class InvalidExportPath extends S.TaggedError<InvalidExportPath>()(
   "InvalidExportPath",
   { Message: S.optional(S.String) },
 ) {}
 export class MissingFileSystemConfiguration extends S.TaggedError<MissingFileSystemConfiguration>()(
   "MissingFileSystemConfiguration",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFound extends S.TaggedError<ResourceNotFound>()(
+  "ResourceNotFound",
+  { ResourceARN: S.String, Message: S.optional(S.String) },
+) {}
+export class InvalidPerUnitStorageThroughput extends S.TaggedError<InvalidPerUnitStorageThroughput>()(
+  "InvalidPerUnitStorageThroughput",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidRegion extends S.TaggedError<InvalidRegion>()(
   "InvalidRegion",
@@ -2169,6 +2176,73 @@ export class TooManyAccessPoints extends S.TaggedError<TooManyAccessPoints>()(
 ) {}
 
 //# Operations
+/**
+ * Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual
+ * private cloud (VPC) owner. For more information, see Creating FSx for ONTAP file systems in shared subnets.
+ */
+export const describeSharedVpcConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeSharedVpcConfigurationRequest,
+    output: DescribeSharedVpcConfigurationResponse,
+    errors: [BadRequest, InternalServerError],
+  }));
+/**
+ * Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases
+ * from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not
+ * associated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see
+ * Working with DNS Aliases.
+ *
+ * The system generated response showing the DNS aliases that
+ * Amazon FSx is attempting to disassociate from the file system.
+ * Use the API
+ * operation to monitor the status of the aliases Amazon FSx is
+ * disassociating with the file system.
+ */
+export const disassociateFileSystemAliases =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateFileSystemAliasesRequest,
+    output: DisassociateFileSystemAliasesResponse,
+    errors: [BadRequest, FileSystemNotFound, InternalServerError],
+  }));
+/**
+ * Configures whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual
+ * private cloud (VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User
+ * Guide.
+ *
+ * We strongly recommend that participant-created Multi-AZ file systems in the shared
+ * VPC are deleted before you disable this feature. Once the feature is disabled, these
+ * file systems will enter a `MISCONFIGURED` state and behave like Single-AZ
+ * file systems. For more information, see Important considerations before disabling shared VPC support for Multi-AZ file
+ * systems.
+ */
+export const updateSharedVpcConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateSharedVpcConfigurationRequest,
+    output: UpdateSharedVpcConfigurationResponse,
+    errors: [BadRequest, IncompatibleParameterError, InternalServerError],
+  }));
+/**
+ * After performing steps to repair the Active Directory configuration of an FSx for Windows File Server file system, use this action to
+ * initiate the process of Amazon FSx attempting to reconnect to the file system.
+ */
+export const startMisconfiguredStateRecovery =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartMisconfiguredStateRecoveryRequest,
+    output: StartMisconfiguredStateRecoveryResponse,
+    errors: [BadRequest, FileSystemNotFound, InternalServerError],
+  }));
+/**
+ * Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File Server file system. A history of
+ * all DNS aliases that have been associated with and disassociated from the file system is available in the list of AdministrativeAction
+ * provided in the DescribeFileSystems operation response.
+ */
+export const describeFileSystemAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeFileSystemAliasesRequest,
+    output: DescribeFileSystemAliasesResponse,
+    errors: [BadRequest, FileSystemNotFound, InternalServerError],
+  }),
+);
 /**
  * Returns the description of specific Amazon FSx file systems, if a
  * `FileSystemIds` value is provided for that file system. Otherwise, it
@@ -2204,101 +2278,6 @@ export const describeFileSystems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
 }));
 /**
- * Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual
- * private cloud (VPC) owner. For more information, see Creating FSx for ONTAP file systems in shared subnets.
- */
-export const describeSharedVpcConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSharedVpcConfigurationRequest,
-    output: DescribeSharedVpcConfigurationResponse,
-    errors: [BadRequest, InternalServerError],
-  }));
-/**
- * Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases
- * from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not
- * associated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see
- * Working with DNS Aliases.
- *
- * The system generated response showing the DNS aliases that
- * Amazon FSx is attempting to disassociate from the file system.
- * Use the API
- * operation to monitor the status of the aliases Amazon FSx is
- * disassociating with the file system.
- */
-export const disassociateFileSystemAliases =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFileSystemAliasesRequest,
-    output: DisassociateFileSystemAliasesResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-  }));
-/**
- * After performing steps to repair the Active Directory configuration of an FSx for Windows File Server file system, use this action to
- * initiate the process of Amazon FSx attempting to reconnect to the file system.
- */
-export const startMisconfiguredStateRecovery =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMisconfiguredStateRecoveryRequest,
-    output: StartMisconfiguredStateRecoveryResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-  }));
-/**
- * This action removes a tag from an Amazon FSx resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequest,
-    InternalServerError,
-    NotServiceResourceError,
-    ResourceDoesNotSupportTagging,
-    ResourceNotFound,
-  ],
-}));
-/**
- * Updates the configuration of an existing data repository association
- * on an Amazon FSx for Lustre file system. Data repository associations
- * are supported on all FSx for Lustre 2.12 and 2.15 file systems,
- * excluding `scratch_1` deployment type.
- */
-export const updateDataRepositoryAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDataRepositoryAssociationRequest,
-    output: UpdateDataRepositoryAssociationResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryAssociationNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-    ],
-  }));
-/**
- * Configures whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual
- * private cloud (VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User
- * Guide.
- *
- * We strongly recommend that participant-created Multi-AZ file systems in the shared
- * VPC are deleted before you disable this feature. Once the feature is disabled, these
- * file systems will enter a `MISCONFIGURED` state and behave like Single-AZ
- * file systems. For more information, see Important considerations before disabling shared VPC support for Multi-AZ file
- * systems.
- */
-export const updateSharedVpcConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSharedVpcConfigurationRequest,
-    output: UpdateSharedVpcConfigurationResponse,
-    errors: [BadRequest, IncompatibleParameterError, InternalServerError],
-  }));
-/**
- * Updates the name of an Amazon FSx for OpenZFS snapshot.
- */
-export const updateSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSnapshotRequest,
-  output: UpdateSnapshotResponse,
-  errors: [BadRequest, InternalServerError, SnapshotNotFound],
-}));
-/**
  * Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file system.
  * A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to
  * associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request.
@@ -2320,114 +2299,39 @@ export const associateFileSystemAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a data repository association on an Amazon FSx for Lustre
- * file system. Deleting the data repository association unlinks the
- * file system from the Amazon S3 bucket. When deleting a data repository
- * association, you have the option of deleting the data in the file system
- * that corresponds to the data repository association. Data repository
- * associations are supported on all FSx for Lustre 2.12 and 2.15 file
- * systems, excluding `scratch_1` deployment type.
- */
-export const deleteDataRepositoryAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDataRepositoryAssociationRequest,
-    output: DeleteDataRepositoryAssociationResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryAssociationNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-    ],
-  }));
-/**
- * Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data
- * is gone.
+ * Returns the description of a specific Amazon File Cache resource, if a
+ * `FileCacheIds` value is provided for that cache. Otherwise, it
+ * returns descriptions of all caches owned by your Amazon Web Services account in the
+ * Amazon Web Services Region of the endpoint that you're calling.
  *
- * The `DeleteFileCache` operation returns while the cache has the
- * `DELETING` status. You can check the cache deletion status by
- * calling the DescribeFileCaches operation, which returns a list of caches in your
- * account. If you pass the cache ID for a deleted cache, the
- * `DescribeFileCaches` operation returns a `FileCacheNotFound`
- * error.
+ * When retrieving all cache descriptions, you can optionally specify the
+ * `MaxResults` parameter to limit the number of descriptions in a response.
+ * If more cache descriptions remain, the operation returns a
+ * `NextToken` value in the response. In this case, send a later request
+ * with the `NextToken` request parameter set to the value of
+ * `NextToken` from the last response.
  *
- * The data in a deleted cache is also deleted and can't be recovered by
- * any means.
- */
-export const deleteFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFileCacheRequest,
-  output: DeleteFileCacheResponse,
-  errors: [
-    BadRequest,
-    FileCacheNotFound,
-    IncompatibleParameterError,
-    InternalServerError,
-    ServiceLimitExceeded,
-  ],
-}));
-/**
- * Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer
- * exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a
- * file system backup.
- *
- * The `DeleteSnapshot` operation returns instantly. The snapshot appears with
- * the lifecycle status of `DELETING` until the deletion is complete.
- */
-export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSnapshotRequest,
-  output: DeleteSnapshotResponse,
-  errors: [BadRequest, InternalServerError, SnapshotNotFound],
-}));
-/**
- * Returns the description of a specific Amazon FSx backup, if a
- * `BackupIds` value is provided for that backup. Otherwise, it returns all
- * backups owned by your Amazon Web Services account in the Amazon Web Services Region of the
- * endpoint that you're calling.
- *
- * When retrieving all backups, you can optionally specify the `MaxResults`
- * parameter to limit the number of backups in a response. If more backups remain, Amazon FSx returns a `NextToken` value in the response. In this case,
- * send a later request with the `NextToken` request parameter set to the value
- * of the `NextToken` value from the last response.
- *
- * This operation is used in an iterative process to retrieve a list of your backups.
- * `DescribeBackups` is called first without a `NextToken` value.
- * Then the operation continues to be called with the `NextToken` parameter set
- * to the value of the last `NextToken` value until a response has no
- * `NextToken` value.
+ * This operation is used in an iterative process to retrieve a list of your cache
+ * descriptions. `DescribeFileCaches` is called first without a
+ * `NextToken`value. Then the operation continues to be called with the
+ * `NextToken` parameter set to the value of the last `NextToken`
+ * value until a response has no `NextToken`.
  *
  * When using this operation, keep the following in mind:
  *
- * - The operation might return fewer than the `MaxResults` value of
- * backup descriptions while still including a `NextToken`
+ * - The implementation might return fewer than `MaxResults`
+ * cache descriptions while still including a `NextToken`
  * value.
  *
- * - The order of the backups returned in the response of one
- * `DescribeBackups` call and the order of the backups returned
- * across the responses of a multi-call iteration is unspecified.
+ * - The order of caches returned in the response of one
+ * `DescribeFileCaches` call and the order of caches returned
+ * across the responses of a multicall iteration is unspecified.
  */
-export const describeBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBackupsRequest,
-  output: DescribeBackupsResponse,
-  errors: [
-    BackupNotFound,
-    BadRequest,
-    FileSystemNotFound,
-    InternalServerError,
-    VolumeNotFound,
-  ],
+export const describeFileCaches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFileCachesRequest,
+  output: DescribeFileCachesResponse,
+  errors: [BadRequest, FileCacheNotFound, InternalServerError],
 }));
-/**
- * Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File Server file system. A history of
- * all DNS aliases that have been associated with and disassociated from the file system is available in the list of AdministrativeAction
- * provided in the DescribeFileSystems operation response.
- */
-export const describeFileSystemAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFileSystemAliasesRequest,
-    output: DescribeFileSystemAliasesResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-  }),
-);
 /**
  * Returns the description of specific Amazon FSx for OpenZFS snapshots, if a
  * `SnapshotIds` value is provided. Otherwise, this operation returns all
@@ -2480,39 +2384,132 @@ export const describeVolumes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [BadRequest, InternalServerError, VolumeNotFound],
 }));
 /**
- * Lists tags for Amazon FSx resources.
+ * Updates the configuration of an existing data repository association
+ * on an Amazon FSx for Lustre file system. Data repository associations
+ * are supported on all FSx for Lustre 2.12 and 2.15 file systems,
+ * excluding `scratch_1` deployment type.
+ */
+export const updateDataRepositoryAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateDataRepositoryAssociationRequest,
+    output: UpdateDataRepositoryAssociationResponse,
+    errors: [
+      BadRequest,
+      DataRepositoryAssociationNotFound,
+      IncompatibleParameterError,
+      InternalServerError,
+      ServiceLimitExceeded,
+    ],
+  }));
+/**
+ * Returns the description of a specific Amazon FSx backup, if a
+ * `BackupIds` value is provided for that backup. Otherwise, it returns all
+ * backups owned by your Amazon Web Services account in the Amazon Web Services Region of the
+ * endpoint that you're calling.
  *
- * When retrieving all tags, you can optionally specify the `MaxResults`
- * parameter to limit the number of tags in a response. If more tags remain, Amazon FSx
- * returns a `NextToken` value in the response. In this case, send a later
- * request with the `NextToken` request parameter set to the value of
- * `NextToken` from the last response.
+ * When retrieving all backups, you can optionally specify the `MaxResults`
+ * parameter to limit the number of backups in a response. If more backups remain, Amazon FSx returns a `NextToken` value in the response. In this case,
+ * send a later request with the `NextToken` request parameter set to the value
+ * of the `NextToken` value from the last response.
  *
- * This action is used in an iterative process to retrieve a list of your tags.
- * `ListTagsForResource` is called first without a
- * `NextToken`value. Then the action continues to be called with the
- * `NextToken` parameter set to the value of the last `NextToken`
- * value until a response has no `NextToken`.
+ * This operation is used in an iterative process to retrieve a list of your backups.
+ * `DescribeBackups` is called first without a `NextToken` value.
+ * Then the operation continues to be called with the `NextToken` parameter set
+ * to the value of the last `NextToken` value until a response has no
+ * `NextToken` value.
  *
- * When using this action, keep the following in mind:
+ * When using this operation, keep the following in mind:
  *
- * - The implementation might return fewer than `MaxResults` file
- * system descriptions while still including a `NextToken`
+ * - The operation might return fewer than the `MaxResults` value of
+ * backup descriptions while still including a `NextToken`
  * value.
  *
- * - The order of tags returned in the response of one
- * `ListTagsForResource` call and the order of tags returned across
- * the responses of a multi-call iteration is unspecified.
+ * - The order of the backups returned in the response of one
+ * `DescribeBackups` call and the order of the backups returned
+ * across the responses of a multi-call iteration is unspecified.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const describeBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBackupsRequest,
+  output: DescribeBackupsResponse,
+  errors: [
+    BackupNotFound,
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+    VolumeNotFound,
+  ],
+}));
+/**
+ * Updates the name of an Amazon FSx for OpenZFS snapshot.
+ */
+export const updateSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSnapshotRequest,
+  output: UpdateSnapshotResponse,
+  errors: [BadRequest, InternalServerError, SnapshotNotFound],
+}));
+/**
+ * Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer
+ * exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a
+ * file system backup.
+ *
+ * The `DeleteSnapshot` operation returns instantly. The snapshot appears with
+ * the lifecycle status of `DELETING` until the deletion is complete.
+ */
+export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSnapshotRequest,
+  output: DeleteSnapshotResponse,
+  errors: [BadRequest, InternalServerError, SnapshotNotFound],
+}));
+/**
+ * Deletes an existing Amazon FSx for ONTAP storage virtual machine (SVM). Prior
+ * to deleting an SVM, you must delete all non-root volumes in the SVM, otherwise the operation will fail.
+ */
+export const deleteStorageVirtualMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteStorageVirtualMachineRequest,
+    output: DeleteStorageVirtualMachineResponse,
+    errors: [
+      BadRequest,
+      IncompatibleParameterError,
+      InternalServerError,
+      StorageVirtualMachineNotFound,
+    ],
+  }),
+);
+/**
+ * Returns an Amazon FSx for OpenZFS volume to the state saved by the specified
+ * snapshot.
+ */
+export const restoreVolumeFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RestoreVolumeFromSnapshotRequest,
+    output: RestoreVolumeFromSnapshotResponse,
+    errors: [BadRequest, InternalServerError, VolumeNotFound],
+  }),
+);
+/**
+ * Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data
+ * is gone.
+ *
+ * The `DeleteFileCache` operation returns while the cache has the
+ * `DELETING` status. You can check the cache deletion status by
+ * calling the DescribeFileCaches operation, which returns a list of caches in your
+ * account. If you pass the cache ID for a deleted cache, the
+ * `DescribeFileCaches` operation returns a `FileCacheNotFound`
+ * error.
+ *
+ * The data in a deleted cache is also deleted and can't be recovered by
+ * any means.
+ */
+export const deleteFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFileCacheRequest,
+  output: DeleteFileCacheResponse,
   errors: [
     BadRequest,
+    FileCacheNotFound,
+    IncompatibleParameterError,
     InternalServerError,
-    NotServiceResourceError,
-    ResourceDoesNotSupportTagging,
-    ResourceNotFound,
+    ServiceLimitExceeded,
   ],
 }));
 /**
@@ -2533,73 +2530,26 @@ export const releaseFileSystemNfsV3Locks = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns an Amazon FSx for OpenZFS volume to the state saved by the specified
- * snapshot.
+ * Deletes a data repository association on an Amazon FSx for Lustre
+ * file system. Deleting the data repository association unlinks the
+ * file system from the Amazon S3 bucket. When deleting a data repository
+ * association, you have the option of deleting the data in the file system
+ * that corresponds to the data repository association. Data repository
+ * associations are supported on all FSx for Lustre 2.12 and 2.15 file
+ * systems, excluding `scratch_1` deployment type.
  */
-export const restoreVolumeFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreVolumeFromSnapshotRequest,
-    output: RestoreVolumeFromSnapshotResponse,
-    errors: [BadRequest, InternalServerError, VolumeNotFound],
-  }),
-);
-/**
- * Tags an Amazon FSx resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequest,
-    InternalServerError,
-    NotServiceResourceError,
-    ResourceDoesNotSupportTagging,
-    ResourceNotFound,
-  ],
-}));
-/**
- * Updates an FSx for ONTAP storage virtual machine (SVM).
- */
-export const updateStorageVirtualMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStorageVirtualMachineRequest,
-    output: UpdateStorageVirtualMachineResponse,
+export const deleteDataRepositoryAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteDataRepositoryAssociationRequest,
+    output: DeleteDataRepositoryAssociationResponse,
     errors: [
       BadRequest,
+      DataRepositoryAssociationNotFound,
       IncompatibleParameterError,
       InternalServerError,
-      StorageVirtualMachineNotFound,
-      UnsupportedOperation,
+      ServiceLimitExceeded,
     ],
-  }),
-);
-/**
- * Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the
- * `PENDING` or `EXECUTING` state. When you cancel an export task, Amazon FSx
- * does the following.
- *
- * - Any files that FSx has already exported are not reverted.
- *
- * - FSx continues to export any files that are in-flight when the cancel operation is received.
- *
- * - FSx does not export any files that have not yet been exported.
- *
- * For a release task, Amazon FSx will stop releasing files upon cancellation. Any files that
- * have already been released will remain in the released state.
- */
-export const cancelDataRepositoryTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelDataRepositoryTaskRequest,
-    output: CancelDataRepositoryTaskResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryTaskEnded,
-      DataRepositoryTaskNotFound,
-      InternalServerError,
-      UnsupportedOperation,
-    ],
-  }),
-);
+  }));
 /**
  * Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file system. For more information, see on-demand data replication in the Amazon FSx for OpenZFS User
  * Guide.
@@ -2616,101 +2566,6 @@ export const copySnapshotAndUpdateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates a backup of an existing Amazon FSx for Windows File Server file
- * system, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP
- * volume, or Amazon FSx for OpenZFS file system. We recommend creating regular
- * backups so that you can restore a file system or volume from a backup if an issue arises
- * with the original file system or volume.
- *
- * For Amazon FSx for Lustre file systems, you can create a backup only for file
- * systems that have the following configuration:
- *
- * - A Persistent deployment type
- *
- * - Are *not* linked to a data repository
- *
- * For more information about backups, see the following:
- *
- * - For Amazon FSx for Lustre, see Working with FSx for
- * Lustre backups.
- *
- * - For Amazon FSx for Windows, see Working with FSx for
- * Windows backups.
- *
- * - For Amazon FSx for NetApp ONTAP, see Working with FSx for NetApp
- * ONTAP backups.
- *
- * - For Amazon FSx for OpenZFS, see Working with FSx for OpenZFS backups.
- *
- * If a backup with the specified client request token exists and the parameters match,
- * this operation returns the description of the existing backup. If a backup with the
- * specified client request token exists and the parameters don't match, this operation
- * returns `IncompatibleParameterError`. If a backup with the specified client
- * request token doesn't exist, `CreateBackup` does the following:
- *
- * - Creates a new Amazon FSx backup with an assigned ID, and an initial
- * lifecycle state of `CREATING`.
- *
- * - Returns the description of the backup.
- *
- * By using the idempotent operation, you can retry a `CreateBackup`
- * operation without the risk of creating an extra backup. This approach can be useful when
- * an initial call fails in a way that makes it unclear whether a backup was created. If
- * you use the same client request token and the initial call created a backup, the
- * operation returns a successful result because all the parameters are the same.
- *
- * The `CreateBackup` operation returns while the backup's lifecycle state is
- * still `CREATING`. You can check the backup creation status by calling the
- * DescribeBackups operation, which returns the backup state along with other
- * information.
- */
-export const createBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBackupRequest,
-  output: CreateBackupResponse,
-  errors: [
-    BackupInProgress,
-    BadRequest,
-    FileSystemNotFound,
-    IncompatibleParameterError,
-    InternalServerError,
-    ServiceLimitExceeded,
-    UnsupportedOperation,
-    VolumeNotFound,
-  ],
-}));
-/**
- * Creates an Amazon FSx for Lustre data repository association (DRA). A data
- * repository association is a link between a directory on the file system and
- * an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository
- * associations on a file system. Data repository associations are supported
- * on all FSx for Lustre 2.12 and 2.15 file systems, excluding
- * `scratch_1` deployment type.
- *
- * Each data repository association must have a unique Amazon FSx file
- * system directory and a unique S3 bucket or prefix associated with it. You
- * can configure a data repository association for automatic import only,
- * for automatic export only, or for both. To learn more about linking a
- * data repository to your file system, see
- * Linking your file system to an S3 bucket.
- *
- * `CreateDataRepositoryAssociation` isn't supported
- * on Amazon File Cache resources. To create a DRA on Amazon File Cache,
- * use the `CreateFileCache` operation.
- */
-export const createDataRepositoryAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataRepositoryAssociationRequest,
-    output: CreateDataRepositoryAssociationResponse,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-      UnsupportedOperation,
-    ],
-  }));
 /**
  * Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With
  * snapshots, you can easily undo file changes and compare file versions by restoring the
@@ -2810,22 +2665,6 @@ export const deleteFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes an existing Amazon FSx for ONTAP storage virtual machine (SVM). Prior
- * to deleting an SVM, you must delete all non-root volumes in the SVM, otherwise the operation will fail.
- */
-export const deleteStorageVirtualMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStorageVirtualMachineRequest,
-    output: DeleteStorageVirtualMachineResponse,
-    errors: [
-      BadRequest,
-      IncompatibleParameterError,
-      InternalServerError,
-      StorageVirtualMachineNotFound,
-    ],
-  }),
-);
-/**
  * Deletes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS
  * volume.
  */
@@ -2840,133 +2679,6 @@ export const deleteVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     VolumeNotFound,
   ],
 }));
-/**
- * Returns the description of a specific Amazon File Cache resource, if a
- * `FileCacheIds` value is provided for that cache. Otherwise, it
- * returns descriptions of all caches owned by your Amazon Web Services account in the
- * Amazon Web Services Region of the endpoint that you're calling.
- *
- * When retrieving all cache descriptions, you can optionally specify the
- * `MaxResults` parameter to limit the number of descriptions in a response.
- * If more cache descriptions remain, the operation returns a
- * `NextToken` value in the response. In this case, send a later request
- * with the `NextToken` request parameter set to the value of
- * `NextToken` from the last response.
- *
- * This operation is used in an iterative process to retrieve a list of your cache
- * descriptions. `DescribeFileCaches` is called first without a
- * `NextToken`value. Then the operation continues to be called with the
- * `NextToken` parameter set to the value of the last `NextToken`
- * value until a response has no `NextToken`.
- *
- * When using this operation, keep the following in mind:
- *
- * - The implementation might return fewer than `MaxResults`
- * cache descriptions while still including a `NextToken`
- * value.
- *
- * - The order of caches returned in the response of one
- * `DescribeFileCaches` call and the order of caches returned
- * across the responses of a multicall iteration is unspecified.
- */
-export const describeFileCaches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFileCachesRequest,
-  output: DescribeFileCachesResponse,
-  errors: [BadRequest, FileCacheNotFound, InternalServerError],
-}));
-/**
- * Detaches an S3 access point from an Amazon FSx volume and deletes the S3 access point.
- *
- * The requester requires the following permission to perform this action:
- *
- * - `fsx:DetachAndDeleteS3AccessPoint`
- *
- * - `s3:DeleteAccessPoint`
- */
-export const detachAndDeleteS3AccessPoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DetachAndDeleteS3AccessPointRequest,
-    output: DetachAndDeleteS3AccessPointResponse,
-    errors: [
-      BadRequest,
-      IncompatibleParameterError,
-      InternalServerError,
-      S3AccessPointAttachmentNotFound,
-      UnsupportedOperation,
-    ],
-  }));
-/**
- * Updates the configuration of an existing Amazon File Cache resource.
- * You can update multiple properties in a single request.
- */
-export const updateFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFileCacheRequest,
-  output: UpdateFileCacheResponse,
-  errors: [
-    BadRequest,
-    FileCacheNotFound,
-    IncompatibleParameterError,
-    InternalServerError,
-    MissingFileCacheConfiguration,
-    ServiceLimitExceeded,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Creates an Amazon FSx for Lustre data repository task.
- * A `CreateDataRepositoryTask` operation will fail if a data
- * repository is not linked to the FSx file system.
- *
- * You use import and export data repository tasks to perform bulk operations between your
- * FSx for Lustre file system and its linked data repositories. An example of a data repository
- * task is exporting any data and metadata changes, including POSIX metadata, to files, directories,
- * and symbolic links (symlinks) from your FSx file system to a linked data repository.
- *
- * You use release data repository tasks to release data from your file system for files that
- * are exported to S3. The metadata of released files remains on the file system so users or applications
- * can still access released files by reading the files again, which will restore data from
- * Amazon S3 to the FSx for Lustre file system.
- *
- * To learn more about data repository tasks, see
- * Data Repository Tasks.
- * To learn more about linking a data repository to your file system, see
- * Linking your file system to an S3 bucket.
- */
-export const createDataRepositoryTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataRepositoryTaskRequest,
-    output: CreateDataRepositoryTaskResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryTaskExecuting,
-      FileSystemNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-      UnsupportedOperation,
-    ],
-  }),
-);
-/**
- * Creates a new Amazon FSx for NetApp ONTAP volume from an
- * existing Amazon FSx volume backup.
- */
-export const createVolumeFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVolumeFromBackupRequest,
-    output: CreateVolumeFromBackupResponse,
-    errors: [
-      BackupNotFound,
-      BadRequest,
-      FileSystemNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      MissingVolumeConfiguration,
-      ServiceLimitExceeded,
-      StorageVirtualMachineNotFound,
-    ],
-  }),
-);
 /**
  * Deletes an Amazon FSx backup. After deletion, the backup no longer exists, and
  * its data is gone.
@@ -3051,18 +2763,21 @@ export const describeDataRepositoryTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes one or more S3 access points attached to Amazon FSx volumes.
+ * Detaches an S3 access point from an Amazon FSx volume and deletes the S3 access point.
  *
  * The requester requires the following permission to perform this action:
  *
- * - `fsx:DescribeS3AccessPointAttachments`
+ * - `fsx:DetachAndDeleteS3AccessPoint`
+ *
+ * - `s3:DeleteAccessPoint`
  */
-export const describeS3AccessPointAttachments =
+export const detachAndDeleteS3AccessPoint =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeS3AccessPointAttachmentsRequest,
-    output: DescribeS3AccessPointAttachmentsResponse,
+    input: DetachAndDeleteS3AccessPointRequest,
+    output: DetachAndDeleteS3AccessPointResponse,
     errors: [
       BadRequest,
+      IncompatibleParameterError,
       InternalServerError,
       S3AccessPointAttachmentNotFound,
       UnsupportedOperation,
@@ -3083,87 +2798,230 @@ export const updateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a new Amazon File Cache resource.
+ * Creates a backup of an existing Amazon FSx for Windows File Server file
+ * system, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP
+ * volume, or Amazon FSx for OpenZFS file system. We recommend creating regular
+ * backups so that you can restore a file system or volume from a backup if an issue arises
+ * with the original file system or volume.
  *
- * You can use this operation with a client request token in the request that
- * Amazon File Cache uses to ensure idempotent creation.
- * If a cache with the specified client request token exists and the parameters
- * match, `CreateFileCache` returns the description of the existing
- * cache. If a cache with the specified client request token exists and the
- * parameters don't match, this call returns `IncompatibleParameterError`.
- * If a file cache with the specified client request token doesn't exist,
- * `CreateFileCache` does the following:
+ * For Amazon FSx for Lustre file systems, you can create a backup only for file
+ * systems that have the following configuration:
  *
- * - Creates a new, empty Amazon File Cache resource with an assigned ID, and
- * an initial lifecycle state of `CREATING`.
+ * - A Persistent deployment type
  *
- * - Returns the description of the cache in JSON format.
+ * - Are *not* linked to a data repository
  *
- * The `CreateFileCache` call returns while the cache's lifecycle
- * state is still `CREATING`. You can check the cache creation status
- * by calling the DescribeFileCaches operation, which returns the cache state
- * along with other information.
+ * For more information about backups, see the following:
+ *
+ * - For Amazon FSx for Lustre, see Working with FSx for
+ * Lustre backups.
+ *
+ * - For Amazon FSx for Windows, see Working with FSx for
+ * Windows backups.
+ *
+ * - For Amazon FSx for NetApp ONTAP, see Working with FSx for NetApp
+ * ONTAP backups.
+ *
+ * - For Amazon FSx for OpenZFS, see Working with FSx for OpenZFS backups.
+ *
+ * If a backup with the specified client request token exists and the parameters match,
+ * this operation returns the description of the existing backup. If a backup with the
+ * specified client request token exists and the parameters don't match, this operation
+ * returns `IncompatibleParameterError`. If a backup with the specified client
+ * request token doesn't exist, `CreateBackup` does the following:
+ *
+ * - Creates a new Amazon FSx backup with an assigned ID, and an initial
+ * lifecycle state of `CREATING`.
+ *
+ * - Returns the description of the backup.
+ *
+ * By using the idempotent operation, you can retry a `CreateBackup`
+ * operation without the risk of creating an extra backup. This approach can be useful when
+ * an initial call fails in a way that makes it unclear whether a backup was created. If
+ * you use the same client request token and the initial call created a backup, the
+ * operation returns a successful result because all the parameters are the same.
+ *
+ * The `CreateBackup` operation returns while the backup's lifecycle state is
+ * still `CREATING`. You can check the backup creation status by calling the
+ * DescribeBackups operation, which returns the backup state along with other
+ * information.
  */
-export const createFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFileCacheRequest,
-  output: CreateFileCacheResponse,
+export const createBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBackupRequest,
+  output: CreateBackupResponse,
   errors: [
+    BackupInProgress,
     BadRequest,
+    FileSystemNotFound,
     IncompatibleParameterError,
     InternalServerError,
-    InvalidNetworkSettings,
-    InvalidPerUnitStorageThroughput,
-    MissingFileCacheConfiguration,
     ServiceLimitExceeded,
+    UnsupportedOperation,
+    VolumeNotFound,
   ],
 }));
 /**
- * Creates a new Amazon FSx for Lustre, Amazon FSx for Windows File
- * Server, or Amazon FSx for OpenZFS file system from an existing Amazon FSx backup.
+ * Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the
+ * `PENDING` or `EXECUTING` state. When you cancel an export task, Amazon FSx
+ * does the following.
  *
- * If a file system with the specified client request token exists and the parameters
- * match, this operation returns the description of the file system. If a file system
- * with the specified client request token exists but the parameters don't match, this
- * call returns `IncompatibleParameterError`. If a file system with the
- * specified client request token doesn't exist, this operation does the following:
+ * - Any files that FSx has already exported are not reverted.
  *
- * - Creates a new Amazon FSx file system from backup with an assigned ID,
- * and an initial lifecycle state of `CREATING`.
+ * - FSx continues to export any files that are in-flight when the cancel operation is received.
  *
- * - Returns the description of the file system.
+ * - FSx does not export any files that have not yet been exported.
  *
- * Parameters like the Active Directory, default share name, automatic backup, and backup
- * settings default to the parameters of the file system that was backed up, unless
- * overridden. You can explicitly supply other settings.
- *
- * By using the idempotent operation, you can retry a
- * `CreateFileSystemFromBackup` call without the risk of creating an extra
- * file system. This approach can be useful when an initial call fails in a way that makes
- * it unclear whether a file system was created. Examples are if a transport level timeout
- * occurred, or your connection was reset. If you use the same client request token and the
- * initial call created a file system, the client receives a success message as long as the
- * parameters are the same.
- *
- * The `CreateFileSystemFromBackup` call returns while the file system's
- * lifecycle state is still `CREATING`. You can check the file-system
- * creation status by calling the
- * DescribeFileSystems operation, which returns the file system state along
- * with other information.
+ * For a release task, Amazon FSx will stop releasing files upon cancellation. Any files that
+ * have already been released will remain in the released state.
  */
-export const createFileSystemFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const cancelDataRepositoryTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateFileSystemFromBackupRequest,
-    output: CreateFileSystemFromBackupResponse,
+    input: CancelDataRepositoryTaskRequest,
+    output: CancelDataRepositoryTaskResponse,
     errors: [
-      ActiveDirectoryError,
-      BackupNotFound,
+      BadRequest,
+      DataRepositoryTaskEnded,
+      DataRepositoryTaskNotFound,
+      InternalServerError,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Updates an FSx for ONTAP storage virtual machine (SVM).
+ */
+export const updateStorageVirtualMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateStorageVirtualMachineRequest,
+    output: UpdateStorageVirtualMachineResponse,
+    errors: [
       BadRequest,
       IncompatibleParameterError,
       InternalServerError,
-      InvalidNetworkSettings,
-      InvalidPerUnitStorageThroughput,
-      MissingFileSystemConfiguration,
+      StorageVirtualMachineNotFound,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Creates an Amazon FSx for Lustre data repository association (DRA). A data
+ * repository association is a link between a directory on the file system and
+ * an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository
+ * associations on a file system. Data repository associations are supported
+ * on all FSx for Lustre 2.12 and 2.15 file systems, excluding
+ * `scratch_1` deployment type.
+ *
+ * Each data repository association must have a unique Amazon FSx file
+ * system directory and a unique S3 bucket or prefix associated with it. You
+ * can configure a data repository association for automatic import only,
+ * for automatic export only, or for both. To learn more about linking a
+ * data repository to your file system, see
+ * Linking your file system to an S3 bucket.
+ *
+ * `CreateDataRepositoryAssociation` isn't supported
+ * on Amazon File Cache resources. To create a DRA on Amazon File Cache,
+ * use the `CreateFileCache` operation.
+ */
+export const createDataRepositoryAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateDataRepositoryAssociationRequest,
+    output: CreateDataRepositoryAssociationResponse,
+    errors: [
+      BadRequest,
+      FileSystemNotFound,
+      IncompatibleParameterError,
+      InternalServerError,
       ServiceLimitExceeded,
+      UnsupportedOperation,
+    ],
+  }));
+/**
+ * Updates the configuration of an existing Amazon File Cache resource.
+ * You can update multiple properties in a single request.
+ */
+export const updateFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFileCacheRequest,
+  output: UpdateFileCacheResponse,
+  errors: [
+    BadRequest,
+    FileCacheNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    MissingFileCacheConfiguration,
+    ServiceLimitExceeded,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Creates an Amazon FSx for Lustre data repository task.
+ * A `CreateDataRepositoryTask` operation will fail if a data
+ * repository is not linked to the FSx file system.
+ *
+ * You use import and export data repository tasks to perform bulk operations between your
+ * FSx for Lustre file system and its linked data repositories. An example of a data repository
+ * task is exporting any data and metadata changes, including POSIX metadata, to files, directories,
+ * and symbolic links (symlinks) from your FSx file system to a linked data repository.
+ *
+ * You use release data repository tasks to release data from your file system for files that
+ * are exported to S3. The metadata of released files remains on the file system so users or applications
+ * can still access released files by reading the files again, which will restore data from
+ * Amazon S3 to the FSx for Lustre file system.
+ *
+ * To learn more about data repository tasks, see
+ * Data Repository Tasks.
+ * To learn more about linking a data repository to your file system, see
+ * Linking your file system to an S3 bucket.
+ */
+export const createDataRepositoryTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDataRepositoryTaskRequest,
+    output: CreateDataRepositoryTaskResponse,
+    errors: [
+      BadRequest,
+      DataRepositoryTaskExecuting,
+      FileSystemNotFound,
+      IncompatibleParameterError,
+      InternalServerError,
+      ServiceLimitExceeded,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Describes one or more S3 access points attached to Amazon FSx volumes.
+ *
+ * The requester requires the following permission to perform this action:
+ *
+ * - `fsx:DescribeS3AccessPointAttachments`
+ */
+export const describeS3AccessPointAttachments =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeS3AccessPointAttachmentsRequest,
+    output: DescribeS3AccessPointAttachmentsResponse,
+    errors: [
+      BadRequest,
+      InternalServerError,
+      S3AccessPointAttachmentNotFound,
+      UnsupportedOperation,
+    ],
+  }));
+/**
+ * Creates a new Amazon FSx for NetApp ONTAP volume from an
+ * existing Amazon FSx volume backup.
+ */
+export const createVolumeFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateVolumeFromBackupRequest,
+    output: CreateVolumeFromBackupResponse,
+    errors: [
+      BackupNotFound,
+      BadRequest,
+      FileSystemNotFound,
+      IncompatibleParameterError,
+      InternalServerError,
+      MissingVolumeConfiguration,
+      ServiceLimitExceeded,
+      StorageVirtualMachineNotFound,
     ],
   }),
 );
@@ -3324,6 +3182,155 @@ export const updateFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnsupportedOperation,
   ],
 }));
+/**
+ * Lists tags for Amazon FSx resources.
+ *
+ * When retrieving all tags, you can optionally specify the `MaxResults`
+ * parameter to limit the number of tags in a response. If more tags remain, Amazon FSx
+ * returns a `NextToken` value in the response. In this case, send a later
+ * request with the `NextToken` request parameter set to the value of
+ * `NextToken` from the last response.
+ *
+ * This action is used in an iterative process to retrieve a list of your tags.
+ * `ListTagsForResource` is called first without a
+ * `NextToken`value. Then the action continues to be called with the
+ * `NextToken` parameter set to the value of the last `NextToken`
+ * value until a response has no `NextToken`.
+ *
+ * When using this action, keep the following in mind:
+ *
+ * - The implementation might return fewer than `MaxResults` file
+ * system descriptions while still including a `NextToken`
+ * value.
+ *
+ * - The order of tags returned in the response of one
+ * `ListTagsForResource` call and the order of tags returned across
+ * the responses of a multi-call iteration is unspecified.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequest,
+    InternalServerError,
+    NotServiceResourceError,
+    ResourceDoesNotSupportTagging,
+    ResourceNotFound,
+  ],
+}));
+/**
+ * Creates a new Amazon File Cache resource.
+ *
+ * You can use this operation with a client request token in the request that
+ * Amazon File Cache uses to ensure idempotent creation.
+ * If a cache with the specified client request token exists and the parameters
+ * match, `CreateFileCache` returns the description of the existing
+ * cache. If a cache with the specified client request token exists and the
+ * parameters don't match, this call returns `IncompatibleParameterError`.
+ * If a file cache with the specified client request token doesn't exist,
+ * `CreateFileCache` does the following:
+ *
+ * - Creates a new, empty Amazon File Cache resource with an assigned ID, and
+ * an initial lifecycle state of `CREATING`.
+ *
+ * - Returns the description of the cache in JSON format.
+ *
+ * The `CreateFileCache` call returns while the cache's lifecycle
+ * state is still `CREATING`. You can check the cache creation status
+ * by calling the DescribeFileCaches operation, which returns the cache state
+ * along with other information.
+ */
+export const createFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFileCacheRequest,
+  output: CreateFileCacheResponse,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    InvalidNetworkSettings,
+    InvalidPerUnitStorageThroughput,
+    MissingFileCacheConfiguration,
+    ServiceLimitExceeded,
+  ],
+}));
+/**
+ * Tags an Amazon FSx resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequest,
+    InternalServerError,
+    NotServiceResourceError,
+    ResourceDoesNotSupportTagging,
+    ResourceNotFound,
+  ],
+}));
+/**
+ * This action removes a tag from an Amazon FSx resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequest,
+    InternalServerError,
+    NotServiceResourceError,
+    ResourceDoesNotSupportTagging,
+    ResourceNotFound,
+  ],
+}));
+/**
+ * Creates a new Amazon FSx for Lustre, Amazon FSx for Windows File
+ * Server, or Amazon FSx for OpenZFS file system from an existing Amazon FSx backup.
+ *
+ * If a file system with the specified client request token exists and the parameters
+ * match, this operation returns the description of the file system. If a file system
+ * with the specified client request token exists but the parameters don't match, this
+ * call returns `IncompatibleParameterError`. If a file system with the
+ * specified client request token doesn't exist, this operation does the following:
+ *
+ * - Creates a new Amazon FSx file system from backup with an assigned ID,
+ * and an initial lifecycle state of `CREATING`.
+ *
+ * - Returns the description of the file system.
+ *
+ * Parameters like the Active Directory, default share name, automatic backup, and backup
+ * settings default to the parameters of the file system that was backed up, unless
+ * overridden. You can explicitly supply other settings.
+ *
+ * By using the idempotent operation, you can retry a
+ * `CreateFileSystemFromBackup` call without the risk of creating an extra
+ * file system. This approach can be useful when an initial call fails in a way that makes
+ * it unclear whether a file system was created. Examples are if a transport level timeout
+ * occurred, or your connection was reset. If you use the same client request token and the
+ * initial call created a file system, the client receives a success message as long as the
+ * parameters are the same.
+ *
+ * The `CreateFileSystemFromBackup` call returns while the file system's
+ * lifecycle state is still `CREATING`. You can check the file-system
+ * creation status by calling the
+ * DescribeFileSystems operation, which returns the file system state along
+ * with other information.
+ */
+export const createFileSystemFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateFileSystemFromBackupRequest,
+    output: CreateFileSystemFromBackupResponse,
+    errors: [
+      ActiveDirectoryError,
+      BackupNotFound,
+      BadRequest,
+      IncompatibleParameterError,
+      InternalServerError,
+      InvalidNetworkSettings,
+      InvalidPerUnitStorageThroughput,
+      MissingFileSystemConfiguration,
+      ServiceLimitExceeded,
+    ],
+  }),
+);
 /**
  * Creates a new, empty Amazon FSx file system. You can create the following supported
  * Amazon FSx file systems using the `CreateFileSystem` API operation:

@@ -1319,122 +1319,123 @@ export class TestStateOutput extends S.Class<TestStateOutput>(
 ) {}
 
 //# Errors
-export class InvalidArn extends S.TaggedError<InvalidArn>()("InvalidArn", {}) {}
+export class InvalidArn extends S.TaggedError<InvalidArn>()("InvalidArn", {
+  message: S.optional(S.String),
+}) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidToken extends S.TaggedError<InvalidToken>()(
   "InvalidToken",
-  {},
-) {}
-export class ResourceNotFound extends S.TaggedError<ResourceNotFound>()(
-  "ResourceNotFound",
-  {},
-) {}
-export class ActivityDoesNotExist extends S.TaggedError<ActivityDoesNotExist>()(
-  "ActivityDoesNotExist",
-  {},
-) {}
-export class ExecutionDoesNotExist extends S.TaggedError<ExecutionDoesNotExist>()(
-  "ExecutionDoesNotExist",
-  {},
-) {}
-export class TaskDoesNotExist extends S.TaggedError<TaskDoesNotExist>()(
-  "TaskDoesNotExist",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidOutput extends S.TaggedError<InvalidOutput>()(
   "InvalidOutput",
   { message: S.optional(S.String) },
 ) {}
-export class KmsAccessDeniedException extends S.TaggedError<KmsAccessDeniedException>()(
-  "KmsAccessDeniedException",
-  {},
+export class ResourceNotFound extends S.TaggedError<ResourceNotFound>()(
+  "ResourceNotFound",
+  { message: S.optional(S.String), resourceName: S.optional(S.String) },
 ) {}
-export class KmsInvalidStateException extends S.TaggedError<KmsInvalidStateException>()(
-  "KmsInvalidStateException",
-  {},
-) {}
-export class KmsThrottlingException extends S.TaggedError<KmsThrottlingException>()(
-  "KmsThrottlingException",
-  {},
-) {}
-export class ActivityWorkerLimitExceeded extends S.TaggedError<ActivityWorkerLimitExceeded>()(
-  "ActivityWorkerLimitExceeded",
+export class ActivityDoesNotExist extends S.TaggedError<ActivityDoesNotExist>()(
+  "ActivityDoesNotExist",
   { message: S.optional(S.String) },
 ) {}
-export class StateMachineDoesNotExist extends S.TaggedError<StateMachineDoesNotExist>()(
-  "StateMachineDoesNotExist",
-  {},
-) {}
-export class StateMachineDeleting extends S.TaggedError<StateMachineDeleting>()(
-  "StateMachineDeleting",
-  {},
+export class ExecutionDoesNotExist extends S.TaggedError<ExecutionDoesNotExist>()(
+  "ExecutionDoesNotExist",
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class ExecutionLimitExceeded extends S.TaggedError<ExecutionLimitExceeded>()(
-  "ExecutionLimitExceeded",
+export class KmsAccessDeniedException extends S.TaggedError<KmsAccessDeniedException>()(
+  "KmsAccessDeniedException",
   { message: S.optional(S.String) },
-) {}
-export class TaskTimedOut extends S.TaggedError<TaskTimedOut>()(
-  "TaskTimedOut",
-  {},
 ) {}
 export class ExecutionAlreadyExists extends S.TaggedError<ExecutionAlreadyExists>()(
   "ExecutionAlreadyExists",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidExecutionInput extends S.TaggedError<InvalidExecutionInput>()(
-  "InvalidExecutionInput",
-  {},
-) {}
-export class InvalidName extends S.TaggedError<InvalidName>()(
-  "InvalidName",
-  {},
-) {}
-export class StateMachineTypeNotSupported extends S.TaggedError<StateMachineTypeNotSupported>()(
-  "StateMachineTypeNotSupported",
-  {},
-) {}
-export class TooManyTags extends S.TaggedError<TooManyTags>()("TooManyTags", {
-  message: S.optional(S.String),
-  resourceName: S.optional(S.String),
-}) {}
 export class InvalidDefinition extends S.TaggedError<InvalidDefinition>()(
   "InvalidDefinition",
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String), reason: S.optional(S.String) },
+) {}
+export class TaskDoesNotExist extends S.TaggedError<TaskDoesNotExist>()(
+  "TaskDoesNotExist",
   { message: S.optional(S.String) },
 ) {}
 export class ActivityAlreadyExists extends S.TaggedError<ActivityAlreadyExists>()(
   "ActivityAlreadyExists",
   { message: S.optional(S.String) },
 ) {}
-export class ExecutionNotRedrivable extends S.TaggedError<ExecutionNotRedrivable>()(
-  "ExecutionNotRedrivable",
+export class InvalidName extends S.TaggedError<InvalidName>()("InvalidName", {
+  message: S.optional(S.String),
+}) {}
+export class StateMachineDoesNotExist extends S.TaggedError<StateMachineDoesNotExist>()(
+  "StateMachineDoesNotExist",
+  { message: S.optional(S.String) },
+) {}
+export class StateMachineDeleting extends S.TaggedError<StateMachineDeleting>()(
+  "StateMachineDeleting",
+  { message: S.optional(S.String) },
+) {}
+export class KmsInvalidStateException extends S.TaggedError<KmsInvalidStateException>()(
+  "KmsInvalidStateException",
+  { kmsKeyState: S.optional(S.String), message: S.optional(S.String) },
+) {}
+export class ExecutionLimitExceeded extends S.TaggedError<ExecutionLimitExceeded>()(
+  "ExecutionLimitExceeded",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidExecutionInput extends S.TaggedError<InvalidExecutionInput>()(
+  "InvalidExecutionInput",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidEncryptionConfiguration extends S.TaggedError<InvalidEncryptionConfiguration>()(
   "InvalidEncryptionConfiguration",
   { message: S.optional(S.String) },
 ) {}
+export class TooManyTags extends S.TaggedError<TooManyTags>()("TooManyTags", {
+  message: S.optional(S.String),
+  resourceName: S.optional(S.String),
+}) {}
+export class ActivityWorkerLimitExceeded extends S.TaggedError<ActivityWorkerLimitExceeded>()(
+  "ActivityWorkerLimitExceeded",
+  { message: S.optional(S.String) },
+) {}
+export class TaskTimedOut extends S.TaggedError<TaskTimedOut>()(
+  "TaskTimedOut",
+  { message: S.optional(S.String) },
+) {}
 export class ActivityLimitExceeded extends S.TaggedError<ActivityLimitExceeded>()(
   "ActivityLimitExceeded",
   { message: S.optional(S.String) },
 ) {}
+export class StateMachineTypeNotSupported extends S.TaggedError<StateMachineTypeNotSupported>()(
+  "StateMachineTypeNotSupported",
+  { message: S.optional(S.String) },
+) {}
+export class KmsThrottlingException extends S.TaggedError<KmsThrottlingException>()(
+  "KmsThrottlingException",
+  { message: S.optional(S.String) },
+) {}
 export class InvalidLoggingConfiguration extends S.TaggedError<InvalidLoggingConfiguration>()(
   "InvalidLoggingConfiguration",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ExecutionNotRedrivable extends S.TaggedError<ExecutionNotRedrivable>()(
+  "ExecutionNotRedrivable",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidTracingConfiguration extends S.TaggedError<InvalidTracingConfiguration>()(
   "InvalidTracingConfiguration",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class MissingRequiredParameter extends S.TaggedError<MissingRequiredParameter>()(
   "MissingRequiredParameter",
@@ -1451,50 +1452,64 @@ export class StateMachineLimitExceeded extends S.TaggedError<StateMachineLimitEx
 
 //# Operations
 /**
- * Deletes a state machine version. After
- * you delete a version, you can't call StartExecution using that version's ARN
- * or use the version with a state machine alias.
- *
- * Deleting a state machine version won't terminate its in-progress executions.
- *
- * You can't delete a state machine version currently referenced by one or more aliases. Before you delete a version, you must either delete the aliases or update them to point to another state machine version.
- *
- * **Related operations:**
- *
- * - PublishStateMachineVersion
- *
- * - ListStateMachineVersions
- */
-export const deleteStateMachineVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStateMachineVersionInput,
-    output: DeleteStateMachineVersionOutput,
-    errors: [ConflictException, InvalidArn, ValidationException],
-  }),
-);
-/**
- * Remove a tag from a Step Functions resource
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [InvalidArn, ResourceNotFound],
-}));
-/**
- * Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure.
- */
-export const updateMapRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateMapRunInput,
-  output: UpdateMapRunOutput,
-  errors: [InvalidArn, ResourceNotFound, ValidationException],
-}));
-/**
  * Deletes an activity.
  */
 export const deleteActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteActivityInput,
   output: DeleteActivityOutput,
   errors: [InvalidArn],
+}));
+/**
+ * Describes an activity.
+ *
+ * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+ */
+export const describeActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeActivityInput,
+  output: DescribeActivityOutput,
+  errors: [ActivityDoesNotExist, InvalidArn],
+}));
+/**
+ * Provides information about a Map Run's configuration, progress, and results. If you've redriven a Map Run, this API action also returns information about the redrives of that Map Run. For more information, see Examining Map Run in the *Step Functions Developer Guide*.
+ */
+export const describeMapRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMapRunInput,
+  output: DescribeMapRunOutput,
+  errors: [InvalidArn, ResourceNotFound],
+}));
+/**
+ * Lists the existing activities.
+ *
+ * If `nextToken` is returned, there are more results available. The value of `nextToken` is a unique pagination token for each page.
+ * Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an *HTTP 400 InvalidToken* error.
+ *
+ * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+ */
+export const listActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListActivitiesInput,
+  output: ListActivitiesOutput,
+  errors: [InvalidToken],
+}));
+/**
+ * Lists all Map Runs that were started by a given state machine execution. Use this API action to obtain Map Run ARNs, and then call `DescribeMapRun` to obtain more information, if needed.
+ */
+export const listMapRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMapRunsInput,
+  output: ListMapRunsOutput,
+  errors: [ExecutionDoesNotExist, InvalidArn, InvalidToken],
+}));
+/**
+ * Lists the existing state machines.
+ *
+ * If `nextToken` is returned, there are more results available. The value of `nextToken` is a unique pagination token for each page.
+ * Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an *HTTP 400 InvalidToken* error.
+ *
+ * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+ */
+export const listStateMachines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStateMachinesInput,
+  output: ListStateMachinesOutput,
+  errors: [InvalidToken],
 }));
 /**
  * Deletes a state machine. This is an asynchronous operation. It sets the state machine's
@@ -1526,35 +1541,6 @@ export const deleteStateMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidArn, ValidationException],
 }));
 /**
- * Deletes a state machine alias.
- *
- * After you delete a state machine alias, you can't use it to start executions. When you
- * delete a state machine alias, Step Functions doesn't delete the state machine versions
- * that alias references.
- *
- * **Related operations:**
- *
- * - CreateStateMachineAlias
- *
- * - DescribeStateMachineAlias
- *
- * - ListStateMachineAliases
- *
- * - UpdateStateMachineAlias
- */
-export const deleteStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStateMachineAliasInput,
-    output: DeleteStateMachineAliasOutput,
-    errors: [
-      ConflictException,
-      InvalidArn,
-      ResourceNotFound,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Returns details about a state machine alias.
  *
  * **Related operations:**
@@ -1585,123 +1571,49 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidArn, ResourceNotFound],
 }));
 /**
- * Describes an activity.
- *
- * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+ * Remove a tag from a Step Functions resource
  */
-export const describeActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeActivityInput,
-  output: DescribeActivityOutput,
-  errors: [ActivityDoesNotExist, InvalidArn],
-}));
-/**
- * Provides information about a state machine execution, such as the state machine associated with the execution, the execution input and output, and relevant execution metadata. If you've redriven an execution, you can use this API action to return information about the redrives of that execution. In addition, you can use this API action to return the Map Run Amazon Resource Name (ARN) if the execution was dispatched by a Map Run.
- *
- * If you specify a version or alias ARN when you call the StartExecution
- * API action, `DescribeExecution` returns that ARN.
- *
- * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
- *
- * Executions of an `EXPRESS` state machine aren't supported by `DescribeExecution` unless a Map Run dispatched them.
- */
-export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeExecutionInput,
-  output: DescribeExecutionOutput,
-  errors: [
-    ExecutionDoesNotExist,
-    InvalidArn,
-    KmsAccessDeniedException,
-    KmsInvalidStateException,
-    KmsThrottlingException,
-  ],
-}));
-/**
- * Provides information about a Map Run's configuration, progress, and results. If you've redriven a Map Run, this API action also returns information about the redrives of that Map Run. For more information, see Examining Map Run in the *Step Functions Developer Guide*.
- */
-export const describeMapRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeMapRunInput,
-  output: DescribeMapRunOutput,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
   errors: [InvalidArn, ResourceNotFound],
 }));
 /**
- * Provides information about a state machine's definition, its execution role ARN, and
- * configuration. If a Map Run dispatched the execution, this action returns the Map Run
- * Amazon Resource Name (ARN) in the response. The state machine returned is the state machine associated with the
- * Map Run.
- *
- * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
- *
- * This API action is not supported by `EXPRESS` state machines.
+ * Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure.
  */
-export const describeStateMachineForExecution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeStateMachineForExecutionInput,
-    output: DescribeStateMachineForExecutionOutput,
-    errors: [
-      ExecutionDoesNotExist,
-      InvalidArn,
-      KmsAccessDeniedException,
-      KmsInvalidStateException,
-      KmsThrottlingException,
-    ],
-  }));
-/**
- * Used by workers to retrieve a task (with the specified activity ARN) which has been
- * scheduled for execution by a running state machine. This initiates a long poll, where the
- * service holds the HTTP connection open and responds as soon as a task becomes available (i.e.
- * an execution of a task of this type is needed.) The maximum time the service holds on to the
- * request before responding is 60 seconds. If no task is available within 60 seconds, the poll
- * returns a `taskToken` with a null string.
- *
- * This API action isn't logged in CloudTrail.
- *
- * Workers should set their client side socket timeout to at least 65 seconds (5 seconds
- * higher than the maximum time the service may hold the poll request).
- *
- * Polling with `GetActivityTask` can cause latency in some implementations. See
- * Avoid
- * Latency When Polling for Activity Tasks in the Step Functions Developer Guide.
- */
-export const getActivityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetActivityTaskInput,
-  output: GetActivityTaskOutput,
-  errors: [
-    ActivityDoesNotExist,
-    ActivityWorkerLimitExceeded,
-    InvalidArn,
-    KmsAccessDeniedException,
-    KmsInvalidStateException,
-    KmsThrottlingException,
-  ],
+export const updateMapRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMapRunInput,
+  output: UpdateMapRunOutput,
+  errors: [InvalidArn, ResourceNotFound, ValidationException],
 }));
 /**
- * Lists the existing activities.
+ * Deletes a state machine version. After
+ * you delete a version, you can't call StartExecution using that version's ARN
+ * or use the version with a state machine alias.
  *
- * If `nextToken` is returned, there are more results available. The value of `nextToken` is a unique pagination token for each page.
- * Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an *HTTP 400 InvalidToken* error.
+ * Deleting a state machine version won't terminate its in-progress executions.
  *
- * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+ * You can't delete a state machine version currently referenced by one or more aliases. Before you delete a version, you must either delete the aliases or update them to point to another state machine version.
+ *
+ * **Related operations:**
+ *
+ * - PublishStateMachineVersion
+ *
+ * - ListStateMachineVersions
  */
-export const listActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListActivitiesInput,
-  output: ListActivitiesOutput,
-  errors: [InvalidToken],
-}));
+export const deleteStateMachineVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteStateMachineVersionInput,
+    output: DeleteStateMachineVersionOutput,
+    errors: [ConflictException, InvalidArn, ValidationException],
+  }),
+);
 /**
- * Lists all Map Runs that were started by a given state machine execution. Use this API action to obtain Map Run ARNs, and then call `DescribeMapRun` to obtain more information, if needed.
- */
-export const listMapRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMapRunsInput,
-  output: ListMapRunsOutput,
-  errors: [ExecutionDoesNotExist, InvalidArn, InvalidToken],
-}));
-/**
- * Lists aliases for a specified state machine ARN. Results are sorted by time, with the most recently created aliases listed first.
+ * Deletes a state machine alias.
  *
- * To list aliases that reference a state machine version, you can specify the version ARN in the `stateMachineArn` parameter.
- *
- * If `nextToken` is returned, there are more results available. The value of `nextToken` is a unique pagination token for each page.
- * Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an *HTTP 400 InvalidToken* error.
+ * After you delete a state machine alias, you can't use it to start executions. When you
+ * delete a state machine alias, Step Functions doesn't delete the state machine versions
+ * that alias references.
  *
  * **Related operations:**
  *
@@ -1709,36 +1621,22 @@ export const listMapRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DescribeStateMachineAlias
  *
- * - UpdateStateMachineAlias
+ * - ListStateMachineAliases
  *
- * - DeleteStateMachineAlias
+ * - UpdateStateMachineAlias
  */
-export const listStateMachineAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListStateMachineAliasesInput,
-    output: ListStateMachineAliasesOutput,
+    input: DeleteStateMachineAliasInput,
+    output: DeleteStateMachineAliasOutput,
     errors: [
+      ConflictException,
       InvalidArn,
-      InvalidToken,
       ResourceNotFound,
-      StateMachineDeleting,
-      StateMachineDoesNotExist,
+      ValidationException,
     ],
   }),
 );
-/**
- * Lists the existing state machines.
- *
- * If `nextToken` is returned, there are more results available. The value of `nextToken` is a unique pagination token for each page.
- * Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an *HTTP 400 InvalidToken* error.
- *
- * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
- */
-export const listStateMachines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStateMachinesInput,
-  output: ListStateMachinesOutput,
-  errors: [InvalidToken],
-}));
 /**
  * Lists versions for the specified state machine Amazon Resource Name (ARN).
  *
@@ -1758,201 +1656,6 @@ export const listStateMachineVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: ListStateMachineVersionsInput,
     output: ListStateMachineVersionsOutput,
     errors: [InvalidArn, InvalidToken, ValidationException],
-  }),
-);
-/**
- * Creates a version from the
- * current revision of a state machine. Use versions to create immutable snapshots of your state
- * machine. You can start executions from versions either directly or with an alias. To create an
- * alias, use CreateStateMachineAlias.
- *
- * You can publish up to 1000 versions for each state machine. You must manually delete unused versions using the DeleteStateMachineVersion API action.
- *
- * `PublishStateMachineVersion` is an idempotent API. It doesn't create a
- * duplicate state machine version if it already exists for the current revision. Step Functions bases `PublishStateMachineVersion`'s idempotency check on the
- * `stateMachineArn`, `name`, and `revisionId` parameters.
- * Requests with the same parameters return a successful idempotent response. If you don't
- * specify a `revisionId`, Step Functions checks for a previously published
- * version of the state machine's current revision.
- *
- * **Related operations:**
- *
- * - DeleteStateMachineVersion
- *
- * - ListStateMachineVersions
- */
-export const publishStateMachineVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PublishStateMachineVersionInput,
-    output: PublishStateMachineVersionOutput,
-    errors: [
-      ConflictException,
-      InvalidArn,
-      ServiceQuotaExceededException,
-      StateMachineDeleting,
-      StateMachineDoesNotExist,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Used by activity workers, Task states using the callback
- * pattern, and optionally Task states using the job run pattern to report that the task identified by the `taskToken` failed.
- *
- * For an execution with encryption enabled, Step Functions will encrypt the error and cause fields using the KMS key for the execution role.
- *
- * A caller can mark a task as fail without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
- */
-export const sendTaskFailure = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendTaskFailureInput,
-  output: SendTaskFailureOutput,
-  errors: [
-    InvalidToken,
-    KmsAccessDeniedException,
-    KmsInvalidStateException,
-    KmsThrottlingException,
-    TaskDoesNotExist,
-    TaskTimedOut,
-  ],
-}));
-/**
- * Used by activity workers and Task states using the callback
- * pattern, and optionally Task states using the job run pattern to report to Step Functions that the task represented by the specified
- * `taskToken` is still making progress. This action resets the
- * `Heartbeat` clock. The `Heartbeat` threshold is specified in the state
- * machine's Amazon States Language definition (`HeartbeatSeconds`). This action does not in itself
- * create an event in the execution history. However, if the task times out, the execution
- * history contains an `ActivityTimedOut` entry for activities, or a
- * `TaskTimedOut` entry for tasks using the job run or
- * callback
- * pattern.
- *
- * The `Timeout` of a task, defined in the state machine's Amazon States Language definition, is
- * its maximum allowed duration, regardless of the number of SendTaskHeartbeat requests received. Use `HeartbeatSeconds` to configure the timeout interval
- * for heartbeats.
- */
-export const sendTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendTaskHeartbeatInput,
-  output: SendTaskHeartbeatOutput,
-  errors: [InvalidToken, TaskDoesNotExist, TaskTimedOut],
-}));
-/**
- * Used by activity workers, Task states using the callback
- * pattern, and optionally Task states using the job run pattern to report that the task identified by the `taskToken` completed
- * successfully.
- */
-export const sendTaskSuccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendTaskSuccessInput,
-  output: SendTaskSuccessOutput,
-  errors: [
-    InvalidOutput,
-    InvalidToken,
-    KmsAccessDeniedException,
-    KmsInvalidStateException,
-    KmsThrottlingException,
-    TaskDoesNotExist,
-    TaskTimedOut,
-  ],
-}));
-/**
- * Starts a Synchronous Express state machine execution. `StartSyncExecution`
- * is not available for `STANDARD` workflows.
- *
- * `StartSyncExecution` will return a `200 OK` response, even if your
- * execution fails, because the status code in the API response doesn't reflect function
- * errors. Error codes are reserved for errors that prevent your execution from running, such
- * as permissions errors, limit errors, or issues with your state machine code and
- * configuration.
- *
- * This API action isn't logged in CloudTrail.
- */
-export const startSyncExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartSyncExecutionInput,
-  output: StartSyncExecutionOutput,
-  errors: [
-    InvalidArn,
-    InvalidExecutionInput,
-    InvalidName,
-    KmsAccessDeniedException,
-    KmsInvalidStateException,
-    KmsThrottlingException,
-    StateMachineDeleting,
-    StateMachineDoesNotExist,
-    StateMachineTypeNotSupported,
-  ],
-}));
-/**
- * Stops an execution.
- *
- * This API action is not supported by `EXPRESS` state machines.
- *
- * For an execution with encryption enabled, Step Functions will encrypt the error and cause fields using the KMS key for the execution role.
- *
- * A caller can stop an execution without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
- */
-export const stopExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopExecutionInput,
-  output: StopExecutionOutput,
-  errors: [
-    ExecutionDoesNotExist,
-    InvalidArn,
-    KmsAccessDeniedException,
-    KmsInvalidStateException,
-    KmsThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Add a tag to a Step Functions resource.
- *
- * An array of key-value pairs. For more information, see Using
- * Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User
- * Guide, and Controlling Access Using IAM
- * Tags.
- *
- * Tags may only contain Unicode letters, digits, white space, or these symbols: `_ . : / = + - @`.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [InvalidArn, ResourceNotFound, TooManyTags],
-}));
-/**
- * Updates the configuration of an existing state machine alias by modifying its `description` or `routingConfiguration`.
- *
- * You must specify at least one of the `description` or `routingConfiguration` parameters to update a state machine alias.
- *
- * `UpdateStateMachineAlias` is an idempotent API. Step Functions bases the
- * idempotency check on the `stateMachineAliasArn`, `description`, and
- * `routingConfiguration` parameters. Requests with the same parameters return an
- * idempotent response.
- *
- * This operation is eventually consistent. All StartExecution requests
- * made within a few seconds use the latest alias configuration. Executions started immediately
- * after calling `UpdateStateMachineAlias` may use the previous routing
- * configuration.
- *
- * **Related operations:**
- *
- * - CreateStateMachineAlias
- *
- * - DescribeStateMachineAlias
- *
- * - ListStateMachineAliases
- *
- * - DeleteStateMachineAlias
- */
-export const updateStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStateMachineAliasInput,
-    output: UpdateStateMachineAliasOutput,
-    errors: [
-      ConflictException,
-      InvalidArn,
-      ResourceNotFound,
-      StateMachineDeleting,
-      ValidationException,
-    ],
   }),
 );
 /**
@@ -1995,6 +1698,125 @@ export const validateStateMachineDefinition =
     output: ValidateStateMachineDefinitionOutput,
     errors: [ValidationException],
   }));
+/**
+ * Lists aliases for a specified state machine ARN. Results are sorted by time, with the most recently created aliases listed first.
+ *
+ * To list aliases that reference a state machine version, you can specify the version ARN in the `stateMachineArn` parameter.
+ *
+ * If `nextToken` is returned, there are more results available. The value of `nextToken` is a unique pagination token for each page.
+ * Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an *HTTP 400 InvalidToken* error.
+ *
+ * **Related operations:**
+ *
+ * - CreateStateMachineAlias
+ *
+ * - DescribeStateMachineAlias
+ *
+ * - UpdateStateMachineAlias
+ *
+ * - DeleteStateMachineAlias
+ */
+export const listStateMachineAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListStateMachineAliasesInput,
+    output: ListStateMachineAliasesOutput,
+    errors: [
+      InvalidArn,
+      InvalidToken,
+      ResourceNotFound,
+      StateMachineDeleting,
+      StateMachineDoesNotExist,
+    ],
+  }),
+);
+/**
+ * Add a tag to a Step Functions resource.
+ *
+ * An array of key-value pairs. For more information, see Using
+ * Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User
+ * Guide, and Controlling Access Using IAM
+ * Tags.
+ *
+ * Tags may only contain Unicode letters, digits, white space, or these symbols: `_ . : / = + - @`.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [InvalidArn, ResourceNotFound, TooManyTags],
+}));
+/**
+ * Creates a version from the
+ * current revision of a state machine. Use versions to create immutable snapshots of your state
+ * machine. You can start executions from versions either directly or with an alias. To create an
+ * alias, use CreateStateMachineAlias.
+ *
+ * You can publish up to 1000 versions for each state machine. You must manually delete unused versions using the DeleteStateMachineVersion API action.
+ *
+ * `PublishStateMachineVersion` is an idempotent API. It doesn't create a
+ * duplicate state machine version if it already exists for the current revision. Step Functions bases `PublishStateMachineVersion`'s idempotency check on the
+ * `stateMachineArn`, `name`, and `revisionId` parameters.
+ * Requests with the same parameters return a successful idempotent response. If you don't
+ * specify a `revisionId`, Step Functions checks for a previously published
+ * version of the state machine's current revision.
+ *
+ * **Related operations:**
+ *
+ * - DeleteStateMachineVersion
+ *
+ * - ListStateMachineVersions
+ */
+export const publishStateMachineVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PublishStateMachineVersionInput,
+    output: PublishStateMachineVersionOutput,
+    errors: [
+      ConflictException,
+      InvalidArn,
+      ServiceQuotaExceededException,
+      StateMachineDeleting,
+      StateMachineDoesNotExist,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration of an existing state machine alias by modifying its `description` or `routingConfiguration`.
+ *
+ * You must specify at least one of the `description` or `routingConfiguration` parameters to update a state machine alias.
+ *
+ * `UpdateStateMachineAlias` is an idempotent API. Step Functions bases the
+ * idempotency check on the `stateMachineAliasArn`, `description`, and
+ * `routingConfiguration` parameters. Requests with the same parameters return an
+ * idempotent response.
+ *
+ * This operation is eventually consistent. All StartExecution requests
+ * made within a few seconds use the latest alias configuration. Executions started immediately
+ * after calling `UpdateStateMachineAlias` may use the previous routing
+ * configuration.
+ *
+ * **Related operations:**
+ *
+ * - CreateStateMachineAlias
+ *
+ * - DescribeStateMachineAlias
+ *
+ * - ListStateMachineAliases
+ *
+ * - DeleteStateMachineAlias
+ */
+export const updateStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateStateMachineAliasInput,
+    output: UpdateStateMachineAliasOutput,
+    errors: [
+      ConflictException,
+      InvalidArn,
+      ResourceNotFound,
+      StateMachineDeleting,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Creates an alias for a state machine that points to one or two versions of the same state machine. You can set your application to call StartExecution with an alias and update the version the alias uses without changing the client's code.
  *
@@ -2042,6 +1864,190 @@ export const createStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Used by activity workers and Task states using the callback
+ * pattern, and optionally Task states using the job run pattern to report to Step Functions that the task represented by the specified
+ * `taskToken` is still making progress. This action resets the
+ * `Heartbeat` clock. The `Heartbeat` threshold is specified in the state
+ * machine's Amazon States Language definition (`HeartbeatSeconds`). This action does not in itself
+ * create an event in the execution history. However, if the task times out, the execution
+ * history contains an `ActivityTimedOut` entry for activities, or a
+ * `TaskTimedOut` entry for tasks using the job run or
+ * callback
+ * pattern.
+ *
+ * The `Timeout` of a task, defined in the state machine's Amazon States Language definition, is
+ * its maximum allowed duration, regardless of the number of SendTaskHeartbeat requests received. Use `HeartbeatSeconds` to configure the timeout interval
+ * for heartbeats.
+ */
+export const sendTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendTaskHeartbeatInput,
+  output: SendTaskHeartbeatOutput,
+  errors: [InvalidToken, TaskDoesNotExist, TaskTimedOut],
+}));
+/**
+ * Lists all executions of a state machine or a Map Run. You can list all executions related to a state machine by specifying a state machine Amazon Resource Name (ARN), or those related to a Map Run by specifying a Map Run ARN. Using this API action, you can also list all redriven executions.
+ *
+ * You can also provide a state machine alias ARN or version ARN to list the executions associated with a specific alias or version.
+ *
+ * Results are
+ * sorted by time, with the most recent execution first.
+ *
+ * If `nextToken` is returned, there are more results available. The value of `nextToken` is a unique pagination token for each page.
+ * Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an *HTTP 400 InvalidToken* error.
+ *
+ * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+ *
+ * This API action is not supported by `EXPRESS` state machines.
+ */
+export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListExecutionsInput,
+  output: ListExecutionsOutput,
+  errors: [
+    InvalidArn,
+    InvalidToken,
+    ResourceNotFound,
+    StateMachineDoesNotExist,
+    StateMachineTypeNotSupported,
+    ValidationException,
+  ],
+}));
+/**
+ * Used by activity workers, Task states using the callback
+ * pattern, and optionally Task states using the job run pattern to report that the task identified by the `taskToken` failed.
+ *
+ * For an execution with encryption enabled, Step Functions will encrypt the error and cause fields using the KMS key for the execution role.
+ *
+ * A caller can mark a task as fail without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
+ */
+export const sendTaskFailure = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendTaskFailureInput,
+  output: SendTaskFailureOutput,
+  errors: [
+    InvalidToken,
+    KmsAccessDeniedException,
+    KmsInvalidStateException,
+    KmsThrottlingException,
+    TaskDoesNotExist,
+    TaskTimedOut,
+  ],
+}));
+/**
+ * Starts a Synchronous Express state machine execution. `StartSyncExecution`
+ * is not available for `STANDARD` workflows.
+ *
+ * `StartSyncExecution` will return a `200 OK` response, even if your
+ * execution fails, because the status code in the API response doesn't reflect function
+ * errors. Error codes are reserved for errors that prevent your execution from running, such
+ * as permissions errors, limit errors, or issues with your state machine code and
+ * configuration.
+ *
+ * This API action isn't logged in CloudTrail.
+ */
+export const startSyncExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSyncExecutionInput,
+  output: StartSyncExecutionOutput,
+  errors: [
+    InvalidArn,
+    InvalidExecutionInput,
+    InvalidName,
+    KmsAccessDeniedException,
+    KmsInvalidStateException,
+    KmsThrottlingException,
+    StateMachineDeleting,
+    StateMachineDoesNotExist,
+    StateMachineTypeNotSupported,
+  ],
+}));
+/**
+ * Used by workers to retrieve a task (with the specified activity ARN) which has been
+ * scheduled for execution by a running state machine. This initiates a long poll, where the
+ * service holds the HTTP connection open and responds as soon as a task becomes available (i.e.
+ * an execution of a task of this type is needed.) The maximum time the service holds on to the
+ * request before responding is 60 seconds. If no task is available within 60 seconds, the poll
+ * returns a `taskToken` with a null string.
+ *
+ * This API action isn't logged in CloudTrail.
+ *
+ * Workers should set their client side socket timeout to at least 65 seconds (5 seconds
+ * higher than the maximum time the service may hold the poll request).
+ *
+ * Polling with `GetActivityTask` can cause latency in some implementations. See
+ * Avoid
+ * Latency When Polling for Activity Tasks in the Step Functions Developer Guide.
+ */
+export const getActivityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetActivityTaskInput,
+  output: GetActivityTaskOutput,
+  errors: [
+    ActivityDoesNotExist,
+    ActivityWorkerLimitExceeded,
+    InvalidArn,
+    KmsAccessDeniedException,
+    KmsInvalidStateException,
+    KmsThrottlingException,
+  ],
+}));
+/**
+ * Stops an execution.
+ *
+ * This API action is not supported by `EXPRESS` state machines.
+ *
+ * For an execution with encryption enabled, Step Functions will encrypt the error and cause fields using the KMS key for the execution role.
+ *
+ * A caller can stop an execution without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
+ */
+export const stopExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopExecutionInput,
+  output: StopExecutionOutput,
+  errors: [
+    ExecutionDoesNotExist,
+    InvalidArn,
+    KmsAccessDeniedException,
+    KmsInvalidStateException,
+    KmsThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Provides information about a state machine execution, such as the state machine associated with the execution, the execution input and output, and relevant execution metadata. If you've redriven an execution, you can use this API action to return information about the redrives of that execution. In addition, you can use this API action to return the Map Run Amazon Resource Name (ARN) if the execution was dispatched by a Map Run.
+ *
+ * If you specify a version or alias ARN when you call the StartExecution
+ * API action, `DescribeExecution` returns that ARN.
+ *
+ * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+ *
+ * Executions of an `EXPRESS` state machine aren't supported by `DescribeExecution` unless a Map Run dispatched them.
+ */
+export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeExecutionInput,
+  output: DescribeExecutionOutput,
+  errors: [
+    ExecutionDoesNotExist,
+    InvalidArn,
+    KmsAccessDeniedException,
+    KmsInvalidStateException,
+    KmsThrottlingException,
+  ],
+}));
+/**
+ * Used by activity workers, Task states using the callback
+ * pattern, and optionally Task states using the job run pattern to report that the task identified by the `taskToken` completed
+ * successfully.
+ */
+export const sendTaskSuccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendTaskSuccessInput,
+  output: SendTaskSuccessOutput,
+  errors: [
+    InvalidOutput,
+    InvalidToken,
+    KmsAccessDeniedException,
+    KmsInvalidStateException,
+    KmsThrottlingException,
+    TaskDoesNotExist,
+    TaskTimedOut,
+  ],
+}));
+/**
  * Provides information about a state machine's definition, its IAM role Amazon Resource Name (ARN), and configuration.
  *
  * A qualified state machine ARN can either refer to a *Distributed Map state* defined within a state machine, a version ARN, or an alias ARN.
@@ -2083,64 +2089,27 @@ export const describeStateMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists all executions of a state machine or a Map Run. You can list all executions related to a state machine by specifying a state machine Amazon Resource Name (ARN), or those related to a Map Run by specifying a Map Run ARN. Using this API action, you can also list all redriven executions.
- *
- * You can also provide a state machine alias ARN or version ARN to list the executions associated with a specific alias or version.
- *
- * Results are
- * sorted by time, with the most recent execution first.
- *
- * If `nextToken` is returned, there are more results available. The value of `nextToken` is a unique pagination token for each page.
- * Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an *HTTP 400 InvalidToken* error.
+ * Provides information about a state machine's definition, its execution role ARN, and
+ * configuration. If a Map Run dispatched the execution, this action returns the Map Run
+ * Amazon Resource Name (ARN) in the response. The state machine returned is the state machine associated with the
+ * Map Run.
  *
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  *
  * This API action is not supported by `EXPRESS` state machines.
  */
-export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListExecutionsInput,
-  output: ListExecutionsOutput,
-  errors: [
-    InvalidArn,
-    InvalidToken,
-    ResourceNotFound,
-    StateMachineDoesNotExist,
-    StateMachineTypeNotSupported,
-    ValidationException,
-  ],
-}));
-/**
- * Restarts unsuccessful executions of Standard workflows that didn't complete successfully in the last 14 days. These include failed, aborted, or timed out executions. When you redrive an execution, it continues the failed execution from the unsuccessful step and uses the same input. Step Functions preserves the results and execution history of the successful steps, and doesn't rerun these steps when you redrive an execution. Redriven executions use the same state machine definition and execution ARN as the original execution attempt.
- *
- * For workflows that include an Inline Map or Parallel state, `RedriveExecution` API action reschedules and redrives only the iterations and branches that failed or aborted.
- *
- * To redrive a workflow that includes a Distributed Map state whose Map Run failed, you must redrive the parent workflow. The parent workflow redrives all the unsuccessful states, including a failed Map Run. If a Map Run was not started in the original execution attempt, the redriven parent workflow starts the Map Run.
- *
- * This API action is not supported by `EXPRESS` state machines.
- *
- * However, you can restart the unsuccessful executions of Express child workflows in a Distributed Map by redriving its Map Run. When you redrive a Map Run, the Express child workflows are rerun using the StartExecution API action. For more information, see Redriving Map Runs.
- *
- * You can redrive executions if your original execution meets the following conditions:
- *
- * - The execution status isn't `SUCCEEDED`.
- *
- * - Your workflow execution has not exceeded the redrivable period of 14 days. Redrivable period refers to the time during which you can redrive a given execution. This period starts from the day a state machine completes its execution.
- *
- * - The workflow execution has not exceeded the maximum open time of one year. For more information about state machine quotas, see Quotas related to state machine executions.
- *
- * - The execution event history count is less than 24,999. Redriven executions append their event history to the existing event history. Make sure your workflow execution contains less than 24,999 events to accommodate the `ExecutionRedriven` history event and at least one other history event.
- */
-export const redriveExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RedriveExecutionInput,
-  output: RedriveExecutionOutput,
-  errors: [
-    ExecutionDoesNotExist,
-    ExecutionLimitExceeded,
-    ExecutionNotRedrivable,
-    InvalidArn,
-    ValidationException,
-  ],
-}));
+export const describeStateMachineForExecution =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeStateMachineForExecutionInput,
+    output: DescribeStateMachineForExecutionOutput,
+    errors: [
+      ExecutionDoesNotExist,
+      InvalidArn,
+      KmsAccessDeniedException,
+      KmsInvalidStateException,
+      KmsThrottlingException,
+    ],
+  }));
 /**
  * Starts a state machine execution.
  *
@@ -2243,6 +2212,38 @@ export const getExecutionHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     KmsAccessDeniedException,
     KmsInvalidStateException,
     KmsThrottlingException,
+  ],
+}));
+/**
+ * Restarts unsuccessful executions of Standard workflows that didn't complete successfully in the last 14 days. These include failed, aborted, or timed out executions. When you redrive an execution, it continues the failed execution from the unsuccessful step and uses the same input. Step Functions preserves the results and execution history of the successful steps, and doesn't rerun these steps when you redrive an execution. Redriven executions use the same state machine definition and execution ARN as the original execution attempt.
+ *
+ * For workflows that include an Inline Map or Parallel state, `RedriveExecution` API action reschedules and redrives only the iterations and branches that failed or aborted.
+ *
+ * To redrive a workflow that includes a Distributed Map state whose Map Run failed, you must redrive the parent workflow. The parent workflow redrives all the unsuccessful states, including a failed Map Run. If a Map Run was not started in the original execution attempt, the redriven parent workflow starts the Map Run.
+ *
+ * This API action is not supported by `EXPRESS` state machines.
+ *
+ * However, you can restart the unsuccessful executions of Express child workflows in a Distributed Map by redriving its Map Run. When you redrive a Map Run, the Express child workflows are rerun using the StartExecution API action. For more information, see Redriving Map Runs.
+ *
+ * You can redrive executions if your original execution meets the following conditions:
+ *
+ * - The execution status isn't `SUCCEEDED`.
+ *
+ * - Your workflow execution has not exceeded the redrivable period of 14 days. Redrivable period refers to the time during which you can redrive a given execution. This period starts from the day a state machine completes its execution.
+ *
+ * - The workflow execution has not exceeded the maximum open time of one year. For more information about state machine quotas, see Quotas related to state machine executions.
+ *
+ * - The execution event history count is less than 24,999. Redriven executions append their event history to the existing event history. Make sure your workflow execution contains less than 24,999 events to accommodate the `ExecutionRedriven` history event and at least one other history event.
+ */
+export const redriveExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RedriveExecutionInput,
+  output: RedriveExecutionOutput,
+  errors: [
+    ExecutionDoesNotExist,
+    ExecutionLimitExceeded,
+    ExecutionNotRedrivable,
+    InvalidArn,
+    ValidationException,
   ],
 }));
 /**

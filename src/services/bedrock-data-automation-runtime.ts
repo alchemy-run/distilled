@@ -309,6 +309,12 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
 export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
   "UntagResourceResponse",
 )({}) {}
+export class GetDataAutomationStatusRequest extends S.Class<GetDataAutomationStatusRequest>(
+  "GetDataAutomationStatusRequest",
+)(
+  { invocationArn: S.String.pipe(T.HttpLabel()) },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
 export class SyncInputConfiguration extends S.Class<SyncInputConfiguration>(
   "SyncInputConfiguration",
 )({ bytes: S.optional(T.Blob), s3Uri: S.optional(S.String) }) {}
@@ -326,6 +332,9 @@ export class Tag extends S.Class<Tag>("Tag")({
   value: S.String,
 }) {}
 export const TagList = S.Array(Tag);
+export class OutputConfiguration extends S.Class<OutputConfiguration>(
+  "OutputConfiguration",
+)({ s3Uri: S.String }) {}
 export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
   "ListTagsForResourceResponse",
 )({ tags: S.optional(TagList) }) {}
@@ -338,16 +347,33 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
 export class TagResourceResponse extends S.Class<TagResourceResponse>(
   "TagResourceResponse",
 )({}) {}
+export class GetDataAutomationStatusResponse extends S.Class<GetDataAutomationStatusResponse>(
+  "GetDataAutomationStatusResponse",
+)({
+  status: S.optional(S.String),
+  errorType: S.optional(S.String),
+  errorMessage: S.optional(S.String),
+  outputConfiguration: S.optional(OutputConfiguration),
+  jobSubmissionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  jobCompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  jobDurationInSeconds: S.optional(S.Number),
+}) {}
 export const EncryptionContextMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export class EventBridgeConfiguration extends S.Class<EventBridgeConfiguration>(
+  "EventBridgeConfiguration",
+)({ eventBridgeEnabled: S.Boolean }) {}
 export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
   "EncryptionConfiguration",
 )({
   kmsKeyId: S.String,
   kmsEncryptionContext: S.optional(EncryptionContextMap),
 }) {}
+export class NotificationConfiguration extends S.Class<NotificationConfiguration>(
+  "NotificationConfiguration",
+)({ eventBridgeConfiguration: EventBridgeConfiguration }) {}
 export class InvokeDataAutomationRequest extends S.Class<InvokeDataAutomationRequest>(
   "InvokeDataAutomationRequest",
 )(
@@ -360,36 +386,69 @@ export class InvokeDataAutomationRequest extends S.Class<InvokeDataAutomationReq
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
+export class TimestampSegment extends S.Class<TimestampSegment>(
+  "TimestampSegment",
+)({ startTimeMillis: S.Number, endTimeMillis: S.Number }) {}
+export const VideoSegmentConfiguration = S.Union(
+  S.Struct({ timestampSegment: TimestampSegment }),
+);
 export class OutputSegment extends S.Class<OutputSegment>("OutputSegment")({
   customOutputStatus: S.optional(S.String),
   customOutput: S.optional(S.String),
   standardOutput: S.optional(S.String),
 }) {}
 export const OutputSegmentList = S.Array(OutputSegment);
+export class VideoAssetProcessingConfiguration extends S.Class<VideoAssetProcessingConfiguration>(
+  "VideoAssetProcessingConfiguration",
+)({ segmentConfiguration: S.optional(VideoSegmentConfiguration) }) {}
 export class InvokeDataAutomationResponse extends S.Class<InvokeDataAutomationResponse>(
   "InvokeDataAutomationResponse",
 )({ semanticModality: S.String, outputSegments: OutputSegmentList }) {}
+export class AssetProcessingConfiguration extends S.Class<AssetProcessingConfiguration>(
+  "AssetProcessingConfiguration",
+)({ video: S.optional(VideoAssetProcessingConfiguration) }) {}
+export class InputConfiguration extends S.Class<InputConfiguration>(
+  "InputConfiguration",
+)({
+  s3Uri: S.String,
+  assetProcessingConfiguration: S.optional(AssetProcessingConfiguration),
+}) {}
+export class InvokeDataAutomationAsyncRequest extends S.Class<InvokeDataAutomationAsyncRequest>(
+  "InvokeDataAutomationAsyncRequest",
+)(
+  {
+    clientToken: S.optional(S.String),
+    inputConfiguration: InputConfiguration,
+    outputConfiguration: OutputConfiguration,
+    dataAutomationConfiguration: S.optional(DataAutomationConfiguration),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+    notificationConfiguration: S.optional(NotificationConfiguration),
+    blueprints: S.optional(BlueprintList),
+    dataAutomationProfileArn: S.String,
+    tags: S.optional(TagList),
+  },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class InvokeDataAutomationAsyncResponse extends S.Class<InvokeDataAutomationAsyncResponse>(
+  "InvokeDataAutomationAsyncResponse",
+)({ invocationArn: S.String }) {}
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -397,6 +456,10 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { message: S.optional(S.String) },
 ) {}
 
@@ -407,20 +470,6 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
 export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List tags for an Amazon Bedrock Data Automation resource
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -445,6 +494,36 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * API used to get data automation status.
+ */
+export const getDataAutomationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDataAutomationStatusRequest,
+    output: GetDataAutomationStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * List tags for an Amazon Bedrock Data Automation resource
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Sync API: Invoke data automation.
  */
 export const invokeDataAutomation = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -455,6 +534,22 @@ export const invokeDataAutomation = /*@__PURE__*/ /*#__PURE__*/ API.make(
       AccessDeniedException,
       InternalServerException,
       ServiceUnavailableException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Async API: Invoke data automation.
+ */
+export const invokeDataAutomationAsync = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: InvokeDataAutomationAsyncRequest,
+    output: InvokeDataAutomationAsyncResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],

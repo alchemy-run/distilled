@@ -6411,19 +6411,7 @@ export class PutStorageLensConfigurationResponse extends S.Class<PutStorageLensC
 //# Errors
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-) {}
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
-  "BadRequestException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class BucketAlreadyExists extends S.TaggedError<BucketAlreadyExists>()(
   "BucketAlreadyExists",
@@ -6433,24 +6421,36 @@ export class BucketAlreadyOwnedByYou extends S.TaggedError<BucketAlreadyOwnedByY
   "BucketAlreadyOwnedByYou",
   {},
 ) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { Message: S.optional(S.String) },
+) {}
 export class NoSuchPublicAccessBlockConfiguration extends S.TaggedError<NoSuchPublicAccessBlockConfiguration>()(
   "NoSuchPublicAccessBlockConfiguration",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
+export class BadRequestException extends S.TaggedError<BadRequestException>()(
+  "BadRequestException",
   { Message: S.optional(S.String) },
 ) {}
-export class JobStatusException extends S.TaggedError<JobStatusException>()(
-  "JobStatusException",
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
   { Message: S.optional(S.String) },
 ) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
   { Message: S.optional(S.String) },
 ) {}
+export class JobStatusException extends S.TaggedError<JobStatusException>()(
+  "JobStatusException",
+  { Message: S.optional(S.String) },
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
   { Message: S.optional(S.String) },
 ) {}
 export class IdempotencyException extends S.TaggedError<IdempotencyException>()(
@@ -7523,34 +7523,6 @@ export const getBucketVersioning = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Returns the tags on an S3 Batch Operations job.
- *
- * ### Permissions
- *
- * To use the
- * `GetJobTagging` operation, you must have permission to
- * perform the `s3:GetJobTagging` action. For more information, see Controlling
- * access and labeling jobs using tags in the
- * *Amazon S3 User Guide*.
- *
- * Related actions include:
- *
- * - CreateJob
- *
- * - PutJobTagging
- *
- * - DeleteJobTagging
- */
-export const getJobTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJobTaggingRequest,
-  output: GetJobTaggingResult,
-  errors: [
-    InternalServiceException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * This operation is not supported by directory buckets.
  *
  * Indicates whether the specified Multi-Region Access Point has an access control policy that allows public
@@ -8015,34 +7987,6 @@ export const createBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [BucketAlreadyExists, BucketAlreadyOwnedByYou],
 }));
 /**
- * Removes the entire tag set from the specified S3 Batch Operations job.
- *
- * ### Permissions
- *
- * To use the
- * `DeleteJobTagging` operation, you must have permission to
- * perform the `s3:DeleteJobTagging` action. For more information, see Controlling
- * access and labeling jobs using tags in the
- * *Amazon S3 User Guide*.
- *
- * Related actions include:
- *
- * - CreateJob
- *
- * - GetJobTagging
- *
- * - PutJobTagging
- */
-export const deleteJobTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJobTaggingRequest,
-  output: DeleteJobTaggingResult,
-  errors: [
-    InternalServiceException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * This operation is not supported by directory buckets.
  *
  * Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point,
@@ -8315,62 +8259,6 @@ export const listStorageLensGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Sets the supplied tag-set on an S3 Batch Operations job.
- *
- * A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending
- * a PUT request against the tagging subresource that is associated with the job. To modify
- * the existing tag set, you can either replace the existing tag set entirely, or make changes
- * within the existing tag set by retrieving the existing tag set using GetJobTagging, modify that tag set, and use this operation to replace the tag set
- * with the one you modified. For more information, see Controlling
- * access and labeling jobs using tags in the *Amazon S3 User Guide*.
- *
- * - If you send this request with an empty tag set, Amazon S3 deletes the existing
- * tag set on the Batch Operations job. If you use this method, you are charged for a Tier
- * 1 Request (PUT). For more information, see Amazon S3 pricing.
- *
- * - For deleting existing tags for your Batch Operations job, a DeleteJobTagging request is preferred because it achieves the same
- * result without incurring charges.
- *
- * - A few things to consider about using tags:
- *
- * - Amazon S3 limits the maximum number of tags to 50 tags per job.
- *
- * - You can associate up to 50 tags with a job as long as they have unique
- * tag keys.
- *
- * - A tag key can be up to 128 Unicode characters in length, and tag values
- * can be up to 256 Unicode characters in length.
- *
- * - The key and values are case sensitive.
- *
- * - For tagging-related restrictions related to characters and encodings, see
- * User-Defined Tag Restrictions in the *Billing and Cost Management User Guide*.
- *
- * ### Permissions
- *
- * To use the
- * `PutJobTagging` operation, you must have permission to
- * perform the `s3:PutJobTagging` action.
- *
- * Related actions include:
- *
- * - CreateJob
- *
- * - GetJobTagging
- *
- * - DeleteJobTagging
- */
-export const putJobTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutJobTaggingRequest,
-  output: PutJobTaggingResult,
-  errors: [
-    InternalServiceException,
-    NotFoundException,
-    TooManyRequestsException,
-    TooManyTagsException,
-  ],
-}));
-/**
  * This operation is not supported by directory buckets.
  *
  * Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only
@@ -8394,66 +8282,6 @@ export const putMultiRegionAccessPointPolicy =
     output: PutMultiRegionAccessPointPolicyResult,
     errors: [],
   }));
-/**
- * Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch Operations in the *Amazon S3 User Guide*.
- *
- * ### Permissions
- *
- * To use the
- * `UpdateJobPriority` operation, you must have permission to
- * perform the `s3:UpdateJobPriority` action.
- *
- * Related actions include:
- *
- * - CreateJob
- *
- * - ListJobs
- *
- * - DescribeJob
- *
- * - UpdateJobStatus
- */
-export const updateJobPriority = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateJobPriorityRequest,
-  output: UpdateJobPriorityResult,
-  errors: [
-    BadRequestException,
-    InternalServiceException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the status for the specified job. Use this operation to confirm that you want to
- * run a job or to cancel an existing job. For more information, see S3 Batch Operations in the *Amazon S3 User Guide*.
- *
- * ### Permissions
- *
- * To use the
- * `UpdateJobStatus` operation, you must have permission to
- * perform the `s3:UpdateJobStatus` action.
- *
- * Related actions include:
- *
- * - CreateJob
- *
- * - ListJobs
- *
- * - DescribeJob
- *
- * - UpdateJobStatus
- */
-export const updateJobStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateJobStatusRequest,
-  output: UpdateJobStatusResult,
-  errors: [
-    BadRequestException,
-    InternalServiceException,
-    JobStatusException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8510,6 +8338,34 @@ export const createStorageLensGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Removes the entire tag set from the specified S3 Batch Operations job.
+ *
+ * ### Permissions
+ *
+ * To use the
+ * `DeleteJobTagging` operation, you must have permission to
+ * perform the `s3:DeleteJobTagging` action. For more information, see Controlling
+ * access and labeling jobs using tags in the
+ * *Amazon S3 User Guide*.
+ *
+ * Related actions include:
+ *
+ * - CreateJob
+ *
+ * - GetJobTagging
+ *
+ * - PutJobTagging
+ */
+export const deleteJobTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJobTaggingRequest,
+  output: DeleteJobTaggingResult,
+  errors: [
+    InternalServiceException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
  * This operation is not supported by directory buckets.
  *
  * Returns configuration information about the specified Multi-Region Access Point.
@@ -8557,6 +8413,94 @@ export const getMultiRegionAccessPointPolicy =
     output: GetMultiRegionAccessPointPolicyResult,
     errors: [],
   }));
+/**
+ * Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch Operations in the *Amazon S3 User Guide*.
+ *
+ * ### Permissions
+ *
+ * To use the
+ * `UpdateJobPriority` operation, you must have permission to
+ * perform the `s3:UpdateJobPriority` action.
+ *
+ * Related actions include:
+ *
+ * - CreateJob
+ *
+ * - ListJobs
+ *
+ * - DescribeJob
+ *
+ * - UpdateJobStatus
+ */
+export const updateJobPriority = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateJobPriorityRequest,
+  output: UpdateJobPriorityResult,
+  errors: [
+    BadRequestException,
+    InternalServiceException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Returns the tags on an S3 Batch Operations job.
+ *
+ * ### Permissions
+ *
+ * To use the
+ * `GetJobTagging` operation, you must have permission to
+ * perform the `s3:GetJobTagging` action. For more information, see Controlling
+ * access and labeling jobs using tags in the
+ * *Amazon S3 User Guide*.
+ *
+ * Related actions include:
+ *
+ * - CreateJob
+ *
+ * - PutJobTagging
+ *
+ * - DeleteJobTagging
+ */
+export const getJobTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJobTaggingRequest,
+  output: GetJobTaggingResult,
+  errors: [
+    InternalServiceException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the status for the specified job. Use this operation to confirm that you want to
+ * run a job or to cancel an existing job. For more information, see S3 Batch Operations in the *Amazon S3 User Guide*.
+ *
+ * ### Permissions
+ *
+ * To use the
+ * `UpdateJobStatus` operation, you must have permission to
+ * perform the `s3:UpdateJobStatus` action.
+ *
+ * Related actions include:
+ *
+ * - CreateJob
+ *
+ * - ListJobs
+ *
+ * - DescribeJob
+ *
+ * - UpdateJobStatus
+ */
+export const updateJobStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateJobStatusRequest,
+  output: UpdateJobStatusResult,
+  errors: [
+    BadRequestException,
+    InternalServiceException,
+    JobStatusException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the configuration parameters and status for a Batch Operations job. For more
  * information, see S3 Batch Operations in the *Amazon S3 User Guide*.
@@ -8638,6 +8582,62 @@ export const putBucketLifecycleConfiguration =
     output: PutBucketLifecycleConfigurationResponse,
     errors: [],
   }));
+/**
+ * Sets the supplied tag-set on an S3 Batch Operations job.
+ *
+ * A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending
+ * a PUT request against the tagging subresource that is associated with the job. To modify
+ * the existing tag set, you can either replace the existing tag set entirely, or make changes
+ * within the existing tag set by retrieving the existing tag set using GetJobTagging, modify that tag set, and use this operation to replace the tag set
+ * with the one you modified. For more information, see Controlling
+ * access and labeling jobs using tags in the *Amazon S3 User Guide*.
+ *
+ * - If you send this request with an empty tag set, Amazon S3 deletes the existing
+ * tag set on the Batch Operations job. If you use this method, you are charged for a Tier
+ * 1 Request (PUT). For more information, see Amazon S3 pricing.
+ *
+ * - For deleting existing tags for your Batch Operations job, a DeleteJobTagging request is preferred because it achieves the same
+ * result without incurring charges.
+ *
+ * - A few things to consider about using tags:
+ *
+ * - Amazon S3 limits the maximum number of tags to 50 tags per job.
+ *
+ * - You can associate up to 50 tags with a job as long as they have unique
+ * tag keys.
+ *
+ * - A tag key can be up to 128 Unicode characters in length, and tag values
+ * can be up to 256 Unicode characters in length.
+ *
+ * - The key and values are case sensitive.
+ *
+ * - For tagging-related restrictions related to characters and encodings, see
+ * User-Defined Tag Restrictions in the *Billing and Cost Management User Guide*.
+ *
+ * ### Permissions
+ *
+ * To use the
+ * `PutJobTagging` operation, you must have permission to
+ * perform the `s3:PutJobTagging` action.
+ *
+ * Related actions include:
+ *
+ * - CreateJob
+ *
+ * - GetJobTagging
+ *
+ * - DeleteJobTagging
+ */
+export const putJobTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutJobTaggingRequest,
+  output: PutJobTaggingResult,
+  errors: [
+    InternalServiceException,
+    NotFoundException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * This operation is not supported by directory buckets.
  *

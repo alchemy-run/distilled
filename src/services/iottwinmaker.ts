@@ -1870,50 +1870,58 @@ export class BatchPutPropertyValuesResponse extends S.Class<BatchPutPropertyValu
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
   { message: S.optional(S.String) },
 ) {}
 export class QueryTimeoutException extends S.TaggedError<QueryTimeoutException>()(
   "QueryTimeoutException",
   { message: S.optional(S.String) },
 ) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
+) {}
 export class ConnectorFailureException extends S.TaggedError<ConnectorFailureException>()(
   "ConnectorFailureException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConnectorTimeoutException extends S.TaggedError<ConnectorTimeoutException>()(
   "ConnectorTimeoutException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Lists all tags associated with a resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+}));
 /**
  * Removes tags from a resource.
  */
@@ -1923,16 +1931,139 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
 /**
- * Delete the SyncJob.
+ * Adds tags to a resource.
  */
-export const deleteSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSyncJobRequest,
-  output: DeleteSyncJobResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Gets the pricing plan.
+ */
+export const getPricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPricingPlanRequest,
+  output: GetPricingPlanResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This API lists the components of an entity.
+ */
+export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListComponentsRequest,
+  output: ListComponentsResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the sync resources.
+ */
+export const listSyncResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSyncResourcesRequest,
+  output: ListSyncResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
     ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all component types in a workspace.
+ */
+export const listComponentTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListComponentTypesRequest,
+  output: ListComponentTypesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the metadata transfer jobs.
+ */
+export const listMetadataTransferJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMetadataTransferJobsRequest,
+    output: ListMetadataTransferJobsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * List all SyncJobs.
+ */
+export const listSyncJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSyncJobsRequest,
+  output: ListSyncJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an entity.
+ */
+export const updateEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEntityRequest,
+  output: UpdateEntityResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all scenes in a workspace.
+ */
+export const listScenes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListScenesRequest,
+  output: ListScenesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a scene.
+ */
+export const deleteScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSceneRequest,
+  output: DeleteSceneResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1968,43 +2099,6 @@ export const getMetadataTransferJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves information about a workspace.
- */
-export const getWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWorkspaceRequest,
-  output: GetWorkspaceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all tags associated with a resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [AccessDeniedException, ResourceNotFoundException],
-}));
-/**
- * Updates information in a component type.
- */
-export const updateComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateComponentTypeRequest,
-  output: UpdateComponentTypeResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Update the pricing plan.
  */
 export const updatePricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2032,11 +2126,97 @@ export const updateScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a workspace.
+ * Deletes a component type.
  */
-export const updateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWorkspaceRequest,
-  output: UpdateWorkspaceResponse,
+export const deleteComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteComponentTypeRequest,
+  output: DeleteComponentTypeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about a scene.
+ */
+export const getScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSceneRequest,
+  output: GetSceneResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This API lists the properties of a component.
+ */
+export const listProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPropertiesRequest,
+  output: ListPropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels the metadata transfer job.
+ */
+export const cancelMetadataTransferJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelMetadataTransferJobRequest,
+    output: CancelMetadataTransferJobResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about a component type.
+ */
+export const getComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetComponentTypeRequest,
+  output: GetComponentTypeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about workspaces in the current account.
+ */
+export const listWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWorkspacesRequest,
+  output: ListWorkspacesResponse,
+  errors: [
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete the SyncJob.
+ */
+export const deleteSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSyncJobRequest,
+  output: DeleteSyncJobResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2047,15 +2227,44 @@ export const updateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a scene.
+ * Retrieves information about a workspace.
  */
-export const createScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSceneRequest,
-  output: CreateSceneResponse,
+export const getWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkspaceRequest,
+  output: GetWorkspaceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates information in a component type.
+ */
+export const updateComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateComponentTypeRequest,
+  output: UpdateComponentTypeResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a workspace.
+ */
+export const updateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkspaceRequest,
+  output: UpdateWorkspaceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
@@ -2077,35 +2286,6 @@ export const createSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a workplace.
- */
-export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateWorkspaceRequest,
-  output: CreateWorkspaceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a component type.
- */
-export const deleteComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteComponentTypeRequest,
-  output: DeleteComponentTypeResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Deletes an entity.
  */
 export const deleteEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2115,47 +2295,6 @@ export const deleteEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a scene.
- */
-export const deleteScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSceneRequest,
-  output: DeleteSceneResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the pricing plan.
- */
-export const getPricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPricingPlanRequest,
-  output: GetPricingPlanResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about a scene.
- */
-export const getScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSceneRequest,
-  output: GetSceneResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -2176,40 +2315,14 @@ export const getSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This API lists the properties of a component.
+ * Creates a workplace.
  */
-export const listProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPropertiesRequest,
-  output: ListPropertiesResponse,
+export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkspaceRequest,
+  output: CreateWorkspaceResponse,
   errors: [
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all scenes in a workspace.
- */
-export const listScenes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListScenesRequest,
-  output: ListScenesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List all SyncJobs.
- */
-export const listSyncJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSyncJobsRequest,
-  output: ListSyncJobsResponse,
-  errors: [
-    AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
     ThrottlingException,
@@ -2217,47 +2330,20 @@ export const listSyncJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves information about workspaces in the current account.
+ * Creates a scene.
  */
-export const listWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListWorkspacesRequest,
-  output: ListWorkspacesResponse,
+export const createScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSceneRequest,
+  output: CreateSceneResponse,
   errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
 }));
-/**
- * Adds tags to a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Cancels the metadata transfer job.
- */
-export const cancelMetadataTransferJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMetadataTransferJobRequest,
-    output: CancelMetadataTransferJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Run queries to access information from your knowledge graph of entities within
  * individual workspaces.
@@ -2278,98 +2364,12 @@ export const executeQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves information about a component type.
- */
-export const getComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetComponentTypeRequest,
-  output: GetComponentTypeResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all component types in a workspace.
- */
-export const listComponentTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListComponentTypesRequest,
-  output: ListComponentTypesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists all entities in a workspace.
  */
 export const listEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEntitiesRequest,
   output: ListEntitiesResponse,
   errors: [
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the metadata transfer jobs.
- */
-export const listMetadataTransferJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMetadataTransferJobsRequest,
-    output: ListMetadataTransferJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates an entity.
- */
-export const updateEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEntityRequest,
-  output: UpdateEntityResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This API lists the components of an entity.
- */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListComponentsRequest,
-  output: ListComponentsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the sync resources.
- */
-export const listSyncResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSyncResourcesRequest,
-  output: ListSyncResourcesResponse,
-  errors: [
-    AccessDeniedException,
     InternalServerException,
     ServiceQuotaExceededException,
     ThrottlingException,

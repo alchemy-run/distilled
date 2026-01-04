@@ -293,7 +293,147 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export class GetConnectionRecordingPreferencesRequest extends S.Class<GetConnectionRecordingPreferencesRequest>(
+  "GetConnectionRecordingPreferencesRequest",
+)(
+  {},
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class DeleteConnectionRecordingPreferencesRequest extends S.Class<DeleteConnectionRecordingPreferencesRequest>(
+  "DeleteConnectionRecordingPreferencesRequest",
+)(
+  { ClientToken: S.optional(S.String) },
+  T.all(
+    T.Http({ method: "POST", uri: "/DeleteConnectionRecordingPreferences" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class S3Bucket extends S.Class<S3Bucket>("S3Bucket")({
+  BucketOwner: S.String,
+  BucketName: S.String,
+}) {}
+export const S3Buckets = S.Array(S3Bucket);
+export class RecordingDestinations extends S.Class<RecordingDestinations>(
+  "RecordingDestinations",
+)({ S3Buckets: S3Buckets }) {}
+export class ConnectionRecordingPreferences extends S.Class<ConnectionRecordingPreferences>(
+  "ConnectionRecordingPreferences",
+)({ RecordingDestinations: RecordingDestinations, KMSKeyArn: S.String }) {}
+export class UpdateConnectionRecordingPreferencesRequest extends S.Class<UpdateConnectionRecordingPreferencesRequest>(
+  "UpdateConnectionRecordingPreferencesRequest",
+)(
+  {
+    ConnectionRecordingPreferences: ConnectionRecordingPreferences,
+    ClientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/UpdateConnectionRecordingPreferences" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteConnectionRecordingPreferencesResponse extends S.Class<DeleteConnectionRecordingPreferencesResponse>(
+  "DeleteConnectionRecordingPreferencesResponse",
+)({ ClientToken: S.optional(S.String) }) {}
+export class UpdateConnectionRecordingPreferencesResponse extends S.Class<UpdateConnectionRecordingPreferencesResponse>(
+  "UpdateConnectionRecordingPreferencesResponse",
+)({
+  ClientToken: S.optional(S.String),
+  ConnectionRecordingPreferences: S.optional(ConnectionRecordingPreferences),
+}) {}
+export class GetConnectionRecordingPreferencesResponse extends S.Class<GetConnectionRecordingPreferencesResponse>(
+  "GetConnectionRecordingPreferencesResponse",
+)({
+  ClientToken: S.optional(S.String),
+  ConnectionRecordingPreferences: S.optional(ConnectionRecordingPreferences),
+}) {}
 
 //# Errors
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.String },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.String },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { message: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.String },
+) {}
 
 //# Operations
+/**
+ * Deletes the preferences for recording RDP connections.
+ */
+export const deleteConnectionRecordingPreferences =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteConnectionRecordingPreferencesRequest,
+    output: DeleteConnectionRecordingPreferencesResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the preferences for recording RDP connections.
+ */
+export const updateConnectionRecordingPreferences =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateConnectionRecordingPreferencesRequest,
+    output: UpdateConnectionRecordingPreferencesResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.
+ */
+export const getConnectionRecordingPreferences =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetConnectionRecordingPreferencesRequest,
+    output: GetConnectionRecordingPreferencesResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));

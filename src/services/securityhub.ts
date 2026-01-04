@@ -9059,50 +9059,50 @@ export class BatchImportFindingsResponse extends S.Class<BatchImportFindingsResp
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
-  {},
-) {}
-export class InvalidAccessException extends S.TaggedError<InvalidAccessException>()(
-  "InvalidAccessException",
-  {},
-) {}
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
-  "InvalidInputException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+export class InvalidAccessException extends S.TaggedError<InvalidAccessException>()(
+  "InvalidAccessException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+  "InvalidInputException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
-) {}
-export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
-  "ResourceConflictException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
+  "ResourceConflictException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
@@ -9112,52 +9112,43 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
 
 //# Operations
 /**
- * The *aggregation Region* is now called the *home Region*.
+ * Returns a list of security standards controls.
  *
- * Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops
- * occurring from the linked Regions to the home Region.
+ * For each control, the results include information about whether it is currently enabled,
+ * the severity, and a link to remediation information.
  *
- * When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from
- * the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
+ * This operation returns an empty list for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
  */
-export const deleteFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeStandardsControls = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteFindingAggregatorRequest,
-    output: DeleteFindingAggregatorResponse,
+    input: DescribeStandardsControlsRequest,
+    output: DescribeStandardsControlsResponse,
     errors: [
-      AccessDeniedException,
       InternalException,
       InvalidAccessException,
       InvalidInputException,
-      LimitExceededException,
       ResourceNotFoundException,
     ],
   }),
 );
 /**
- * Disables the integration of the specified product with Security Hub. After the integration is
- * disabled, findings from that product are no longer sent to Security Hub.
+ * Lists all findings-generating solutions (products) that you are subscribed to receive
+ * findings from in Security Hub.
  */
-export const disableImportFindingsForProduct =
+export const listEnabledProductsForImport =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableImportFindingsForProductRequest,
-    output: DisableImportFindingsForProductResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
+    input: ListEnabledProductsForImportRequest,
+    output: ListEnabledProductsForImportResponse,
+    errors: [InternalException, InvalidAccessException, LimitExceededException],
   }));
 /**
- * Disables a Security Hub administrator account. Can only be called by the organization
- * management account.
+ * If cross-Region aggregation is enabled, then `ListFindingAggregators` returns the Amazon Resource Name (ARN)
+ * of the finding aggregator. You can run this operation from any Amazon Web Services Region.
  */
-export const disableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationAdminAccountRequest,
-    output: DisableOrganizationAdminAccountResponse,
+export const listFindingAggregators = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListFindingAggregatorsRequest,
+    output: ListFindingAggregatorsResponse,
     errors: [
       AccessDeniedException,
       InternalException,
@@ -9165,90 +9156,170 @@ export const disableOrganizationAdminAccount =
       InvalidInputException,
       LimitExceededException,
     ],
+  }),
+);
+/**
+ * Lists the Security Hub administrator accounts. Can only be called by the organization
+ * management account.
+ */
+export const listOrganizationAdminAccounts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListOrganizationAdminAccountsRequest,
+    output: ListOrganizationAdminAccountsResponse,
+    errors: [
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      LimitExceededException,
+    ],
   }));
 /**
- * Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all
- * Regions, you must submit one request per Region where you have enabled Security Hub.
+ * Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
  *
- * You can't disable Security Hub in an account that is currently the Security Hub administrator.
- *
- * When you disable Security Hub, your existing findings and insights and any Security Hub configuration
- * settings are deleted after 90 days and cannot be recovered. Any standards that were enabled
- * are disabled, and your administrator and member account associations are removed.
- *
- * If you want to save your existing findings, you must export them before you disable
- * Security Hub.
+ * This operation omits standards control associations for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
  */
-export const disableSecurityHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableSecurityHubRequest,
-  output: DisableSecurityHubResponse,
+export const listStandardsControlAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListStandardsControlAssociationsRequest,
+    output: ListStandardsControlAssociationsResponse,
+    errors: [
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      LimitExceededException,
+    ],
+  }));
+/**
+ * Adds one or more tags to a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [InternalException, InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Updates the name and description of a custom action target in Security Hub.
+ */
+export const updateActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateActionTargetRequest,
+  output: UpdateActionTargetResponse,
   errors: [
-    AccessDeniedException,
     InternalException,
     InvalidAccessException,
-    LimitExceededException,
+    InvalidInputException,
     ResourceNotFoundException,
   ],
 }));
 /**
- * Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region.
+ * Used to control whether an individual security standard control is enabled or
+ * disabled.
+ *
+ * Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard subscription for the control has `StandardsControlsUpdatable` value `NOT_READY_FOR_UPDATES`.
  */
-export const disableSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateStandardsControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DisableSecurityHubV2Request,
-    output: DisableSecurityHubV2Response,
+    input: UpdateStandardsControlRequest,
+    output: UpdateStandardsControlResponse,
     errors: [
       AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      ResourceNotFoundException,
     ],
   }),
 );
 /**
- * Disassociates the current Security Hub member account from the associated administrator
- * account.
+ * Deletes a custom action target from Security Hub.
  *
- * This operation is only used by accounts that are not part of an organization. For
- * organization accounts, only the administrator account can
- * disassociate a member account.
+ * Deleting a custom action target does not affect any findings or insights that were
+ * already sent to Amazon CloudWatch Events using the custom action.
  */
-export const disassociateFromAdministratorAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromAdministratorAccountRequest,
-    output: DisassociateFromAdministratorAccountResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const deleteActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteActionTargetRequest,
+  output: DeleteActionTargetResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
- * This method is deprecated. Instead, use `DisassociateFromAdministratorAccount`.
- *
- * The Security Hub console continues to use `DisassociateFromMasterAccount`. It will eventually change to use `DisassociateFromAdministratorAccount`. Any IAM policies that specifically control access to this function must continue to use `DisassociateFromMasterAccount`. You should also add `DisassociateFromAdministratorAccount` to your policies to ensure that the correct permissions are in place after the console begins to use `DisassociateFromAdministratorAccount`.
- *
- * Disassociates the current Security Hub member account from the associated administrator
- * account.
- *
- * This operation is only used by accounts that are not part of an organization. For
- * organization accounts, only the administrator account can
- * disassociate a member account.
+ * Removes one or more tags from a resource.
  */
-export const disassociateFromMasterAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromMasterAccountRequest,
-    output: DisassociateFromMasterAccountResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [InternalException, InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Returns a list of tags associated with a resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [InternalException, InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
+ * For information, see Managing Security Hub administrator and member accounts with Organizations
+ * in the *Security Hub User Guide*.
+ *
+ * Declines invitations to become a Security Hub member account.
+ *
+ * A prospective member account uses this operation to decline an invitation to become a member.
+ *
+ * Only member accounts that aren't part of an Amazon Web Services organization should use this operation.
+ * Organization accounts don't receive invitations.
+ */
+export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeclineInvitationsRequest,
+  output: DeclineInvitationsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns a list of the custom action targets in Security Hub in your account.
+ */
+export const describeActionTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeActionTargetsRequest,
+    output: DescribeActionTargetsResponse,
     errors: [
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * The *aggregation Region* is now called the *home Region*.
+ *
+ * Updates cross-Region aggregation settings. You can use this operation to update the Region linking mode and the list
+ * of included or excluded Amazon Web Services Regions. However, you can't use this operation to change the home Region.
+ *
+ * You can invoke this operation from the current home Region only.
+ */
+export const updateFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateFindingAggregatorRequest,
+    output: UpdateFindingAggregatorResponse,
+    errors: [
+      AccessDeniedException,
       InternalException,
       InvalidAccessException,
       InvalidInputException,
       LimitExceededException,
       ResourceNotFoundException,
     ],
-  }));
+  }),
+);
 /**
  * Disassociates the specified member accounts from the associated administrator account.
  *
@@ -9265,41 +9336,6 @@ export const disassociateMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidInputException,
     LimitExceededException,
     ResourceNotFoundException,
-  ],
-}));
-/**
- * Enables Security Hub for your account in the current Region or the Region you specify in the
- * request.
- *
- * When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings
- * from other services that are integrated with Security Hub.
- *
- * When you use the `EnableSecurityHub` operation to enable Security Hub, you also
- * automatically enable the following standards:
- *
- * - Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0
- *
- * - Amazon Web Services Foundational Security Best Practices
- *
- * Other standards are not automatically enabled.
- *
- * To opt out of automatically enabled standards, set
- * `EnableDefaultStandards` to `false`.
- *
- * After you enable Security Hub, to enable a standard, use the `BatchEnableStandards` operation. To disable a standard, use the
- * `BatchDisableStandards` operation.
- *
- * To learn more, see the setup information in the *Security Hub User Guide*.
- */
-export const enableSecurityHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableSecurityHubRequest,
-  output: EnableSecurityHubResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidAccessException,
-    LimitExceededException,
-    ResourceConflictException,
   ],
 }));
 /**
@@ -9362,52 +9398,6 @@ export const startConfigurationPolicyDisassociation =
     ],
   }));
 /**
- * Adds one or more tags to a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [InternalException, InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Removes one or more tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [InternalException, InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Updates the name and description of a custom action target in Security Hub.
- */
-export const updateActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateActionTargetRequest,
-  output: UpdateActionTargetResponse,
-  errors: [
-    InternalException,
-    InvalidAccessException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates a V2 automation rule.
- */
-export const updateAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAutomationRuleV2Request,
-    output: UpdateAutomationRuleV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * `UpdateFindings` is a deprecated operation. Instead of `UpdateFindings`, use
  * the `BatchUpdateFindings` operation.
  *
@@ -9445,24 +9435,6 @@ export const updateInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates the configuration of your organization in Security Hub. Only the
- * Security Hub administrator account can invoke this operation.
- */
-export const updateOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrganizationConfigurationRequest,
-    output: UpdateOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
  * Updates configuration options for Security Hub.
  */
 export const updateSecurityHubConfiguration =
@@ -9479,24 +9451,68 @@ export const updateSecurityHubConfiguration =
     ],
   }));
 /**
- * Used to control whether an individual security standard control is enabled or
- * disabled.
+ * The *aggregation Region* is now called the *home Region*.
  *
- * Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard subscription for the control has `StandardsControlsUpdatable` value `NOT_READY_FOR_UPDATES`.
+ * Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops
+ * occurring from the linked Regions to the home Region.
+ *
+ * When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from
+ * the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
  */
-export const updateStandardsControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateStandardsControlRequest,
-    output: UpdateStandardsControlResponse,
+    input: DeleteFindingAggregatorRequest,
+    output: DeleteFindingAggregatorResponse,
     errors: [
       AccessDeniedException,
       InternalException,
       InvalidAccessException,
       InvalidInputException,
+      LimitExceededException,
       ResourceNotFoundException,
     ],
   }),
 );
+/**
+ * Disables a Security Hub administrator account. Can only be called by the organization
+ * management account.
+ */
+export const disableOrganizationAdminAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisableOrganizationAdminAccountRequest,
+    output: DisableOrganizationAdminAccountResponse,
+    errors: [
+      AccessDeniedException,
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      LimitExceededException,
+    ],
+  }));
+/**
+ * This method is deprecated. Instead, use `DisassociateFromAdministratorAccount`.
+ *
+ * The Security Hub console continues to use `DisassociateFromMasterAccount`. It will eventually change to use `DisassociateFromAdministratorAccount`. Any IAM policies that specifically control access to this function must continue to use `DisassociateFromMasterAccount`. You should also add `DisassociateFromAdministratorAccount` to your policies to ensure that the correct permissions are in place after the console begins to use `DisassociateFromAdministratorAccount`.
+ *
+ * Disassociates the current Security Hub member account from the associated administrator
+ * account.
+ *
+ * This operation is only used by accounts that are not part of an organization. For
+ * organization accounts, only the administrator account can
+ * disassociate a member account.
+ */
+export const disassociateFromMasterAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateFromMasterAccountRequest,
+    output: DisassociateFromMasterAccountResponse,
+    errors: [
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }));
 /**
  * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
  * For information, see Managing Security Hub administrator and member accounts with Organizations
@@ -9549,20 +9565,43 @@ export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a custom action target in Security Hub.
- *
- * You can use custom actions on findings and insights in Security Hub to trigger target actions
- * in Amazon CloudWatch Events.
+ * Disables the integration of the specified product with Security Hub. After the integration is
+ * disabled, findings from that product are no longer sent to Security Hub.
  */
-export const createActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateActionTargetRequest,
-  output: CreateActionTargetResponse,
+export const disableImportFindingsForProduct =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisableImportFindingsForProductRequest,
+    output: DisableImportFindingsForProductResponse,
+    errors: [
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all
+ * Regions, you must submit one request per Region where you have enabled Security Hub.
+ *
+ * You can't disable Security Hub in an account that is currently the Security Hub administrator.
+ *
+ * When you disable Security Hub, your existing findings and insights and any Security Hub configuration
+ * settings are deleted after 90 days and cannot be recovered. Any standards that were enabled
+ * are disabled, and your administrator and member account associations are removed.
+ *
+ * If you want to save your existing findings, you must export them before you disable
+ * Security Hub.
+ */
+export const disableSecurityHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableSecurityHubRequest,
+  output: DisableSecurityHubResponse,
   errors: [
+    AccessDeniedException,
     InternalException,
     InvalidAccessException,
-    InvalidInputException,
     LimitExceededException,
-    ResourceConflictException,
+    ResourceNotFoundException,
   ],
 }));
 /**
@@ -9585,104 +9624,6 @@ export const createFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID.
- */
-export const createTicketV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTicketV2Request,
-  output: CreateTicketV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a custom action target from Security Hub.
- *
- * Deleting a custom action target does not affect any findings or insights that were
- * already sent to Amazon CloudWatch Events using the custom action.
- */
-export const deleteActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteActionTargetRequest,
-  output: DeleteActionTargetResponse,
-  errors: [
-    InternalException,
-    InvalidAccessException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the Aggregator V2.
- */
-export const deleteAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAggregatorV2Request,
-  output: DeleteAggregatorV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a V2 automation rule.
- */
-export const deleteAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAutomationRuleV2Request,
-    output: DeleteAutomationRuleV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation
- * from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts,
- * organizational units, or the root by invoking the `StartConfigurationPolicyDisassociation` operation.
- */
-export const deleteConfigurationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationPolicyRequest,
-    output: DeleteConfigurationPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Grants permission to delete a connectorV2.
- */
-export const deleteConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConnectorV2Request,
-  output: DeleteConnectorV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Deletes the insight specified by the `InsightArn`.
  */
@@ -9768,37 +9709,23 @@ export const describeOrganizationConfiguration =
     ],
   }));
 /**
- * Returns details about the service resource in your account.
- */
-export const describeSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSecurityHubV2Request,
-    output: DescribeSecurityHubV2Response,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Enables the integration of a partner product with Security Hub. Integrated products send
- * findings to Security Hub.
+ * Disassociates the current Security Hub member account from the associated administrator
+ * account.
  *
- * When you enable a product integration, a permissions policy that grants permission for
- * the product to send findings to Security Hub is applied.
+ * This operation is only used by accounts that are not part of an organization. For
+ * organization accounts, only the administrator account can
+ * disassociate a member account.
  */
-export const enableImportFindingsForProduct =
+export const disassociateFromAdministratorAccount =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableImportFindingsForProductRequest,
-    output: EnableImportFindingsForProductResponse,
+    input: DisassociateFromAdministratorAccountRequest,
+    output: DisassociateFromAdministratorAccountResponse,
     errors: [
       InternalException,
       InvalidAccessException,
       InvalidInputException,
       LimitExceededException,
-      ResourceConflictException,
+      ResourceNotFoundException,
     ],
   }));
 /**
@@ -9818,19 +9745,6 @@ export const enableOrganizationAdminAccount =
     ],
   }));
 /**
- * Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region.
- */
-export const enableSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableSecurityHubV2Request,
-  output: EnableSecurityHubV2Response,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Provides the details for the Security Hub administrator account for the current member account.
  *
  * Can be used by both member accounts that are managed using Organizations and accounts that were
@@ -9849,36 +9763,6 @@ export const getAdministratorAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Returns the configuration of the specified Aggregator V2.
- */
-export const getAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAggregatorV2Request,
-  output: GetAggregatorV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns an automation rule for the V2 service.
- */
-export const getAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAutomationRuleV2Request,
-  output: GetAutomationRuleV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke
  * this operation from the home Region.
@@ -9958,16 +9842,6 @@ export const inviteMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all findings-generating solutions (products) that you are subscribed to receive
- * findings from in Security Hub.
- */
-export const listEnabledProductsForImport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListEnabledProductsForImportRequest,
-    output: ListEnabledProductsForImportResponse,
-    errors: [InternalException, InvalidAccessException, LimitExceededException],
-  }));
-/**
  * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
  * For information, see Managing Security Hub administrator and member accounts with Organizations
  * in the *Security Hub User Guide*.
@@ -10019,29 +9893,6 @@ export const listSecurityControlDefinitions =
     ],
   }));
 /**
- * Returns a list of tags associated with a resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [InternalException, InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Grants permission to complete the authorization based on input parameters.
- */
-export const registerConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterConnectorV2Request,
-  output: RegisterConnectorV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Associates a target account, organizational unit, or the root with a specified configuration. The target can be
  * associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can
  * invoke this operation from the home Region.
@@ -10059,62 +9910,6 @@ export const startConfigurationPolicyAssociation =
       ResourceNotFoundException,
     ],
   }));
-/**
- * Udpates the configuration for the Aggregator V2.
- */
-export const updateAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAggregatorV2Request,
-  output: UpdateAggregatorV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a configuration policy. Only the Security Hub delegated
- * administrator can invoke this operation from the home Region.
- */
-export const updateConfigurationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConfigurationPolicyRequest,
-    output: UpdateConfigurationPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * The *aggregation Region* is now called the *home Region*.
- *
- * Updates cross-Region aggregation settings. You can use this operation to update the Region linking mode and the list
- * of included or excluded Amazon Web Services Regions. However, you can't use this operation to change the home Region.
- *
- * You can invoke this operation from the current home Region only.
- */
-export const updateFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFindingAggregatorRequest,
-    output: UpdateFindingAggregatorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Deletes one or more automation rules.
  */
@@ -10182,90 +9977,6 @@ export const batchUpdateAutomationRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a member association in Security Hub between the specified accounts and the account
- * used to make the request, which is the administrator account. If you are integrated with
- * Organizations, then the administrator account is designated by the organization management account.
- *
- * `CreateMembers` is always used to add accounts that are not organization
- * members.
- *
- * For accounts that are managed using Organizations, `CreateMembers` is only used
- * in the following cases:
- *
- * - Security Hub is not configured to automatically add new organization accounts.
- *
- * - The account was disassociated or deleted in Security Hub.
- *
- * This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you
- * can use the `EnableSecurityHub` operation.
- *
- * For accounts that are not organization members, you create the account association and
- * then send an invitation to the member account. To send the invitation, you use the
- * `InviteMembers` operation. If the account owner accepts
- * the invitation, the account becomes a member account in Security Hub.
- *
- * Accounts that are managed using Organizations don't receive an invitation. They
- * automatically become a member account in Security Hub.
- *
- * - If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.
- *
- * - For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.
- *
- * A permissions policy is added that permits the administrator account to view the findings
- * generated in the member account.
- *
- * To remove the association between the administrator and member accounts, use the `DisassociateFromMasterAccount` or `DisassociateMembers` operation.
- */
-export const createMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateMembersRequest,
-  output: CreateMembersResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidAccessException,
-    InvalidInputException,
-    LimitExceededException,
-    ResourceConflictException,
-  ],
-}));
-/**
- * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
- * For information, see Managing Security Hub administrator and member accounts with Organizations
- * in the *Security Hub User Guide*.
- *
- * Declines invitations to become a Security Hub member account.
- *
- * A prospective member account uses this operation to decline an invitation to become a member.
- *
- * Only member accounts that aren't part of an Amazon Web Services organization should use this operation.
- * Organization accounts don't receive invitations.
- */
-export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeclineInvitationsRequest,
-  output: DeclineInvitationsResponse,
-  errors: [
-    InternalException,
-    InvalidAccessException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns a list of the custom action targets in Security Hub in your account.
- */
-export const describeActionTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeActionTargetsRequest,
-    output: DescribeActionTargetsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
  * Returns information about product integrations in Security Hub.
  *
  * You can optionally provide an integration ARN. If you provide an integration ARN, then
@@ -10284,40 +9995,6 @@ export const describeProducts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     LimitExceededException,
   ],
 }));
-/**
- * Gets information about the product integration.
- */
-export const describeProductsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeProductsV2Request,
-  output: DescribeProductsV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of security standards controls.
- *
- * For each control, the results include information about whether it is currently enabled,
- * the severity, and a link to remediation information.
- *
- * This operation returns an empty list for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
- */
-export const describeStandardsControls = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStandardsControlsRequest,
-    output: DescribeStandardsControlsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Returns the association between a configuration and a target account, organizational unit, or the root. The
  * configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can
@@ -10386,38 +10063,6 @@ export const getMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves statistical information about Amazon Web Services resources and their associated security findings.
- */
-export const getResourcesStatisticsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourcesStatisticsV2Request,
-    output: GetResourcesStatisticsV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves a list of V2 aggregators.
- */
-export const listAggregatorsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAggregatorsV2Request,
-  output: ListAggregatorsV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * A list of automation rules and their metadata for the calling account.
  */
 export const listAutomationRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -10464,69 +10109,6 @@ export const listConfigurationPolicyAssociations =
       LimitExceededException,
     ],
   }));
-/**
- * If cross-Region aggregation is enabled, then `ListFindingAggregators` returns the Amazon Resource Name (ARN)
- * of the finding aggregator. You can run this operation from any Amazon Web Services Region.
- */
-export const listFindingAggregators = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListFindingAggregatorsRequest,
-    output: ListFindingAggregatorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Lists the Security Hub administrator accounts. Can only be called by the organization
- * management account.
- */
-export const listOrganizationAdminAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListOrganizationAdminAccountsRequest,
-    output: ListOrganizationAdminAccountsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }));
-/**
- * Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
- *
- * This operation omits standards control associations for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
- */
-export const listStandardsControlAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListStandardsControlAssociationsRequest,
-    output: ListStandardsControlAssociationsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }));
-/**
- * Grants permission to update a connectorV2 based on its id and input parameters.
- */
-export const updateConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateConnectorV2Request,
-  output: UpdateConnectorV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Disables the standards specified by the provided
  * `StandardsSubscriptionArns`.
@@ -10645,27 +10227,6 @@ export const batchUpdateFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Used by customers to update information about their investigation into a finding.
- * Requested by delegated administrator accounts or member accounts.
- * Delegated administrator accounts can update findings for their account and their member accounts.
- * Member accounts can update findings for their account. `BatchUpdateFindings` and `BatchUpdateFindingV2` both use `securityhub:BatchUpdateFindings` in the `Action` element of an IAM policy statement.
- * You must have permission to perform the `securityhub:BatchUpdateFindings` action.
- * Updates from `BatchUpdateFindingsV2` don't affect the value of f`inding_info.modified_time`, `finding_info.modified_time_dt`, `time`, `time_dt for a finding`.
- */
-export const batchUpdateFindingsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchUpdateFindingsV2Request,
-    output: BatchUpdateFindingsV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
  */
 export const batchUpdateStandardsControlAssociations =
@@ -10681,73 +10242,6 @@ export const batchUpdateStandardsControlAssociations =
     ],
   }));
 /**
- * Enables aggregation across Amazon Web Services Regions.
- */
-export const createAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAggregatorV2Request,
-  output: CreateAggregatorV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a V2 automation rule.
- */
-export const createAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAutomationRuleV2Request,
-    output: CreateAutomationRuleV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Grants permission to create a connectorV2 based on input parameters.
- */
-export const createConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateConnectorV2Request,
-  output: CreateConnectorV2Response,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate
- * to a security issue that requires attention or remediation.
- *
- * To group the related findings in the insight, use the
- * `GroupByAttribute`.
- */
-export const createInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInsightRequest,
-  output: CreateInsightResponse,
-  errors: [
-    InternalException,
-    InvalidAccessException,
-    InvalidInputException,
-    LimitExceededException,
-    ResourceConflictException,
-  ],
-}));
-/**
  * Returns a list of the available standards in Security Hub.
  *
  * For each standard, the results include the standard ARN, the name, and a description.
@@ -10756,6 +10250,19 @@ export const describeStandards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStandardsRequest,
   output: DescribeStandardsResponse,
   errors: [InternalException, InvalidAccessException, InvalidInputException],
+}));
+/**
+ * Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region.
+ */
+export const enableSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableSecurityHubV2Request,
+  output: EnableSecurityHubV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
 /**
  * Grants permission to retrieve details for a connectorV2 based on connector id.
@@ -10836,6 +10343,499 @@ export const listConnectorsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+  ],
+}));
+/**
+ * Enables aggregation across Amazon Web Services Regions.
+ */
+export const createAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAggregatorV2Request,
+  output: CreateAggregatorV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves statistical information about Amazon Web Services resources and their associated security findings.
+ */
+export const getResourcesStatisticsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetResourcesStatisticsV2Request,
+    output: GetResourcesStatisticsV2Response,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves a list of V2 aggregators.
+ */
+export const listAggregatorsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAggregatorsV2Request,
+  output: ListAggregatorsV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Grants permission to update a connectorV2 based on its id and input parameters.
+ */
+export const updateConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectorV2Request,
+  output: UpdateConnectorV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a V2 automation rule.
+ */
+export const updateAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAutomationRuleV2Request,
+    output: UpdateAutomationRuleV2Response,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes the Aggregator V2.
+ */
+export const deleteAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAggregatorV2Request,
+  output: DeleteAggregatorV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a V2 automation rule.
+ */
+export const deleteAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAutomationRuleV2Request,
+    output: DeleteAutomationRuleV2Response,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Grants permission to delete a connectorV2.
+ */
+export const deleteConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectorV2Request,
+  output: DeleteConnectorV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID.
+ */
+export const createTicketV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTicketV2Request,
+  output: CreateTicketV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the configuration of the specified Aggregator V2.
+ */
+export const getAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAggregatorV2Request,
+  output: GetAggregatorV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns an automation rule for the V2 service.
+ */
+export const getAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAutomationRuleV2Request,
+  output: GetAutomationRuleV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Grants permission to complete the authorization based on input parameters.
+ */
+export const registerConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterConnectorV2Request,
+  output: RegisterConnectorV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Udpates the configuration for the Aggregator V2.
+ */
+export const updateAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAggregatorV2Request,
+  output: UpdateAggregatorV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region.
+ */
+export const disableSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisableSecurityHubV2Request,
+    output: DisableSecurityHubV2Response,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets information about the product integration.
+ */
+export const describeProductsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProductsV2Request,
+  output: DescribeProductsV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns details about the service resource in your account.
+ */
+export const describeSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeSecurityHubV2Request,
+    output: DescribeSecurityHubV2Response,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Used by customers to update information about their investigation into a finding.
+ * Requested by delegated administrator accounts or member accounts.
+ * Delegated administrator accounts can update findings for their account and their member accounts.
+ * Member accounts can update findings for their account. `BatchUpdateFindings` and `BatchUpdateFindingV2` both use `securityhub:BatchUpdateFindings` in the `Action` element of an IAM policy statement.
+ * You must have permission to perform the `securityhub:BatchUpdateFindings` action.
+ * Updates from `BatchUpdateFindingsV2` don't affect the value of f`inding_info.modified_time`, `finding_info.modified_time_dt`, `time`, `time_dt for a finding`.
+ */
+export const batchUpdateFindingsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchUpdateFindingsV2Request,
+    output: BatchUpdateFindingsV2Response,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a configuration policy. Only the Security Hub delegated
+ * administrator can invoke this operation from the home Region.
+ */
+export const updateConfigurationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConfigurationPolicyRequest,
+    output: UpdateConfigurationPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      LimitExceededException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a V2 automation rule.
+ */
+export const createAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAutomationRuleV2Request,
+    output: CreateAutomationRuleV2Response,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Grants permission to create a connectorV2 based on input parameters.
+ */
+export const createConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectorV2Request,
+  output: CreateConnectorV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Enables Security Hub for your account in the current Region or the Region you specify in the
+ * request.
+ *
+ * When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings
+ * from other services that are integrated with Security Hub.
+ *
+ * When you use the `EnableSecurityHub` operation to enable Security Hub, you also
+ * automatically enable the following standards:
+ *
+ * - Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0
+ *
+ * - Amazon Web Services Foundational Security Best Practices
+ *
+ * Other standards are not automatically enabled.
+ *
+ * To opt out of automatically enabled standards, set
+ * `EnableDefaultStandards` to `false`.
+ *
+ * After you enable Security Hub, to enable a standard, use the `BatchEnableStandards` operation. To disable a standard, use the
+ * `BatchDisableStandards` operation.
+ *
+ * To learn more, see the setup information in the *Security Hub User Guide*.
+ */
+export const enableSecurityHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableSecurityHubRequest,
+  output: EnableSecurityHubResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    LimitExceededException,
+    ResourceConflictException,
+  ],
+}));
+/**
+ * Updates the configuration of your organization in Security Hub. Only the
+ * Security Hub administrator account can invoke this operation.
+ */
+export const updateOrganizationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateOrganizationConfigurationRequest,
+    output: UpdateOrganizationConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      LimitExceededException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation
+ * from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts,
+ * organizational units, or the root by invoking the `StartConfigurationPolicyDisassociation` operation.
+ */
+export const deleteConfigurationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConfigurationPolicyRequest,
+    output: DeleteConfigurationPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      LimitExceededException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a custom action target in Security Hub.
+ *
+ * You can use custom actions on findings and insights in Security Hub to trigger target actions
+ * in Amazon CloudWatch Events.
+ */
+export const createActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateActionTargetRequest,
+  output: CreateActionTargetResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceConflictException,
+  ],
+}));
+/**
+ * Enables the integration of a partner product with Security Hub. Integrated products send
+ * findings to Security Hub.
+ *
+ * When you enable a product integration, a permissions policy that grants permission for
+ * the product to send findings to Security Hub is applied.
+ */
+export const enableImportFindingsForProduct =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: EnableImportFindingsForProductRequest,
+    output: EnableImportFindingsForProductResponse,
+    errors: [
+      InternalException,
+      InvalidAccessException,
+      InvalidInputException,
+      LimitExceededException,
+      ResourceConflictException,
+    ],
+  }));
+/**
+ * Creates a member association in Security Hub between the specified accounts and the account
+ * used to make the request, which is the administrator account. If you are integrated with
+ * Organizations, then the administrator account is designated by the organization management account.
+ *
+ * `CreateMembers` is always used to add accounts that are not organization
+ * members.
+ *
+ * For accounts that are managed using Organizations, `CreateMembers` is only used
+ * in the following cases:
+ *
+ * - Security Hub is not configured to automatically add new organization accounts.
+ *
+ * - The account was disassociated or deleted in Security Hub.
+ *
+ * This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you
+ * can use the `EnableSecurityHub` operation.
+ *
+ * For accounts that are not organization members, you create the account association and
+ * then send an invitation to the member account. To send the invitation, you use the
+ * `InviteMembers` operation. If the account owner accepts
+ * the invitation, the account becomes a member account in Security Hub.
+ *
+ * Accounts that are managed using Organizations don't receive an invitation. They
+ * automatically become a member account in Security Hub.
+ *
+ * - If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.
+ *
+ * - For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.
+ *
+ * A permissions policy is added that permits the administrator account to view the findings
+ * generated in the member account.
+ *
+ * To remove the association between the administrator and member accounts, use the `DisassociateFromMasterAccount` or `DisassociateMembers` operation.
+ */
+export const createMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMembersRequest,
+  output: CreateMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceConflictException,
+  ],
+}));
+/**
+ * Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate
+ * to a security issue that requires attention or remediation.
+ *
+ * To group the related findings in the insight, use the
+ * `GroupByAttribute`.
+ */
+export const createInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInsightRequest,
+  output: CreateInsightResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceConflictException,
   ],
 }));
 /**

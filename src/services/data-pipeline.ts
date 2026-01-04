@@ -581,331 +581,58 @@ export class QueryObjectsOutput extends S.Class<QueryObjectsOutput>(
 //# Errors
 export class InternalServiceError extends S.TaggedError<InternalServiceError>()(
   "InternalServiceError",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class PipelineDeletedException extends S.TaggedError<PipelineDeletedException>()(
   "PipelineDeletedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class PipelineNotFoundException extends S.TaggedError<PipelineNotFoundException>()(
   "PipelineNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class TaskNotFoundException extends S.TaggedError<TaskNotFoundException>()(
   "TaskNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Validates the specified pipeline and starts processing pipeline tasks. If the pipeline does not pass validation,
- * activation fails.
- *
- * If you need to pause the pipeline to investigate an issue with a component, such as a data source or script,
- * call DeactivatePipeline.
- *
- * To activate a finished pipeline, modify the end date for the pipeline and then activate it.
+ * Lists the pipeline identifiers for all active pipelines that you have permission to access.
  *
  * POST / HTTP/1.1
  * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.ActivatePipeline
- * Content-Length: 39
+ * X-Amz-Target: DataPipeline.ListPipelines
+ * Content-Length: 14
  * Host: datapipeline.us-east-1.amazonaws.com
  * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
  * Authorization: AuthParams
- *
- * {"pipelineId": "df-06372391ZG65EXAMPLE"}
- *
- * HTTP/1.1 200
- * x-amzn-RequestId: ee19d5bf-074e-11e2-af6f-6bc7a6be60d9
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 2
- * Date: Mon, 12 Nov 2012 17:50:53 GMT
  *
  * {}
- */
-export const activatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ActivatePipelineInput,
-  output: ActivatePipelineOutput,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineDeletedException,
-    PipelineNotFoundException,
-  ],
-}));
-/**
- * Adds or modifies tags for the specified pipeline.
- */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsInput,
-  output: AddTagsOutput,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineDeletedException,
-    PipelineNotFoundException,
-  ],
-}));
-/**
- * Creates a new, empty pipeline. Use PutPipelineDefinition to populate the pipeline.
  *
- * POST / HTTP/1.1
+ * Status:
+ * x-amzn-RequestId: b3104dc5-0734-11e2-af6f-6bc7a6be60d9
  * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.CreatePipeline
- * Content-Length: 91
- * Host: datapipeline.us-east-1.amazonaws.com
- * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
- * Authorization: AuthParams
- *
- * {"name": "myPipeline",
- * "uniqueId": "123456789",
- * "description": "This is my first pipeline"}
- *
- * HTTP/1.1 200
- * x-amzn-RequestId: b16911ce-0774-11e2-af6f-6bc7a6be60d9
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 40
+ * Content-Length: 39
  * Date: Mon, 12 Nov 2012 17:50:53 GMT
  *
- * {"pipelineId": "df-06372391ZG65EXAMPLE"}
+ * {"PipelineIdList":
+ * [
+ * {"id": "df-08785951KAKJEXAMPLE",
+ * "name": "MyPipeline"},
+ * {"id": "df-08662578ISYEXAMPLE",
+ * "name": "MySecondPipeline"}
+ * ]
+ * }
  */
-export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePipelineInput,
-  output: CreatePipelineOutput,
+export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPipelinesInput,
+  output: ListPipelinesOutput,
   errors: [InternalServiceError, InvalidRequestException],
-}));
-/**
- * Deactivates the specified running pipeline. The pipeline is set to the `DEACTIVATING`
- * state until the deactivation process completes.
- *
- * To resume a deactivated pipeline, use ActivatePipeline. By default, the pipeline resumes from the last completed execution.
- * Optionally, you can specify the date and time to resume the pipeline.
- */
-export const deactivatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeactivatePipelineInput,
-  output: DeactivatePipelineOutput,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineDeletedException,
-    PipelineNotFoundException,
-  ],
-}));
-/**
- * Deletes a pipeline, its pipeline definition, and its run history.
- * AWS Data Pipeline attempts to cancel instances associated with the pipeline that are currently being processed by task runners.
- *
- * Deleting a pipeline cannot be undone. You cannot query or restore a deleted pipeline.
- * To temporarily pause a pipeline instead of deleting it, call SetStatus with the status set to `PAUSE` on individual components.
- * Components that are paused by SetStatus can be resumed.
- *
- * POST / HTTP/1.1
- * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.DeletePipeline
- * Content-Length: 50
- * Host: datapipeline.us-east-1.amazonaws.com
- * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
- * Authorization: AuthParams
- *
- * {"pipelineId": "df-06372391ZG65EXAMPLE"}
- *
- * x-amzn-RequestId: b7a88c81-0754-11e2-af6f-6bc7a6be60d9
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 0
- * Date: Mon, 12 Nov 2012 17:50:53 GMT
- *
- * Unexpected response: 200, OK, undefined
- */
-export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePipelineInput,
-  output: DeletePipelineResponse,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineNotFoundException,
-  ],
-}));
-/**
- * Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of
- * a set of fields that define the properties of the object.
- *
- * POST / HTTP/1.1
- * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.DescribeObjects
- * Content-Length: 98
- * Host: datapipeline.us-east-1.amazonaws.com
- * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
- * Authorization: AuthParams
- *
- * {"pipelineId": "df-06372391ZG65EXAMPLE",
- * "objectIds":
- * ["Schedule"],
- * "evaluateExpressions": true}
- *
- * x-amzn-RequestId: 4c18ea5d-0777-11e2-8a14-21bb8a1f50ef
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 1488
- * Date: Mon, 12 Nov 2012 17:50:53 GMT
- *
- * {"hasMoreResults": false,
- * "pipelineObjects":
- * [
- * {"fields":
- * [
- * {"key": "startDateTime",
- * "stringValue": "2012-12-12T00:00:00"},
- * {"key": "parent",
- * "refValue": "Default"},
- * {"key": "@sphere",
- * "stringValue": "COMPONENT"},
- * {"key": "type",
- * "stringValue": "Schedule"},
- * {"key": "period",
- * "stringValue": "1 hour"},
- * {"key": "endDateTime",
- * "stringValue": "2012-12-21T18:00:00"},
- * {"key": "@version",
- * "stringValue": "1"},
- * {"key": "@status",
- * "stringValue": "PENDING"},
- * {"key": "@pipelineId",
- * "stringValue": "df-06372391ZG65EXAMPLE"}
- * ],
- * "id": "Schedule",
- * "name": "Schedule"}
- * ]
- * }
- */
-export const describeObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeObjectsInput,
-  output: DescribeObjectsOutput,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineDeletedException,
-    PipelineNotFoundException,
-  ],
-}));
-/**
- * Task runners call `EvaluateExpression` to evaluate a string in the context of the specified object.
- * For example, a task runner can evaluate SQL queries stored in Amazon S3.
- *
- * POST / HTTP/1.1
- * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.DescribePipelines
- * Content-Length: 164
- * Host: datapipeline.us-east-1.amazonaws.com
- * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
- * Authorization: AuthParams
- *
- * {"pipelineId": "df-08785951KAKJEXAMPLE",
- * "objectId": "Schedule",
- * "expression": "Transform started at #{startDateTime} and finished at #{endDateTime}"}
- *
- * x-amzn-RequestId: 02870eb7-0736-11e2-af6f-6bc7a6be60d9
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 103
- * Date: Mon, 12 Nov 2012 17:50:53 GMT
- *
- * {"evaluatedExpression": "Transform started at 2012-12-12T00:00:00 and finished at 2012-12-21T18:00:00"}
- */
-export const evaluateExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EvaluateExpressionInput,
-  output: EvaluateExpressionOutput,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineDeletedException,
-    PipelineNotFoundException,
-    TaskNotFoundException,
-  ],
-}));
-/**
- * Gets the definition of the specified pipeline. You can call `GetPipelineDefinition` to retrieve
- * the pipeline definition that you provided using PutPipelineDefinition.
- *
- * POST / HTTP/1.1
- * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.GetPipelineDefinition
- * Content-Length: 40
- * Host: datapipeline.us-east-1.amazonaws.com
- * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
- * Authorization: AuthParams
- *
- * {"pipelineId": "df-06372391ZG65EXAMPLE"}
- *
- * x-amzn-RequestId: e28309e5-0776-11e2-8a14-21bb8a1f50ef
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 890
- * Date: Mon, 12 Nov 2012 17:50:53 GMT
- *
- * {"pipelineObjects":
- * [
- * {"fields":
- * [
- * {"key": "workerGroup",
- * "stringValue": "workerGroup"}
- * ],
- * "id": "Default",
- * "name": "Default"},
- * {"fields":
- * [
- * {"key": "startDateTime",
- * "stringValue": "2012-09-25T17:00:00"},
- * {"key": "type",
- * "stringValue": "Schedule"},
- * {"key": "period",
- * "stringValue": "1 hour"},
- * {"key": "endDateTime",
- * "stringValue": "2012-09-25T18:00:00"}
- * ],
- * "id": "Schedule",
- * "name": "Schedule"},
- * {"fields":
- * [
- * {"key": "schedule",
- * "refValue": "Schedule"},
- * {"key": "command",
- * "stringValue": "echo hello"},
- * {"key": "parent",
- * "refValue": "Default"},
- * {"key": "type",
- * "stringValue": "ShellCommandActivity"}
- * ],
- * "id": "SayHello",
- * "name": "SayHello"}
- * ]
- * }
- */
-export const getPipelineDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPipelineDefinitionInput,
-    output: GetPipelineDefinitionOutput,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      PipelineDeletedException,
-      PipelineNotFoundException,
-    ],
-  }),
-);
-/**
- * Removes existing tags from the specified pipeline.
- */
-export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTagsInput,
-  output: RemoveTagsOutput,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineDeletedException,
-    PipelineNotFoundException,
-  ],
 }));
 /**
  * Task runners call `ReportTaskRunnerHeartbeat` every 15 minutes to indicate that they are operational.
@@ -940,72 +667,65 @@ export const reportTaskRunnerHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline.
- * This update might not occur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity).
- * You cannot perform this operation on `FINISHED` pipelines and attempting to do so returns `InvalidRequestException`.
+ * Creates a new, empty pipeline. Use PutPipelineDefinition to populate the pipeline.
  *
  * POST / HTTP/1.1
  * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.SetStatus
- * Content-Length: 100
+ * X-Amz-Target: DataPipeline.CreatePipeline
+ * Content-Length: 91
  * Host: datapipeline.us-east-1.amazonaws.com
  * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
  * Authorization: AuthParams
  *
- * {"pipelineId": "df-0634701J7KEXAMPLE",
- * "objectIds":
- * ["o-08600941GHJWMBR9E2"],
- * "status": "pause"}
+ * {"name": "myPipeline",
+ * "uniqueId": "123456789",
+ * "description": "This is my first pipeline"}
  *
- * x-amzn-RequestId: e83b8ab7-076a-11e2-af6f-6bc7a6be60d9
+ * HTTP/1.1 200
+ * x-amzn-RequestId: b16911ce-0774-11e2-af6f-6bc7a6be60d9
+ * Content-Type: application/x-amz-json-1.1
+ * Content-Length: 40
+ * Date: Mon, 12 Nov 2012 17:50:53 GMT
+ *
+ * {"pipelineId": "df-06372391ZG65EXAMPLE"}
+ */
+export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePipelineInput,
+  output: CreatePipelineOutput,
+  errors: [InternalServiceError, InvalidRequestException],
+}));
+/**
+ * Deletes a pipeline, its pipeline definition, and its run history.
+ * AWS Data Pipeline attempts to cancel instances associated with the pipeline that are currently being processed by task runners.
+ *
+ * Deleting a pipeline cannot be undone. You cannot query or restore a deleted pipeline.
+ * To temporarily pause a pipeline instead of deleting it, call SetStatus with the status set to `PAUSE` on individual components.
+ * Components that are paused by SetStatus can be resumed.
+ *
+ * POST / HTTP/1.1
+ * Content-Type: application/x-amz-json-1.1
+ * X-Amz-Target: DataPipeline.DeletePipeline
+ * Content-Length: 50
+ * Host: datapipeline.us-east-1.amazonaws.com
+ * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
+ * Authorization: AuthParams
+ *
+ * {"pipelineId": "df-06372391ZG65EXAMPLE"}
+ *
+ * x-amzn-RequestId: b7a88c81-0754-11e2-af6f-6bc7a6be60d9
  * Content-Type: application/x-amz-json-1.1
  * Content-Length: 0
  * Date: Mon, 12 Nov 2012 17:50:53 GMT
  *
  * Unexpected response: 200, OK, undefined
  */
-export const setStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetStatusInput,
-  output: SetStatusResponse,
+export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePipelineInput,
+  output: DeletePipelineResponse,
   errors: [
     InternalServiceError,
     InvalidRequestException,
-    PipelineDeletedException,
     PipelineNotFoundException,
-  ],
-}));
-/**
- * Task runners call `SetTaskStatus` to notify AWS Data Pipeline that a task is completed and provide information about the final status.
- * A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call `SetTaskStatus` for
- * tasks that are canceled by the web service during a call to ReportTaskProgress.
- *
- * POST / HTTP/1.1
- * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.SetTaskStatus
- * Content-Length: 847
- * Host: datapipeline.us-east-1.amazonaws.com
- * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
- * Authorization: AuthParams
- *
- * {"taskId": "aaGgHT4LuH0T0Y0oLrJRjas5qH0d8cDPADxqq3tn+zCWGELkCdV2JprLreXm1oxeP5EFZHFLJ69kjSsLYE0iYHYBYVGBrB+E/pYq7ANEEeGJFnSBMRiXZVA+8UJ3OzcInvXeinqBmBaKwii7hnnKb/AXjXiNTXyxgydX1KAyg1AxkwBYG4cfPYMZbuEbQJFJvv5C/2+GVXz1w94nKYTeUeepwUOFOuRLS6JVtZoYwpF56E+Yfk1IcGpFOvCZ01B4Bkuu7x3J+MD/j6kJgZLAgbCJQtI3eiW3kdGmX0p0I2BdY1ZsX6b4UiSvM3OMj6NEHJCJL4E0ZfitnhCoe24Kvjo6C2hFbZq+ei/HPgSXBQMSagkr4vS9c0ChzxH2+LNYvec6bY4kymkaZI1dvOzmpa0FcnGf5AjSK4GpsViZ/ujz6zxFv81qBXzjF0/4M1775rjV1VUdyKaixiA/sJiACNezqZqETidp8d24BDPRhGsj6pBCrnelqGFrk/gXEXUsJ+xwMifRC8UVwiKekpAvHUywVk7Ku4jH/n3i2VoLRP6FXwpUbelu34iiZ9czpXyLtyPKwxa87dlrnRVURwkcVjOt2Mcrcaqe+cbWHvNRhyrPkkdfSF3ac8/wfgVbXvLEB2k9mKc67aD9rvdc1PKX09Tk8BKklsMTpZ3TRCd4NzQlJKigMe8Jat9+1tKj4Ole5ZzW6uyTu2s2iFjEV8KXu4MaiRJyNKCdKeGhhZWY37Qk4NBK4Ppgu+C6Y41dpfOh288SLDEVx0/UySlqOEdhba7c6BiPp5r3hKj3mk9lFy5OYp1aoGLeeFmjXveTnPdf2gkWqXXg7AUbJ7jEs1F0lKZQg4szep2gcKyAJXgvXLfJJHcha8Lfb/Ee7wYmyOcAaRpDBoFNSbtoVXar46teIrpho+ZDvynUXvU0grHWGOk=:wn3SgymHZM99bEXAMPLE",
- * "taskStatus": "FINISHED"}
- *
- * x-amzn-RequestId: 8c8deb53-0788-11e2-af9c-6bc7a6be6qr8
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 0
- * Date: Mon, 12 Nov 2012 17:50:53 GMT
- *
- * {}
- */
-export const setTaskStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetTaskStatusInput,
-  output: SetTaskStatusOutput,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineDeletedException,
-    PipelineNotFoundException,
-    TaskNotFoundException,
   ],
 }));
 /**
@@ -1072,82 +792,6 @@ export const describePipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     PipelineDeletedException,
     PipelineNotFoundException,
-  ],
-}));
-/**
- * Lists the pipeline identifiers for all active pipelines that you have permission to access.
- *
- * POST / HTTP/1.1
- * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.ListPipelines
- * Content-Length: 14
- * Host: datapipeline.us-east-1.amazonaws.com
- * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
- * Authorization: AuthParams
- *
- * {}
- *
- * Status:
- * x-amzn-RequestId: b3104dc5-0734-11e2-af6f-6bc7a6be60d9
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 39
- * Date: Mon, 12 Nov 2012 17:50:53 GMT
- *
- * {"PipelineIdList":
- * [
- * {"id": "df-08785951KAKJEXAMPLE",
- * "name": "MyPipeline"},
- * {"id": "df-08662578ISYEXAMPLE",
- * "name": "MySecondPipeline"}
- * ]
- * }
- */
-export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPipelinesInput,
-  output: ListPipelinesOutput,
-  errors: [InternalServiceError, InvalidRequestException],
-}));
-/**
- * Task runners call `ReportTaskProgress` when assigned a task to acknowledge that it has the task. If the web service does not
- * receive this acknowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement,
- * the task runner only needs to report progress every 15 minutes to maintain its ownership of the task. You can change this reporting time
- * from 15 minutes by specifying a `reportProgressTimeout` field in your pipeline.
- *
- * If a task runner does not report its status after 5 minutes, AWS Data Pipeline assumes that the task runner is unable to process the task
- * and reassigns the task in a subsequent response to PollForTask. Task runners should call `ReportTaskProgress` every 60 seconds.
- *
- * POST / HTTP/1.1
- * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.ReportTaskProgress
- * Content-Length: 832
- * Host: datapipeline.us-east-1.amazonaws.com
- * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
- * Authorization: AuthParams
- *
- * {"taskId": "aaGgHT4LuH0T0Y0oLrJRjas5qH0d8cDPADxqq3tn+zCWGELkCdV2JprLreXm1oxeP5EFZHFLJ69kjSsLYE0iYHYBYVGBrB+E/pYq7ANEEeGJFnSBMRiXZVA+8UJ3OzcInvXeinqBmBaKwii7hnnKb/AXjXiNTXyxgydX1KAyg1AxkwBYG4cfPYMZbuEbQJFJvv5C/2+GVXz1w94nKYTeUeepwUOFOuRLS6JVtZoYwpF56E+Yfk1IcGpFOvCZ01B4Bkuu7x3J+MD/j6kJgZLAgbCJQtI3eiW3kdGmX0p0I2BdY1ZsX6b4UiSvM3OMj6NEHJCJL4E0ZfitnhCoe24Kvjo6C2hFbZq+ei/HPgSXBQMSagkr4vS9c0ChzxH2+LNYvec6bY4kymkaZI1dvOzmpa0FcnGf5AjSK4GpsViZ/ujz6zxFv81qBXzjF0/4M1775rjV1VUdyKaixiA/sJiACNezqZqETidp8d24BDPRhGsj6pBCrnelqGFrk/gXEXUsJ+xwMifRC8UVwiKekpAvHUywVk7Ku4jH/n3i2VoLRP6FXwpUbelu34iiZ9czpXyLtyPKwxa87dlrnRVURwkcVjOt2Mcrcaqe+cbWHvNRhyrPkkdfSF3ac8/wfgVbXvLEB2k9mKc67aD9rvdc1PKX09Tk8BKklsMTpZ3TRCd4NzQlJKigMe8Jat9+1tKj4Ole5ZzW6uyTu2s2iFjEV8KXu4MaiRJyNKCdKeGhhZWY37Qk4NBK4Ppgu+C6Y41dpfOh288SLDEVx0/UySlqOEdhba7c6BiPp5r3hKj3mk9lFy5OYp1aoGLeeFmjXveTnPdf2gkWqXXg7AUbJ7jEs1F0lKZQg4szep2gcKyAJXgvXLfJJHcha8Lfb/Ee7wYmyOcAaRpDBoFNSbtoVXar46teIrpho+ZDvynUXvU0grHWGOk=:wn3SgymHZM99bEXAMPLE",
- * "fields":
- * [
- * {"key": "percentComplete",
- * "stringValue": "50"}
- * ]
- * }
- *
- * x-amzn-RequestId: 640bd023-0775-11e2-af6f-6bc7a6be60d9
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 18
- * Date: Mon, 12 Nov 2012 17:50:53 GMT
- *
- * {"canceled": false}
- */
-export const reportTaskProgress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReportTaskProgressInput,
-  output: ReportTaskProgressOutput,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineDeletedException,
-    PipelineNotFoundException,
-    TaskNotFoundException,
   ],
 }));
 /**
@@ -1296,6 +940,251 @@ export const validatePipelineDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of
+ * a set of fields that define the properties of the object.
+ *
+ * POST / HTTP/1.1
+ * Content-Type: application/x-amz-json-1.1
+ * X-Amz-Target: DataPipeline.DescribeObjects
+ * Content-Length: 98
+ * Host: datapipeline.us-east-1.amazonaws.com
+ * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
+ * Authorization: AuthParams
+ *
+ * {"pipelineId": "df-06372391ZG65EXAMPLE",
+ * "objectIds":
+ * ["Schedule"],
+ * "evaluateExpressions": true}
+ *
+ * x-amzn-RequestId: 4c18ea5d-0777-11e2-8a14-21bb8a1f50ef
+ * Content-Type: application/x-amz-json-1.1
+ * Content-Length: 1488
+ * Date: Mon, 12 Nov 2012 17:50:53 GMT
+ *
+ * {"hasMoreResults": false,
+ * "pipelineObjects":
+ * [
+ * {"fields":
+ * [
+ * {"key": "startDateTime",
+ * "stringValue": "2012-12-12T00:00:00"},
+ * {"key": "parent",
+ * "refValue": "Default"},
+ * {"key": "@sphere",
+ * "stringValue": "COMPONENT"},
+ * {"key": "type",
+ * "stringValue": "Schedule"},
+ * {"key": "period",
+ * "stringValue": "1 hour"},
+ * {"key": "endDateTime",
+ * "stringValue": "2012-12-21T18:00:00"},
+ * {"key": "@version",
+ * "stringValue": "1"},
+ * {"key": "@status",
+ * "stringValue": "PENDING"},
+ * {"key": "@pipelineId",
+ * "stringValue": "df-06372391ZG65EXAMPLE"}
+ * ],
+ * "id": "Schedule",
+ * "name": "Schedule"}
+ * ]
+ * }
+ */
+export const describeObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeObjectsInput,
+  output: DescribeObjectsOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
+/**
+ * Gets the definition of the specified pipeline. You can call `GetPipelineDefinition` to retrieve
+ * the pipeline definition that you provided using PutPipelineDefinition.
+ *
+ * POST / HTTP/1.1
+ * Content-Type: application/x-amz-json-1.1
+ * X-Amz-Target: DataPipeline.GetPipelineDefinition
+ * Content-Length: 40
+ * Host: datapipeline.us-east-1.amazonaws.com
+ * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
+ * Authorization: AuthParams
+ *
+ * {"pipelineId": "df-06372391ZG65EXAMPLE"}
+ *
+ * x-amzn-RequestId: e28309e5-0776-11e2-8a14-21bb8a1f50ef
+ * Content-Type: application/x-amz-json-1.1
+ * Content-Length: 890
+ * Date: Mon, 12 Nov 2012 17:50:53 GMT
+ *
+ * {"pipelineObjects":
+ * [
+ * {"fields":
+ * [
+ * {"key": "workerGroup",
+ * "stringValue": "workerGroup"}
+ * ],
+ * "id": "Default",
+ * "name": "Default"},
+ * {"fields":
+ * [
+ * {"key": "startDateTime",
+ * "stringValue": "2012-09-25T17:00:00"},
+ * {"key": "type",
+ * "stringValue": "Schedule"},
+ * {"key": "period",
+ * "stringValue": "1 hour"},
+ * {"key": "endDateTime",
+ * "stringValue": "2012-09-25T18:00:00"}
+ * ],
+ * "id": "Schedule",
+ * "name": "Schedule"},
+ * {"fields":
+ * [
+ * {"key": "schedule",
+ * "refValue": "Schedule"},
+ * {"key": "command",
+ * "stringValue": "echo hello"},
+ * {"key": "parent",
+ * "refValue": "Default"},
+ * {"key": "type",
+ * "stringValue": "ShellCommandActivity"}
+ * ],
+ * "id": "SayHello",
+ * "name": "SayHello"}
+ * ]
+ * }
+ */
+export const getPipelineDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPipelineDefinitionInput,
+    output: GetPipelineDefinitionOutput,
+    errors: [
+      InternalServiceError,
+      InvalidRequestException,
+      PipelineDeletedException,
+      PipelineNotFoundException,
+    ],
+  }),
+);
+/**
+ * Removes existing tags from the specified pipeline.
+ */
+export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsInput,
+  output: RemoveTagsOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
+/**
+ * Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline.
+ * This update might not occur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity).
+ * You cannot perform this operation on `FINISHED` pipelines and attempting to do so returns `InvalidRequestException`.
+ *
+ * POST / HTTP/1.1
+ * Content-Type: application/x-amz-json-1.1
+ * X-Amz-Target: DataPipeline.SetStatus
+ * Content-Length: 100
+ * Host: datapipeline.us-east-1.amazonaws.com
+ * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
+ * Authorization: AuthParams
+ *
+ * {"pipelineId": "df-0634701J7KEXAMPLE",
+ * "objectIds":
+ * ["o-08600941GHJWMBR9E2"],
+ * "status": "pause"}
+ *
+ * x-amzn-RequestId: e83b8ab7-076a-11e2-af6f-6bc7a6be60d9
+ * Content-Type: application/x-amz-json-1.1
+ * Content-Length: 0
+ * Date: Mon, 12 Nov 2012 17:50:53 GMT
+ *
+ * Unexpected response: 200, OK, undefined
+ */
+export const setStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetStatusInput,
+  output: SetStatusResponse,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
+/**
+ * Validates the specified pipeline and starts processing pipeline tasks. If the pipeline does not pass validation,
+ * activation fails.
+ *
+ * If you need to pause the pipeline to investigate an issue with a component, such as a data source or script,
+ * call DeactivatePipeline.
+ *
+ * To activate a finished pipeline, modify the end date for the pipeline and then activate it.
+ *
+ * POST / HTTP/1.1
+ * Content-Type: application/x-amz-json-1.1
+ * X-Amz-Target: DataPipeline.ActivatePipeline
+ * Content-Length: 39
+ * Host: datapipeline.us-east-1.amazonaws.com
+ * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
+ * Authorization: AuthParams
+ *
+ * {"pipelineId": "df-06372391ZG65EXAMPLE"}
+ *
+ * HTTP/1.1 200
+ * x-amzn-RequestId: ee19d5bf-074e-11e2-af6f-6bc7a6be60d9
+ * Content-Type: application/x-amz-json-1.1
+ * Content-Length: 2
+ * Date: Mon, 12 Nov 2012 17:50:53 GMT
+ *
+ * {}
+ */
+export const activatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ActivatePipelineInput,
+  output: ActivatePipelineOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
+/**
+ * Adds or modifies tags for the specified pipeline.
+ */
+export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsInput,
+  output: AddTagsOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
+/**
+ * Deactivates the specified running pipeline. The pipeline is set to the `DEACTIVATING`
+ * state until the deactivation process completes.
+ *
+ * To resume a deactivated pipeline, use ActivatePipeline. By default, the pipeline resumes from the last completed execution.
+ * Optionally, you can specify the date and time to resume the pipeline.
+ */
+export const deactivatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivatePipelineInput,
+  output: DeactivatePipelineOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
 /**
  * Adds tasks, schedules, and preconditions to the specified pipeline. You can use `PutPipelineDefinition` to populate a new pipeline.
  *
@@ -1451,6 +1340,158 @@ export const putPipelineDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Queries the specified pipeline for the names of objects that match the specified set of conditions.
+ *
+ * POST / HTTP/1.1
+ * Content-Type: application/x-amz-json-1.1
+ * X-Amz-Target: DataPipeline.QueryObjects
+ * Content-Length: 123
+ * Host: datapipeline.us-east-1.amazonaws.com
+ * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
+ * Authorization: AuthParams
+ *
+ * {"pipelineId": "df-06372391ZG65EXAMPLE",
+ * "query":
+ * {"selectors":
+ * [
+ * ]
+ * },
+ * "sphere": "INSTANCE",
+ * "marker": "",
+ * "limit": 10}
+ *
+ * x-amzn-RequestId: 14d704c1-0775-11e2-af6f-6bc7a6be60d9
+ * Content-Type: application/x-amz-json-1.1
+ * Content-Length: 72
+ * Date: Mon, 12 Nov 2012 17:50:53 GMT
+ *
+ * {"hasMoreResults": false,
+ * "ids":
+ * ["@SayHello_1_2012-09-25T17:00:00"]
+ * }
+ */
+export const queryObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: QueryObjectsInput,
+  output: QueryObjectsOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
+/**
+ * Task runners call `ReportTaskProgress` when assigned a task to acknowledge that it has the task. If the web service does not
+ * receive this acknowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement,
+ * the task runner only needs to report progress every 15 minutes to maintain its ownership of the task. You can change this reporting time
+ * from 15 minutes by specifying a `reportProgressTimeout` field in your pipeline.
+ *
+ * If a task runner does not report its status after 5 minutes, AWS Data Pipeline assumes that the task runner is unable to process the task
+ * and reassigns the task in a subsequent response to PollForTask. Task runners should call `ReportTaskProgress` every 60 seconds.
+ *
+ * POST / HTTP/1.1
+ * Content-Type: application/x-amz-json-1.1
+ * X-Amz-Target: DataPipeline.ReportTaskProgress
+ * Content-Length: 832
+ * Host: datapipeline.us-east-1.amazonaws.com
+ * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
+ * Authorization: AuthParams
+ *
+ * {"taskId": "aaGgHT4LuH0T0Y0oLrJRjas5qH0d8cDPADxqq3tn+zCWGELkCdV2JprLreXm1oxeP5EFZHFLJ69kjSsLYE0iYHYBYVGBrB+E/pYq7ANEEeGJFnSBMRiXZVA+8UJ3OzcInvXeinqBmBaKwii7hnnKb/AXjXiNTXyxgydX1KAyg1AxkwBYG4cfPYMZbuEbQJFJvv5C/2+GVXz1w94nKYTeUeepwUOFOuRLS6JVtZoYwpF56E+Yfk1IcGpFOvCZ01B4Bkuu7x3J+MD/j6kJgZLAgbCJQtI3eiW3kdGmX0p0I2BdY1ZsX6b4UiSvM3OMj6NEHJCJL4E0ZfitnhCoe24Kvjo6C2hFbZq+ei/HPgSXBQMSagkr4vS9c0ChzxH2+LNYvec6bY4kymkaZI1dvOzmpa0FcnGf5AjSK4GpsViZ/ujz6zxFv81qBXzjF0/4M1775rjV1VUdyKaixiA/sJiACNezqZqETidp8d24BDPRhGsj6pBCrnelqGFrk/gXEXUsJ+xwMifRC8UVwiKekpAvHUywVk7Ku4jH/n3i2VoLRP6FXwpUbelu34iiZ9czpXyLtyPKwxa87dlrnRVURwkcVjOt2Mcrcaqe+cbWHvNRhyrPkkdfSF3ac8/wfgVbXvLEB2k9mKc67aD9rvdc1PKX09Tk8BKklsMTpZ3TRCd4NzQlJKigMe8Jat9+1tKj4Ole5ZzW6uyTu2s2iFjEV8KXu4MaiRJyNKCdKeGhhZWY37Qk4NBK4Ppgu+C6Y41dpfOh288SLDEVx0/UySlqOEdhba7c6BiPp5r3hKj3mk9lFy5OYp1aoGLeeFmjXveTnPdf2gkWqXXg7AUbJ7jEs1F0lKZQg4szep2gcKyAJXgvXLfJJHcha8Lfb/Ee7wYmyOcAaRpDBoFNSbtoVXar46teIrpho+ZDvynUXvU0grHWGOk=:wn3SgymHZM99bEXAMPLE",
+ * "fields":
+ * [
+ * {"key": "percentComplete",
+ * "stringValue": "50"}
+ * ]
+ * }
+ *
+ * x-amzn-RequestId: 640bd023-0775-11e2-af6f-6bc7a6be60d9
+ * Content-Type: application/x-amz-json-1.1
+ * Content-Length: 18
+ * Date: Mon, 12 Nov 2012 17:50:53 GMT
+ *
+ * {"canceled": false}
+ */
+export const reportTaskProgress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReportTaskProgressInput,
+  output: ReportTaskProgressOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+    TaskNotFoundException,
+  ],
+}));
+/**
+ * Task runners call `EvaluateExpression` to evaluate a string in the context of the specified object.
+ * For example, a task runner can evaluate SQL queries stored in Amazon S3.
+ *
+ * POST / HTTP/1.1
+ * Content-Type: application/x-amz-json-1.1
+ * X-Amz-Target: DataPipeline.DescribePipelines
+ * Content-Length: 164
+ * Host: datapipeline.us-east-1.amazonaws.com
+ * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
+ * Authorization: AuthParams
+ *
+ * {"pipelineId": "df-08785951KAKJEXAMPLE",
+ * "objectId": "Schedule",
+ * "expression": "Transform started at #{startDateTime} and finished at #{endDateTime}"}
+ *
+ * x-amzn-RequestId: 02870eb7-0736-11e2-af6f-6bc7a6be60d9
+ * Content-Type: application/x-amz-json-1.1
+ * Content-Length: 103
+ * Date: Mon, 12 Nov 2012 17:50:53 GMT
+ *
+ * {"evaluatedExpression": "Transform started at 2012-12-12T00:00:00 and finished at 2012-12-21T18:00:00"}
+ */
+export const evaluateExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EvaluateExpressionInput,
+  output: EvaluateExpressionOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+    TaskNotFoundException,
+  ],
+}));
+/**
+ * Task runners call `SetTaskStatus` to notify AWS Data Pipeline that a task is completed and provide information about the final status.
+ * A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call `SetTaskStatus` for
+ * tasks that are canceled by the web service during a call to ReportTaskProgress.
+ *
+ * POST / HTTP/1.1
+ * Content-Type: application/x-amz-json-1.1
+ * X-Amz-Target: DataPipeline.SetTaskStatus
+ * Content-Length: 847
+ * Host: datapipeline.us-east-1.amazonaws.com
+ * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
+ * Authorization: AuthParams
+ *
+ * {"taskId": "aaGgHT4LuH0T0Y0oLrJRjas5qH0d8cDPADxqq3tn+zCWGELkCdV2JprLreXm1oxeP5EFZHFLJ69kjSsLYE0iYHYBYVGBrB+E/pYq7ANEEeGJFnSBMRiXZVA+8UJ3OzcInvXeinqBmBaKwii7hnnKb/AXjXiNTXyxgydX1KAyg1AxkwBYG4cfPYMZbuEbQJFJvv5C/2+GVXz1w94nKYTeUeepwUOFOuRLS6JVtZoYwpF56E+Yfk1IcGpFOvCZ01B4Bkuu7x3J+MD/j6kJgZLAgbCJQtI3eiW3kdGmX0p0I2BdY1ZsX6b4UiSvM3OMj6NEHJCJL4E0ZfitnhCoe24Kvjo6C2hFbZq+ei/HPgSXBQMSagkr4vS9c0ChzxH2+LNYvec6bY4kymkaZI1dvOzmpa0FcnGf5AjSK4GpsViZ/ujz6zxFv81qBXzjF0/4M1775rjV1VUdyKaixiA/sJiACNezqZqETidp8d24BDPRhGsj6pBCrnelqGFrk/gXEXUsJ+xwMifRC8UVwiKekpAvHUywVk7Ku4jH/n3i2VoLRP6FXwpUbelu34iiZ9czpXyLtyPKwxa87dlrnRVURwkcVjOt2Mcrcaqe+cbWHvNRhyrPkkdfSF3ac8/wfgVbXvLEB2k9mKc67aD9rvdc1PKX09Tk8BKklsMTpZ3TRCd4NzQlJKigMe8Jat9+1tKj4Ole5ZzW6uyTu2s2iFjEV8KXu4MaiRJyNKCdKeGhhZWY37Qk4NBK4Ppgu+C6Y41dpfOh288SLDEVx0/UySlqOEdhba7c6BiPp5r3hKj3mk9lFy5OYp1aoGLeeFmjXveTnPdf2gkWqXXg7AUbJ7jEs1F0lKZQg4szep2gcKyAJXgvXLfJJHcha8Lfb/Ee7wYmyOcAaRpDBoFNSbtoVXar46teIrpho+ZDvynUXvU0grHWGOk=:wn3SgymHZM99bEXAMPLE",
+ * "taskStatus": "FINISHED"}
+ *
+ * x-amzn-RequestId: 8c8deb53-0788-11e2-af9c-6bc7a6be6qr8
+ * Content-Type: application/x-amz-json-1.1
+ * Content-Length: 0
+ * Date: Mon, 12 Nov 2012 17:50:53 GMT
+ *
+ * {}
+ */
+export const setTaskStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetTaskStatusInput,
+  output: SetTaskStatusOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+    TaskNotFoundException,
+  ],
+}));
+/**
  * Task runners call `PollForTask` to receive a task to perform from AWS Data Pipeline. The task runner specifies which tasks it can perform
  * by setting a value for the `workerGroup` parameter. The task returned can come from any of the pipelines that
  * match the `workerGroup` value passed in by the task runner and that was launched using the IAM user credentials
@@ -1528,46 +1569,5 @@ export const pollForTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServiceError,
     InvalidRequestException,
     TaskNotFoundException,
-  ],
-}));
-/**
- * Queries the specified pipeline for the names of objects that match the specified set of conditions.
- *
- * POST / HTTP/1.1
- * Content-Type: application/x-amz-json-1.1
- * X-Amz-Target: DataPipeline.QueryObjects
- * Content-Length: 123
- * Host: datapipeline.us-east-1.amazonaws.com
- * X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT
- * Authorization: AuthParams
- *
- * {"pipelineId": "df-06372391ZG65EXAMPLE",
- * "query":
- * {"selectors":
- * [
- * ]
- * },
- * "sphere": "INSTANCE",
- * "marker": "",
- * "limit": 10}
- *
- * x-amzn-RequestId: 14d704c1-0775-11e2-af6f-6bc7a6be60d9
- * Content-Type: application/x-amz-json-1.1
- * Content-Length: 72
- * Date: Mon, 12 Nov 2012 17:50:53 GMT
- *
- * {"hasMoreResults": false,
- * "ids":
- * ["@SayHello_1_2012-09-25T17:00:00"]
- * }
- */
-export const queryObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: QueryObjectsInput,
-  output: QueryObjectsOutput,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    PipelineDeletedException,
-    PipelineNotFoundException,
   ],
 }));

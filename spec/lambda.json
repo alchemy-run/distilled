@@ -1,0 +1,199 @@
+{
+  "operations": {
+    "createEventSourceMapping": {
+      "errors": [
+        "ResourceInUseException"
+      ]
+    },
+    "putFunctionEventInvokeConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "getFunctionEventInvokeConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "deleteFunctionEventInvokeConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "putFunctionConcurrency": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "deleteFunctionConcurrency": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "putProvisionedConcurrencyConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "deleteProvisionedConcurrencyConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "updateFunctionCode": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "updateFunctionConfiguration": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "listFunctionEventInvokeConfigs": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "createAlias": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "updateAlias": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "deleteAlias": {
+      "errors": [
+        "ResourceNotFoundException"
+      ]
+    },
+    "publishLayerVersion": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "deleteLayerVersion": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "getLayerVersion": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "addLayerVersionPermission": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "removeLayerVersionPermission": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "addPermission": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "publishVersion": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "createFunctionUrlConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "updateFunctionUrlConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "deleteFunctionUrlConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "deleteCodeSigningConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "putFunctionCodeSigningConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "tagResource": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "untagResource": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "listTags": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "invoke": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "getCodeSigningConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "getFunctionConcurrency": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "getProvisionedConcurrencyConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "listProvisionedConcurrencyConfigs": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "listLayerVersions": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "getLayerVersionPolicy": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "getFunctionRecursionConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "putFunctionRecursionConfig": {
+      "errors": [
+        "ParseError"
+      ]
+    },
+    "updateEventSourceMapping": {
+      "errors": [
+        "ParseError"
+      ]
+    }
+  }
+}

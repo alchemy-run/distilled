@@ -2579,303 +2579,128 @@ export class QueryResult extends S.Class<QueryResult>("QueryResult")({
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
-  "ResourceUnavailableException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
-) {}
-export class ResourceAlreadyExistException extends S.TaggedError<ResourceAlreadyExistException>()(
-  "ResourceAlreadyExistException",
-  {},
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
   { Message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
   { Message: S.optional(S.String) },
 ) {}
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
+  "ResourceUnavailableException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistException extends S.TaggedError<ResourceAlreadyExistException>()(
+  "ResourceAlreadyExistException",
+  { Message: S.optional(S.String) },
+) {}
 export class FeaturedResultsConflictException extends S.TaggedError<FeaturedResultsConflictException>()(
   "FeaturedResultsConflictException",
-  {},
+  {
+    Message: S.optional(S.String),
+    ConflictingItems: S.optional(ConflictingItems),
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Deletes a group so that all users that belong to the group can no
- * longer access documents only available to that group.
- *
- * For example, after deleting the group "Summer Interns", all interns who belonged to
- * that group no longer see intern-only documents in their search results.
- *
- * If you want to delete or replace users or sub groups of a group, you need to use the
- * `PutPrincipalMapping` operation. For example, if a user in the group
- * "Engineering" leaves the engineering team and another user takes their place, you
- * provide an updated list of users or sub groups that belong to the "Engineering" group
- * when calling `PutPrincipalMapping`. You can update your internal list of
- * users or sub groups and input this list when calling
- * `PutPrincipalMapping`.
- *
- * `DeletePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
+ * Retrieves search metrics data. The data provides a snapshot of how your users interact
+ * with your search application and how effective the application is.
  */
-export const deletePrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePrincipalMappingRequest,
-    output: DeletePrincipalMappingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a block list used for query suggestions for an index.
- *
- * A deleted block list might not take effect right away. Amazon Kendra
- * needs to refresh the entire suggestions list to add back the
- * queries that were previously blocked.
- *
- * `DeleteQuerySuggestionsBlockList` is currently not supported in the
- * Amazon Web Services GovCloud (US-West) region.
- */
-export const deleteQuerySuggestionsBlockList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteQuerySuggestionsBlockListRequest,
-    output: DeleteQuerySuggestionsBlockListResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes an Amazon Kendra thesaurus.
- */
-export const deleteThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteThesaurusRequest,
-  output: DeleteThesaurusResponse,
+export const getSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSnapshotsRequest,
+  output: GetSnapshotsResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
+    InvalidRequestException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
   ],
 }));
 /**
- * Stops a synchronization job that is currently running. You can't stop a scheduled
- * synchronization job.
+ * Lists the Amazon Kendra indexes that you created.
  */
-export const stopDataSourceSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopDataSourceSyncJobRequest,
-    output: StopDataSourceSyncJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Removes a tag from an index, FAQ, data source, or other resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const listIndices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIndicesRequest,
+  output: ListIndicesResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ResourceUnavailableException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Updates an Amazon Kendra data source connector.
+ * Retrieves relevant passages or text excerpts given an input query.
+ *
+ * This API is similar to the Query API. However, by
+ * default, the `Query` API only returns excerpt passages of up to 100 token
+ * words. With the `Retrieve` API, you can retrieve longer passages of up to 200
+ * token words and up to 100 semantically relevant passages. This doesn't include
+ * question-answer or FAQ type responses from your index. The passages are text excerpts
+ * that can be semantically extracted from multiple documents and multiple parts of the
+ * same document. If in extreme cases your documents produce zero passages using the
+ * `Retrieve` API, you can alternatively use the `Query` API and
+ * its types of responses.
+ *
+ * You can also do the following:
+ *
+ * - Override boosting at the index level
+ *
+ * - Filter based on document fields or attributes
+ *
+ * - Filter based on the user or their group access to documents
+ *
+ * - View the confidence score bucket for a retrieved passage result. The
+ * confidence bucket provides a relative ranking that indicates how confident
+ * Amazon Kendra is that the response is relevant to the query.
+ *
+ * Confidence score buckets are currently available only for English.
+ *
+ * You can also include certain fields in the response that might provide useful
+ * additional information.
+ *
+ * The `Retrieve` API shares the number of query capacity
+ * units that you set for your index. For more information on what's included
+ * in a single capacity unit and the default base capacity for an index, see Adjusting
+ * capacity.
+ *
+ * If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use
+ * `ATTRIBUTE_FILTER` to filter search results by user context. If
+ * you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use
+ * `USER_TOKEN` to configure user context policy, Amazon Kendra returns a
+ * `ValidationException` error.
  */
-export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataSourceRequest,
-  output: UpdateDataSourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates your Amazon Kendra experience such as a search application. For more information on
- * creating a search application experience, see Building a
- * search experience with no code.
- */
-export const updateExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateExperienceRequest,
-  output: UpdateExperienceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a block list used for query suggestions for an index.
- *
- * Updates to a block list might not take effect right away. Amazon Kendra
- * needs to refresh the entire suggestions list to apply any updates to the
- * block list. Other changes not related to the block list apply immediately.
- *
- * If a block list is updating, then you need to wait for the first update to
- * finish before submitting another update.
- *
- * Amazon Kendra supports partial updates, so you only need to provide the fields
- * you want to update.
- *
- * `UpdateQuerySuggestionsBlockList` is currently not supported in the
- * Amazon Web Services GovCloud (US-West) region.
- */
-export const updateQuerySuggestionsBlockList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQuerySuggestionsBlockListRequest,
-    output: UpdateQuerySuggestionsBlockListResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates a thesaurus for an index.
- */
-export const updateThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateThesaurusRequest,
-  output: UpdateThesaurusResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Clears existing query suggestions from an index.
- *
- * This deletes existing suggestions only, not the queries
- * in the query log. After you clear suggestions, Amazon Kendra learns
- * new suggestions based on new queries added to the query log
- * from the time you cleared suggestions. If you do not see any
- * new suggestions, then please allow Amazon Kendra to collect
- * enough queries to learn new suggestions.
- *
- * `ClearQuerySuggestions` is currently not supported in the
- * Amazon Web Services GovCloud (US-West) region.
- */
-export const clearQuerySuggestions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ClearQuerySuggestionsRequest,
-    output: ClearQuerySuggestionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a block list to exlcude certain queries from suggestions.
- *
- * Any query that contains words or phrases specified in the block
- * list is blocked or filtered out from being shown as a suggestion.
- *
- * You need to provide the file location of your block list text file
- * in your S3 bucket. In your text file, enter each block word or phrase
- * on a separate line.
- *
- * For information on the current quota limits for block lists, see
- * Quotas
- * for Amazon Kendra.
- *
- * `CreateQuerySuggestionsBlockList` is currently not supported in the
- * Amazon Web Services GovCloud (US-West) region.
- *
- * For an example of creating a block list for query suggestions using the
- * Python SDK, see Query
- * suggestions block list.
- */
-export const createQuerySuggestionsBlockList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateQuerySuggestionsBlockListRequest,
-    output: CreateQuerySuggestionsBlockListResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a thesaurus for an index. The thesaurus
- * contains a list of synonyms in Solr format.
- *
- * For an example of adding a thesaurus file to an index, see
- * Adding
- * custom synonyms to an index.
- */
-export const createThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateThesaurusRequest,
-  output: CreateThesaurusResponse,
+export const retrieve = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetrieveRequest,
+  output: RetrieveResult,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2887,196 +2712,50 @@ export const createThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes an access control configuration that you created for your documents in an
- * index. This includes user and group access information for your documents. This is
- * useful for user context filtering, where search results are filtered based on the user
- * or their group access to documents.
+ * Updates a set of featured results. Features results are placed
+ * above
+ * all other results for certain queries. You map specific queries to specific documents
+ * for featuring in the results. If a query contains an exact match of a query, then one
+ * or more specific documents are featured in the search results.
  */
-export const deleteAccessControlConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAccessControlConfigurationRequest,
-    output: DeleteAccessControlConfigurationResponse,
+export const updateFeaturedResultsSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateFeaturedResultsSetRequest,
+    output: UpdateFeaturedResultsSetResponse,
+    errors: [
+      AccessDeniedException,
+      FeaturedResultsConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Starts a synchronization job for a data source connector. If a synchronization job is
+ * already in progress, Amazon Kendra returns a `ResourceInUseException`
+ * exception.
+ *
+ * Re-syncing your data source with your index after modifying, adding, or deleting
+ * documents from your data source respository could take up to an hour or more, depending on
+ * the number of documents to sync.
+ */
+export const startDataSourceSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartDataSourceSyncJobRequest,
+    output: StartDataSourceSyncJobResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
       InternalServerException,
+      ResourceInUseException,
       ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],
-  }));
-/**
- * Deletes an Amazon Kendra data source connector. An exception is not thrown if the
- * data source is already being deleted. While the data source is being deleted, the
- * `Status` field returned by a call to the `DescribeDataSource` API is
- * set to `DELETING`. For more information, see Deleting Data Sources.
- *
- * Deleting an entire data source or re-syncing your index after deleting specific documents
- * from a data source could take up to an hour or more, depending on the number of documents you
- * want to delete.
- */
-export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDataSourceRequest,
-  output: DeleteDataSourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes your Amazon Kendra experience such as a search application. For more information on
- * creating a search application experience, see Building a search
- * experience with no code.
- */
-export const deleteExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteExperienceRequest,
-  output: DeleteExperienceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a FAQ from an index.
- */
-export const deleteFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFaqRequest,
-  output: DeleteFaqResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an Amazon Kendra index. An exception is not thrown if the index is already
- * being deleted. While the index is being deleted, the `Status` field returned by a
- * call to the `DescribeIndex` API is set to `DELETING`.
- */
-export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIndexRequest,
-  output: DeleteIndexResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about an access control configuration that you created for your
- * documents in an index. This includes user and group access information for your
- * documents. This is useful for user context filtering, where search results are filtered
- * based on the user or their group access to documents.
- */
-export const describeAccessControlConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAccessControlConfigurationRequest,
-    output: DescribeAccessControlConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets information about an Amazon Kendra data source connector.
- */
-export const describeDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDataSourceRequest,
-  output: DescribeDataSourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about a FAQ.
- */
-export const describeFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFaqRequest,
-  output: DescribeFaqResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about a block list used for query suggestions for
- * an index.
- *
- * This is used to check the current settings that are applied to a
- * block list.
- *
- * `DescribeQuerySuggestionsBlockList` is currently not supported in the
- * Amazon Web Services GovCloud (US-West) region.
- */
-export const describeQuerySuggestionsBlockList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeQuerySuggestionsBlockListRequest,
-    output: DescribeQuerySuggestionsBlockListResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets information about an Amazon Kendra thesaurus.
- */
-export const describeThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeThesaurusRequest,
-  output: DescribeThesaurusResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the specific permissions of users or groups in your IAM Identity Center
- * identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra
- * experience such as a search application. For more information on creating a
- * search application experience, see Building a
- * search experience with no code.
- */
-export const disassociatePersonasFromEntities =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociatePersonasFromEntitiesRequest,
-    output: DisassociatePersonasFromEntitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+  }),
+);
 /**
  * Gets a list of tags associated with a resource. Indexes, FAQs, data sources, and
  * other resources can have tags associated with them.
@@ -3093,92 +2772,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Enables you to provide feedback to Amazon Kendra to improve the
- * performance of your index.
- *
- * `SubmitFeedback` is currently not supported in the
- * Amazon Web Services GovCloud (US-West) region.
- */
-export const submitFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SubmitFeedbackRequest,
-  output: SubmitFeedbackResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds the specified tag to the specified index, FAQ, data source, or other resource. If
- * the tag already exists, the existing value is replaced with the new value.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceUnavailableException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an access control configuration for your documents in an index. This includes
- * user and group access information for your documents. This is useful for user context
- * filtering, where search results are filtered based on the user or their group access to
- * documents.
- *
- * You can update an access control configuration you created without indexing all of
- * your documents again. For example, your index contains top-secret company documents that
- * only certain employees or users should access. You created an 'allow' access control
- * configuration for one user who recently joined the 'top-secret' team, switching from a
- * team with 'deny' access to top-secret documents. However, the user suddenly returns to
- * their previous team and should no longer have access to top secret documents. You can
- * update the access control configuration to re-configure access control for your
- * documents as circumstances change.
- *
- * You call the BatchPutDocument API to
- * apply the updated access control configuration, with the
- * `AccessControlConfigurationId` included in the Document
- * object. If you use an S3 bucket as a data source, you synchronize your data source to
- * apply the `AccessControlConfigurationId` in the `.metadata.json`
- * file. Amazon Kendra currently only supports access control configuration for S3
- * data sources and documents indexed using the `BatchPutDocument` API.
- *
- * You can't configure access control using
- * `CreateAccessControlConfiguration` for an Amazon Kendra Gen AI Enterprise
- * Edition index. Amazon Kendra will return a `ValidationException` error for a
- * `Gen_AI_ENTERPRISE_EDITION` index.
- */
-export const updateAccessControlConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAccessControlConfigurationRequest,
-    output: UpdateAccessControlConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Defines the specific permissions of users or groups in your IAM Identity Center
- * identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra
- * experience such as a search application. For more information on creating a
- * search application experience, see Building
+ * Grants users or groups in your IAM Identity Center identity source access
+ * to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a
+ * search application. For more information on creating a search application
+ * experience, see Building
  * a search experience with no code.
  */
-export const associatePersonasToEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociatePersonasToEntitiesRequest,
-    output: AssociatePersonasToEntitiesResponse,
+export const associateEntitiesToExperience =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateEntitiesToExperienceRequest,
+    output: AssociateEntitiesToExperienceResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -3187,88 +2790,7 @@ export const associatePersonasToEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ThrottlingException,
       ValidationException,
     ],
-  }),
-);
-/**
- * Removes one or more sets of featured results. Features results are placed
- * above all other results for certain queries. If there's an exact match of a
- * query, then one or more specific documents are featured in the search results.
- */
-export const batchDeleteFeaturedResultsSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteFeaturedResultsSetRequest,
-    output: BatchDeleteFeaturedResultsSetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
   }));
-/**
- * Creates an access configuration for your documents. This includes user and group
- * access information for your documents. This is useful for user context filtering, where
- * search results are filtered based on the user or their group access to documents.
- *
- * You can use this to re-configure your existing document level access control without
- * indexing all of your documents again. For example, your index contains top-secret
- * company documents that only certain employees or users should access. One of these users
- * leaves the company or switches to a team that should be blocked from accessing
- * top-secret documents. The user still has access to top-secret documents because the user
- * had access when your documents were previously indexed. You can create a specific access
- * control configuration for the user with deny access. You can later update the access
- * control configuration to allow access if the user returns to the company and re-joins
- * the 'top-secret' team. You can re-configure access control for your documents as
- * circumstances change.
- *
- * To apply your access control configuration to certain documents, you call the BatchPutDocument API with the `AccessControlConfigurationId`
- * included in the Document object. If you use an S3 bucket as a data source, you update the
- * `.metadata.json` with the `AccessControlConfigurationId` and
- * synchronize your data source. Amazon Kendra currently only supports access control
- * configuration for S3 data sources and documents indexed using the
- * `BatchPutDocument` API.
- *
- * You can't configure access control using
- * `CreateAccessControlConfiguration` for an Amazon Kendra Gen AI Enterprise
- * Edition index. Amazon Kendra will return a `ValidationException` error for a
- * `Gen_AI_ENTERPRISE_EDITION` index.
- */
-export const createAccessControlConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAccessControlConfigurationRequest,
-    output: CreateAccessControlConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a set of frequently ask questions (FAQs) using a specified FAQ file stored
- * in an Amazon S3 bucket.
- *
- * Adding FAQs to an index is an asynchronous operation.
- *
- * For an example of adding an FAQ to an index using Python and Java SDKs, see Using your FAQ file.
- */
-export const createFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFaqRequest,
-  output: CreateFaqResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Gets information about your Amazon Kendra experience such as a search application.
  * For more information on creating a search application experience,
@@ -3367,20 +2889,6 @@ export const disassociateEntitiesFromExperience =
       ValidationException,
     ],
   }));
-/**
- * Retrieves search metrics data. The data provides a snapshot of how your users interact
- * with your search application and how effective the application is.
- */
-export const getSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSnapshotsRequest,
-  output: GetSnapshotsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Lists one or more access control configurations for an index. This includes user and
  * group access information for your documents. This is useful for user context filtering,
@@ -3497,19 +3005,6 @@ export const listGroupsOlderThanOrderingId =
     ],
   }));
 /**
- * Lists the Amazon Kendra indexes that you created.
- */
-export const listIndices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListIndicesRequest,
-  output: ListIndicesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists the block lists used for query suggestions for an index.
  *
  * For information on the current quota limits for block lists, see
@@ -3546,97 +3041,6 @@ export const listThesauri = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Maps users to their groups so that you only need to provide the user ID when you issue
- * the query.
- *
- * You can also map sub groups to groups. For example, the group "Company Intellectual
- * Property Teams" includes sub groups "Research" and "Engineering". These sub groups
- * include their own list of users or people who work in these teams. Only users who work
- * in research and engineering, and therefore belong in the intellectual property group,
- * can see top-secret company documents in their search results.
- *
- * This is useful for user context filtering, where search results are filtered based on
- * the user or their group access to documents. For more information, see Filtering on
- * user context.
- *
- * If more than five `PUT` actions for a group are currently processing, a
- * validation exception is thrown.
- */
-export const putPrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutPrincipalMappingRequest,
-  output: PutPrincipalMappingResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a synchronization job for a data source connector. If a synchronization job is
- * already in progress, Amazon Kendra returns a `ResourceInUseException`
- * exception.
- *
- * Re-syncing your data source with your index after modifying, adding, or deleting
- * documents from your data source respository could take up to an hour or more, depending on
- * the number of documents to sync.
- */
-export const startDataSourceSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDataSourceSyncJobRequest,
-    output: StartDataSourceSyncJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a set of featured results. Features results are placed
- * above
- * all other results for certain queries. You map specific queries to specific documents
- * for featuring in the results. If a query contains an exact match of a query, then one
- * or more specific documents are featured in the search results.
- */
-export const updateFeaturedResultsSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFeaturedResultsSetRequest,
-    output: UpdateFeaturedResultsSetResponse,
-    errors: [
-      AccessDeniedException,
-      FeaturedResultsConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates an Amazon Kendra index.
- */
-export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateIndexRequest,
-  output: UpdateIndexResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates the settings of query suggestions for an index.
  *
  * Amazon Kendra supports partial updates, so you only need to provide
@@ -3668,25 +3072,403 @@ export const updateQuerySuggestionsConfig =
     ],
   }));
 /**
- * Grants users or groups in your IAM Identity Center identity source access
- * to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a
- * search application. For more information on creating a search application
- * experience, see Building
- * a search experience with no code.
+ * Deletes an access control configuration that you created for your documents in an
+ * index. This includes user and group access information for your documents. This is
+ * useful for user context filtering, where search results are filtered based on the user
+ * or their group access to documents.
  */
-export const associateEntitiesToExperience =
+export const deleteAccessControlConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateEntitiesToExperienceRequest,
-    output: AssociateEntitiesToExperienceResponse,
+    input: DeleteAccessControlConfigurationRequest,
+    output: DeleteAccessControlConfigurationResponse,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
-      ResourceAlreadyExistException,
       ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],
   }));
+/**
+ * Deletes an Amazon Kendra data source connector. An exception is not thrown if the
+ * data source is already being deleted. While the data source is being deleted, the
+ * `Status` field returned by a call to the `DescribeDataSource` API is
+ * set to `DELETING`. For more information, see Deleting Data Sources.
+ *
+ * Deleting an entire data source or re-syncing your index after deleting specific documents
+ * from a data source could take up to an hour or more, depending on the number of documents you
+ * want to delete.
+ */
+export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataSourceRequest,
+  output: DeleteDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes your Amazon Kendra experience such as a search application. For more information on
+ * creating a search application experience, see Building a search
+ * experience with no code.
+ */
+export const deleteExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteExperienceRequest,
+  output: DeleteExperienceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a FAQ from an index.
+ */
+export const deleteFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFaqRequest,
+  output: DeleteFaqResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an Amazon Kendra index. An exception is not thrown if the index is already
+ * being deleted. While the index is being deleted, the `Status` field returned by a
+ * call to the `DescribeIndex` API is set to `DELETING`.
+ */
+export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIndexRequest,
+  output: DeleteIndexResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a group so that all users that belong to the group can no
+ * longer access documents only available to that group.
+ *
+ * For example, after deleting the group "Summer Interns", all interns who belonged to
+ * that group no longer see intern-only documents in their search results.
+ *
+ * If you want to delete or replace users or sub groups of a group, you need to use the
+ * `PutPrincipalMapping` operation. For example, if a user in the group
+ * "Engineering" leaves the engineering team and another user takes their place, you
+ * provide an updated list of users or sub groups that belong to the "Engineering" group
+ * when calling `PutPrincipalMapping`. You can update your internal list of
+ * users or sub groups and input this list when calling
+ * `PutPrincipalMapping`.
+ *
+ * `DeletePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
+ */
+export const deletePrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePrincipalMappingRequest,
+    output: DeletePrincipalMappingResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a block list used for query suggestions for an index.
+ *
+ * A deleted block list might not take effect right away. Amazon Kendra
+ * needs to refresh the entire suggestions list to add back the
+ * queries that were previously blocked.
+ *
+ * `DeleteQuerySuggestionsBlockList` is currently not supported in the
+ * Amazon Web Services GovCloud (US-West) region.
+ */
+export const deleteQuerySuggestionsBlockList =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteQuerySuggestionsBlockListRequest,
+    output: DeleteQuerySuggestionsBlockListResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an Amazon Kendra thesaurus.
+ */
+export const deleteThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteThesaurusRequest,
+  output: DeleteThesaurusResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an Amazon Kendra data source connector.
+ */
+export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataSourceRequest,
+  output: UpdateDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates your Amazon Kendra experience such as a search application. For more information on
+ * creating a search application experience, see Building a
+ * search experience with no code.
+ */
+export const updateExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateExperienceRequest,
+  output: UpdateExperienceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a block list used for query suggestions for an index.
+ *
+ * Updates to a block list might not take effect right away. Amazon Kendra
+ * needs to refresh the entire suggestions list to apply any updates to the
+ * block list. Other changes not related to the block list apply immediately.
+ *
+ * If a block list is updating, then you need to wait for the first update to
+ * finish before submitting another update.
+ *
+ * Amazon Kendra supports partial updates, so you only need to provide the fields
+ * you want to update.
+ *
+ * `UpdateQuerySuggestionsBlockList` is currently not supported in the
+ * Amazon Web Services GovCloud (US-West) region.
+ */
+export const updateQuerySuggestionsBlockList =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateQuerySuggestionsBlockListRequest,
+    output: UpdateQuerySuggestionsBlockListResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates a thesaurus for an index.
+ */
+export const updateThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateThesaurusRequest,
+  output: UpdateThesaurusResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about an Amazon Kendra data source connector.
+ */
+export const describeDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataSourceRequest,
+  output: DescribeDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about a FAQ.
+ */
+export const describeFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFaqRequest,
+  output: DescribeFaqResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about a block list used for query suggestions for
+ * an index.
+ *
+ * This is used to check the current settings that are applied to a
+ * block list.
+ *
+ * `DescribeQuerySuggestionsBlockList` is currently not supported in the
+ * Amazon Web Services GovCloud (US-West) region.
+ */
+export const describeQuerySuggestionsBlockList =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeQuerySuggestionsBlockListRequest,
+    output: DescribeQuerySuggestionsBlockListResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets information about an Amazon Kendra thesaurus.
+ */
+export const describeThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThesaurusRequest,
+  output: DescribeThesaurusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the specific permissions of users or groups in your IAM Identity Center
+ * identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra
+ * experience such as a search application. For more information on creating a
+ * search application experience, see Building a
+ * search experience with no code.
+ */
+export const disassociatePersonasFromEntities =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociatePersonasFromEntitiesRequest,
+    output: DisassociatePersonasFromEntitiesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Enables you to provide feedback to Amazon Kendra to improve the
+ * performance of your index.
+ *
+ * `SubmitFeedback` is currently not supported in the
+ * Amazon Web Services GovCloud (US-West) region.
+ */
+export const submitFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubmitFeedbackRequest,
+  output: SubmitFeedbackResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Stops a synchronization job that is currently running. You can't stop a scheduled
+ * synchronization job.
+ */
+export const stopDataSourceSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopDataSourceSyncJobRequest,
+    output: StopDataSourceSyncJobResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Removes one or more sets of featured results. Features results are placed
+ * above all other results for certain queries. If there's an exact match of a
+ * query, then one or more specific documents are featured in the search results.
+ */
+export const batchDeleteFeaturedResultsSet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDeleteFeaturedResultsSetRequest,
+    output: BatchDeleteFeaturedResultsSetResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Clears existing query suggestions from an index.
+ *
+ * This deletes existing suggestions only, not the queries
+ * in the query log. After you clear suggestions, Amazon Kendra learns
+ * new suggestions based on new queries added to the query log
+ * from the time you cleared suggestions. If you do not see any
+ * new suggestions, then please allow Amazon Kendra to collect
+ * enough queries to learn new suggestions.
+ *
+ * `ClearQuerySuggestions` is currently not supported in the
+ * Amazon Web Services GovCloud (US-West) region.
+ */
+export const clearQuerySuggestions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ClearQuerySuggestionsRequest,
+    output: ClearQuerySuggestionsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Removes one or more documents from an index. The documents must have been added with
  * the `BatchPutDocument` API.
@@ -3709,6 +3491,357 @@ export const batchDeleteDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about an access control configuration that you created for your
+ * documents in an index. This includes user and group access information for your
+ * documents. This is useful for user context filtering, where search results are filtered
+ * based on the user or their group access to documents.
+ */
+export const describeAccessControlConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAccessControlConfigurationRequest,
+    output: DescribeAccessControlConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets information about an Amazon Kendra index.
+ */
+export const describeIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIndexRequest,
+  output: DescribeIndexResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists users or groups in your IAM Identity Center identity source that are
+ * granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience
+ * such as a search application. For more information on creating a search
+ * application experience, see Building
+ * a search experience with no code.
+ */
+export const listExperienceEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListExperienceEntitiesRequest,
+    output: ListExperienceEntitiesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Adds the specified tag to the specified index, FAQ, data source, or other resource. If
+ * the tag already exists, the existing value is replaced with the new value.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a tag from an index, FAQ, data source, or other resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Defines the specific permissions of users or groups in your IAM Identity Center
+ * identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra
+ * experience such as a search application. For more information on creating a
+ * search application experience, see Building
+ * a search experience with no code.
+ */
+export const associatePersonasToEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociatePersonasToEntitiesRequest,
+    output: AssociatePersonasToEntitiesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceAlreadyExistException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a set of featured results to display at the top of the search results page.
+ * Featured results are placed above all other results for certain queries. You map
+ * specific queries to specific documents for featuring in the results. If a query
+ * contains an exact match, then one or more specific documents are featured in the
+ * search results.
+ *
+ * You can create up to 50 sets of featured results per index. You can request to
+ * increase this limit by contacting Support.
+ */
+export const createFeaturedResultsSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateFeaturedResultsSetRequest,
+    output: CreateFeaturedResultsSetResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      FeaturedResultsConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets statistics about synchronizing a data source connector.
+ */
+export const listDataSourceSyncJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDataSourceSyncJobsRequest,
+    output: ListDataSourceSyncJobsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Maps users to their groups so that you only need to provide the user ID when you issue
+ * the query.
+ *
+ * You can also map sub groups to groups. For example, the group "Company Intellectual
+ * Property Teams" includes sub groups "Research" and "Engineering". These sub groups
+ * include their own list of users or people who work in these teams. Only users who work
+ * in research and engineering, and therefore belong in the intellectual property group,
+ * can see top-secret company documents in their search results.
+ *
+ * This is useful for user context filtering, where search results are filtered based on
+ * the user or their group access to documents. For more information, see Filtering on
+ * user context.
+ *
+ * If more than five `PUT` actions for a group are currently processing, a
+ * validation exception is thrown.
+ */
+export const putPrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPrincipalMappingRequest,
+  output: PutPrincipalMappingResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an Amazon Kendra index.
+ */
+export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIndexRequest,
+  output: UpdateIndexResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a block list to exlcude certain queries from suggestions.
+ *
+ * Any query that contains words or phrases specified in the block
+ * list is blocked or filtered out from being shown as a suggestion.
+ *
+ * You need to provide the file location of your block list text file
+ * in your S3 bucket. In your text file, enter each block word or phrase
+ * on a separate line.
+ *
+ * For information on the current quota limits for block lists, see
+ * Quotas
+ * for Amazon Kendra.
+ *
+ * `CreateQuerySuggestionsBlockList` is currently not supported in the
+ * Amazon Web Services GovCloud (US-West) region.
+ *
+ * For an example of creating a block list for query suggestions using the
+ * Python SDK, see Query
+ * suggestions block list.
+ */
+export const createQuerySuggestionsBlockList =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateQuerySuggestionsBlockListRequest,
+    output: CreateQuerySuggestionsBlockListResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a thesaurus for an index. The thesaurus
+ * contains a list of synonyms in Solr format.
+ *
+ * For an example of adding a thesaurus file to an index, see
+ * Adding
+ * custom synonyms to an index.
+ */
+export const createThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateThesaurusRequest,
+  output: CreateThesaurusResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an access control configuration for your documents in an index. This includes
+ * user and group access information for your documents. This is useful for user context
+ * filtering, where search results are filtered based on the user or their group access to
+ * documents.
+ *
+ * You can update an access control configuration you created without indexing all of
+ * your documents again. For example, your index contains top-secret company documents that
+ * only certain employees or users should access. You created an 'allow' access control
+ * configuration for one user who recently joined the 'top-secret' team, switching from a
+ * team with 'deny' access to top-secret documents. However, the user suddenly returns to
+ * their previous team and should no longer have access to top secret documents. You can
+ * update the access control configuration to re-configure access control for your
+ * documents as circumstances change.
+ *
+ * You call the BatchPutDocument API to
+ * apply the updated access control configuration, with the
+ * `AccessControlConfigurationId` included in the Document
+ * object. If you use an S3 bucket as a data source, you synchronize your data source to
+ * apply the `AccessControlConfigurationId` in the `.metadata.json`
+ * file. Amazon Kendra currently only supports access control configuration for S3
+ * data sources and documents indexed using the `BatchPutDocument` API.
+ *
+ * You can't configure access control using
+ * `CreateAccessControlConfiguration` for an Amazon Kendra Gen AI Enterprise
+ * Edition index. Amazon Kendra will return a `ValidationException` error for a
+ * `Gen_AI_ENTERPRISE_EDITION` index.
+ */
+export const updateAccessControlConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateAccessControlConfigurationRequest,
+    output: UpdateAccessControlConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates an access configuration for your documents. This includes user and group
+ * access information for your documents. This is useful for user context filtering, where
+ * search results are filtered based on the user or their group access to documents.
+ *
+ * You can use this to re-configure your existing document level access control without
+ * indexing all of your documents again. For example, your index contains top-secret
+ * company documents that only certain employees or users should access. One of these users
+ * leaves the company or switches to a team that should be blocked from accessing
+ * top-secret documents. The user still has access to top-secret documents because the user
+ * had access when your documents were previously indexed. You can create a specific access
+ * control configuration for the user with deny access. You can later update the access
+ * control configuration to allow access if the user returns to the company and re-joins
+ * the 'top-secret' team. You can re-configure access control for your documents as
+ * circumstances change.
+ *
+ * To apply your access control configuration to certain documents, you call the BatchPutDocument API with the `AccessControlConfigurationId`
+ * included in the Document object. If you use an S3 bucket as a data source, you update the
+ * `.metadata.json` with the `AccessControlConfigurationId` and
+ * synchronize your data source. Amazon Kendra currently only supports access control
+ * configuration for S3 data sources and documents indexed using the
+ * `BatchPutDocument` API.
+ *
+ * You can't configure access control using
+ * `CreateAccessControlConfiguration` for an Amazon Kendra Gen AI Enterprise
+ * Edition index. Amazon Kendra will return a `ValidationException` error for a
+ * `Gen_AI_ENTERPRISE_EDITION` index.
+ */
+export const createAccessControlConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateAccessControlConfigurationRequest,
+    output: CreateAccessControlConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a set of frequently ask questions (FAQs) using a specified FAQ file stored
+ * in an Amazon S3 bucket.
+ *
+ * Adding FAQs to an index is an asynchronous operation.
+ *
+ * For an example of adding an FAQ to an index using Python and Java SDKs, see Using your FAQ file.
+ */
+export const createFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFaqRequest,
+  output: CreateFaqResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -3759,136 +3892,6 @@ export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Gets information about an Amazon Kendra index.
- */
-export const describeIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeIndexRequest,
-  output: DescribeIndexResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists users or groups in your IAM Identity Center identity source that are
- * granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience
- * such as a search application. For more information on creating a search
- * application experience, see Building
- * a search experience with no code.
- */
-export const listExperienceEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListExperienceEntitiesRequest,
-    output: ListExperienceEntitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves relevant passages or text excerpts given an input query.
- *
- * This API is similar to the Query API. However, by
- * default, the `Query` API only returns excerpt passages of up to 100 token
- * words. With the `Retrieve` API, you can retrieve longer passages of up to 200
- * token words and up to 100 semantically relevant passages. This doesn't include
- * question-answer or FAQ type responses from your index. The passages are text excerpts
- * that can be semantically extracted from multiple documents and multiple parts of the
- * same document. If in extreme cases your documents produce zero passages using the
- * `Retrieve` API, you can alternatively use the `Query` API and
- * its types of responses.
- *
- * You can also do the following:
- *
- * - Override boosting at the index level
- *
- * - Filter based on document fields or attributes
- *
- * - Filter based on the user or their group access to documents
- *
- * - View the confidence score bucket for a retrieved passage result. The
- * confidence bucket provides a relative ranking that indicates how confident
- * Amazon Kendra is that the response is relevant to the query.
- *
- * Confidence score buckets are currently available only for English.
- *
- * You can also include certain fields in the response that might provide useful
- * additional information.
- *
- * The `Retrieve` API shares the number of query capacity
- * units that you set for your index. For more information on what's included
- * in a single capacity unit and the default base capacity for an index, see Adjusting
- * capacity.
- *
- * If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use
- * `ATTRIBUTE_FILTER` to filter search results by user context. If
- * you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use
- * `USER_TOKEN` to configure user context policy, Amazon Kendra returns a
- * `ValidationException` error.
- */
-export const retrieve = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RetrieveRequest,
-  output: RetrieveResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a set of featured results to display at the top of the search results page.
- * Featured results are placed above all other results for certain queries. You map
- * specific queries to specific documents for featuring in the results. If a query
- * contains an exact match, then one or more specific documents are featured in the
- * search results.
- *
- * You can create up to 50 sets of featured results per index. You can request to
- * increase this limit by contacting Support.
- */
-export const createFeaturedResultsSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFeaturedResultsSetRequest,
-    output: CreateFeaturedResultsSetResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      FeaturedResultsConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets statistics about synchronizing a data source connector.
- */
-export const listDataSourceSyncJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDataSourceSyncJobsRequest,
-    output: ListDataSourceSyncJobsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Returns the indexing status for one or more documents submitted with the
  * BatchPutDocument API.

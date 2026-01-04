@@ -1452,23 +1452,27 @@ export class Deployment extends S.Class<Deployment>("Deployment")({
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(S.String),
+    Details: S.optional(BadRequestDetails),
+  },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeException>()(
   "PayloadTooLargeException",
@@ -1481,6 +1485,138 @@ export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeExcep
 ) {}
 
 //# Operations
+/**
+ * Updates the value of the `DeletionProtection` parameter.
+ */
+export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountSettingsRequest,
+    output: AccountSettings,
+    errors: [BadRequestException, InternalServerException],
+  }),
+);
+/**
+ * Returns information about the status of the `DeletionProtection`
+ * parameter.
+ */
+export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountSettingsRequest,
+  output: AccountSettings,
+  errors: [BadRequestException, InternalServerException],
+}));
+/**
+ * Lists all applications in your Amazon Web Services account.
+ */
+export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApplicationsRequest,
+  output: Applications,
+  errors: [BadRequestException, InternalServerException],
+}));
+/**
+ * Lists deployment strategies.
+ */
+export const listDeploymentStrategies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDeploymentStrategiesRequest,
+    output: DeploymentStrategies,
+    errors: [BadRequestException, InternalServerException],
+  }),
+);
+/**
+ * Lists all AppConfig extension associations in the account. For more
+ * information about extensions and associations, see Extending
+ * workflows in the *AppConfig User Guide*.
+ */
+export const listExtensionAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListExtensionAssociationsRequest,
+    output: ExtensionAssociations,
+    errors: [BadRequestException, InternalServerException],
+  }),
+);
+/**
+ * Lists all custom and Amazon Web Services authored AppConfig extensions in the
+ * account. For more information about extensions, see Extending
+ * workflows in the *AppConfig User Guide*.
+ */
+export const listExtensions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListExtensionsRequest,
+  output: Extensions,
+  errors: [BadRequestException, InternalServerException],
+}));
+/**
+ * Deletes an application.
+ */
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Creates an application. In AppConfig, an application is simply an
+ * organizational construct like a folder. This organizational construct has a relationship
+ * with some unit of executable code. For example, you could create an application called
+ * MyMobileApp to organize and manage configuration data for a mobile application installed by
+ * your users.
+ */
+export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationRequest,
+  output: Application,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+  ],
+}));
+/**
+ * Deletes a configuration profile.
+ *
+ * To prevent users from unintentionally deleting actively-used configuration profiles,
+ * enable deletion
+ * protection.
+ */
+export const deleteConfigurationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConfigurationProfileRequest,
+    output: DeleteConfigurationProfileResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about a configuration deployment.
+ */
+export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentRequest,
+  output: Deployment,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes a deployment strategy.
+ */
+export const deleteDeploymentStrategy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDeploymentStrategyRequest,
+    output: DeleteDeploymentStrategyResponse,
+    errors: [
+      BadRequestException,
+      InternalServerException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Deletes an AppConfig extension. You must delete all associations to an
  * extension before you delete the extension.
@@ -1598,16 +1734,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates the value of the `DeletionProtection` parameter.
- */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsRequest,
-    output: AccountSettings,
-    errors: [BadRequestException, InternalServerException],
-  }),
-);
-/**
  * Updates an application.
  */
 export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1655,21 +1781,6 @@ export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: Environment,
   errors: [
     BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates an AppConfig extension. For more information about extensions, see
- * Extending
- * workflows in the *AppConfig User Guide*.
- */
-export const updateExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateExtensionRequest,
-  output: Extension,
-  errors: [
-    BadRequestException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
   ],
@@ -1748,23 +1859,6 @@ export const createConfigurationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a deployment strategy that defines important criteria for rolling out your
- * configuration to the designated targets. A deployment strategy includes the overall
- * duration required, a percentage of targets to receive the deployment during each interval,
- * an algorithm that defines how percentage grows, and bake time.
- */
-export const createDeploymentStrategy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDeploymentStrategyRequest,
-    output: DeploymentStrategy,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
-/**
  * Creates an environment. For each application, you define one or more environments. An
  * environment is a deployment group of AppConfig targets, such as applications in a
  * `Beta` or `Production` environment. You can also define
@@ -1810,64 +1904,6 @@ export const createExtensionAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Deletes a configuration profile.
- *
- * To prevent users from unintentionally deleting actively-used configuration profiles,
- * enable deletion
- * protection.
- */
-export const deleteConfigurationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationProfileRequest,
-    output: DeleteConfigurationProfileResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes a deployment strategy.
- */
-export const deleteDeploymentStrategy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDeploymentStrategyRequest,
-    output: DeleteDeploymentStrategyResponse,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes an environment.
- *
- * To prevent users from unintentionally deleting actively-used environments, enable deletion
- * protection.
- */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentRequest,
-  output: DeleteEnvironmentResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns information about the status of the `DeletionProtection`
- * parameter.
- */
-export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountSettingsRequest,
-  output: AccountSettings,
-  errors: [BadRequestException, InternalServerException],
-}));
 /**
  * Retrieves information about an application.
  */
@@ -1960,24 +1996,6 @@ export const getExtensionAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists all applications in your Amazon Web Services account.
- */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApplicationsRequest,
-  output: Applications,
-  errors: [BadRequestException, InternalServerException],
-}));
-/**
- * Lists deployment strategies.
- */
-export const listDeploymentStrategies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDeploymentStrategiesRequest,
-    output: DeploymentStrategies,
-    errors: [BadRequestException, InternalServerException],
-  }),
-);
-/**
  * Lists the environments for an application.
  */
 export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2002,6 +2020,77 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Lists the configuration profiles for an application.
+ */
+export const listConfigurationProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListConfigurationProfilesRequest,
+    output: ConfigurationProfiles,
+    errors: [
+      BadRequestException,
+      InternalServerException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Lists the deployments for an environment in descending deployment number order.
+ */
+export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDeploymentsRequest,
+  output: Deployments,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Lists configurations stored in the AppConfig hosted configuration store by
+ * version.
+ */
+export const listHostedConfigurationVersions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListHostedConfigurationVersionsRequest,
+    output: HostedConfigurationVersions,
+    errors: [
+      BadRequestException,
+      InternalServerException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Deletes an environment.
+ *
+ * To prevent users from unintentionally deleting actively-used environments, enable deletion
+ * protection.
+ */
+export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEnvironmentRequest,
+  output: DeleteEnvironmentResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates an AppConfig extension. For more information about extensions, see
+ * Extending
+ * workflows in the *AppConfig User Guide*.
+ */
+export const updateExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateExtensionRequest,
+  output: Extension,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
  * Starts a deployment.
  */
 export const startDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2015,21 +2104,41 @@ export const startDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates an application. In AppConfig, an application is simply an
- * organizational construct like a folder. This organizational construct has a relationship
- * with some unit of executable code. For example, you could create an application called
- * MyMobileApp to organize and manage configuration data for a mobile application installed by
- * your users.
+ * Creates a new configuration in the AppConfig hosted configuration store. If
+ * you're creating a feature flag, we recommend you familiarize yourself with the JSON schema
+ * for feature flag data. For more information, see Type reference for AWS.AppConfig.FeatureFlags in the
+ * *AppConfig User Guide*.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: Application,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-  ],
-}));
+export const createHostedConfigurationVersion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateHostedConfigurationVersionRequest,
+    output: HostedConfigurationVersion,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      InternalServerException,
+      PayloadTooLargeException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+    ],
+  }));
+/**
+ * Creates a deployment strategy that defines important criteria for rolling out your
+ * configuration to the designated targets. A deployment strategy includes the overall
+ * duration required, a percentage of targets to receive the deployment during each interval,
+ * an algorithm that defines how percentage grows, and bake time.
+ */
+export const createDeploymentStrategy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDeploymentStrategyRequest,
+    output: DeploymentStrategy,
+    errors: [
+      BadRequestException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+    ],
+  }),
+);
 /**
  * Creates an AppConfig extension. An extension augments your ability to inject
  * logic or behavior at different points during the AppConfig workflow of creating
@@ -2061,110 +2170,5 @@ export const createExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
-  ],
-}));
-/**
- * Creates a new configuration in the AppConfig hosted configuration store. If
- * you're creating a feature flag, we recommend you familiarize yourself with the JSON schema
- * for feature flag data. For more information, see Type reference for AWS.AppConfig.FeatureFlags in the
- * *AppConfig User Guide*.
- */
-export const createHostedConfigurationVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateHostedConfigurationVersionRequest,
-    output: HostedConfigurationVersion,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      PayloadTooLargeException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
-/**
- * Lists the configuration profiles for an application.
- */
-export const listConfigurationProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListConfigurationProfilesRequest,
-    output: ConfigurationProfiles,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Lists the deployments for an environment in descending deployment number order.
- */
-export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDeploymentsRequest,
-  output: Deployments,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Lists all AppConfig extension associations in the account. For more
- * information about extensions and associations, see Extending
- * workflows in the *AppConfig User Guide*.
- */
-export const listExtensionAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListExtensionAssociationsRequest,
-    output: ExtensionAssociations,
-    errors: [BadRequestException, InternalServerException],
-  }),
-);
-/**
- * Lists all custom and Amazon Web Services authored AppConfig extensions in the
- * account. For more information about extensions, see Extending
- * workflows in the *AppConfig User Guide*.
- */
-export const listExtensions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListExtensionsRequest,
-  output: Extensions,
-  errors: [BadRequestException, InternalServerException],
-}));
-/**
- * Lists configurations stored in the AppConfig hosted configuration store by
- * version.
- */
-export const listHostedConfigurationVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListHostedConfigurationVersionsRequest,
-    output: HostedConfigurationVersions,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Deletes an application.
- */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Retrieves information about a configuration deployment.
- */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDeploymentRequest,
-  output: Deployment,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
   ],
 }));

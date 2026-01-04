@@ -13809,79 +13809,43 @@ export class CreateAnalysisResponse extends S.Class<CreateAnalysisResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
 ) {}
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
-) {}
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
-  "InvalidParameterValueException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class PreconditionNotMetException extends S.TaggedError<PreconditionNotMetException>()(
-  "PreconditionNotMetException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
-export class UnsupportedUserEditionException extends S.TaggedError<UnsupportedUserEditionException>()(
-  "UnsupportedUserEditionException",
-  {},
-) {}
-export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
-  "ResourceUnavailableException",
-  {},
-) {}
-export class ResourceExistsException extends S.TaggedError<ResourceExistsException>()(
-  "ResourceExistsException",
-  {},
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
-  {},
-) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
-) {}
-export class QuickSightUserNotFoundException extends S.TaggedError<QuickSightUserNotFoundException>()(
-  "QuickSightUserNotFoundException",
-  {},
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
 ) {}
 export class ConcurrentUpdatingException extends S.TaggedError<ConcurrentUpdatingException>()(
   "ConcurrentUpdatingException",
-  {},
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
+) {}
+export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
+  "InvalidParameterValueException",
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    Message: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
 ) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
 ) {}
-export class SessionLifetimeInMinutesInvalidException extends S.TaggedError<SessionLifetimeInMinutesInvalidException>()(
-  "SessionLifetimeInMinutesInvalidException",
-  {},
-) {}
-export class UnsupportedPricingPlanException extends S.TaggedError<UnsupportedPricingPlanException>()(
-  "UnsupportedPricingPlanException",
-  {},
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.String },
 ) {}
 export class DomainNotWhitelistedException extends S.TaggedError<DomainNotWhitelistedException>()(
   "DomainNotWhitelistedException",
@@ -13895,12 +13859,389 @@ export class CustomerManagedKeyUnavailableException extends S.TaggedError<Custom
   "CustomerManagedKeyUnavailableException",
   { Message: S.optional(S.String), RequestId: S.optional(S.String) },
 ) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  {
+    Message: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
+) {}
+export class ResourceExistsException extends S.TaggedError<ResourceExistsException>()(
+  "ResourceExistsException",
+  {
+    Message: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
+  "ResourceUnavailableException",
+  {
+    Message: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class PreconditionNotMetException extends S.TaggedError<PreconditionNotMetException>()(
+  "PreconditionNotMetException",
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
+) {}
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
+) {}
 export class IdentityTypeNotSupportedException extends S.TaggedError<IdentityTypeNotSupportedException>()(
   "IdentityTypeNotSupportedException",
   { Message: S.optional(S.String), RequestId: S.optional(S.String) },
 ) {}
+export class QuickSightUserNotFoundException extends S.TaggedError<QuickSightUserNotFoundException>()(
+  "QuickSightUserNotFoundException",
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
+) {}
+export class UnsupportedUserEditionException extends S.TaggedError<UnsupportedUserEditionException>()(
+  "UnsupportedUserEditionException",
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
+) {}
+export class SessionLifetimeInMinutesInvalidException extends S.TaggedError<SessionLifetimeInMinutesInvalidException>()(
+  "SessionLifetimeInMinutesInvalidException",
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
+) {}
+export class UnsupportedPricingPlanException extends S.TaggedError<UnsupportedPricingPlanException>()(
+  "UnsupportedPricingPlanException",
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Describes a SPICE ingestion.
+ */
+export const describeIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIngestionRequest,
+  output: DescribeIngestionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes the current namespace.
+ */
+export const describeNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNamespaceRequest,
+  output: DescribeNamespaceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes the self-upgrade configuration for a Quick Suite account.
+ */
+export const describeSelfUpgradeConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeSelfUpgradeConfigurationRequest,
+    output: DescribeSelfUpgradeConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists all brands in an Quick Sight account.
+ */
+export const listBrands = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBrandsRequest,
+  output: ListBrandsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes a dataset. This operation doesn't support datasets that include uploaded
+ * files as a source.
+ */
+export const describeDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataSetRequest,
+  output: DescribeDataSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes a data source.
+ */
+export const describeDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataSourceRequest,
+  output: DescribeDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes an existing IAM policy assignment, as specified by the
+ * assignment name.
+ */
+export const describeIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeIAMPolicyAssignmentRequest,
+    output: DescribeIAMPolicyAssignmentResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists all of the datasets belonging to the current Amazon Web Services account in an
+ * Amazon Web Services Region.
+ *
+ * The permissions resource is
+ * `arn:aws:quicksight:region:aws-account-id:dataset/*`.
+ */
+export const listDataSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDataSetsRequest,
+  output: ListDataSetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Predicts existing visuals or generates new visuals to answer a given query.
+ *
+ * This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick Suite with the scope value set to `quicksight:read`. Before you use this action, make sure that you have configured the relevant Quick Suite resource and permissions.
+ *
+ * We recommend enabling the `QSearchStatus` API to unlock the full potential of `PredictQnA`. When `QSearchStatus` is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, `PredictQnA` uses generative Q&A to provide an answer. To update the `QSearchStatus`, see UpdateQuickSightQSearchConfiguration.
+ */
+export const predictQAResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PredictQAResultsRequest,
+  output: PredictQAResultsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Use the `SearchDataSources` operation to search for data sources that
+ * belong to an account.
+ */
+export const searchDataSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchDataSourcesRequest,
+  output: SearchDataSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a customer managed key in a Quick Sight account.
+ */
+export const updateKeyRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateKeyRegistrationRequest,
+    output: UpdateKeyRegistrationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates a data source.
+ */
+export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataSourceRequest,
+  output: UpdateDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    CustomerManagedKeyUnavailableException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes all customer managed key registrations in a Quick Sight account.
+ */
+export const describeKeyRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeKeyRegistrationRequest,
+    output: DescribeKeyRegistrationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Describes the status of a topic refresh.
+ */
+export const describeTopicRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTopicRefreshRequest,
+    output: DescribeTopicRefreshResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists flows in an Amazon Web Services account.
+ */
+export const listFlows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFlowsInput,
+  output: ListFlowsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists all services and authorized targets that the Quick Sight IAM Identity Center application can access.
+ *
+ * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
+ */
+export const listIdentityPropagationConfigs =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListIdentityPropagationConfigsRequest,
+    output: ListIdentityPropagationConfigsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists all reviewed answers for a Q Topic.
+ */
+export const listTopicReviewedAnswers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTopicReviewedAnswersRequest,
+    output: ListTopicReviewedAnswersResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Search for the flows in an Amazon Web Services account.
+ */
+export const searchFlows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchFlowsInput,
+  output: SearchFlowsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates permissions against principals on a flow.
+ */
+export const updateFlowPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateFlowPermissionsInput,
+    output: UpdateFlowPermissionsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the `IpRestrictionRule`, `VpcIdRestrictionRule`, or `VpcEndpointIdRestrictionRule`. To use this operation, you must provide the entire map of rules. You can use the `DescribeIpRestriction` operation to get the current rule map.
+ */
+export const updateIpRestriction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIpRestrictionRequest,
+  output: UpdateIpRestrictionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Unapplies a custom permissions profile from an account.
+ */
+export const deleteAccountCustomPermission =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteAccountCustomPermissionRequest,
+    output: DeleteAccountCustomPermissionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
 /**
  * Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it.
  */
@@ -13917,21 +14258,6 @@ export const deleteActionConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Deletes a dashboard.
- */
-export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDashboardRequest,
-  output: DeleteDashboardResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
 /**
  * Deletes a dataset.
  */
@@ -13979,89 +14305,6 @@ export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a linked Amazon Q Business application from an Quick Sight account
- */
-export const deleteDefaultQBusinessApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDefaultQBusinessApplicationRequest,
-    output: DeleteDefaultQBusinessApplicationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Deletes an empty folder.
- */
-export const deleteFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFolderRequest,
-  output: DeleteFolderResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
- */
-export const deleteFolderMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFolderMembershipRequest,
-    output: DeleteFolderMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Removes a user group from Amazon Quick Sight.
- */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGroupRequest,
-  output: DeleteGroupResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes a user from a group so that the user is no longer a member of the group.
- */
-export const deleteGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGroupMembershipRequest,
-    output: DeleteGroupMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Deletes all access scopes and authorized targets that are associated with a service from the Quick Sight IAM Identity Center application.
  *
  * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
@@ -14078,24 +14321,6 @@ export const deleteIdentityPropagationConfig =
       ThrottlingException,
     ],
   }));
-/**
- * Deletes a namespace and the users and groups that are associated with the namespace.
- * This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not
- * deleted. To delete these assets, you use the API operations for the relevant asset.
- */
-export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteNamespaceRequest,
-  output: DeleteNamespaceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
 /**
  * Deletes a refresh schedule from a dataset.
  */
@@ -14114,106 +14339,6 @@ export const deleteRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Removes custom permissions from the role.
- */
-export const deleteRoleCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRoleCustomPermissionRequest,
-    output: DeleteRoleCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Removes a group from a role.
- */
-export const deleteRoleMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRoleMembershipRequest,
-    output: DeleteRoleMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a template.
- */
-export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTemplateRequest,
-  output: DeleteTemplateResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Deletes the item that the specified template alias points to. If you provide a specific
- * alias, you delete the version of the template that the alias points to.
- */
-export const deleteTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTemplateAliasRequest,
-  output: DeleteTemplateAliasResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Deletes a theme.
- */
-export const deleteTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteThemeRequest,
-  output: DeleteThemeResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Deletes the version of the theme that the specified theme alias points to.
- * If you provide a specific alias, you delete the version of the theme
- * that the alias points to.
- */
-export const deleteThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteThemeAliasRequest,
-  output: DeleteThemeAliasResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
  * Deletes a topic.
  */
 export const deleteTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -14228,151 +14353,6 @@ export const deleteTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a topic refresh schedule.
- */
-export const deleteTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTopicRefreshScheduleRequest,
-    output: DeleteTopicRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes the Amazon Quick Sight user that is associated with the identity of the
- * IAM user or role that's making the call. The IAM user
- * isn't deleted as a result of this call.
- */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a user identified by its principal ID.
- */
-export const deleteUserByPrincipalId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserByPrincipalIdRequest,
-    output: DeleteUserByPrincipalIdResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a custom permissions profile from a user.
- */
-export const deleteUserCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserCustomPermissionRequest,
-    output: DeleteUserCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a VPC connection.
- */
-export const deleteVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVPCConnectionRequest,
-  output: DeleteVPCConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Describes the customizations associated with the provided Amazon Web Services account and Amazon
- * Quick Sight namespace. The Quick Sight console evaluates which
- * customizations to apply by running this API operation with the `Resolved` flag
- * included.
- *
- * To determine what customizations display when you run this command, it can help to
- * visualize the relationship of the entities involved.
- *
- * - `Amazon Web Services account` - The Amazon Web Services account exists at the top of the hierarchy.
- * It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you
- * subscribe to Quick Sight, you choose one Amazon Web Services Region to use as your home Region.
- * That's where your free SPICE capacity is located. You can use Quick Sight in any
- * supported Amazon Web Services Region.
- *
- * - `Amazon Web Services Region` - You can sign in to Quick Sight in any Amazon Web Services Region. If
- * you have a user directory, it resides in us-east-1, which is US East (N.
- * Virginia). Generally speaking, these users have access to Quick Sight in any
- * Amazon Web Services Region, unless they are constrained to a namespace.
- *
- * To run the command in a different Amazon Web Services Region, you change your Region settings.
- * If you're using the CLI, you can use one of the following options:
- *
- * - Use command line options.
- *
- * - Use named profiles.
- *
- * - Run `aws configure` to change your default Amazon Web Services Region. Use
- * Enter to key the same settings for your keys. For more information, see
- * Configuring the CLI.
- *
- * - `Namespace` - A Quick Sight namespace is a partition that contains
- * users and assets (data sources, datasets, dashboards, and so on). To access
- * assets that are in a specific namespace, users and groups must also be part of
- * the same namespace. People who share a namespace are completely isolated from
- * users and assets in other namespaces, even if they are in the same Amazon Web Services account
- * and Amazon Web Services Region.
- *
- * - `Applied customizations` - Quick Sight customizations can apply to an Amazon Web Services account or to a namespace.
- * Settings that you apply to a namespace override settings that you apply to an
- * Amazon Web Services account.
- */
-export const describeAccountCustomization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAccountCustomizationRequest,
-    output: DescribeAccountCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
 /**
  * Describes the custom permissions profile that is applied to an account.
  */
@@ -14401,70 +14381,6 @@ export const describeActionConnectorPermissions =
       InvalidParameterValueException,
       ResourceNotFoundException,
       ThrottlingException,
-    ],
-  }));
-/**
- * Provides the read and write permissions for an analysis.
- */
-export const describeAnalysisPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAnalysisPermissionsRequest,
-    output: DescribeAnalysisPermissionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Describes a brand assignment.
- */
-export const describeBrandAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBrandAssignmentRequest,
-    output: DescribeBrandAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Describes the published version of the brand.
- */
-export const describeBrandPublishedVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBrandPublishedVersionRequest,
-    output: DescribeBrandPublishedVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Describes read and write permissions for a dashboard.
- */
-export const describeDashboardPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDashboardPermissionsRequest,
-    output: DescribeDashboardPermissionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
     ],
   }));
 /**
@@ -14503,23 +14419,6 @@ export const describeDataSetPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes the refresh properties of a dataset.
- */
-export const describeDataSetRefreshProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDataSetRefreshPropertiesRequest,
-    output: DescribeDataSetRefreshPropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
  * Describes the resource permissions for a data source.
  */
 export const describeDataSourcePermissions =
@@ -14549,59 +14448,6 @@ export const describeDefaultQBusinessApplication =
       ThrottlingException,
     ],
   }));
-/**
- * Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
- */
-export const describeFolderResolvedPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeFolderResolvedPermissionsRequest,
-    output: DescribeFolderResolvedPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
-/**
- * Returns an Amazon Quick Sight group's description and Amazon Resource Name (ARN).
- */
-export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeGroupRequest,
-  output: DescribeGroupResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Use the `DescribeGroupMembership` operation to determine if a user is a
- * member of the specified group. If the user exists and is a member of the specified
- * group, an associated `GroupMember` object is returned.
- */
-export const describeGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGroupMembershipRequest,
-    output: DescribeGroupMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Provides a summary and status of IP rules.
  */
@@ -14668,87 +14514,6 @@ export const describeRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes all custom permissions that are mapped to a role.
- */
-export const describeRoleCustomPermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRoleCustomPermissionRequest,
-    output: DescribeRoleCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Describes the template alias for a template.
- */
-export const describeTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTemplateAliasRequest,
-    output: DescribeTemplateAliasResponse,
-    errors: [
-      InternalFailureException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Describes read and write permissions on a template.
- */
-export const describeTemplatePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTemplatePermissionsRequest,
-    output: DescribeTemplatePermissionsResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Describes the alias for a theme.
- */
-export const describeThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeThemeAliasRequest,
-  output: DescribeThemeAliasResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Describes the read and write permissions for a theme.
- */
-export const describeThemePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeThemePermissionsRequest,
-    output: DescribeThemePermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
  * Describes a topic.
  */
 export const describeTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -14779,24 +14544,6 @@ export const describeTopicPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a topic refresh schedule.
- */
-export const describeTopicRefreshSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTopicRefreshScheduleRequest,
-    output: DescribeTopicRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
  * Retrieves the metadata of a flow, not including its definition specifying the steps.
  */
 export const getFlowMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -14823,125 +14570,6 @@ export const getFlowPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of all the custom permissions profiles.
- */
-export const listCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCustomPermissionsRequest,
-    output: ListCustomPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
- */
-export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDataSourcesRequest,
-  output: ListDataSourcesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    ThrottlingException,
-  ],
-}));
-/**
- * List all folders that a resource is a member of.
- */
-export const listFoldersForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListFoldersForResourceRequest,
-    output: ListFoldersForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Lists member users in a group.
- */
-export const listGroupMemberships = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListGroupMembershipsRequest,
-    output: ListGroupMembershipsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists all user groups in Amazon Quick Sight.
- */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGroupsRequest,
-  output: ListGroupsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
- */
-export const listIngestions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListIngestionsRequest,
-  output: ListIngestionsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
- */
-export const listNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListNamespacesRequest,
-  output: ListNamespacesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
  */
 export const listRefreshSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -14959,24 +14587,6 @@ export const listRefreshSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists all groups that are associated with a role.
- */
-export const listRoleMemberships = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRoleMembershipsRequest,
-  output: ListRoleMembershipsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Lists the tags assigned to a resource.
  */
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -14990,125 +14600,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
-/**
- * Lists all the aliases of a template.
- */
-export const listTemplateAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTemplateAliasesRequest,
-  output: ListTemplateAliasesResponse,
-  errors: [
-    InternalFailureException,
-    InvalidNextTokenException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Lists all the aliases of a theme.
- */
-export const listThemeAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListThemeAliasesRequest,
-  output: ListThemeAliasesResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
- */
-export const listUserGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListUserGroupsRequest,
-  output: ListUserGroupsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns a list of all of the Amazon Quick Sight users belonging to this account.
- */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListUsersRequest,
-  output: ListUsersResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Quick Sight console. For more information on registering a new user in the Quick Sight console, see Inviting users to access Quick Sight.
- */
-export const registerUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterUserRequest,
-  output: RegisterUserResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    PreconditionNotMetException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Restores an analysis.
- */
-export const restoreAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RestoreAnalysisRequest,
-  output: RestoreAnalysisResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email.
- *
- * Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a `202` HTTP status code.
- *
- * For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the *Amazon Quick Sight User Guide*.
- */
-export const startDashboardSnapshotJobSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDashboardSnapshotJobScheduleRequest,
-    output: StartDashboardSnapshotJobScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
 /**
  * Assigns one or more tags (key-value pairs) to the specified Amazon Quick Sight
  * resource.
@@ -15159,29 +14650,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates Amazon Quick Sight customizations. Currently, the only customization that you can use is a theme.
- *
- * You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a
- * Quick Sight namespace instead. Customizations that apply to a namespace override
- * customizations that apply to an Amazon Web Services account. To find out which customizations apply, use
- * the `DescribeAccountCustomization` API operation.
- */
-export const updateAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountCustomizationRequest,
-    output: UpdateAccountCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Applies a custom permissions profile to an account.
  */
 export const updateAccountCustomPermission =
@@ -15196,23 +14664,6 @@ export const updateAccountCustomPermission =
       ThrottlingException,
     ],
   }));
-/**
- * Updates the Amazon Quick Sight settings in your Amazon Web Services account.
- */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsRequest,
-    output: UpdateAccountSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Updates an existing action connector with new configuration details, authentication settings, or enabled actions.
  * You can modify the connector's name, description, authentication configuration, and which actions are enabled. For more information,
@@ -15232,217 +14683,6 @@ export const updateActionConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Updates the permissions for an action connector by granting or revoking access for specific users and groups. You can control who can view, use, or manage the action connector.
- */
-export const updateActionConnectorPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateActionConnectorPermissionsRequest,
-    output: UpdateActionConnectorPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
-/**
- * Updates an analysis in Amazon Quick Sight
- */
-export const updateAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAnalysisRequest,
-  output: UpdateAnalysisResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Updates the read and write permissions for an analysis.
- */
-export const updateAnalysisPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAnalysisPermissionsRequest,
-    output: UpdateAnalysisPermissionsResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Updates an Quick Suite application with a token exchange grant. This operation only supports Quick Suite applications that are registered with IAM Identity Center.
- */
-export const updateApplicationWithTokenExchangeGrant =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApplicationWithTokenExchangeGrantRequest,
-    output: UpdateApplicationWithTokenExchangeGrantResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates a brand.
- */
-export const updateBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBrandRequest,
-  output: UpdateBrandResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates a brand assignment.
- */
-export const updateBrandAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBrandAssignmentRequest,
-    output: UpdateBrandAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the published version of a brand.
- */
-export const updateBrandPublishedVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBrandPublishedVersionRequest,
-    output: UpdateBrandPublishedVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates a custom permissions profile.
- */
-export const updateCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCustomPermissionsRequest,
-    output: UpdateCustomPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates a dashboard in an Amazon Web Services account.
- *
- * Updating a Dashboard creates a new dashboard version but does not immediately
- * publish the new version. You can update the published version of a dashboard by
- * using the
- * UpdateDashboardPublishedVersion
- * API operation.
- */
-export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDashboardRequest,
-  output: UpdateDashboardResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Updates the linked analyses on a dashboard.
- */
-export const updateDashboardLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDashboardLinksRequest,
-    output: UpdateDashboardLinksResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Updates read and write permissions on a dashboard.
- */
-export const updateDashboardPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDashboardPermissionsRequest,
-    output: UpdateDashboardPermissionsResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Updates the published version of a dashboard.
- */
-export const updateDashboardPublishedVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDashboardPublishedVersionRequest,
-    output: UpdateDashboardPublishedVersionResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
 /**
  * Updates a Dashboard QA configuration.
  */
@@ -15513,56 +14753,219 @@ export const updateDefaultQBusinessApplication =
     ],
   }));
 /**
- * Updates the name of a folder.
+ * Adds or updates services and authorized targets to configure what the Quick Sight IAM Identity Center application can access.
+ *
+ * This operation is only supported for Quick Sight accounts using IAM Identity Center
  */
-export const updateFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFolderRequest,
-  output: UpdateFolderResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Updates permissions of a folder.
- */
-export const updateFolderPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFolderPermissionsRequest,
-    output: UpdateFolderPermissionsResponse,
+export const updateIdentityPropagationConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateIdentityPropagationConfigRequest,
+    output: UpdateIdentityPropagationConfigResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
       InvalidParameterValueException,
-      LimitExceededException,
       ResourceNotFoundException,
       ThrottlingException,
-      UnsupportedUserEditionException,
+    ],
+  }));
+/**
+ * Updates the state of a Quick Sight Q Search configuration.
+ */
+export const updateQuickSightQSearchConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateQuickSightQSearchConfigurationRequest,
+    output: UpdateQuickSightQSearchConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates the SPICE capacity configuration for a Quick Sight account.
+ */
+export const updateSPICECapacityConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateSPICECapacityConfigurationRequest,
+    output: UpdateSPICECapacityConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes reviewed answers for Q Topic.
+ */
+export const batchDeleteTopicReviewedAnswer =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDeleteTopicReviewedAnswerRequest,
+    output: BatchDeleteTopicReviewedAnswerResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes a linked Amazon Q Business application from an Quick Sight account
+ */
+export const deleteDefaultQBusinessApplication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteDefaultQBusinessApplicationRequest,
+    output: DeleteDefaultQBusinessApplicationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status.
+ */
+export const listActionConnectors = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListActionConnectorsRequest,
+    output: ListActionConnectorsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      ThrottlingException,
     ],
   }),
 );
 /**
- * Changes a group description.
+ * Lists the
+ * IAM policy assignments in the current Amazon Quick Sight
+ * account.
  */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateGroupRequest,
-  output: UpdateGroupResponse,
+export const listIAMPolicyAssignments = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListIAMPolicyAssignmentsRequest,
+    output: ListIAMPolicyAssignmentsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists all of the topics within an account.
+ */
+export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTopicsRequest,
+  output: ListTopicsResponse,
   errors: [
     AccessDeniedException,
     InternalFailureException,
+    InvalidNextTokenException,
     InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
     ThrottlingException,
   ],
 }));
+/**
+ * Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions.
+ */
+export const searchActionConnectors = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchActionConnectorsRequest,
+    output: SearchActionConnectorsResponse,
+    errors: [
+      AccessDeniedException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Use the `SearchDataSets` operation to search for datasets that belong to an
+ * account.
+ */
+export const searchDataSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchDataSetsRequest,
+  output: SearchDataSetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
+ */
+export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDataSourcesRequest,
+  output: ListDataSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists all of
+ * the IAM policy assignments, including the Amazon
+ * Resource Names
+ * (ARNs),
+ * for the IAM policies assigned to the specified user and
+ * group,
+ * or groups that the user belongs to.
+ */
+export const listIAMPolicyAssignmentsForUser =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListIAMPolicyAssignmentsForUserRequest,
+    output: ListIAMPolicyAssignmentsForUserResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentUpdatingException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes an existing IAM policy assignment.
+ */
+export const deleteIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteIAMPolicyAssignmentRequest,
+    output: DeleteIAMPolicyAssignmentResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentUpdatingException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Updates an existing IAM policy assignment. This operation updates only
  * the optional parameter or parameters that are specified in the request. This overwrites
@@ -15584,22 +14987,347 @@ export const updateIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Adds or updates services and authorized targets to configure what the Quick Sight IAM Identity Center application can access.
- *
- * This operation is only supported for Quick Sight accounts using IAM Identity Center
+ * Lists all of the refresh schedules for a topic.
  */
-export const updateIdentityPropagationConfig =
+export const listTopicRefreshSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTopicRefreshSchedulesRequest,
+    output: ListTopicRefreshSchedulesResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in
+ * an Enterprise edition account 32 times in a 24-hour period. You can manually refresh
+ * datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period
+ * is measured starting 24 hours before the current date and time.
+ *
+ * Any ingestions operating on tagged datasets inherit the same tags automatically for use in
+ * access control. For an example, see How do I create an IAM policy to control access to Amazon EC2 resources using
+ * tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
+ */
+export const createIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIngestionRequest,
+  output: CreateIngestionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a topic refresh schedule.
+ */
+export const deleteTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteTopicRefreshScheduleRequest,
+    output: DeleteTopicRefreshScheduleResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a topic refresh schedule.
+ */
+export const describeTopicRefreshSchedule =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateIdentityPropagationConfigRequest,
-    output: UpdateIdentityPropagationConfigResponse,
+    input: DescribeTopicRefreshScheduleRequest,
+    output: DescribeTopicRefreshScheduleResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates a topic.
+ */
+export const updateTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTopicRequest,
+  output: UpdateTopicResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a topic refresh schedule.
+ */
+export const updateTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTopicRefreshScheduleRequest,
+    output: UpdateTopicRefreshScheduleResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the
+ * `CreateAccountCustomization` or `UpdateAccountCustomization`
+ * API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight
+ * sample assets and videos for all new users, see Customizing Quick Sight in the *Amazon Quick Sight User Guide.*
+ *
+ * You can create customizations for your Amazon Web Services account or, if you specify a namespace, for
+ * a Quick Sight namespace instead. Customizations that apply to a namespace always override
+ * customizations that apply to an Amazon Web Services account. To find out which customizations apply, use
+ * the `DescribeAccountCustomization` API operation.
+ *
+ * Before you use the `CreateAccountCustomization` API operation to add a theme
+ * as the namespace default, make sure that you first share the theme with the namespace.
+ * If you don't share it with the namespace, the theme isn't visible to your users
+ * even if you make it the default theme.
+ * To check if the theme is shared, view the current permissions by using the
+ *
+ * DescribeThemePermissions
+ *
+ * API operation.
+ * To share the theme, grant permissions by using the
+ *
+ * UpdateThemePermissions
+ *
+ * API operation.
+ */
+export const createAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAccountCustomizationRequest,
+    output: CreateAccountCustomizationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a topic refresh schedule.
+ */
+export const createTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateTopicRefreshScheduleRequest,
+    output: CreateTopicRefreshScheduleResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Cancels an ongoing ingestion of data into SPICE.
+ */
+export const cancelIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelIngestionRequest,
+  output: CancelIngestionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates an assignment with one specified IAM policy, identified by its
+ * Amazon Resource Name (ARN). This policy assignment is attached to the specified groups
+ * or users of Amazon Quick Sight. Assignment names are unique per Amazon Web Services
+ * account. To avoid overwriting rules in other namespaces, use assignment names that are
+ * unique.
+ */
+export const createIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateIAMPolicyAssignmentRequest,
+    output: CreateIAMPolicyAssignmentResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentUpdatingException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
+ */
+export const listIngestions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIngestionsRequest,
+  output: ListIngestionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a data source.
+ */
+export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataSourceRequest,
+  output: CreateDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    CustomerManagedKeyUnavailableException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes the customizations associated with the provided Amazon Web Services account and Amazon
+ * Quick Sight namespace. The Quick Sight console evaluates which
+ * customizations to apply by running this API operation with the `Resolved` flag
+ * included.
+ *
+ * To determine what customizations display when you run this command, it can help to
+ * visualize the relationship of the entities involved.
+ *
+ * - `Amazon Web Services account` - The Amazon Web Services account exists at the top of the hierarchy.
+ * It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you
+ * subscribe to Quick Sight, you choose one Amazon Web Services Region to use as your home Region.
+ * That's where your free SPICE capacity is located. You can use Quick Sight in any
+ * supported Amazon Web Services Region.
+ *
+ * - `Amazon Web Services Region` - You can sign in to Quick Sight in any Amazon Web Services Region. If
+ * you have a user directory, it resides in us-east-1, which is US East (N.
+ * Virginia). Generally speaking, these users have access to Quick Sight in any
+ * Amazon Web Services Region, unless they are constrained to a namespace.
+ *
+ * To run the command in a different Amazon Web Services Region, you change your Region settings.
+ * If you're using the CLI, you can use one of the following options:
+ *
+ * - Use command line options.
+ *
+ * - Use named profiles.
+ *
+ * - Run `aws configure` to change your default Amazon Web Services Region. Use
+ * Enter to key the same settings for your keys. For more information, see
+ * Configuring the CLI.
+ *
+ * - `Namespace` - A Quick Sight namespace is a partition that contains
+ * users and assets (data sources, datasets, dashboards, and so on). To access
+ * assets that are in a specific namespace, users and groups must also be part of
+ * the same namespace. People who share a namespace are completely isolated from
+ * users and assets in other namespaces, even if they are in the same Amazon Web Services account
+ * and Amazon Web Services Region.
+ *
+ * - `Applied customizations` - Quick Sight customizations can apply to an Amazon Web Services account or to a namespace.
+ * Settings that you apply to a namespace override settings that you apply to an
+ * Amazon Web Services account.
+ */
+export const describeAccountCustomization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAccountCustomizationRequest,
+    output: DescribeAccountCustomizationResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
       InvalidParameterValueException,
       ResourceNotFoundException,
+      ResourceUnavailableException,
       ThrottlingException,
     ],
   }));
+/**
+ * Updates Amazon Quick Sight customizations. Currently, the only customization that you can use is a theme.
+ *
+ * You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a
+ * Quick Sight namespace instead. Customizations that apply to a namespace override
+ * customizations that apply to an Amazon Web Services account. To find out which customizations apply, use
+ * the `DescribeAccountCustomization` API operation.
+ */
+export const updateAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountCustomizationRequest,
+    output: UpdateAccountCustomizationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the Amazon Quick Sight settings in your Amazon Web Services account.
+ */
+export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountSettingsRequest,
+    output: UpdateAccountSettingsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Updates a personalization configuration.
  */
@@ -15618,21 +15346,544 @@ export const updateQPersonalizationConfiguration =
     ],
   }));
 /**
- * Updates the state of a Quick Sight Q Search configuration.
+ * Describes the settings that were used when your Quick Sight subscription was first
+ * created in this Amazon Web Services account.
  */
-export const updateQuickSightQSearchConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQuickSightQSearchConfigurationRequest,
-    output: UpdateQuickSightQSearchConfigurationResponse,
+export const describeAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAccountSettingsRequest,
+    output: DescribeAccountSettingsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an `AccountInfo` object that includes an account's name, subscription status, authentication type, edition, and notification email address.
+ */
+export const describeAccountSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAccountSubscriptionRequest,
+    output: DescribeAccountSubscriptionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Describes a custom permissions profile.
+ */
+export const describeCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCustomPermissionsRequest,
+    output: DescribeCustomPermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Returns information about a user, given the user name.
+ */
+export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserRequest,
+  output: DescribeUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs.
+ *
+ * Currently, you can call the following APIs with identity-enhanced Credentials
+ *
+ * - StartDashboardSnapshotJob
+ *
+ * - DescribeDashboardSnapshotJob
+ *
+ * - DescribeDashboardSnapshotJobResult
+ *
+ * **Supported Authentication Methods**
+ *
+ * This API supports Quick Sight native users, IAM federated users, and Active Directory users. For Quick Sight users authenticated by Amazon Web Services Identity Center, see Identity Center documentation on identity-enhanced IAM role sessions.
+ *
+ * **Getting Identity-Enhanced Credentials**
+ *
+ * To obtain identity-enhanced credentials, follow these steps:
+ *
+ * - Call the GetIdentityContext API to retrieve an identity token for the specified user.
+ *
+ * - Use the identity token with the STS AssumeRole API to obtain identity-enhanced IAM role session credentials.
+ *
+ * **Usage with STS AssumeRole**
+ *
+ * The identity token returned by this API should be used with the STS AssumeRole API to obtain credentials for an identity-enhanced IAM role session. When calling AssumeRole, include the identity token in the `ProvidedContexts` parameter with `ProviderArn` set to `arn:aws:iam::aws:contextProvider/QuickSight` and `ContextAssertion` set to the identity token received from this API.
+ *
+ * The assumed role must allow the `sts:SetContext` action in addition to `sts:AssumeRole` in its trust relationship policy. The trust policy should include both actions for the principal that will be assuming the role.
+ */
+export const getIdentityContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityContextRequest,
+  output: GetIdentityContextResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * (Enterprise edition only) Creates a new namespace for you to use with Amazon Quick Sight.
+ *
+ * A namespace allows you to isolate the Quick Sight users and groups that are registered
+ * for that namespace. Users that access the namespace can share assets only with other
+ * users or groups in the same namespace. They can't see users and groups in other
+ * namespaces. You can create a namespace after your Amazon Web Services account is subscribed to
+ * Quick Sight. The namespace must be unique within the Amazon Web Services account. By default, there is a
+ * limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with
+ * Amazon Web Services Support.
+ */
+export const createNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNamespaceRequest,
+  output: CreateNamespaceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Use `CreateRoleMembership` to add an existing Quick Sight group to an existing role.
+ */
+export const createRoleMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRoleMembershipRequest,
+    output: CreateRoleMembershipResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations:
+ *
+ * - All customizations are removed including themes, branding, and visual settings
+ *
+ * - This action cannot be undone through the API
+ *
+ * - Users will see default Quick Sight styling after customizations are deleted
+ *
+ * **Before proceeding:** Ensure you have backups of any custom themes or branding elements you may want to recreate.
+ *
+ * Deletes all Amazon Quick Sight customizations for the specified Amazon Web Services account and Quick Sight namespace.
+ */
+export const deleteAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAccountCustomizationRequest,
+    output: DeleteAccountCustomizationResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
       InternalFailureException,
       InvalidParameterValueException,
+      LimitExceededException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deleting your Quick Sight account subscription has permanent, irreversible consequences across all Amazon Web Services regions:
+ *
+ * - Global deletion – Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources.
+ *
+ * - Complete data loss – All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions.
+ *
+ * - Embedded content failure – All embedded dashboards and visuals in your applications will immediately stop working and display errors to end users.
+ *
+ * - Shared resources removed – All shared dashboards, folders, and resources will become inaccessible to other users and external recipients.
+ *
+ * - User access terminated – All Quick Sight users in your account will lose access immediately, including authors, readers, and administrators.
+ *
+ * - **No recovery possible** – Once deleted, your Quick Sight account and all associated data cannot be restored.
+ *
+ * Consider exporting critical dashboards and data before proceeding with account deletion.
+ *
+ * Use the `DeleteAccountSubscription` operation to delete an Quick Sight account. This operation will result in an error message if you have configured your account termination protection settings to `True`. To change this setting and delete your account, call the `UpdateAccountSettings` API and set the value of the `TerminationProtectionEnabled` parameter to `False`, then make another call to the `DeleteAccountSubscription` API.
+ */
+export const deleteAccountSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAccountSubscriptionRequest,
+    output: DeleteAccountSubscriptionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a custom permissions profile.
+ */
+export const deleteCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCustomPermissionsRequest,
+    output: DeleteCustomPermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Removes a user group from Amazon Quick Sight.
+ */
+export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupRequest,
+  output: DeleteGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Removes a user from a group so that the user is no longer a member of the group.
+ */
+export const deleteGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteGroupMembershipRequest,
+    output: DeleteGroupMembershipResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a namespace and the users and groups that are associated with the namespace.
+ * This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not
+ * deleted. To delete these assets, you use the API operations for the relevant asset.
+ */
+export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNamespaceRequest,
+  output: DeleteNamespaceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Removes custom permissions from the role.
+ */
+export const deleteRoleCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRoleCustomPermissionRequest,
+    output: DeleteRoleCustomPermissionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Removes a group from a role.
+ */
+export const deleteRoleMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRoleMembershipRequest,
+    output: DeleteRoleMembershipResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes the Amazon Quick Sight user that is associated with the identity of the
+ * IAM user or role that's making the call. The IAM user
+ * isn't deleted as a result of this call.
+ */
+export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserRequest,
+  output: DeleteUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a user identified by its principal ID.
+ */
+export const deleteUserByPrincipalId = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteUserByPrincipalIdRequest,
+    output: DeleteUserByPrincipalIdResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a custom permissions profile from a user.
+ */
+export const deleteUserCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteUserCustomPermissionRequest,
+    output: DeleteUserCustomPermissionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Describes the refresh properties of a dataset.
+ */
+export const describeDataSetRefreshProperties =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeDataSetRefreshPropertiesRequest,
+    output: DescribeDataSetRefreshPropertiesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      PreconditionNotMetException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }));
+/**
+ * Returns an Amazon Quick Sight group's description and Amazon Resource Name (ARN).
+ */
+export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGroupRequest,
+  output: DescribeGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Use the `DescribeGroupMembership` operation to determine if a user is a
+ * member of the specified group. If the user exists and is a member of the specified
+ * group, an associated `GroupMember` object is returned.
+ */
+export const describeGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeGroupMembershipRequest,
+    output: DescribeGroupMembershipResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Describes all custom permissions that are mapped to a role.
+ */
+export const describeRoleCustomPermission =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeRoleCustomPermissionRequest,
+    output: DescribeRoleCustomPermissionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Returns a list of all the custom permissions profiles.
+ */
+export const listCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListCustomPermissionsRequest,
+    output: ListCustomPermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
+ */
+export const listUserGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUserGroupsRequest,
+  output: ListUserGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Quick Sight console. For more information on registering a new user in the Quick Sight console, see Inviting users to access Quick Sight.
+ */
+export const registerUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterUserRequest,
+  output: RegisterUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a custom permissions profile.
+ */
+export const updateCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateCustomPermissionsRequest,
+    output: UpdateCustomPermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Changes a group description.
+ */
+export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGroupRequest,
+  output: UpdateGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a refresh schedule for a dataset.
  */
@@ -15670,234 +15921,6 @@ export const updateRoleCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates a self-upgrade request for a Quick Suite user by approving, denying, or verifying the request.
- */
-export const updateSelfUpgrade = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSelfUpgradeRequest,
-  output: UpdateSelfUpgradeResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the SPICE capacity configuration for a Quick Sight account.
- */
-export const updateSPICECapacityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSPICECapacityConfigurationRequest,
-    output: UpdateSPICECapacityConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates a template from an existing Amazon Quick Sight analysis or another template.
- */
-export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTemplateRequest,
-  output: UpdateTemplateResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Updates the template alias of a template.
- */
-export const updateTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTemplateAliasRequest,
-  output: UpdateTemplateAliasResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Updates the resource permissions for a template.
- */
-export const updateTemplatePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTemplatePermissionsRequest,
-    output: UpdateTemplatePermissionsResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Updates a theme.
- */
-export const updateTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateThemeRequest,
-  output: UpdateThemeResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Updates an alias of a theme.
- */
-export const updateThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateThemeAliasRequest,
-  output: UpdateThemeAliasResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Updates the resource permissions for a theme. Permissions apply to the action to grant or
- * revoke permissions on, for example `"quicksight:DescribeTheme"`.
- *
- * Theme permissions apply in groupings. Valid groupings include the following for the three
- * levels of permissions, which are user, owner, or no permissions:
- *
- * - User
- *
- * - `"quicksight:DescribeTheme"`
- *
- * - `"quicksight:DescribeThemeAlias"`
- *
- * - `"quicksight:ListThemeAliases"`
- *
- * - `"quicksight:ListThemeVersions"`
- *
- * - Owner
- *
- * - `"quicksight:DescribeTheme"`
- *
- * - `"quicksight:DescribeThemeAlias"`
- *
- * - `"quicksight:ListThemeAliases"`
- *
- * - `"quicksight:ListThemeVersions"`
- *
- * - `"quicksight:DeleteTheme"`
- *
- * - `"quicksight:UpdateTheme"`
- *
- * - `"quicksight:CreateThemeAlias"`
- *
- * - `"quicksight:DeleteThemeAlias"`
- *
- * - `"quicksight:UpdateThemeAlias"`
- *
- * - `"quicksight:UpdateThemePermissions"`
- *
- * - `"quicksight:DescribeThemePermissions"`
- *
- * - To specify no permissions, omit the permissions list.
- */
-export const updateThemePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateThemePermissionsRequest,
-    output: UpdateThemePermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Updates a topic.
- */
-export const updateTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTopicRequest,
-  output: UpdateTopicResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the permissions of a topic.
- */
-export const updateTopicPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTopicPermissionsRequest,
-    output: UpdateTopicPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Updates a topic refresh schedule.
- */
-export const updateTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTopicRefreshScheduleRequest,
-    output: UpdateTopicRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Updates an Amazon Quick Sight user.
  */
 export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -15926,96 +15949,6 @@ export const updateUserCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InternalFailureException,
       InvalidParameterValueException,
       PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates a VPC connection.
- */
-export const updateVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateVPCConnectionRequest,
-  output: UpdateVPCConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Deletes reviewed answers for Q Topic.
- */
-export const batchDeleteTopicReviewedAnswer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteTopicReviewedAnswerRequest,
-    output: BatchDeleteTopicReviewedAnswerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Cancels an ongoing ingestion of data into SPICE.
- */
-export const cancelIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelIngestionRequest,
-  output: CancelIngestionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the
- * `CreateAccountCustomization` or `UpdateAccountCustomization`
- * API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight
- * sample assets and videos for all new users, see Customizing Quick Sight in the *Amazon Quick Sight User Guide.*
- *
- * You can create customizations for your Amazon Web Services account or, if you specify a namespace, for
- * a Quick Sight namespace instead. Customizations that apply to a namespace always override
- * customizations that apply to an Amazon Web Services account. To find out which customizations apply, use
- * the `DescribeAccountCustomization` API operation.
- *
- * Before you use the `CreateAccountCustomization` API operation to add a theme
- * as the namespace default, make sure that you first share the theme with the namespace.
- * If you don't share it with the namespace, the theme isn't visible to your users
- * even if you make it the default theme.
- * To check if the theme is shared, view the current permissions by using the
- *
- * DescribeThemePermissions
- *
- * API operation.
- * To share the theme, grant permissions by using the
- *
- * UpdateThemePermissions
- *
- * API operation.
- */
-export const createAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAccountCustomizationRequest,
-    output: CreateAccountCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
       ResourceNotFoundException,
       ResourceUnavailableException,
       ThrottlingException,
@@ -16090,43 +16023,6 @@ export const createCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates an empty shared folder.
- */
-export const createFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFolderRequest,
-  output: CreateFolderResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Adds an asset, such as a dashboard, analysis, or dataset into a folder.
- */
-export const createFolderMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFolderMembershipRequest,
-    output: CreateFolderMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
  * Use the `CreateGroup` operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support.
  *
  * The permissions resource is
@@ -16169,87 +16065,51 @@ export const createGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates an assignment with one specified IAM policy, identified by its
- * Amazon Resource Name (ARN). This policy assignment is attached to the specified groups
- * or users of Amazon Quick Sight. Assignment names are unique per Amazon Web Services
- * account. To avoid overwriting rules in other namespaces, use assignment names that are
- * unique.
+ * Lists all self-upgrade requests for a Quick Suite account.
  */
-export const createIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIAMPolicyAssignmentRequest,
-    output: CreateIAMPolicyAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentUpdatingException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in
- * an Enterprise edition account 32 times in a 24-hour period. You can manually refresh
- * datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period
- * is measured starting 24 hours before the current date and time.
- *
- * Any ingestions operating on tagged datasets inherit the same tags automatically for use in
- * access control. For an example, see How do I create an IAM policy to control access to Amazon EC2 resources using
- * tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
- */
-export const createIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIngestionRequest,
-  output: CreateIngestionResponse,
+export const listSelfUpgrades = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSelfUpgradesRequest,
+  output: ListSelfUpgradesResponse,
   errors: [
     AccessDeniedException,
     InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * (Enterprise edition only) Creates a new namespace for you to use with Amazon Quick Sight.
- *
- * A namespace allows you to isolate the Quick Sight users and groups that are registered
- * for that namespace. Users that access the namespace can share assets only with other
- * users or groups in the same namespace. They can't see users and groups in other
- * namespaces. You can create a namespace after your Amazon Web Services account is subscribed to
- * Quick Sight. The namespace must be unique within the Amazon Web Services account. By default, there is a
- * limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with
- * Amazon Web Services Support.
- */
-export const createNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateNamespaceRequest,
-  output: CreateNamespaceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
+    InvalidNextTokenException,
     InvalidParameterValueException,
     LimitExceededException,
     PreconditionNotMetException,
-    ResourceExistsException,
     ResourceNotFoundException,
     ResourceUnavailableException,
     ThrottlingException,
   ],
 }));
 /**
- * Use `CreateRoleMembership` to add an existing Quick Sight group to an existing role.
+ * Use the `SearchGroups` operation to search groups in a specified Quick Sight namespace using the supplied filters.
  */
-export const createRoleMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const searchGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchGroupsRequest,
+  output: SearchGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists member users in a group.
+ */
+export const listGroupMemberships = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateRoleMembershipRequest,
-    output: CreateRoleMembershipResponse,
+    input: ListGroupMembershipsRequest,
+    output: ListGroupMembershipsResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
+      InvalidNextTokenException,
       InvalidParameterValueException,
       PreconditionNotMetException,
       ResourceNotFoundException,
@@ -16259,51 +16119,123 @@ export const createRoleMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a template alias for a template.
+ * Lists all user groups in Amazon Quick Sight.
  */
-export const createTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTemplateAliasRequest,
-  output: CreateTemplateAliasResponse,
+export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupsRequest,
+  output: ListGroupsResponse,
   errors: [
-    ConflictException,
+    AccessDeniedException,
     InternalFailureException,
-    LimitExceededException,
-    ResourceExistsException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
     ResourceNotFoundException,
+    ResourceUnavailableException,
     ThrottlingException,
-    UnsupportedUserEditionException,
   ],
 }));
 /**
- * Creates a theme alias for a theme.
+ * Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
  */
-export const createThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateThemeAliasRequest,
-  output: CreateThemeAliasResponse,
+export const listNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListNamespacesRequest,
+  output: ListNamespacesResponse,
   errors: [
-    ConflictException,
+    AccessDeniedException,
     InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists all groups that are associated with a role.
+ */
+export const listRoleMemberships = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRoleMembershipsRequest,
+  output: ListRoleMembershipsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
     InvalidParameterValueException,
     LimitExceededException,
-    ResourceExistsException,
+    PreconditionNotMetException,
     ResourceNotFoundException,
+    ResourceUnavailableException,
     ThrottlingException,
-    UnsupportedUserEditionException,
   ],
 }));
 /**
- * Creates a topic refresh schedule.
+ * Returns a list of all of the Amazon Quick Sight users belonging to this account.
  */
-export const createTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTopicRefreshScheduleRequest,
-    output: CreateTopicRefreshScheduleResponse,
+export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUsersRequest,
+  output: ListUsersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a self-upgrade request for a Quick Suite user by approving, denying, or verifying the request.
+ */
+export const updateSelfUpgrade = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSelfUpgradeRequest,
+  output: UpdateSelfUpgradeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the self-upgrade configuration for a Quick Suite account.
+ */
+export const updateSelfUpgradeConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateSelfUpgradeConfigurationRequest,
+    output: UpdateSelfUpgradeConfigurationResponse,
     errors: [
       AccessDeniedException,
-      ConflictException,
+      InternalFailureException,
+      InvalidParameterException,
+      InvalidParameterValueException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
+ */
+export const createRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRefreshScheduleRequest,
+    output: CreateRefreshScheduleResponse,
+    errors: [
+      AccessDeniedException,
       InternalFailureException,
       InvalidParameterValueException,
       LimitExceededException,
+      PreconditionNotMetException,
       ResourceExistsException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -16311,129 +16243,22 @@ export const createTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a new VPC connection.
+ * Updates an Quick Suite application with a token exchange grant. This operation only supports Quick Suite applications that are registered with IAM Identity Center.
  */
-export const createVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVPCConnectionRequest,
-  output: CreateVPCConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceExistsException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations:
- *
- * - All customizations are removed including themes, branding, and visual settings
- *
- * - This action cannot be undone through the API
- *
- * - Users will see default Quick Sight styling after customizations are deleted
- *
- * **Before proceeding:** Ensure you have backups of any custom themes or branding elements you may want to recreate.
- *
- * Deletes all Amazon Quick Sight customizations for the specified Amazon Web Services account and Quick Sight namespace.
- */
-export const deleteAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountCustomizationRequest,
-    output: DeleteAccountCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Unapplies a custom permissions profile from an account.
- */
-export const deleteAccountCustomPermission =
+export const updateApplicationWithTokenExchangeGrant =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAccountCustomPermissionRequest,
-    output: DeleteAccountCustomPermissionResponse,
+    input: UpdateApplicationWithTokenExchangeGrantRequest,
+    output: UpdateApplicationWithTokenExchangeGrantResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
       InvalidParameterValueException,
+      InvalidRequestException,
+      LimitExceededException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }));
-/**
- * Deleting your Quick Sight account subscription has permanent, irreversible consequences across all Amazon Web Services regions:
- *
- * - Global deletion – Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources.
- *
- * - Complete data loss – All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions.
- *
- * - Embedded content failure – All embedded dashboards and visuals in your applications will immediately stop working and display errors to end users.
- *
- * - Shared resources removed – All shared dashboards, folders, and resources will become inaccessible to other users and external recipients.
- *
- * - User access terminated – All Quick Sight users in your account will lose access immediately, including authors, readers, and administrators.
- *
- * - **No recovery possible** – Once deleted, your Quick Sight account and all associated data cannot be restored.
- *
- * Consider exporting critical dashboards and data before proceeding with account deletion.
- *
- * Use the `DeleteAccountSubscription` operation to delete an Quick Sight account. This operation will result in an error message if you have configured your account termination protection settings to `True`. To change this setting and delete your account, call the `UpdateAccountSettings` API and set the value of the `TerminationProtectionEnabled` parameter to `False`, then make another call to the `DeleteAccountSubscription` API.
- */
-export const deleteAccountSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountSubscriptionRequest,
-    output: DeleteAccountSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during
- * which you can restore the analysis. If you don't specify a recovery window value, the
- * operation defaults to 30 days. Amazon Quick Sight attaches a `DeletionTime` stamp to
- * the response that specifies the end of the recovery window. At the end of the recovery
- * window, Amazon Quick Sight deletes the analysis permanently.
- *
- * At any time before recovery window ends, you can use the `RestoreAnalysis`
- * API operation to remove the `DeletionTime` stamp and cancel the deletion of
- * the analysis. The analysis remains visible in the API until it's deleted, so you can
- * describe it but you can't make a template from it.
- *
- * An analysis that's scheduled for deletion isn't accessible in the Amazon Quick Sight console.
- * To access it in the console, restore it. Deleting an analysis doesn't delete the
- * dashboards that you publish from it.
- */
-export const deleteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAnalysisRequest,
-  output: DeleteAnalysisResponse,
-  errors: [
-    ConflictException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
 /**
  * This API permanently deletes the specified Quick Sight brand. When you delete a brand:
  *
@@ -16477,74 +16302,83 @@ export const deleteBrandAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a custom permissions profile.
+ * Describes a brand assignment.
  */
-export const deleteCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeBrandAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteCustomPermissionsRequest,
-    output: DeleteCustomPermissionsResponse,
+    input: DescribeBrandAssignmentRequest,
+    output: DescribeBrandAssignmentResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes an existing IAM policy assignment.
- */
-export const deleteIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIAMPolicyAssignmentRequest,
-    output: DeleteIAMPolicyAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentUpdatingException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
+      InternalServerException,
+      InvalidRequestException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }),
 );
 /**
- * Describes the settings that were used when your Quick Sight subscription was first
- * created in this Amazon Web Services account.
+ * Describes the published version of the brand.
  */
-export const describeAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountSettingsRequest,
-    output: DescribeAccountSettingsResponse,
+export const describeBrandPublishedVersion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeBrandPublishedVersionRequest,
+    output: DescribeBrandPublishedVersionResponse,
     errors: [
       AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
+      ConflictException,
+      InternalServerException,
+      InvalidRequestException,
       ResourceNotFoundException,
-      ResourceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates a brand.
+ */
+export const updateBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBrandRequest,
+  output: UpdateBrandResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a brand assignment.
+ */
+export const updateBrandAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateBrandAssignmentRequest,
+    output: UpdateBrandAssignmentResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
       ThrottlingException,
     ],
   }),
 );
 /**
- * Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an `AccountInfo` object that includes an account's name, subscription status, authentication type, edition, and notification email address.
+ * Updates the published version of a brand.
  */
-export const describeAccountSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateBrandPublishedVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeAccountSubscriptionRequest,
-    output: DescribeAccountSubscriptionResponse,
+    input: UpdateBrandPublishedVersionRequest,
+    output: UpdateBrandPublishedVersionResponse,
     errors: [
       AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
+      ConflictException,
+      InternalServerException,
+      InvalidRequestException,
       ResourceNotFoundException,
-      ResourceUnavailableException,
       ThrottlingException,
     ],
   }),
@@ -16570,58 +16404,164 @@ export const describeAssetBundleExportJob =
     ],
   }));
 /**
- * Describes an existing import job.
- *
- * Poll job descriptions after starting a job to know when it has succeeded or failed. Job
- * descriptions are available for 14 days after job starts.
+ * Creates or updates the dataset refresh properties for the dataset.
  */
-export const describeAssetBundleImportJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAssetBundleImportJobRequest,
-    output: DescribeAssetBundleImportJobResponse,
+export const putDataSetRefreshProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutDataSetRefreshPropertiesRequest,
+    output: PutDataSetRefreshPropertiesResponse,
     errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      PreconditionNotMetException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Starts an Asset Bundle import job.
+ *
+ * An Asset Bundle import job imports specified Amazon Quick Sight assets into an Amazon Quick
+ * Sight account. You can also choose to import a naming prefix and specified configuration
+ * overrides. The assets that are contained in the bundle file that you provide are used to
+ * create or update a new or existing asset in your Amazon Quick Sight account. Each Amazon
+ * Quick Sight account can run up to 5 import jobs concurrently.
+ *
+ * The API caller must have the necessary `"create"`, `"describe"`,
+ * and `"update"` permissions in their IAM role to access each
+ * resource type that is contained in the bundle file before the resources can be
+ * imported.
+ */
+export const startAssetBundleImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartAssetBundleImportJobRequest,
+    output: StartAssetBundleImportJobResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * This API controls public sharing settings for your entire Quick Sight account, affecting
+ * data security and access. When you enable public sharing:
+ *
+ * - Dashboards can be shared publicly
+ *
+ * - This setting affects your entire Amazon Web Services account and all Quick Sight
+ * users
+ *
+ * **Before proceeding:** Ensure you understand the
+ * security implications and have proper IAM permissions
+ * configured.
+ *
+ * Use the `UpdatePublicSharingSettings` operation to turn on or turn off the
+ * public sharing settings of an Amazon Quick Sight dashboard.
+ *
+ * To use this operation, turn on session capacity pricing for your Amazon Quick Sight
+ * account.
+ *
+ * Before you can turn on public sharing on your account, make sure to give public
+ * sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon
+ * Quick Sight, see Using Quick Suite with IAM in the Amazon Quick Sight
+ * User Guide.
+ */
+export const updatePublicSharingSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePublicSharingSettingsRequest,
+    output: UpdatePublicSharingSettingsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedPricingPlanException,
+    ],
+  }),
+);
+/**
+ * Describes a theme.
+ */
+export const describeTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThemeRequest,
+  output: DescribeThemeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Provides a summary for a dashboard.
+ */
+export const describeDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDashboardRequest,
+  output: DescribeDashboardResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Describes an existing snapshot job.
+ *
+ * Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see `JobStatus`.
+ *
+ * **Registered user support**
+ *
+ * This API can be called as before to get status of a job started by the same Quick Sight user.
+ *
+ * **Possible error scenarios**
+ *
+ * Request will fail with an Access Denied error in the following scenarios:
+ *
+ * - The credentials have expired.
+ *
+ * - Job has been started by a different user.
+ *
+ * - Impersonated Quick Sight user doesn't have access to the specified dashboard in the job.
+ */
+export const describeDashboardSnapshotJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeDashboardSnapshotJobRequest,
+    output: DescribeDashboardSnapshotJobResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
       ResourceNotFoundException,
       ThrottlingException,
       UnsupportedUserEditionException,
     ],
   }));
 /**
- * Describes a custom permissions profile.
+ * Describes a VPC connection.
  */
-export const describeCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeCustomPermissionsRequest,
-    output: DescribeCustomPermissionsResponse,
+    input: DescribeVPCConnectionRequest,
+    output: DescribeVPCConnectionResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
       InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Provides a detailed description of the definition of a dashboard.
- *
- * If you do not need to know details about the content of a dashboard, for instance
- * if you are trying to check the status of a recently created or updated dashboard,
- * use the
- * `DescribeDashboard`
- * instead.
- */
-export const describeDashboardDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDashboardDefinitionRequest,
-    output: DescribeDashboardDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
       ResourceNotFoundException,
       ThrottlingException,
       UnsupportedUserEditionException,
@@ -16644,16 +16584,15 @@ export const describeFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Describes permissions for a folder.
+ * Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
  */
-export const describeFolderPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteFolderMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeFolderPermissionsRequest,
-    output: DescribeFolderPermissionsResponse,
+    input: DeleteFolderMembershipRequest,
+    output: DeleteFolderMembershipResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
-      InvalidNextTokenException,
       InvalidParameterValueException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -16662,232 +16601,526 @@ export const describeFolderPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes an existing IAM policy assignment, as specified by the
- * assignment name.
+ * Deletes a theme.
  */
-export const describeIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIAMPolicyAssignmentRequest,
-    output: DescribeIAMPolicyAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Describes all customer managed key registrations in a Quick Sight account.
- */
-export const describeKeyRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeKeyRegistrationRequest,
-    output: DescribeKeyRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Describes the self-upgrade configuration for a Quick Suite account.
- */
-export const describeSelfUpgradeConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSelfUpgradeConfigurationRequest,
-    output: DescribeSelfUpgradeConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Provides a detailed description of the definition of a template.
- *
- * If you do not need to know details about the content of a template, for instance if you
- * are trying to check the status of a recently created or updated template, use the
- *
- * `DescribeTemplate`
- * instead.
- */
-export const describeTemplateDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTemplateDefinitionRequest,
-    output: DescribeTemplateDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Describes the status of a topic refresh.
- */
-export const describeTopicRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTopicRefreshRequest,
-    output: DescribeTopicRefreshResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Returns information about a user, given the user name.
- */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUserRequest,
-  output: DescribeUserResponse,
+export const deleteTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteThemeRequest,
+  output: DeleteThemeResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalFailureException,
     InvalidParameterValueException,
-    PreconditionNotMetException,
     ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Generates an embed URL that you can use to embed an Amazon Quick Sight experience in
- * your website. This action can be used for any type of user that is registered in an
- * Amazon Quick Sight account that uses IAM Identity Center for authentication. This API
- * requires identity-enhanced IAM Role sessions for the authenticated
- * user that the API call is being made for.
- *
- * This API uses trusted identity
- * propagation to ensure that an end user is authenticated and receives the
- * embed URL that is specific to that user. The IAM Identity Center application that the
- * user has logged into needs to have trusted Identity Propagation enabled for Amazon Quick Sight with the scope
- * value set to `quicksight:read`. Before you use this action, make sure that
- * you have configured the relevant Amazon Quick Sight resource and permissions.
- */
-export const generateEmbedUrlForRegisteredUserWithIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GenerateEmbedUrlForRegisteredUserWithIdentityRequest,
-    output: GenerateEmbedUrlForRegisteredUserWithIdentityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      QuickSightUserNotFoundException,
-      ResourceNotFoundException,
-      SessionLifetimeInMinutesInvalidException,
-      ThrottlingException,
-      UnsupportedPricingPlanException,
-      UnsupportedUserEditionException,
-    ],
-  }));
-/**
- * Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs.
- *
- * Currently, you can call the following APIs with identity-enhanced Credentials
- *
- * - StartDashboardSnapshotJob
- *
- * - DescribeDashboardSnapshotJob
- *
- * - DescribeDashboardSnapshotJobResult
- *
- * **Supported Authentication Methods**
- *
- * This API supports Quick Sight native users, IAM federated users, and Active Directory users. For Quick Sight users authenticated by Amazon Web Services Identity Center, see Identity Center documentation on identity-enhanced IAM role sessions.
- *
- * **Getting Identity-Enhanced Credentials**
- *
- * To obtain identity-enhanced credentials, follow these steps:
- *
- * - Call the GetIdentityContext API to retrieve an identity token for the specified user.
- *
- * - Use the identity token with the STS AssumeRole API to obtain identity-enhanced IAM role session credentials.
- *
- * **Usage with STS AssumeRole**
- *
- * The identity token returned by this API should be used with the STS AssumeRole API to obtain credentials for an identity-enhanced IAM role session. When calling AssumeRole, include the identity token in the `ProvidedContexts` parameter with `ProviderArn` set to `arn:aws:iam::aws:contextProvider/QuickSight` and `ContextAssertion` set to the identity token received from this API.
- *
- * The assumed role must allow the `sts:SetContext` action in addition to `sts:AssumeRole` in its trust relationship policy. The trust policy should include both actions for the principal that will be assuming the role.
- */
-export const getIdentityContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIdentityContextRequest,
-  output: GetIdentityContextResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Generates a session URL and authorization code that you can use to embed the Amazon
- * Amazon Quick Sight console in your web server code. Use
- * `GetSessionEmbedUrl` where you want to provide an authoring portal that
- * allows users to create data sources, datasets, analyses, and dashboards. The users who
- * access an embedded Amazon Quick Sight console need belong to the author or admin security
- * cohort. If you want to restrict permissions to some of these features, add a custom
- * permissions profile to the user with the
- * UpdateUser
- * API operation. Use
- * RegisterUser
- * API operation to add a new user with a custom
- * permission profile attached. For more information, see the following sections in the
- * *Amazon Quick Suite User Guide*:
- *
- * - Embedding
- * Analytics
- *
- * - Customizing Access to the Amazon Quick Suite Console
- */
-export const getSessionEmbedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSessionEmbedUrlRequest,
-  output: GetSessionEmbedUrlResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    QuickSightUserNotFoundException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    SessionLifetimeInMinutesInvalidException,
     ThrottlingException,
     UnsupportedUserEditionException,
   ],
 }));
 /**
- * Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status.
+ * Deletes a VPC connection.
  */
-export const listActionConnectors = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVPCConnectionRequest,
+  output: DeleteVPCConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Describes the read and write permissions for a theme.
+ */
+export const describeThemePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListActionConnectorsRequest,
-    output: ListActionConnectorsResponse,
+    input: DescribeThemePermissionsRequest,
+    output: DescribeThemePermissionsResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
-      InvalidNextTokenException,
       InvalidParameterValueException,
+      ResourceNotFoundException,
       ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email.
+ *
+ * Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a `202` HTTP status code.
+ *
+ * For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the *Amazon Quick Sight User Guide*.
+ */
+export const startDashboardSnapshotJobSchedule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartDashboardSnapshotJobScheduleRequest,
+    output: StartDashboardSnapshotJobScheduleResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }));
+/**
+ * Updates the permissions for an action connector by granting or revoking access for specific users and groups. You can control who can view, use, or manage the action connector.
+ */
+export const updateActionConnectorPermissions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateActionConnectorPermissionsRequest,
+    output: UpdateActionConnectorPermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }));
+/**
+ * Updates the linked analyses on a dashboard.
+ */
+export const updateDashboardLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDashboardLinksRequest,
+    output: UpdateDashboardLinksResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Updates permissions of a folder.
+ */
+export const updateFolderPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateFolderPermissionsRequest,
+    output: UpdateFolderPermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Updates the resource permissions for a theme. Permissions apply to the action to grant or
+ * revoke permissions on, for example `"quicksight:DescribeTheme"`.
+ *
+ * Theme permissions apply in groupings. Valid groupings include the following for the three
+ * levels of permissions, which are user, owner, or no permissions:
+ *
+ * - User
+ *
+ * - `"quicksight:DescribeTheme"`
+ *
+ * - `"quicksight:DescribeThemeAlias"`
+ *
+ * - `"quicksight:ListThemeAliases"`
+ *
+ * - `"quicksight:ListThemeVersions"`
+ *
+ * - Owner
+ *
+ * - `"quicksight:DescribeTheme"`
+ *
+ * - `"quicksight:DescribeThemeAlias"`
+ *
+ * - `"quicksight:ListThemeAliases"`
+ *
+ * - `"quicksight:ListThemeVersions"`
+ *
+ * - `"quicksight:DeleteTheme"`
+ *
+ * - `"quicksight:UpdateTheme"`
+ *
+ * - `"quicksight:CreateThemeAlias"`
+ *
+ * - `"quicksight:DeleteThemeAlias"`
+ *
+ * - `"quicksight:UpdateThemeAlias"`
+ *
+ * - `"quicksight:UpdateThemePermissions"`
+ *
+ * - `"quicksight:DescribeThemePermissions"`
+ *
+ * - To specify no permissions, omit the permissions list.
+ */
+export const updateThemePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateThemePermissionsRequest,
+    output: UpdateThemePermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Updates the permissions of a topic.
+ */
+export const updateTopicPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTopicPermissionsRequest,
+    output: UpdateTopicPermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Updates a VPC connection.
+ */
+export const updateVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVPCConnectionRequest,
+  output: UpdateVPCConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Deletes a dashboard.
+ */
+export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDashboardRequest,
+  output: DeleteDashboardResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Deletes a template.
+ */
+export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTemplateRequest,
+  output: DeleteTemplateResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Deletes the version of the theme that the specified theme alias points to.
+ * If you provide a specific alias, you delete the version of the theme
+ * that the alias points to.
+ */
+export const deleteThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteThemeAliasRequest,
+  output: DeleteThemeAliasResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Describes read and write permissions on a template.
+ */
+export const describeTemplatePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTemplatePermissionsRequest,
+    output: DescribeTemplatePermissionsResponse,
+    errors: [
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Describes the alias for a theme.
+ */
+export const describeThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThemeAliasRequest,
+  output: DescribeThemeAliasResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Updates the read and write permissions for an analysis.
+ */
+export const updateAnalysisPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAnalysisPermissionsRequest,
+    output: UpdateAnalysisPermissionsResponse,
+    errors: [
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Updates a dashboard in an Amazon Web Services account.
+ *
+ * Updating a Dashboard creates a new dashboard version but does not immediately
+ * publish the new version. You can update the published version of a dashboard by
+ * using the
+ * UpdateDashboardPublishedVersion
+ * API operation.
+ */
+export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDashboardRequest,
+  output: UpdateDashboardResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Updates read and write permissions on a dashboard.
+ */
+export const updateDashboardPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDashboardPermissionsRequest,
+    output: UpdateDashboardPermissionsResponse,
+    errors: [
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Updates the published version of a dashboard.
+ */
+export const updateDashboardPublishedVersion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateDashboardPublishedVersionRequest,
+    output: UpdateDashboardPublishedVersionResponse,
+    errors: [
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }));
+/**
+ * Updates the resource permissions for a template.
+ */
+export const updateTemplatePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTemplatePermissionsRequest,
+    output: UpdateTemplatePermissionsResponse,
+    errors: [
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Describes read and write permissions for a dashboard.
+ */
+export const describeDashboardPermissions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeDashboardPermissionsRequest,
+    output: DescribeDashboardPermissionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }));
+/**
+ * Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during
+ * which you can restore the analysis. If you don't specify a recovery window value, the
+ * operation defaults to 30 days. Amazon Quick Sight attaches a `DeletionTime` stamp to
+ * the response that specifies the end of the recovery window. At the end of the recovery
+ * window, Amazon Quick Sight deletes the analysis permanently.
+ *
+ * At any time before recovery window ends, you can use the `RestoreAnalysis`
+ * API operation to remove the `DeletionTime` stamp and cancel the deletion of
+ * the analysis. The analysis remains visible in the API until it's deleted, so you can
+ * describe it but you can't make a template from it.
+ *
+ * An analysis that's scheduled for deletion isn't accessible in the Amazon Quick Sight console.
+ * To access it in the console, restore it. Deleting an analysis doesn't delete the
+ * dashboards that you publish from it.
+ */
+export const deleteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnalysisRequest,
+  output: DeleteAnalysisResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Provides a summary of the metadata for an analysis.
+ */
+export const describeAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAnalysisRequest,
+  output: DescribeAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Describes an existing import job.
+ *
+ * Poll job descriptions after starting a job to know when it has succeeded or failed. Job
+ * descriptions are available for 14 days after job starts.
+ */
+export const describeAssetBundleImportJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAssetBundleImportJobRequest,
+    output: DescribeAssetBundleImportJobResponse,
+    errors: [
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }));
+/**
+ * Deletes the item that the specified template alias points to. If you provide a specific
+ * alias, you delete the version of the template that the alias points to.
+ */
+export const deleteTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTemplateAliasRequest,
+  output: DeleteTemplateAliasResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Updates the template alias of a template.
+ */
+export const updateTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTemplateAliasRequest,
+  output: UpdateTemplateAliasResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Describes the template alias for a template.
+ */
+export const describeTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTemplateAliasRequest,
+    output: DescribeTemplateAliasResponse,
+    errors: [
+      InternalFailureException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Provides the read and write permissions for an analysis.
+ */
+export const describeAnalysisPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAnalysisPermissionsRequest,
+    output: DescribeAnalysisPermissionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
     ],
   }),
 );
@@ -16943,19 +17176,6 @@ export const listAssetBundleImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists all brands in an Quick Sight account.
- */
-export const listBrands = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBrandsRequest,
-  output: ListBrandsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Lists dashboards in an Amazon Web Services account.
  */
 export const listDashboards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -16986,19 +17206,6 @@ export const listDashboardVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists flows in an Amazon Web Services account.
- */
-export const listFlows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFlowsInput,
-  output: ListFlowsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ThrottlingException,
-  ],
-}));
-/**
  * List all assets (`DASHBOARD`, `ANALYSIS`, and `DATASET`) in a folder.
  */
 export const listFolderMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -17028,83 +17235,6 @@ export const listFolders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
     ThrottlingException,
     UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Lists the
- * IAM policy assignments in the current Amazon Quick Sight
- * account.
- */
-export const listIAMPolicyAssignments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIAMPolicyAssignmentsRequest,
-    output: ListIAMPolicyAssignmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists all of
- * the IAM policy assignments, including the Amazon
- * Resource Names
- * (ARNs),
- * for the IAM policies assigned to the specified user and
- * group,
- * or groups that the user belongs to.
- */
-export const listIAMPolicyAssignmentsForUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListIAMPolicyAssignmentsForUserRequest,
-    output: ListIAMPolicyAssignmentsForUserResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentUpdatingException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Lists all services and authorized targets that the Quick Sight IAM Identity Center application can access.
- *
- * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
- */
-export const listIdentityPropagationConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListIdentityPropagationConfigsRequest,
-    output: ListIdentityPropagationConfigsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Lists all self-upgrade requests for a Quick Suite account.
- */
-export const listSelfUpgrades = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSelfUpgradesRequest,
-  output: ListSelfUpgradesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
   ],
 }));
 /**
@@ -17172,55 +17302,6 @@ export const listThemeVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all of the refresh schedules for a topic.
- */
-export const listTopicRefreshSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTopicRefreshSchedulesRequest,
-    output: ListTopicRefreshSchedulesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists all reviewed answers for a Q Topic.
- */
-export const listTopicReviewedAnswers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTopicReviewedAnswersRequest,
-    output: ListTopicReviewedAnswersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists all of the topics within an account.
- */
-export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTopicsRequest,
-  output: ListTopicsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Lists all of the VPC connections in the current set Amazon Web Services Region of an
  * Amazon Web Services account.
  */
@@ -17236,21 +17317,6 @@ export const listVPCConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnsupportedUserEditionException,
   ],
 }));
-/**
- * Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions.
- */
-export const searchActionConnectors = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchActionConnectorsRequest,
-    output: SearchActionConnectorsResponse,
-    errors: [
-      AccessDeniedException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Searches for analyses that belong to the user specified in the filter.
  *
@@ -17287,69 +17353,6 @@ export const searchDashboards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Use the `SearchDataSets` operation to search for datasets that belong to an
- * account.
- */
-export const searchDataSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchDataSetsRequest,
-  output: SearchDataSetsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Search for the flows in an Amazon Web Services account.
- */
-export const searchFlows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchFlowsInput,
-  output: SearchFlowsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Searches the subfolders in a folder.
- */
-export const searchFolders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchFoldersRequest,
-  output: SearchFoldersResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Use the `SearchGroups` operation to search groups in a specified Quick Sight namespace using the supplied filters.
- */
-export const searchGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchGroupsRequest,
-  output: SearchGroupsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    PreconditionNotMetException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Searches for any Q topic that exists in an Quick Suite account.
  */
 export const searchTopics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -17365,160 +17368,17 @@ export const searchTopics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a dataset. This operation doesn't support datasets that include uploaded files
- * as a source. Partial updates are not supported by this operation.
+ * Describes permissions for a folder.
  */
-export const updateDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataSetRequest,
-  output: UpdateDataSetResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalFailureException,
-    InvalidDataSetParameterValueException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Updates a data source.
- */
-export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataSourceRequest,
-  output: UpdateDataSourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    CustomerManagedKeyUnavailableException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates permissions against principals on a flow.
- */
-export const updateFlowPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeFolderPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateFlowPermissionsInput,
-    output: UpdateFlowPermissionsOutput,
+    input: DescribeFolderPermissionsRequest,
+    output: DescribeFolderPermissionsResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
+      InvalidNextTokenException,
       InvalidParameterValueException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the `IpRestrictionRule`, `VpcIdRestrictionRule`, or `VpcEndpointIdRestrictionRule`. To use this operation, you must provide the entire map of rules. You can use the `DescribeIpRestriction` operation to get the current rule map.
- */
-export const updateIpRestriction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateIpRestrictionRequest,
-  output: UpdateIpRestrictionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * This API controls public sharing settings for your entire Quick Sight account, affecting
- * data security and access. When you enable public sharing:
- *
- * - Dashboards can be shared publicly
- *
- * - This setting affects your entire Amazon Web Services account and all Quick Sight
- * users
- *
- * **Before proceeding:** Ensure you understand the
- * security implications and have proper IAM permissions
- * configured.
- *
- * Use the `UpdatePublicSharingSettings` operation to turn on or turn off the
- * public sharing settings of an Amazon Quick Sight dashboard.
- *
- * To use this operation, turn on session capacity pricing for your Amazon Quick Sight
- * account.
- *
- * Before you can turn on public sharing on your account, make sure to give public
- * sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon
- * Quick Sight, see Using Quick Suite with IAM in the Amazon Quick Sight
- * User Guide.
- */
-export const updatePublicSharingSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePublicSharingSettingsRequest,
-    output: UpdatePublicSharingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedPricingPlanException,
-    ],
-  }),
-);
-/**
- * Updates the self-upgrade configuration for a Quick Suite account.
- */
-export const updateSelfUpgradeConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSelfUpgradeConfigurationRequest,
-    output: UpdateSelfUpgradeConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Provides a summary of the metadata for an analysis.
- */
-export const describeAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAnalysisRequest,
-  output: DescribeAnalysisResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Provides a detailed description of the definition of an analysis.
- *
- * If you do not need to know details about the content of an Analysis, for instance if you
- * are trying to check the status of a recently created or updated Analysis, use the
- *
- * `DescribeAnalysis`
- * instead.
- */
-export const describeAnalysisDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAnalysisDefinitionRequest,
-    output: DescribeAnalysisDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
       ResourceNotFoundException,
       ThrottlingException,
       UnsupportedUserEditionException,
@@ -17526,242 +17386,68 @@ export const describeAnalysisDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Provides a summary for a dashboard.
+ * Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
  */
-export const describeDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDashboardRequest,
-  output: DescribeDashboardResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedUserEditionException,
-  ],
-}));
-/**
- * Describes an existing snapshot job.
- *
- * Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see `JobStatus`.
- *
- * **Registered user support**
- *
- * This API can be called as before to get status of a job started by the same Quick Sight user.
- *
- * **Possible error scenarios**
- *
- * Request will fail with an Access Denied error in the following scenarios:
- *
- * - The credentials have expired.
- *
- * - Job has been started by a different user.
- *
- * - Impersonated Quick Sight user doesn't have access to the specified dashboard in the job.
- */
-export const describeDashboardSnapshotJob =
+export const describeFolderResolvedPermissions =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDashboardSnapshotJobRequest,
-    output: DescribeDashboardSnapshotJobResponse,
+    input: DescribeFolderResolvedPermissionsRequest,
+    output: DescribeFolderResolvedPermissionsResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
       ResourceNotFoundException,
       ThrottlingException,
       UnsupportedUserEditionException,
     ],
   }));
 /**
- * Describes a dataset. This operation doesn't support datasets that include uploaded
- * files as a source.
+ * List all folders that a resource is a member of.
  */
-export const describeDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDataSetRequest,
-  output: DescribeDataSetResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
+export const listFoldersForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListFoldersForResourceRequest,
+    output: ListFoldersForResourceResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
 /**
- * Describes a data source.
+ * Lists all the aliases of a theme.
  */
-export const describeDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDataSourceRequest,
-  output: DescribeDataSourceResponse,
+export const listThemeAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListThemeAliasesRequest,
+  output: ListThemeAliasesResponse,
   errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Describes a SPICE ingestion.
- */
-export const describeIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeIngestionRequest,
-  output: DescribeIngestionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Describes the current namespace.
- */
-export const describeNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeNamespaceRequest,
-  output: DescribeNamespaceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Describes a template's metadata.
- */
-export const describeTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTemplateRequest,
-  output: DescribeTemplateResponse,
-  errors: [
-    AccessDeniedException,
     ConflictException,
     InternalFailureException,
+    InvalidNextTokenException,
     InvalidParameterValueException,
-    ResourceExistsException,
     ResourceNotFoundException,
     ThrottlingException,
     UnsupportedUserEditionException,
   ],
 }));
 /**
- * Describes a VPC connection.
+ * Lists all the aliases of a template.
  */
-export const describeVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVPCConnectionRequest,
-    output: DescribeVPCConnectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Generates a temporary session URL and authorization code(bearer token) that you can
- * use to embed an Amazon Quick Sight read-only dashboard in your website or application.
- * Before you use this command, make sure that you have configured the dashboards and
- * permissions.
- *
- * Currently, you can use `GetDashboardEmbedURL` only from the server, not
- * from the user's browser. The following rules apply to the generated URL:
- *
- * - They must be used together.
- *
- * - They can be used one time only.
- *
- * - They are valid for 5 minutes after you run this command.
- *
- * - You are charged only when the URL is used or there is interaction with Quick Suite.
- *
- * - The resulting user session is valid for 15 minutes (default) up to 10 hours
- * (maximum). You can use the optional `SessionLifetimeInMinutes`
- * parameter to customize session duration.
- *
- * For more information, see Embedding Analytics
- * Using GetDashboardEmbedUrl in the Amazon Quick Suite User
- * Guide.
- *
- * For more information about the high-level steps for embedding and for an interactive
- * demo of the ways you can customize embedding, visit the Amazon Quick Suite
- * Developer Portal.
- */
-export const getDashboardEmbedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDashboardEmbedUrlRequest,
-    output: GetDashboardEmbedUrlResponse,
-    errors: [
-      AccessDeniedException,
-      DomainNotWhitelistedException,
-      IdentityTypeNotSupportedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      QuickSightUserNotFoundException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      SessionLifetimeInMinutesInvalidException,
-      ThrottlingException,
-      UnsupportedPricingPlanException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
-/**
- * Lists all of the datasets belonging to the current Amazon Web Services account in an
- * Amazon Web Services Region.
- *
- * The permissions resource is
- * `arn:aws:quicksight:region:aws-account-id:dataset/*`.
- */
-export const listDataSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDataSetsRequest,
-  output: ListDataSetsResponse,
+export const listTemplateAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTemplateAliasesRequest,
+  output: ListTemplateAliasesResponse,
   errors: [
-    AccessDeniedException,
     InternalFailureException,
     InvalidNextTokenException,
-    InvalidParameterValueException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Predicts existing visuals or generates new visuals to answer a given query.
- *
- * This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick Suite with the scope value set to `quicksight:read`. Before you use this action, make sure that you have configured the relevant Quick Suite resource and permissions.
- *
- * We recommend enabling the `QSearchStatus` API to unlock the full potential of `PredictQnA`. When `QSearchStatus` is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, `PredictQnA` uses generative Q&A to provide an answer. To update the `QSearchStatus`, see UpdateQuickSightQSearchConfiguration.
- */
-export const predictQAResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PredictQAResultsRequest,
-  output: PredictQAResultsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidParameterValueException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Use the `SearchDataSources` operation to search for data sources that
- * belong to an account.
- */
-export const searchDataSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchDataSourcesRequest,
-  output: SearchDataSourcesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalFailureException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
     ResourceNotFoundException,
     ThrottlingException,
+    UnsupportedUserEditionException,
   ],
 }));
 /**
@@ -17794,17 +17480,283 @@ export const startAssetBundleExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates a customer managed key in a Quick Sight account.
+ * Updates a dataset. This operation doesn't support datasets that include uploaded files
+ * as a source. Partial updates are not supported by this operation.
  */
-export const updateKeyRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataSetRequest,
+  output: UpdateDataSetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidDataSetParameterValueException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Describes a template's metadata.
+ */
+export const describeTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTemplateRequest,
+  output: DescribeTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Creates a template alias for a template.
+ */
+export const createTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTemplateAliasRequest,
+  output: CreateTemplateAliasResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Provides a detailed description of the definition of a dashboard.
+ *
+ * If you do not need to know details about the content of a dashboard, for instance
+ * if you are trying to check the status of a recently created or updated dashboard,
+ * use the
+ * `DescribeDashboard`
+ * instead.
+ */
+export const describeDashboardDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateKeyRegistrationRequest,
-    output: UpdateKeyRegistrationResponse,
+    input: DescribeDashboardDefinitionRequest,
+    output: DescribeDashboardDefinitionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Provides a detailed description of the definition of a template.
+ *
+ * If you do not need to know details about the content of a template, for instance if you
+ * are trying to check the status of a recently created or updated template, use the
+ *
+ * `DescribeTemplate`
+ * instead.
+ */
+export const describeTemplateDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTemplateDefinitionRequest,
+    output: DescribeTemplateDefinitionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Creates an empty shared folder.
+ */
+export const createFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFolderRequest,
+  output: CreateFolderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Creates a new VPC connection.
+ */
+export const createVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVPCConnectionRequest,
+  output: CreateVPCConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Updates the name of a folder.
+ */
+export const updateFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFolderRequest,
+  output: UpdateFolderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Updates a theme.
+ */
+export const updateTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateThemeRequest,
+  output: UpdateThemeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Updates an analysis in Amazon Quick Sight
+ */
+export const updateAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnalysisRequest,
+  output: UpdateAnalysisResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Updates a template from an existing Amazon Quick Sight analysis or another template.
+ */
+export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTemplateRequest,
+  output: UpdateTemplateResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Updates an alias of a theme.
+ */
+export const updateThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateThemeAliasRequest,
+  output: UpdateThemeAliasResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Creates a theme alias for a theme.
+ */
+export const createThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateThemeAliasRequest,
+  output: CreateThemeAliasResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Adds an asset, such as a dashboard, analysis, or dataset into a folder.
+ */
+export const createFolderMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateFolderMembershipRequest,
+    output: CreateFolderMembershipResponse,
     errors: [
       AccessDeniedException,
       InternalFailureException,
       InvalidParameterValueException,
+      LimitExceededException,
+      ResourceExistsException,
+      ResourceNotFoundException,
       ThrottlingException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
+ * Provides a detailed description of the definition of an analysis.
+ *
+ * If you do not need to know details about the content of an Analysis, for instance if you
+ * are trying to check the status of a recently created or updated Analysis, use the
+ *
+ * `DescribeAnalysis`
+ * instead.
+ */
+export const describeAnalysisDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAnalysisDefinitionRequest,
+    output: DescribeAnalysisDefinitionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnsupportedUserEditionException,
     ],
   }),
 );
@@ -17835,53 +17787,51 @@ export const createDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a data source.
+ * Deletes an empty folder.
  */
-export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDataSourceRequest,
-  output: CreateDataSourceResponse,
+export const deleteFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFolderRequest,
+  output: DeleteFolderResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
-    CustomerManagedKeyUnavailableException,
     InternalFailureException,
     InvalidParameterValueException,
-    LimitExceededException,
-    ResourceExistsException,
+    PreconditionNotMetException,
     ResourceNotFoundException,
     ThrottlingException,
+    UnsupportedUserEditionException,
   ],
 }));
 /**
- * Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
+ * Restores an analysis.
  */
-export const createRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRefreshScheduleRequest,
-    output: CreateRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const restoreAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreAnalysisRequest,
+  output: RestoreAnalysisResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
- * Describes a theme.
+ * Searches the subfolders in a folder.
  */
-export const describeTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeThemeRequest,
-  output: DescribeThemeResponse,
+export const searchFolders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchFoldersRequest,
+  output: SearchFoldersResponse,
   errors: [
     AccessDeniedException,
     InternalFailureException,
+    InvalidNextTokenException,
     InvalidParameterValueException,
-    ResourceExistsException,
+    InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
     UnsupportedUserEditionException,
@@ -17935,6 +17885,90 @@ export const createTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Generates a session URL and authorization code that you can use to embed the Amazon
+ * Amazon Quick Sight console in your web server code. Use
+ * `GetSessionEmbedUrl` where you want to provide an authoring portal that
+ * allows users to create data sources, datasets, analyses, and dashboards. The users who
+ * access an embedded Amazon Quick Sight console need belong to the author or admin security
+ * cohort. If you want to restrict permissions to some of these features, add a custom
+ * permissions profile to the user with the
+ * UpdateUser
+ * API operation. Use
+ * RegisterUser
+ * API operation to add a new user with a custom
+ * permission profile attached. For more information, see the following sections in the
+ * *Amazon Quick Suite User Guide*:
+ *
+ * - Embedding
+ * Analytics
+ *
+ * - Customizing Access to the Amazon Quick Suite Console
+ */
+export const getSessionEmbedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSessionEmbedUrlRequest,
+  output: GetSessionEmbedUrlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    QuickSightUserNotFoundException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    SessionLifetimeInMinutesInvalidException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
+/**
+ * Generates a temporary session URL and authorization code(bearer token) that you can
+ * use to embed an Amazon Quick Sight read-only dashboard in your website or application.
+ * Before you use this command, make sure that you have configured the dashboards and
+ * permissions.
+ *
+ * Currently, you can use `GetDashboardEmbedURL` only from the server, not
+ * from the user's browser. The following rules apply to the generated URL:
+ *
+ * - They must be used together.
+ *
+ * - They can be used one time only.
+ *
+ * - They are valid for 5 minutes after you run this command.
+ *
+ * - You are charged only when the URL is used or there is interaction with Quick Suite.
+ *
+ * - The resulting user session is valid for 15 minutes (default) up to 10 hours
+ * (maximum). You can use the optional `SessionLifetimeInMinutes`
+ * parameter to customize session duration.
+ *
+ * For more information, see Embedding Analytics
+ * Using GetDashboardEmbedUrl in the Amazon Quick Suite User
+ * Guide.
+ *
+ * For more information about the high-level steps for embedding and for an interactive
+ * demo of the ways you can customize embedding, visit the Amazon Quick Suite
+ * Developer Portal.
+ */
+export const getDashboardEmbedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDashboardEmbedUrlRequest,
+    output: GetDashboardEmbedUrlResponse,
+    errors: [
+      AccessDeniedException,
+      DomainNotWhitelistedException,
+      IdentityTypeNotSupportedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      QuickSightUserNotFoundException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      SessionLifetimeInMinutesInvalidException,
+      ThrottlingException,
+      UnsupportedPricingPlanException,
+      UnsupportedUserEditionException,
+    ],
+  }),
+);
+/**
  * Generates an embed URL that you can use to embed an Amazon Quick Suite dashboard or
  * visual in your website, without having to register any reader users. Before you use this
  * action, make sure that you have configured the dashboards and permissions.
@@ -17975,54 +18009,6 @@ export const generateEmbedUrlForAnonymousUser =
       UnsupportedUserEditionException,
     ],
   }));
-/**
- * Creates or updates the dataset refresh properties for the dataset.
- */
-export const putDataSetRefreshProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutDataSetRefreshPropertiesRequest,
-    output: PutDataSetRefreshPropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Starts an Asset Bundle import job.
- *
- * An Asset Bundle import job imports specified Amazon Quick Sight assets into an Amazon Quick
- * Sight account. You can also choose to import a naming prefix and specified configuration
- * overrides. The assets that are contained in the bundle file that you provide are used to
- * create or update a new or existing asset in your Amazon Quick Sight account. Each Amazon
- * Quick Sight account can run up to 5 import jobs concurrently.
- *
- * The API caller must have the necessary `"create"`, `"describe"`,
- * and `"update"` permissions in their IAM role to access each
- * resource type that is contained in the bundle file before the resources can be
- * imported.
- */
-export const startAssetBundleImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAssetBundleImportJobRequest,
-    output: StartAssetBundleImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
 /**
  * Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call.
  *
@@ -18127,6 +18113,36 @@ export const startDashboardSnapshotJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Generates an embed URL that you can use to embed an Amazon Quick Sight experience in
+ * your website. This action can be used for any type of user that is registered in an
+ * Amazon Quick Sight account that uses IAM Identity Center for authentication. This API
+ * requires identity-enhanced IAM Role sessions for the authenticated
+ * user that the API call is being made for.
+ *
+ * This API uses trusted identity
+ * propagation to ensure that an end user is authenticated and receives the
+ * embed URL that is specific to that user. The IAM Identity Center application that the
+ * user has logged into needs to have trusted Identity Propagation enabled for Amazon Quick Sight with the scope
+ * value set to `quicksight:read`. Before you use this action, make sure that
+ * you have configured the relevant Amazon Quick Sight resource and permissions.
+ */
+export const generateEmbedUrlForRegisteredUserWithIdentity =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GenerateEmbedUrlForRegisteredUserWithIdentityRequest,
+    output: GenerateEmbedUrlForRegisteredUserWithIdentityResponse,
+    errors: [
+      AccessDeniedException,
+      InternalFailureException,
+      InvalidParameterValueException,
+      QuickSightUserNotFoundException,
+      ResourceNotFoundException,
+      SessionLifetimeInMinutesInvalidException,
+      ThrottlingException,
+      UnsupportedPricingPlanException,
+      UnsupportedUserEditionException,
+    ],
+  }));
 /**
  * Creates new reviewed answers for a Q Topic.
  */

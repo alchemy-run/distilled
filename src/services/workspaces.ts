@@ -2130,67 +2130,51 @@ export class DescribeWorkspaceDirectoriesResult extends S.Class<DescribeWorkspac
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidParameterValuesException extends S.TaggedError<InvalidParameterValuesException>()(
   "InvalidParameterValuesException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ResourceAssociatedException extends S.TaggedError<ResourceAssociatedException>()(
-  "ResourceAssociatedException",
-  {},
-) {}
-export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
-  "InvalidResourceStateException",
-  {},
-) {}
-export class OperationNotSupportedException extends S.TaggedError<OperationNotSupportedException>()(
-  "OperationNotSupportedException",
-  {},
-) {}
-export class OperationInProgressException extends S.TaggedError<OperationInProgressException>()(
-  "OperationInProgressException",
-  {},
-) {}
-export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
-  "ResourceUnavailableException",
-  {},
-) {}
-export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
-  "ResourceLimitExceededException",
-  {},
-) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
+export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
+  "ResourceLimitExceededException",
+  { message: S.optional(S.String) },
 ) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ResourceCreationFailedException extends S.TaggedError<ResourceCreationFailedException>()(
-  "ResourceCreationFailedException",
-  {},
+export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
+  "InvalidResourceStateException",
+  { message: S.optional(S.String) },
 ) {}
 export class IncompatibleApplicationsException extends S.TaggedError<IncompatibleApplicationsException>()(
   "IncompatibleApplicationsException",
   {},
 ) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
+export class OperationNotSupportedException extends S.TaggedError<OperationNotSupportedException>()(
+  "OperationNotSupportedException",
+  { message: S.optional(S.String), reason: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String), ResourceId: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { message: S.optional(S.String) },
+) {}
+export class OperationInProgressException extends S.TaggedError<OperationInProgressException>()(
+  "OperationInProgressException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceAssociatedException extends S.TaggedError<ResourceAssociatedException>()(
+  "ResourceAssociatedException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
+  { message: S.optional(S.String) },
 ) {}
 export class ApplicationNotSupportedException extends S.TaggedError<ApplicationNotSupportedException>()(
   "ApplicationNotSupportedException",
@@ -2204,9 +2188,21 @@ export class OperatingSystemNotCompatibleException extends S.TaggedError<Operati
   "OperatingSystemNotCompatibleException",
   {},
 ) {}
-export class UnsupportedWorkspaceConfigurationException extends S.TaggedError<UnsupportedWorkspaceConfigurationException>()(
-  "UnsupportedWorkspaceConfigurationException",
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { message: S.optional(S.String) },
+) {}
+export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
+  "ResourceUnavailableException",
+  { message: S.optional(S.String), ResourceId: S.optional(S.String) },
+) {}
+export class ResourceCreationFailedException extends S.TaggedError<ResourceCreationFailedException>()(
+  "ResourceCreationFailedException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { message: S.optional(S.String), ResourceId: S.optional(S.String) },
 ) {}
 export class UnsupportedNetworkConfigurationException extends S.TaggedError<UnsupportedNetworkConfigurationException>()(
   "UnsupportedNetworkConfigurationException",
@@ -2216,564 +2212,16 @@ export class InvalidParameterCombinationException extends S.TaggedError<InvalidP
   "InvalidParameterCombinationException",
   { message: S.optional(S.String) },
 ) {}
+export class UnsupportedWorkspaceConfigurationException extends S.TaggedError<UnsupportedWorkspaceConfigurationException>()(
+  "UnsupportedWorkspaceConfigurationException",
+  { message: S.optional(S.String) },
+) {}
 export class WorkspacesDefaultRoleNotFoundException extends S.TaggedError<WorkspacesDefaultRoleNotFoundException>()(
   "WorkspacesDefaultRoleNotFoundException",
   { message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Deletes a client-add-in for Amazon Connect that is configured within a
- * directory.
- */
-export const deleteConnectClientAddIn = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectClientAddInRequest,
-    output: DeleteConnectClientAddInResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the specified tags from the specified WorkSpaces resource.
- */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTagsRequest,
-  output: DeleteTagsResult,
-  errors: [InvalidParameterValuesException, ResourceNotFoundException],
-}));
-/**
- * Deletes the specified WorkSpace bundle. For more information about deleting WorkSpace bundles, see
- *
- * Delete a Custom WorkSpaces Bundle or Image.
- */
-export const deleteWorkspaceBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkspaceBundleRequest,
-    output: DeleteWorkspaceBundleResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      ResourceAssociatedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the specified image from your account. To delete an image, you must first delete
- * any bundles that are associated with the image and unshare the image if it is shared with
- * other accounts.
- */
-export const deleteWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkspaceImageRequest,
-    output: DeleteWorkspaceImageResult,
-    errors: [
-      AccessDeniedException,
-      InvalidResourceStateException,
-      ResourceAssociatedException,
-    ],
-  }),
-);
-/**
- * Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for
- * the specified account.
- */
-export const describeAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAccountRequest,
-  output: DescribeAccountResult,
-  errors: [AccessDeniedException],
-}));
-/**
- * Disassociates a connection alias from a directory. Disassociating a connection alias
- * disables cross-Region redirection between two directories in different Regions. For more
- * information, see Cross-Region
- * Redirection for Amazon WorkSpaces.
- *
- * Before performing this operation, call
- * DescribeConnectionAliases to make sure that the current state of the
- * connection alias is `CREATED`.
- */
-export const disassociateConnectionAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateConnectionAliasRequest,
-    output: DisassociateConnectionAliasResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Disassociates the specified IP access control group from the specified directory.
- */
-export const disassociateIpGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateIpGroupsRequest,
-    output: DisassociateIpGroupsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Modifies the endpoint encryption mode that allows you to configure the specified
- * directory between Standard TLS and FIPS 140-2 validated mode.
- */
-export const modifyEndpointEncryptionMode =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyEndpointEncryptionModeRequest,
-    output: ModifyEndpointEncryptionModeResponse,
-    errors: [
-      AccessDeniedException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Sets the state of the specified WorkSpace.
- *
- * To maintain a WorkSpace without being interrupted, set the WorkSpace state to
- * `ADMIN_MAINTENANCE`. WorkSpaces in this state do not respond to requests to
- * reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in this state is not
- * stopped. Users cannot log into a WorkSpace in the `ADMIN_MAINTENANCE`
- * state.
- */
-export const modifyWorkspaceState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyWorkspaceStateRequest,
-    output: ModifyWorkspaceStateResult,
-    errors: [
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Restores the specified WorkSpace to its last known healthy state.
- *
- * You cannot restore a WorkSpace unless its state is ` AVAILABLE`,
- * `ERROR`, `UNHEALTHY`, or `STOPPED`.
- *
- * Restoring a WorkSpace is a potentially destructive action that can result in the loss of
- * data. For more information, see Restore a
- * WorkSpace.
- *
- * This operation is asynchronous and returns before the WorkSpace is completely
- * restored.
- */
-export const restoreWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RestoreWorkspaceRequest,
-  output: RestoreWorkspaceResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    OperationNotSupportedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Removes one or more rules from the specified IP access control group.
- */
-export const revokeIpRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokeIpRulesRequest,
-  output: RevokeIpRulesResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    InvalidResourceStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Stops the specified pool.
- *
- * You cannot stop a WorkSpace pool unless it has a running mode of `AutoStop`
- * and a state of `AVAILABLE`, `IMPAIRED`, `UNHEALTHY`, or `ERROR`.
- */
-export const stopWorkspacesPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopWorkspacesPoolRequest,
-  output: StopWorkspacesPoolResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    InvalidResourceStateException,
-    OperationInProgressException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Terminates the specified pool.
- */
-export const terminateWorkspacesPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TerminateWorkspacesPoolRequest,
-    output: TerminateWorkspacesPoolResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationInProgressException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Terminates the pool session.
- */
-export const terminateWorkspacesPoolSession =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: TerminateWorkspacesPoolSessionRequest,
-    output: TerminateWorkspacesPoolSessionResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationInProgressException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Updates a Amazon Connect client add-in. Use this action to update the name and
- * endpoint URL of a Amazon Connect client add-in.
- */
-export const updateConnectClientAddIn = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectClientAddInRequest,
-    output: UpdateConnectClientAddInResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Shares or unshares an image with one account in the same Amazon Web Services Region by
- * specifying whether that account has permission to copy the image. If the copy image
- * permission is granted, the image is shared with that account. If the copy image permission
- * is revoked, the image is unshared with the account.
- *
- * After an image has been shared, the recipient account can copy the image to other
- * Regions as needed.
- *
- * In the China (Ningxia) Region, you can copy images only within the same Region.
- *
- * In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web ServicesSupport.
- *
- * For more information about sharing images, see Share or Unshare a Custom
- * WorkSpaces Image.
- *
- * - To delete an image that has been shared, you must unshare the image before you
- * delete it.
- *
- * - Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts
- * isn't supported at this time in Amazon Web Services GovCloud (US). To share BYOL images
- * across accounts in Amazon Web Services GovCloud (US), contact Amazon Web ServicesSupport.
- */
-export const updateWorkspaceImagePermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateWorkspaceImagePermissionRequest,
-    output: UpdateWorkspaceImagePermissionResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-    ],
-  }));
-/**
- * Associates the specified connection alias with the specified directory to enable
- * cross-Region redirection. For more information, see Cross-Region
- * Redirection for Amazon WorkSpaces.
- *
- * Before performing this operation, call
- * DescribeConnectionAliases to make sure that the current state of the
- * connection alias is `CREATED`.
- */
-export const associateConnectionAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateConnectionAliasRequest,
-    output: AssociateConnectionAliasResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceAssociatedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Associates the specified IP access control group with the specified directory.
- */
-export const associateIpGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateIpGroupsRequest,
-  output: AssociateIpGroupsResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    InvalidResourceStateException,
-    OperationNotSupportedException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Adds one or more rules to the specified IP access control group.
- *
- * This action gives users permission to access their WorkSpaces from the CIDR address
- * ranges specified in the rules.
- */
-export const authorizeIpRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AuthorizeIpRulesRequest,
-  output: AuthorizeIpRulesResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    InvalidResourceStateException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates the specified connection alias for use with cross-Region redirection. For more
- * information, see Cross-Region
- * Redirection for Amazon WorkSpaces.
- */
-export const createConnectionAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConnectionAliasRequest,
-    output: CreateConnectionAliasResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceAlreadyExistsException,
-      ResourceLimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates the specified tags for the specified WorkSpaces resource.
- */
-export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTagsRequest,
-  output: CreateTagsResult,
-  errors: [
-    InvalidParameterValuesException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates a new updated WorkSpace image based on the specified source image. The new
- * updated WorkSpace image has the latest drivers and other updates required by the
- * Amazon WorkSpaces components.
- *
- * To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces
- * requirements, use
- * DescribeWorkspaceImages.
- *
- * - Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images
- * can be programmatically updated at this time.
- *
- * - Microsoft Windows updates and other application updates are not included in the
- * update process.
- *
- * - The source WorkSpace image is not deleted. You can delete the source image
- * after you've verified your new updated image and created a new bundle.
- */
-export const createUpdatedWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateUpdatedWorkspaceImageRequest,
-    output: CreateUpdatedWorkspaceImageResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceAlreadyExistsException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes customized client branding. Client branding allows you to customize your
- * WorkSpace's client login portal. You can tailor your login portal company logo, the support
- * email address, support link, link to reset password, and a custom message for users trying
- * to sign in.
- *
- * After you delete your customized client branding, your login portal reverts to the
- * default client branding.
- */
-export const deleteClientBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClientBrandingRequest,
-    output: DeleteClientBrandingResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the specified connection alias. For more information, see
- * Cross-Region Redirection for Amazon WorkSpaces.
- *
- * If you will no longer be using a fully qualified domain name
- * (FQDN) as the registration code for your WorkSpaces users, you must take certain
- * precautions to prevent potential security issues. For more information,
- * see Security Considerations if You Stop Using Cross-Region Redirection.
- *
- * To delete a connection alias that has been shared, the shared account must first
- * disassociate the connection alias from any directories it has been associated with. Then
- * you must unshare the connection alias from the account it has been shared with. You can
- * delete a connection alias only after it is no longer shared with any accounts or
- * associated with any directories.
- */
-export const deleteConnectionAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectionAliasRequest,
-    output: DeleteConnectionAliasResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceAssociatedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the specified IP access control group.
- *
- * You cannot delete an IP access control group that is associated with a directory.
- */
-export const deleteIpGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIpGroupRequest,
-  output: DeleteIpGroupResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    ResourceAssociatedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deregisters the specified directory. This operation is asynchronous and returns before
- * the WorkSpace directory is deregistered. If any WorkSpaces are registered to this
- * directory, you must remove them before you can deregister the directory.
- *
- * Simple AD and AD Connector are made available to you free of charge to use with
- * WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector
- * directory for 30 consecutive days, this directory will be automatically deregistered for
- * use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing
- * terms.
- *
- * To delete empty directories, see Delete the
- * Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector
- * directory, you can always create a new one when you want to start using WorkSpaces
- * again.
- */
-export const deregisterWorkspaceDirectory =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterWorkspaceDirectoryRequest,
-    output: DeregisterWorkspaceDirectoryResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Describes the permissions that the owner of a connection alias has granted to another
- * Amazon Web Services account for the specified connection alias. For more information, see
- * Cross-Region
- * Redirection for Amazon WorkSpaces.
- */
-export const describeConnectionAliasPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConnectionAliasPermissionsRequest,
-    output: DescribeConnectionAliasPermissionsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Describes the specified tags for the specified WorkSpaces resource.
- */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTagsRequest,
-  output: DescribeTagsResult,
-  errors: [ResourceNotFoundException],
-}));
-/**
- * Describes the associations betweens applications and the specified WorkSpace.
- */
-export const describeWorkspaceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeWorkspaceAssociationsRequest,
-    output: DescribeWorkspaceAssociationsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Imports the specified Windows 10 or 11 Bring Your Own License (BYOL)
- * image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is
- * in your Amazon Web Services account, and you must own the image. For more information about
- * creating BYOL images, see Bring Your Own Windows
- * Desktop Licenses.
- */
-export const importWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportWorkspaceImageRequest,
-    output: ImportWorkspaceImageResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceAlreadyExistsException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Lists all account links.
- */
-export const listAccountLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAccountLinksRequest,
-  output: ListAccountLinksResult,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
-}));
 /**
  * Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use
  * for the network management interface when you enable Bring Your Own License (BYOL).
@@ -2793,418 +2241,14 @@ export const listAvailableManagementCidrRanges =
     errors: [AccessDeniedException, InvalidParameterValuesException],
   }));
 /**
- * Migrates a WorkSpace from one operating system or bundle type to another, while
- * retaining the data on the user volume.
- *
- * The migration process recreates the WorkSpace by using a new root volume from the target
- * bundle image and the user volume from the last available snapshot of the original
- * WorkSpace. During migration, the original `D:\Users\%USERNAME%` user profile
- * folder is renamed to `D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated`. A new
- * `D:\Users\%USERNAME%\` folder is generated by the new OS. Certain files in
- * the old user profile are moved to the new user profile.
- *
- * For available migration scenarios, details about what happens during migration, and best
- * practices, see Migrate a
- * WorkSpace.
+ * Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for
+ * the specified account.
  */
-export const migrateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: MigrateWorkspaceRequest,
-  output: MigrateWorkspaceResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    OperationInProgressException,
-    OperationNotSupportedException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-  ],
+export const describeAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountRequest,
+  output: DescribeAccountResult,
+  errors: [AccessDeniedException],
 }));
-/**
- * Modifies the configuration of Bring Your Own License (BYOL) for the specified
- * account.
- */
-export const modifyAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyAccountRequest,
-  output: ModifyAccountResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    InvalidResourceStateException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-  ],
-}));
-/**
- * Modifies the properties of the certificate-based authentication you want
- * to use with your WorkSpaces.
- */
-export const modifyCertificateBasedAuthProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyCertificateBasedAuthPropertiesRequest,
-    output: ModifyCertificateBasedAuthPropertiesResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Modifies the properties of the specified Amazon WorkSpaces clients.
- */
-export const modifyClientProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClientPropertiesRequest,
-    output: ModifyClientPropertiesResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Modifies multiple properties related to SAML 2.0 authentication, including the enablement status,
- * user access URL, and relay state parameter name that are used for configuring federation with an
- * SAML 2.0 identity provider.
- */
-export const modifySamlProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifySamlPropertiesRequest,
-    output: ModifySamlPropertiesResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Modifies the self-service WorkSpace management capabilities for your users. For more
- * information, see Enable Self-Service WorkSpace Management Capabilities for Your Users.
- */
-export const modifySelfservicePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifySelfservicePermissionsRequest,
-    output: ModifySelfservicePermissionsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Modify the default properties used to create WorkSpaces.
- */
-export const modifyWorkspaceCreationProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyWorkspaceCreationPropertiesRequest,
-    output: ModifyWorkspaceCreationPropertiesResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Rejects the account link invitation.
- */
-export const rejectAccountLinkInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectAccountLinkInvitationRequest,
-    output: RejectAccountLinkInvitationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Starts the specified pool.
- *
- * You cannot start a pool unless it has a running mode of
- * `AutoStop` and a state of `STOPPED`.
- */
-export const startWorkspacesPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartWorkspacesPoolRequest,
-  output: StartWorkspacesPoolResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    InvalidResourceStateException,
-    OperationInProgressException,
-    OperationNotSupportedException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Shares or unshares a connection alias with one account by specifying whether that
- * account has permission to associate the connection alias with a directory. If the
- * association permission is granted, the connection alias is shared with that account. If the
- * association permission is revoked, the connection alias is unshared with the account. For
- * more information, see Cross-Region
- * Redirection for Amazon WorkSpaces.
- *
- * - Before performing this operation, call
- * DescribeConnectionAliases to make sure that the current state of the
- * connection alias is `CREATED`.
- *
- * - To delete a connection alias that has been shared, the shared account must
- * first disassociate the connection alias from any directories it has been
- * associated with. Then you must unshare the connection alias from the account it
- * has been shared with. You can delete a connection alias only after it is no longer
- * shared with any accounts or associated with any directories.
- */
-export const updateConnectionAliasPermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConnectionAliasPermissionRequest,
-    output: UpdateConnectionAliasPermissionResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceAssociatedException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Replaces the current rules of the specified IP access control group with the specified
- * rules.
- */
-export const updateRulesOfIpGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRulesOfIpGroupRequest,
-    output: UpdateRulesOfIpGroupResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Updates a WorkSpace bundle with a new image. For more information about updating WorkSpace bundles, see
- *
- * Update a Custom WorkSpaces Bundle.
- *
- * Existing WorkSpaces aren't automatically updated when you update the bundle that they're
- * based on. To update existing WorkSpaces that are based on a bundle that you've updated, you
- * must either rebuild the WorkSpaces or delete and recreate them.
- */
-export const updateWorkspaceBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkspaceBundleRequest,
-    output: UpdateWorkspaceBundleResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-    ],
-  }),
-);
-/**
- * Accepts the account link invitation.
- *
- * There's currently no unlinking capability after you accept the account linking invitation.
- */
-export const acceptAccountLinkInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptAccountLinkInvitationRequest,
-    output: AcceptAccountLinkInvitationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Copies the specified image from the specified Region to the current Region. For more
- * information about copying images, see Copy a Custom WorkSpaces
- * Image.
- *
- * In the China (Ningxia) Region, you can copy images only within the same Region.
- *
- * In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web ServicesSupport.
- *
- * Before copying a shared image, be sure to verify that it has been shared from the
- * correct Amazon Web Services account. To determine if an image has been shared and to see
- * the ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
- */
-export const copyWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CopyWorkspaceImageRequest,
-  output: CopyWorkspaceImageResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    OperationNotSupportedException,
-    ResourceAlreadyExistsException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-  ],
-}));
-/**
- * Creates the account link invitation.
- */
-export const createAccountLinkInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAccountLinkInvitationRequest,
-    output: CreateAccountLinkInvitationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a client-add-in for Amazon Connect within a directory. You can create only
- * one Amazon Connect client add-in within a directory.
- *
- * This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
- */
-export const createConnectClientAddIn = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConnectClientAddInRequest,
-    output: CreateConnectClientAddInResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      ResourceAlreadyExistsException,
-      ResourceCreationFailedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Creates an IP access control group.
- *
- * An IP access control group provides you with the ability to control the IP addresses
- * from which users are allowed to access their WorkSpaces. To specify the CIDR address
- * ranges, add rules to your IP access control group and then associate the group with your
- * directory. You can add rules when you create the group or at any time using AuthorizeIpRules.
- *
- * There is a default IP access control group associated with your directory. If you don't
- * associate an IP access control group with your directory, the default group is used. The
- * default group includes a default rule that allows users to access their WorkSpaces from
- * anywhere. You cannot modify the default IP access control group for your directory.
- */
-export const createIpGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIpGroupRequest,
-  output: CreateIpGroupResult,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterValuesException,
-    ResourceAlreadyExistsException,
-    ResourceCreationFailedException,
-    ResourceLimitExceededException,
-  ],
-}));
-/**
- * Creates the specified WorkSpace bundle. For more information about creating WorkSpace bundles, see
- *
- * Create a Custom WorkSpaces Image and Bundle.
- */
-export const createWorkspaceBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkspaceBundleRequest,
-    output: CreateWorkspaceBundleResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      ResourceAlreadyExistsException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-    ],
-  }),
-);
-/**
- * Creates a new WorkSpace image from an existing WorkSpace.
- */
-export const createWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkspaceImageRequest,
-    output: CreateWorkspaceImageResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationNotSupportedException,
-      ResourceAlreadyExistsException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Creates a pool of WorkSpaces.
- */
-export const createWorkspacesPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkspacesPoolRequest,
-    output: CreateWorkspacesPoolResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceAlreadyExistsException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the account link invitation.
- */
-export const deleteAccountLinkInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountLinkInvitationRequest,
-    output: DeleteAccountLinkInvitationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deploys associated applications to the specified WorkSpace
- */
-export const deployWorkspaceApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeployWorkspaceApplicationsRequest,
-    output: DeployWorkspaceApplicationsResult,
-    errors: [
-      AccessDeniedException,
-      IncompatibleApplicationsException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Retrieves a list that describes modifications to the configuration of Bring Your Own
  * License (BYOL) for the specified account.
@@ -3216,128 +2260,20 @@ export const describeAccountModifications =
     errors: [AccessDeniedException],
   }));
 /**
- * Describes the associations between the application and the specified associated resources.
- */
-export const describeApplicationAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeApplicationAssociationsRequest,
-    output: DescribeApplicationAssociationsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners.
- */
-export const describeApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationsRequest,
-    output: DescribeApplicationsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Describes the associations between the applications and the specified bundle.
- */
-export const describeBundleAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBundleAssociationsRequest,
-    output: DescribeBundleAssociationsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Describes the specified client branding. Client branding allows you to customize the log
- * in page of various device types for your users. You can add your company logo, the support
- * email address, support link, link to reset password, and a custom message for users trying
- * to sign in.
- *
- * Only device types that have branding information configured will be shown in the
- * response.
- */
-export const describeClientBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeClientBrandingRequest,
-    output: DescribeClientBrandingResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
- */
-export const describeClientProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeClientPropertiesRequest,
-    output: DescribeClientPropertiesResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Retrieves a list of Amazon Connect client add-ins that have been created.
- */
-export const describeConnectClientAddIns = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConnectClientAddInsRequest,
-    output: DescribeConnectClientAddInsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Retrieves information about a WorkSpace BYOL image being imported via ImportCustomWorkspaceImage.
- */
-export const describeCustomWorkspaceImageImport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCustomWorkspaceImageImportRequest,
-    output: DescribeCustomWorkspaceImageImportResult,
-    errors: [AccessDeniedException, ResourceNotFoundException],
-  }));
-/**
- * Describes the associations between the applications and the specified image.
- */
-export const describeImageAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeImageAssociationsRequest,
-    output: DescribeImageAssociationsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
  * Describes one or more of your IP access control groups.
  */
 export const describeIpGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIpGroupsRequest,
   output: DescribeIpGroupsResult,
   errors: [AccessDeniedException, InvalidParameterValuesException],
+}));
+/**
+ * Describes the specified tags for the specified WorkSpaces resource.
+ */
+export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTagsRequest,
+  output: DescribeTagsResult,
+  errors: [ResourceNotFoundException],
 }));
 /**
  * Retrieves a list that describes the available WorkSpace bundles.
@@ -3397,55 +2333,6 @@ export const describeWorkspacesPools = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [
       AccessDeniedException,
       InvalidParameterValuesException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Disassociates the specified application from a WorkSpace.
- */
-export const disassociateWorkspaceApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWorkspaceApplicationRequest,
-    output: DisassociateWorkspaceApplicationResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Retrieves account link information.
- */
-export const getAccountLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountLinkRequest,
-  output: GetAccountLinkResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Imports the specified Windows 10 or 11 Bring Your Own License (BYOL)
- * image into Amazon WorkSpaces using EC2 Image Builder. The image must be an already licensed image that is
- * in your Amazon Web Services account, and you must own the image. For more information about
- * creating BYOL images, see Bring Your Own Windows
- * Desktop Licenses.
- */
-export const importCustomWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportCustomWorkspaceImageRequest,
-    output: ImportCustomWorkspaceImageResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      OperationNotSupportedException,
-      ResourceAlreadyExistsException,
-      ResourceLimitExceededException,
       ResourceNotFoundException,
     ],
   }),
@@ -3541,25 +2428,813 @@ export const terminateWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Associates the specified application to the specified WorkSpace.
+ * Deletes the specified IP access control group.
+ *
+ * You cannot delete an IP access control group that is associated with a directory.
  */
-export const associateWorkspaceApplication =
+export const deleteIpGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIpGroupRequest,
+  output: DeleteIpGroupResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    ResourceAssociatedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Shares or unshares a connection alias with one account by specifying whether that
+ * account has permission to associate the connection alias with a directory. If the
+ * association permission is granted, the connection alias is shared with that account. If the
+ * association permission is revoked, the connection alias is unshared with the account. For
+ * more information, see Cross-Region
+ * Redirection for Amazon WorkSpaces.
+ *
+ * - Before performing this operation, call
+ * DescribeConnectionAliases to make sure that the current state of the
+ * connection alias is `CREATED`.
+ *
+ * - To delete a connection alias that has been shared, the shared account must
+ * first disassociate the connection alias from any directories it has been
+ * associated with. Then you must unshare the connection alias from the account it
+ * has been shared with. You can delete a connection alias only after it is no longer
+ * shared with any accounts or associated with any directories.
+ */
+export const updateConnectionAliasPermission =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWorkspaceApplicationRequest,
-    output: AssociateWorkspaceApplicationResult,
+    input: UpdateConnectionAliasPermissionRequest,
+    output: UpdateConnectionAliasPermissionResult,
     errors: [
       AccessDeniedException,
-      ApplicationNotSupportedException,
-      ComputeNotCompatibleException,
-      IncompatibleApplicationsException,
       InvalidParameterValuesException,
-      OperatingSystemNotCompatibleException,
+      InvalidResourceStateException,
       OperationNotSupportedException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
+      ResourceAssociatedException,
+      ResourceLimitExceededException,
       ResourceNotFoundException,
     ],
   }));
+/**
+ * Deletes the specified connection alias. For more information, see
+ * Cross-Region Redirection for Amazon WorkSpaces.
+ *
+ * If you will no longer be using a fully qualified domain name
+ * (FQDN) as the registration code for your WorkSpaces users, you must take certain
+ * precautions to prevent potential security issues. For more information,
+ * see Security Considerations if You Stop Using Cross-Region Redirection.
+ *
+ * To delete a connection alias that has been shared, the shared account must first
+ * disassociate the connection alias from any directories it has been associated with. Then
+ * you must unshare the connection alias from the account it has been shared with. You can
+ * delete a connection alias only after it is no longer shared with any accounts or
+ * associated with any directories.
+ */
+export const deleteConnectionAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConnectionAliasRequest,
+    output: DeleteConnectionAliasResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationNotSupportedException,
+      ResourceAssociatedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified image from your account. To delete an image, you must first delete
+ * any bundles that are associated with the image and unshare the image if it is shared with
+ * other accounts.
+ */
+export const deleteWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteWorkspaceImageRequest,
+    output: DeleteWorkspaceImageResult,
+    errors: [
+      AccessDeniedException,
+      InvalidResourceStateException,
+      ResourceAssociatedException,
+    ],
+  }),
+);
+/**
+ * Deregisters the specified directory. This operation is asynchronous and returns before
+ * the WorkSpace directory is deregistered. If any WorkSpaces are registered to this
+ * directory, you must remove them before you can deregister the directory.
+ *
+ * Simple AD and AD Connector are made available to you free of charge to use with
+ * WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector
+ * directory for 30 consecutive days, this directory will be automatically deregistered for
+ * use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing
+ * terms.
+ *
+ * To delete empty directories, see Delete the
+ * Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector
+ * directory, you can always create a new one when you want to start using WorkSpaces
+ * again.
+ */
+export const deregisterWorkspaceDirectory =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeregisterWorkspaceDirectoryRequest,
+    output: DeregisterWorkspaceDirectoryResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Disassociates a connection alias from a directory. Disassociating a connection alias
+ * disables cross-Region redirection between two directories in different Regions. For more
+ * information, see Cross-Region
+ * Redirection for Amazon WorkSpaces.
+ *
+ * Before performing this operation, call
+ * DescribeConnectionAliases to make sure that the current state of the
+ * connection alias is `CREATED`.
+ */
+export const disassociateConnectionAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateConnectionAliasRequest,
+    output: DisassociateConnectionAliasResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Disassociates the specified IP access control group from the specified directory.
+ */
+export const disassociateIpGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateIpGroupsRequest,
+    output: DisassociateIpGroupsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Removes one or more rules from the specified IP access control group.
+ */
+export const revokeIpRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeIpRulesRequest,
+  output: RevokeIpRulesResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    InvalidResourceStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Starts the specified pool.
+ *
+ * You cannot start a pool unless it has a running mode of
+ * `AutoStop` and a state of `STOPPED`.
+ */
+export const startWorkspacesPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartWorkspacesPoolRequest,
+  output: StartWorkspacesPoolResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    InvalidResourceStateException,
+    OperationInProgressException,
+    OperationNotSupportedException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Stops the specified pool.
+ *
+ * You cannot stop a WorkSpace pool unless it has a running mode of `AutoStop`
+ * and a state of `AVAILABLE`, `IMPAIRED`, `UNHEALTHY`, or `ERROR`.
+ */
+export const stopWorkspacesPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopWorkspacesPoolRequest,
+  output: StopWorkspacesPoolResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    InvalidResourceStateException,
+    OperationInProgressException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Terminates the specified pool.
+ */
+export const terminateWorkspacesPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: TerminateWorkspacesPoolRequest,
+    output: TerminateWorkspacesPoolResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationInProgressException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Replaces the current rules of the specified IP access control group with the specified
+ * rules.
+ */
+export const updateRulesOfIpGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRulesOfIpGroupRequest,
+    output: UpdateRulesOfIpGroupResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      ResourceLimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Associates the specified connection alias with the specified directory to enable
+ * cross-Region redirection. For more information, see Cross-Region
+ * Redirection for Amazon WorkSpaces.
+ *
+ * Before performing this operation, call
+ * DescribeConnectionAliases to make sure that the current state of the
+ * connection alias is `CREATED`.
+ */
+export const associateConnectionAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateConnectionAliasRequest,
+    output: AssociateConnectionAliasResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationNotSupportedException,
+      ResourceAssociatedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Sets the state of the specified WorkSpace.
+ *
+ * To maintain a WorkSpace without being interrupted, set the WorkSpace state to
+ * `ADMIN_MAINTENANCE`. WorkSpaces in this state do not respond to requests to
+ * reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in this state is not
+ * stopped. Users cannot log into a WorkSpace in the `ADMIN_MAINTENANCE`
+ * state.
+ */
+export const modifyWorkspaceState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyWorkspaceStateRequest,
+    output: ModifyWorkspaceStateResult,
+    errors: [
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Associates the specified IP access control group with the specified directory.
+ */
+export const associateIpGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateIpGroupsRequest,
+  output: AssociateIpGroupsResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    InvalidResourceStateException,
+    OperationNotSupportedException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Adds one or more rules to the specified IP access control group.
+ *
+ * This action gives users permission to access their WorkSpaces from the CIDR address
+ * ranges specified in the rules.
+ */
+export const authorizeIpRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AuthorizeIpRulesRequest,
+  output: AuthorizeIpRulesResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    InvalidResourceStateException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Creates the specified connection alias for use with cross-Region redirection. For more
+ * information, see Cross-Region
+ * Redirection for Amazon WorkSpaces.
+ */
+export const createConnectionAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateConnectionAliasRequest,
+    output: CreateConnectionAliasResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationNotSupportedException,
+      ResourceAlreadyExistsException,
+      ResourceLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Describes the associations betweens applications and the specified WorkSpace.
+ */
+export const describeWorkspaceAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeWorkspaceAssociationsRequest,
+    output: DescribeWorkspaceAssociationsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Imports the specified Windows 10 or 11 Bring Your Own License (BYOL)
+ * image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is
+ * in your Amazon Web Services account, and you must own the image. For more information about
+ * creating BYOL images, see Bring Your Own Windows
+ * Desktop Licenses.
+ */
+export const importWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ImportWorkspaceImageRequest,
+    output: ImportWorkspaceImageResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceAlreadyExistsException,
+      ResourceLimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Modifies the properties of the certificate-based authentication you want
+ * to use with your WorkSpaces.
+ */
+export const modifyCertificateBasedAuthProperties =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyCertificateBasedAuthPropertiesRequest,
+    output: ModifyCertificateBasedAuthPropertiesResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Modifies the properties of the specified Amazon WorkSpaces clients.
+ */
+export const modifyClientProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyClientPropertiesRequest,
+    output: ModifyClientPropertiesResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Modifies multiple properties related to SAML 2.0 authentication, including the enablement status,
+ * user access URL, and relay state parameter name that are used for configuring federation with an
+ * SAML 2.0 identity provider.
+ */
+export const modifySamlProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifySamlPropertiesRequest,
+    output: ModifySamlPropertiesResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Modifies the self-service WorkSpace management capabilities for your users. For more
+ * information, see Enable Self-Service WorkSpace Management Capabilities for Your Users.
+ */
+export const modifySelfservicePermissions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifySelfservicePermissionsRequest,
+    output: ModifySelfservicePermissionsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Modify the default properties used to create WorkSpaces.
+ */
+export const modifyWorkspaceCreationProperties =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyWorkspaceCreationPropertiesRequest,
+    output: ModifyWorkspaceCreationPropertiesResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Modifies the endpoint encryption mode that allows you to configure the specified
+ * directory between Standard TLS and FIPS 140-2 validated mode.
+ */
+export const modifyEndpointEncryptionMode =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyEndpointEncryptionModeRequest,
+    output: ModifyEndpointEncryptionModeResponse,
+    errors: [
+      AccessDeniedException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Restores the specified WorkSpace to its last known healthy state.
+ *
+ * You cannot restore a WorkSpace unless its state is ` AVAILABLE`,
+ * `ERROR`, `UNHEALTHY`, or `STOPPED`.
+ *
+ * Restoring a WorkSpace is a potentially destructive action that can result in the loss of
+ * data. For more information, see Restore a
+ * WorkSpace.
+ *
+ * This operation is asynchronous and returns before the WorkSpace is completely
+ * restored.
+ */
+export const restoreWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreWorkspaceRequest,
+  output: RestoreWorkspaceResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    OperationNotSupportedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Creates a new updated WorkSpace image based on the specified source image. The new
+ * updated WorkSpace image has the latest drivers and other updates required by the
+ * Amazon WorkSpaces components.
+ *
+ * To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces
+ * requirements, use
+ * DescribeWorkspaceImages.
+ *
+ * - Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images
+ * can be programmatically updated at this time.
+ *
+ * - Microsoft Windows updates and other application updates are not included in the
+ * update process.
+ *
+ * - The source WorkSpace image is not deleted. You can delete the source image
+ * after you've verified your new updated image and created a new bundle.
+ */
+export const createUpdatedWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateUpdatedWorkspaceImageRequest,
+    output: CreateUpdatedWorkspaceImageResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationNotSupportedException,
+      ResourceAlreadyExistsException,
+      ResourceLimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a new WorkSpace image from an existing WorkSpace.
+ */
+export const createWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateWorkspaceImageRequest,
+    output: CreateWorkspaceImageResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationNotSupportedException,
+      ResourceAlreadyExistsException,
+      ResourceLimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a pool of WorkSpaces.
+ */
+export const createWorkspacesPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateWorkspacesPoolRequest,
+    output: CreateWorkspacesPoolResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceAlreadyExistsException,
+      ResourceLimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Describes the associations between the application and the specified associated resources.
+ */
+export const describeApplicationAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeApplicationAssociationsRequest,
+    output: DescribeApplicationAssociationsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners.
+ */
+export const describeApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeApplicationsRequest,
+    output: DescribeApplicationsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Describes the associations between the applications and the specified bundle.
+ */
+export const describeBundleAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeBundleAssociationsRequest,
+    output: DescribeBundleAssociationsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes customized client branding. Client branding allows you to customize your
+ * WorkSpace's client login portal. You can tailor your login portal company logo, the support
+ * email address, support link, link to reset password, and a custom message for users trying
+ * to sign in.
+ *
+ * After you delete your customized client branding, your login portal reverts to the
+ * default client branding.
+ */
+export const deleteClientBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteClientBrandingRequest,
+    output: DeleteClientBrandingResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes a client-add-in for Amazon Connect that is configured within a
+ * directory.
+ */
+export const deleteConnectClientAddIn = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConnectClientAddInRequest,
+    output: DeleteConnectClientAddInResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates a Amazon Connect client add-in. Use this action to update the name and
+ * endpoint URL of a Amazon Connect client add-in.
+ */
+export const updateConnectClientAddIn = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConnectClientAddInRequest,
+    output: UpdateConnectClientAddInResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified tags from the specified WorkSpaces resource.
+ */
+export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTagsRequest,
+  output: DeleteTagsResult,
+  errors: [InvalidParameterValuesException, ResourceNotFoundException],
+}));
+/**
+ * Creates the specified tags for the specified WorkSpaces resource.
+ */
+export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTagsRequest,
+  output: CreateTagsResult,
+  errors: [
+    InvalidParameterValuesException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Describes the specified client branding. Client branding allows you to customize the log
+ * in page of various device types for your users. You can add your company logo, the support
+ * email address, support link, link to reset password, and a custom message for users trying
+ * to sign in.
+ *
+ * Only device types that have branding information configured will be shown in the
+ * response.
+ */
+export const describeClientBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeClientBrandingRequest,
+    output: DescribeClientBrandingResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
+ */
+export const describeClientProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeClientPropertiesRequest,
+    output: DescribeClientPropertiesResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Retrieves a list of Amazon Connect client add-ins that have been created.
+ */
+export const describeConnectClientAddIns = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeConnectClientAddInsRequest,
+    output: DescribeConnectClientAddInsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Describes the permissions that the owner of a connection alias has granted to another
+ * Amazon Web Services account for the specified connection alias. For more information, see
+ * Cross-Region
+ * Redirection for Amazon WorkSpaces.
+ */
+export const describeConnectionAliasPermissions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeConnectionAliasPermissionsRequest,
+    output: DescribeConnectionAliasPermissionsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Retrieves information about a WorkSpace BYOL image being imported via ImportCustomWorkspaceImage.
+ */
+export const describeCustomWorkspaceImageImport =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeCustomWorkspaceImageImportRequest,
+    output: DescribeCustomWorkspaceImageImportResult,
+    errors: [AccessDeniedException, ResourceNotFoundException],
+  }));
+/**
+ * Describes the associations between the applications and the specified image.
+ */
+export const describeImageAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeImageAssociationsRequest,
+    output: DescribeImageAssociationsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Terminates the pool session.
+ */
+export const terminateWorkspacesPoolSession =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: TerminateWorkspacesPoolSessionRequest,
+    output: TerminateWorkspacesPoolSessionResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationInProgressException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Deletes the specified WorkSpace bundle. For more information about deleting WorkSpace bundles, see
+ *
+ * Delete a Custom WorkSpaces Bundle or Image.
+ */
+export const deleteWorkspaceBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteWorkspaceBundleRequest,
+    output: DeleteWorkspaceBundleResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      ResourceAssociatedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Imports the specified Windows 10 or 11 Bring Your Own License (BYOL)
+ * image into Amazon WorkSpaces using EC2 Image Builder. The image must be an already licensed image that is
+ * in your Amazon Web Services account, and you must own the image. For more information about
+ * creating BYOL images, see Bring Your Own Windows
+ * Desktop Licenses.
+ */
+export const importCustomWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ImportCustomWorkspaceImageRequest,
+    output: ImportCustomWorkspaceImageResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceAlreadyExistsException,
+      ResourceLimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Creates a standby WorkSpace in a secondary Region.
  */
@@ -3630,17 +3305,6 @@ export const describeWorkspaceImages = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes the specified WorkSpaces.
- *
- * You can filter the results by using the bundle identifier, directory identifier, or
- * owner, but you can specify only one filter at a time.
- */
-export const describeWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeWorkspacesRequest,
-  output: DescribeWorkspacesResult,
-  errors: [InvalidParameterValuesException, ResourceUnavailableException],
-}));
-/**
  * Retrieves a list that describes the streaming sessions for a specified pool.
  */
 export const describeWorkspacesPoolSessions =
@@ -3653,6 +3317,19 @@ export const describeWorkspacesPoolSessions =
       ResourceNotFoundException,
     ],
   }));
+/**
+ * Retrieves account link information.
+ */
+export const getAccountLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountLinkRequest,
+  output: GetAccountLinkResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Imports client branding. Client branding allows you to customize your WorkSpace's client
  * login portal. You can tailor your login portal company logo, the support email address,
@@ -3689,29 +3366,32 @@ export const importClientBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Modifies the specified WorkSpace properties. For important information about how to
- * modify the size of the root and user volumes, see Modify a WorkSpace.
+ * Migrates a WorkSpace from one operating system or bundle type to another, while
+ * retaining the data on the user volume.
  *
- * The `MANUAL` running mode value is only supported by Amazon WorkSpaces
- * Core. Contact your account team to be allow-listed to use this value. For more
- * information, see Amazon WorkSpaces
- * Core.
+ * The migration process recreates the WorkSpace by using a new root volume from the target
+ * bundle image and the user volume from the last available snapshot of the original
+ * WorkSpace. During migration, the original `D:\Users\%USERNAME%` user profile
+ * folder is renamed to `D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated`. A new
+ * `D:\Users\%USERNAME%\` folder is generated by the new OS. Certain files in
+ * the old user profile are moved to the new user profile.
+ *
+ * For available migration scenarios, details about what happens during migration, and best
+ * practices, see Migrate a
+ * WorkSpace.
  */
-export const modifyWorkspaceProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyWorkspacePropertiesRequest,
-    output: ModifyWorkspacePropertiesResult,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterValuesException,
-      InvalidResourceStateException,
-      OperationInProgressException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      UnsupportedWorkspaceConfigurationException,
-    ],
-  }),
-);
+export const migrateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MigrateWorkspaceRequest,
+  output: MigrateWorkspaceResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    OperationInProgressException,
+    OperationNotSupportedException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+  ],
+}));
 /**
  * Reboots the specified WorkSpaces.
  *
@@ -3745,6 +3425,302 @@ export const updateWorkspacesPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Creates a client-add-in for Amazon Connect within a directory. You can create only
+ * one Amazon Connect client add-in within a directory.
+ *
+ * This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
+ */
+export const createConnectClientAddIn = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateConnectClientAddInRequest,
+    output: CreateConnectClientAddInResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      ResourceAlreadyExistsException,
+      ResourceCreationFailedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Disassociates the specified application from a WorkSpace.
+ */
+export const disassociateWorkspaceApplication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateWorkspaceApplicationRequest,
+    output: DisassociateWorkspaceApplicationResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Deletes the account link invitation.
+ */
+export const deleteAccountLinkInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAccountLinkInvitationRequest,
+    output: DeleteAccountLinkInvitationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Rejects the account link invitation.
+ */
+export const rejectAccountLinkInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RejectAccountLinkInvitationRequest,
+    output: RejectAccountLinkInvitationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Accepts the account link invitation.
+ *
+ * There's currently no unlinking capability after you accept the account linking invitation.
+ */
+export const acceptAccountLinkInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AcceptAccountLinkInvitationRequest,
+    output: AcceptAccountLinkInvitationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all account links.
+ */
+export const listAccountLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAccountLinksRequest,
+  output: ListAccountLinksResult,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+}));
+/**
+ * Creates the account link invitation.
+ */
+export const createAccountLinkInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAccountLinkInvitationRequest,
+    output: CreateAccountLinkInvitationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Modifies the configuration of Bring Your Own License (BYOL) for the specified
+ * account.
+ */
+export const modifyAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyAccountRequest,
+  output: ModifyAccountResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    InvalidResourceStateException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+  ],
+}));
+/**
+ * Updates a WorkSpace bundle with a new image. For more information about updating WorkSpace bundles, see
+ *
+ * Update a Custom WorkSpaces Bundle.
+ *
+ * Existing WorkSpaces aren't automatically updated when you update the bundle that they're
+ * based on. To update existing WorkSpaces that are based on a bundle that you've updated, you
+ * must either rebuild the WorkSpaces or delete and recreate them.
+ */
+export const updateWorkspaceBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateWorkspaceBundleRequest,
+    output: UpdateWorkspaceBundleResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Shares or unshares an image with one account in the same Amazon Web Services Region by
+ * specifying whether that account has permission to copy the image. If the copy image
+ * permission is granted, the image is shared with that account. If the copy image permission
+ * is revoked, the image is unshared with the account.
+ *
+ * After an image has been shared, the recipient account can copy the image to other
+ * Regions as needed.
+ *
+ * In the China (Ningxia) Region, you can copy images only within the same Region.
+ *
+ * In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web ServicesSupport.
+ *
+ * For more information about sharing images, see Share or Unshare a Custom
+ * WorkSpaces Image.
+ *
+ * - To delete an image that has been shared, you must unshare the image before you
+ * delete it.
+ *
+ * - Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts
+ * isn't supported at this time in Amazon Web Services GovCloud (US). To share BYOL images
+ * across accounts in Amazon Web Services GovCloud (US), contact Amazon Web ServicesSupport.
+ */
+export const updateWorkspaceImagePermission =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateWorkspaceImagePermissionRequest,
+    output: UpdateWorkspaceImagePermissionResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+    ],
+  }));
+/**
+ * Copies the specified image from the specified Region to the current Region. For more
+ * information about copying images, see Copy a Custom WorkSpaces
+ * Image.
+ *
+ * In the China (Ningxia) Region, you can copy images only within the same Region.
+ *
+ * In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web ServicesSupport.
+ *
+ * Before copying a shared image, be sure to verify that it has been shared from the
+ * correct Amazon Web Services account. To determine if an image has been shared and to see
+ * the ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
+ */
+export const copyWorkspaceImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopyWorkspaceImageRequest,
+  output: CopyWorkspaceImageResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    OperationNotSupportedException,
+    ResourceAlreadyExistsException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+  ],
+}));
+/**
+ * Creates the specified WorkSpace bundle. For more information about creating WorkSpace bundles, see
+ *
+ * Create a Custom WorkSpaces Image and Bundle.
+ */
+export const createWorkspaceBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateWorkspaceBundleRequest,
+    output: CreateWorkspaceBundleResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      ResourceAlreadyExistsException,
+      ResourceLimitExceededException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Describes the specified WorkSpaces.
+ *
+ * You can filter the results by using the bundle identifier, directory identifier, or
+ * owner, but you can specify only one filter at a time.
+ */
+export const describeWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWorkspacesRequest,
+  output: DescribeWorkspacesResult,
+  errors: [InvalidParameterValuesException, ResourceUnavailableException],
+}));
+/**
+ * Creates an IP access control group.
+ *
+ * An IP access control group provides you with the ability to control the IP addresses
+ * from which users are allowed to access their WorkSpaces. To specify the CIDR address
+ * ranges, add rules to your IP access control group and then associate the group with your
+ * directory. You can add rules when you create the group or at any time using AuthorizeIpRules.
+ *
+ * There is a default IP access control group associated with your directory. If you don't
+ * associate an IP access control group with your directory, the default group is used. The
+ * default group includes a default rule that allows users to access their WorkSpaces from
+ * anywhere. You cannot modify the default IP access control group for your directory.
+ */
+export const createIpGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIpGroupRequest,
+  output: CreateIpGroupResult,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterValuesException,
+    ResourceAlreadyExistsException,
+    ResourceCreationFailedException,
+    ResourceLimitExceededException,
+  ],
+}));
+/**
+ * Deploys associated applications to the specified WorkSpace
+ */
+export const deployWorkspaceApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeployWorkspaceApplicationsRequest,
+    output: DeployWorkspaceApplicationsResult,
+    errors: [
+      AccessDeniedException,
+      IncompatibleApplicationsException,
+      InvalidParameterValuesException,
+      OperationNotSupportedException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Associates the specified application to the specified WorkSpace.
+ */
+export const associateWorkspaceApplication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateWorkspaceApplicationRequest,
+    output: AssociateWorkspaceApplicationResult,
+    errors: [
+      AccessDeniedException,
+      ApplicationNotSupportedException,
+      ComputeNotCompatibleException,
+      IncompatibleApplicationsException,
+      InvalidParameterValuesException,
+      OperatingSystemNotCompatibleException,
+      OperationNotSupportedException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
  * Describes the available directories that are registered with Amazon WorkSpaces.
  */
 export const describeWorkspaceDirectories =
@@ -3770,6 +3746,30 @@ export const modifyWorkspaceAccessProperties =
       ResourceNotFoundException,
     ],
   }));
+/**
+ * Modifies the specified WorkSpace properties. For important information about how to
+ * modify the size of the root and user volumes, see Modify a WorkSpace.
+ *
+ * The `MANUAL` running mode value is only supported by Amazon WorkSpaces
+ * Core. Contact your account team to be allow-listed to use this value. For more
+ * information, see Amazon WorkSpaces
+ * Core.
+ */
+export const modifyWorkspaceProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyWorkspacePropertiesRequest,
+    output: ModifyWorkspacePropertiesResult,
+    errors: [
+      AccessDeniedException,
+      InvalidParameterValuesException,
+      InvalidResourceStateException,
+      OperationInProgressException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      UnsupportedWorkspaceConfigurationException,
+    ],
+  }),
+);
 /**
  * Registers the specified directory. This operation is asynchronous and returns before the
  * WorkSpace directory is registered. If this is the first time you are registering a

@@ -835,102 +835,38 @@ export class PublishBatchResponse extends S.Class<PublishBatchResponse>(
 //# Errors
 export class AuthorizationErrorException extends S.TaggedError<AuthorizationErrorException>()(
   "AuthorizationErrorException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "AuthorizationError", httpResponseCode: 403 }),
 ) {}
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
+) {}
+export class FilterPolicyLimitExceededException extends S.TaggedError<FilterPolicyLimitExceededException>()(
+  "FilterPolicyLimitExceededException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "FilterPolicyLimitExceeded", httpResponseCode: 403 }),
+) {}
+export class ConcurrentAccessException extends S.TaggedError<ConcurrentAccessException>()(
+  "ConcurrentAccessException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ConcurrentAccess", httpResponseCode: 400 }),
 ) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
 ) {}
 export class ThrottledException extends S.TaggedError<ThrottledException>()(
   "ThrottledException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "Throttled", httpResponseCode: 429 }),
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "NotFound", httpResponseCode: 404 }),
-) {}
-export class InvalidSecurityException extends S.TaggedError<InvalidSecurityException>()(
-  "InvalidSecurityException",
-  {},
-  T.AwsQueryError({ code: "InvalidSecurity", httpResponseCode: 403 }),
-) {}
-export class ConcurrentAccessException extends S.TaggedError<ConcurrentAccessException>()(
-  "ConcurrentAccessException",
-  {},
-  T.AwsQueryError({ code: "ConcurrentAccess", httpResponseCode: 400 }),
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
-) {}
-export class StaleTagException extends S.TaggedError<StaleTagException>()(
-  "StaleTagException",
-  {},
-  T.AwsQueryError({ code: "StaleTag", httpResponseCode: 400 }),
-) {}
-export class FilterPolicyLimitExceededException extends S.TaggedError<FilterPolicyLimitExceededException>()(
-  "FilterPolicyLimitExceededException",
-  {},
-  T.AwsQueryError({ code: "FilterPolicyLimitExceeded", httpResponseCode: 403 }),
-) {}
-export class ReplayLimitExceededException extends S.TaggedError<ReplayLimitExceededException>()(
-  "ReplayLimitExceededException",
-  {},
-  T.AwsQueryError({ code: "ReplayLimitExceeded", httpResponseCode: 403 }),
-) {}
-export class TagLimitExceededException extends S.TaggedError<TagLimitExceededException>()(
-  "TagLimitExceededException",
-  {},
-  T.AwsQueryError({ code: "TagLimitExceeded", httpResponseCode: 400 }),
-) {}
-export class TagPolicyException extends S.TaggedError<TagPolicyException>()(
-  "TagPolicyException",
-  {},
-  T.AwsQueryError({ code: "TagPolicy", httpResponseCode: 400 }),
-) {}
-export class VerificationException extends S.TaggedError<VerificationException>()(
-  "VerificationException",
-  { Message: S.String, Status: S.String },
-) {}
-export class OptedOutException extends S.TaggedError<OptedOutException>()(
-  "OptedOutException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "OptedOut", httpResponseCode: 400 }),
-) {}
-export class UserErrorException extends S.TaggedError<UserErrorException>()(
-  "UserErrorException",
-  {},
-  T.AwsQueryError({ code: "UserError", httpResponseCode: 400 }),
-) {}
-export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
-  "InvalidStateException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidState", httpResponseCode: 400 }),
-) {}
-export class SubscriptionLimitExceededException extends S.TaggedError<SubscriptionLimitExceededException>()(
-  "SubscriptionLimitExceededException",
-  {},
-  T.AwsQueryError({ code: "SubscriptionLimitExceeded", httpResponseCode: 403 }),
-) {}
-export class TopicLimitExceededException extends S.TaggedError<TopicLimitExceededException>()(
-  "TopicLimitExceededException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TopicLimitExceeded", httpResponseCode: 403 }),
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  { Message: S.String },
-  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 export class EndpointDisabledException extends S.TaggedError<EndpointDisabledException>()(
   "EndpointDisabledException",
@@ -942,6 +878,31 @@ export class BatchEntryIdsNotDistinctException extends S.TaggedError<BatchEntryI
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "BatchEntryIdsNotDistinct", httpResponseCode: 400 }),
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.String },
+  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
+) {}
+export class InvalidSecurityException extends S.TaggedError<InvalidSecurityException>()(
+  "InvalidSecurityException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidSecurity", httpResponseCode: 403 }),
+) {}
+export class OptedOutException extends S.TaggedError<OptedOutException>()(
+  "OptedOutException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "OptedOut", httpResponseCode: 400 }),
+) {}
+export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
+  "InvalidStateException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidState", httpResponseCode: 400 }),
+) {}
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
   { message: S.optional(S.String) },
@@ -951,6 +912,30 @@ export class BatchRequestTooLongException extends S.TaggedError<BatchRequestTooL
   "BatchRequestTooLongException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "BatchRequestTooLong", httpResponseCode: 400 }),
+) {}
+export class ReplayLimitExceededException extends S.TaggedError<ReplayLimitExceededException>()(
+  "ReplayLimitExceededException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ReplayLimitExceeded", httpResponseCode: 403 }),
+) {}
+export class UserErrorException extends S.TaggedError<UserErrorException>()(
+  "UserErrorException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UserError", httpResponseCode: 400 }),
+) {}
+export class StaleTagException extends S.TaggedError<StaleTagException>()(
+  "StaleTagException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "StaleTag", httpResponseCode: 400 }),
+) {}
+export class TagPolicyException extends S.TaggedError<TagPolicyException>()(
+  "TagPolicyException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TagPolicy", httpResponseCode: 400 }),
+) {}
+export class VerificationException extends S.TaggedError<VerificationException>()(
+  "VerificationException",
+  { Message: S.String, Status: S.String },
 ) {}
 export class KMSAccessDeniedException extends S.TaggedError<KMSAccessDeniedException>()(
   "KMSAccessDeniedException",
@@ -962,6 +947,16 @@ export class EmptyBatchRequestException extends S.TaggedError<EmptyBatchRequestE
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "EmptyBatchRequest", httpResponseCode: 400 }),
 ) {}
+export class SubscriptionLimitExceededException extends S.TaggedError<SubscriptionLimitExceededException>()(
+  "SubscriptionLimitExceededException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubscriptionLimitExceeded", httpResponseCode: 403 }),
+) {}
+export class TagLimitExceededException extends S.TaggedError<TagLimitExceededException>()(
+  "TagLimitExceededException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TagLimitExceeded", httpResponseCode: 400 }),
+) {}
 export class KMSDisabledException extends S.TaggedError<KMSDisabledException>()(
   "KMSDisabledException",
   { message: S.optional(S.String) },
@@ -972,29 +967,34 @@ export class InvalidBatchEntryIdException extends S.TaggedError<InvalidBatchEntr
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidBatchEntryId", httpResponseCode: 400 }),
 ) {}
+export class TopicLimitExceededException extends S.TaggedError<TopicLimitExceededException>()(
+  "TopicLimitExceededException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TopicLimitExceeded", httpResponseCode: 403 }),
+) {}
 export class KMSInvalidStateException extends S.TaggedError<KMSInvalidStateException>()(
   "KMSInvalidStateException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMSInvalidState", httpResponseCode: 400 }),
 ) {}
 export class KMSNotFoundException extends S.TaggedError<KMSNotFoundException>()(
   "KMSNotFoundException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMSNotFound", httpResponseCode: 400 }),
 ) {}
 export class KMSOptInRequired extends S.TaggedError<KMSOptInRequired>()(
   "KMSOptInRequired",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMSOptInRequired", httpResponseCode: 403 }),
 ) {}
 export class KMSThrottlingException extends S.TaggedError<KMSThrottlingException>()(
   "KMSThrottlingException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMSThrottling", httpResponseCode: 400 }),
 ) {}
 export class PlatformApplicationDisabledException extends S.TaggedError<PlatformApplicationDisabledException>()(
   "PlatformApplicationDisabledException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "PlatformApplicationDisabled",
     httpResponseCode: 400,
@@ -1010,284 +1010,6 @@ export class TooManyEntriesInBatchRequestException extends S.TaggedError<TooMany
 ) {}
 
 //# Operations
-/**
- * Deletes a platform application object for one of the supported push notification
- * services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see
- * Using Amazon SNS
- * Mobile Push Notifications.
- */
-export const deletePlatformApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePlatformApplicationInput,
-    output: DeletePlatformApplicationResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-    ],
-  }),
-);
-/**
- * Use this request to opt in a phone number that is opted out, which enables you to
- * resume sending SMS messages to the number.
- *
- * You can opt in a phone number only once every 30 days.
- */
-export const optInPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: OptInPhoneNumberInput,
-  output: OptInPhoneNumberResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    ThrottledException,
-  ],
-}));
-/**
- * Sets the attributes for an endpoint for a device on one of the supported push
- * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
- * information, see Using Amazon SNS Mobile Push Notifications.
- */
-export const setEndpointAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetEndpointAttributesInput,
-    output: SetEndpointAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Sets the attributes of the platform application object for the supported push
- * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
- * information, see Using Amazon SNS Mobile Push Notifications. For information on configuring
- * attributes for message delivery status, see Using Amazon SNS Application Attributes for
- * Message Delivery Status.
- */
-export const setPlatformApplicationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetPlatformApplicationAttributesInput,
-    output: SetPlatformApplicationAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-    ],
-  }));
-/**
- * Use this request to set the default settings for sending SMS messages and receiving
- * daily SMS usage reports.
- *
- * You can override some of these settings for a single message when you use the
- * `Publish` action with the `MessageAttributes.entry.N`
- * parameter. For more information, see Publishing to a mobile phone
- * in the *Amazon SNS Developer Guide*.
- *
- * To use this operation, you must grant the Amazon SNS service principal
- * (`sns.amazonaws.com`) permission to perform the
- * `s3:ListBucket` action.
- */
-export const setSMSAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetSMSAttributesInput,
-  output: SetSMSAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    ThrottledException,
-  ],
-}));
-/**
- * Allows a topic owner to set an attribute of the topic to a new value.
- *
- * To remove the ability to change topic permissions, you must deny permissions to
- * the `AddPermission`, `RemovePermission`, and
- * `SetTopicAttributes` actions in your IAM policy.
- */
-export const setTopicAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetTopicAttributesInput,
-  output: SetTopicAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidSecurityException,
-    NotFoundException,
-  ],
-}));
-/**
- * Deletes a subscription. If the subscription requires authentication for deletion, only
- * the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services
- * signature is required. If the `Unsubscribe` call does not require
- * authentication and the requester is not the subscription owner, a final cancellation
- * message is delivered to the endpoint, so that the endpoint owner can easily resubscribe
- * to the topic if the `Unsubscribe` request was unintended.
- *
- * This action is throttled at 100 transactions per second (TPS).
- */
-export const unsubscribe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UnsubscribeInput,
-  output: UnsubscribeResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidSecurityException,
-    NotFoundException,
-  ],
-}));
-/**
- * Adds a statement to a topic's access control policy, granting access for the specified
- * Amazon Web Services accounts to the specified actions.
- *
- * To remove the ability to change topic permissions, you must deny permissions to
- * the `AddPermission`, `RemovePermission`, and
- * `SetTopicAttributes` actions in your IAM policy.
- */
-export const addPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddPermissionInput,
-  output: AddPermissionResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-  ],
-}));
-/**
- * Accepts a phone number and indicates whether the phone holder has opted out of
- * receiving SMS messages from your Amazon Web Services account. You cannot send SMS messages to a number
- * that is opted out.
- *
- * To resume sending messages, you can opt in the number by using the
- * `OptInPhoneNumber` action.
- */
-export const checkIfPhoneNumberIsOptedOut =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CheckIfPhoneNumberIsOptedOutInput,
-    output: CheckIfPhoneNumberIsOptedOutResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ThrottledException,
-    ],
-  }));
-/**
- * Creates an endpoint for a device and mobile app on one of the supported push
- * notification services, such as GCM (Firebase Cloud Messaging) and APNS.
- * `CreatePlatformEndpoint` requires the `PlatformApplicationArn`
- * that is returned from `CreatePlatformApplication`. You can use the returned
- * `EndpointArn` to send a message to a mobile app or by the
- * `Subscribe` action for subscription to a topic. The
- * `CreatePlatformEndpoint` action is idempotent, so if the requester
- * already owns an endpoint with the same device token and attributes, that endpoint's ARN
- * is returned without creating a new endpoint. For more information, see Using Amazon SNS Mobile Push
- * Notifications.
- *
- * When using `CreatePlatformEndpoint` with Baidu, two attributes must be
- * provided: ChannelId and UserId. The token field must also contain the ChannelId. For
- * more information, see Creating an Amazon SNS Endpoint for
- * Baidu.
- */
-export const createPlatformEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePlatformEndpointInput,
-    output: CreateEndpointResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the endpoint for a device and mobile app from Amazon SNS. This action is
- * idempotent. For more information, see Using Amazon SNS Mobile Push
- * Notifications.
- *
- * When you delete an endpoint that is also subscribed to a topic, then you must also
- * unsubscribe the endpoint from the topic.
- */
-export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEndpointInput,
-  output: DeleteEndpointResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-  ],
-}));
-/**
- * Retrieves the specified inline `DataProtectionPolicy` document that is
- * stored in the specified Amazon SNS topic.
- */
-export const getDataProtectionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataProtectionPolicyInput,
-    output: GetDataProtectionPolicyResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidSecurityException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Retrieves the endpoint attributes for a device on one of the supported push
- * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
- * information, see Using Amazon SNS Mobile Push Notifications.
- */
-export const getEndpointAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEndpointAttributesInput,
-    output: GetEndpointAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Retrieves the attributes of the platform application object for the supported push
- * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
- * information, see Using Amazon SNS Mobile Push Notifications.
- */
-export const getPlatformApplicationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPlatformApplicationAttributesInput,
-    output: GetPlatformApplicationAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-    ],
-  }));
-/**
- * Returns the settings for sending SMS messages from your Amazon Web Services account.
- *
- * These settings are set with the `SetSMSAttributes` action.
- */
-export const getSMSAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSMSAttributesInput,
-  output: GetSMSAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    ThrottledException,
-  ],
-}));
 /**
  * Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target
  * Amazon Web Services Region.
@@ -1309,207 +1031,6 @@ export const getSMSSandboxAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
       AuthorizationErrorException,
       InternalErrorException,
       ThrottledException,
-    ],
-  }),
-);
-/**
- * Returns all of the properties of a subscription.
- */
-export const getSubscriptionAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSubscriptionAttributesInput,
-    output: GetSubscriptionAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Returns all of the properties of a topic. Topic properties returned might differ based
- * on the authorization of the user.
- */
-export const getTopicAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTopicAttributesInput,
-  output: GetTopicAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidSecurityException,
-    NotFoundException,
-  ],
-}));
-/**
- * Returns a list of phone numbers that are opted out, meaning you cannot send SMS
- * messages to them.
- *
- * The results for `ListPhoneNumbersOptedOut` are paginated, and each page
- * returns up to 100 phone numbers. If additional phone numbers are available after the
- * first page of results, then a `NextToken` string will be returned. To receive
- * the next page, you call `ListPhoneNumbersOptedOut` again using the
- * `NextToken` string received from the previous call. When there are no
- * more records to return, `NextToken` will be null.
- */
-export const listPhoneNumbersOptedOut = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPhoneNumbersOptedOutInput,
-    output: ListPhoneNumbersOptedOutResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ThrottledException,
-    ],
-  }),
-);
-/**
- * Returns a list of the subscriptions to a specific topic. Each call returns a limited
- * list of subscriptions, up to 100. If there are more subscriptions, a
- * `NextToken` is also returned. Use the `NextToken` parameter in
- * a new `ListSubscriptionsByTopic` call to get further results.
- *
- * This action is throttled at 30 transactions per second (TPS).
- */
-export const listSubscriptionsByTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSubscriptionsByTopicInput,
-    output: ListSubscriptionsByTopicResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Adds or updates an inline policy document that is stored in the specified Amazon SNS
- * topic.
- */
-export const putDataProtectionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutDataProtectionPolicyInput,
-    output: PutDataProtectionPolicyResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidSecurityException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Removes a statement from a topic's access control policy.
- *
- * To remove the ability to change topic permissions, you must deny permissions to
- * the `AddPermission`, `RemovePermission`, and
- * `SetTopicAttributes` actions in your IAM policy.
- */
-export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemovePermissionInput,
-  output: RemovePermissionResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-  ],
-}));
-/**
- * Allows a subscription owner to set an attribute of the subscription to a new
- * value.
- */
-export const setSubscriptionAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetSubscriptionAttributesInput,
-    output: SetSubscriptionAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      FilterPolicyLimitExceededException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      ReplayLimitExceededException,
-    ],
-  }),
-);
-/**
- * Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
- * *Amazon SNS Developer Guide*.
- *
- * When you use topic tags, keep the following guidelines in mind:
- *
- * - Adding more than 50 tags to a topic isn't recommended.
- *
- * - Tags don't have any semantic meaning. Amazon SNS interprets tags as character
- * strings.
- *
- * - Tags are case-sensitive.
- *
- * - A new tag with a key identical to that of an existing tag overwrites the
- * existing tag.
- *
- * - Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web Services Region. If
- * your application requires a higher throughput, file a technical support request.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AuthorizationErrorException,
-    ConcurrentAccessException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    StaleTagException,
-    TagLimitExceededException,
-    TagPolicyException,
-  ],
-}));
-/**
- * Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
- * *Amazon SNS Developer Guide*.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AuthorizationErrorException,
-    ConcurrentAccessException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    StaleTagException,
-    TagLimitExceededException,
-    TagPolicyException,
-  ],
-}));
-/**
- * Verifies a destination phone number with a one-time password (OTP) for the calling
- * Amazon Web Services account.
- *
- * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
- * *SMS sandbox*. The SMS sandbox provides a safe environment for
- * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
- * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
- * SMS messages only to verified destination phone numbers. For more information, including how to
- * move out of the sandbox to send messages without restrictions,
- * see SMS sandbox in
- * the *Amazon SNS Developer Guide*.
- */
-export const verifySMSSandboxPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: VerifySMSSandboxPhoneNumberInput,
-    output: VerifySMSSandboxPhoneNumberResult,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottledException,
-      VerificationException,
     ],
   }),
 );
@@ -1565,6 +1086,517 @@ export const createPlatformApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Lists the platform application objects for the supported push notification services,
+ * such as APNS and GCM (Firebase Cloud Messaging). The results for
+ * `ListPlatformApplications` are paginated and return a limited list of
+ * applications, up to 100. If additional records are available after the first page
+ * results, then a NextToken string will be returned. To receive the next page, you call
+ * `ListPlatformApplications` using the NextToken string received from the
+ * previous call. When there are no more records to return, `NextToken` will be
+ * null. For more information, see Using Amazon SNS Mobile Push
+ * Notifications.
+ *
+ * This action is throttled at 15 transactions per second (TPS).
+ */
+export const listPlatformApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPlatformApplicationsInput,
+    output: ListPlatformApplicationsResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+    ],
+  }),
+);
+/**
+ * Returns a list of the requester's subscriptions. Each call returns a limited list of
+ * subscriptions, up to 100. If there are more subscriptions, a `NextToken` is
+ * also returned. Use the `NextToken` parameter in a new
+ * `ListSubscriptions` call to get further results.
+ *
+ * This action is throttled at 30 transactions per second (TPS).
+ */
+export const listSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSubscriptionsInput,
+  output: ListSubscriptionsResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+  ],
+}));
+/**
+ * Returns a list of the requester's topics. Each call returns a limited list of topics,
+ * up to 100. If there are more topics, a `NextToken` is also returned. Use the
+ * `NextToken` parameter in a new `ListTopics` call to get
+ * further results.
+ *
+ * This action is throttled at 30 transactions per second (TPS).
+ */
+export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTopicsInput,
+  output: ListTopicsResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+  ],
+}));
+/**
+ * Accepts a phone number and indicates whether the phone holder has opted out of
+ * receiving SMS messages from your Amazon Web Services account. You cannot send SMS messages to a number
+ * that is opted out.
+ *
+ * To resume sending messages, you can opt in the number by using the
+ * `OptInPhoneNumber` action.
+ */
+export const checkIfPhoneNumberIsOptedOut =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CheckIfPhoneNumberIsOptedOutInput,
+    output: CheckIfPhoneNumberIsOptedOutResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      ThrottledException,
+    ],
+  }));
+/**
+ * Returns the settings for sending SMS messages from your Amazon Web Services account.
+ *
+ * These settings are set with the `SetSMSAttributes` action.
+ */
+export const getSMSAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSMSAttributesInput,
+  output: GetSMSAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Returns a list of phone numbers that are opted out, meaning you cannot send SMS
+ * messages to them.
+ *
+ * The results for `ListPhoneNumbersOptedOut` are paginated, and each page
+ * returns up to 100 phone numbers. If additional phone numbers are available after the
+ * first page of results, then a `NextToken` string will be returned. To receive
+ * the next page, you call `ListPhoneNumbersOptedOut` again using the
+ * `NextToken` string received from the previous call. When there are no
+ * more records to return, `NextToken` will be null.
+ */
+export const listPhoneNumbersOptedOut = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPhoneNumbersOptedOutInput,
+    output: ListPhoneNumbersOptedOutResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      ThrottledException,
+    ],
+  }),
+);
+/**
+ * Deletes the endpoint for a device and mobile app from Amazon SNS. This action is
+ * idempotent. For more information, see Using Amazon SNS Mobile Push
+ * Notifications.
+ *
+ * When you delete an endpoint that is also subscribed to a topic, then you must also
+ * unsubscribe the endpoint from the topic.
+ */
+export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEndpointInput,
+  output: DeleteEndpointResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+  ],
+}));
+/**
+ * Deletes a platform application object for one of the supported push notification
+ * services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see
+ * Using Amazon SNS
+ * Mobile Push Notifications.
+ */
+export const deletePlatformApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePlatformApplicationInput,
+    output: DeletePlatformApplicationResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+    ],
+  }),
+);
+/**
+ * Use this request to opt in a phone number that is opted out, which enables you to
+ * resume sending SMS messages to the number.
+ *
+ * You can opt in a phone number only once every 30 days.
+ */
+export const optInPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: OptInPhoneNumberInput,
+  output: OptInPhoneNumberResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Use this request to set the default settings for sending SMS messages and receiving
+ * daily SMS usage reports.
+ *
+ * You can override some of these settings for a single message when you use the
+ * `Publish` action with the `MessageAttributes.entry.N`
+ * parameter. For more information, see Publishing to a mobile phone
+ * in the *Amazon SNS Developer Guide*.
+ *
+ * To use this operation, you must grant the Amazon SNS service principal
+ * (`sns.amazonaws.com`) permission to perform the
+ * `s3:ListBucket` action.
+ */
+export const setSMSAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetSMSAttributesInput,
+  output: SetSMSAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Adds a statement to a topic's access control policy, granting access for the specified
+ * Amazon Web Services accounts to the specified actions.
+ *
+ * To remove the ability to change topic permissions, you must deny permissions to
+ * the `AddPermission`, `RemovePermission`, and
+ * `SetTopicAttributes` actions in your IAM policy.
+ */
+export const addPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddPermissionInput,
+  output: AddPermissionResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Lists the calling Amazon Web Services account's dedicated origination numbers and their metadata.
+ * For more information about origination numbers, see Origination numbers in the Amazon SNS Developer
+ * Guide.
+ */
+export const listOriginationNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListOriginationNumbersRequest,
+    output: ListOriginationNumbersResult,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      ThrottledException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the calling Amazon Web Services account's current verified and pending destination phone
+ * numbers in the SMS sandbox.
+ *
+ * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
+ * *SMS sandbox*. The SMS sandbox provides a safe environment for
+ * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
+ * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
+ * SMS messages only to verified destination phone numbers. For more information, including how to
+ * move out of the sandbox to send messages without restrictions,
+ * see SMS sandbox in
+ * the *Amazon SNS Developer Guide*.
+ */
+export const listSMSSandboxPhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSMSSandboxPhoneNumbersInput,
+    output: ListSMSSandboxPhoneNumbersResult,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottledException,
+    ],
+  }),
+);
+/**
+ * Lists the endpoints and endpoint attributes for devices in a supported push
+ * notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for
+ * `ListEndpointsByPlatformApplication` are paginated and return a limited
+ * list of endpoints, up to 100. If additional records are available after the first page
+ * results, then a NextToken string will be returned. To receive the next page, you call
+ * `ListEndpointsByPlatformApplication` again using the NextToken string
+ * received from the previous call. When there are no more records to return, NextToken
+ * will be null. For more information, see Using Amazon SNS Mobile Push
+ * Notifications.
+ *
+ * This action is throttled at 30 transactions per second (TPS).
+ */
+export const listEndpointsByPlatformApplication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListEndpointsByPlatformApplicationInput,
+    output: ListEndpointsByPlatformApplicationResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+    ],
+  }));
+/**
+ * Creates an endpoint for a device and mobile app on one of the supported push
+ * notification services, such as GCM (Firebase Cloud Messaging) and APNS.
+ * `CreatePlatformEndpoint` requires the `PlatformApplicationArn`
+ * that is returned from `CreatePlatformApplication`. You can use the returned
+ * `EndpointArn` to send a message to a mobile app or by the
+ * `Subscribe` action for subscription to a topic. The
+ * `CreatePlatformEndpoint` action is idempotent, so if the requester
+ * already owns an endpoint with the same device token and attributes, that endpoint's ARN
+ * is returned without creating a new endpoint. For more information, see Using Amazon SNS Mobile Push
+ * Notifications.
+ *
+ * When using `CreatePlatformEndpoint` with Baidu, two attributes must be
+ * provided: ChannelId and UserId. The token field must also contain the ChannelId. For
+ * more information, see Creating an Amazon SNS Endpoint for
+ * Baidu.
+ */
+export const createPlatformEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePlatformEndpointInput,
+    output: CreateEndpointResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Retrieves the endpoint attributes for a device on one of the supported push
+ * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
+ * information, see Using Amazon SNS Mobile Push Notifications.
+ */
+export const getEndpointAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetEndpointAttributesInput,
+    output: GetEndpointAttributesResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Retrieves the attributes of the platform application object for the supported push
+ * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
+ * information, see Using Amazon SNS Mobile Push Notifications.
+ */
+export const getPlatformApplicationAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetPlatformApplicationAttributesInput,
+    output: GetPlatformApplicationAttributesResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+    ],
+  }));
+/**
+ * Returns all of the properties of a subscription.
+ */
+export const getSubscriptionAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetSubscriptionAttributesInput,
+    output: GetSubscriptionAttributesResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Returns a list of the subscriptions to a specific topic. Each call returns a limited
+ * list of subscriptions, up to 100. If there are more subscriptions, a
+ * `NextToken` is also returned. Use the `NextToken` parameter in
+ * a new `ListSubscriptionsByTopic` call to get further results.
+ *
+ * This action is throttled at 30 transactions per second (TPS).
+ */
+export const listSubscriptionsByTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSubscriptionsByTopicInput,
+    output: ListSubscriptionsByTopicResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Removes a statement from a topic's access control policy.
+ *
+ * To remove the ability to change topic permissions, you must deny permissions to
+ * the `AddPermission`, `RemovePermission`, and
+ * `SetTopicAttributes` actions in your IAM policy.
+ */
+export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemovePermissionInput,
+  output: RemovePermissionResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Sets the attributes for an endpoint for a device on one of the supported push
+ * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
+ * information, see Using Amazon SNS Mobile Push Notifications.
+ */
+export const setEndpointAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetEndpointAttributesInput,
+    output: SetEndpointAttributesResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Sets the attributes of the platform application object for the supported push
+ * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
+ * information, see Using Amazon SNS Mobile Push Notifications. For information on configuring
+ * attributes for message delivery status, see Using Amazon SNS Application Attributes for
+ * Message Delivery Status.
+ */
+export const setPlatformApplicationAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetPlatformApplicationAttributesInput,
+    output: SetPlatformApplicationAttributesResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+    ],
+  }));
+/**
+ * Retrieves the specified inline `DataProtectionPolicy` document that is
+ * stored in the specified Amazon SNS topic.
+ */
+export const getDataProtectionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDataProtectionPolicyInput,
+    output: GetDataProtectionPolicyResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      InvalidSecurityException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Returns all of the properties of a topic. Topic properties returned might differ based
+ * on the authorization of the user.
+ */
+export const getTopicAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTopicAttributesInput,
+  output: GetTopicAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Adds or updates an inline policy document that is stored in the specified Amazon SNS
+ * topic.
+ */
+export const putDataProtectionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutDataProtectionPolicyInput,
+    output: PutDataProtectionPolicyResponse,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      InvalidSecurityException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Allows a topic owner to set an attribute of the topic to a new value.
+ *
+ * To remove the ability to change topic permissions, you must deny permissions to
+ * the `AddPermission`, `RemovePermission`, and
+ * `SetTopicAttributes` actions in your IAM policy.
+ */
+export const setTopicAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetTopicAttributesInput,
+  output: SetTopicAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes a subscription. If the subscription requires authentication for deletion, only
+ * the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services
+ * signature is required. If the `Unsubscribe` call does not require
+ * authentication and the requester is not the subscription owner, a final cancellation
+ * message is delivered to the endpoint, so that the endpoint owner can easily resubscribe
+ * to the topic if the `Unsubscribe` request was unintended.
+ *
+ * This action is throttled at 100 transactions per second (TPS).
+ */
+export const unsubscribe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnsubscribeInput,
+  output: UnsubscribeResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+  ],
+}));
+/**
  * Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a
  * one-time password (OTP) to that phone number.
  *
@@ -1588,6 +1620,66 @@ export const createSMSSandboxPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
       OptedOutException,
       ThrottledException,
       UserErrorException,
+    ],
+  }),
+);
+/**
+ * List all tags added to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
+ * *Amazon Simple Notification Service Developer Guide*.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AuthorizationErrorException,
+    ConcurrentAccessException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    TagPolicyException,
+  ],
+}));
+/**
+ * Verifies a destination phone number with a one-time password (OTP) for the calling
+ * Amazon Web Services account.
+ *
+ * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
+ * *SMS sandbox*. The SMS sandbox provides a safe environment for
+ * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
+ * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
+ * SMS messages only to verified destination phone numbers. For more information, including how to
+ * move out of the sandbox to send messages without restrictions,
+ * see SMS sandbox in
+ * the *Amazon SNS Developer Guide*.
+ */
+export const verifySMSSandboxPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: VerifySMSSandboxPhoneNumberInput,
+    output: VerifySMSSandboxPhoneNumberResult,
+    errors: [
+      AuthorizationErrorException,
+      InternalErrorException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottledException,
+      VerificationException,
+    ],
+  }),
+);
+/**
+ * Allows a subscription owner to set an attribute of the subscription to a new
+ * value.
+ */
+export const setSubscriptionAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetSubscriptionAttributesInput,
+    output: SetSubscriptionAttributesResponse,
+    errors: [
+      AuthorizationErrorException,
+      FilterPolicyLimitExceededException,
+      InternalErrorException,
+      InvalidParameterException,
+      NotFoundException,
+      ReplayLimitExceededException,
     ],
   }),
 );
@@ -1639,129 +1731,6 @@ export const deleteTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the endpoints and endpoint attributes for devices in a supported push
- * notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for
- * `ListEndpointsByPlatformApplication` are paginated and return a limited
- * list of endpoints, up to 100. If additional records are available after the first page
- * results, then a NextToken string will be returned. To receive the next page, you call
- * `ListEndpointsByPlatformApplication` again using the NextToken string
- * received from the previous call. When there are no more records to return, NextToken
- * will be null. For more information, see Using Amazon SNS Mobile Push
- * Notifications.
- *
- * This action is throttled at 30 transactions per second (TPS).
- */
-export const listEndpointsByPlatformApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListEndpointsByPlatformApplicationInput,
-    output: ListEndpointsByPlatformApplicationResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-    ],
-  }));
-/**
- * Lists the platform application objects for the supported push notification services,
- * such as APNS and GCM (Firebase Cloud Messaging). The results for
- * `ListPlatformApplications` are paginated and return a limited list of
- * applications, up to 100. If additional records are available after the first page
- * results, then a NextToken string will be returned. To receive the next page, you call
- * `ListPlatformApplications` using the NextToken string received from the
- * previous call. When there are no more records to return, `NextToken` will be
- * null. For more information, see Using Amazon SNS Mobile Push
- * Notifications.
- *
- * This action is throttled at 15 transactions per second (TPS).
- */
-export const listPlatformApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPlatformApplicationsInput,
-    output: ListPlatformApplicationsResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-    ],
-  }),
-);
-/**
- * Lists the calling Amazon Web Services account's current verified and pending destination phone
- * numbers in the SMS sandbox.
- *
- * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
- * *SMS sandbox*. The SMS sandbox provides a safe environment for
- * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
- * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
- * SMS messages only to verified destination phone numbers. For more information, including how to
- * move out of the sandbox to send messages without restrictions,
- * see SMS sandbox in
- * the *Amazon SNS Developer Guide*.
- */
-export const listSMSSandboxPhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSMSSandboxPhoneNumbersInput,
-    output: ListSMSSandboxPhoneNumbersResult,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottledException,
-    ],
-  }),
-);
-/**
- * Returns a list of the requester's subscriptions. Each call returns a limited list of
- * subscriptions, up to 100. If there are more subscriptions, a `NextToken` is
- * also returned. Use the `NextToken` parameter in a new
- * `ListSubscriptions` call to get further results.
- *
- * This action is throttled at 30 transactions per second (TPS).
- */
-export const listSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSubscriptionsInput,
-  output: ListSubscriptionsResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-  ],
-}));
-/**
- * List all tags added to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
- * *Amazon Simple Notification Service Developer Guide*.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AuthorizationErrorException,
-    ConcurrentAccessException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    TagPolicyException,
-  ],
-}));
-/**
- * Returns a list of the requester's topics. Each call returns a limited list of topics,
- * up to 100. If there are more topics, a `NextToken` is also returned. Use the
- * `NextToken` parameter in a new `ListTopics` call to get
- * further results.
- *
- * This action is throttled at 30 transactions per second (TPS).
- */
-export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTopicsInput,
-  output: ListTopicsResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-  ],
-}));
-/**
  * Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or
  * if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must
  * run the `ConfirmSubscription` action to confirm the subscription.
@@ -1806,6 +1775,55 @@ export const confirmSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
+ * *Amazon SNS Developer Guide*.
+ *
+ * When you use topic tags, keep the following guidelines in mind:
+ *
+ * - Adding more than 50 tags to a topic isn't recommended.
+ *
+ * - Tags don't have any semantic meaning. Amazon SNS interprets tags as character
+ * strings.
+ *
+ * - Tags are case-sensitive.
+ *
+ * - A new tag with a key identical to that of an existing tag overwrites the
+ * existing tag.
+ *
+ * - Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web Services Region. If
+ * your application requires a higher throughput, file a technical support request.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AuthorizationErrorException,
+    ConcurrentAccessException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    StaleTagException,
+    TagLimitExceededException,
+    TagPolicyException,
+  ],
+}));
+/**
+ * Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
+ * *Amazon SNS Developer Guide*.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AuthorizationErrorException,
+    ConcurrentAccessException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    StaleTagException,
+    TagLimitExceededException,
+    TagPolicyException,
+  ],
+}));
+/**
  * Creates a topic to which notifications can be published. Users can create at most
  * 100,000 standard topics (at most 1,000 FIFO topics). For more information, see Creating an Amazon SNS
  * topic in the *Amazon SNS Developer Guide*. This action is
@@ -1827,24 +1845,6 @@ export const createTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TopicLimitExceededException,
   ],
 }));
-/**
- * Lists the calling Amazon Web Services account's dedicated origination numbers and their metadata.
- * For more information about origination numbers, see Origination numbers in the Amazon SNS Developer
- * Guide.
- */
-export const listOriginationNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOriginationNumbersRequest,
-    output: ListOriginationNumbersResult,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ThrottledException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone
  * number, or a message to a mobile platform endpoint (when you specify the

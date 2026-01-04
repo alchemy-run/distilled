@@ -622,7 +622,7 @@ export class InternalServerError extends S.TaggedError<InternalServerError>()(
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class TrimmedDataAccessException extends S.TaggedError<TrimmedDataAccessException>()(
   "TrimmedDataAccessException",

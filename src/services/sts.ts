@@ -873,13 +873,8 @@ export class GetFederationTokenResponse extends S.Class<GetFederationTokenRespon
 //# Errors
 export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(
   "ExpiredTokenException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ExpiredTokenException", httpResponseCode: 400 }),
-) {}
-export class RegionDisabledException extends S.TaggedError<RegionDisabledException>()(
-  "RegionDisabledException",
-  {},
-  T.AwsQueryError({ code: "RegionDisabledException", httpResponseCode: 403 }),
 ) {}
 export class InvalidAuthorizationMessageException extends S.TaggedError<InvalidAuthorizationMessageException>()(
   "InvalidAuthorizationMessageException",
@@ -897,15 +892,10 @@ export class ExpiredTradeInTokenException extends S.TaggedError<ExpiredTradeInTo
     httpResponseCode: 400,
   }),
 ) {}
-export class MalformedPolicyDocumentException extends S.TaggedError<MalformedPolicyDocumentException>()(
-  "MalformedPolicyDocumentException",
-  {},
-  T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
-) {}
-export class PackedPolicyTooLargeException extends S.TaggedError<PackedPolicyTooLargeException>()(
-  "PackedPolicyTooLargeException",
-  {},
-  T.AwsQueryError({ code: "PackedPolicyTooLarge", httpResponseCode: 400 }),
+export class RegionDisabledException extends S.TaggedError<RegionDisabledException>()(
+  "RegionDisabledException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "RegionDisabledException", httpResponseCode: 403 }),
 ) {}
 export class JWTPayloadSizeExceededException extends S.TaggedError<JWTPayloadSizeExceededException>()(
   "JWTPayloadSizeExceededException",
@@ -915,20 +905,20 @@ export class JWTPayloadSizeExceededException extends S.TaggedError<JWTPayloadSiz
     httpResponseCode: 400,
   }),
 ) {}
-export class IDPRejectedClaimException extends S.TaggedError<IDPRejectedClaimException>()(
-  "IDPRejectedClaimException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "IDPRejectedClaim", httpResponseCode: 403 }),
-) {}
 export class IDPCommunicationErrorException extends S.TaggedError<IDPCommunicationErrorException>()(
   "IDPCommunicationErrorException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "IDPCommunicationError", httpResponseCode: 400 }),
 ) {}
-export class InvalidIdentityTokenException extends S.TaggedError<InvalidIdentityTokenException>()(
-  "InvalidIdentityTokenException",
-  {},
-  T.AwsQueryError({ code: "InvalidIdentityToken", httpResponseCode: 400 }),
+export class PackedPolicyTooLargeException extends S.TaggedError<PackedPolicyTooLargeException>()(
+  "PackedPolicyTooLargeException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "PackedPolicyTooLarge", httpResponseCode: 400 }),
+) {}
+export class MalformedPolicyDocumentException extends S.TaggedError<MalformedPolicyDocumentException>()(
+  "MalformedPolicyDocumentException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
 ) {}
 export class OutboundWebIdentityFederationDisabledException extends S.TaggedError<OutboundWebIdentityFederationDisabledException>()(
   "OutboundWebIdentityFederationDisabledException",
@@ -938,6 +928,11 @@ export class OutboundWebIdentityFederationDisabledException extends S.TaggedErro
     httpResponseCode: 403,
   }),
 ) {}
+export class IDPRejectedClaimException extends S.TaggedError<IDPRejectedClaimException>()(
+  "IDPRejectedClaimException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "IDPRejectedClaim", httpResponseCode: 403 }),
+) {}
 export class SessionDurationEscalationException extends S.TaggedError<SessionDurationEscalationException>()(
   "SessionDurationEscalationException",
   { message: S.optional(S.String) },
@@ -945,6 +940,11 @@ export class SessionDurationEscalationException extends S.TaggedError<SessionDur
     code: "SessionDurationEscalationException",
     httpResponseCode: 403,
   }),
+) {}
+export class InvalidIdentityTokenException extends S.TaggedError<InvalidIdentityTokenException>()(
+  "InvalidIdentityTokenException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidIdentityToken", httpResponseCode: 400 }),
 ) {}
 
 //# Operations
@@ -991,6 +991,46 @@ export const getAccessKeyInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetAccessKeyInfoResponse,
   errors: [],
 }));
+/**
+ * Decodes additional information about the authorization status of a request from an
+ * encoded message returned in response to an Amazon Web Services request.
+ *
+ * For example, if a user is not authorized to perform an operation that he or she has
+ * requested, the request returns a `Client.UnauthorizedOperation` response (an
+ * HTTP 403 response). Some Amazon Web Services operations additionally return an encoded message that can
+ * provide details about this authorization failure.
+ *
+ * Only certain Amazon Web Services operations return an encoded authorization message. The
+ * documentation for an individual operation indicates whether that operation returns an
+ * encoded message in addition to returning an HTTP code.
+ *
+ * The message is encoded because the details of the authorization status can contain
+ * privileged information that the user who requested the operation should not see. To decode
+ * an authorization status message, a user must be granted permissions through an IAM policy to
+ * request the `DecodeAuthorizationMessage`
+ * (`sts:DecodeAuthorizationMessage`) action.
+ *
+ * The decoded message includes the following type of information:
+ *
+ * - Whether the request was denied due to an explicit deny or due to the absence of an
+ * explicit allow. For more information, see Determining Whether a Request is Allowed or Denied in the
+ * *IAM User Guide*.
+ *
+ * - The principal who made the request.
+ *
+ * - The requested action.
+ *
+ * - The requested resource.
+ *
+ * - The values of condition keys in the context of the user's request.
+ */
+export const decodeAuthorizationMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DecodeAuthorizationMessageRequest,
+    output: DecodeAuthorizationMessageResponse,
+    errors: [InvalidAuthorizationMessageException],
+  }),
+);
 /**
  * Returns a set of temporary credentials for an Amazon Web Services account or IAM user.
  * The credentials consist of an access key ID, a secret access key, and a security token.
@@ -1082,43 +1122,20 @@ export const assumeRoot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ExpiredTokenException, RegionDisabledException],
 }));
 /**
- * Decodes additional information about the authorization status of a request from an
- * encoded message returned in response to an Amazon Web Services request.
- *
- * For example, if a user is not authorized to perform an operation that he or she has
- * requested, the request returns a `Client.UnauthorizedOperation` response (an
- * HTTP 403 response). Some Amazon Web Services operations additionally return an encoded message that can
- * provide details about this authorization failure.
- *
- * Only certain Amazon Web Services operations return an encoded authorization message. The
- * documentation for an individual operation indicates whether that operation returns an
- * encoded message in addition to returning an HTTP code.
- *
- * The message is encoded because the details of the authorization status can contain
- * privileged information that the user who requested the operation should not see. To decode
- * an authorization status message, a user must be granted permissions through an IAM policy to
- * request the `DecodeAuthorizationMessage`
- * (`sts:DecodeAuthorizationMessage`) action.
- *
- * The decoded message includes the following type of information:
- *
- * - Whether the request was denied due to an explicit deny or due to the absence of an
- * explicit allow. For more information, see Determining Whether a Request is Allowed or Denied in the
- * *IAM User Guide*.
- *
- * - The principal who made the request.
- *
- * - The requested action.
- *
- * - The requested resource.
- *
- * - The values of condition keys in the context of the user's request.
+ * Exchanges a trade-in token for temporary Amazon Web Services credentials with the permissions
+ * associated with the assumed principal. This operation allows you to obtain credentials for
+ * a specific principal based on a trade-in token, enabling delegation of access to Amazon Web Services
+ * resources.
  */
-export const decodeAuthorizationMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getDelegatedAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DecodeAuthorizationMessageRequest,
-    output: DecodeAuthorizationMessageResponse,
-    errors: [InvalidAuthorizationMessageException],
+    input: GetDelegatedAccessTokenRequest,
+    output: GetDelegatedAccessTokenResponse,
+    errors: [
+      ExpiredTradeInTokenException,
+      PackedPolicyTooLargeException,
+      RegionDisabledException,
+    ],
   }),
 );
 /**
@@ -1329,157 +1346,19 @@ export const assumeRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a set of temporary security credentials for users who have been authenticated in
- * a mobile or web application with a web identity provider. Example providers include the
- * OAuth 2.0 providers Login with Amazon and Facebook, or any OpenID Connect-compatible
- * identity provider such as Google or Amazon Cognito federated identities.
- *
- * For mobile applications, we recommend that you use Amazon Cognito. You can use Amazon Cognito with the
- * Amazon Web Services SDK for iOS Developer Guide and the Amazon Web Services SDK for Android Developer Guide to uniquely
- * identify a user. You can also supply the user with a consistent identity throughout the
- * lifetime of an application.
- *
- * To learn more about Amazon Cognito, see Amazon Cognito identity
- * pools in *Amazon Cognito Developer Guide*.
- *
- * Calling `AssumeRoleWithWebIdentity` does not require the use of Amazon Web Services
- * security credentials. Therefore, you can distribute an application (for example, on mobile
- * devices) that requests temporary security credentials without including long-term Amazon Web Services
- * credentials in the application. You also don't need to deploy server-based proxy services
- * that use long-term Amazon Web Services credentials. Instead, the identity of the caller is validated by
- * using a token from the web identity provider. For a comparison of
- * `AssumeRoleWithWebIdentity` with the other API operations that produce
- * temporary credentials, see Requesting Temporary Security
- * Credentials and Compare STS
- * credentials in the *IAM User Guide*.
- *
- * The temporary security credentials returned by this API consist of an access key ID, a
- * secret access key, and a security token. Applications can use these temporary security
- * credentials to sign calls to Amazon Web Services service API operations.
- *
- * **Session Duration**
- *
- * By default, the temporary security credentials created by
- * `AssumeRoleWithWebIdentity` last for one hour. However, you can use the
- * optional `DurationSeconds` parameter to specify the duration of your session.
- * You can provide a value from 900 seconds (15 minutes) up to the maximum session duration
- * setting for the role. This setting can have a value from 1 hour to 12 hours. To learn how
- * to view the maximum value for your role, see Update the maximum session duration for a role in the
- * *IAM User Guide*. The maximum session duration limit applies when
- * you use the `AssumeRole*` API operations or the `assume-role*` CLI
- * commands. However the limit does not apply when you use those operations to create a
- * console URL. For more information, see Using IAM Roles in the
- * *IAM User Guide*.
- *
- * **Permissions**
- *
- * The temporary security credentials created by `AssumeRoleWithWebIdentity` can
- * be used to make API calls to any Amazon Web Services service with the following exception: you cannot
- * call the STS `GetFederationToken` or `GetSessionToken` API
- * operations.
- *
- * (Optional) You can pass inline or managed session policies to
- * this operation. You can pass a single JSON policy document to use as an inline session
- * policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as
- * managed session policies. The plaintext that you use for both inline and managed session
- * policies can't exceed 2,048 characters. Passing policies to this operation returns new
- * temporary credentials. The resulting session's permissions are the intersection of the
- * role's identity-based policy and the session policies. You can use the role's temporary
- * credentials in subsequent Amazon Web Services API calls to access resources in the account that owns
- * the role. You cannot use session policies to grant more permissions than those allowed
- * by the identity-based policy of the role that is being assumed. For more information, see
- * Session
- * Policies in the *IAM User Guide*.
- *
- * **Tags**
- *
- * (Optional) You can configure your IdP to pass attributes into your web identity token as
- * session tags. Each session tag consists of a key name and an associated value. For more
- * information about session tags, see Passing
- * session tags using AssumeRoleWithWebIdentity in the
- * *IAM User Guide*.
- *
- * You can pass up to 50 session tags. The plaintext session tag keys can’t exceed 128
- * characters and the values can’t exceed 256 characters. For these and additional limits, see
- * IAM
- * and STS Character Limits in the *IAM User Guide*.
- *
- * An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs,
- * and session tags into a packed binary format that has a separate limit. Your request can
- * fail for this limit even if your plaintext meets the other requirements. The
- * `PackedPolicySize` response element indicates by percentage how close the
- * policies and tags for your request are to the upper size limit.
- *
- * You can pass a session tag with the same key as a tag that is attached to the role. When
- * you do, the session tag overrides the role tag with the same key.
- *
- * An administrator must grant you the permissions necessary to pass session tags. The
- * administrator can also create granular permissions to allow you to pass only specific
- * session tags. For more information, see Tutorial: Using Tags
- * for Attribute-Based Access Control in the
- * *IAM User Guide*.
- *
- * You can set the session tags as transitive. Transitive tags persist during role
- * chaining. For more information, see Chaining Roles
- * with Session Tags in the *IAM User Guide*.
- *
- * **Identities**
- *
- * Before your application can call `AssumeRoleWithWebIdentity`, you must have
- * an identity token from a supported identity provider and create a role that the application
- * can assume. The role that your application assumes must trust the identity provider that is
- * associated with the identity token. In other words, the identity provider must be specified
- * in the role's trust policy.
- *
- * Calling `AssumeRoleWithWebIdentity` can result in an entry in your
- * CloudTrail logs. The entry includes the Subject of
- * the provided web identity token. We recommend that you avoid using any personally
- * identifiable information (PII) in this field. For example, you could instead use a GUID
- * or a pairwise identifier, as suggested
- * in the OIDC specification.
- *
- * For more information about how to use OIDC federation and the
- * `AssumeRoleWithWebIdentity` API, see the following resources:
- *
- * - Using Web Identity Federation API Operations for Mobile Apps and Federation Through a Web-based Identity Provider.
- *
- * - Amazon Web Services SDK for iOS Developer Guide and Amazon Web Services SDK for Android Developer Guide. These toolkits
- * contain sample apps that show how to invoke the identity providers. The toolkits then
- * show how to use the information from these providers to get and use temporary
- * security credentials.
+ * Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.
+ * The returned JWT can be used to authenticate with external services that support OIDC discovery.
+ * The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
  */
-export const assumeRoleWithWebIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeRoleWithWebIdentityRequest,
-    output: AssumeRoleWithWebIdentityResponse,
-    errors: [
-      ExpiredTokenException,
-      IDPCommunicationErrorException,
-      IDPRejectedClaimException,
-      InvalidIdentityTokenException,
-      MalformedPolicyDocumentException,
-      PackedPolicyTooLargeException,
-      RegionDisabledException,
-    ],
-  }),
-);
-/**
- * Exchanges a trade-in token for temporary Amazon Web Services credentials with the permissions
- * associated with the assumed principal. This operation allows you to obtain credentials for
- * a specific principal based on a trade-in token, enabling delegation of access to Amazon Web Services
- * resources.
- */
-export const getDelegatedAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDelegatedAccessTokenRequest,
-    output: GetDelegatedAccessTokenResponse,
-    errors: [
-      ExpiredTradeInTokenException,
-      PackedPolicyTooLargeException,
-      RegionDisabledException,
-    ],
-  }),
-);
+export const getWebIdentityToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWebIdentityTokenRequest,
+  output: GetWebIdentityTokenResponse,
+  errors: [
+    JWTPayloadSizeExceededException,
+    OutboundWebIdentityFederationDisabledException,
+    SessionDurationEscalationException,
+  ],
+}));
 /**
  * Returns a set of temporary security credentials for users who have been authenticated
  * via a SAML authentication response. This operation provides a mechanism for tying an
@@ -1619,16 +1498,137 @@ export const assumeRoleWithSAML = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.
- * The returned JWT can be used to authenticate with external services that support OIDC discovery.
- * The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
+ * Returns a set of temporary security credentials for users who have been authenticated in
+ * a mobile or web application with a web identity provider. Example providers include the
+ * OAuth 2.0 providers Login with Amazon and Facebook, or any OpenID Connect-compatible
+ * identity provider such as Google or Amazon Cognito federated identities.
+ *
+ * For mobile applications, we recommend that you use Amazon Cognito. You can use Amazon Cognito with the
+ * Amazon Web Services SDK for iOS Developer Guide and the Amazon Web Services SDK for Android Developer Guide to uniquely
+ * identify a user. You can also supply the user with a consistent identity throughout the
+ * lifetime of an application.
+ *
+ * To learn more about Amazon Cognito, see Amazon Cognito identity
+ * pools in *Amazon Cognito Developer Guide*.
+ *
+ * Calling `AssumeRoleWithWebIdentity` does not require the use of Amazon Web Services
+ * security credentials. Therefore, you can distribute an application (for example, on mobile
+ * devices) that requests temporary security credentials without including long-term Amazon Web Services
+ * credentials in the application. You also don't need to deploy server-based proxy services
+ * that use long-term Amazon Web Services credentials. Instead, the identity of the caller is validated by
+ * using a token from the web identity provider. For a comparison of
+ * `AssumeRoleWithWebIdentity` with the other API operations that produce
+ * temporary credentials, see Requesting Temporary Security
+ * Credentials and Compare STS
+ * credentials in the *IAM User Guide*.
+ *
+ * The temporary security credentials returned by this API consist of an access key ID, a
+ * secret access key, and a security token. Applications can use these temporary security
+ * credentials to sign calls to Amazon Web Services service API operations.
+ *
+ * **Session Duration**
+ *
+ * By default, the temporary security credentials created by
+ * `AssumeRoleWithWebIdentity` last for one hour. However, you can use the
+ * optional `DurationSeconds` parameter to specify the duration of your session.
+ * You can provide a value from 900 seconds (15 minutes) up to the maximum session duration
+ * setting for the role. This setting can have a value from 1 hour to 12 hours. To learn how
+ * to view the maximum value for your role, see Update the maximum session duration for a role in the
+ * *IAM User Guide*. The maximum session duration limit applies when
+ * you use the `AssumeRole*` API operations or the `assume-role*` CLI
+ * commands. However the limit does not apply when you use those operations to create a
+ * console URL. For more information, see Using IAM Roles in the
+ * *IAM User Guide*.
+ *
+ * **Permissions**
+ *
+ * The temporary security credentials created by `AssumeRoleWithWebIdentity` can
+ * be used to make API calls to any Amazon Web Services service with the following exception: you cannot
+ * call the STS `GetFederationToken` or `GetSessionToken` API
+ * operations.
+ *
+ * (Optional) You can pass inline or managed session policies to
+ * this operation. You can pass a single JSON policy document to use as an inline session
+ * policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as
+ * managed session policies. The plaintext that you use for both inline and managed session
+ * policies can't exceed 2,048 characters. Passing policies to this operation returns new
+ * temporary credentials. The resulting session's permissions are the intersection of the
+ * role's identity-based policy and the session policies. You can use the role's temporary
+ * credentials in subsequent Amazon Web Services API calls to access resources in the account that owns
+ * the role. You cannot use session policies to grant more permissions than those allowed
+ * by the identity-based policy of the role that is being assumed. For more information, see
+ * Session
+ * Policies in the *IAM User Guide*.
+ *
+ * **Tags**
+ *
+ * (Optional) You can configure your IdP to pass attributes into your web identity token as
+ * session tags. Each session tag consists of a key name and an associated value. For more
+ * information about session tags, see Passing
+ * session tags using AssumeRoleWithWebIdentity in the
+ * *IAM User Guide*.
+ *
+ * You can pass up to 50 session tags. The plaintext session tag keys can’t exceed 128
+ * characters and the values can’t exceed 256 characters. For these and additional limits, see
+ * IAM
+ * and STS Character Limits in the *IAM User Guide*.
+ *
+ * An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs,
+ * and session tags into a packed binary format that has a separate limit. Your request can
+ * fail for this limit even if your plaintext meets the other requirements. The
+ * `PackedPolicySize` response element indicates by percentage how close the
+ * policies and tags for your request are to the upper size limit.
+ *
+ * You can pass a session tag with the same key as a tag that is attached to the role. When
+ * you do, the session tag overrides the role tag with the same key.
+ *
+ * An administrator must grant you the permissions necessary to pass session tags. The
+ * administrator can also create granular permissions to allow you to pass only specific
+ * session tags. For more information, see Tutorial: Using Tags
+ * for Attribute-Based Access Control in the
+ * *IAM User Guide*.
+ *
+ * You can set the session tags as transitive. Transitive tags persist during role
+ * chaining. For more information, see Chaining Roles
+ * with Session Tags in the *IAM User Guide*.
+ *
+ * **Identities**
+ *
+ * Before your application can call `AssumeRoleWithWebIdentity`, you must have
+ * an identity token from a supported identity provider and create a role that the application
+ * can assume. The role that your application assumes must trust the identity provider that is
+ * associated with the identity token. In other words, the identity provider must be specified
+ * in the role's trust policy.
+ *
+ * Calling `AssumeRoleWithWebIdentity` can result in an entry in your
+ * CloudTrail logs. The entry includes the Subject of
+ * the provided web identity token. We recommend that you avoid using any personally
+ * identifiable information (PII) in this field. For example, you could instead use a GUID
+ * or a pairwise identifier, as suggested
+ * in the OIDC specification.
+ *
+ * For more information about how to use OIDC federation and the
+ * `AssumeRoleWithWebIdentity` API, see the following resources:
+ *
+ * - Using Web Identity Federation API Operations for Mobile Apps and Federation Through a Web-based Identity Provider.
+ *
+ * - Amazon Web Services SDK for iOS Developer Guide and Amazon Web Services SDK for Android Developer Guide. These toolkits
+ * contain sample apps that show how to invoke the identity providers. The toolkits then
+ * show how to use the information from these providers to get and use temporary
+ * security credentials.
  */
-export const getWebIdentityToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWebIdentityTokenRequest,
-  output: GetWebIdentityTokenResponse,
-  errors: [
-    JWTPayloadSizeExceededException,
-    OutboundWebIdentityFederationDisabledException,
-    SessionDurationEscalationException,
-  ],
-}));
+export const assumeRoleWithWebIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssumeRoleWithWebIdentityRequest,
+    output: AssumeRoleWithWebIdentityResponse,
+    errors: [
+      ExpiredTokenException,
+      IDPCommunicationErrorException,
+      IDPRejectedClaimException,
+      InvalidIdentityTokenException,
+      MalformedPolicyDocumentException,
+      PackedPolicyTooLargeException,
+      RegionDisabledException,
+    ],
+  }),
+);

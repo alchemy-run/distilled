@@ -900,46 +900,46 @@ export class UpdatePrivateDnsNamespaceResponse extends S.Class<UpdatePrivateDnsN
 //# Errors
 export class InvalidInput extends S.TaggedError<InvalidInput>()(
   "InvalidInput",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ServiceNotFound extends S.TaggedError<ServiceNotFound>()(
-  "ServiceNotFound",
   { Message: S.optional(S.String) },
-) {}
-export class DuplicateRequest extends S.TaggedError<DuplicateRequest>()(
-  "DuplicateRequest",
-  {},
-) {}
-export class ResourceInUse extends S.TaggedError<ResourceInUse>()(
-  "ResourceInUse",
-  {},
 ) {}
 export class CustomHealthNotFound extends S.TaggedError<CustomHealthNotFound>()(
   "CustomHealthNotFound",
   { Message: S.optional(S.String) },
 ) {}
-export class InstanceNotFound extends S.TaggedError<InstanceNotFound>()(
-  "InstanceNotFound",
-  {},
+export class DuplicateRequest extends S.TaggedError<DuplicateRequest>()(
+  "DuplicateRequest",
+  { Message: S.optional(S.String), DuplicateOperationId: S.optional(S.String) },
+) {}
+export class ResourceInUse extends S.TaggedError<ResourceInUse>()(
+  "ResourceInUse",
+  { Message: S.optional(S.String) },
 ) {}
 export class NamespaceNotFound extends S.TaggedError<NamespaceNotFound>()(
   "NamespaceNotFound",
-  {},
-) {}
-export class ResourceLimitExceeded extends S.TaggedError<ResourceLimitExceeded>()(
-  "ResourceLimitExceeded",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class InstanceNotFound extends S.TaggedError<InstanceNotFound>()(
+  "InstanceNotFound",
+  { Message: S.optional(S.String) },
 ) {}
 export class ServiceAttributesLimitExceededException extends S.TaggedError<ServiceAttributesLimitExceededException>()(
   "ServiceAttributesLimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceNotFound extends S.TaggedError<ServiceNotFound>()(
+  "ServiceNotFound",
+  { Message: S.optional(S.String) },
+) {}
+export class RequestLimitExceeded extends S.TaggedError<RequestLimitExceeded>()(
+  "RequestLimitExceeded",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceLimitExceeded extends S.TaggedError<ResourceLimitExceeded>()(
+  "ResourceLimitExceeded",
   { Message: S.optional(S.String) },
 ) {}
 export class NamespaceAlreadyExists extends S.TaggedError<NamespaceAlreadyExists>()(
@@ -950,9 +950,13 @@ export class NamespaceAlreadyExists extends S.TaggedError<NamespaceAlreadyExists
     NamespaceId: S.optional(S.String),
   },
 ) {}
-export class RequestLimitExceeded extends S.TaggedError<RequestLimitExceeded>()(
-  "RequestLimitExceeded",
-  {},
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
+) {}
+export class OperationNotFound extends S.TaggedError<OperationNotFound>()(
+  "OperationNotFound",
+  { Message: S.optional(S.String) },
 ) {}
 export class ServiceAlreadyExists extends S.TaggedError<ServiceAlreadyExists>()(
   "ServiceAlreadyExists",
@@ -963,19 +967,24 @@ export class ServiceAlreadyExists extends S.TaggedError<ServiceAlreadyExists>()(
     ServiceArn: S.optional(S.String),
   },
 ) {}
-export class OperationNotFound extends S.TaggedError<OperationNotFound>()(
-  "OperationNotFound",
-  { Message: S.optional(S.String) },
-) {}
 
 //# Operations
 /**
- * Removes one or more tags from the specified resource.
+ * Lists tags for the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [InvalidInput, ResourceNotFoundException],
+}));
+/**
+ * Updates an HTTP
+ * namespace.
+ */
+export const updateHttpNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateHttpNamespaceRequest,
+  output: UpdateHttpNamespaceResponse,
+  errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
 }));
 /**
  * Deletes specific attributes associated with a service.
@@ -988,36 +997,6 @@ export const deleteServiceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists tags for the specified resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [InvalidInput, ResourceNotFoundException],
-}));
-/**
- * Submits a request to change the health status of a custom health check to healthy or
- * unhealthy.
- *
- * You can use `UpdateInstanceCustomHealthStatus` to change the status only for
- * custom health checks, which you define using `HealthCheckCustomConfig` when you create
- * a service. You can't use it to change the status for Route 53 health checks, which you define using
- * `HealthCheckConfig`.
- *
- * For more information, see HealthCheckCustomConfig.
- */
-export const updateInstanceCustomHealthStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateInstanceCustomHealthStatusRequest,
-    output: UpdateInstanceCustomHealthStatusResponse,
-    errors: [
-      CustomHealthNotFound,
-      InstanceNotFound,
-      InvalidInput,
-      ServiceNotFound,
-    ],
-  }));
-/**
  * Deletes a namespace from the current account. If the namespace still contains one or more
  * services, the request fails.
  */
@@ -1027,28 +1006,12 @@ export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
 }));
 /**
- * Deletes a specified service and all associated service attributes. If the service still
- * contains one or more registered instances, the request fails.
+ * Removes one or more tags from the specified resource.
  */
-export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteServiceRequest,
-  output: DeleteServiceResponse,
-  errors: [InvalidInput, ResourceInUse, ServiceNotFound],
-}));
-/**
- * Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the
- * specified instance.
- */
-export const deregisterInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeregisterInstanceRequest,
-  output: DeregisterInstanceResponse,
-  errors: [
-    DuplicateRequest,
-    InstanceNotFound,
-    InvalidInput,
-    ResourceInUse,
-    ServiceNotFound,
-  ],
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [InvalidInput, ResourceNotFoundException],
 }));
 /**
  * Gets information about a specified instance.
@@ -1073,6 +1036,15 @@ export const getInstancesHealthStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InstanceNotFound, InvalidInput, ServiceNotFound],
   }),
 );
+/**
+ * Deletes a specified service and all associated service attributes. If the service still
+ * contains one or more registered instances, the request fails.
+ */
+export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceRequest,
+  output: DeleteServiceResponse,
+  errors: [InvalidInput, ResourceInUse, ServiceNotFound],
+}));
 /**
  * Gets the settings for a specified service.
  */
@@ -1101,68 +1073,27 @@ export const listInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidInput, ServiceNotFound],
 }));
 /**
- * Creates or updates one or more records and, optionally, creates a health check based on the
- * settings in a specified service. When you submit a `RegisterInstance` request, the
- * following occurs:
+ * Submits a request to change the health status of a custom health check to healthy or
+ * unhealthy.
  *
- * - For each DNS record that you define in the service that's specified by
- * `ServiceId`, a record is created or updated in the hosted zone that's associated
- * with the corresponding namespace.
+ * You can use `UpdateInstanceCustomHealthStatus` to change the status only for
+ * custom health checks, which you define using `HealthCheckCustomConfig` when you create
+ * a service. You can't use it to change the status for Route 53 health checks, which you define using
+ * `HealthCheckConfig`.
  *
- * - If the service includes `HealthCheckConfig`, a health check is created based on
- * the settings in the health check configuration.
- *
- * - The health check, if any, is associated with each of the new or updated records.
- *
- * One `RegisterInstance` request must complete before you can submit another
- * request and specify the same service ID and instance ID.
- *
- * For more information, see CreateService.
- *
- * When Cloud Map receives a DNS query for the specified DNS name, it returns the applicable
- * value:
- *
- * - **If the health check is healthy**: returns all the
- * records
- *
- * - **If the health check is unhealthy**: returns the applicable
- * value for the last healthy instance
- *
- * - **If you didn't specify a health check configuration**:
- * returns all the records
- *
- * For the current quota on the number of instances that you can register using the same
- * namespace and using the same service, see Cloud Map quotas in the
- * *Cloud Map Developer Guide*.
+ * For more information, see HealthCheckCustomConfig.
  */
-export const registerInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterInstanceRequest,
-  output: RegisterInstanceResponse,
-  errors: [
-    DuplicateRequest,
-    InvalidInput,
-    ResourceInUse,
-    ResourceLimitExceeded,
-    ServiceNotFound,
-  ],
-}));
-/**
- * Adds one or more tags to the specified resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [InvalidInput, ResourceNotFoundException, TooManyTagsException],
-}));
-/**
- * Updates an HTTP
- * namespace.
- */
-export const updateHttpNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateHttpNamespaceRequest,
-  output: UpdateHttpNamespaceResponse,
-  errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
-}));
+export const updateInstanceCustomHealthStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateInstanceCustomHealthStatusRequest,
+    output: UpdateInstanceCustomHealthStatusResponse,
+    errors: [
+      CustomHealthNotFound,
+      InstanceNotFound,
+      InvalidInput,
+      ServiceNotFound,
+    ],
+  }));
 /**
  * Submits a request to update a specified service to add service-level attributes.
  */
@@ -1178,62 +1109,17 @@ export const updateServiceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates an HTTP namespace. Service instances registered using an HTTP namespace can be
- * discovered using a `DiscoverInstances` request but can't be discovered using
- * DNS.
- *
- * For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the
- * *Cloud Map Developer Guide*.
+ * Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the
+ * specified instance.
  */
-export const createHttpNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateHttpNamespaceRequest,
-  output: CreateHttpNamespaceResponse,
+export const deregisterInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterInstanceRequest,
+  output: DeregisterInstanceResponse,
   errors: [
     DuplicateRequest,
+    InstanceNotFound,
     InvalidInput,
-    NamespaceAlreadyExists,
-    ResourceLimitExceeded,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Creates a public namespace based on DNS, which is visible on the internet. The namespace
- * defines your service naming scheme. For example, if you name your namespace
- * `example.com` and name your service `backend`, the resulting DNS name for
- * the service is `backend.example.com`. You can discover instances that were registered
- * with a public DNS namespace by using either a `DiscoverInstances` request or using
- * DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the
- * *Cloud Map Developer Guide*.
- *
- * The `CreatePublicDnsNamespace` API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
- */
-export const createPublicDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePublicDnsNamespaceRequest,
-    output: CreatePublicDnsNamespaceResponse,
-    errors: [
-      DuplicateRequest,
-      InvalidInput,
-      NamespaceAlreadyExists,
-      ResourceLimitExceeded,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
- * Discovers registered instances for a specified namespace and service. You can use
- * `DiscoverInstances` to discover instances for any type of namespace.
- * `DiscoverInstances` returns a randomized list of instances allowing customers to
- * distribute traffic evenly across instances. For public and private DNS namespaces, you can also
- * use DNS queries to discover instances.
- */
-export const discoverInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DiscoverInstancesRequest,
-  output: DiscoverInstancesResponse,
-  errors: [
-    InvalidInput,
-    NamespaceNotFound,
-    RequestLimitExceeded,
+    ResourceInUse,
     ServiceNotFound,
   ],
 }));
@@ -1314,6 +1200,120 @@ export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [DuplicateRequest, InvalidInput, ServiceNotFound],
 }));
 /**
+ * Creates or updates one or more records and, optionally, creates a health check based on the
+ * settings in a specified service. When you submit a `RegisterInstance` request, the
+ * following occurs:
+ *
+ * - For each DNS record that you define in the service that's specified by
+ * `ServiceId`, a record is created or updated in the hosted zone that's associated
+ * with the corresponding namespace.
+ *
+ * - If the service includes `HealthCheckConfig`, a health check is created based on
+ * the settings in the health check configuration.
+ *
+ * - The health check, if any, is associated with each of the new or updated records.
+ *
+ * One `RegisterInstance` request must complete before you can submit another
+ * request and specify the same service ID and instance ID.
+ *
+ * For more information, see CreateService.
+ *
+ * When Cloud Map receives a DNS query for the specified DNS name, it returns the applicable
+ * value:
+ *
+ * - **If the health check is healthy**: returns all the
+ * records
+ *
+ * - **If the health check is unhealthy**: returns the applicable
+ * value for the last healthy instance
+ *
+ * - **If you didn't specify a health check configuration**:
+ * returns all the records
+ *
+ * For the current quota on the number of instances that you can register using the same
+ * namespace and using the same service, see Cloud Map quotas in the
+ * *Cloud Map Developer Guide*.
+ */
+export const registerInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterInstanceRequest,
+  output: RegisterInstanceResponse,
+  errors: [
+    DuplicateRequest,
+    InvalidInput,
+    ResourceInUse,
+    ResourceLimitExceeded,
+    ServiceNotFound,
+  ],
+}));
+/**
+ * Discovers registered instances for a specified namespace and service. You can use
+ * `DiscoverInstances` to discover instances for any type of namespace.
+ * `DiscoverInstances` returns a randomized list of instances allowing customers to
+ * distribute traffic evenly across instances. For public and private DNS namespaces, you can also
+ * use DNS queries to discover instances.
+ */
+export const discoverInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DiscoverInstancesRequest,
+  output: DiscoverInstancesResponse,
+  errors: [
+    InvalidInput,
+    NamespaceNotFound,
+    RequestLimitExceeded,
+    ServiceNotFound,
+  ],
+}));
+/**
+ * Adds one or more tags to the specified resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [InvalidInput, ResourceNotFoundException, TooManyTagsException],
+}));
+/**
+ * Creates a public namespace based on DNS, which is visible on the internet. The namespace
+ * defines your service naming scheme. For example, if you name your namespace
+ * `example.com` and name your service `backend`, the resulting DNS name for
+ * the service is `backend.example.com`. You can discover instances that were registered
+ * with a public DNS namespace by using either a `DiscoverInstances` request or using
+ * DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the
+ * *Cloud Map Developer Guide*.
+ *
+ * The `CreatePublicDnsNamespace` API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
+ */
+export const createPublicDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePublicDnsNamespaceRequest,
+    output: CreatePublicDnsNamespaceResponse,
+    errors: [
+      DuplicateRequest,
+      InvalidInput,
+      NamespaceAlreadyExists,
+      ResourceLimitExceeded,
+      TooManyTagsException,
+    ],
+  }),
+);
+/**
+ * Creates an HTTP namespace. Service instances registered using an HTTP namespace can be
+ * discovered using a `DiscoverInstances` request but can't be discovered using
+ * DNS.
+ *
+ * For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the
+ * *Cloud Map Developer Guide*.
+ */
+export const createHttpNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHttpNamespaceRequest,
+  output: CreateHttpNamespaceResponse,
+  errors: [
+    DuplicateRequest,
+    InvalidInput,
+    NamespaceAlreadyExists,
+    ResourceLimitExceeded,
+    TooManyTagsException,
+  ],
+}));
+/**
  * Creates a private namespace based on DNS, which is visible only inside a specified Amazon
  * VPC. The namespace defines your service naming scheme. For example, if you name your namespace
  * `example.com` and name your service `backend`, the resulting DNS name for
@@ -1334,6 +1334,35 @@ export const createPrivateDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ResourceLimitExceeded,
       TooManyTagsException,
     ],
+  }),
+);
+/**
+ * Gets information about a namespace.
+ */
+export const getNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNamespaceRequest,
+  output: GetNamespaceResponse,
+  errors: [InvalidInput, NamespaceNotFound],
+}));
+/**
+ * Gets information about any operation that returns an operation ID in the response, such as a
+ * `CreateHttpNamespace` request.
+ *
+ * To get a list of operations that match specified criteria, see ListOperations.
+ */
+export const getOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOperationRequest,
+  output: GetOperationResponse,
+  errors: [InvalidInput, OperationNotFound],
+}));
+/**
+ * Updates a public DNS namespace.
+ */
+export const updatePublicDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePublicDnsNamespaceRequest,
+    output: UpdatePublicDnsNamespaceResponse,
+    errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
   }),
 );
 /**
@@ -1372,35 +1401,6 @@ export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyTagsException,
   ],
 }));
-/**
- * Gets information about a namespace.
- */
-export const getNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetNamespaceRequest,
-  output: GetNamespaceResponse,
-  errors: [InvalidInput, NamespaceNotFound],
-}));
-/**
- * Gets information about any operation that returns an operation ID in the response, such as a
- * `CreateHttpNamespace` request.
- *
- * To get a list of operations that match specified criteria, see ListOperations.
- */
-export const getOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetOperationRequest,
-  output: GetOperationResponse,
-  errors: [InvalidInput, OperationNotFound],
-}));
-/**
- * Updates a public DNS namespace.
- */
-export const updatePublicDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePublicDnsNamespaceRequest,
-    output: UpdatePublicDnsNamespaceResponse,
-    errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
-  }),
-);
 /**
  * Updates a private DNS
  * namespace.

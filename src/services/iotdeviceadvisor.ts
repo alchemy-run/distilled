@@ -663,15 +663,15 @@ export class GetSuiteRunResponse extends S.Class<GetSuiteRunResponse>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
@@ -679,20 +679,6 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 ) {}
 
 //# Operations
-/**
- * Removes tags from an IoT Device Advisor resource.
- *
- * Requires permission to access the UntagResource action.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Deletes a Device Advisor test suite.
  *
@@ -717,6 +703,41 @@ export const getEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Lists the Device Advisor test suites you have created.
+ *
+ * Requires permission to access the ListSuiteDefinitions action.
+ */
+export const listSuiteDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSuiteDefinitionsRequest,
+    output: ListSuiteDefinitionsResponse,
+    errors: [InternalServerException, ValidationException],
+  }),
+);
+/**
+ * Lists runs of the specified Device Advisor test suite. You can list all runs of the test
+ * suite, or the runs of a specific version of the test suite.
+ *
+ * Requires permission to access the ListSuiteRuns action.
+ */
+export const listSuiteRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSuiteRunsRequest,
+  output: ListSuiteRunsResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Updates a Device Advisor test suite.
+ *
+ * Requires permission to access the UpdateSuiteDefinition action.
+ */
+export const updateSuiteDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSuiteDefinitionRequest,
+    output: UpdateSuiteDefinitionResponse,
+    errors: [InternalServerException, ValidationException],
+  }),
+);
 /**
  * Gets information about a Device Advisor test suite.
  *
@@ -788,39 +809,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a Device Advisor test suite.
+ * Removes tags from an IoT Device Advisor resource.
  *
- * Requires permission to access the UpdateSuiteDefinition action.
+ * Requires permission to access the UntagResource action.
  */
-export const updateSuiteDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSuiteDefinitionRequest,
-    output: UpdateSuiteDefinitionResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
-/**
- * Lists the Device Advisor test suites you have created.
- *
- * Requires permission to access the ListSuiteDefinitions action.
- */
-export const listSuiteDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSuiteDefinitionsRequest,
-    output: ListSuiteDefinitionsResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
-/**
- * Lists runs of the specified Device Advisor test suite. You can list all runs of the test
- * suite, or the runs of a specific version of the test suite.
- *
- * Requires permission to access the ListSuiteRuns action.
- */
-export const listSuiteRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSuiteRunsRequest,
-  output: ListSuiteRunsResponse,
-  errors: [InternalServerException, ValidationException],
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
 }));
 /**
  * Creates a Device Advisor test suite.

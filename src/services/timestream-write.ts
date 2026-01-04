@@ -776,34 +776,34 @@ export const RejectedRecords = S.Array(RejectedRecord);
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
+  { Message: S.String },
 ) {}
 export class InvalidEndpointException extends S.TaggedError<InvalidEndpointException>()(
   "InvalidEndpointException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
+  { Message: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.String },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { Message: S.String },
 ) {}
 export class RejectedRecordsException extends S.TaggedError<RejectedRecordsException>()(
@@ -815,6 +815,57 @@ export class RejectedRecordsException extends S.TaggedError<RejectedRecordsExcep
 ) {}
 
 //# Operations
+/**
+ * Returns information about the batch load task, including configurations, mappings,
+ * progress, and other details. Service quotas apply. See
+ * code
+ * sample for details.
+ */
+export const describeBatchLoadTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeBatchLoadTaskRequest,
+    output: DescribeBatchLoadTaskResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidEndpointException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Provides a list of batch load tasks, along with the name, status, when the task is
+ * resumable until, and other details. See code
+ * sample for details.
+ */
+export const listBatchLoadTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBatchLoadTasksRequest,
+  output: ListBatchLoadTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates a set of tags with a Timestream resource. You can then activate
+ * these user-defined tags so that they appear on the Billing and Cost Management console for
+ * cost allocation tracking.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of available endpoints to make Timestream API calls against.
  * This API operation is available through both the Write and Query APIs.
@@ -873,85 +924,6 @@ export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all tags on a Timestream resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InvalidEndpointException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- *
- */
-export const resumeBatchLoadTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResumeBatchLoadTaskRequest,
-  output: ResumeBatchLoadTaskResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidEndpointException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a set of tags with a Timestream resource. You can then activate
- * these user-defined tags so that they appear on the Billing and Cost Management console for
- * cost allocation tracking.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidEndpointException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the association of tags from a Timestream resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidEndpointException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Modifies the KMS key for an existing database. While updating the
- * database, you must specify the database name and the identifier of the new KMS key to be used (`KmsKeyId`). If there are any concurrent
- * `UpdateDatabase` requests, first writer wins.
- *
- * See code sample
- * for details.
- */
-export const updateDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDatabaseRequest,
-  output: UpdateDatabaseResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidEndpointException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Modifies the retention duration of the memory store and magnetic store for your Timestream table. Note that the change in retention duration takes effect immediately.
  * For example, if the retention period of the memory store was initially set to 2 hours and
  * then changed to 24 hours, the memory store will be capable of holding 24 hours of data, but
@@ -963,32 +935,6 @@ export const updateDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableRequest,
   output: UpdateTableResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidEndpointException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a given Timestream database. This is an irreversible
- * operation. After a database is deleted, the time-series data from its tables cannot be
- * recovered.
- *
- * All tables in the database must be deleted first, or a ValidationException error will
- * be thrown.
- *
- * Due to the nature of distributed retries, the operation can return either success or
- * a ResourceNotFoundException. Clients should consider them equivalent.
- *
- * See code sample
- * for details.
- */
-export const deleteDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatabaseRequest,
-  output: DeleteDatabaseResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1012,6 +958,60 @@ export const deleteDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableRequest,
   output: DeleteTableResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ *
+ */
+export const resumeBatchLoadTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResumeBatchLoadTaskRequest,
+  output: ResumeBatchLoadTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all tags on a Timestream resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a given Timestream database. This is an irreversible
+ * operation. After a database is deleted, the time-series data from its tables cannot be
+ * recovered.
+ *
+ * All tables in the database must be deleted first, or a ValidationException error will
+ * be thrown.
+ *
+ * Due to the nature of distributed retries, the operation can return either success or
+ * a ResourceNotFoundException. Clients should consider them equivalent.
+ *
+ * See code sample
+ * for details.
+ */
+export const deleteDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatabaseRequest,
+  output: DeleteDatabaseResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1058,17 +1058,36 @@ export const describeTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Provides a list of batch load tasks, along with the name, status, when the task is
- * resumable until, and other details. See code
- * sample for details.
+ * Modifies the KMS key for an existing database. While updating the
+ * database, you must specify the database name and the identifier of the new KMS key to be used (`KmsKeyId`). If there are any concurrent
+ * `UpdateDatabase` requests, first writer wins.
+ *
+ * See code sample
+ * for details.
  */
-export const listBatchLoadTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBatchLoadTasksRequest,
-  output: ListBatchLoadTasksResponse,
+export const updateDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDatabaseRequest,
+  output: UpdateDatabaseResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     InvalidEndpointException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the association of tags from a Timestream resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1091,25 +1110,6 @@ export const createDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Returns information about the batch load task, including configurations, mappings,
- * progress, and other details. Service quotas apply. See
- * code
- * sample for details.
- */
-export const describeBatchLoadTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBatchLoadTaskRequest,
-    output: DescribeBatchLoadTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Adds a new table to an existing database in your account. In an Amazon Web Services account, table names must be at least unique within each Region if they are in the same
  * database. You might have identical table names in the same Region if the tables are in

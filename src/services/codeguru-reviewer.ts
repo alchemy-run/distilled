@@ -753,28 +753,28 @@ export class CreateCodeReviewResponse extends S.Class<CreateCodeReviewResponse>(
 )({ CodeReview: S.optional(CodeReview) }) {}
 
 //# Errors
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
+  { Message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { Message: S.optional(S.String) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
@@ -796,17 +796,22 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes a tag from an associated repository.
+ * Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with
+ * different reactions the previous feedback is overwritten.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
+export const putRecommendationFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutRecommendationFeedbackRequest,
+    output: PutRecommendationFeedbackResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Describes the customer feedback for a CodeGuru Reviewer recommendation.
  */
@@ -830,46 +835,6 @@ export const listRecommendationFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: ListRecommendationFeedbackRequest,
     output: ListRecommendationFeedbackResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of RepositoryAssociationSummary objects that contain summary information about a
- * repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
- */
-export const listRepositoryAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRepositoryAssociationsRequest,
-    output: ListRepositoryAssociationsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-  }),
-);
-/**
- * Returns the list of tags associated with an associated repository resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with
- * different reactions the previous feedback is overwritten.
- */
-export const putRecommendationFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRecommendationFeedbackRequest,
-    output: PutRecommendationFeedbackResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -925,23 +890,6 @@ export const describeCodeReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes the association between Amazon CodeGuru Reviewer and a repository.
- */
-export const disassociateRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateRepositoryRequest,
-    output: DisassociateRepositoryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      NotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Lists all the code reviews that the customer has created in the past 90 days.
  */
 export const listCodeReviews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -968,6 +916,58 @@ export const listRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Removes the association between Amazon CodeGuru Reviewer and a repository.
+ */
+export const disassociateRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateRepositoryRequest,
+    output: DisassociateRepositoryResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      NotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Removes a tag from an associated repository.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the list of tags associated with an associated repository resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of RepositoryAssociationSummary objects that contain summary information about a
+ * repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
+ */
+export const listRepositoryAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListRepositoryAssociationsRequest,
+    output: ListRepositoryAssociationsResponse,
+    errors: [InternalServerException, ThrottlingException, ValidationException],
+  }),
+);
 /**
  * Returns a RepositoryAssociation object that contains information about the requested
  * repository association.

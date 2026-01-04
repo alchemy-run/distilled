@@ -20,6 +20,7 @@ import {
   getHttpHeader,
   getHttpPrefixHeaders,
   getHttpQuery,
+  getPropAnnotations,
   getTimestampFormatFromAST,
   getXmlNameProp,
   hasHttpLabel,
@@ -121,13 +122,18 @@ export const restXmlProtocol: Protocol = (
   const headerProps: HeaderProp[] = [];
   const prefixHeaderProps: PrefixHeaderProp[] = [];
   let outputPayloadProp: PayloadProp | undefined;
+  let responseCodePropName: string | undefined;
 
   for (const prop of outputProps) {
     const name = String(prop.name);
     const header = getHttpHeader(prop);
     const prefixHeader = getHttpPrefixHeaders(prop);
+    const annotations = getPropAnnotations(prop);
 
-    if (header) {
+    if (annotations.responseCode) {
+      // Property bound to HTTP response status code
+      responseCodePropName = name;
+    } else if (header) {
       headerProps.push({
         name,
         header,
@@ -205,6 +211,11 @@ export const restXmlProtocol: Protocol = (
 
     deserializeResponse: Effect.fn(function* (response: Response) {
       const result: Record<string, unknown> = {};
+
+      // Extract HTTP response status code if bound to a property
+      if (responseCodePropName) {
+        result[responseCodePropName] = response.status;
+      }
 
       // Extract header-bound properties using pre-computed metadata
       for (const hp of headerProps) {

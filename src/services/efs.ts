@@ -1178,22 +1178,29 @@ export class DescribeReplicationConfigurationsResponse extends S.Class<DescribeR
 }) {}
 
 //# Errors
-export class BadRequest extends S.TaggedError<BadRequest>()("BadRequest", {}) {}
+export class BadRequest extends S.TaggedError<BadRequest>()("BadRequest", {
+  ErrorCode: S.String,
+  Message: S.optional(S.String),
+}) {}
+export class AccessPointNotFound extends S.TaggedError<AccessPointNotFound>()(
+  "AccessPointNotFound",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
+export class AvailabilityZonesMismatch extends S.TaggedError<AvailabilityZonesMismatch>()(
+  "AvailabilityZonesMismatch",
+  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
+) {}
 export class FileSystemNotFound extends S.TaggedError<FileSystemNotFound>()(
   "FileSystemNotFound",
-  {},
+  { ErrorCode: S.String, Message: S.optional(S.String) },
 ) {}
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
-  {},
+  { ErrorCode: S.String, Message: S.optional(S.String) },
 ) {}
-export class AccessPointNotFound extends S.TaggedError<AccessPointNotFound>()(
-  "AccessPointNotFound",
-  {},
-) {}
-export class IncorrectFileSystemLifeCycleState extends S.TaggedError<IncorrectFileSystemLifeCycleState>()(
-  "IncorrectFileSystemLifeCycleState",
-  {},
+export class IncorrectMountTargetState extends S.TaggedError<IncorrectMountTargetState>()(
+  "IncorrectMountTargetState",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
 ) {}
 export class FileSystemInUse extends S.TaggedError<FileSystemInUse>()(
   "FileSystemInUse",
@@ -1203,57 +1210,9 @@ export class DependencyTimeout extends S.TaggedError<DependencyTimeout>()(
   "DependencyTimeout",
   { ErrorCode: S.String, Message: S.optional(S.String) },
 ) {}
-export class PolicyNotFound extends S.TaggedError<PolicyNotFound>()(
-  "PolicyNotFound",
-  {},
-) {}
-export class MountTargetNotFound extends S.TaggedError<MountTargetNotFound>()(
-  "MountTargetNotFound",
-  {},
-) {}
-export class IncorrectMountTargetState extends S.TaggedError<IncorrectMountTargetState>()(
-  "IncorrectMountTargetState",
-  {},
-) {}
-export class InsufficientThroughputCapacity extends S.TaggedError<InsufficientThroughputCapacity>()(
-  "InsufficientThroughputCapacity",
-  { ErrorCode: S.String, Message: S.optional(S.String) },
-) {}
-export class AvailabilityZonesMismatch extends S.TaggedError<AvailabilityZonesMismatch>()(
-  "AvailabilityZonesMismatch",
-  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
-) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
-) {}
-export class ReplicationNotFound extends S.TaggedError<ReplicationNotFound>()(
-  "ReplicationNotFound",
-  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class SecurityGroupLimitExceeded extends S.TaggedError<SecurityGroupLimitExceeded>()(
-  "SecurityGroupLimitExceeded",
-  { ErrorCode: S.String, Message: S.optional(S.String) },
-) {}
-export class InvalidPolicyException extends S.TaggedError<InvalidPolicyException>()(
-  "InvalidPolicyException",
-  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
-) {}
-export class ThroughputLimitExceeded extends S.TaggedError<ThroughputLimitExceeded>()(
-  "ThroughputLimitExceeded",
-  { ErrorCode: S.String, Message: S.optional(S.String) },
-) {}
-export class ReplicationAlreadyExists extends S.TaggedError<ReplicationAlreadyExists>()(
-  "ReplicationAlreadyExists",
-  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
-) {}
-export class TooManyRequests extends S.TaggedError<TooManyRequests>()(
-  "TooManyRequests",
-  {},
 ) {}
 export class AccessPointAlreadyExists extends S.TaggedError<AccessPointAlreadyExists>()(
   "AccessPointAlreadyExists",
@@ -1271,36 +1230,80 @@ export class FileSystemAlreadyExists extends S.TaggedError<FileSystemAlreadyExis
     FileSystemId: S.String,
   },
 ) {}
+export class MountTargetNotFound extends S.TaggedError<MountTargetNotFound>()(
+  "MountTargetNotFound",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
 export class FileSystemLimitExceeded extends S.TaggedError<FileSystemLimitExceeded>()(
   "FileSystemLimitExceeded",
-  {},
-) {}
-export class IpAddressInUse extends S.TaggedError<IpAddressInUse>()(
-  "IpAddressInUse",
   { ErrorCode: S.String, Message: S.optional(S.String) },
 ) {}
-export class UnsupportedAvailabilityZone extends S.TaggedError<UnsupportedAvailabilityZone>()(
-  "UnsupportedAvailabilityZone",
-  {},
+export class PolicyNotFound extends S.TaggedError<PolicyNotFound>()(
+  "PolicyNotFound",
+  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
-export class SecurityGroupNotFound extends S.TaggedError<SecurityGroupNotFound>()(
-  "SecurityGroupNotFound",
+export class IncorrectFileSystemLifeCycleState extends S.TaggedError<IncorrectFileSystemLifeCycleState>()(
+  "IncorrectFileSystemLifeCycleState",
   { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
+export class ReplicationNotFound extends S.TaggedError<ReplicationNotFound>()(
+  "ReplicationNotFound",
+  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class AccessPointLimitExceeded extends S.TaggedError<AccessPointLimitExceeded>()(
   "AccessPointLimitExceeded",
   { ErrorCode: S.String, Message: S.optional(S.String) },
 ) {}
-export class MountTargetConflict extends S.TaggedError<MountTargetConflict>()(
-  "MountTargetConflict",
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
+export class SecurityGroupLimitExceeded extends S.TaggedError<SecurityGroupLimitExceeded>()(
+  "SecurityGroupLimitExceeded",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
+export class InsufficientThroughputCapacity extends S.TaggedError<InsufficientThroughputCapacity>()(
+  "InsufficientThroughputCapacity",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
+export class InvalidPolicyException extends S.TaggedError<InvalidPolicyException>()(
+  "InvalidPolicyException",
+  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class IpAddressInUse extends S.TaggedError<IpAddressInUse>()(
+  "IpAddressInUse",
   { ErrorCode: S.String, Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
+export class SecurityGroupNotFound extends S.TaggedError<SecurityGroupNotFound>()(
+  "SecurityGroupNotFound",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
+export class ThroughputLimitExceeded extends S.TaggedError<ThroughputLimitExceeded>()(
+  "ThroughputLimitExceeded",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
+export class MountTargetConflict extends S.TaggedError<MountTargetConflict>()(
+  "MountTargetConflict",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
+export class ReplicationAlreadyExists extends S.TaggedError<ReplicationAlreadyExists>()(
+  "ReplicationAlreadyExists",
+  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class UnsupportedAvailabilityZone extends S.TaggedError<UnsupportedAvailabilityZone>()(
+  "UnsupportedAvailabilityZone",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
 export class NetworkInterfaceLimitExceeded extends S.TaggedError<NetworkInterfaceLimitExceeded>()(
   "NetworkInterfaceLimitExceeded",
+  { ErrorCode: S.String, Message: S.optional(S.String) },
+) {}
+export class TooManyRequests extends S.TaggedError<TooManyRequests>()(
+  "TooManyRequests",
   { ErrorCode: S.String, Message: S.optional(S.String) },
 ) {}
 export class NoFreeAddressesInSubnet extends S.TaggedError<NoFreeAddressesInSubnet>()(
@@ -1313,6 +1316,162 @@ export class SubnetNotFound extends S.TaggedError<SubnetNotFound>()(
 ) {}
 
 //# Operations
+/**
+ * Deletes the specified access point. After deletion is complete, new clients can no
+ * longer connect to the access points. Clients connected to the access point at the time of
+ * deletion will continue to function until they terminate their connection.
+ *
+ * This operation requires permissions for the `elasticfilesystem:DeleteAccessPoint` action.
+ */
+export const deleteAccessPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccessPointRequest,
+  output: DeleteAccessPointResponse,
+  errors: [AccessPointNotFound, BadRequest, InternalServerError],
+}));
+/**
+ * Returns the description of a specific Amazon EFS access point if the
+ * `AccessPointId` is provided. If you provide an EFS
+ * `FileSystemId`, it returns descriptions of all access points for that file
+ * system. You can provide either an `AccessPointId` or a `FileSystemId` in
+ * the request, but not both.
+ *
+ * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
+ */
+export const describeAccessPoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAccessPointsRequest,
+    output: DescribeAccessPointsResponse,
+    errors: [
+      AccessPointNotFound,
+      BadRequest,
+      FileSystemNotFound,
+      InternalServerError,
+    ],
+  }),
+);
+/**
+ * Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
+ */
+export const describeAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAccountPreferencesRequest,
+    output: DescribeAccountPreferencesResponse,
+    errors: [InternalServerError],
+  }),
+);
+/**
+ * Deletes a file system, permanently severing access to its contents. Upon return, the
+ * file system no longer exists and you can't access any contents of the deleted file
+ * system.
+ *
+ * You need to manually delete mount targets attached to a file system before you can delete
+ * an EFS file system. This step is performed for you when you use the Amazon Web Services console
+ * to delete a file system.
+ *
+ * You cannot delete a file system that is part of an EFS replication configuration.
+ * You need to delete the replication configuration first.
+ *
+ * You can't delete a file system that is in use. That is, if the file system has
+ * any mount targets, you must first delete them. For more information, see DescribeMountTargets and DeleteMountTarget.
+ *
+ * The `DeleteFileSystem` call returns while the file system state is still
+ * `deleting`. You can check the file system deletion status by calling the DescribeFileSystems operation, which returns a list of file systems in your
+ * account. If you pass file system ID or creation token for the deleted file system, the DescribeFileSystems returns a `404 FileSystemNotFound`
+ * error.
+ *
+ * This operation requires permissions for the
+ * `elasticfilesystem:DeleteFileSystem` action.
+ */
+export const deleteFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFileSystemRequest,
+  output: DeleteFileSystemResponse,
+  errors: [
+    BadRequest,
+    FileSystemInUse,
+    FileSystemNotFound,
+    InternalServerError,
+  ],
+}));
+/**
+ * Returns the description of a specific Amazon EFS file system if either the file system
+ * `CreationToken` or the `FileSystemId` is provided. Otherwise, it
+ * returns descriptions of all file systems owned by the caller's Amazon Web Services account in the
+ * Amazon Web Services Region of the endpoint that you're calling.
+ *
+ * When retrieving all file system descriptions, you can optionally specify the
+ * `MaxItems` parameter to limit the number of descriptions in a response.
+ * This number is automatically set to 100. If more file system descriptions remain,
+ * Amazon EFS returns a `NextMarker`, an opaque token, in the response. In this case,
+ * you should send a subsequent request with the `Marker` request parameter set to the
+ * value of `NextMarker`.
+ *
+ * To retrieve a list of your file system descriptions, this operation is used in an
+ * iterative process, where `DescribeFileSystems` is called first without the
+ * `Marker` and then the operation continues to call it with the `Marker`
+ * parameter set to the value of the `NextMarker` from the previous response until the
+ * response has no `NextMarker`.
+ *
+ * The order of file systems returned in the response of one
+ * `DescribeFileSystems` call and the order of file systems returned across the
+ * responses of a multi-call iteration is unspecified.
+ *
+ * This operation requires permissions for the
+ * `elasticfilesystem:DescribeFileSystems` action.
+ */
+export const describeFileSystems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFileSystemsRequest,
+  output: DescribeFileSystemsResponse,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+}));
+/**
+ * Returns the current `LifecycleConfiguration` object for the specified
+ * EFS file system. Lifecycle management uses the `LifecycleConfiguration`
+ * object to identify when to move files between storage classes. For a file system without a
+ * `LifecycleConfiguration` object, the call returns an empty array in the
+ * response.
+ *
+ * This operation requires permissions for the
+ * `elasticfilesystem:DescribeLifecycleConfiguration` operation.
+ */
+export const describeLifecycleConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeLifecycleConfigurationRequest,
+    output: LifecycleConfigurationDescription,
+    errors: [BadRequest, FileSystemNotFound, InternalServerError],
+  }));
+/**
+ * DEPRECATED - The `DescribeTags` action is deprecated and not maintained. To view
+ * tags associated with EFS resources, use the `ListTagsForResource` API
+ * action.
+ *
+ * Returns the tags associated with a file system. The order of tags returned in the
+ * response of one `DescribeTags` call and the order of tags returned across the
+ * responses of a multiple-call iteration (when using pagination) is unspecified.
+ *
+ * This operation requires permissions for the
+ * `elasticfilesystem:DescribeTags` action.
+ */
+export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTagsRequest,
+  output: DescribeTagsResponse,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+}));
+/**
+ * Lists all tags for a top-level EFS resource. You must provide the ID of the
+ * resource that you want to retrieve the tags for.
+ *
+ * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessPointNotFound,
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+  ],
+}));
 /**
  * DEPRECATED - `DeleteTags` is deprecated and not maintained. To remove tags from EFS
  * resources, use the API action.
@@ -1363,6 +1522,24 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Use this operation to set the account preference in the current Amazon Web Services Region
+ * to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new
+ * EFS file system and mount target resources. All existing resource IDs are not
+ * affected by any changes you make. You can set the ID preference during the opt-in period as
+ * EFS transitions to long resource IDs. For more information, see Managing Amazon EFS resource IDs.
+ *
+ * Starting in October, 2021, you will receive an error if you try to set the account preference
+ * to use the short 8 character format resource ID. Contact Amazon Web Services support if you
+ * receive an error and must use short IDs for file system and mount target resources.
+ */
+export const putAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutAccountPreferencesRequest,
+    output: PutAccountPreferencesResponse,
+    errors: [BadRequest, InternalServerError],
+  }),
+);
+/**
  * DEPRECATED - `CreateTags` is deprecated and not maintained. To create tags for EFS
  * resources, use the API action.
  *
@@ -1379,158 +1556,6 @@ export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: CreateTagsResponse,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
 }));
-/**
- * Deletes the specified access point. After deletion is complete, new clients can no
- * longer connect to the access points. Clients connected to the access point at the time of
- * deletion will continue to function until they terminate their connection.
- *
- * This operation requires permissions for the `elasticfilesystem:DeleteAccessPoint` action.
- */
-export const deleteAccessPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccessPointRequest,
-  output: DeleteAccessPointResponse,
-  errors: [AccessPointNotFound, BadRequest, InternalServerError],
-}));
-/**
- * Deletes a file system, permanently severing access to its contents. Upon return, the
- * file system no longer exists and you can't access any contents of the deleted file
- * system.
- *
- * You need to manually delete mount targets attached to a file system before you can delete
- * an EFS file system. This step is performed for you when you use the Amazon Web Services console
- * to delete a file system.
- *
- * You cannot delete a file system that is part of an EFS replication configuration.
- * You need to delete the replication configuration first.
- *
- * You can't delete a file system that is in use. That is, if the file system has
- * any mount targets, you must first delete them. For more information, see DescribeMountTargets and DeleteMountTarget.
- *
- * The `DeleteFileSystem` call returns while the file system state is still
- * `deleting`. You can check the file system deletion status by calling the DescribeFileSystems operation, which returns a list of file systems in your
- * account. If you pass file system ID or creation token for the deleted file system, the DescribeFileSystems returns a `404 FileSystemNotFound`
- * error.
- *
- * This operation requires permissions for the
- * `elasticfilesystem:DeleteFileSystem` action.
- */
-export const deleteFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFileSystemRequest,
-  output: DeleteFileSystemResponse,
-  errors: [
-    BadRequest,
-    FileSystemInUse,
-    FileSystemNotFound,
-    InternalServerError,
-  ],
-}));
-/**
- * Deletes the `FileSystemPolicy` for the specified file system.
- * The default `FileSystemPolicy` goes into effect once the existing policy is deleted.
- * For more information about the default file system policy, see Using Resource-based Policies with EFS.
- *
- * This operation requires permissions for the `elasticfilesystem:DeleteFileSystemPolicy` action.
- */
-export const deleteFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFileSystemPolicyRequest,
-    output: DeleteFileSystemPolicyResponse,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      IncorrectFileSystemLifeCycleState,
-      InternalServerError,
-    ],
-  }),
-);
-/**
- * Returns the `FileSystemPolicy` for the specified EFS file
- * system.
- *
- * This operation requires permissions for the `elasticfilesystem:DescribeFileSystemPolicy` action.
- */
-export const describeFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFileSystemPolicyRequest,
-    output: FileSystemPolicyDescription,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-      PolicyNotFound,
-    ],
-  }),
-);
-/**
- * Returns the description of a specific Amazon EFS file system if either the file system
- * `CreationToken` or the `FileSystemId` is provided. Otherwise, it
- * returns descriptions of all file systems owned by the caller's Amazon Web Services account in the
- * Amazon Web Services Region of the endpoint that you're calling.
- *
- * When retrieving all file system descriptions, you can optionally specify the
- * `MaxItems` parameter to limit the number of descriptions in a response.
- * This number is automatically set to 100. If more file system descriptions remain,
- * Amazon EFS returns a `NextMarker`, an opaque token, in the response. In this case,
- * you should send a subsequent request with the `Marker` request parameter set to the
- * value of `NextMarker`.
- *
- * To retrieve a list of your file system descriptions, this operation is used in an
- * iterative process, where `DescribeFileSystems` is called first without the
- * `Marker` and then the operation continues to call it with the `Marker`
- * parameter set to the value of the `NextMarker` from the previous response until the
- * response has no `NextMarker`.
- *
- * The order of file systems returned in the response of one
- * `DescribeFileSystems` call and the order of file systems returned across the
- * responses of a multi-call iteration is unspecified.
- *
- * This operation requires permissions for the
- * `elasticfilesystem:DescribeFileSystems` action.
- */
-export const describeFileSystems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFileSystemsRequest,
-  output: DescribeFileSystemsResponse,
-  errors: [BadRequest, FileSystemNotFound, InternalServerError],
-}));
-/**
- * Returns the current `LifecycleConfiguration` object for the specified
- * EFS file system. Lifecycle management uses the `LifecycleConfiguration`
- * object to identify when to move files between storage classes. For a file system without a
- * `LifecycleConfiguration` object, the call returns an empty array in the
- * response.
- *
- * This operation requires permissions for the
- * `elasticfilesystem:DescribeLifecycleConfiguration` operation.
- */
-export const describeLifecycleConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeLifecycleConfigurationRequest,
-    output: LifecycleConfigurationDescription,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-  }));
-/**
- * Returns the descriptions of all the current mount targets, or a specific mount target,
- * for a file system. When requesting all of the current mount targets, the order of mount
- * targets returned in the response is unspecified.
- *
- * This operation requires permissions for the
- * `elasticfilesystem:DescribeMountTargets` action, on either the file system ID
- * that you specify in `FileSystemId`, or on the file system of the mount target that
- * you specify in `MountTargetId`.
- */
-export const describeMountTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMountTargetsRequest,
-    output: DescribeMountTargetsResponse,
-    errors: [
-      AccessPointNotFound,
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-      MountTargetNotFound,
-    ],
-  }),
-);
 /**
  * Returns the security groups currently in effect for a mount target. This operation
  * requires that the network interface of the mount target has been created and the lifecycle
@@ -1556,54 +1581,99 @@ export const describeMountTargetSecurityGroups =
     ],
   }));
 /**
- * DEPRECATED - The `DescribeTags` action is deprecated and not maintained. To view
- * tags associated with EFS resources, use the `ListTagsForResource` API
- * action.
- *
- * Returns the tags associated with a file system. The order of tags returned in the
- * response of one `DescribeTags` call and the order of tags returned across the
- * responses of a multiple-call iteration (when using pagination) is unspecified.
+ * Deletes a replication configuration. Deleting a replication configuration ends the
+ * replication process. After a replication configuration is deleted, the destination file system
+ * becomes `Writeable` and its replication overwrite protection is re-enabled. For
+ * more information, see Delete a replication configuration.
  *
  * This operation requires permissions for the
- * `elasticfilesystem:DescribeTags` action.
+ * `elasticfilesystem:DeleteReplicationConfiguration` action.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTagsRequest,
-  output: DescribeTagsResponse,
-  errors: [BadRequest, FileSystemNotFound, InternalServerError],
-}));
+export const deleteReplicationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteReplicationConfigurationRequest,
+    output: DeleteReplicationConfigurationResponse,
+    errors: [
+      BadRequest,
+      FileSystemNotFound,
+      InternalServerError,
+      ReplicationNotFound,
+    ],
+  }));
 /**
- * Lists all tags for a top-level EFS resource. You must provide the ID of the
- * resource that you want to retrieve the tags for.
+ * Deletes the specified mount target.
  *
- * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
+ * This operation forcibly breaks any mounts of the file system by using the mount target
+ * that is being deleted, which might disrupt instances or applications using those mounts. To
+ * avoid applications getting cut off abruptly, you might consider unmounting any mounts of the
+ * mount target, if feasible. The operation also deletes the associated network interface.
+ * Uncommitted writes might be lost, but breaking a mount target using this operation does not
+ * corrupt the file system itself. The file system you created remains. You can mount an
+ * EC2 instance in your VPC by using another mount target.
+ *
+ * This operation requires permissions for the following action on the file
+ * system:
+ *
+ * - `elasticfilesystem:DeleteMountTarget`
+ *
+ * The `DeleteMountTarget` call returns while the mount target state is still
+ * `deleting`. You can check the mount target deletion by calling the DescribeMountTargets operation, which returns a list of mount target
+ * descriptions for the given file system.
+ *
+ * The operation also requires permissions for the following Amazon EC2 action on the
+ * mount target's network interface:
+ *
+ * - `ec2:DeleteNetworkInterface`
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const deleteMountTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMountTargetRequest,
+  output: DeleteMountTargetResponse,
   errors: [
-    AccessPointNotFound,
     BadRequest,
-    FileSystemNotFound,
+    DependencyTimeout,
     InternalServerError,
+    MountTargetNotFound,
   ],
 }));
 /**
- * Use this operation to set the account preference in the current Amazon Web Services Region
- * to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new
- * EFS file system and mount target resources. All existing resource IDs are not
- * affected by any changes you make. You can set the ID preference during the opt-in period as
- * EFS transitions to long resource IDs. For more information, see Managing Amazon EFS resource IDs.
+ * Returns the descriptions of all the current mount targets, or a specific mount target,
+ * for a file system. When requesting all of the current mount targets, the order of mount
+ * targets returned in the response is unspecified.
  *
- * Starting in October, 2021, you will receive an error if you try to set the account preference
- * to use the short 8 character format resource ID. Contact Amazon Web Services support if you
- * receive an error and must use short IDs for file system and mount target resources.
+ * This operation requires permissions for the
+ * `elasticfilesystem:DescribeMountTargets` action, on either the file system ID
+ * that you specify in `FileSystemId`, or on the file system of the mount target that
+ * you specify in `MountTargetId`.
  */
-export const putAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeMountTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: PutAccountPreferencesRequest,
-    output: PutAccountPreferencesResponse,
-    errors: [BadRequest, InternalServerError],
+    input: DescribeMountTargetsRequest,
+    output: DescribeMountTargetsResponse,
+    errors: [
+      AccessPointNotFound,
+      BadRequest,
+      FileSystemNotFound,
+      InternalServerError,
+      MountTargetNotFound,
+    ],
+  }),
+);
+/**
+ * Returns the `FileSystemPolicy` for the specified EFS file
+ * system.
+ *
+ * This operation requires permissions for the `elasticfilesystem:DescribeFileSystemPolicy` action.
+ */
+export const describeFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeFileSystemPolicyRequest,
+    output: FileSystemPolicyDescription,
+    errors: [
+      BadRequest,
+      FileSystemNotFound,
+      InternalServerError,
+      PolicyNotFound,
+    ],
   }),
 );
 /**
@@ -1674,89 +1744,22 @@ export const putLifecycleConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the specified mount target.
+ * Deletes the `FileSystemPolicy` for the specified file system.
+ * The default `FileSystemPolicy` goes into effect once the existing policy is deleted.
+ * For more information about the default file system policy, see Using Resource-based Policies with EFS.
  *
- * This operation forcibly breaks any mounts of the file system by using the mount target
- * that is being deleted, which might disrupt instances or applications using those mounts. To
- * avoid applications getting cut off abruptly, you might consider unmounting any mounts of the
- * mount target, if feasible. The operation also deletes the associated network interface.
- * Uncommitted writes might be lost, but breaking a mount target using this operation does not
- * corrupt the file system itself. The file system you created remains. You can mount an
- * EC2 instance in your VPC by using another mount target.
- *
- * This operation requires permissions for the following action on the file
- * system:
- *
- * - `elasticfilesystem:DeleteMountTarget`
- *
- * The `DeleteMountTarget` call returns while the mount target state is still
- * `deleting`. You can check the mount target deletion by calling the DescribeMountTargets operation, which returns a list of mount target
- * descriptions for the given file system.
- *
- * The operation also requires permissions for the following Amazon EC2 action on the
- * mount target's network interface:
- *
- * - `ec2:DeleteNetworkInterface`
+ * This operation requires permissions for the `elasticfilesystem:DeleteFileSystemPolicy` action.
  */
-export const deleteMountTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMountTargetRequest,
-  output: DeleteMountTargetResponse,
-  errors: [
-    BadRequest,
-    DependencyTimeout,
-    InternalServerError,
-    MountTargetNotFound,
-  ],
-}));
-/**
- * Deletes a replication configuration. Deleting a replication configuration ends the
- * replication process. After a replication configuration is deleted, the destination file system
- * becomes `Writeable` and its replication overwrite protection is re-enabled. For
- * more information, see Delete a replication configuration.
- *
- * This operation requires permissions for the
- * `elasticfilesystem:DeleteReplicationConfiguration` action.
- */
-export const deleteReplicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteReplicationConfigurationRequest,
-    output: DeleteReplicationConfigurationResponse,
+export const deleteFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteFileSystemPolicyRequest,
+    output: DeleteFileSystemPolicyResponse,
     errors: [
       BadRequest,
       FileSystemNotFound,
-      InternalServerError,
-      ReplicationNotFound,
-    ],
-  }));
-/**
- * Returns the description of a specific Amazon EFS access point if the
- * `AccessPointId` is provided. If you provide an EFS
- * `FileSystemId`, it returns descriptions of all access points for that file
- * system. You can provide either an `AccessPointId` or a `FileSystemId` in
- * the request, but not both.
- *
- * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
- */
-export const describeAccessPoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccessPointsRequest,
-    output: DescribeAccessPointsResponse,
-    errors: [
-      AccessPointNotFound,
-      BadRequest,
-      FileSystemNotFound,
+      IncorrectFileSystemLifeCycleState,
       InternalServerError,
     ],
-  }),
-);
-/**
- * Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
- */
-export const describeAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountPreferencesRequest,
-    output: DescribeAccountPreferencesResponse,
-    errors: [InternalServerError],
   }),
 );
 /**
@@ -1790,6 +1793,23 @@ export const putBackupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Retrieves the replication configuration for a specific file system. If a file system is
+ * not specified, all of the replication configurations for the Amazon Web Services account in an
+ * Amazon Web Services Region are retrieved.
+ */
+export const describeReplicationConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeReplicationConfigurationsRequest,
+    output: DescribeReplicationConfigurationsResponse,
+    errors: [
+      BadRequest,
+      FileSystemNotFound,
+      InternalServerError,
+      ReplicationNotFound,
+      ValidationException,
+    ],
+  }));
+/**
  * Applies an Amazon EFS
  * `FileSystemPolicy` to an Amazon EFS file system. A file system policy is an
  * IAM resource-based policy and can contain multiple policy statements. A file system always has
@@ -1815,86 +1835,43 @@ export const putFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates protection on the file system.
+ * Creates an EFS access point. An access point is an application-specific view
+ * into an EFS file system that applies an operating system user and group, and a file
+ * system path, to any file system request made through the access point. The operating system
+ * user and group override any identity information provided by the NFS client. The file system
+ * path is exposed as the access point's root directory. Applications using the access point can
+ * only access data in the application's own directory and any subdirectories. A file system can
+ * have a maximum of 10,000 access points unless you request an increase. To learn more, see
+ * Mounting a file
+ * system using EFS access points.
  *
- * This operation requires permissions for the
- * `elasticfilesystem:UpdateFileSystemProtection` action.
+ * If multiple requests to create access points on the same file system are sent in quick
+ * succession, and the file system is near the limit of access points, you may experience a
+ * throttling response for these requests. This is to ensure that the file system does not
+ * exceed the stated access point limit.
+ *
+ * This operation requires permissions for the `elasticfilesystem:CreateAccessPoint` action.
+ *
+ * Access points can be tagged on creation. If tags are specified in the creation action, IAM
+ * performs additional authorization on the `elasticfilesystem:TagResource` action to
+ * verify if users have permissions to create tags. Therefore, you must grant explicit
+ * permissions to use the `elasticfilesystem:TagResource` action. For more
+ * information, see Granting
+ * permissions to tag resources during creation.
  */
-export const updateFileSystemProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFileSystemProtectionRequest,
-    output: FileSystemProtectionDescription,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      IncorrectFileSystemLifeCycleState,
-      InsufficientThroughputCapacity,
-      InternalServerError,
-      ReplicationAlreadyExists,
-      ThroughputLimitExceeded,
-      TooManyRequests,
-    ],
-  }),
-);
-/**
- * Creates a replication conﬁguration to either a new or existing EFS file system.
- * For more information, see Amazon EFS replication in the Amazon EFS User
- * Guide. The replication configuration specifies the following:
- *
- * - **Source file system** – The EFS file
- * system that you want to replicate.
- *
- * - **Destination file system** – The destination file
- * system to which the source file system is replicated. There can only be one destination
- * file system in a replication configuration.
- *
- * A file system can be part of only one replication configuration.
- *
- * The destination parameters for the replication configuration depend on
- * whether you are replicating to a new file system or to an existing file system, and if you
- * are replicating across Amazon Web Services accounts. See DestinationToCreate for more information.
- *
- * This operation requires permissions for the `elasticfilesystem:CreateReplicationConfiguration`
- * action. Additionally, other permissions are required depending on how you are replicating file systems.
- * For more information, see Required permissions for replication
- * in the Amazon EFS User
- * Guide.
- */
-export const createReplicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateReplicationConfigurationRequest,
-    output: ReplicationConfigurationDescription,
-    errors: [
-      BadRequest,
-      ConflictException,
-      FileSystemLimitExceeded,
-      FileSystemNotFound,
-      IncorrectFileSystemLifeCycleState,
-      InsufficientThroughputCapacity,
-      InternalServerError,
-      ReplicationNotFound,
-      ThroughputLimitExceeded,
-      UnsupportedAvailabilityZone,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves the replication configuration for a specific file system. If a file system is
- * not specified, all of the replication configurations for the Amazon Web Services account in an
- * Amazon Web Services Region are retrieved.
- */
-export const describeReplicationConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeReplicationConfigurationsRequest,
-    output: DescribeReplicationConfigurationsResponse,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-      ReplicationNotFound,
-      ValidationException,
-    ],
-  }));
+export const createAccessPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccessPointRequest,
+  output: AccessPointDescription,
+  errors: [
+    AccessPointAlreadyExists,
+    AccessPointLimitExceeded,
+    BadRequest,
+    FileSystemNotFound,
+    IncorrectFileSystemLifeCycleState,
+    InternalServerError,
+    ThrottlingException,
+  ],
+}));
 /**
  * Modifies the set of security groups in effect for a mount target.
  *
@@ -1926,23 +1903,6 @@ export const modifyMountTargetSecurityGroups =
       SecurityGroupNotFound,
     ],
   }));
-/**
- * Updates the throughput mode or the amount of provisioned throughput of an existing file
- * system.
- */
-export const updateFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFileSystemRequest,
-  output: FileSystemDescription,
-  errors: [
-    BadRequest,
-    FileSystemNotFound,
-    IncorrectFileSystemLifeCycleState,
-    InsufficientThroughputCapacity,
-    InternalServerError,
-    ThroughputLimitExceeded,
-    TooManyRequests,
-  ],
-}));
 /**
  * Creates a new, empty file system. The operation requires a creation token in the
  * request that Amazon EFS uses to ensure idempotent creation (calling the operation with same
@@ -2020,41 +1980,84 @@ export const createFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates an EFS access point. An access point is an application-specific view
- * into an EFS file system that applies an operating system user and group, and a file
- * system path, to any file system request made through the access point. The operating system
- * user and group override any identity information provided by the NFS client. The file system
- * path is exposed as the access point's root directory. Applications using the access point can
- * only access data in the application's own directory and any subdirectories. A file system can
- * have a maximum of 10,000 access points unless you request an increase. To learn more, see
- * Mounting a file
- * system using EFS access points.
+ * Updates protection on the file system.
  *
- * If multiple requests to create access points on the same file system are sent in quick
- * succession, and the file system is near the limit of access points, you may experience a
- * throttling response for these requests. This is to ensure that the file system does not
- * exceed the stated access point limit.
- *
- * This operation requires permissions for the `elasticfilesystem:CreateAccessPoint` action.
- *
- * Access points can be tagged on creation. If tags are specified in the creation action, IAM
- * performs additional authorization on the `elasticfilesystem:TagResource` action to
- * verify if users have permissions to create tags. Therefore, you must grant explicit
- * permissions to use the `elasticfilesystem:TagResource` action. For more
- * information, see Granting
- * permissions to tag resources during creation.
+ * This operation requires permissions for the
+ * `elasticfilesystem:UpdateFileSystemProtection` action.
  */
-export const createAccessPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccessPointRequest,
-  output: AccessPointDescription,
+export const updateFileSystemProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateFileSystemProtectionRequest,
+    output: FileSystemProtectionDescription,
+    errors: [
+      BadRequest,
+      FileSystemNotFound,
+      IncorrectFileSystemLifeCycleState,
+      InsufficientThroughputCapacity,
+      InternalServerError,
+      ReplicationAlreadyExists,
+      ThroughputLimitExceeded,
+      TooManyRequests,
+    ],
+  }),
+);
+/**
+ * Creates a replication conﬁguration to either a new or existing EFS file system.
+ * For more information, see Amazon EFS replication in the Amazon EFS User
+ * Guide. The replication configuration specifies the following:
+ *
+ * - **Source file system** – The EFS file
+ * system that you want to replicate.
+ *
+ * - **Destination file system** – The destination file
+ * system to which the source file system is replicated. There can only be one destination
+ * file system in a replication configuration.
+ *
+ * A file system can be part of only one replication configuration.
+ *
+ * The destination parameters for the replication configuration depend on
+ * whether you are replicating to a new file system or to an existing file system, and if you
+ * are replicating across Amazon Web Services accounts. See DestinationToCreate for more information.
+ *
+ * This operation requires permissions for the `elasticfilesystem:CreateReplicationConfiguration`
+ * action. Additionally, other permissions are required depending on how you are replicating file systems.
+ * For more information, see Required permissions for replication
+ * in the Amazon EFS User
+ * Guide.
+ */
+export const createReplicationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateReplicationConfigurationRequest,
+    output: ReplicationConfigurationDescription,
+    errors: [
+      BadRequest,
+      ConflictException,
+      FileSystemLimitExceeded,
+      FileSystemNotFound,
+      IncorrectFileSystemLifeCycleState,
+      InsufficientThroughputCapacity,
+      InternalServerError,
+      ReplicationNotFound,
+      ThroughputLimitExceeded,
+      UnsupportedAvailabilityZone,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the throughput mode or the amount of provisioned throughput of an existing file
+ * system.
+ */
+export const updateFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFileSystemRequest,
+  output: FileSystemDescription,
   errors: [
-    AccessPointAlreadyExists,
-    AccessPointLimitExceeded,
     BadRequest,
     FileSystemNotFound,
     IncorrectFileSystemLifeCycleState,
+    InsufficientThroughputCapacity,
     InternalServerError,
-    ThrottlingException,
+    ThroughputLimitExceeded,
+    TooManyRequests,
   ],
 }));
 /**

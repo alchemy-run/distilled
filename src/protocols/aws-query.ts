@@ -60,7 +60,7 @@ export const awsQueryProtocol: Protocol = (
 
   // Pre-compute operation name and version from annotations
   const identifier = getIdentifier(inputAst) ?? "";
-  const action = identifier.replace(/Request$/, "");
+  const action = identifier.replace(/(?:Request|Input)$/, "");
   const version = getServiceVersion(inputAst) ?? "";
 
   return {
@@ -187,7 +187,7 @@ export const awsQueryProtocol: Protocol = (
       const errorCode = sanitizeErrorCode(rawErrorCode);
 
       // Extract remaining data (remove Code, keep Message, Type, etc.)
-      const { Code, ...data } = errorContent;
+      const { Code: _code, ...data } = errorContent;
 
       // Include RequestId if present
       if (requestId) {
@@ -323,6 +323,11 @@ function serializeValue(
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
   if (value == null || value === "") return undefined;
 
+  // Handle maps - must check before general object handling
+  if (isMapAST(ast)) {
+    return deserializeMap(ast, value);
+  }
+
   // Handle arrays
   if (isArrayAST(ast)) {
     const elAST = getArrayElementAST(ast);
@@ -382,14 +387,74 @@ function deserializeObject(
     if (isArrayAST(prop.type)) {
       const elAST = getArrayElementAST(prop.type) ?? prop.type;
 
+      // Handle empty elements - XML parser returns "" for <Tags />
+      if (propValue === "" || propValue === null) {
+        result[key] = [];
+        continue;
+      }
+
       // Unwrap list wrapper elements from XML parser output
       const elTag = getXmlName(elAST) ?? getIdentifier(elAST);
       const arrayValue = unwrapArrayValue(propValue, elTag, ["member"]);
 
+      // Handle empty unwrapped arrays or empty objects (no member elements)
+      if (
+        arrayValue === "" ||
+        arrayValue === null ||
+        arrayValue === undefined ||
+        (typeof arrayValue === "object" &&
+          !Array.isArray(arrayValue) &&
+          Object.keys(arrayValue as object).length === 0)
+      ) {
+        result[key] = [];
+        continue;
+      }
+
       const items = Array.isArray(arrayValue) ? arrayValue : [arrayValue];
-      result[key] = items.map((item) => deserializeValue(elAST, item));
+      // Filter out undefined/null items that may come from empty member elements
+      result[key] = items
+        .filter((item) => item !== undefined && item !== null && item !== "")
+        .map((item) => deserializeValue(elAST, item));
     } else {
       result[key] = deserializeValue(prop.type, propValue);
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Deserialize AWS Query XML map format: <entry><key>K</key><value>V</value></entry>
+ * Handles empty values (from self-closing <value /> tags) by converting to empty strings.
+ */
+function deserializeMap(ast: AST.AST, value: unknown): Record<string, unknown> {
+  if (typeof value !== "object" || value === null) return {};
+
+  const { keyAST, valueAST } = getMapKeyValueAST(ast) ?? {};
+  const keyName = keyAST ? (getXmlName(keyAST) ?? "key") : "key";
+  const valueName = valueAST ? (getXmlName(valueAST) ?? "value") : "value";
+
+  const objValue = value as Record<string, unknown>;
+  const entries = objValue.entry ?? objValue.Entry;
+  if (entries == null) return {};
+
+  const result: Record<string, unknown> = {};
+  const entriesArray = Array.isArray(entries) ? entries : [entries];
+
+  for (const entry of entriesArray) {
+    if (!entry || typeof entry !== "object") continue;
+
+    const entryObj = entry as Record<string, unknown>;
+    const key = entryObj[keyName] as string | undefined;
+    if (key === undefined) continue;
+
+    const val = entryObj[valueName];
+    // Empty XML elements (<value />) become undefined/null/"" - convert to empty string
+    if (val == null || val === "") {
+      result[key] = "";
+    } else {
+      const deserialized = valueAST ? deserializeValue(valueAST, val) : val;
+      result[key] = deserialized ?? "";
     }
   }
 

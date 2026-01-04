@@ -4331,363 +4331,32 @@ export class CreateRoutingRuleResponse extends S.Class<CreateRoutingRuleResponse
 //# Errors
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  {},
+  {
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+    ResourceType: S.optional(S.String).pipe(T.JsonName("resourceType")),
+  },
 ) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+) {}
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  {
+    LimitType: S.optional(S.String).pipe(T.JsonName("limitType")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 
 //# Operations
-/**
- * Deletes an Authorizer.
- */
-export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAuthorizerRequest,
-  output: DeleteAuthorizerResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes a CORS configuration.
- */
-export const deleteCorsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCorsConfigurationRequest,
-    output: DeleteCorsConfigurationResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Deletes a Deployment.
- */
-export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDeploymentRequest,
-  output: DeleteDeploymentResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes a domain name.
- */
-export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDomainNameRequest,
-  output: DeleteDomainNameResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes an Integration.
- */
-export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIntegrationRequest,
-  output: DeleteIntegrationResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes an IntegrationResponses.
- */
-export const deleteIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIntegrationResponseRequest,
-    output: DeleteIntegrationResponseResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Deletes a Model.
- */
-export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteModelRequest,
-  output: DeleteModelResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes a portal product.
- */
-export const deletePortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePortalProductRequest,
-  output: DeletePortalProductResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes the sharing policy for a portal product.
- */
-export const deletePortalProductSharingPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePortalProductSharingPolicyRequest,
-    output: DeletePortalProductSharingPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Deletes a product page of a portal product.
- */
-export const deleteProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProductPageRequest,
-  output: DeleteProductPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes a product REST endpoint page.
- */
-export const deleteProductRestEndpointPage =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteProductRestEndpointPageRequest,
-    output: DeleteProductRestEndpointPageResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Deletes a Route.
- */
-export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRouteRequest,
-  output: DeleteRouteResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes a route request parameter. Supported only for WebSocket APIs.
- */
-export const deleteRouteRequestParameter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRouteRequestParameterRequest,
-    output: DeleteRouteRequestParameterResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Deletes a RouteResponse.
- */
-export const deleteRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRouteResponseRequest,
-  output: DeleteRouteResponseResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes the RouteSettings for a stage.
- */
-export const deleteRouteSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRouteSettingsRequest,
-  output: DeleteRouteSettingsResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes a routing rule.
- */
-export const deleteRoutingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRoutingRuleRequest,
-  output: DeleteRoutingRuleResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes a Stage.
- */
-export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStageRequest,
-  output: DeleteStageResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes a VPC link.
- */
-export const deleteVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVpcLinkRequest,
-  output: DeleteVpcLinkResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Creates a portal preview.
- */
-export const previewPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PreviewPortalRequest,
-  output: PreviewPortalResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Publishes a portal.
- */
-export const publishPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PublishPortalRequest,
-  output: PublishPortalResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the sharing policy for a portal product.
- */
-export const putPortalProductSharingPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutPortalProductSharingPolicyRequest,
-    output: PutPortalProductSharingPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
- */
-export const resetAuthorizersCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetAuthorizersCacheRequest,
-    output: ResetAuthorizersCacheResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Creates a new Tag resource to represent a tag.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes a Tag.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates an API mapping.
- */
-export const createApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApiMappingRequest,
-  output: CreateApiMappingResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a Deployment for an API.
- */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDeploymentRequest,
-  output: CreateDeploymentResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates an IntegrationResponses.
- */
-export const createIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIntegrationResponseRequest,
-    output: CreateIntegrationResponseResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates a Model for an API.
- */
-export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateModelRequest,
-  output: CreateModelResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a new portal product.
- */
-export const createPortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePortalProductRequest,
-  output: CreatePortalProductResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a RouteResponse for a Route.
- */
-export const createRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRouteResponseRequest,
-  output: CreateRouteResponseResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a VPC link.
- */
-export const createVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVpcLinkRequest,
-  output: CreateVpcLinkResponse,
-  errors: [BadRequestException, TooManyRequestsException],
-}));
 /**
  * Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
  */
@@ -4699,12 +4368,218 @@ export const deleteAccessLogSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes an Api resource.
+ * Gets API mappings.
  */
-export const deleteApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApiRequest,
-  output: DeleteApiResponse,
+export const getApiMappings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApiMappingsRequest,
+  output: GetApiMappingsResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets a collection of Api resources.
+ */
+export const getApis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApisRequest,
+  output: GetApisResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets the Authorizers for an API.
+ */
+export const getAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAuthorizersRequest,
+  output: GetAuthorizersResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets the Deployments for an API.
+ */
+export const getDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentsRequest,
+  output: GetDeploymentsResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets a domain name.
+ */
+export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainNameRequest,
+  output: GetDomainNameResponse,
   errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets the domain names for an AWS account.
+ */
+export const getDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainNamesRequest,
+  output: GetDomainNamesResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets an Integration.
+ */
+export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIntegrationRequest,
+  output: GetIntegrationResult,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets the IntegrationResponses for an Integration.
+ */
+export const getIntegrationResponses = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetIntegrationResponsesRequest,
+    output: GetIntegrationResponsesResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Gets the Integrations for an API.
+ */
+export const getIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIntegrationsRequest,
+  output: GetIntegrationsResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets the Models for an API.
+ */
+export const getModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetModelsRequest,
+  output: GetModelsResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets a portal.
+ */
+export const getPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPortalRequest,
+  output: GetPortalResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets a product REST endpoint page.
+ */
+export const getProductRestEndpointPage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetProductRestEndpointPageRequest,
+    output: GetProductRestEndpointPageResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Gets the RouteResponses for a Route.
+ */
+export const getRouteResponses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRouteResponsesRequest,
+  output: GetRouteResponsesResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets the Routes for an API.
+ */
+export const getRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRoutesRequest,
+  output: GetRoutesResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets the Stages for an API.
+ */
+export const getStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStagesRequest,
+  output: GetStagesResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Gets a collection of Tag resources.
+ */
+export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTagsRequest,
+  output: GetTagsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets a collection of VPC links.
+ */
+export const getVpcLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVpcLinksRequest,
+  output: GetVpcLinksResponse,
+  errors: [BadRequestException, TooManyRequestsException],
+}));
+/**
+ * Lists portal products.
+ */
+export const listPortalProducts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPortalProductsRequest,
+  output: ListPortalProductsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Lists portals.
+ */
+export const listPortals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPortalsRequest,
+  output: ListPortalsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Lists the product pages for a portal product.
+ */
+export const listProductPages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProductPagesRequest,
+  output: ListProductPagesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Lists the product REST endpoint pages of a portal product.
+ */
+export const listProductRestEndpointPages =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListProductRestEndpointPagesRequest,
+    output: ListProductRestEndpointPagesResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Lists routing rules.
+ */
+export const listRoutingRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRoutingRulesRequest,
+  output: ListRoutingRulesResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
 /**
  * Deletes an API mapping.
@@ -4723,20 +4598,6 @@ export const deletePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     BadRequestException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes the publication of a portal portal.
- */
-export const disablePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisablePortalRequest,
-  output: DisablePortalResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
     TooManyRequestsException,
   ],
 }));
@@ -4879,25 +4740,284 @@ export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [NotFoundException, TooManyRequestsException],
 }));
 /**
- * Gets a collection of Tag resources.
- */
-export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTagsRequest,
-  output: GetTagsResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Gets a VPC link.
  */
 export const getVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcLinkRequest,
   output: GetVpcLinkResponse,
   errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Updates a product page of a portal product.
+ */
+export const updateProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProductPageRequest,
+  output: UpdateProductPageResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates a product REST endpoint page.
+ */
+export const updateProductRestEndpointPage =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateProductRestEndpointPageRequest,
+    output: UpdateProductRestEndpointPageResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Updates a VPC link.
+ */
+export const updateVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVpcLinkRequest,
+  output: UpdateVpcLinkResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes an Api resource.
+ */
+export const deleteApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApiRequest,
+  output: DeleteApiResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes an Authorizer.
+ */
+export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAuthorizerRequest,
+  output: DeleteAuthorizerResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes a CORS configuration.
+ */
+export const deleteCorsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCorsConfigurationRequest,
+    output: DeleteCorsConfigurationResponse,
+    errors: [NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Deletes a Deployment.
+ */
+export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeploymentRequest,
+  output: DeleteDeploymentResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes a domain name.
+ */
+export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainNameRequest,
+  output: DeleteDomainNameResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes an Integration.
+ */
+export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntegrationRequest,
+  output: DeleteIntegrationResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes an IntegrationResponses.
+ */
+export const deleteIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteIntegrationResponseRequest,
+    output: DeleteIntegrationResponseResponse,
+    errors: [NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Deletes a Model.
+ */
+export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelRequest,
+  output: DeleteModelResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes a Route.
+ */
+export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRouteRequest,
+  output: DeleteRouteResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes a route request parameter. Supported only for WebSocket APIs.
+ */
+export const deleteRouteRequestParameter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRouteRequestParameterRequest,
+    output: DeleteRouteRequestParameterResponse,
+    errors: [NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Deletes a RouteResponse.
+ */
+export const deleteRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRouteResponseRequest,
+  output: DeleteRouteResponseResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes the RouteSettings for a stage.
+ */
+export const deleteRouteSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRouteSettingsRequest,
+  output: DeleteRouteSettingsResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes a Stage.
+ */
+export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStageRequest,
+  output: DeleteStageResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes a VPC link.
+ */
+export const deleteVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcLinkRequest,
+  output: DeleteVpcLinkResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
+ */
+export const resetAuthorizersCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResetAuthorizersCacheRequest,
+    output: ResetAuthorizersCacheResponse,
+    errors: [NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Deletes a routing rule.
+ */
+export const deleteRoutingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRoutingRuleRequest,
+  output: DeleteRoutingRuleResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Creates a VPC link.
+ */
+export const createVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcLinkRequest,
+  output: CreateVpcLinkResponse,
+  errors: [BadRequestException, TooManyRequestsException],
+}));
+/**
+ * Deletes a portal product.
+ */
+export const deletePortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePortalProductRequest,
+  output: DeletePortalProductResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes the sharing policy for a portal product.
+ */
+export const deletePortalProductSharingPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeletePortalProductSharingPolicyRequest,
+    output: DeletePortalProductSharingPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Deletes a product page of a portal product.
+ */
+export const deleteProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProductPageRequest,
+  output: DeleteProductPageResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a product REST endpoint page.
+ */
+export const deleteProductRestEndpointPage =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteProductRestEndpointPageRequest,
+    output: DeleteProductRestEndpointPageResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Updates the sharing policy for a portal product.
+ */
+export const putPortalProductSharingPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutPortalProductSharingPolicyRequest,
+    output: PutPortalProductSharingPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Creates a new portal product.
+ */
+export const createPortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePortalProductRequest,
+  output: CreatePortalProductResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a new product page for a portal product.
+ */
+export const createProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProductPageRequest,
+  output: CreateProductPageResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
 }));
 /**
  * Imports an API.
@@ -5059,33 +5179,6 @@ export const updatePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a product page of a portal product.
- */
-export const updateProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProductPageRequest,
-  output: UpdateProductPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates a product REST endpoint page.
- */
-export const updateProductRestEndpointPage =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateProductRestEndpointPageRequest,
-    output: UpdateProductRestEndpointPageResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
  * Updates a Route.
  */
 export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5125,12 +5218,139 @@ export const updateStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a VPC link.
+ * Creates a new Tag resource to represent a tag.
  */
-export const updateVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateVpcLinkRequest,
-  output: UpdateVpcLinkResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a Tag.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates an API mapping.
+ */
+export const createApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApiMappingRequest,
+  output: CreateApiMappingResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a Deployment for an API.
+ */
+export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeploymentRequest,
+  output: CreateDeploymentResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates an IntegrationResponses.
+ */
+export const createIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateIntegrationResponseRequest,
+    output: CreateIntegrationResponseResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Creates a Model for an API.
+ */
+export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelRequest,
+  output: CreateModelResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a RouteResponse for a Route.
+ */
+export const createRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRouteResponseRequest,
+  output: CreateRouteResponseResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes the publication of a portal portal.
+ */
+export const disablePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisablePortalRequest,
+  output: DisablePortalResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a portal preview.
+ */
+export const previewPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PreviewPortalRequest,
+  output: PreviewPortalResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Publishes a portal.
+ */
+export const publishPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishPortalRequest,
+  output: PublishPortalResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
 }));
 /**
  * Creates an Api resource.
@@ -5186,19 +5406,6 @@ export const createIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a new product page for a portal product.
- */
-export const createProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProductPageRequest,
-  output: CreateProductPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Creates a Stage for an API.
  */
 export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5210,207 +5417,6 @@ export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     NotFoundException,
     TooManyRequestsException,
   ],
-}));
-/**
- * Gets API mappings.
- */
-export const getApiMappings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApiMappingsRequest,
-  output: GetApiMappingsResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets a collection of Api resources.
- */
-export const getApis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApisRequest,
-  output: GetApisResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets the Authorizers for an API.
- */
-export const getAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAuthorizersRequest,
-  output: GetAuthorizersResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets the Deployments for an API.
- */
-export const getDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDeploymentsRequest,
-  output: GetDeploymentsResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets a domain name.
- */
-export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDomainNameRequest,
-  output: GetDomainNameResponse,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets the domain names for an AWS account.
- */
-export const getDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDomainNamesRequest,
-  output: GetDomainNamesResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets an Integration.
- */
-export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIntegrationRequest,
-  output: GetIntegrationResult,
-  errors: [NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets the IntegrationResponses for an Integration.
- */
-export const getIntegrationResponses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIntegrationResponsesRequest,
-    output: GetIntegrationResponsesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Gets the Integrations for an API.
- */
-export const getIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIntegrationsRequest,
-  output: GetIntegrationsResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets the Models for an API.
- */
-export const getModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetModelsRequest,
-  output: GetModelsResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets a portal.
- */
-export const getPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPortalRequest,
-  output: GetPortalResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets a product REST endpoint page.
- */
-export const getProductRestEndpointPage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProductRestEndpointPageRequest,
-    output: GetProductRestEndpointPageResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Gets the RouteResponses for a Route.
- */
-export const getRouteResponses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRouteResponsesRequest,
-  output: GetRouteResponsesResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets the Routes for an API.
- */
-export const getRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRoutesRequest,
-  output: GetRoutesResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets the Stages for an API.
- */
-export const getStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStagesRequest,
-  output: GetStagesResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Gets a collection of VPC links.
- */
-export const getVpcLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVpcLinksRequest,
-  output: GetVpcLinksResponse,
-  errors: [BadRequestException, TooManyRequestsException],
-}));
-/**
- * Lists portal products.
- */
-export const listPortalProducts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPortalProductsRequest,
-  output: ListPortalProductsResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Lists portals.
- */
-export const listPortals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPortalsRequest,
-  output: ListPortalsResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Lists the product pages for a portal product.
- */
-export const listProductPages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListProductPagesRequest,
-  output: ListProductPagesResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Lists the product REST endpoint pages of a portal product.
- */
-export const listProductRestEndpointPages =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListProductRestEndpointPagesRequest,
-    output: ListProductRestEndpointPagesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Lists routing rules.
- */
-export const listRoutingRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRoutingRulesRequest,
-  output: ListRoutingRulesResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
 /**
  * Creates a product REST endpoint page for a portal product.

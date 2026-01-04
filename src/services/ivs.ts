@@ -1143,39 +1143,39 @@ export class GetStreamSessionResponse extends S.Class<GetStreamSessionResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class PendingVerification extends S.TaggedError<PendingVerification>()(
-  "PendingVerification",
-  {},
+  { exceptionMessage: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { exceptionMessage: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { exceptionMessage: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { exceptionMessage: S.optional(S.String) },
+) {}
+export class PendingVerification extends S.TaggedError<PendingVerification>()(
+  "PendingVerification",
+  { exceptionMessage: S.optional(S.String) },
 ) {}
 export class ChannelNotBroadcasting extends S.TaggedError<ChannelNotBroadcasting>()(
   "ChannelNotBroadcasting",
-  {},
+  { exceptionMessage: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  { exceptionMessage: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { exceptionMessage: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { exceptionMessage: S.optional(S.String) },
 ) {}
 export class StreamUnavailable extends S.TaggedError<StreamUnavailable>()(
   "StreamUnavailable",
@@ -1184,102 +1184,20 @@ export class StreamUnavailable extends S.TaggedError<StreamUnavailable>()(
 
 //# Operations
 /**
- * Removes tags from the resource with the specified ARN.
+ * Performs GetStreamKey on multiple ARNs simultaneously.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+export const batchGetStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetStreamKeyRequest,
+  output: BatchGetStreamKeyResponse,
+  errors: [],
 }));
 /**
- * Deletes the specified channel and its associated stream keys.
- *
- * If you try to delete a live channel, you will get an error (409 ConflictException). To
- * delete a channel that is live, call StopStream, wait for the Amazon
- * EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then
- * call DeleteChannel. (See Using EventBridge with Amazon IVS.)
+ * Performs GetChannel on multiple ARNs simultaneously.
  */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    PendingVerification,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a specified authorization key pair. This invalidates future viewer tokens
- * generated using the key pair’s `privateKey`. For more information, see Setting Up Private
- * Channels in the *Amazon IVS User Guide*.
- */
-export const deletePlaybackKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePlaybackKeyPairRequest,
-    output: DeletePlaybackKeyPairResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes the specified playback restriction policy.
- */
-export const deletePlaybackRestrictionPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePlaybackRestrictionPolicyRequest,
-    output: DeletePlaybackRestrictionPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes the recording configuration for the specified ARN.
- *
- * If you try to delete a recording configuration that is associated with a channel, you will
- * get an error (409 ConflictException). To avoid this, for all channels that reference the
- * recording configuration, first use UpdateChannel to set the
- * `recordingConfigurationArn` field to an empty string, then use
- * DeleteRecordingConfiguration.
- */
-export const deleteRecordingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRecordingConfigurationRequest,
-    output: DeleteRecordingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes the stream key for the specified ARN, so it can no longer be used to
- * stream.
- */
-export const deleteStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStreamKeyRequest,
-  output: DeleteStreamKeyResponse,
-  errors: [
-    AccessDeniedException,
-    PendingVerification,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+export const batchGetChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetChannelRequest,
+  output: BatchGetChannelResponse,
+  errors: [],
 }));
 /**
  * Gets the channel configuration for the specified channel ARN. See also BatchGetChannel.
@@ -1294,28 +1212,29 @@ export const getChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets the specified playback restriction policy.
+ * Gets summary information about live streams in your account, in the Amazon Web Services
+ * region where the API request is processed.
  */
-export const getPlaybackRestrictionPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPlaybackRestrictionPolicyRequest,
-    output: GetPlaybackRestrictionPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStreamsRequest,
+  output: ListStreamsResponse,
+  errors: [AccessDeniedException, ValidationException],
+}));
 /**
- * Gets stream-key information for a specified ARN.
+ * Inserts metadata into the active stream of the specified channel. At most 5 requests per
+ * second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient
+ * for your needs, we recommend batching your data into a single PutMetadata call.) At most 155
+ * requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in
+ * the *Amazon IVS User Guide*.
  */
-export const getStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStreamKeyRequest,
-  output: GetStreamKeyResponse,
+export const putMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutMetadataRequest,
+  output: PutMetadataResponse,
   errors: [
     AccessDeniedException,
+    ChannelNotBroadcasting,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -1340,175 +1259,6 @@ export const importPlaybackKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets information about Amazon Web Services tags for the specified ARN.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Inserts metadata into the active stream of the specified channel. At most 5 requests per
- * second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient
- * for your needs, we recommend batching your data into a single PutMetadata call.) At most 155
- * requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in
- * the *Amazon IVS User Guide*.
- */
-export const putMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutMetadataRequest,
-  output: PutMetadataResponse,
-  errors: [
-    AccessDeniedException,
-    ChannelNotBroadcasting,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts the process of revoking the viewer session associated with a specified channel ARN
- * and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and
- * including that version. For instructions on associating a viewer ID with a viewer session, see
- * Setting Up
- * Private Channels.
- */
-export const startViewerSessionRevocation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartViewerSessionRevocationRequest,
-    output: StartViewerSessionRevocationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disconnects the incoming RTMPS stream for the specified channel. Can be used in
- * conjunction with DeleteStreamKey to prevent further streaming to a
- * channel.
- *
- * Many streaming client-software libraries automatically reconnect a dropped RTMPS
- * session, so to stop the stream permanently, you may want to first revoke the
- * `streamKey` attached to the channel.
- */
-export const stopStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopStreamRequest,
-  output: StopStreamResponse,
-  errors: [
-    AccessDeniedException,
-    ChannelNotBroadcasting,
-    ResourceNotFoundException,
-    StreamUnavailable,
-    ValidationException,
-  ],
-}));
-/**
- * Adds or updates tags for the Amazon Web Services resource with the specified ARN.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a channel's configuration. Live channels cannot be updated. You must stop the
- * ongoing stream, update the channel, and restart the stream for the changes to take
- * effect.
- */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateChannelRequest,
-  output: UpdateChannelResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    PendingVerification,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a specified playback restriction policy.
- */
-export const updatePlaybackRestrictionPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdatePlaybackRestrictionPolicyRequest,
-    output: UpdatePlaybackRestrictionPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Performs GetStreamKey on multiple ARNs simultaneously.
- */
-export const batchGetStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGetStreamKeyRequest,
-  output: BatchGetStreamKeyResponse,
-  errors: [],
-}));
-/**
- * Creates a new channel and an associated stream key to start streaming.
- */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateChannelRequest,
-  output: CreateChannelResponse,
-  errors: [
-    AccessDeniedException,
-    PendingVerification,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new playback restriction policy, for constraining playback by countries and/or
- * origins.
- */
-export const createPlaybackRestrictionPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePlaybackRestrictionPolicyRequest,
-    output: CreatePlaybackRestrictionPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a stream key, used to initiate a stream, for the specified channel ARN.
- *
- * Note that CreateChannel creates a stream key. If you subsequently use
- * CreateStreamKey on the same channel, it will fail because a stream key already exists and
- * there is a limit of 1 stream key per channel. To reset the stream key on a channel, use DeleteStreamKey and then CreateStreamKey.
- */
-export const createStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStreamKeyRequest,
-  output: CreateStreamKeyResponse,
-  errors: [
-    AccessDeniedException,
-    PendingVerification,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
  * Gets a specified playback authorization key pair and returns the `arn` and
  * `fingerprint`. The `privateKey` held by the caller can be used to
  * generate viewer authorization tokens, to grant viewers access to private channels. For more
@@ -1525,6 +1275,20 @@ export const getPlaybackKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Gets the specified playback restriction policy.
+ */
+export const getPlaybackRestrictionPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetPlaybackRestrictionPolicyRequest,
+    output: GetPlaybackRestrictionPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
  * Gets the recording configuration for the specified ARN.
  */
 export const getRecordingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1539,19 +1303,6 @@ export const getRecordingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Gets information about the active (live) stream on a specified channel.
- */
-export const getStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStreamRequest,
-  output: GetStreamResponse,
-  errors: [
-    AccessDeniedException,
-    ChannelNotBroadcasting,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Gets summary information about all channels in your account, in the Amazon Web Services
  * region where the API request is processed. This list can be filtered to match a specified name
@@ -1629,13 +1380,223 @@ export const listStreamSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Performs GetChannel on multiple ARNs simultaneously.
+ * Updates a channel's configuration. Live channels cannot be updated. You must stop the
+ * ongoing stream, update the channel, and restart the stream for the changes to take
+ * effect.
  */
-export const batchGetChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGetChannelRequest,
-  output: BatchGetChannelResponse,
-  errors: [],
+export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChannelRequest,
+  output: UpdateChannelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
 }));
+/**
+ * Updates a specified playback restriction policy.
+ */
+export const updatePlaybackRestrictionPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdatePlaybackRestrictionPolicyRequest,
+    output: UpdatePlaybackRestrictionPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes the specified playback restriction policy.
+ */
+export const deletePlaybackRestrictionPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeletePlaybackRestrictionPolicyRequest,
+    output: DeletePlaybackRestrictionPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes the recording configuration for the specified ARN.
+ *
+ * If you try to delete a recording configuration that is associated with a channel, you will
+ * get an error (409 ConflictException). To avoid this, for all channels that reference the
+ * recording configuration, first use UpdateChannel to set the
+ * `recordingConfigurationArn` field to an empty string, then use
+ * DeleteRecordingConfiguration.
+ */
+export const deleteRecordingConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteRecordingConfigurationRequest,
+    output: DeleteRecordingConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets stream-key information for a specified ARN.
+ */
+export const getStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStreamKeyRequest,
+  output: GetStreamKeyResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds or updates tags for the Amazon Web Services resource with the specified ARN.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from the resource with the specified ARN.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about Amazon Web Services tags for the specified ARN.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a specified authorization key pair. This invalidates future viewer tokens
+ * generated using the key pair’s `privateKey`. For more information, see Setting Up Private
+ * Channels in the *Amazon IVS User Guide*.
+ */
+export const deletePlaybackKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePlaybackKeyPairRequest,
+    output: DeletePlaybackKeyPairResponse,
+    errors: [
+      AccessDeniedException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes the stream key for the specified ARN, so it can no longer be used to
+ * stream.
+ */
+export const deleteStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStreamKeyRequest,
+  output: DeleteStreamKeyResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified channel and its associated stream keys.
+ *
+ * If you try to delete a live channel, you will get an error (409 ConflictException). To
+ * delete a channel that is live, call StopStream, wait for the Amazon
+ * EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then
+ * call DeleteChannel. (See Using EventBridge with Amazon IVS.)
+ */
+export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelRequest,
+  output: DeleteChannelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about the active (live) stream on a specified channel.
+ */
+export const getStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStreamRequest,
+  output: GetStreamResponse,
+  errors: [
+    AccessDeniedException,
+    ChannelNotBroadcasting,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Disconnects the incoming RTMPS stream for the specified channel. Can be used in
+ * conjunction with DeleteStreamKey to prevent further streaming to a
+ * channel.
+ *
+ * Many streaming client-software libraries automatically reconnect a dropped RTMPS
+ * session, so to stop the stream permanently, you may want to first revoke the
+ * `streamKey` attached to the channel.
+ */
+export const stopStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopStreamRequest,
+  output: StopStreamResponse,
+  errors: [
+    AccessDeniedException,
+    ChannelNotBroadcasting,
+    ResourceNotFoundException,
+    StreamUnavailable,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts the process of revoking the viewer session associated with a specified channel ARN
+ * and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and
+ * including that version. For instructions on associating a viewer ID with a viewer session, see
+ * Setting Up
+ * Private Channels.
+ */
+export const startViewerSessionRevocation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartViewerSessionRevocationRequest,
+    output: StartViewerSessionRevocationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      PendingVerification,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * Performs StartViewerSessionRevocation on multiple channel ARN and viewer
  * ID pairs simultaneously.
@@ -1647,6 +1608,54 @@ export const batchStartViewerSessionRevocation =
     errors: [
       AccessDeniedException,
       PendingVerification,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a stream key, used to initiate a stream, for the specified channel ARN.
+ *
+ * Note that CreateChannel creates a stream key. If you subsequently use
+ * CreateStreamKey on the same channel, it will fail because a stream key already exists and
+ * there is a limit of 1 stream key per channel. To reset the stream key on a channel, use DeleteStreamKey and then CreateStreamKey.
+ */
+export const createStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStreamKeyRequest,
+  output: CreateStreamKeyResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new channel and an associated stream key to start streaming.
+ */
+export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChannelRequest,
+  output: CreateChannelResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new playback restriction policy, for constraining playback by countries and/or
+ * origins.
+ */
+export const createPlaybackRestrictionPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreatePlaybackRestrictionPolicyRequest,
+    output: CreatePlaybackRestrictionPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      PendingVerification,
+      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],
@@ -1678,15 +1687,6 @@ export const createRecordingConfiguration =
       ValidationException,
     ],
   }));
-/**
- * Gets summary information about live streams in your account, in the Amazon Web Services
- * region where the API request is processed.
- */
-export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStreamsRequest,
-  output: ListStreamsResponse,
-  errors: [AccessDeniedException, ValidationException],
-}));
 /**
  * Gets metadata on a specified stream.
  */

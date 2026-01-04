@@ -726,47 +726,31 @@ export class IssueCertificateResponse extends S.Class<IssueCertificateResponse>(
 //# Errors
 export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
   "InvalidArnException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
-) {}
-export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
-  "InvalidStateException",
-  {},
-) {}
-export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
-  "InvalidTagException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class InvalidArgsException extends S.TaggedError<InvalidArgsException>()(
-  "InvalidArgsException",
-  {},
-) {}
-export class RequestFailedException extends S.TaggedError<RequestFailedException>()(
-  "RequestFailedException",
-  {},
-) {}
-export class LockoutPreventedException extends S.TaggedError<LockoutPreventedException>()(
-  "LockoutPreventedException",
   { message: S.optional(S.String) },
-) {}
-export class RequestInProgressException extends S.TaggedError<RequestInProgressException>()(
-  "RequestInProgressException",
-  {},
 ) {}
 export class CertificateMismatchException extends S.TaggedError<CertificateMismatchException>()(
   "CertificateMismatchException",
   { message: S.optional(S.String) },
 ) {}
+export class InvalidArgsException extends S.TaggedError<InvalidArgsException>()(
+  "InvalidArgsException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
+  "InvalidStateException",
+  { message: S.optional(S.String) },
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidPolicyException extends S.TaggedError<InvalidPolicyException>()(
   "InvalidPolicyException",
@@ -774,26 +758,42 @@ export class InvalidPolicyException extends S.TaggedError<InvalidPolicyException
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class MalformedCertificateException extends S.TaggedError<MalformedCertificateException>()(
   "MalformedCertificateException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
+export class RequestFailedException extends S.TaggedError<RequestFailedException>()(
+  "RequestFailedException",
   { message: S.optional(S.String) },
 ) {}
-export class RequestAlreadyProcessedException extends S.TaggedError<RequestAlreadyProcessedException>()(
-  "RequestAlreadyProcessedException",
+export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
+  "InvalidTagException",
+  { message: S.optional(S.String) },
+) {}
+export class LockoutPreventedException extends S.TaggedError<LockoutPreventedException>()(
+  "LockoutPreventedException",
+  { message: S.optional(S.String) },
+) {}
+export class PermissionAlreadyExistsException extends S.TaggedError<PermissionAlreadyExistsException>()(
+  "PermissionAlreadyExistsException",
   { message: S.optional(S.String) },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { message: S.optional(S.String) },
 ) {}
-export class PermissionAlreadyExistsException extends S.TaggedError<PermissionAlreadyExistsException>()(
-  "PermissionAlreadyExistsException",
+export class RequestAlreadyProcessedException extends S.TaggedError<RequestAlreadyProcessedException>()(
+  "RequestAlreadyProcessedException",
+  { message: S.optional(S.String) },
+) {}
+export class RequestInProgressException extends S.TaggedError<RequestInProgressException>()(
+  "RequestInProgressException",
   { message: S.optional(S.String) },
 ) {}
 export class MalformedCSRException extends S.TaggedError<MalformedCSRException>()(
@@ -803,51 +803,44 @@ export class MalformedCSRException extends S.TaggedError<MalformedCSRException>(
 
 //# Operations
 /**
- * Remove one or more tags from your private CA. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this action, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value. To add tags to a private CA, use the TagCertificateAuthority. Call the ListTags action to see what tags are associated with your CA.
+ * Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
  */
-export const untagCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listCertificateAuthorities = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UntagCertificateAuthorityRequest,
-    output: UntagCertificateAuthorityResponse,
-    errors: [
-      InvalidArnException,
-      InvalidStateException,
-      InvalidTagException,
-      ResourceNotFoundException,
-    ],
+    input: ListCertificateAuthoritiesRequest,
+    output: ListCertificateAuthoritiesResponse,
+    errors: [InvalidNextTokenException],
   }),
 );
 /**
- * Deletes a private certificate authority (CA). You must provide the Amazon Resource Name (ARN) of the private CA that you want to delete. You can find the ARN by calling the ListCertificateAuthorities action.
+ * Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following:
  *
- * Deleting a CA will invalidate other CAs and certificates below it in your CA hierarchy.
+ * - `CREATING` - Amazon Web Services Private CA is creating your private certificate authority.
  *
- * Before you can delete a CA that you have created and activated, you must disable it. To do this, call the UpdateCertificateAuthority action and set the **CertificateAuthorityStatus** parameter to `DISABLED`.
+ * - `PENDING_CERTIFICATE` - The certificate is pending. You must use your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA to sign your private CA CSR and then import it into Amazon Web Services Private CA.
  *
- * Additionally, you can delete a CA if you are waiting for it to be created (that is, the status of the CA is `CREATING`). You can also delete it if the CA has been created but you haven't yet imported the signed certificate into Amazon Web Services Private CA (that is, the status of the CA is `PENDING_CERTIFICATE`).
+ * - `ACTIVE` - Your private CA is active.
  *
- * When you successfully call DeleteCertificateAuthority, the CA's status changes to `DELETED`. However, the CA won't be permanently deleted until the restoration period has passed. By default, if you do not set the `PermanentDeletionTimeInDays` parameter, the CA remains restorable for 30 days. You can set the parameter from 7 to 30 days. The DescribeCertificateAuthority action returns the time remaining in the restoration window of a private CA in the `DELETED` state. To restore an eligible CA, call the RestoreCertificateAuthority action.
+ * - `DISABLED` - Your private CA has been disabled.
  *
- * A private CA can be deleted if it is in the `PENDING_CERTIFICATE`, `CREATING`, `EXPIRED`, `DISABLED`, or `FAILED` state. To delete a CA in the `ACTIVE` state, you must first disable it, or else the delete request results in an exception. If you are deleting a private CA in the `PENDING_CERTIFICATE` or `DISABLED` state, you can set the length of its restoration period to 7-30 days. The default is 30. During this time, the status is set to `DELETED` and the CA can be restored. A private CA deleted in the `CREATING` or `FAILED` state has no assigned restoration period and cannot be restored.
+ * - `EXPIRED` - Your private CA certificate has expired.
+ *
+ * - `FAILED` - Your private CA has failed. Your CA can fail because of problems such a network outage or back-end Amazon Web Services failure or other errors. A failed CA can never return to the pending state. You must create a new CA.
+ *
+ * - `DELETED` - Your private CA is within the restoration period, after which it is permanently deleted. The length of time remaining in the CA's restoration period is also included in this action's output.
  */
-export const deleteCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCertificateAuthorityRequest,
-    output: DeleteCertificateAuthorityResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArnException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const describeCertificateAuthority =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeCertificateAuthorityRequest,
+    output: DescribeCertificateAuthorityResponse,
+    errors: [InvalidArnException, ResourceNotFoundException],
+  }));
 /**
- * Revokes permissions on a private CA granted to the Certificate Manager (ACM) service principal (acm.amazonaws.com).
+ * List all permissions on a private CA, if any, granted to the Certificate Manager (ACM) service principal (acm.amazonaws.com).
  *
- * These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. If you revoke these permissions, ACM will no longer renew the affected certificates automatically.
+ * These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA.
  *
- * Permissions can be granted with the CreatePermission action and listed with the ListPermissions action.
+ * Permissions can be granted with the CreatePermission action and revoked with the DeletePermission action.
  * **About Permissions**
  *
  * - If the private CA and the certificates it issues reside in the same account, you can use `CreatePermission` to grant permissions for ACM to carry out automatic certificate renewals.
@@ -856,11 +849,12 @@ export const deleteCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
  */
-export const deletePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePermissionRequest,
-  output: DeletePermissionResponse,
+export const listPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPermissionsRequest,
+  output: ListPermissionsResponse,
   errors: [
     InvalidArnException,
+    InvalidNextTokenException,
     InvalidStateException,
     RequestFailedException,
     ResourceNotFoundException,
@@ -910,6 +904,31 @@ export const describeCertificateAuthorityAuditReport =
     ],
   }));
 /**
+ * Deletes a private certificate authority (CA). You must provide the Amazon Resource Name (ARN) of the private CA that you want to delete. You can find the ARN by calling the ListCertificateAuthorities action.
+ *
+ * Deleting a CA will invalidate other CAs and certificates below it in your CA hierarchy.
+ *
+ * Before you can delete a CA that you have created and activated, you must disable it. To do this, call the UpdateCertificateAuthority action and set the **CertificateAuthorityStatus** parameter to `DISABLED`.
+ *
+ * Additionally, you can delete a CA if you are waiting for it to be created (that is, the status of the CA is `CREATING`). You can also delete it if the CA has been created but you haven't yet imported the signed certificate into Amazon Web Services Private CA (that is, the status of the CA is `PENDING_CERTIFICATE`).
+ *
+ * When you successfully call DeleteCertificateAuthority, the CA's status changes to `DELETED`. However, the CA won't be permanently deleted until the restoration period has passed. By default, if you do not set the `PermanentDeletionTimeInDays` parameter, the CA remains restorable for 30 days. You can set the parameter from 7 to 30 days. The DescribeCertificateAuthority action returns the time remaining in the restoration window of a private CA in the `DELETED` state. To restore an eligible CA, call the RestoreCertificateAuthority action.
+ *
+ * A private CA can be deleted if it is in the `PENDING_CERTIFICATE`, `CREATING`, `EXPIRED`, `DISABLED`, or `FAILED` state. To delete a CA in the `ACTIVE` state, you must first disable it, or else the delete request results in an exception. If you are deleting a private CA in the `PENDING_CERTIFICATE` or `DISABLED` state, you can set the length of its restoration period to 7-30 days. The default is 30. During this time, the status is set to `DELETED` and the CA can be restored. A private CA deleted in the `CREATING` or `FAILED` state has no assigned restoration period and cannot be restored.
+ */
+export const deleteCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCertificateAuthorityRequest,
+    output: DeleteCertificateAuthorityResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidArnException,
+      InvalidStateException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
  * Retrieves the certificate and certificate chain for your private certificate authority (CA) or one that has been shared with you. Both the certificate and the chain are base64 PEM-encoded. The chain does not include the CA certificate. Each certificate in the chain signs the one before it.
  */
 export const getCertificateAuthorityCertificate =
@@ -923,17 +942,34 @@ export const getCertificateAuthorityCertificate =
     ],
   }));
 /**
- * Retrieves the certificate signing request (CSR) for your private certificate authority (CA). The CSR is created when you call the CreateCertificateAuthority action. Sign the CSR with your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA. Then import the signed certificate back into Amazon Web Services Private CA by calling the ImportCertificateAuthorityCertificate action. The CSR is returned as a base64 PEM-encoded string.
+ * Restores a certificate authority (CA) that is in the `DELETED` state. You can restore a CA during the period that you defined in the **PermanentDeletionTimeInDays** parameter of the DeleteCertificateAuthority action. Currently, you can specify 7 to 30 days. If you did not specify a **PermanentDeletionTimeInDays** value, by default you can restore the CA at any time in a 30 day period. You can check the time remaining in the restoration period of a private CA in the `DELETED` state by calling the DescribeCertificateAuthority or ListCertificateAuthorities actions. The status of a restored CA is set to its pre-deletion status when the **RestoreCertificateAuthority** action returns. To change its status to `ACTIVE`, call the UpdateCertificateAuthority action. If the private CA was in the `PENDING_CERTIFICATE` state at deletion, you must use the ImportCertificateAuthorityCertificate action to import a certificate authority into the private CA before it can be activated. You cannot restore a CA after the restoration period has ended.
  */
-export const getCertificateAuthorityCsr = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const restoreCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetCertificateAuthorityCsrRequest,
-    output: GetCertificateAuthorityCsrResponse,
+    input: RestoreCertificateAuthorityRequest,
+    output: RestoreCertificateAuthorityResponse,
     errors: [
       InvalidArnException,
       InvalidStateException,
-      RequestFailedException,
-      RequestInProgressException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates the status or configuration of a private certificate authority (CA). Your private CA must be in the `ACTIVE` or `DISABLED` state before you can update it. You can disable a private CA that is in the `ACTIVE` state or make a CA that is in the `DISABLED` state active again.
+ *
+ * Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access policies for CRLs in Amazon S3.
+ */
+export const updateCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateCertificateAuthorityRequest,
+    output: UpdateCertificateAuthorityResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidArgsException,
+      InvalidArnException,
+      InvalidPolicyException,
+      InvalidStateException,
       ResourceNotFoundException,
     ],
   }),
@@ -976,6 +1012,45 @@ export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Revokes permissions on a private CA granted to the Certificate Manager (ACM) service principal (acm.amazonaws.com).
+ *
+ * These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. If you revoke these permissions, ACM will no longer renew the affected certificates automatically.
+ *
+ * Permissions can be granted with the CreatePermission action and listed with the ListPermissions action.
+ * **About Permissions**
+ *
+ * - If the private CA and the certificates it issues reside in the same account, you can use `CreatePermission` to grant permissions for ACM to carry out automatic certificate renewals.
+ *
+ * - For automatic certificate renewal to succeed, the ACM service principal needs permissions to create, retrieve, and list certificates.
+ *
+ * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
+ */
+export const deletePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePermissionRequest,
+  output: DeletePermissionResponse,
+  errors: [
+    InvalidArnException,
+    InvalidStateException,
+    RequestFailedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Remove one or more tags from your private CA. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this action, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value. To add tags to a private CA, use the TagCertificateAuthority. Call the ListTags action to see what tags are associated with your CA.
+ */
+export const untagCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UntagCertificateAuthorityRequest,
+    output: UntagCertificateAuthorityResponse,
+    errors: [
+      InvalidArnException,
+      InvalidStateException,
+      InvalidTagException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
  * Attaches a resource-based policy to a private CA.
  *
  * A policy can also be applied by sharing a private CA through Amazon Web Services Resource Access Manager (RAM). For more information, see Attach a Policy for Cross-Account Access.
@@ -1005,34 +1080,73 @@ export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Restores a certificate authority (CA) that is in the `DELETED` state. You can restore a CA during the period that you defined in the **PermanentDeletionTimeInDays** parameter of the DeleteCertificateAuthority action. Currently, you can specify 7 to 30 days. If you did not specify a **PermanentDeletionTimeInDays** value, by default you can restore the CA at any time in a 30 day period. You can check the time remaining in the restoration period of a private CA in the `DELETED` state by calling the DescribeCertificateAuthority or ListCertificateAuthorities actions. The status of a restored CA is set to its pre-deletion status when the **RestoreCertificateAuthority** action returns. To change its status to `ACTIVE`, call the UpdateCertificateAuthority action. If the private CA was in the `PENDING_CERTIFICATE` state at deletion, you must use the ImportCertificateAuthorityCertificate action to import a certificate authority into the private CA before it can be activated. You cannot restore a CA after the restoration period has ended.
+ * Grants one or more permissions on a private CA to the Certificate Manager (ACM) service principal (`acm.amazonaws.com`). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA.
+ *
+ * You can list current permissions with the ListPermissions action and revoke them with the DeletePermission action.
+ * **About Permissions**
+ *
+ * - If the private CA and the certificates it issues reside in the same account, you can use `CreatePermission` to grant permissions for ACM to carry out automatic certificate renewals.
+ *
+ * - For automatic certificate renewal to succeed, the ACM service principal needs permissions to create, retrieve, and list certificates.
+ *
+ * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
  */
-export const restoreCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePermissionRequest,
+  output: CreatePermissionResponse,
+  errors: [
+    InvalidArnException,
+    InvalidStateException,
+    LimitExceededException,
+    PermissionAlreadyExistsException,
+    RequestFailedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Adds one or more tags to your private CA. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the private CA on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. You can apply a tag to just one private CA if you want to identify a specific characteristic of that CA, or you can apply the same tag to multiple private CAs if you want to filter for a common relationship among those CAs. To remove one or more tags, use the UntagCertificateAuthority action. Call the ListTags action to see what tags are associated with your CA.
+ *
+ * To attach tags to a private CA during the creation procedure, a CA administrator must first associate an inline IAM policy with the `CreateCertificateAuthority` action and explicitly allow tagging. For more information, see Attaching tags to a CA at the time of creation.
+ */
+export const tagCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: RestoreCertificateAuthorityRequest,
-    output: RestoreCertificateAuthorityResponse,
+    input: TagCertificateAuthorityRequest,
+    output: TagCertificateAuthorityResponse,
     errors: [
       InvalidArnException,
       InvalidStateException,
+      InvalidTagException,
       ResourceNotFoundException,
+      TooManyTagsException,
     ],
   }),
 );
 /**
- * Updates the status or configuration of a private certificate authority (CA). Your private CA must be in the `ACTIVE` or `DISABLED` state before you can update it. You can disable a private CA that is in the `ACTIVE` state or make a CA that is in the `DISABLED` state active again.
- *
- * Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access policies for CRLs in Amazon S3.
+ * Retrieves a certificate from your private CA or one that has been shared with you. The ARN of the certificate is returned when you call the IssueCertificate action. You must specify both the ARN of your private CA and the ARN of the issued certificate when calling the **GetCertificate** action. You can retrieve the certificate if it is in the **ISSUED**, **EXPIRED**, or **REVOKED** state. You can call the CreateCertificateAuthorityAuditReport action to create a report that contains information about all of the certificates issued and revoked by your private CA.
  */
-export const updateCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCertificateRequest,
+  output: GetCertificateResponse,
+  errors: [
+    InvalidArnException,
+    InvalidStateException,
+    RequestFailedException,
+    RequestInProgressException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves the certificate signing request (CSR) for your private certificate authority (CA). The CSR is created when you call the CreateCertificateAuthority action. Sign the CSR with your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA. Then import the signed certificate back into Amazon Web Services Private CA by calling the ImportCertificateAuthorityCertificate action. The CSR is returned as a base64 PEM-encoded string.
+ */
+export const getCertificateAuthorityCsr = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateCertificateAuthorityRequest,
-    output: UpdateCertificateAuthorityResponse,
+    input: GetCertificateAuthorityCsrRequest,
+    output: GetCertificateAuthorityCsrResponse,
     errors: [
-      ConcurrentModificationException,
-      InvalidArgsException,
       InvalidArnException,
-      InvalidPolicyException,
       InvalidStateException,
+      RequestFailedException,
+      RequestInProgressException,
       ResourceNotFoundException,
     ],
   }),
@@ -1059,43 +1173,6 @@ export const createCertificateAuthorityAuditReport =
       ResourceNotFoundException,
     ],
   }));
-/**
- * Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following:
- *
- * - `CREATING` - Amazon Web Services Private CA is creating your private certificate authority.
- *
- * - `PENDING_CERTIFICATE` - The certificate is pending. You must use your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA to sign your private CA CSR and then import it into Amazon Web Services Private CA.
- *
- * - `ACTIVE` - Your private CA is active.
- *
- * - `DISABLED` - Your private CA has been disabled.
- *
- * - `EXPIRED` - Your private CA certificate has expired.
- *
- * - `FAILED` - Your private CA has failed. Your CA can fail because of problems such a network outage or back-end Amazon Web Services failure or other errors. A failed CA can never return to the pending state. You must create a new CA.
- *
- * - `DELETED` - Your private CA is within the restoration period, after which it is permanently deleted. The length of time remaining in the CA's restoration period is also included in this action's output.
- */
-export const describeCertificateAuthority =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCertificateAuthorityRequest,
-    output: DescribeCertificateAuthorityResponse,
-    errors: [InvalidArnException, ResourceNotFoundException],
-  }));
-/**
- * Retrieves a certificate from your private CA or one that has been shared with you. The ARN of the certificate is returned when you call the IssueCertificate action. You must specify both the ARN of your private CA and the ARN of the issued certificate when calling the **GetCertificate** action. You can retrieve the certificate if it is in the **ISSUED**, **EXPIRED**, or **REVOKED** state. You can call the CreateCertificateAuthorityAuditReport action to create a report that contains information about all of the certificates issued and revoked by your private CA.
- */
-export const getCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCertificateRequest,
-  output: GetCertificateResponse,
-  errors: [
-    InvalidArnException,
-    InvalidStateException,
-    RequestFailedException,
-    RequestInProgressException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Imports a signed private CA certificate into Amazon Web Services Private CA. This action is used when you are using a chain of trust whose root is located outside Amazon Web Services Private CA. Before you can call this action, the following preparations must in place:
  *
@@ -1190,41 +1267,6 @@ export const importCertificateAuthorityCertificate =
     ],
   }));
 /**
- * Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
- */
-export const listCertificateAuthorities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCertificateAuthoritiesRequest,
-    output: ListCertificateAuthoritiesResponse,
-    errors: [InvalidNextTokenException],
-  }),
-);
-/**
- * List all permissions on a private CA, if any, granted to the Certificate Manager (ACM) service principal (acm.amazonaws.com).
- *
- * These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA.
- *
- * Permissions can be granted with the CreatePermission action and revoked with the DeletePermission action.
- * **About Permissions**
- *
- * - If the private CA and the certificates it issues reside in the same account, you can use `CreatePermission` to grant permissions for ACM to carry out automatic certificate renewals.
- *
- * - For automatic certificate renewal to succeed, the ACM service principal needs permissions to create, retrieve, and list certificates.
- *
- * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
- */
-export const listPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPermissionsRequest,
-  output: ListPermissionsResponse,
-  errors: [
-    InvalidArnException,
-    InvalidNextTokenException,
-    InvalidStateException,
-    RequestFailedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
  * Revokes a certificate that was issued inside Amazon Web Services Private CA. If you enable a certificate revocation list (CRL) when you create or update your private CA, information about the revoked certificates will be included in the CRL. Amazon Web Services Private CA writes the CRL to an S3 bucket that you specify. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason the CRL update fails, Amazon Web Services Private CA attempts makes further attempts every 15 minutes. With Amazon CloudWatch, you can create alarms for the metrics `CRLGenerated` and `MisconfiguredCRLBucket`. For more information, see Supported CloudWatch Metrics.
  *
  * Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access policies for CRLs in Amazon S3.
@@ -1245,48 +1287,6 @@ export const revokeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     RequestAlreadyProcessedException,
     RequestFailedException,
     RequestInProgressException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Adds one or more tags to your private CA. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the private CA on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. You can apply a tag to just one private CA if you want to identify a specific characteristic of that CA, or you can apply the same tag to multiple private CAs if you want to filter for a common relationship among those CAs. To remove one or more tags, use the UntagCertificateAuthority action. Call the ListTags action to see what tags are associated with your CA.
- *
- * To attach tags to a private CA during the creation procedure, a CA administrator must first associate an inline IAM policy with the `CreateCertificateAuthority` action and explicitly allow tagging. For more information, see Attaching tags to a CA at the time of creation.
- */
-export const tagCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TagCertificateAuthorityRequest,
-    output: TagCertificateAuthorityResponse,
-    errors: [
-      InvalidArnException,
-      InvalidStateException,
-      InvalidTagException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
- * Grants one or more permissions on a private CA to the Certificate Manager (ACM) service principal (`acm.amazonaws.com`). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA.
- *
- * You can list current permissions with the ListPermissions action and revoke them with the DeletePermission action.
- * **About Permissions**
- *
- * - If the private CA and the certificates it issues reside in the same account, you can use `CreatePermission` to grant permissions for ACM to carry out automatic certificate renewals.
- *
- * - For automatic certificate renewal to succeed, the ACM service principal needs permissions to create, retrieve, and list certificates.
- *
- * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
- */
-export const createPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePermissionRequest,
-  output: CreatePermissionResponse,
-  errors: [
-    InvalidArnException,
-    InvalidStateException,
-    LimitExceededException,
-    PermissionAlreadyExistsException,
-    RequestFailedException,
     ResourceNotFoundException,
   ],
 }));

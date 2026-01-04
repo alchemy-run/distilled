@@ -1255,27 +1255,51 @@ export class InitiateJobOutput extends S.Class<InitiateJobOutput>(
 //# Errors
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
-  {},
+  {
+    type: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  },
 ) {}
 export class MissingParameterValueException extends S.TaggedError<MissingParameterValueException>()(
   "MissingParameterValueException",
-  {},
-) {}
-export class NoLongerSupportedException extends S.TaggedError<NoLongerSupportedException>()(
-  "NoLongerSupportedException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
+  {
+    type: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  {
+    type: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  },
+) {}
+export class NoLongerSupportedException extends S.TaggedError<NoLongerSupportedException>()(
+  "NoLongerSupportedException",
+  {
+    type: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    type: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  {
+    type: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  },
 ) {}
 export class RequestTimeoutException extends S.TaggedError<RequestTimeoutException>()(
   "RequestTimeoutException",
@@ -1304,66 +1328,123 @@ export class PolicyEnforcedException extends S.TaggedError<PolicyEnforcedExcepti
 
 //# Operations
 /**
- * This operation deletes the access policy associated with the specified vault. The
- * operation is eventually consistent; that is, it might take some time for Amazon Glacier to
- * completely remove the access policy, and you might still see the effect of the policy for a
- * short time after you send the delete request.
- *
- * This operation is idempotent. You can invoke delete multiple times, even if there is
- * no policy associated with the vault. For more information about vault access policies, see
- * Amazon Glacier Access Control with Vault Access Policies.
+ * This operation lists the provisioned capacity units for the specified AWS
+ * account.
  */
-export const deleteVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listProvisionedCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteVaultAccessPolicyInput,
-    output: DeleteVaultAccessPolicyResponse,
+    input: ListProvisionedCapacityInput,
+    output: ListProvisionedCapacityOutput,
     errors: [
       InvalidParameterValueException,
       MissingParameterValueException,
       NoLongerSupportedException,
-      ResourceNotFoundException,
       ServiceUnavailableException,
     ],
   }),
 );
 /**
- * This operation deletes the notification configuration set for a vault. The operation
- * is eventually consistent; that is, it might take some time for Amazon Glacier to completely
- * disable the notifications and you might still receive some notifications for a short time
- * after you send the delete request.
+ * This operation uploads a part of an archive. You can upload archive parts in any
+ * order. You can also upload them in parallel. You can upload up to 10,000 parts for a
+ * multipart upload.
+ *
+ * Amazon Glacier rejects your upload part request if any of the following conditions is
+ * true:
+ *
+ * - **SHA256 tree hash does not match**To ensure that part
+ * data is not corrupted in transmission, you compute a SHA256 tree hash of the part and
+ * include it in your request. Upon receiving the part data, Amazon Glacier also
+ * computes a SHA256 tree hash. If these hash values don't match, the operation fails.
+ * For information about computing a SHA256 tree hash, see Computing
+ * Checksums.
+ *
+ * - **Part size does not match**The size of each part except
+ * the last must match the size specified in the corresponding InitiateMultipartUpload request. The size of the last part must be the
+ * same size as, or smaller than, the specified size.
+ *
+ * If you upload a part whose size is smaller than the part size you specified
+ * in your initiate multipart upload request and that part is not the last part, then
+ * the upload part request will succeed. However, the subsequent Complete Multipart
+ * Upload request will fail.
+ *
+ * - **Range does not align**The byte range value in the
+ * request does not align with the part size specified in the corresponding initiate
+ * request. For example, if you specify a part size of 4194304 bytes (4 MB), then 0 to
+ * 4194303 bytes (4 MB - 1) and 4194304 (4 MB) to 8388607 (8 MB - 1) are valid part
+ * ranges. However, if you set a range value of 2 MB to 6 MB, the range does not align
+ * with the part size and the upload will fail.
+ *
+ * This operation is idempotent. If you upload the same part multiple times, the data
+ * included in the most recent request overwrites the previously uploaded data.
  *
  * An AWS account has full permission to perform all operations (actions). However, AWS
  * Identity and Access Management (IAM) users don't have any permissions by default. You must
  * grant them explicit permission to perform specific actions. For more information, see
- * Access
- * Control Using AWS Identity and Access Management (IAM).
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
  *
- * For conceptual information and underlying REST API, see Configuring Vault
- * Notifications in Amazon Glacier and Delete Vault
- * Notification Configuration in the Amazon Glacier Developer Guide.
+ * For conceptual information and underlying REST API, see Uploading Large Archives in
+ * Parts (Multipart Upload) and Upload Part in the
+ * *Amazon Glacier Developer Guide*.
  */
-export const deleteVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVaultNotificationsInput,
-    output: DeleteVaultNotificationsResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const uploadMultipartPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UploadMultipartPartInput,
+  output: UploadMultipartPartOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
- * This operation removes one or more tags from the set of tags attached to a vault. For
- * more information about tags, see Tagging Amazon Glacier Resources.
- * This operation is idempotent. The operation will be successful, even if there are no tags
- * attached to the vault.
+ * This operation adds the specified tags to a vault. Each tag is composed of a key and
+ * a value. Each vault can have up to 10 tags. If your request would cause the tag limit for
+ * the vault to be exceeded, the operation throws the `LimitExceededException`
+ * error. If a tag already exists on the vault under a specified key, the existing key value
+ * will be overwritten. For more information about tags, see Tagging Amazon Glacier Resources.
  */
-export const removeTagsFromVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTagsFromVaultInput,
-  output: RemoveTagsFromVaultResponse,
+export const addTagsToVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsToVaultInput,
+  output: AddTagsToVaultResponse,
+  errors: [
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation returns information about a job you previously initiated, including
+ * the job initiation date, the user who initiated the job, the job status code/message and
+ * the Amazon SNS topic to notify after Amazon Glacier (Glacier) completes the job. For more information
+ * about initiating a job, see InitiateJob.
+ *
+ * This operation enables you to check the status of your job. However, it is
+ * strongly recommended that you set up an Amazon SNS topic and specify it in your initiate
+ * job request so that Glacier can notify the topic after it completes the
+ * job.
+ *
+ * A job ID will not expire for at least 24 hours after Glacier completes the
+ * job.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For more information about using this operation,
+ * see the documentation for the underlying REST API Describe Job
+ * in the *Amazon Glacier Developer Guide*.
+ */
+export const describeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeJobInput,
+  output: GlacierJobDescription,
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -1373,14 +1454,67 @@ export const removeTagsFromVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This operation aborts a multipart upload identified by the upload ID.
+ * This operation initiates the vault locking process by doing the following:
  *
- * After the Abort Multipart Upload request succeeds, you cannot upload any more parts
- * to the multipart upload or complete the multipart upload. Aborting a completed upload
- * fails. However, aborting an already-aborted upload will succeed, for a short time. For more
- * information about uploading a part and completing a multipart upload, see UploadMultipartPart and CompleteMultipartUpload.
+ * - Installing a vault lock policy on the specified vault.
  *
- * This operation is idempotent.
+ * - Setting the lock state of vault lock to `InProgress`.
+ *
+ * - Returning a lock ID, which is used to complete the vault locking
+ * process.
+ *
+ * You can set one vault lock policy for each vault and this policy can be up to 20 KB
+ * in size. For more information about vault lock policies, see Amazon Glacier Access Control with
+ * Vault Lock Policies.
+ *
+ * You must complete the vault locking process within 24 hours after the vault lock
+ * enters the `InProgress` state. After the 24 hour window ends, the lock ID
+ * expires, the vault automatically exits the `InProgress` state, and the vault
+ * lock policy is removed from the vault. You call CompleteVaultLock to
+ * complete the vault locking process by setting the state of the vault lock to
+ * `Locked`.
+ *
+ * After a vault lock is in the `Locked` state, you cannot initiate a new
+ * vault lock for the vault.
+ *
+ * You can abort the vault locking process by calling AbortVaultLock.
+ * You can get the state of the vault lock by calling GetVaultLock. For more
+ * information about the vault locking process, Amazon Glacier Vault
+ * Lock.
+ *
+ * If this operation is called when the vault lock is in the `InProgress`
+ * state, the operation returns an `AccessDeniedException` error. When the vault
+ * lock is in the `InProgress` state you must call AbortVaultLock
+ * before you can initiate a new vault lock policy.
+ */
+export const initiateVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InitiateVaultLockInput,
+  output: InitiateVaultLockOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation lists in-progress multipart uploads for the specified vault. An
+ * in-progress multipart upload is a multipart upload that has been initiated by an InitiateMultipartUpload request, but has not yet been completed or aborted.
+ * The list returned in the List Multipart Upload response has no guaranteed order.
+ *
+ * The List Multipart Uploads operation supports pagination. By default, this operation
+ * returns up to 50 multipart uploads in the response. You should always check the response
+ * for a `marker` at which to continue the list; if there are no more items the
+ * `marker` is `null`. To return a list of multipart uploads that
+ * begins at a specific upload, set the `marker` request parameter to the value you
+ * obtained from a previous List Multipart Upload request. You can also limit the number of
+ * uploads returned in the response by specifying the `limit` parameter in the
+ * request.
+ *
+ * Note the difference between this operation and listing parts (ListParts). The List Multipart Uploads operation lists all multipart uploads
+ * for a vault and does not require a multipart upload ID. The List Parts operation requires a
+ * multipart upload ID since parts are associated with a single upload.
  *
  * An AWS account has full permission to perform all operations (actions). However, AWS
  * Identity and Access Management (IAM) users don't have any permissions by default. You must
@@ -1388,14 +1522,14 @@ export const removeTagsFromVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Access Control Using
  * AWS Identity and Access Management (IAM).
  *
- * For conceptual information and underlying REST API, see Working with Archives in
- * Amazon Glacier and Abort Multipart
- * Upload in the *Amazon Glacier Developer Guide*.
+ * For conceptual information and the underlying REST API, see Working
+ * with Archives in Amazon Glacier and List Multipart Uploads
+ * in the *Amazon Glacier Developer Guide*.
  */
-export const abortMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listMultipartUploads = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AbortMultipartUploadInput,
-    output: AbortMultipartUploadResponse,
+    input: ListMultipartUploadsInput,
+    output: ListMultipartUploadsOutput,
     errors: [
       InvalidParameterValueException,
       MissingParameterValueException,
@@ -1406,26 +1540,33 @@ export const abortMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * This operation aborts the vault locking process if the vault lock is not in the
- * `Locked` state. If the vault lock is in the `Locked` state when
- * this operation is requested, the operation returns an `AccessDeniedException`
- * error. Aborting the vault locking process removes the vault lock policy from the specified
- * vault.
+ * This operation lists the parts of an archive that have been uploaded in a specific
+ * multipart upload. You can make this request at any time during an in-progress multipart
+ * upload before you complete the upload (see CompleteMultipartUpload. List
+ * Parts returns an error for completed uploads. The list returned in the List Parts response
+ * is sorted by part range.
  *
- * A vault lock is put into the `InProgress` state by calling InitiateVaultLock. A vault lock is put into the `Locked` state by
- * calling CompleteVaultLock. You can get the state of a vault lock by
- * calling GetVaultLock. For more information about the vault locking
- * process, see Amazon Glacier Vault Lock. For more information about vault lock policies, see
- * Amazon
- * Glacier Access Control with Vault Lock Policies.
+ * The List Parts operation supports pagination. By default, this operation returns up
+ * to 50 uploaded parts in the response. You should always check the response for a
+ * `marker` at which to continue the list; if there are no more items the
+ * `marker` is `null`. To return a list of parts that begins at a
+ * specific part, set the `marker` request parameter to the value you obtained from
+ * a previous List Parts request. You can also limit the number of parts returned in the
+ * response by specifying the `limit` parameter in the request.
  *
- * This operation is idempotent. You can successfully invoke this operation multiple
- * times, if the vault lock is in the `InProgress` state or if there is no policy
- * associated with the vault.
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and the underlying REST API, see Working
+ * with Archives in Amazon Glacier and List Parts in the
+ * *Amazon Glacier Developer Guide*.
  */
-export const abortVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AbortVaultLockInput,
-  output: AbortVaultLockResponse,
+export const listParts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPartsInput,
+  output: ListPartsOutput,
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -1489,141 +1630,6 @@ export const completeMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * This operation completes the vault locking process by transitioning the vault lock
- * from the `InProgress` state to the `Locked` state, which causes the
- * vault lock policy to become unchangeable. A vault lock is put into the
- * `InProgress` state by calling InitiateVaultLock. You can
- * obtain the state of the vault lock by calling GetVaultLock. For more
- * information about the vault locking process, Amazon Glacier Vault Lock.
- *
- * This operation is idempotent. This request is always successful if the vault lock is
- * in the `Locked` state and the provided lock ID matches the lock ID originally
- * used to lock the vault.
- *
- * If an invalid lock ID is passed in the request when the vault lock is in the
- * `Locked` state, the operation returns an `AccessDeniedException`
- * error. If an invalid lock ID is passed in the request when the vault lock is in the
- * `InProgress` state, the operation throws an `InvalidParameter`
- * error.
- */
-export const completeVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CompleteVaultLockInput,
-  output: CompleteVaultLockResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation creates a new vault with the specified name. The name of the vault
- * must be unique within a region for an AWS account. You can create up to 1,000 vaults per
- * account. If you need to create more vaults, contact Amazon Glacier.
- *
- * You must use the following guidelines when naming a vault.
- *
- * - Names can be between 1 and 255 characters long.
- *
- * - Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), and '.'
- * (period).
- *
- * This operation is idempotent.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and underlying REST API, see Creating a Vault in Amazon
- * Glacier and Create Vault in the
- * *Amazon Glacier Developer Guide*.
- */
-export const createVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVaultInput,
-  output: CreateVaultOutput,
-  errors: [
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation deletes an archive from a vault. Subsequent requests to initiate a
- * retrieval of this archive will fail. Archive retrievals that are in progress for this
- * archive ID may or may not succeed according to the following scenarios:
- *
- * - If the archive retrieval job is actively preparing the data for download when
- * Amazon Glacier receives the delete archive request, the archival retrieval operation
- * might fail.
- *
- * - If the archive retrieval job has successfully prepared the archive for download
- * when Amazon Glacier receives the delete archive request, you will be able to download
- * the output.
- *
- * This operation is idempotent. Attempting to delete an already-deleted archive does
- * not result in an error.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and underlying REST API, see Deleting an Archive in Amazon
- * Glacier and Delete Archive in the
- * *Amazon Glacier Developer Guide*.
- */
-export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteArchiveInput,
-  output: DeleteArchiveResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation deletes a vault. Amazon Glacier will delete a vault only if there are
- * no archives in the vault as of the last inventory and there have been no writes to the
- * vault since the last inventory. If either of these conditions is not satisfied, the vault
- * deletion fails (that is, the vault is not removed) and Amazon Glacier returns an error. You
- * can use DescribeVault to return the number of archives in a vault, and
- * you can use Initiate a Job (POST
- * jobs) to initiate a new inventory retrieval for a vault. The inventory contains
- * the archive IDs you use to delete archives using Delete Archive (DELETE
- * archive).
- *
- * This operation is idempotent.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and underlying REST API, see Deleting a Vault in Amazon
- * Glacier and Delete Vault in the
- * *Amazon Glacier Developer Guide*.
- */
-export const deleteVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVaultInput,
-  output: DeleteVaultResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
  * This operation returns information about a vault, including the vault's Amazon
  * Resource Name (ARN), the date the vault was created, the number of archives it contains,
  * and the total size of all the archives in the vault. The number of archives and their total
@@ -1655,23 +1661,6 @@ export const describeVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceUnavailableException,
   ],
 }));
-/**
- * This operation returns the current data retrieval policy for the account and region
- * specified in the GET request. For more information about data retrieval policies, see
- * Amazon Glacier Data Retrieval Policies.
- */
-export const getDataRetrievalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataRetrievalPolicyInput,
-    output: GetDataRetrievalPolicyOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
 /**
  * This operation downloads the output of the job you initiated using InitiateJob. Depending on the job type you specified when you initiated the
  * job, the output will be either the content of an archive or a vault inventory.
@@ -1959,22 +1948,6 @@ export const listVaults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This operation purchases a provisioned capacity unit for an AWS account.
- */
-export const purchaseProvisionedCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PurchaseProvisionedCapacityInput,
-    output: PurchaseProvisionedCapacityOutput,
-    errors: [
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
  * This operation configures an access policy for a vault and will overwrite an existing
  * policy. To configure a vault access policy, send a PUT request to the
  * `access-policy` subresource of the vault. An access policy is specific to a
@@ -2042,6 +2015,326 @@ export const setVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * This operation aborts the vault locking process if the vault lock is not in the
+ * `Locked` state. If the vault lock is in the `Locked` state when
+ * this operation is requested, the operation returns an `AccessDeniedException`
+ * error. Aborting the vault locking process removes the vault lock policy from the specified
+ * vault.
+ *
+ * A vault lock is put into the `InProgress` state by calling InitiateVaultLock. A vault lock is put into the `Locked` state by
+ * calling CompleteVaultLock. You can get the state of a vault lock by
+ * calling GetVaultLock. For more information about the vault locking
+ * process, see Amazon Glacier Vault Lock. For more information about vault lock policies, see
+ * Amazon
+ * Glacier Access Control with Vault Lock Policies.
+ *
+ * This operation is idempotent. You can successfully invoke this operation multiple
+ * times, if the vault lock is in the `InProgress` state or if there is no policy
+ * associated with the vault.
+ */
+export const abortVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AbortVaultLockInput,
+  output: AbortVaultLockResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation completes the vault locking process by transitioning the vault lock
+ * from the `InProgress` state to the `Locked` state, which causes the
+ * vault lock policy to become unchangeable. A vault lock is put into the
+ * `InProgress` state by calling InitiateVaultLock. You can
+ * obtain the state of the vault lock by calling GetVaultLock. For more
+ * information about the vault locking process, Amazon Glacier Vault Lock.
+ *
+ * This operation is idempotent. This request is always successful if the vault lock is
+ * in the `Locked` state and the provided lock ID matches the lock ID originally
+ * used to lock the vault.
+ *
+ * If an invalid lock ID is passed in the request when the vault lock is in the
+ * `Locked` state, the operation returns an `AccessDeniedException`
+ * error. If an invalid lock ID is passed in the request when the vault lock is in the
+ * `InProgress` state, the operation throws an `InvalidParameter`
+ * error.
+ */
+export const completeVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteVaultLockInput,
+  output: CompleteVaultLockResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation deletes an archive from a vault. Subsequent requests to initiate a
+ * retrieval of this archive will fail. Archive retrievals that are in progress for this
+ * archive ID may or may not succeed according to the following scenarios:
+ *
+ * - If the archive retrieval job is actively preparing the data for download when
+ * Amazon Glacier receives the delete archive request, the archival retrieval operation
+ * might fail.
+ *
+ * - If the archive retrieval job has successfully prepared the archive for download
+ * when Amazon Glacier receives the delete archive request, you will be able to download
+ * the output.
+ *
+ * This operation is idempotent. Attempting to delete an already-deleted archive does
+ * not result in an error.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Deleting an Archive in Amazon
+ * Glacier and Delete Archive in the
+ * *Amazon Glacier Developer Guide*.
+ */
+export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteArchiveInput,
+  output: DeleteArchiveResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation deletes a vault. Amazon Glacier will delete a vault only if there are
+ * no archives in the vault as of the last inventory and there have been no writes to the
+ * vault since the last inventory. If either of these conditions is not satisfied, the vault
+ * deletion fails (that is, the vault is not removed) and Amazon Glacier returns an error. You
+ * can use DescribeVault to return the number of archives in a vault, and
+ * you can use Initiate a Job (POST
+ * jobs) to initiate a new inventory retrieval for a vault. The inventory contains
+ * the archive IDs you use to delete archives using Delete Archive (DELETE
+ * archive).
+ *
+ * This operation is idempotent.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Deleting a Vault in Amazon
+ * Glacier and Delete Vault in the
+ * *Amazon Glacier Developer Guide*.
+ */
+export const deleteVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVaultInput,
+  output: DeleteVaultResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation deletes the access policy associated with the specified vault. The
+ * operation is eventually consistent; that is, it might take some time for Amazon Glacier to
+ * completely remove the access policy, and you might still see the effect of the policy for a
+ * short time after you send the delete request.
+ *
+ * This operation is idempotent. You can invoke delete multiple times, even if there is
+ * no policy associated with the vault. For more information about vault access policies, see
+ * Amazon Glacier Access Control with Vault Access Policies.
+ */
+export const deleteVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteVaultAccessPolicyInput,
+    output: DeleteVaultAccessPolicyResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      NoLongerSupportedException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * This operation deletes the notification configuration set for a vault. The operation
+ * is eventually consistent; that is, it might take some time for Amazon Glacier to completely
+ * disable the notifications and you might still receive some notifications for a short time
+ * after you send the delete request.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access
+ * Control Using AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Configuring Vault
+ * Notifications in Amazon Glacier and Delete Vault
+ * Notification Configuration in the Amazon Glacier Developer Guide.
+ */
+export const deleteVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteVaultNotificationsInput,
+    output: DeleteVaultNotificationsResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      NoLongerSupportedException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * This operation removes one or more tags from the set of tags attached to a vault. For
+ * more information about tags, see Tagging Amazon Glacier Resources.
+ * This operation is idempotent. The operation will be successful, even if there are no tags
+ * attached to the vault.
+ */
+export const removeTagsFromVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsFromVaultInput,
+  output: RemoveTagsFromVaultResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation sets and then enacts a data retrieval policy in the region specified
+ * in the PUT request. You can set one policy per region for an AWS account. The policy is
+ * enacted within a few minutes of a successful PUT operation.
+ *
+ * The set policy operation does not affect retrieval jobs that were in progress before
+ * the policy was enacted. For more information about data retrieval policies, see Amazon
+ * Glacier Data Retrieval Policies.
+ */
+export const setDataRetrievalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetDataRetrievalPolicyInput,
+    output: SetDataRetrievalPolicyResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      NoLongerSupportedException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * This operation returns the current data retrieval policy for the account and region
+ * specified in the GET request. For more information about data retrieval policies, see
+ * Amazon Glacier Data Retrieval Policies.
+ */
+export const getDataRetrievalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDataRetrievalPolicyInput,
+    output: GetDataRetrievalPolicyOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      NoLongerSupportedException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * This operation creates a new vault with the specified name. The name of the vault
+ * must be unique within a region for an AWS account. You can create up to 1,000 vaults per
+ * account. If you need to create more vaults, contact Amazon Glacier.
+ *
+ * You must use the following guidelines when naming a vault.
+ *
+ * - Names can be between 1 and 255 characters long.
+ *
+ * - Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), and '.'
+ * (period).
+ *
+ * This operation is idempotent.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Creating a Vault in Amazon
+ * Glacier and Create Vault in the
+ * *Amazon Glacier Developer Guide*.
+ */
+export const createVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVaultInput,
+  output: CreateVaultOutput,
+  errors: [
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation purchases a provisioned capacity unit for an AWS account.
+ */
+export const purchaseProvisionedCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PurchaseProvisionedCapacityInput,
+    output: PurchaseProvisionedCapacityOutput,
+    errors: [
+      InvalidParameterValueException,
+      LimitExceededException,
+      MissingParameterValueException,
+      NoLongerSupportedException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * This operation aborts a multipart upload identified by the upload ID.
+ *
+ * After the Abort Multipart Upload request succeeds, you cannot upload any more parts
+ * to the multipart upload or complete the multipart upload. Aborting a completed upload
+ * fails. However, aborting an already-aborted upload will succeed, for a short time. For more
+ * information about uploading a part and completing a multipart upload, see UploadMultipartPart and CompleteMultipartUpload.
+ *
+ * This operation is idempotent.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Working with Archives in
+ * Amazon Glacier and Abort Multipart
+ * Upload in the *Amazon Glacier Developer Guide*.
+ */
+export const abortMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AbortMultipartUploadInput,
+    output: AbortMultipartUploadResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      NoLongerSupportedException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
  * This operation adds an archive to a vault. This is a synchronous operation, and for a
  * successful upload, your data is durably persisted. Amazon Glacier returns the archive ID in
  * the `x-amz-archive-id` header of the response.
@@ -2088,275 +2381,6 @@ export const uploadArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceUnavailableException,
   ],
 }));
-/**
- * This operation uploads a part of an archive. You can upload archive parts in any
- * order. You can also upload them in parallel. You can upload up to 10,000 parts for a
- * multipart upload.
- *
- * Amazon Glacier rejects your upload part request if any of the following conditions is
- * true:
- *
- * - **SHA256 tree hash does not match**To ensure that part
- * data is not corrupted in transmission, you compute a SHA256 tree hash of the part and
- * include it in your request. Upon receiving the part data, Amazon Glacier also
- * computes a SHA256 tree hash. If these hash values don't match, the operation fails.
- * For information about computing a SHA256 tree hash, see Computing
- * Checksums.
- *
- * - **Part size does not match**The size of each part except
- * the last must match the size specified in the corresponding InitiateMultipartUpload request. The size of the last part must be the
- * same size as, or smaller than, the specified size.
- *
- * If you upload a part whose size is smaller than the part size you specified
- * in your initiate multipart upload request and that part is not the last part, then
- * the upload part request will succeed. However, the subsequent Complete Multipart
- * Upload request will fail.
- *
- * - **Range does not align**The byte range value in the
- * request does not align with the part size specified in the corresponding initiate
- * request. For example, if you specify a part size of 4194304 bytes (4 MB), then 0 to
- * 4194303 bytes (4 MB - 1) and 4194304 (4 MB) to 8388607 (8 MB - 1) are valid part
- * ranges. However, if you set a range value of 2 MB to 6 MB, the range does not align
- * with the part size and the upload will fail.
- *
- * This operation is idempotent. If you upload the same part multiple times, the data
- * included in the most recent request overwrites the previously uploaded data.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and underlying REST API, see Uploading Large Archives in
- * Parts (Multipart Upload) and Upload Part in the
- * *Amazon Glacier Developer Guide*.
- */
-export const uploadMultipartPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UploadMultipartPartInput,
-  output: UploadMultipartPartOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    RequestTimeoutException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation adds the specified tags to a vault. Each tag is composed of a key and
- * a value. Each vault can have up to 10 tags. If your request would cause the tag limit for
- * the vault to be exceeded, the operation throws the `LimitExceededException`
- * error. If a tag already exists on the vault under a specified key, the existing key value
- * will be overwritten. For more information about tags, see Tagging Amazon Glacier Resources.
- */
-export const addTagsToVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsToVaultInput,
-  output: AddTagsToVaultResponse,
-  errors: [
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation returns information about a job you previously initiated, including
- * the job initiation date, the user who initiated the job, the job status code/message and
- * the Amazon SNS topic to notify after Amazon Glacier (Glacier) completes the job. For more information
- * about initiating a job, see InitiateJob.
- *
- * This operation enables you to check the status of your job. However, it is
- * strongly recommended that you set up an Amazon SNS topic and specify it in your initiate
- * job request so that Glacier can notify the topic after it completes the
- * job.
- *
- * A job ID will not expire for at least 24 hours after Glacier completes the
- * job.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For more information about using this operation,
- * see the documentation for the underlying REST API Describe Job
- * in the *Amazon Glacier Developer Guide*.
- */
-export const describeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeJobInput,
-  output: GlacierJobDescription,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation initiates the vault locking process by doing the following:
- *
- * - Installing a vault lock policy on the specified vault.
- *
- * - Setting the lock state of vault lock to `InProgress`.
- *
- * - Returning a lock ID, which is used to complete the vault locking
- * process.
- *
- * You can set one vault lock policy for each vault and this policy can be up to 20 KB
- * in size. For more information about vault lock policies, see Amazon Glacier Access Control with
- * Vault Lock Policies.
- *
- * You must complete the vault locking process within 24 hours after the vault lock
- * enters the `InProgress` state. After the 24 hour window ends, the lock ID
- * expires, the vault automatically exits the `InProgress` state, and the vault
- * lock policy is removed from the vault. You call CompleteVaultLock to
- * complete the vault locking process by setting the state of the vault lock to
- * `Locked`.
- *
- * After a vault lock is in the `Locked` state, you cannot initiate a new
- * vault lock for the vault.
- *
- * You can abort the vault locking process by calling AbortVaultLock.
- * You can get the state of the vault lock by calling GetVaultLock. For more
- * information about the vault locking process, Amazon Glacier Vault
- * Lock.
- *
- * If this operation is called when the vault lock is in the `InProgress`
- * state, the operation returns an `AccessDeniedException` error. When the vault
- * lock is in the `InProgress` state you must call AbortVaultLock
- * before you can initiate a new vault lock policy.
- */
-export const initiateVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InitiateVaultLockInput,
-  output: InitiateVaultLockOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation lists in-progress multipart uploads for the specified vault. An
- * in-progress multipart upload is a multipart upload that has been initiated by an InitiateMultipartUpload request, but has not yet been completed or aborted.
- * The list returned in the List Multipart Upload response has no guaranteed order.
- *
- * The List Multipart Uploads operation supports pagination. By default, this operation
- * returns up to 50 multipart uploads in the response. You should always check the response
- * for a `marker` at which to continue the list; if there are no more items the
- * `marker` is `null`. To return a list of multipart uploads that
- * begins at a specific upload, set the `marker` request parameter to the value you
- * obtained from a previous List Multipart Upload request. You can also limit the number of
- * uploads returned in the response by specifying the `limit` parameter in the
- * request.
- *
- * Note the difference between this operation and listing parts (ListParts). The List Multipart Uploads operation lists all multipart uploads
- * for a vault and does not require a multipart upload ID. The List Parts operation requires a
- * multipart upload ID since parts are associated with a single upload.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and the underlying REST API, see Working
- * with Archives in Amazon Glacier and List Multipart Uploads
- * in the *Amazon Glacier Developer Guide*.
- */
-export const listMultipartUploads = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMultipartUploadsInput,
-    output: ListMultipartUploadsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * This operation lists the parts of an archive that have been uploaded in a specific
- * multipart upload. You can make this request at any time during an in-progress multipart
- * upload before you complete the upload (see CompleteMultipartUpload. List
- * Parts returns an error for completed uploads. The list returned in the List Parts response
- * is sorted by part range.
- *
- * The List Parts operation supports pagination. By default, this operation returns up
- * to 50 uploaded parts in the response. You should always check the response for a
- * `marker` at which to continue the list; if there are no more items the
- * `marker` is `null`. To return a list of parts that begins at a
- * specific part, set the `marker` request parameter to the value you obtained from
- * a previous List Parts request. You can also limit the number of parts returned in the
- * response by specifying the `limit` parameter in the request.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and the underlying REST API, see Working
- * with Archives in Amazon Glacier and List Parts in the
- * *Amazon Glacier Developer Guide*.
- */
-export const listParts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPartsInput,
-  output: ListPartsOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation lists the provisioned capacity units for the specified AWS
- * account.
- */
-export const listProvisionedCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProvisionedCapacityInput,
-    output: ListProvisionedCapacityOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * This operation sets and then enacts a data retrieval policy in the region specified
- * in the PUT request. You can set one policy per region for an AWS account. The policy is
- * enacted within a few minutes of a successful PUT operation.
- *
- * The set policy operation does not affect retrieval jobs that were in progress before
- * the policy was enacted. For more information about data retrieval policies, see Amazon
- * Glacier Data Retrieval Policies.
- */
-export const setDataRetrievalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetDataRetrievalPolicyInput,
-    output: SetDataRetrievalPolicyResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
 /**
  * This operation initiates a job of the specified type, which can be a select, an archival retrieval,
  * or a vault retrieval. For more information about using this operation,

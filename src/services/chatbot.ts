@@ -810,6 +810,96 @@ export class UpdateSlackChannelConfigurationRequest extends S.Class<UpdateSlackC
     rules,
   ),
 ) {}
+export class GetCustomActionRequest extends S.Class<GetCustomActionRequest>(
+  "GetCustomActionRequest",
+)(
+  { CustomActionArn: S.String },
+  T.all(
+    ns,
+    T.Http({ method: "POST", uri: "/get-custom-action" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CustomActionDefinition extends S.Class<CustomActionDefinition>(
+  "CustomActionDefinition",
+)({ CommandText: S.String }) {}
+export class CustomActionAttachmentCriteria extends S.Class<CustomActionAttachmentCriteria>(
+  "CustomActionAttachmentCriteria",
+)({
+  Operator: S.String,
+  VariableName: S.String,
+  Value: S.optional(S.String),
+}) {}
+export const CustomActionAttachmentCriteriaList = S.Array(
+  CustomActionAttachmentCriteria,
+);
+export const CustomActionAttachmentVariables = S.Record({
+  key: S.String,
+  value: S.String,
+});
+export class CustomActionAttachment extends S.Class<CustomActionAttachment>(
+  "CustomActionAttachment",
+)({
+  NotificationType: S.optional(S.String),
+  ButtonText: S.optional(S.String),
+  Criteria: S.optional(CustomActionAttachmentCriteriaList),
+  Variables: S.optional(CustomActionAttachmentVariables),
+}) {}
+export const CustomActionAttachmentList = S.Array(CustomActionAttachment);
+export class UpdateCustomActionRequest extends S.Class<UpdateCustomActionRequest>(
+  "UpdateCustomActionRequest",
+)(
+  {
+    CustomActionArn: S.String,
+    Definition: CustomActionDefinition,
+    AliasName: S.optional(S.String),
+    Attachments: S.optional(CustomActionAttachmentList),
+  },
+  T.all(
+    ns,
+    T.Http({ method: "POST", uri: "/update-custom-action" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteCustomActionRequest extends S.Class<DeleteCustomActionRequest>(
+  "DeleteCustomActionRequest",
+)(
+  { CustomActionArn: S.String },
+  T.all(
+    ns,
+    T.Http({ method: "POST", uri: "/delete-custom-action" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteCustomActionResult extends S.Class<DeleteCustomActionResult>(
+  "DeleteCustomActionResult",
+)({}, ns) {}
+export class ListCustomActionsRequest extends S.Class<ListCustomActionsRequest>(
+  "ListCustomActionsRequest",
+)(
+  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
+  T.all(
+    ns,
+    T.Http({ method: "POST", uri: "/list-custom-actions" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export class SlackChannelConfiguration extends S.Class<SlackChannelConfiguration>(
   "SlackChannelConfiguration",
 )({
@@ -855,6 +945,7 @@ export class TeamsChannelConfiguration extends S.Class<TeamsChannelConfiguration
   StateReason: S.optional(S.String),
 }) {}
 export const TeamChannelConfigurationsList = S.Array(TeamsChannelConfiguration);
+export const CustomActionArnList = S.Array(S.String);
 export class CreateChimeWebhookConfigurationRequest extends S.Class<CreateChimeWebhookConfigurationRequest>(
   "CreateChimeWebhookConfigurationRequest",
 )(
@@ -929,6 +1020,15 @@ export class UpdateTeamsChannelConfigurationResult extends S.Class<UpdateTeamsCh
 export class UpdateSlackChannelConfigurationResult extends S.Class<UpdateSlackChannelConfigurationResult>(
   "UpdateSlackChannelConfigurationResult",
 )({ ChannelConfiguration: S.optional(SlackChannelConfiguration) }, ns) {}
+export class UpdateCustomActionResult extends S.Class<UpdateCustomActionResult>(
+  "UpdateCustomActionResult",
+)({ CustomActionArn: S.String }, ns) {}
+export class ListCustomActionsResult extends S.Class<ListCustomActionsResult>(
+  "ListCustomActionsResult",
+)(
+  { CustomActions: CustomActionArnList, NextToken: S.optional(S.String) },
+  ns,
+) {}
 export const ChimeWebhookConfigurationList = S.Array(ChimeWebhookConfiguration);
 export class SlackUserIdentity extends S.Class<SlackUserIdentity>(
   "SlackUserIdentity",
@@ -971,6 +1071,13 @@ export class TeamsUserIdentity extends S.Class<TeamsUserIdentity>(
   TeamsTenantId: S.optional(S.String),
 }) {}
 export const TeamsUserIdentitiesList = S.Array(TeamsUserIdentity);
+export class CustomAction extends S.Class<CustomAction>("CustomAction")({
+  CustomActionArn: S.String,
+  Definition: CustomActionDefinition,
+  AliasName: S.optional(S.String),
+  Attachments: S.optional(CustomActionAttachmentList),
+  ActionName: S.optional(S.String),
+}) {}
 export class CreateChimeWebhookConfigurationResult extends S.Class<CreateChimeWebhookConfigurationResult>(
   "CreateChimeWebhookConfigurationResult",
 )({ WebhookConfiguration: S.optional(ChimeWebhookConfiguration) }, ns) {}
@@ -1028,19 +1135,38 @@ export class ListMicrosoftTeamsUserIdentitiesResult extends S.Class<ListMicrosof
   },
   ns,
 ) {}
+export class CreateCustomActionRequest extends S.Class<CreateCustomActionRequest>(
+  "CreateCustomActionRequest",
+)(
+  {
+    Definition: CustomActionDefinition,
+    AliasName: S.optional(S.String),
+    Attachments: S.optional(CustomActionAttachmentList),
+    Tags: S.optional(TagList),
+    ClientToken: S.optional(S.String),
+    ActionName: S.String,
+  },
+  T.all(
+    ns,
+    T.Http({ method: "POST", uri: "/create-custom-action" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetCustomActionResult extends S.Class<GetCustomActionResult>(
+  "GetCustomActionResult",
+)({ CustomAction: S.optional(CustomAction) }, ns) {}
+export class CreateCustomActionResult extends S.Class<CreateCustomActionResult>(
+  "CreateCustomActionResult",
+)({ CustomActionArn: S.String }, ns) {}
 
 //# Errors
 export class InternalServiceError extends S.TaggedError<InternalServiceError>()(
   "InternalServiceError",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DeleteChimeWebhookConfigurationException extends S.TaggedError<DeleteChimeWebhookConfigurationException>()(
   "DeleteChimeWebhookConfigurationException",
@@ -1049,10 +1175,6 @@ export class DeleteChimeWebhookConfigurationException extends S.TaggedError<Dele
 export class DeleteTeamsChannelConfigurationException extends S.TaggedError<DeleteTeamsChannelConfigurationException>()(
   "DeleteTeamsChannelConfigurationException",
   { Message: S.optional(S.String) },
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
 ) {}
 export class DeleteTeamsConfiguredTeamException extends S.TaggedError<DeleteTeamsConfiguredTeamException>()(
   "DeleteTeamsConfiguredTeamException",
@@ -1074,17 +1196,13 @@ export class DeleteSlackWorkspaceAuthorizationFault extends S.TaggedError<Delete
   "DeleteSlackWorkspaceAuthorizationFault",
   { Message: S.optional(S.String) },
 ) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  { message: S.optional(S.String) },
 ) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { message: S.optional(S.String) },
 ) {}
 export class DescribeSlackChannelConfigurationsException extends S.TaggedError<DescribeSlackChannelConfigurationsException>()(
   "DescribeSlackChannelConfigurationsException",
@@ -1098,41 +1216,17 @@ export class GetTeamsChannelConfigurationException extends S.TaggedError<GetTeam
   "GetTeamsChannelConfigurationException",
   { Message: S.optional(S.String) },
 ) {}
-export class ListTeamsChannelConfigurationsException extends S.TaggedError<ListTeamsChannelConfigurationsException>()(
-  "ListTeamsChannelConfigurationsException",
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
   { message: S.optional(S.String) },
 ) {}
-export class UpdateAccountPreferencesException extends S.TaggedError<UpdateAccountPreferencesException>()(
-  "UpdateAccountPreferencesException",
-  { Message: S.optional(S.String) },
-) {}
-export class UpdateChimeWebhookConfigurationException extends S.TaggedError<UpdateChimeWebhookConfigurationException>()(
-  "UpdateChimeWebhookConfigurationException",
-  { Message: S.optional(S.String) },
-) {}
-export class UpdateTeamsChannelConfigurationException extends S.TaggedError<UpdateTeamsChannelConfigurationException>()(
-  "UpdateTeamsChannelConfigurationException",
-  { Message: S.optional(S.String) },
-) {}
-export class UpdateSlackChannelConfigurationException extends S.TaggedError<UpdateSlackChannelConfigurationException>()(
-  "UpdateSlackChannelConfigurationException",
-  { Message: S.optional(S.String) },
-) {}
-export class CreateTeamsChannelConfigurationException extends S.TaggedError<CreateTeamsChannelConfigurationException>()(
-  "CreateTeamsChannelConfigurationException",
-  { Message: S.optional(S.String) },
-) {}
-export class CreateSlackChannelConfigurationException extends S.TaggedError<CreateSlackChannelConfigurationException>()(
-  "CreateSlackChannelConfigurationException",
-  { Message: S.optional(S.String) },
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
 ) {}
 export class DescribeChimeWebhookConfigurationsException extends S.TaggedError<DescribeChimeWebhookConfigurationsException>()(
   "DescribeChimeWebhookConfigurationsException",
@@ -1154,12 +1248,96 @@ export class ListMicrosoftTeamsUserIdentitiesException extends S.TaggedError<Lis
   "ListMicrosoftTeamsUserIdentitiesException",
   { Message: S.optional(S.String) },
 ) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+) {}
+export class ListTeamsChannelConfigurationsException extends S.TaggedError<ListTeamsChannelConfigurationsException>()(
+  "ListTeamsChannelConfigurationsException",
+  { Message: S.optional(S.String) },
+) {}
+export class UpdateAccountPreferencesException extends S.TaggedError<UpdateAccountPreferencesException>()(
+  "UpdateAccountPreferencesException",
+  { Message: S.optional(S.String) },
+) {}
+export class UpdateChimeWebhookConfigurationException extends S.TaggedError<UpdateChimeWebhookConfigurationException>()(
+  "UpdateChimeWebhookConfigurationException",
+  { Message: S.optional(S.String) },
+) {}
+export class UpdateTeamsChannelConfigurationException extends S.TaggedError<UpdateTeamsChannelConfigurationException>()(
+  "UpdateTeamsChannelConfigurationException",
+  { Message: S.optional(S.String) },
+) {}
+export class UpdateSlackChannelConfigurationException extends S.TaggedError<UpdateSlackChannelConfigurationException>()(
+  "UpdateSlackChannelConfigurationException",
+  { Message: S.optional(S.String) },
+) {}
 export class CreateChimeWebhookConfigurationException extends S.TaggedError<CreateChimeWebhookConfigurationException>()(
   "CreateChimeWebhookConfigurationException",
   { Message: S.optional(S.String) },
 ) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class CreateTeamsChannelConfigurationException extends S.TaggedError<CreateTeamsChannelConfigurationException>()(
+  "CreateTeamsChannelConfigurationException",
+  { Message: S.optional(S.String) },
+) {}
+export class CreateSlackChannelConfigurationException extends S.TaggedError<CreateSlackChannelConfigurationException>()(
+  "CreateSlackChannelConfigurationException",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Lists Slack channel configurations optionally filtered by ChatConfigurationArn
+ */
+export const describeSlackChannelConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeSlackChannelConfigurationsRequest,
+    output: DescribeSlackChannelConfigurationsResult,
+    errors: [
+      DescribeSlackChannelConfigurationsException,
+      InvalidParameterException,
+      InvalidRequestException,
+    ],
+  }));
+/**
+ * Returns AWS Chatbot account preferences.
+ */
+export const getAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAccountPreferencesRequest,
+    output: GetAccountPreferencesResult,
+    errors: [GetAccountPreferencesException, InvalidRequestException],
+  }),
+);
+/**
+ * Returns a Microsoft Teams channel configuration in an AWS account.
+ */
+export const getMicrosoftTeamsChannelConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTeamsChannelConfigurationRequest,
+    output: GetTeamsChannelConfigurationResult,
+    errors: [
+      GetTeamsChannelConfigurationException,
+      InvalidParameterException,
+      InvalidRequestException,
+    ],
+  }));
+/**
+ * Lists resources associated with a channel configuration.
+ */
+export const listAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAssociationsRequest,
+  output: ListAssociationsResult,
+  errors: [],
+}));
 /**
  * Deletes a Microsoft Teams channel configuration for AWS Chatbot
  */
@@ -1234,57 +1412,6 @@ export const deleteSlackWorkspaceAuthorization =
     errors: [DeleteSlackWorkspaceAuthorizationFault, InvalidParameterException],
   }));
 /**
- * Unlink a resource, for example a custom action, from a channel configuration.
- */
-export const disassociateFromConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromConfigurationRequest,
-    output: DisassociateFromConfigurationResult,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      UnauthorizedException,
-    ],
-  }));
-/**
- * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServiceError,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServiceError,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Links a resource (for example, a custom action) to a channel configuration.
- */
-export const associateToConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateToConfigurationRequest,
-    output: AssociateToConfigurationResult,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
  * Deletes a Amazon Chime webhook configuration for AWS Chatbot.
  */
 export const deleteChimeWebhookConfiguration =
@@ -1299,146 +1426,19 @@ export const deleteChimeWebhookConfiguration =
     ],
   }));
 /**
- * Lists Slack channel configurations optionally filtered by ChatConfigurationArn
+ * Links a resource (for example, a custom action) to a channel configuration.
  */
-export const describeSlackChannelConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSlackChannelConfigurationsRequest,
-    output: DescribeSlackChannelConfigurationsResult,
-    errors: [
-      DescribeSlackChannelConfigurationsException,
-      InvalidParameterException,
-      InvalidRequestException,
-    ],
-  }));
-/**
- * Returns AWS Chatbot account preferences.
- */
-export const getAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const associateToConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetAccountPreferencesRequest,
-    output: GetAccountPreferencesResult,
-    errors: [GetAccountPreferencesException, InvalidRequestException],
-  }),
-);
-/**
- * Returns a Microsoft Teams channel configuration in an AWS account.
- */
-export const getMicrosoftTeamsChannelConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTeamsChannelConfigurationRequest,
-    output: GetTeamsChannelConfigurationResult,
+    input: AssociateToConfigurationRequest,
+    output: AssociateToConfigurationResult,
     errors: [
-      GetTeamsChannelConfigurationException,
-      InvalidParameterException,
+      InternalServiceError,
       InvalidRequestException,
-    ],
-  }));
-/**
- * Lists resources associated with a channel configuration.
- */
-export const listAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAssociationsRequest,
-  output: ListAssociationsResult,
-  errors: [],
-}));
-/**
- * Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
- */
-export const listMicrosoftTeamsChannelConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListTeamsChannelConfigurationsRequest,
-    output: ListTeamsChannelConfigurationsResult,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ListTeamsChannelConfigurationsException,
-    ],
-  }));
-/**
- * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServiceError,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Updates AWS Chatbot account preferences.
- */
-export const updateAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountPreferencesRequest,
-    output: UpdateAccountPreferencesResult,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      UpdateAccountPreferencesException,
+      UnauthorizedException,
     ],
   }),
 );
-/**
- * Updates a Amazon Chime webhook configuration.
- */
-export const updateChimeWebhookConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateChimeWebhookConfigurationRequest,
-    output: UpdateChimeWebhookConfigurationResult,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      UpdateChimeWebhookConfigurationException,
-    ],
-  }));
-/**
- * Updates an Microsoft Teams channel configuration.
- */
-export const updateMicrosoftTeamsChannelConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateTeamsChannelConfigurationRequest,
-    output: UpdateTeamsChannelConfigurationResult,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      UpdateTeamsChannelConfigurationException,
-    ],
-  }));
-/**
- * Updates a Slack channel configuration.
- */
-export const updateSlackChannelConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSlackChannelConfigurationRequest,
-    output: UpdateSlackChannelConfigurationResult,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      UpdateSlackChannelConfigurationException,
-    ],
-  }));
-/**
- * Creates an AWS Chatbot confugration for Slack.
- */
-export const createSlackChannelConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateSlackChannelConfigurationRequest,
-    output: CreateSlackChannelConfigurationResult,
-    errors: [
-      ConflictException,
-      CreateSlackChannelConfigurationException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-    ],
-  }));
 /**
  * Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
  */
@@ -1507,20 +1507,176 @@ export const listMicrosoftTeamsUserIdentities =
     ],
   }));
 /**
- * Creates an AWS Chatbot configuration for Amazon Chime.
+ * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
-export const createChimeWebhookConfiguration =
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServiceError,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Returns a custom action.
+ */
+export const getCustomAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCustomActionRequest,
+  output: GetCustomActionResult,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates a custom action.
+ */
+export const updateCustomAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCustomActionRequest,
+  output: UpdateCustomActionResult,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists custom actions defined in this account.
+ */
+export const listCustomActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCustomActionsRequest,
+  output: ListCustomActionsResult,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Unlink a resource, for example a custom action, from a channel configuration.
+ */
+export const disassociateFromConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateChimeWebhookConfigurationRequest,
-    output: CreateChimeWebhookConfigurationResult,
+    input: DisassociateFromConfigurationRequest,
+    output: DisassociateFromConfigurationResult,
     errors: [
-      ConflictException,
-      CreateChimeWebhookConfigurationException,
-      InvalidParameterException,
+      InternalServiceError,
       InvalidRequestException,
-      LimitExceededException,
+      UnauthorizedException,
     ],
   }));
+/**
+ * Deletes a custom action.
+ */
+export const deleteCustomAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomActionRequest,
+  output: DeleteCustomActionResult,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
+ */
+export const listMicrosoftTeamsChannelConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListTeamsChannelConfigurationsRequest,
+    output: ListTeamsChannelConfigurationsResult,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ListTeamsChannelConfigurationsException,
+    ],
+  }));
+/**
+ * Updates AWS Chatbot account preferences.
+ */
+export const updateAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountPreferencesRequest,
+    output: UpdateAccountPreferencesResult,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      UpdateAccountPreferencesException,
+    ],
+  }),
+);
+/**
+ * Updates a Amazon Chime webhook configuration.
+ */
+export const updateChimeWebhookConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateChimeWebhookConfigurationRequest,
+    output: UpdateChimeWebhookConfigurationResult,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      UpdateChimeWebhookConfigurationException,
+    ],
+  }));
+/**
+ * Updates an Microsoft Teams channel configuration.
+ */
+export const updateMicrosoftTeamsChannelConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateTeamsChannelConfigurationRequest,
+    output: UpdateTeamsChannelConfigurationResult,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      UpdateTeamsChannelConfigurationException,
+    ],
+  }));
+/**
+ * Updates a Slack channel configuration.
+ */
+export const updateSlackChannelConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateSlackChannelConfigurationRequest,
+    output: UpdateSlackChannelConfigurationResult,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      UpdateSlackChannelConfigurationException,
+    ],
+  }));
+/**
+ * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServiceError,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates a custom action that can be invoked as an alias or as a button on a notification.
+ */
+export const createCustomAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomActionRequest,
+  output: CreateCustomActionResult,
+  errors: [
+    ConflictException,
+    InternalServiceError,
+    InvalidRequestException,
+    LimitExceededException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates an AWS Chatbot configuration for Microsoft Teams.
  */
@@ -1531,6 +1687,49 @@ export const createMicrosoftTeamsChannelConfiguration =
     errors: [
       ConflictException,
       CreateTeamsChannelConfigurationException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+    ],
+  }));
+/**
+ * Creates an AWS Chatbot confugration for Slack.
+ */
+export const createSlackChannelConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateSlackChannelConfigurationRequest,
+    output: CreateSlackChannelConfigurationResult,
+    errors: [
+      ConflictException,
+      CreateSlackChannelConfigurationException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+    ],
+  }));
+/**
+ * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServiceError,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Creates an AWS Chatbot configuration for Amazon Chime.
+ */
+export const createChimeWebhookConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateChimeWebhookConfigurationRequest,
+    output: CreateChimeWebhookConfigurationResult,
+    errors: [
+      ConflictException,
+      CreateChimeWebhookConfigurationException,
       InvalidParameterException,
       InvalidRequestException,
       LimitExceededException,

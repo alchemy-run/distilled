@@ -754,35 +754,60 @@ export class PutDialRequestBatchResponse extends S.Class<PutDialRequestBatchResp
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
-) {}
-export class InvalidCampaignStateException extends S.TaggedError<InvalidCampaignStateException>()(
-  "InvalidCampaignStateException",
-  {},
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
   "InvalidStateException",
-  {},
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+) {}
+export class InvalidCampaignStateException extends S.TaggedError<InvalidCampaignStateException>()(
+  "InvalidCampaignStateException",
+  {
+    state: S.String,
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -793,6 +818,191 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ) {}
 
 //# Operations
+/**
+ * Deletes a campaign from the specified Amazon Connect account.
+ */
+export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCampaignRequest,
+  output: DeleteCampaignResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Provides summary information about the campaigns under the specified Amazon Connect account.
+ */
+export const listCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCampaignsRequest,
+  output: ListCampaignsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+}));
+/**
+ * Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
+ */
+export const putDialRequestBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDialRequestBatchRequest,
+  output: PutDialRequestBatchResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidCampaignStateException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
+ */
+export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCampaignRequest,
+  output: CreateCampaignResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get state of campaigns for the specified Amazon Connect account.
+ */
+export const getCampaignStateBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCampaignStateBatchRequest,
+    output: GetCampaignStateBatchResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a connect instance config from the specified AWS account.
+ */
+export const deleteConnectInstanceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConnectInstanceConfigRequest,
+    output: DeleteConnectInstanceConfigResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidStateException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Describes the specific campaign.
+ */
+export const describeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCampaignRequest,
+  output: DescribeCampaignResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get the specific Connect instance config.
+ */
+export const getConnectInstanceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetConnectInstanceConfigRequest,
+    output: GetConnectInstanceConfigResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Get the specific instance onboarding job status.
+ */
+export const getInstanceOnboardingJobStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetInstanceOnboardingJobStatusRequest,
+    output: GetInstanceOnboardingJobStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the outbound call config of a campaign. This API is idempotent.
+ */
+export const updateCampaignOutboundCallConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateCampaignOutboundCallConfigRequest,
+    output: UpdateCampaignOutboundCallConfigResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Get state of a campaign for the specified Amazon Connect account.
+ */
+export const getCampaignState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCampaignStateRequest,
+  output: GetCampaignStateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List tags for a resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Tag a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Untag a resource.
  */
@@ -838,79 +1048,22 @@ export const updateCampaignName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a campaign from the specified Amazon Connect account.
+ * Onboard the specific Amazon Connect instance to Connect Campaigns.
  */
-export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCampaignRequest,
-  output: DeleteCampaignResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a connect instance config from the specified AWS account.
- */
-export const deleteConnectInstanceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const startInstanceOnboardingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteConnectInstanceConfigRequest,
-    output: DeleteConnectInstanceConfigResponse,
+    input: StartInstanceOnboardingJobRequest,
+    output: StartInstanceOnboardingJobResponse,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
-      InvalidStateException,
       ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],
   }),
 );
-/**
- * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
- */
-export const deleteInstanceOnboardingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInstanceOnboardingJobRequest,
-    output: DeleteInstanceOnboardingJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidStateException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Get state of a campaign for the specified Amazon Connect account.
- */
-export const getCampaignState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCampaignStateRequest,
-  output: GetCampaignStateResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List tags for a resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Pauses a campaign for the specified Amazon Connect account.
  */
@@ -927,6 +1080,22 @@ export const pauseCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
+ */
+export const deleteInstanceOnboardingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteInstanceOnboardingJobRequest,
+    output: DeleteInstanceOnboardingJobResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidStateException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Stops a campaign for the specified Amazon Connect account.
  */
@@ -965,150 +1134,6 @@ export const startCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const stopCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCampaignRequest,
   output: StopCampaignResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    InvalidCampaignStateException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Tag a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the outbound call config of a campaign. This API is idempotent.
- */
-export const updateCampaignOutboundCallConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCampaignOutboundCallConfigRequest,
-    output: UpdateCampaignOutboundCallConfigResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Describes the specific campaign.
- */
-export const describeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeCampaignRequest,
-  output: DescribeCampaignResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Get state of campaigns for the specified Amazon Connect account.
- */
-export const getCampaignStateBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCampaignStateBatchRequest,
-    output: GetCampaignStateBatchResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Get the specific Connect instance config.
- */
-export const getConnectInstanceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConnectInstanceConfigRequest,
-    output: GetConnectInstanceConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Get the specific instance onboarding job status.
- */
-export const getInstanceOnboardingJobStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetInstanceOnboardingJobStatusRequest,
-    output: GetInstanceOnboardingJobStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Onboard the specific Amazon Connect instance to Connect Campaigns.
- */
-export const startInstanceOnboardingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartInstanceOnboardingJobRequest,
-    output: StartInstanceOnboardingJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
- */
-export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCampaignRequest,
-  output: CreateCampaignResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Provides summary information about the campaigns under the specified Amazon Connect account.
- */
-export const listCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCampaignsRequest,
-  output: ListCampaignsResponse,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
-}));
-/**
- * Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
- */
-export const putDialRequestBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutDialRequestBatchRequest,
-  output: PutDialRequestBatchResponse,
   errors: [
     AccessDeniedException,
     ConflictException,

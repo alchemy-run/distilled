@@ -274,6 +274,24 @@ export class GetLatestConfigurationRequest extends S.Class<GetLatestConfiguratio
     rules,
   ),
 ) {}
+export class StartConfigurationSessionRequest extends S.Class<StartConfigurationSessionRequest>(
+  "StartConfigurationSessionRequest",
+)(
+  {
+    ApplicationIdentifier: S.String,
+    EnvironmentIdentifier: S.String,
+    ConfigurationProfileIdentifier: S.String,
+    RequiredMinimumPollIntervalInSeconds: S.optional(S.Number),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/configurationsessions" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export class GetLatestConfigurationResponse extends S.Class<GetLatestConfigurationResponse>(
   "GetLatestConfigurationResponse",
 )({
@@ -287,6 +305,9 @@ export class GetLatestConfigurationResponse extends S.Class<GetLatestConfigurati
   Configuration: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
   VersionLabel: S.optional(S.String).pipe(T.HttpHeader("Version-Label")),
 }) {}
+export class StartConfigurationSessionResponse extends S.Class<StartConfigurationSessionResponse>(
+  "StartConfigurationSessionResponse",
+)({ InitialConfigurationToken: S.optional(S.String) }) {}
 export class InvalidParameterDetail extends S.Class<InvalidParameterDetail>(
   "InvalidParameterDetail",
 )({ Problem: S.optional(S.String) }) {}
@@ -347,6 +368,24 @@ export const getLatestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: GetLatestConfigurationRequest,
     output: GetLatestConfigurationResponse,
+    errors: [
+      BadRequestException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Starts a configuration session used to retrieve a deployed configuration. For more
+ * information about this API action and to view example CLI commands that show how to use
+ * it with the GetLatestConfiguration API action, see Retrieving the
+ * configuration in the *AppConfig User Guide*.
+ */
+export const startConfigurationSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartConfigurationSessionRequest,
+    output: StartConfigurationSessionResponse,
     errors: [
       BadRequestException,
       InternalServerException,

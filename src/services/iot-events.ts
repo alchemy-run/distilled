@@ -1138,35 +1138,27 @@ export class CreateDetectorModelResponse extends S.Class<CreateDetectorModelResp
 //# Errors
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
-) {}
-export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
-  "UnsupportedOperationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
@@ -1176,8 +1168,109 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
     resourceArn: S.optional(S.String),
   },
 ) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
+export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
+  "UnsupportedOperationException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Lists the alarm models that you created. The operation returns only the metadata
+ * associated with each alarm model.
+ */
+export const listAlarmModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAlarmModelsRequest,
+  output: ListAlarmModelsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Performs an analysis of your detector model. For more information,
+ * see Troubleshooting a detector model
+ * in the *AWS IoT Events Developer Guide*.
+ */
+export const startDetectorModelAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartDetectorModelAnalysisRequest,
+    output: StartDetectorModelAnalysisResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates a detector model. Detectors (instances) spawned by the previous version are
+ * deleted and then re-created as new inputs arrive.
+ */
+export const updateDetectorModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDetectorModelRequest,
+  output: UpdateDetectorModelResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates an input.
+ */
+export const updateInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInputRequest,
+  output: UpdateInputResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the tags (metadata) you have assigned to the resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates an alarm model. Any alarms that were created based on the previous version are
+ * deleted and then created again as new data arrives.
+ */
+export const updateAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAlarmModelRequest,
+  output: UpdateAlarmModelResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a detector model. Any active instances of the detector model are also
  * deleted.
@@ -1209,6 +1302,68 @@ export const deleteInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
+/**
+ * Removes the given tags (metadata) from the resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes an input.
+ */
+export const describeInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInputRequest,
+  output: DescribeInputResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists all the versions of an alarm model. The operation returns only the metadata
+ * associated with each alarm model version.
+ */
+export const listAlarmModelVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAlarmModelVersionsRequest,
+    output: ListAlarmModelVersionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists all the versions of a detector model. Only the metadata associated with each
+ * detector model version is returned.
+ */
+export const listDetectorModelVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDetectorModelVersionsRequest,
+    output: ListDetectorModelVersionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Retrieves information about an alarm model. If you don't specify a value for the
  * `alarmModelVersion` parameter, the latest version is returned.
@@ -1242,84 +1397,6 @@ export const describeDetectorModelAnalysis =
     ],
   }));
 /**
- * Lists the tags (metadata) you have assigned to the resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Performs an analysis of your detector model. For more information,
- * see Troubleshooting a detector model
- * in the *AWS IoT Events Developer Guide*.
- */
-export const startDetectorModelAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDetectorModelAnalysisRequest,
-    output: StartDetectorModelAnalysisResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
- * manage a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes the given tags (metadata) from the resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates an alarm model. Any alarms that were created based on the previous version are
- * deleted and then created again as new data arrives.
- */
-export const updateAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAlarmModelRequest,
-  output: UpdateAlarmModelResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Deletes an alarm model. Any alarm instances that were created based on this alarm model
  * are also deleted. This action can't be undone.
  */
@@ -1331,6 +1408,33 @@ export const deleteAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     ResourceInUseException,
     ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the detector models you have created. Only the metadata associated with each
+ * detector model is returned.
+ */
+export const listDetectorModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDetectorModelsRequest,
+  output: ListDetectorModelsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the inputs you have created.
+ */
+export const listInputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInputsRequest,
+  output: ListInputsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
     ServiceUnavailableException,
     ThrottlingException,
   ],
@@ -1353,163 +1457,6 @@ export const describeDetectorModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes an input.
- */
-export const describeInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeInputRequest,
-  output: DescribeInputResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves the current settings of the AWS IoT Events logging options.
- */
-export const describeLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLoggingOptionsRequest,
-    output: DescribeLoggingOptionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Lists the alarm models that you created. The operation returns only the metadata
- * associated with each alarm model.
- */
-export const listAlarmModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAlarmModelsRequest,
-  output: ListAlarmModelsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists all the versions of an alarm model. The operation returns only the metadata
- * associated with each alarm model version.
- */
-export const listAlarmModelVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAlarmModelVersionsRequest,
-    output: ListAlarmModelVersionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists the detector models you have created. Only the metadata associated with each
- * detector model is returned.
- */
-export const listDetectorModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDetectorModelsRequest,
-  output: ListDetectorModelsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists all the versions of a detector model. Only the metadata associated with each
- * detector model version is returned.
- */
-export const listDetectorModelVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDetectorModelVersionsRequest,
-    output: ListDetectorModelVersionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists the inputs you have created.
- */
-export const listInputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInputsRequest,
-  output: ListInputsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Sets or updates the AWS IoT Events logging options.
- *
- * If you update the value of any `loggingOptions` field, it takes up to one
- * minute for the change to take effect. If you change the policy attached to the role you
- * specified in the `roleArn` field (for example, to correct an invalid policy), it
- * takes up to five minutes for that change to take effect.
- */
-export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutLoggingOptionsRequest,
-  output: PutLoggingOptionsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Updates a detector model. Detectors (instances) spawned by the previous version are
- * deleted and then re-created as new inputs arrive.
- */
-export const updateDetectorModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDetectorModelRequest,
-  output: UpdateDetectorModelResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates an input.
- */
-export const updateInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateInputRequest,
-  output: UpdateInputResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Retrieves one or more analysis results of the detector model.
  *
  * After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
@@ -1526,6 +1473,22 @@ export const getDetectorModelAnalysisResults =
       ThrottlingException,
     ],
   }));
+/**
+ * Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
+ * manage a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an input.
  */
@@ -1554,6 +1517,43 @@ export const listInputRoutings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
+/**
+ * Sets or updates the AWS IoT Events logging options.
+ *
+ * If you update the value of any `loggingOptions` field, it takes up to one
+ * minute for the change to take effect. If you change the policy attached to the role you
+ * specified in the `roleArn` field (for example, to correct an invalid policy), it
+ * takes up to five minutes for that change to take effect.
+ */
+export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutLoggingOptionsRequest,
+  output: PutLoggingOptionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Retrieves the current settings of the AWS IoT Events logging options.
+ */
+export const describeLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeLoggingOptionsRequest,
+    output: DescribeLoggingOptionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
 /**
  * Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get
  * notified when the value is outside a specified range. For more information, see Create an

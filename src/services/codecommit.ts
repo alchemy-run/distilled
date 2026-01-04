@@ -1863,159 +1863,39 @@ export class DescribePullRequestEventsOutput extends S.Class<DescribePullRequest
 //# Errors
 export class ApprovalRuleTemplateDoesNotExistException extends S.TaggedError<ApprovalRuleTemplateDoesNotExistException>()(
   "ApprovalRuleTemplateDoesNotExistException",
-  {},
-) {}
-export class InvalidRepositoryNameException extends S.TaggedError<InvalidRepositoryNameException>()(
-  "InvalidRepositoryNameException",
-  {},
-) {}
-export class EncryptionIntegrityChecksFailedException extends S.TaggedError<EncryptionIntegrityChecksFailedException>()(
-  "EncryptionIntegrityChecksFailedException",
-  {},
-) {}
-export class ApprovalRuleTemplateNameRequiredException extends S.TaggedError<ApprovalRuleTemplateNameRequiredException>()(
-  "ApprovalRuleTemplateNameRequiredException",
-  {},
-) {}
-export class EncryptionKeyAccessDeniedException extends S.TaggedError<EncryptionKeyAccessDeniedException>()(
-  "EncryptionKeyAccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class BranchNameExistsException extends S.TaggedError<BranchNameExistsException>()(
   "BranchNameExistsException",
   { message: S.optional(S.String) },
 ) {}
-export class BranchDoesNotExistException extends S.TaggedError<BranchDoesNotExistException>()(
-  "BranchDoesNotExistException",
-  {},
-) {}
-export class EncryptionKeyDisabledException extends S.TaggedError<EncryptionKeyDisabledException>()(
-  "EncryptionKeyDisabledException",
-  {},
-) {}
-export class EncryptionKeyNotFoundException extends S.TaggedError<EncryptionKeyNotFoundException>()(
-  "EncryptionKeyNotFoundException",
-  {},
-) {}
-export class BranchNameRequiredException extends S.TaggedError<BranchNameRequiredException>()(
-  "BranchNameRequiredException",
-  {},
-) {}
-export class EncryptionKeyUnavailableException extends S.TaggedError<EncryptionKeyUnavailableException>()(
-  "EncryptionKeyUnavailableException",
-  {},
+export class EncryptionIntegrityChecksFailedException extends S.TaggedError<EncryptionIntegrityChecksFailedException>()(
+  "EncryptionIntegrityChecksFailedException",
+  { message: S.optional(S.String) },
 ) {}
 export class CommentDeletedException extends S.TaggedError<CommentDeletedException>()(
   "CommentDeletedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class CommitDoesNotExistException extends S.TaggedError<CommitDoesNotExistException>()(
-  "CommitDoesNotExistException",
-  {},
+export class InvalidRepositoryNameException extends S.TaggedError<InvalidRepositoryNameException>()(
+  "InvalidRepositoryNameException",
+  { message: S.optional(S.String) },
 ) {}
-export class CommitRequiredException extends S.TaggedError<CommitRequiredException>()(
-  "CommitRequiredException",
-  {},
-) {}
-export class InvalidCommitException extends S.TaggedError<InvalidCommitException>()(
-  "InvalidCommitException",
-  {},
-) {}
-export class RepositoryDoesNotExistException extends S.TaggedError<RepositoryDoesNotExistException>()(
-  "RepositoryDoesNotExistException",
-  {},
-) {}
-export class RepositoryNameRequiredException extends S.TaggedError<RepositoryNameRequiredException>()(
-  "RepositoryNameRequiredException",
-  {},
-) {}
-export class InvalidContinuationTokenException extends S.TaggedError<InvalidContinuationTokenException>()(
-  "InvalidContinuationTokenException",
-  {},
-) {}
-export class InvalidApprovalRuleTemplateNameException extends S.TaggedError<InvalidApprovalRuleTemplateNameException>()(
-  "InvalidApprovalRuleTemplateNameException",
-  {},
-) {}
-export class InvalidMaxResultsException extends S.TaggedError<InvalidMaxResultsException>()(
-  "InvalidMaxResultsException",
-  {},
-) {}
-export class InvalidResourceArnException extends S.TaggedError<InvalidResourceArnException>()(
-  "InvalidResourceArnException",
-  {},
-) {}
-export class BranchNameIsTagNameException extends S.TaggedError<BranchNameIsTagNameException>()(
-  "BranchNameIsTagNameException",
-  {},
-) {}
-export class CommitMessageLengthExceededException extends S.TaggedError<CommitMessageLengthExceededException>()(
-  "CommitMessageLengthExceededException",
-  {},
-) {}
-export class ConcurrentReferenceUpdateException extends S.TaggedError<ConcurrentReferenceUpdateException>()(
-  "ConcurrentReferenceUpdateException",
-  {},
-) {}
-export class FileContentSizeLimitExceededException extends S.TaggedError<FileContentSizeLimitExceededException>()(
-  "FileContentSizeLimitExceededException",
-  {},
-) {}
-export class FolderContentSizeLimitExceededException extends S.TaggedError<FolderContentSizeLimitExceededException>()(
-  "FolderContentSizeLimitExceededException",
-  {},
-) {}
-export class InvalidCommitIdException extends S.TaggedError<InvalidCommitIdException>()(
-  "InvalidCommitIdException",
-  {},
-) {}
-export class InvalidConflictDetailLevelException extends S.TaggedError<InvalidConflictDetailLevelException>()(
-  "InvalidConflictDetailLevelException",
-  {},
-) {}
-export class CommentDoesNotExistException extends S.TaggedError<CommentDoesNotExistException>()(
-  "CommentDoesNotExistException",
-  {},
-) {}
-export class InvalidSystemTagUsageException extends S.TaggedError<InvalidSystemTagUsageException>()(
-  "InvalidSystemTagUsageException",
-  {},
-) {}
-export class InvalidBranchNameException extends S.TaggedError<InvalidBranchNameException>()(
-  "InvalidBranchNameException",
-  {},
+export class BranchDoesNotExistException extends S.TaggedError<BranchDoesNotExistException>()(
+  "BranchDoesNotExistException",
+  { message: S.optional(S.String) },
 ) {}
 export class ApprovalStateRequiredException extends S.TaggedError<ApprovalStateRequiredException>()(
   "ApprovalStateRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidPullRequestIdException extends S.TaggedError<InvalidPullRequestIdException>()(
-  "InvalidPullRequestIdException",
-  {},
+export class ApprovalRuleTemplateNameRequiredException extends S.TaggedError<ApprovalRuleTemplateNameRequiredException>()(
+  "ApprovalRuleTemplateNameRequiredException",
+  { message: S.optional(S.String) },
 ) {}
-export class MaximumRepositoryNamesExceededException extends S.TaggedError<MaximumRepositoryNamesExceededException>()(
-  "MaximumRepositoryNamesExceededException",
-  {},
-) {}
-export class RepositoryNamesRequiredException extends S.TaggedError<RepositoryNamesRequiredException>()(
-  "RepositoryNamesRequiredException",
-  {},
-) {}
-export class ApprovalRuleTemplateContentRequiredException extends S.TaggedError<ApprovalRuleTemplateContentRequiredException>()(
-  "ApprovalRuleTemplateContentRequiredException",
-  {},
-) {}
-export class ApprovalRuleTemplateNameAlreadyExistsException extends S.TaggedError<ApprovalRuleTemplateNameAlreadyExistsException>()(
-  "ApprovalRuleTemplateNameAlreadyExistsException",
-  {},
-) {}
-export class ClientRequestTokenRequiredException extends S.TaggedError<ClientRequestTokenRequiredException>()(
-  "ClientRequestTokenRequiredException",
-  {},
-) {}
-export class EncryptionKeyInvalidIdException extends S.TaggedError<EncryptionKeyInvalidIdException>()(
-  "EncryptionKeyInvalidIdException",
-  {},
+export class BranchNameRequiredException extends S.TaggedError<BranchNameRequiredException>()(
+  "BranchNameRequiredException",
+  { message: S.optional(S.String) },
 ) {}
 export class ApprovalRuleTemplateInUseException extends S.TaggedError<ApprovalRuleTemplateInUseException>()(
   "ApprovalRuleTemplateInUseException",
@@ -2029,153 +1909,85 @@ export class BlobIdDoesNotExistException extends S.TaggedError<BlobIdDoesNotExis
   "BlobIdDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
-export class CommentIdRequiredException extends S.TaggedError<CommentIdRequiredException>()(
-  "CommentIdRequiredException",
-  {},
-) {}
-export class CommitIdRequiredException extends S.TaggedError<CommitIdRequiredException>()(
-  "CommitIdRequiredException",
-  {},
-) {}
 export class CommitIdDoesNotExistException extends S.TaggedError<CommitIdDoesNotExistException>()(
   "CommitIdDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
-export class FileDoesNotExistException extends S.TaggedError<FileDoesNotExistException>()(
-  "FileDoesNotExistException",
-  {},
+export class CommitDoesNotExistException extends S.TaggedError<CommitDoesNotExistException>()(
+  "CommitDoesNotExistException",
+  { message: S.optional(S.String) },
 ) {}
-export class InvalidConflictResolutionStrategyException extends S.TaggedError<InvalidConflictResolutionStrategyException>()(
-  "InvalidConflictResolutionStrategyException",
-  {},
-) {}
-export class InvalidRevisionIdException extends S.TaggedError<InvalidRevisionIdException>()(
-  "InvalidRevisionIdException",
-  {},
-) {}
-export class PullRequestDoesNotExistException extends S.TaggedError<PullRequestDoesNotExistException>()(
-  "PullRequestDoesNotExistException",
-  {},
-) {}
-export class PullRequestIdRequiredException extends S.TaggedError<PullRequestIdRequiredException>()(
-  "PullRequestIdRequiredException",
-  {},
+export class InvalidContinuationTokenException extends S.TaggedError<InvalidContinuationTokenException>()(
+  "InvalidContinuationTokenException",
+  { message: S.optional(S.String) },
 ) {}
 export class AuthorDoesNotExistException extends S.TaggedError<AuthorDoesNotExistException>()(
   "AuthorDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
-export class ResourceArnRequiredException extends S.TaggedError<ResourceArnRequiredException>()(
-  "ResourceArnRequiredException",
+export class ConcurrentReferenceUpdateException extends S.TaggedError<ConcurrentReferenceUpdateException>()(
+  "ConcurrentReferenceUpdateException",
   { message: S.optional(S.String) },
 ) {}
-export class FileModeRequiredException extends S.TaggedError<FileModeRequiredException>()(
-  "FileModeRequiredException",
-  {},
+export class CommitMessageLengthExceededException extends S.TaggedError<CommitMessageLengthExceededException>()(
+  "CommitMessageLengthExceededException",
+  { message: S.optional(S.String) },
 ) {}
-export class InvalidConflictResolutionException extends S.TaggedError<InvalidConflictResolutionException>()(
-  "InvalidConflictResolutionException",
-  {},
-) {}
-export class InvalidEmailException extends S.TaggedError<InvalidEmailException>()(
-  "InvalidEmailException",
-  {},
-) {}
-export class InvalidFileModeException extends S.TaggedError<InvalidFileModeException>()(
-  "InvalidFileModeException",
-  {},
-) {}
-export class InvalidOverrideStatusException extends S.TaggedError<InvalidOverrideStatusException>()(
-  "InvalidOverrideStatusException",
+export class EncryptionKeyAccessDeniedException extends S.TaggedError<EncryptionKeyAccessDeniedException>()(
+  "EncryptionKeyAccessDeniedException",
   { message: S.optional(S.String) },
 ) {}
 export class BeforeCommitIdAndAfterCommitIdAreSameException extends S.TaggedError<BeforeCommitIdAndAfterCommitIdAreSameException>()(
   "BeforeCommitIdAndAfterCommitIdAreSameException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ClientRequestTokenRequiredException extends S.TaggedError<ClientRequestTokenRequiredException>()(
+  "ClientRequestTokenRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class CommentDoesNotExistException extends S.TaggedError<CommentDoesNotExistException>()(
+  "CommentDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidResourceArnException extends S.TaggedError<InvalidResourceArnException>()(
+  "InvalidResourceArnException",
+  { message: S.optional(S.String) },
+) {}
+export class ApprovalRuleTemplateContentRequiredException extends S.TaggedError<ApprovalRuleTemplateContentRequiredException>()(
+  "ApprovalRuleTemplateContentRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class ApprovalRuleTemplateNameAlreadyExistsException extends S.TaggedError<ApprovalRuleTemplateNameAlreadyExistsException>()(
+  "ApprovalRuleTemplateNameAlreadyExistsException",
+  { message: S.optional(S.String) },
 ) {}
 export class CommentContentRequiredException extends S.TaggedError<CommentContentRequiredException>()(
   "CommentContentRequiredException",
-  {},
-) {}
-export class CommentContentSizeLimitExceededException extends S.TaggedError<CommentContentSizeLimitExceededException>()(
-  "CommentContentSizeLimitExceededException",
-  {},
-) {}
-export class IdempotencyParameterMismatchException extends S.TaggedError<IdempotencyParameterMismatchException>()(
-  "IdempotencyParameterMismatchException",
-  {},
-) {}
-export class InvalidClientRequestTokenException extends S.TaggedError<InvalidClientRequestTokenException>()(
-  "InvalidClientRequestTokenException",
-  {},
-) {}
-export class InvalidCommentIdException extends S.TaggedError<InvalidCommentIdException>()(
-  "InvalidCommentIdException",
-  {},
-) {}
-export class DirectoryNameConflictsWithFileNameException extends S.TaggedError<DirectoryNameConflictsWithFileNameException>()(
-  "DirectoryNameConflictsWithFileNameException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidRepositoryTriggerBranchNameException extends S.TaggedError<InvalidRepositoryTriggerBranchNameException>()(
-  "InvalidRepositoryTriggerBranchNameException",
-  {},
-) {}
-export class InvalidTagKeysListException extends S.TaggedError<InvalidTagKeysListException>()(
-  "InvalidTagKeysListException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidApprovalRuleTemplateContentException extends S.TaggedError<InvalidApprovalRuleTemplateContentException>()(
-  "InvalidApprovalRuleTemplateContentException",
-  {},
-) {}
-export class InvalidApprovalRuleTemplateDescriptionException extends S.TaggedError<InvalidApprovalRuleTemplateDescriptionException>()(
-  "InvalidApprovalRuleTemplateDescriptionException",
   { message: S.optional(S.String) },
 ) {}
 export class ApprovalRuleContentRequiredException extends S.TaggedError<ApprovalRuleContentRequiredException>()(
   "ApprovalRuleContentRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidApprovalStateException extends S.TaggedError<InvalidApprovalStateException>()(
-  "InvalidApprovalStateException",
-  { message: S.optional(S.String) },
-) {}
 export class InvalidDescriptionException extends S.TaggedError<InvalidDescriptionException>()(
   "InvalidDescriptionException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidPullRequestStatusException extends S.TaggedError<InvalidPullRequestStatusException>()(
-  "InvalidPullRequestStatusException",
+export class InvalidPullRequestIdException extends S.TaggedError<InvalidPullRequestIdException>()(
+  "InvalidPullRequestIdException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidTitleException extends S.TaggedError<InvalidTitleException>()(
-  "InvalidTitleException",
+export class RepositoryDoesNotExistException extends S.TaggedError<RepositoryDoesNotExistException>()(
+  "RepositoryDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
-export class PullRequestAlreadyClosedException extends S.TaggedError<PullRequestAlreadyClosedException>()(
-  "PullRequestAlreadyClosedException",
-  {},
-) {}
-export class InvalidRepositoryDescriptionException extends S.TaggedError<InvalidRepositoryDescriptionException>()(
-  "InvalidRepositoryDescriptionException",
+export class BranchNameIsTagNameException extends S.TaggedError<BranchNameIsTagNameException>()(
+  "BranchNameIsTagNameException",
   { message: S.optional(S.String) },
 ) {}
-export class EncryptionKeyInvalidUsageException extends S.TaggedError<EncryptionKeyInvalidUsageException>()(
-  "EncryptionKeyInvalidUsageException",
-  {},
-) {}
-export class RepositoryNameExistsException extends S.TaggedError<RepositoryNameExistsException>()(
-  "RepositoryNameExistsException",
+export class InvalidApprovalRuleTemplateNameException extends S.TaggedError<InvalidApprovalRuleTemplateNameException>()(
+  "InvalidApprovalRuleTemplateNameException",
   { message: S.optional(S.String) },
-) {}
-export class MaximumRuleTemplatesAssociatedWithRepositoryException extends S.TaggedError<MaximumRuleTemplatesAssociatedWithRepositoryException>()(
-  "MaximumRuleTemplatesAssociatedWithRepositoryException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidTagsMapException extends S.TaggedError<InvalidTagsMapException>()(
-  "InvalidTagsMapException",
-  {},
 ) {}
 export class DefaultBranchCannotBeDeletedException extends S.TaggedError<DefaultBranchCannotBeDeletedException>()(
   "DefaultBranchCannotBeDeletedException",
@@ -2185,113 +1997,97 @@ export class CannotDeleteApprovalRuleFromTemplateException extends S.TaggedError
   "CannotDeleteApprovalRuleFromTemplateException",
   { message: S.optional(S.String) },
 ) {}
-export class RevisionIdRequiredException extends S.TaggedError<RevisionIdRequiredException>()(
-  "RevisionIdRequiredException",
-  {},
-) {}
 export class BlobIdRequiredException extends S.TaggedError<BlobIdRequiredException>()(
   "BlobIdRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class FileTooLargeException extends S.TaggedError<FileTooLargeException>()(
-  "FileTooLargeException",
-  {},
-) {}
-export class InvalidPathException extends S.TaggedError<InvalidPathException>()(
-  "InvalidPathException",
-  {},
-) {}
-export class FolderDoesNotExistException extends S.TaggedError<FolderDoesNotExistException>()(
-  "FolderDoesNotExistException",
+export class CommitIdRequiredException extends S.TaggedError<CommitIdRequiredException>()(
+  "CommitIdRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class PathRequiredException extends S.TaggedError<PathRequiredException>()(
-  "PathRequiredException",
-  {},
-) {}
-export class InvalidDestinationCommitSpecifierException extends S.TaggedError<InvalidDestinationCommitSpecifierException>()(
-  "InvalidDestinationCommitSpecifierException",
+export class InvalidMaxResultsException extends S.TaggedError<InvalidMaxResultsException>()(
+  "InvalidMaxResultsException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidMaxConflictFilesException extends S.TaggedError<InvalidMaxConflictFilesException>()(
-  "InvalidMaxConflictFilesException",
-  {},
-) {}
-export class InvalidMergeOptionException extends S.TaggedError<InvalidMergeOptionException>()(
-  "InvalidMergeOptionException",
-  {},
-) {}
-export class MaximumFileContentToLoadExceededException extends S.TaggedError<MaximumFileContentToLoadExceededException>()(
-  "MaximumFileContentToLoadExceededException",
-  { message: S.optional(S.String) },
-) {}
-export class TipsDivergenceExceededException extends S.TaggedError<TipsDivergenceExceededException>()(
-  "TipsDivergenceExceededException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidAuthorArnException extends S.TaggedError<InvalidAuthorArnException>()(
-  "InvalidAuthorArnException",
+export class CommitRequiredException extends S.TaggedError<CommitRequiredException>()(
+  "CommitRequiredException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidOrderException extends S.TaggedError<InvalidOrderException>()(
   "InvalidOrderException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidTargetBranchException extends S.TaggedError<InvalidTargetBranchException>()(
-  "InvalidTargetBranchException",
+export class EncryptionKeyDisabledException extends S.TaggedError<EncryptionKeyDisabledException>()(
+  "EncryptionKeyDisabledException",
   { message: S.optional(S.String) },
 ) {}
-export class ManualMergeRequiredException extends S.TaggedError<ManualMergeRequiredException>()(
-  "ManualMergeRequiredException",
-  {},
-) {}
-export class InvalidReplacementContentException extends S.TaggedError<InvalidReplacementContentException>()(
-  "InvalidReplacementContentException",
-  {},
-) {}
-export class InvalidReplacementTypeException extends S.TaggedError<InvalidReplacementTypeException>()(
-  "InvalidReplacementTypeException",
-  {},
-) {}
-export class MaximumConflictResolutionEntriesExceededException extends S.TaggedError<MaximumConflictResolutionEntriesExceededException>()(
-  "MaximumConflictResolutionEntriesExceededException",
-  {},
-) {}
-export class MaximumItemsToCompareExceededException extends S.TaggedError<MaximumItemsToCompareExceededException>()(
-  "MaximumItemsToCompareExceededException",
-  {},
-) {}
-export class OverrideAlreadySetException extends S.TaggedError<OverrideAlreadySetException>()(
-  "OverrideAlreadySetException",
+export class CommentIdRequiredException extends S.TaggedError<CommentIdRequiredException>()(
+  "CommentIdRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidFileLocationException extends S.TaggedError<InvalidFileLocationException>()(
-  "InvalidFileLocationException",
-  {},
-) {}
-export class InvalidReactionValueException extends S.TaggedError<InvalidReactionValueException>()(
-  "InvalidReactionValueException",
+export class InvalidSystemTagUsageException extends S.TaggedError<InvalidSystemTagUsageException>()(
+  "InvalidSystemTagUsageException",
   { message: S.optional(S.String) },
 ) {}
-export class FileContentRequiredException extends S.TaggedError<FileContentRequiredException>()(
-  "FileContentRequiredException",
+export class InvalidApprovalRuleTemplateContentException extends S.TaggedError<InvalidApprovalRuleTemplateContentException>()(
+  "InvalidApprovalRuleTemplateContentException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidRepositoryTriggerCustomDataException extends S.TaggedError<InvalidRepositoryTriggerCustomDataException>()(
-  "InvalidRepositoryTriggerCustomDataException",
-  {},
-) {}
-export class InvalidRepositoryTriggerDestinationArnException extends S.TaggedError<InvalidRepositoryTriggerDestinationArnException>()(
-  "InvalidRepositoryTriggerDestinationArnException",
-  {},
-) {}
-export class TagKeysListRequiredException extends S.TaggedError<TagKeysListRequiredException>()(
-  "TagKeysListRequiredException",
+export class CommentContentSizeLimitExceededException extends S.TaggedError<CommentContentSizeLimitExceededException>()(
+  "CommentContentSizeLimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class TagPolicyException extends S.TaggedError<TagPolicyException>()(
-  "TagPolicyException",
-  {},
+export class ApprovalRuleDoesNotExistException extends S.TaggedError<ApprovalRuleDoesNotExistException>()(
+  "ApprovalRuleDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTitleException extends S.TaggedError<InvalidTitleException>()(
+  "InvalidTitleException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidApprovalRuleTemplateDescriptionException extends S.TaggedError<InvalidApprovalRuleTemplateDescriptionException>()(
+  "InvalidApprovalRuleTemplateDescriptionException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryNameExistsException extends S.TaggedError<RepositoryNameExistsException>()(
+  "RepositoryNameExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceArnRequiredException extends S.TaggedError<ResourceArnRequiredException>()(
+  "ResourceArnRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class PullRequestAlreadyClosedException extends S.TaggedError<PullRequestAlreadyClosedException>()(
+  "PullRequestAlreadyClosedException",
+  { message: S.optional(S.String) },
+) {}
+export class DirectoryNameConflictsWithFileNameException extends S.TaggedError<DirectoryNameConflictsWithFileNameException>()(
+  "DirectoryNameConflictsWithFileNameException",
+  { message: S.optional(S.String) },
+) {}
+export class CommitIdsLimitExceededException extends S.TaggedError<CommitIdsLimitExceededException>()(
+  "CommitIdsLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class ApprovalRuleNameAlreadyExistsException extends S.TaggedError<ApprovalRuleNameAlreadyExistsException>()(
+  "ApprovalRuleNameAlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidSortByException extends S.TaggedError<InvalidSortByException>()(
+  "InvalidSortByException",
+  { message: S.optional(S.String) },
+) {}
+export class EncryptionKeyNotFoundException extends S.TaggedError<EncryptionKeyNotFoundException>()(
+  "EncryptionKeyNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidCommentIdException extends S.TaggedError<InvalidCommentIdException>()(
+  "InvalidCommentIdException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTagsMapException extends S.TaggedError<InvalidTagsMapException>()(
+  "InvalidTagsMapException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidRuleContentSha256Exception extends S.TaggedError<InvalidRuleContentSha256Exception>()(
   "InvalidRuleContentSha256Exception",
@@ -2301,428 +2097,528 @@ export class CommentNotCreatedByCallerException extends S.TaggedError<CommentNot
   "CommentNotCreatedByCallerException",
   { message: S.optional(S.String) },
 ) {}
-export class ApprovalRuleDoesNotExistException extends S.TaggedError<ApprovalRuleDoesNotExistException>()(
-  "ApprovalRuleDoesNotExistException",
+export class CannotModifyApprovalRuleFromTemplateException extends S.TaggedError<CannotModifyApprovalRuleFromTemplateException>()(
+  "CannotModifyApprovalRuleFromTemplateException",
   { message: S.optional(S.String) },
 ) {}
-export class MaximumNumberOfApprovalsExceededException extends S.TaggedError<MaximumNumberOfApprovalsExceededException>()(
-  "MaximumNumberOfApprovalsExceededException",
+export class EncryptionKeyInvalidIdException extends S.TaggedError<EncryptionKeyInvalidIdException>()(
+  "EncryptionKeyInvalidIdException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidPullRequestStatusUpdateException extends S.TaggedError<InvalidPullRequestStatusUpdateException>()(
-  "InvalidPullRequestStatusUpdateException",
+export class RepositoryNameRequiredException extends S.TaggedError<RepositoryNameRequiredException>()(
+  "RepositoryNameRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class TitleRequiredException extends S.TaggedError<TitleRequiredException>()(
-  "TitleRequiredException",
-  { message: S.optional(S.String) },
-) {}
-export class EncryptionKeyRequiredException extends S.TaggedError<EncryptionKeyRequiredException>()(
-  "EncryptionKeyRequiredException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidMaxMergeHunksException extends S.TaggedError<InvalidMaxMergeHunksException>()(
-  "InvalidMaxMergeHunksException",
-  {},
-) {}
-export class CommitIdsLimitExceededException extends S.TaggedError<CommitIdsLimitExceededException>()(
-  "CommitIdsLimitExceededException",
+export class InvalidTagKeysListException extends S.TaggedError<InvalidTagKeysListException>()(
+  "InvalidTagKeysListException",
   { message: S.optional(S.String) },
 ) {}
 export class NumberOfRuleTemplatesExceededException extends S.TaggedError<NumberOfRuleTemplatesExceededException>()(
   "NumberOfRuleTemplatesExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidReferenceNameException extends S.TaggedError<InvalidReferenceNameException>()(
-  "InvalidReferenceNameException",
+export class IdempotencyParameterMismatchException extends S.TaggedError<IdempotencyParameterMismatchException>()(
+  "IdempotencyParameterMismatchException",
   { message: S.optional(S.String) },
 ) {}
-export class ApprovalRuleNameAlreadyExistsException extends S.TaggedError<ApprovalRuleNameAlreadyExistsException>()(
-  "ApprovalRuleNameAlreadyExistsException",
-  { message: S.optional(S.String) },
-) {}
-export class OperationNotAllowedException extends S.TaggedError<OperationNotAllowedException>()(
-  "OperationNotAllowedException",
-  { message: S.optional(S.String) },
-) {}
-export class MergeOptionRequiredException extends S.TaggedError<MergeOptionRequiredException>()(
-  "MergeOptionRequiredException",
-  {},
-) {}
-export class MultipleConflictResolutionEntriesException extends S.TaggedError<MultipleConflictResolutionEntriesException>()(
-  "MultipleConflictResolutionEntriesException",
-  {},
-) {}
-export class InvalidParentCommitIdException extends S.TaggedError<InvalidParentCommitIdException>()(
-  "InvalidParentCommitIdException",
-  { message: S.optional(S.String) },
-) {}
-export class NameLengthExceededException extends S.TaggedError<NameLengthExceededException>()(
-  "NameLengthExceededException",
-  {},
-) {}
-export class InvalidApprovalRuleNameException extends S.TaggedError<InvalidApprovalRuleNameException>()(
-  "InvalidApprovalRuleNameException",
-  { message: S.optional(S.String) },
-) {}
-export class RevisionNotCurrentException extends S.TaggedError<RevisionNotCurrentException>()(
-  "RevisionNotCurrentException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidBlobIdException extends S.TaggedError<InvalidBlobIdException>()(
-  "InvalidBlobIdException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidReactionUserArnException extends S.TaggedError<InvalidReactionUserArnException>()(
-  "InvalidReactionUserArnException",
-  { message: S.optional(S.String) },
-) {}
-export class RepositoryNotAssociatedWithPullRequestException extends S.TaggedError<RepositoryNotAssociatedWithPullRequestException>()(
-  "RepositoryNotAssociatedWithPullRequestException",
-  { message: S.optional(S.String) },
-) {}
-export class PathDoesNotExistException extends S.TaggedError<PathDoesNotExistException>()(
-  "PathDoesNotExistException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidSourceCommitSpecifierException extends S.TaggedError<InvalidSourceCommitSpecifierException>()(
-  "InvalidSourceCommitSpecifierException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidSortByException extends S.TaggedError<InvalidSortByException>()(
-  "InvalidSortByException",
-  { message: S.optional(S.String) },
-) {}
-export class ReplacementContentRequiredException extends S.TaggedError<ReplacementContentRequiredException>()(
-  "ReplacementContentRequiredException",
-  {},
-) {}
-export class PullRequestApprovalRulesNotSatisfiedException extends S.TaggedError<PullRequestApprovalRulesNotSatisfiedException>()(
-  "PullRequestApprovalRulesNotSatisfiedException",
-  { message: S.optional(S.String) },
-) {}
-export class ReplacementTypeRequiredException extends S.TaggedError<ReplacementTypeRequiredException>()(
-  "ReplacementTypeRequiredException",
-  {},
-) {}
-export class TipOfSourceReferenceIsDifferentException extends S.TaggedError<TipOfSourceReferenceIsDifferentException>()(
-  "TipOfSourceReferenceIsDifferentException",
-  {},
-) {}
-export class OverrideStatusRequiredException extends S.TaggedError<OverrideStatusRequiredException>()(
-  "OverrideStatusRequiredException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidFilePositionException extends S.TaggedError<InvalidFilePositionException>()(
-  "InvalidFilePositionException",
-  {},
-) {}
-export class InvalidRelativeFileVersionEnumException extends S.TaggedError<InvalidRelativeFileVersionEnumException>()(
-  "InvalidRelativeFileVersionEnumException",
-  {},
-) {}
-export class ReactionLimitExceededException extends S.TaggedError<ReactionLimitExceededException>()(
-  "ReactionLimitExceededException",
-  { message: S.optional(S.String) },
-) {}
-export class FileNameConflictsWithDirectoryNameException extends S.TaggedError<FileNameConflictsWithDirectoryNameException>()(
-  "FileNameConflictsWithDirectoryNameException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidRepositoryTriggerEventsException extends S.TaggedError<InvalidRepositoryTriggerEventsException>()(
-  "InvalidRepositoryTriggerEventsException",
-  {},
-) {}
-export class InvalidRepositoryTriggerNameException extends S.TaggedError<InvalidRepositoryTriggerNameException>()(
-  "InvalidRepositoryTriggerNameException",
-  {},
-) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  { message: S.optional(S.String) },
-) {}
-export class CannotModifyApprovalRuleFromTemplateException extends S.TaggedError<CannotModifyApprovalRuleFromTemplateException>()(
-  "CannotModifyApprovalRuleFromTemplateException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidApprovalRuleContentException extends S.TaggedError<InvalidApprovalRuleContentException>()(
-  "InvalidApprovalRuleContentException",
-  {},
-) {}
-export class PullRequestCannotBeApprovedByAuthorException extends S.TaggedError<PullRequestCannotBeApprovedByAuthorException>()(
-  "PullRequestCannotBeApprovedByAuthorException",
-  { message: S.optional(S.String) },
-) {}
-export class PullRequestStatusRequiredException extends S.TaggedError<PullRequestStatusRequiredException>()(
-  "PullRequestStatusRequiredException",
+export class PullRequestDoesNotExistException extends S.TaggedError<PullRequestDoesNotExistException>()(
+  "PullRequestDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
 export class CommitIdsListRequiredException extends S.TaggedError<CommitIdsListRequiredException>()(
   "CommitIdsListRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class FileContentAndSourceFileSpecifiedException extends S.TaggedError<FileContentAndSourceFileSpecifiedException>()(
-  "FileContentAndSourceFileSpecifiedException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidTargetException extends S.TaggedError<InvalidTargetException>()(
-  "InvalidTargetException",
-  { message: S.optional(S.String) },
-) {}
-export class RepositoryLimitExceededException extends S.TaggedError<RepositoryLimitExceededException>()(
-  "RepositoryLimitExceededException",
-  { message: S.optional(S.String) },
-) {}
-export class ParentCommitDoesNotExistException extends S.TaggedError<ParentCommitDoesNotExistException>()(
-  "ParentCommitDoesNotExistException",
-  { message: S.optional(S.String) },
-) {}
 export class ActorDoesNotExistException extends S.TaggedError<ActorDoesNotExistException>()(
   "ActorDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
-export class ReferenceDoesNotExistException extends S.TaggedError<ReferenceDoesNotExistException>()(
-  "ReferenceDoesNotExistException",
+export class EncryptionKeyUnavailableException extends S.TaggedError<EncryptionKeyUnavailableException>()(
+  "EncryptionKeyUnavailableException",
   { message: S.optional(S.String) },
 ) {}
-export class ReactionValueRequiredException extends S.TaggedError<ReactionValueRequiredException>()(
-  "ReactionValueRequiredException",
+export class InvalidReactionValueException extends S.TaggedError<InvalidReactionValueException>()(
+  "InvalidReactionValueException",
   { message: S.optional(S.String) },
 ) {}
-export class FilePathConflictsWithSubmodulePathException extends S.TaggedError<FilePathConflictsWithSubmodulePathException>()(
-  "FilePathConflictsWithSubmodulePathException",
+export class TagPolicyException extends S.TaggedError<TagPolicyException>()(
+  "TagPolicyException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidRepositoryTriggerRegionException extends S.TaggedError<InvalidRepositoryTriggerRegionException>()(
-  "InvalidRepositoryTriggerRegionException",
-  {},
+export class EncryptionKeyInvalidUsageException extends S.TaggedError<EncryptionKeyInvalidUsageException>()(
+  "EncryptionKeyInvalidUsageException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidReactionUserArnException extends S.TaggedError<InvalidReactionUserArnException>()(
+  "InvalidReactionUserArnException",
+  { message: S.optional(S.String) },
+) {}
+export class TagKeysListRequiredException extends S.TaggedError<TagKeysListRequiredException>()(
+  "TagKeysListRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidClientRequestTokenException extends S.TaggedError<InvalidClientRequestTokenException>()(
+  "InvalidClientRequestTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class PullRequestIdRequiredException extends S.TaggedError<PullRequestIdRequiredException>()(
+  "PullRequestIdRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidOverrideStatusException extends S.TaggedError<InvalidOverrideStatusException>()(
+  "InvalidOverrideStatusException",
+  { message: S.optional(S.String) },
+) {}
+export class ReactionLimitExceededException extends S.TaggedError<ReactionLimitExceededException>()(
+  "ReactionLimitExceededException",
+  { message: S.optional(S.String) },
 ) {}
 export class TagsMapRequiredException extends S.TaggedError<TagsMapRequiredException>()(
   "TagsMapRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class MaximumBranchesExceededException extends S.TaggedError<MaximumBranchesExceededException>()(
-  "MaximumBranchesExceededException",
-  {},
-) {}
-export class FileEntryRequiredException extends S.TaggedError<FileEntryRequiredException>()(
-  "FileEntryRequiredException",
+export class EncryptionKeyRequiredException extends S.TaggedError<EncryptionKeyRequiredException>()(
+  "EncryptionKeyRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidDeletionParameterException extends S.TaggedError<InvalidDeletionParameterException>()(
-  "InvalidDeletionParameterException",
-  {},
-) {}
-export class InvalidTargetsException extends S.TaggedError<InvalidTargetsException>()(
-  "InvalidTargetsException",
+export class InvalidApprovalRuleContentException extends S.TaggedError<InvalidApprovalRuleContentException>()(
+  "InvalidApprovalRuleContentException",
   { message: S.optional(S.String) },
 ) {}
-export class NumberOfRulesExceededException extends S.TaggedError<NumberOfRulesExceededException>()(
-  "NumberOfRulesExceededException",
+export class InvalidBranchNameException extends S.TaggedError<InvalidBranchNameException>()(
+  "InvalidBranchNameException",
   { message: S.optional(S.String) },
 ) {}
-export class ParentCommitIdOutdatedException extends S.TaggedError<ParentCommitIdOutdatedException>()(
-  "ParentCommitIdOutdatedException",
+export class InvalidCommitIdException extends S.TaggedError<InvalidCommitIdException>()(
+  "InvalidCommitIdException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidCommitException extends S.TaggedError<InvalidCommitException>()(
+  "InvalidCommitException",
+  { message: S.optional(S.String) },
+) {}
+export class FileContentSizeLimitExceededException extends S.TaggedError<FileContentSizeLimitExceededException>()(
+  "FileContentSizeLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class FileDoesNotExistException extends S.TaggedError<FileDoesNotExistException>()(
+  "FileDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRepositoryTriggerBranchNameException extends S.TaggedError<InvalidRepositoryTriggerBranchNameException>()(
+  "InvalidRepositoryTriggerBranchNameException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidApprovalStateException extends S.TaggedError<InvalidApprovalStateException>()(
+  "InvalidApprovalStateException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidPullRequestStatusException extends S.TaggedError<InvalidPullRequestStatusException>()(
+  "InvalidPullRequestStatusException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRepositoryDescriptionException extends S.TaggedError<InvalidRepositoryDescriptionException>()(
+  "InvalidRepositoryDescriptionException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRevisionIdException extends S.TaggedError<InvalidRevisionIdException>()(
+  "InvalidRevisionIdException",
+  { message: S.optional(S.String) },
+) {}
+export class MaximumRuleTemplatesAssociatedWithRepositoryException extends S.TaggedError<MaximumRuleTemplatesAssociatedWithRepositoryException>()(
+  "MaximumRuleTemplatesAssociatedWithRepositoryException",
+  { message: S.optional(S.String) },
+) {}
+export class MaximumRepositoryNamesExceededException extends S.TaggedError<MaximumRepositoryNamesExceededException>()(
+  "MaximumRepositoryNamesExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class FolderDoesNotExistException extends S.TaggedError<FolderDoesNotExistException>()(
+  "FolderDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidAuthorArnException extends S.TaggedError<InvalidAuthorArnException>()(
+  "InvalidAuthorArnException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidApprovalRuleNameException extends S.TaggedError<InvalidApprovalRuleNameException>()(
+  "InvalidApprovalRuleNameException",
+  { message: S.optional(S.String) },
+) {}
+export class FileTooLargeException extends S.TaggedError<FileTooLargeException>()(
+  "FileTooLargeException",
+  { message: S.optional(S.String) },
+) {}
+export class FileContentRequiredException extends S.TaggedError<FileContentRequiredException>()(
+  "FileContentRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class FileContentAndSourceFileSpecifiedException extends S.TaggedError<FileContentAndSourceFileSpecifiedException>()(
+  "FileContentAndSourceFileSpecifiedException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidActorArnException extends S.TaggedError<InvalidActorArnException>()(
   "InvalidActorArnException",
   { message: S.optional(S.String) },
 ) {}
-export class ParentCommitIdRequiredException extends S.TaggedError<ParentCommitIdRequiredException>()(
-  "ParentCommitIdRequiredException",
-  {},
-) {}
-export class MaximumRepositoryTriggersExceededException extends S.TaggedError<MaximumRepositoryTriggersExceededException>()(
-  "MaximumRepositoryTriggersExceededException",
-  {},
-) {}
-export class RepositoryTriggerBranchNameListRequiredException extends S.TaggedError<RepositoryTriggerBranchNameListRequiredException>()(
-  "RepositoryTriggerBranchNameListRequiredException",
-  {},
-) {}
-export class MaximumFileEntriesExceededException extends S.TaggedError<MaximumFileEntriesExceededException>()(
-  "MaximumFileEntriesExceededException",
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
   { message: S.optional(S.String) },
 ) {}
-export class MaximumOpenPullRequestsExceededException extends S.TaggedError<MaximumOpenPullRequestsExceededException>()(
-  "MaximumOpenPullRequestsExceededException",
+export class InvalidReferenceNameException extends S.TaggedError<InvalidReferenceNameException>()(
+  "InvalidReferenceNameException",
+  { message: S.optional(S.String) },
+) {}
+export class TitleRequiredException extends S.TaggedError<TitleRequiredException>()(
+  "TitleRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class ReactionValueRequiredException extends S.TaggedError<ReactionValueRequiredException>()(
+  "ReactionValueRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidConflictDetailLevelException extends S.TaggedError<InvalidConflictDetailLevelException>()(
+  "InvalidConflictDetailLevelException",
+  { message: S.optional(S.String) },
+) {}
+export class FileModeRequiredException extends S.TaggedError<FileModeRequiredException>()(
+  "FileModeRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRepositoryTriggerCustomDataException extends S.TaggedError<InvalidRepositoryTriggerCustomDataException>()(
+  "InvalidRepositoryTriggerCustomDataException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidPullRequestStatusUpdateException extends S.TaggedError<InvalidPullRequestStatusUpdateException>()(
+  "InvalidPullRequestStatusUpdateException",
+  { message: S.optional(S.String) },
+) {}
+export class RevisionIdRequiredException extends S.TaggedError<RevisionIdRequiredException>()(
+  "RevisionIdRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryNamesRequiredException extends S.TaggedError<RepositoryNamesRequiredException>()(
+  "RepositoryNamesRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidPathException extends S.TaggedError<InvalidPathException>()(
+  "InvalidPathException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidBlobIdException extends S.TaggedError<InvalidBlobIdException>()(
+  "InvalidBlobIdException",
+  { message: S.optional(S.String) },
+) {}
+export class FileNameConflictsWithDirectoryNameException extends S.TaggedError<FileNameConflictsWithDirectoryNameException>()(
+  "FileNameConflictsWithDirectoryNameException",
+  { message: S.optional(S.String) },
+) {}
+export class FileEntryRequiredException extends S.TaggedError<FileEntryRequiredException>()(
+  "FileEntryRequiredException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidPullRequestEventTypeException extends S.TaggedError<InvalidPullRequestEventTypeException>()(
   "InvalidPullRequestEventTypeException",
   { message: S.optional(S.String) },
 ) {}
-export class SameFileContentException extends S.TaggedError<SameFileContentException>()(
-  "SameFileContentException",
+export class NumberOfRulesExceededException extends S.TaggedError<NumberOfRulesExceededException>()(
+  "NumberOfRulesExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class RepositoryTriggerDestinationArnRequiredException extends S.TaggedError<RepositoryTriggerDestinationArnRequiredException>()(
-  "RepositoryTriggerDestinationArnRequiredException",
-  {},
+export class InvalidTargetBranchException extends S.TaggedError<InvalidTargetBranchException>()(
+  "InvalidTargetBranchException",
+  { message: S.optional(S.String) },
 ) {}
-export class RepositoryTriggerEventsListRequiredException extends S.TaggedError<RepositoryTriggerEventsListRequiredException>()(
-  "RepositoryTriggerEventsListRequiredException",
-  {},
+export class RepositoryNotAssociatedWithPullRequestException extends S.TaggedError<RepositoryNotAssociatedWithPullRequestException>()(
+  "RepositoryNotAssociatedWithPullRequestException",
+  { message: S.optional(S.String) },
 ) {}
-export class NoChangeException extends S.TaggedError<NoChangeException>()(
-  "NoChangeException",
+export class ManualMergeRequiredException extends S.TaggedError<ManualMergeRequiredException>()(
+  "ManualMergeRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidFileLocationException extends S.TaggedError<InvalidFileLocationException>()(
+  "InvalidFileLocationException",
+  { message: S.optional(S.String) },
+) {}
+export class TipsDivergenceExceededException extends S.TaggedError<TipsDivergenceExceededException>()(
+  "TipsDivergenceExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class FolderContentSizeLimitExceededException extends S.TaggedError<FolderContentSizeLimitExceededException>()(
+  "FolderContentSizeLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidEmailException extends S.TaggedError<InvalidEmailException>()(
+  "InvalidEmailException",
+  { message: S.optional(S.String) },
+) {}
+export class OperationNotAllowedException extends S.TaggedError<OperationNotAllowedException>()(
+  "OperationNotAllowedException",
+  { message: S.optional(S.String) },
+) {}
+export class OverrideAlreadySetException extends S.TaggedError<OverrideAlreadySetException>()(
+  "OverrideAlreadySetException",
+  { message: S.optional(S.String) },
+) {}
+export class MaximumNumberOfApprovalsExceededException extends S.TaggedError<MaximumNumberOfApprovalsExceededException>()(
+  "MaximumNumberOfApprovalsExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTargetException extends S.TaggedError<InvalidTargetException>()(
+  "InvalidTargetException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidConflictResolutionStrategyException extends S.TaggedError<InvalidConflictResolutionStrategyException>()(
+  "InvalidConflictResolutionStrategyException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRepositoryTriggerDestinationArnException extends S.TaggedError<InvalidRepositoryTriggerDestinationArnException>()(
+  "InvalidRepositoryTriggerDestinationArnException",
+  { message: S.optional(S.String) },
+) {}
+export class PullRequestStatusRequiredException extends S.TaggedError<PullRequestStatusRequiredException>()(
+  "PullRequestStatusRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class PathRequiredException extends S.TaggedError<PathRequiredException>()(
+  "PathRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class FilePathConflictsWithSubmodulePathException extends S.TaggedError<FilePathConflictsWithSubmodulePathException>()(
+  "FilePathConflictsWithSubmodulePathException",
+  { message: S.optional(S.String) },
+) {}
+export class PullRequestApprovalRulesNotSatisfiedException extends S.TaggedError<PullRequestApprovalRulesNotSatisfiedException>()(
+  "PullRequestApprovalRulesNotSatisfiedException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidFilePositionException extends S.TaggedError<InvalidFilePositionException>()(
+  "InvalidFilePositionException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidConflictResolutionException extends S.TaggedError<InvalidConflictResolutionException>()(
+  "InvalidConflictResolutionException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidParentCommitIdException extends S.TaggedError<InvalidParentCommitIdException>()(
+  "InvalidParentCommitIdException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryLimitExceededException extends S.TaggedError<RepositoryLimitExceededException>()(
+  "RepositoryLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class OverrideStatusRequiredException extends S.TaggedError<OverrideStatusRequiredException>()(
+  "OverrideStatusRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class PullRequestCannotBeApprovedByAuthorException extends S.TaggedError<PullRequestCannotBeApprovedByAuthorException>()(
+  "PullRequestCannotBeApprovedByAuthorException",
+  { message: S.optional(S.String) },
+) {}
+export class RevisionNotCurrentException extends S.TaggedError<RevisionNotCurrentException>()(
+  "RevisionNotCurrentException",
+  { message: S.optional(S.String) },
+) {}
+export class PathDoesNotExistException extends S.TaggedError<PathDoesNotExistException>()(
+  "PathDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTargetsException extends S.TaggedError<InvalidTargetsException>()(
+  "InvalidTargetsException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRepositoryTriggerEventsException extends S.TaggedError<InvalidRepositoryTriggerEventsException>()(
+  "InvalidRepositoryTriggerEventsException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidDeletionParameterException extends S.TaggedError<InvalidDeletionParameterException>()(
+  "InvalidDeletionParameterException",
+  { message: S.optional(S.String) },
+) {}
+export class ReferenceDoesNotExistException extends S.TaggedError<ReferenceDoesNotExistException>()(
+  "ReferenceDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRelativeFileVersionEnumException extends S.TaggedError<InvalidRelativeFileVersionEnumException>()(
+  "InvalidRelativeFileVersionEnumException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidMaxMergeHunksException extends S.TaggedError<InvalidMaxMergeHunksException>()(
+  "InvalidMaxMergeHunksException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidDestinationCommitSpecifierException extends S.TaggedError<InvalidDestinationCommitSpecifierException>()(
+  "InvalidDestinationCommitSpecifierException",
+  { message: S.optional(S.String) },
+) {}
+export class MaximumFileContentToLoadExceededException extends S.TaggedError<MaximumFileContentToLoadExceededException>()(
+  "MaximumFileContentToLoadExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidMaxConflictFilesException extends S.TaggedError<InvalidMaxConflictFilesException>()(
+  "InvalidMaxConflictFilesException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidFileModeException extends S.TaggedError<InvalidFileModeException>()(
+  "InvalidFileModeException",
+  { message: S.optional(S.String) },
+) {}
+export class NameLengthExceededException extends S.TaggedError<NameLengthExceededException>()(
+  "NameLengthExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class MaximumOpenPullRequestsExceededException extends S.TaggedError<MaximumOpenPullRequestsExceededException>()(
+  "MaximumOpenPullRequestsExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRepositoryTriggerNameException extends S.TaggedError<InvalidRepositoryTriggerNameException>()(
+  "InvalidRepositoryTriggerNameException",
+  { message: S.optional(S.String) },
+) {}
+export class TipOfSourceReferenceIsDifferentException extends S.TaggedError<TipOfSourceReferenceIsDifferentException>()(
+  "TipOfSourceReferenceIsDifferentException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidMergeOptionException extends S.TaggedError<InvalidMergeOptionException>()(
+  "InvalidMergeOptionException",
+  { message: S.optional(S.String) },
+) {}
+export class MaximumItemsToCompareExceededException extends S.TaggedError<MaximumItemsToCompareExceededException>()(
+  "MaximumItemsToCompareExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidReplacementContentException extends S.TaggedError<InvalidReplacementContentException>()(
+  "InvalidReplacementContentException",
+  { message: S.optional(S.String) },
+) {}
+export class ParentCommitDoesNotExistException extends S.TaggedError<ParentCommitDoesNotExistException>()(
+  "ParentCommitDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class MaximumFileEntriesExceededException extends S.TaggedError<MaximumFileEntriesExceededException>()(
+  "MaximumFileEntriesExceededException",
   { message: S.optional(S.String) },
 ) {}
 export class MultipleRepositoriesInPullRequestException extends S.TaggedError<MultipleRepositoriesInPullRequestException>()(
   "MultipleRepositoriesInPullRequestException",
   { message: S.optional(S.String) },
 ) {}
-export class RepositoryTriggerNameRequiredException extends S.TaggedError<RepositoryTriggerNameRequiredException>()(
-  "RepositoryTriggerNameRequiredException",
-  {},
+export class InvalidRepositoryTriggerRegionException extends S.TaggedError<InvalidRepositoryTriggerRegionException>()(
+  "InvalidRepositoryTriggerRegionException",
+  { message: S.optional(S.String) },
 ) {}
-export class RepositoryTriggersListRequiredException extends S.TaggedError<RepositoryTriggersListRequiredException>()(
-  "RepositoryTriggersListRequiredException",
-  {},
+export class InvalidReplacementTypeException extends S.TaggedError<InvalidReplacementTypeException>()(
+  "InvalidReplacementTypeException",
+  { message: S.optional(S.String) },
 ) {}
-export class PutFileEntryConflictException extends S.TaggedError<PutFileEntryConflictException>()(
-  "PutFileEntryConflictException",
+export class ParentCommitIdOutdatedException extends S.TaggedError<ParentCommitIdOutdatedException>()(
+  "ParentCommitIdOutdatedException",
+  { message: S.optional(S.String) },
+) {}
+export class NoChangeException extends S.TaggedError<NoChangeException>()(
+  "NoChangeException",
   { message: S.optional(S.String) },
 ) {}
 export class ReferenceNameRequiredException extends S.TaggedError<ReferenceNameRequiredException>()(
   "ReferenceNameRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class RestrictedSourceFileException extends S.TaggedError<RestrictedSourceFileException>()(
-  "RestrictedSourceFileException",
+export class MergeOptionRequiredException extends S.TaggedError<MergeOptionRequiredException>()(
+  "MergeOptionRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidSourceCommitSpecifierException extends S.TaggedError<InvalidSourceCommitSpecifierException>()(
+  "InvalidSourceCommitSpecifierException",
+  { message: S.optional(S.String) },
+) {}
+export class MaximumBranchesExceededException extends S.TaggedError<MaximumBranchesExceededException>()(
+  "MaximumBranchesExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class MaximumConflictResolutionEntriesExceededException extends S.TaggedError<MaximumConflictResolutionEntriesExceededException>()(
+  "MaximumConflictResolutionEntriesExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class ParentCommitIdRequiredException extends S.TaggedError<ParentCommitIdRequiredException>()(
+  "ParentCommitIdRequiredException",
   { message: S.optional(S.String) },
 ) {}
 export class ReferenceTypeNotSupportedException extends S.TaggedError<ReferenceTypeNotSupportedException>()(
   "ReferenceTypeNotSupportedException",
   { message: S.optional(S.String) },
 ) {}
-export class SamePathRequestException extends S.TaggedError<SamePathRequestException>()(
-  "SamePathRequestException",
+export class MaximumRepositoryTriggersExceededException extends S.TaggedError<MaximumRepositoryTriggersExceededException>()(
+  "MaximumRepositoryTriggersExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class MultipleConflictResolutionEntriesException extends S.TaggedError<MultipleConflictResolutionEntriesException>()(
+  "MultipleConflictResolutionEntriesException",
   { message: S.optional(S.String) },
 ) {}
 export class SourceAndDestinationAreSameException extends S.TaggedError<SourceAndDestinationAreSameException>()(
   "SourceAndDestinationAreSameException",
   { message: S.optional(S.String) },
 ) {}
-export class SourceFileOrContentRequiredException extends S.TaggedError<SourceFileOrContentRequiredException>()(
-  "SourceFileOrContentRequiredException",
+export class PutFileEntryConflictException extends S.TaggedError<PutFileEntryConflictException>()(
+  "PutFileEntryConflictException",
+  { message: S.optional(S.String) },
+) {}
+export class SameFileContentException extends S.TaggedError<SameFileContentException>()(
+  "SameFileContentException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryTriggerBranchNameListRequiredException extends S.TaggedError<RepositoryTriggerBranchNameListRequiredException>()(
+  "RepositoryTriggerBranchNameListRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class ReplacementContentRequiredException extends S.TaggedError<ReplacementContentRequiredException>()(
+  "ReplacementContentRequiredException",
   { message: S.optional(S.String) },
 ) {}
 export class TargetRequiredException extends S.TaggedError<TargetRequiredException>()(
   "TargetRequiredException",
   { message: S.optional(S.String) },
 ) {}
+export class RestrictedSourceFileException extends S.TaggedError<RestrictedSourceFileException>()(
+  "RestrictedSourceFileException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryTriggerDestinationArnRequiredException extends S.TaggedError<RepositoryTriggerDestinationArnRequiredException>()(
+  "RepositoryTriggerDestinationArnRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class ReplacementTypeRequiredException extends S.TaggedError<ReplacementTypeRequiredException>()(
+  "ReplacementTypeRequiredException",
+  { message: S.optional(S.String) },
+) {}
 export class TargetsRequiredException extends S.TaggedError<TargetsRequiredException>()(
   "TargetsRequiredException",
   { message: S.optional(S.String) },
 ) {}
+export class SamePathRequestException extends S.TaggedError<SamePathRequestException>()(
+  "SamePathRequestException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryTriggerEventsListRequiredException extends S.TaggedError<RepositoryTriggerEventsListRequiredException>()(
+  "RepositoryTriggerEventsListRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class SourceFileOrContentRequiredException extends S.TaggedError<SourceFileOrContentRequiredException>()(
+  "SourceFileOrContentRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryTriggerNameRequiredException extends S.TaggedError<RepositoryTriggerNameRequiredException>()(
+  "RepositoryTriggerNameRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryTriggersListRequiredException extends S.TaggedError<RepositoryTriggersListRequiredException>()(
+  "RepositoryTriggersListRequiredException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Gets information about triggers configured for a repository.
- */
-export const getRepositoryTriggers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRepositoryTriggersInput,
-    output: GetRepositoryTriggersOutput,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidRepositoryNameException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-    ],
-  }),
-);
-/**
- * Gets information about one or more branches in a repository.
- */
-export const listBranches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBranchesInput,
-  output: ListBranchesOutput,
-  errors: [
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidContinuationTokenException,
-    InvalidRepositoryNameException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Lists all repositories associated with the specified approval rule template.
- */
-export const listRepositoriesForApprovalRuleTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListRepositoriesForApprovalRuleTemplateInput,
-    output: ListRepositoriesForApprovalRuleTemplateOutput,
-    errors: [
-      ApprovalRuleTemplateDoesNotExistException,
-      ApprovalRuleTemplateNameRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidApprovalRuleTemplateNameException,
-      InvalidContinuationTokenException,
-      InvalidMaxResultsException,
-    ],
-  }));
-/**
- * Sets or changes the default branch name for the specified repository.
- *
- * If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
- */
-export const updateDefaultBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDefaultBranchInput,
-  output: UpdateDefaultBranchResponse,
-  errors: [
-    BranchDoesNotExistException,
-    BranchNameRequiredException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidBranchNameException,
-    InvalidRepositoryNameException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Returns information about one or more repositories.
- *
- * The description field for a repository accepts all HTML characters and all valid
- * Unicode characters. Applications that do not HTML-encode the description and display
- * it in a webpage can expose users to potentially malicious code. Make sure that you
- * HTML-encode the description field in any application that uses this API to display
- * the repository description on a webpage.
- */
-export const batchGetRepositories = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetRepositoriesInput,
-    output: BatchGetRepositoriesOutput,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidRepositoryNameException,
-      MaximumRepositoryNamesExceededException,
-      RepositoryNamesRequiredException,
-    ],
-  }),
-);
 /**
  * Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
  */
@@ -2738,175 +2634,6 @@ export const deleteApprovalRuleTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a repository. If a specified repository was already deleted, a null repository
- * ID is returned.
- *
- * Deleting a repository also deletes all associated objects and metadata. After a repository is
- * deleted, all future push calls to the deleted repository fail.
- */
-export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRepositoryInput,
-  output: DeleteRepositoryOutput,
-  errors: [
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidRepositoryNameException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Removes the association between a template and a repository so that approval rules
- * based on the template are not automatically created when pull requests are created in
- * the specified repository. This does not delete any approval rules previously created for
- * pull requests through the template association.
- */
-export const disassociateApprovalRuleTemplateFromRepository =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateApprovalRuleTemplateFromRepositoryInput,
-    output: DisassociateApprovalRuleTemplateFromRepositoryResponse,
-    errors: [
-      ApprovalRuleTemplateDoesNotExistException,
-      ApprovalRuleTemplateNameRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidApprovalRuleTemplateNameException,
-      InvalidRepositoryNameException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-    ],
-  }));
-/**
- * Returns information about a specified approval rule template.
- */
-export const getApprovalRuleTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApprovalRuleTemplateInput,
-    output: GetApprovalRuleTemplateOutput,
-    errors: [
-      ApprovalRuleTemplateDoesNotExistException,
-      ApprovalRuleTemplateNameRequiredException,
-      InvalidApprovalRuleTemplateNameException,
-    ],
-  }),
-);
-/**
- * Returns information about a repository branch, including its name and the last commit ID.
- */
-export const getBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBranchInput,
-  output: GetBranchOutput,
-  errors: [
-    BranchDoesNotExistException,
-    BranchNameRequiredException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidBranchNameException,
-    InvalidRepositoryNameException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Returns information about comments made on the comparison between two commits.
- *
- * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
- * reactions from active identities, use GetCommentReactions.
- */
-export const getCommentsForComparedCommit =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCommentsForComparedCommitInput,
-    output: GetCommentsForComparedCommitOutput,
-    errors: [
-      CommitDoesNotExistException,
-      CommitIdRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidCommitIdException,
-      InvalidContinuationTokenException,
-      InvalidMaxResultsException,
-      InvalidRepositoryNameException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-    ],
-  }));
-/**
- * Returns information about a commit, including commit message and committer information.
- */
-export const getCommit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCommitInput,
-  output: GetCommitOutput,
-  errors: [
-    CommitIdDoesNotExistException,
-    CommitIdRequiredException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidCommitIdException,
-    InvalidRepositoryNameException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Returns information about a specified merge commit.
- */
-export const getMergeCommit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMergeCommitInput,
-  output: GetMergeCommitOutput,
-  errors: [
-    CommitDoesNotExistException,
-    CommitRequiredException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidCommitException,
-    InvalidConflictDetailLevelException,
-    InvalidConflictResolutionStrategyException,
-    InvalidRepositoryNameException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Returns information about a repository.
- *
- * The description field for a repository accepts all HTML characters and all valid
- * Unicode characters. Applications that do not HTML-encode the description and display
- * it in a webpage can expose users to potentially malicious code. Make sure that you
- * HTML-encode the description field in any application that uses this API to display
- * the repository description on a webpage.
- */
-export const getRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRepositoryInput,
-  output: GetRepositoryOutput,
-  errors: [
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidRepositoryNameException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
  * Lists all approval rule templates in the specified Amazon Web Services Region in your Amazon Web Services account. If
  * an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
  */
@@ -2917,57 +2644,6 @@ export const listApprovalRuleTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InvalidContinuationTokenException, InvalidMaxResultsException],
   }),
 );
-/**
- * Lists all approval rule templates that are associated with a specified repository.
- */
-export const listAssociatedApprovalRuleTemplatesForRepository =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
-    output: ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidContinuationTokenException,
-      InvalidMaxResultsException,
-      InvalidRepositoryNameException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-    ],
-  }));
-/**
- * Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
- * Guide.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    InvalidRepositoryNameException,
-    InvalidResourceArnException,
-    RepositoryDoesNotExistException,
-    ResourceArnRequiredException,
-  ],
-}));
-/**
- * Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
- */
-export const postCommentReply = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PostCommentReplyInput,
-  output: PostCommentReplyOutput,
-  errors: [
-    ClientRequestTokenRequiredException,
-    CommentContentRequiredException,
-    CommentContentSizeLimitExceededException,
-    CommentDoesNotExistException,
-    CommentIdRequiredException,
-    IdempotencyParameterMismatchException,
-    InvalidClientRequestTokenException,
-    InvalidCommentIdException,
-  ],
-}));
 /**
  * Updates the description for a specified approval rule template.
  */
@@ -2997,359 +2673,45 @@ export const updateApprovalRuleTemplateName =
     ],
   }));
 /**
- * Sets or changes the comment or description for a repository.
- *
- * The description field for a repository accepts all HTML characters and all valid
- * Unicode characters. Applications that do not HTML-encode the description and display
- * it in a webpage can expose users to potentially malicious code. Make sure that you
- * HTML-encode the description field in any application that uses this API to display
- * the repository description on a webpage.
+ * Returns information about a specified approval rule template.
  */
-export const updateRepositoryDescription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getApprovalRuleTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateRepositoryDescriptionInput,
-    output: UpdateRepositoryDescriptionResponse,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidRepositoryDescriptionException,
-      InvalidRepositoryNameException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-    ],
-  }),
-);
-/**
- * Renames a repository. The repository name must be unique across the calling Amazon Web Services account.
- * Repository names are limited to 100 alphanumeric, dash, and underscore
- * characters, and cannot include certain characters. The suffix .git is prohibited. For
- * more information about the limits on repository names, see Quotas in the CodeCommit
- * User Guide.
- */
-export const updateRepositoryName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRepositoryNameInput,
-    output: UpdateRepositoryNameResponse,
-    errors: [
-      InvalidRepositoryNameException,
-      RepositoryDoesNotExistException,
-      RepositoryNameExistsException,
-      RepositoryNameRequiredException,
-    ],
-  }),
-);
-/**
- * Creates an association between an approval rule template and a specified repository.
- * Then, the next time a pull request is created in the repository where the destination
- * reference (if specified) matches the destination reference (branch) for the pull
- * request, an approval rule that matches the template conditions is automatically created
- * for that pull request. If no destination references are specified in the template, an
- * approval rule that matches the template contents is created for all pull requests in
- * that repository.
- */
-export const associateApprovalRuleTemplateWithRepository =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateApprovalRuleTemplateWithRepositoryInput,
-    output: AssociateApprovalRuleTemplateWithRepositoryResponse,
+    input: GetApprovalRuleTemplateInput,
+    output: GetApprovalRuleTemplateOutput,
     errors: [
       ApprovalRuleTemplateDoesNotExistException,
       ApprovalRuleTemplateNameRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
       InvalidApprovalRuleTemplateNameException,
-      InvalidRepositoryNameException,
-      MaximumRuleTemplatesAssociatedWithRepositoryException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-    ],
-  }));
-/**
- * Creates an association between an approval rule template and one or more specified repositories.
- */
-export const batchAssociateApprovalRuleTemplateWithRepositories =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
-    output: BatchAssociateApprovalRuleTemplateWithRepositoriesOutput,
-    errors: [
-      ApprovalRuleTemplateDoesNotExistException,
-      ApprovalRuleTemplateNameRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidApprovalRuleTemplateNameException,
-      MaximumRepositoryNamesExceededException,
-      RepositoryNamesRequiredException,
-    ],
-  }));
-/**
- * Removes the association between an approval rule template and one or more specified repositories.
- */
-export const batchDisassociateApprovalRuleTemplateFromRepositories =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
-    output: BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput,
-    errors: [
-      ApprovalRuleTemplateDoesNotExistException,
-      ApprovalRuleTemplateNameRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidApprovalRuleTemplateNameException,
-      MaximumRepositoryNamesExceededException,
-      RepositoryNamesRequiredException,
-    ],
-  }));
-/**
- * Creates a branch in a repository and points the branch to a commit.
- *
- * Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
- */
-export const createBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBranchInput,
-  output: CreateBranchResponse,
-  errors: [
-    BranchNameExistsException,
-    BranchNameRequiredException,
-    CommitDoesNotExistException,
-    CommitIdRequiredException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidBranchNameException,
-    InvalidCommitIdException,
-    InvalidRepositoryNameException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Deletes a branch from a repository, unless that branch is the default branch for the repository.
- */
-export const deleteBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBranchInput,
-  output: DeleteBranchOutput,
-  errors: [
-    BranchNameRequiredException,
-    DefaultBranchCannotBeDeletedException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidBranchNameException,
-    InvalidRepositoryNameException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Deletes the content of a comment made on a change, file, or commit in a repository.
- */
-export const deleteCommentContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCommentContentInput,
-    output: DeleteCommentContentOutput,
-    errors: [
-      CommentDeletedException,
-      CommentDoesNotExistException,
-      CommentIdRequiredException,
-      InvalidCommentIdException,
     ],
   }),
 );
 /**
- * Returns the content of a comment made on a change, file, or commit in a repository.
- *
- * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
- * reactions from active identities, use GetCommentReactions.
+ * Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * Guide.
  */
-export const getComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCommentInput,
-  output: GetCommentOutput,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
   errors: [
-    CommentDeletedException,
-    CommentDoesNotExistException,
-    CommentIdRequiredException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidCommentIdException,
-  ],
-}));
-/**
- * Returns the contents of a specified folder in a repository.
- */
-export const getFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFolderInput,
-  output: GetFolderOutput,
-  errors: [
-    CommitDoesNotExistException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    FolderDoesNotExistException,
-    InvalidCommitException,
-    InvalidPathException,
     InvalidRepositoryNameException,
-    PathRequiredException,
+    InvalidResourceArnException,
     RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
+    ResourceArnRequiredException,
   ],
 }));
 /**
- * Gets information about a pull request in a specified repository.
+ * Gets information about one or more repositories.
  */
-export const getPullRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPullRequestInput,
-  output: GetPullRequestOutput,
+export const listRepositories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRepositoriesInput,
+  output: ListRepositoriesOutput,
   errors: [
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidPullRequestIdException,
-    PullRequestDoesNotExistException,
-    PullRequestIdRequiredException,
-  ],
-}));
-/**
- * Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more
- * approval rules applied to them.
- */
-export const getPullRequestApprovalStates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPullRequestApprovalStatesInput,
-    output: GetPullRequestApprovalStatesOutput,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidPullRequestIdException,
-      InvalidRevisionIdException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-      RevisionIdRequiredException,
-    ],
-  }));
-/**
- * Returns information about whether approval rules have been set aside (overridden) for a
- * pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
- */
-export const getPullRequestOverrideState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPullRequestOverrideStateInput,
-    output: GetPullRequestOverrideStateOutput,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidPullRequestIdException,
-      InvalidRevisionIdException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-      RevisionIdRequiredException,
-    ],
-  }),
-);
-/**
- * Retrieves a list of commits and changes to a specified file.
- */
-export const listFileCommitHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListFileCommitHistoryRequest,
-    output: ListFileCommitHistoryResponse,
-    errors: [
-      CommitDoesNotExistException,
-      CommitRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidCommitException,
-      InvalidContinuationTokenException,
-      InvalidMaxResultsException,
-      InvalidRepositoryNameException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-      TipsDivergenceExceededException,
-    ],
-  }),
-);
-/**
- * Returns a list of pull requests for a specified repository. The return list can be refined by pull request
- * status or pull request author ARN.
- */
-export const listPullRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPullRequestsInput,
-  output: ListPullRequestsOutput,
-  errors: [
-    AuthorDoesNotExistException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidAuthorArnException,
     InvalidContinuationTokenException,
-    InvalidMaxResultsException,
-    InvalidPullRequestStatusException,
-    InvalidRepositoryNameException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
+    InvalidOrderException,
+    InvalidSortByException,
   ],
 }));
-/**
- * Merges two branches using the fast-forward merge strategy.
- */
-export const mergeBranchesByFastForward = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: MergeBranchesByFastForwardInput,
-    output: MergeBranchesByFastForwardOutput,
-    errors: [
-      BranchDoesNotExistException,
-      BranchNameIsTagNameException,
-      BranchNameRequiredException,
-      CommitDoesNotExistException,
-      CommitRequiredException,
-      ConcurrentReferenceUpdateException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidBranchNameException,
-      InvalidCommitException,
-      InvalidRepositoryNameException,
-      InvalidTargetBranchException,
-      ManualMergeRequiredException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-      TipsDivergenceExceededException,
-    ],
-  }),
-);
 /**
  * Updates the content of an approval rule template. You can change the number of
  * required approvals, the membership of the approval rule, and whether an approval pool is
@@ -3385,58 +2747,39 @@ export const updateComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Replaces the contents of the description of a pull request.
+ * Deletes the content of a comment made on a change, file, or commit in a repository.
  */
-export const updatePullRequestDescription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdatePullRequestDescriptionInput,
-    output: UpdatePullRequestDescriptionOutput,
-    errors: [
-      InvalidDescriptionException,
-      InvalidPullRequestIdException,
-      PullRequestAlreadyClosedException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-    ],
-  }));
-/**
- * Replaces the title of a pull request.
- */
-export const updatePullRequestTitle = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteCommentContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdatePullRequestTitleInput,
-    output: UpdatePullRequestTitleOutput,
+    input: DeleteCommentContentInput,
+    output: DeleteCommentContentOutput,
     errors: [
-      InvalidPullRequestIdException,
-      InvalidTitleException,
-      PullRequestAlreadyClosedException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-      TitleRequiredException,
+      CommentDeletedException,
+      CommentDoesNotExistException,
+      CommentIdRequiredException,
+      InvalidCommentIdException,
     ],
   }),
 );
 /**
- * Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
+ * Renames a repository. The repository name must be unique across the calling Amazon Web Services account.
+ * Repository names are limited to 100 alphanumeric, dash, and underscore
+ * characters, and cannot include certain characters. The suffix .git is prohibited. For
+ * more information about the limits on repository names, see Quotas in the CodeCommit
+ * User Guide.
  */
-export const updateRepositoryEncryptionKey =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRepositoryEncryptionKeyInput,
-    output: UpdateRepositoryEncryptionKeyOutput,
+export const updateRepositoryName = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRepositoryNameInput,
+    output: UpdateRepositoryNameResponse,
     errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyInvalidIdException,
-      EncryptionKeyInvalidUsageException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyRequiredException,
-      EncryptionKeyUnavailableException,
       InvalidRepositoryNameException,
       RepositoryDoesNotExistException,
+      RepositoryNameExistsException,
       RepositoryNameRequiredException,
     ],
-  }));
+  }),
+);
 /**
  * Creates a template for approval rules that can then be associated with one or more
  * repositories in your Amazon Web Services account. When you associate a template with a repository,
@@ -3459,6 +2802,379 @@ export const createApprovalRuleTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Lists all repositories associated with the specified approval rule template.
+ */
+export const listRepositoriesForApprovalRuleTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListRepositoriesForApprovalRuleTemplateInput,
+    output: ListRepositoriesForApprovalRuleTemplateOutput,
+    errors: [
+      ApprovalRuleTemplateDoesNotExistException,
+      ApprovalRuleTemplateNameRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidApprovalRuleTemplateNameException,
+      InvalidContinuationTokenException,
+      InvalidMaxResultsException,
+    ],
+  }));
+/**
+ * Removes the association between a template and a repository so that approval rules
+ * based on the template are not automatically created when pull requests are created in
+ * the specified repository. This does not delete any approval rules previously created for
+ * pull requests through the template association.
+ */
+export const disassociateApprovalRuleTemplateFromRepository =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateApprovalRuleTemplateFromRepositoryInput,
+    output: DisassociateApprovalRuleTemplateFromRepositoryResponse,
+    errors: [
+      ApprovalRuleTemplateDoesNotExistException,
+      ApprovalRuleTemplateNameRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidApprovalRuleTemplateNameException,
+      InvalidRepositoryNameException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+    ],
+  }));
+/**
+ * Deletes a repository. If a specified repository was already deleted, a null repository
+ * ID is returned.
+ *
+ * Deleting a repository also deletes all associated objects and metadata. After a repository is
+ * deleted, all future push calls to the deleted repository fail.
+ */
+export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRepositoryInput,
+  output: DeleteRepositoryOutput,
+  errors: [
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidRepositoryNameException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Returns information about a repository.
+ *
+ * The description field for a repository accepts all HTML characters and all valid
+ * Unicode characters. Applications that do not HTML-encode the description and display
+ * it in a webpage can expose users to potentially malicious code. Make sure that you
+ * HTML-encode the description field in any application that uses this API to display
+ * the repository description on a webpage.
+ */
+export const getRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRepositoryInput,
+  output: GetRepositoryOutput,
+  errors: [
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Gets information about triggers configured for a repository.
+ */
+export const getRepositoryTriggers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetRepositoryTriggersInput,
+    output: GetRepositoryTriggersOutput,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidRepositoryNameException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+    ],
+  }),
+);
+/**
+ * Lists all approval rule templates that are associated with a specified repository.
+ */
+export const listAssociatedApprovalRuleTemplatesForRepository =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
+    output: ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidContinuationTokenException,
+      InvalidMaxResultsException,
+      InvalidRepositoryNameException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+    ],
+  }));
+/**
+ * Gets information about one or more branches in a repository.
+ */
+export const listBranches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBranchesInput,
+  output: ListBranchesOutput,
+  errors: [
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidContinuationTokenException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Returns the content of a comment made on a change, file, or commit in a repository.
+ *
+ * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
+ * reactions from active identities, use GetCommentReactions.
+ */
+export const getComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCommentInput,
+  output: GetCommentOutput,
+  errors: [
+    CommentDeletedException,
+    CommentDoesNotExistException,
+    CommentIdRequiredException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidCommentIdException,
+  ],
+}));
+/**
+ * Returns information about the contents of one or more commits in a repository.
+ */
+export const batchGetCommits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetCommitsInput,
+  output: BatchGetCommitsOutput,
+  errors: [
+    CommitIdsLimitExceededException,
+    CommitIdsListRequiredException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
+ */
+export const getCommentReactions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCommentReactionsInput,
+  output: GetCommentReactionsOutput,
+  errors: [
+    CommentDeletedException,
+    CommentDoesNotExistException,
+    CommentIdRequiredException,
+    InvalidCommentIdException,
+    InvalidContinuationTokenException,
+    InvalidMaxResultsException,
+    InvalidReactionUserArnException,
+  ],
+}));
+/**
+ * Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
+ */
+export const postCommentReply = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PostCommentReplyInput,
+  output: PostCommentReplyOutput,
+  errors: [
+    ClientRequestTokenRequiredException,
+    CommentContentRequiredException,
+    CommentContentSizeLimitExceededException,
+    CommentDoesNotExistException,
+    CommentIdRequiredException,
+    IdempotencyParameterMismatchException,
+    InvalidClientRequestTokenException,
+    InvalidCommentIdException,
+  ],
+}));
+/**
+ * Replaces the contents of the description of a pull request.
+ */
+export const updatePullRequestDescription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdatePullRequestDescriptionInput,
+    output: UpdatePullRequestDescriptionOutput,
+    errors: [
+      InvalidDescriptionException,
+      InvalidPullRequestIdException,
+      PullRequestAlreadyClosedException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+    ],
+  }));
+/**
+ * Gets information about a pull request in a specified repository.
+ */
+export const getPullRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPullRequestInput,
+  output: GetPullRequestOutput,
+  errors: [
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidPullRequestIdException,
+    PullRequestDoesNotExistException,
+    PullRequestIdRequiredException,
+  ],
+}));
+/**
+ * Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
+ */
+export const updateRepositoryEncryptionKey =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateRepositoryEncryptionKeyInput,
+    output: UpdateRepositoryEncryptionKeyOutput,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyInvalidIdException,
+      EncryptionKeyInvalidUsageException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyRequiredException,
+      EncryptionKeyUnavailableException,
+      InvalidRepositoryNameException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+    ],
+  }));
+/**
+ * Returns information about comments made on the comparison between two commits.
+ *
+ * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
+ * reactions from active identities, use GetCommentReactions.
+ */
+export const getCommentsForComparedCommit =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetCommentsForComparedCommitInput,
+    output: GetCommentsForComparedCommitOutput,
+    errors: [
+      CommitDoesNotExistException,
+      CommitIdRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidCommitIdException,
+      InvalidContinuationTokenException,
+      InvalidMaxResultsException,
+      InvalidRepositoryNameException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+    ],
+  }));
+/**
+ * Sets or changes the comment or description for a repository.
+ *
+ * The description field for a repository accepts all HTML characters and all valid
+ * Unicode characters. Applications that do not HTML-encode the description and display
+ * it in a webpage can expose users to potentially malicious code. Make sure that you
+ * HTML-encode the description field in any application that uses this API to display
+ * the repository description on a webpage.
+ */
+export const updateRepositoryDescription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRepositoryDescriptionInput,
+    output: UpdateRepositoryDescriptionResponse,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidRepositoryDescriptionException,
+      InvalidRepositoryNameException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+    ],
+  }),
+);
+/**
+ * Creates an association between an approval rule template and a specified repository.
+ * Then, the next time a pull request is created in the repository where the destination
+ * reference (if specified) matches the destination reference (branch) for the pull
+ * request, an approval rule that matches the template conditions is automatically created
+ * for that pull request. If no destination references are specified in the template, an
+ * approval rule that matches the template contents is created for all pull requests in
+ * that repository.
+ */
+export const associateApprovalRuleTemplateWithRepository =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateApprovalRuleTemplateWithRepositoryInput,
+    output: AssociateApprovalRuleTemplateWithRepositoryResponse,
+    errors: [
+      ApprovalRuleTemplateDoesNotExistException,
+      ApprovalRuleTemplateNameRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidApprovalRuleTemplateNameException,
+      InvalidRepositoryNameException,
+      MaximumRuleTemplatesAssociatedWithRepositoryException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+    ],
+  }));
+/**
+ * Returns a list of pull requests for a specified repository. The return list can be refined by pull request
+ * status or pull request author ARN.
+ */
+export const listPullRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPullRequestsInput,
+  output: ListPullRequestsOutput,
+  errors: [
+    AuthorDoesNotExistException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidAuthorArnException,
+    InvalidContinuationTokenException,
+    InvalidMaxResultsException,
+    InvalidPullRequestStatusException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
 /**
  * Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the
  * approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the
@@ -3484,48 +3200,220 @@ export const deletePullRequestApprovalRule =
     ],
   }));
 /**
- * Returns information about one or more merge conflicts in the attempted merge of two
- * commit specifiers using the squash or three-way merge strategy. If the merge option for
- * the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
+ * Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * Guide.
  */
-export const describeMergeConflicts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMergeConflictsInput,
-    output: DescribeMergeConflictsOutput,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidRepositoryNameException,
+    InvalidResourceArnException,
+    InvalidSystemTagUsageException,
+    InvalidTagKeysListException,
+    RepositoryDoesNotExistException,
+    ResourceArnRequiredException,
+    TagKeysListRequiredException,
+    TagPolicyException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Sets or changes the default branch name for the specified repository.
+ *
+ * If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
+ */
+export const updateDefaultBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDefaultBranchInput,
+  output: UpdateDefaultBranchResponse,
+  errors: [
+    BranchDoesNotExistException,
+    BranchNameRequiredException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidBranchNameException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Returns information about a repository branch, including its name and the last commit ID.
+ */
+export const getBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBranchInput,
+  output: GetBranchOutput,
+  errors: [
+    BranchDoesNotExistException,
+    BranchNameRequiredException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidBranchNameException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Deletes a branch from a repository, unless that branch is the default branch for the repository.
+ */
+export const deleteBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBranchInput,
+  output: DeleteBranchOutput,
+  errors: [
+    BranchNameRequiredException,
+    DefaultBranchCannotBeDeletedException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidBranchNameException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Returns information about a commit, including commit message and committer information.
+ */
+export const getCommit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCommitInput,
+  output: GetCommitOutput,
+  errors: [
+    CommitIdDoesNotExistException,
+    CommitIdRequiredException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidCommitIdException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Creates a branch in a repository and points the branch to a commit.
+ *
+ * Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
+ */
+export const createBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBranchInput,
+  output: CreateBranchResponse,
+  errors: [
+    BranchNameExistsException,
+    BranchNameRequiredException,
+    CommitDoesNotExistException,
+    CommitIdRequiredException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidBranchNameException,
+    InvalidCommitIdException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and
+ * the approval pool for approvers.
+ */
+export const updatePullRequestApprovalRuleContent =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdatePullRequestApprovalRuleContentInput,
+    output: UpdatePullRequestApprovalRuleContentOutput,
     errors: [
-      CommitDoesNotExistException,
-      CommitRequiredException,
+      ApprovalRuleContentRequiredException,
+      ApprovalRuleDoesNotExistException,
+      ApprovalRuleNameRequiredException,
+      CannotModifyApprovalRuleFromTemplateException,
       EncryptionIntegrityChecksFailedException,
       EncryptionKeyAccessDeniedException,
       EncryptionKeyDisabledException,
       EncryptionKeyNotFoundException,
       EncryptionKeyUnavailableException,
-      FileDoesNotExistException,
-      InvalidCommitException,
-      InvalidConflictDetailLevelException,
-      InvalidConflictResolutionStrategyException,
-      InvalidContinuationTokenException,
-      InvalidMaxMergeHunksException,
-      InvalidMergeOptionException,
-      InvalidPathException,
-      InvalidRepositoryNameException,
-      MaximumFileContentToLoadExceededException,
-      MaximumItemsToCompareExceededException,
-      MergeOptionRequiredException,
-      PathRequiredException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-      TipsDivergenceExceededException,
+      InvalidApprovalRuleContentException,
+      InvalidApprovalRuleNameException,
+      InvalidPullRequestIdException,
+      InvalidRuleContentSha256Exception,
+      PullRequestAlreadyClosedException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+    ],
+  }));
+/**
+ * Adds or updates tags for a resource in CodeCommit. For a list of valid resources
+ * in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * Guide.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceResponse,
+  errors: [
+    InvalidRepositoryNameException,
+    InvalidResourceArnException,
+    InvalidSystemTagUsageException,
+    InvalidTagsMapException,
+    RepositoryDoesNotExistException,
+    ResourceArnRequiredException,
+    TagPolicyException,
+    TagsMapRequiredException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Replaces the title of a pull request.
+ */
+export const updatePullRequestTitle = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePullRequestTitleInput,
+    output: UpdatePullRequestTitleOutput,
+    errors: [
+      InvalidPullRequestIdException,
+      InvalidTitleException,
+      PullRequestAlreadyClosedException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+      TitleRequiredException,
     ],
   }),
 );
 /**
- * Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
+ * Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or
+ * update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
  */
-export const evaluatePullRequestApprovalRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EvaluatePullRequestApprovalRulesInput,
-    output: EvaluatePullRequestApprovalRulesOutput,
+export const putCommentReaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutCommentReactionInput,
+  output: PutCommentReactionResponse,
+  errors: [
+    CommentDeletedException,
+    CommentDoesNotExistException,
+    CommentIdRequiredException,
+    InvalidCommentIdException,
+    InvalidReactionValueException,
+    ReactionLimitExceededException,
+    ReactionValueRequiredException,
+  ],
+}));
+/**
+ * Returns information about whether approval rules have been set aside (overridden) for a
+ * pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
+ */
+export const getPullRequestOverrideState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPullRequestOverrideStateInput,
+    output: GetPullRequestOverrideStateOutput,
     errors: [
       EncryptionIntegrityChecksFailedException,
       EncryptionKeyAccessDeniedException,
@@ -3537,7 +3425,27 @@ export const evaluatePullRequestApprovalRules =
       PullRequestDoesNotExistException,
       PullRequestIdRequiredException,
       RevisionIdRequiredException,
-      RevisionNotCurrentException,
+    ],
+  }),
+);
+/**
+ * Creates an association between an approval rule template and one or more specified repositories.
+ */
+export const batchAssociateApprovalRuleTemplateWithRepositories =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
+    output: BatchAssociateApprovalRuleTemplateWithRepositoriesOutput,
+    errors: [
+      ApprovalRuleTemplateDoesNotExistException,
+      ApprovalRuleTemplateNameRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidApprovalRuleTemplateNameException,
+      MaximumRepositoryNamesExceededException,
+      RepositoryNamesRequiredException,
     ],
   }));
 /**
@@ -3562,21 +3470,54 @@ export const getBlob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
+ * Returns information about one or more pull request events.
  */
-export const getCommentReactions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCommentReactionsInput,
-  output: GetCommentReactionsOutput,
-  errors: [
-    CommentDeletedException,
-    CommentDoesNotExistException,
-    CommentIdRequiredException,
-    InvalidCommentIdException,
-    InvalidContinuationTokenException,
-    InvalidMaxResultsException,
-    InvalidReactionUserArnException,
-  ],
-}));
+export const describePullRequestEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribePullRequestEventsInput,
+    output: DescribePullRequestEventsOutput,
+    errors: [
+      ActorDoesNotExistException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidActorArnException,
+      InvalidContinuationTokenException,
+      InvalidMaxResultsException,
+      InvalidPullRequestEventTypeException,
+      InvalidPullRequestIdException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+    ],
+  }),
+);
+/**
+ * Creates an approval rule for a pull request.
+ */
+export const createPullRequestApprovalRule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreatePullRequestApprovalRuleInput,
+    output: CreatePullRequestApprovalRuleOutput,
+    errors: [
+      ApprovalRuleContentRequiredException,
+      ApprovalRuleNameAlreadyExistsException,
+      ApprovalRuleNameRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidApprovalRuleContentException,
+      InvalidApprovalRuleNameException,
+      InvalidPullRequestIdException,
+      NumberOfRulesExceededException,
+      PullRequestAlreadyClosedException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+    ],
+  }));
 /**
  * Returns comments made on a pull request.
  *
@@ -3608,6 +3549,240 @@ export const getCommentsForPullRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Retrieves a list of commits and changes to a specified file.
+ */
+export const listFileCommitHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListFileCommitHistoryRequest,
+    output: ListFileCommitHistoryResponse,
+    errors: [
+      CommitDoesNotExistException,
+      CommitRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidCommitException,
+      InvalidContinuationTokenException,
+      InvalidMaxResultsException,
+      InvalidRepositoryNameException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+      TipsDivergenceExceededException,
+    ],
+  }),
+);
+/**
+ * Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more
+ * approval rules applied to them.
+ */
+export const getPullRequestApprovalStates =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetPullRequestApprovalStatesInput,
+    output: GetPullRequestApprovalStatesOutput,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidPullRequestIdException,
+      InvalidRevisionIdException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+      RevisionIdRequiredException,
+    ],
+  }));
+/**
+ * Removes the association between an approval rule template and one or more specified repositories.
+ */
+export const batchDisassociateApprovalRuleTemplateFromRepositories =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
+    output: BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput,
+    errors: [
+      ApprovalRuleTemplateDoesNotExistException,
+      ApprovalRuleTemplateNameRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidApprovalRuleTemplateNameException,
+      MaximumRepositoryNamesExceededException,
+      RepositoryNamesRequiredException,
+    ],
+  }));
+/**
+ * Returns information about one or more repositories.
+ *
+ * The description field for a repository accepts all HTML characters and all valid
+ * Unicode characters. Applications that do not HTML-encode the description and display
+ * it in a webpage can expose users to potentially malicious code. Make sure that you
+ * HTML-encode the description field in any application that uses this API to display
+ * the repository description on a webpage.
+ */
+export const batchGetRepositories = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchGetRepositoriesInput,
+    output: BatchGetRepositoriesOutput,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidRepositoryNameException,
+      MaximumRepositoryNamesExceededException,
+      RepositoryNamesRequiredException,
+    ],
+  }),
+);
+/**
+ * Merges two branches using the fast-forward merge strategy.
+ */
+export const mergeBranchesByFastForward = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: MergeBranchesByFastForwardInput,
+    output: MergeBranchesByFastForwardOutput,
+    errors: [
+      BranchDoesNotExistException,
+      BranchNameIsTagNameException,
+      BranchNameRequiredException,
+      CommitDoesNotExistException,
+      CommitRequiredException,
+      ConcurrentReferenceUpdateException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidBranchNameException,
+      InvalidCommitException,
+      InvalidRepositoryNameException,
+      InvalidTargetBranchException,
+      ManualMergeRequiredException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+      TipsDivergenceExceededException,
+    ],
+  }),
+);
+/**
+ * Returns information about a specified merge commit.
+ */
+export const getMergeCommit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMergeCommitInput,
+  output: GetMergeCommitOutput,
+  errors: [
+    CommitDoesNotExistException,
+    CommitRequiredException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidCommitException,
+    InvalidConflictDetailLevelException,
+    InvalidConflictResolutionStrategyException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Updates the status of a pull request.
+ */
+export const updatePullRequestStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePullRequestStatusInput,
+    output: UpdatePullRequestStatusOutput,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidPullRequestIdException,
+      InvalidPullRequestStatusException,
+      InvalidPullRequestStatusUpdateException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+      PullRequestStatusRequiredException,
+    ],
+  }),
+);
+/**
+ * Returns the contents of a specified folder in a repository.
+ */
+export const getFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFolderInput,
+  output: GetFolderOutput,
+  errors: [
+    CommitDoesNotExistException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    FolderDoesNotExistException,
+    InvalidCommitException,
+    InvalidPathException,
+    InvalidRepositoryNameException,
+    PathRequiredException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+  ],
+}));
+/**
+ * Creates a new, empty repository.
+ */
+export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRepositoryInput,
+  output: CreateRepositoryOutput,
+  errors: [
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyInvalidIdException,
+    EncryptionKeyInvalidUsageException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidRepositoryDescriptionException,
+    InvalidRepositoryNameException,
+    InvalidSystemTagUsageException,
+    InvalidTagsMapException,
+    OperationNotAllowedException,
+    RepositoryLimitExceededException,
+    RepositoryNameExistsException,
+    RepositoryNameRequiredException,
+    TagPolicyException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
+ */
+export const evaluatePullRequestApprovalRules =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: EvaluatePullRequestApprovalRulesInput,
+    output: EvaluatePullRequestApprovalRulesOutput,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidPullRequestIdException,
+      InvalidRevisionIdException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+      RevisionIdRequiredException,
+      RevisionNotCurrentException,
+    ],
+  }));
 /**
  * Returns information about the differences in a valid commit specifier (such as a
  * branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be
@@ -3659,6 +3834,217 @@ export const getFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Sets aside (overrides) all approval rule requirements for a specified pull request.
+ */
+export const overridePullRequestApprovalRules =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: OverridePullRequestApprovalRulesInput,
+    output: OverridePullRequestApprovalRulesResponse,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidOverrideStatusException,
+      InvalidPullRequestIdException,
+      InvalidRevisionIdException,
+      OverrideAlreadySetException,
+      OverrideStatusRequiredException,
+      PullRequestAlreadyClosedException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+      RevisionIdRequiredException,
+      RevisionNotCurrentException,
+    ],
+  }));
+/**
+ * Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
+ */
+export const updatePullRequestApprovalState =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdatePullRequestApprovalStateInput,
+    output: UpdatePullRequestApprovalStateResponse,
+    errors: [
+      ApprovalStateRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidApprovalStateException,
+      InvalidPullRequestIdException,
+      InvalidRevisionIdException,
+      MaximumNumberOfApprovalsExceededException,
+      PullRequestAlreadyClosedException,
+      PullRequestCannotBeApprovedByAuthorException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+      RevisionIdRequiredException,
+      RevisionNotCurrentException,
+    ],
+  }));
+/**
+ * Posts a comment on the comparison between two commits.
+ */
+export const postCommentForComparedCommit =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PostCommentForComparedCommitInput,
+    output: PostCommentForComparedCommitOutput,
+    errors: [
+      BeforeCommitIdAndAfterCommitIdAreSameException,
+      ClientRequestTokenRequiredException,
+      CommentContentRequiredException,
+      CommentContentSizeLimitExceededException,
+      CommitDoesNotExistException,
+      CommitIdRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      IdempotencyParameterMismatchException,
+      InvalidClientRequestTokenException,
+      InvalidCommitIdException,
+      InvalidFileLocationException,
+      InvalidFilePositionException,
+      InvalidPathException,
+      InvalidRelativeFileVersionEnumException,
+      InvalidRepositoryNameException,
+      PathDoesNotExistException,
+      PathRequiredException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+    ],
+  }));
+/**
+ * Posts a comment on a pull request.
+ */
+export const postCommentForPullRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PostCommentForPullRequestInput,
+    output: PostCommentForPullRequestOutput,
+    errors: [
+      BeforeCommitIdAndAfterCommitIdAreSameException,
+      ClientRequestTokenRequiredException,
+      CommentContentRequiredException,
+      CommentContentSizeLimitExceededException,
+      CommitDoesNotExistException,
+      CommitIdRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      IdempotencyParameterMismatchException,
+      InvalidClientRequestTokenException,
+      InvalidCommitIdException,
+      InvalidFileLocationException,
+      InvalidFilePositionException,
+      InvalidPathException,
+      InvalidPullRequestIdException,
+      InvalidRelativeFileVersionEnumException,
+      InvalidRepositoryNameException,
+      PathDoesNotExistException,
+      PathRequiredException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+      RepositoryNotAssociatedWithPullRequestException,
+    ],
+  }),
+);
+/**
+ * Attempts to merge the source commit of a pull request into the specified destination
+ * branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
+ */
+export const mergePullRequestByFastForward =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: MergePullRequestByFastForwardInput,
+    output: MergePullRequestByFastForwardOutput,
+    errors: [
+      ConcurrentReferenceUpdateException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidCommitIdException,
+      InvalidPullRequestIdException,
+      InvalidRepositoryNameException,
+      ManualMergeRequiredException,
+      PullRequestAlreadyClosedException,
+      PullRequestApprovalRulesNotSatisfiedException,
+      PullRequestDoesNotExistException,
+      PullRequestIdRequiredException,
+      ReferenceDoesNotExistException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+      RepositoryNotAssociatedWithPullRequestException,
+      TipOfSourceReferenceIsDifferentException,
+    ],
+  }));
+/**
+ * Returns information about the merge options available for merging two specified
+ * branches. For details about why a merge option is not available, use GetMergeConflicts
+ * or DescribeMergeConflicts.
+ */
+export const getMergeOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMergeOptionsInput,
+  output: GetMergeOptionsOutput,
+  errors: [
+    CommitDoesNotExistException,
+    CommitRequiredException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    InvalidCommitException,
+    InvalidConflictDetailLevelException,
+    InvalidConflictResolutionStrategyException,
+    InvalidRepositoryNameException,
+    MaximumFileContentToLoadExceededException,
+    MaximumItemsToCompareExceededException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+    TipsDivergenceExceededException,
+  ],
+}));
+/**
+ * Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
+ */
+export const batchDescribeMergeConflicts = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchDescribeMergeConflictsInput,
+    output: BatchDescribeMergeConflictsOutput,
+    errors: [
+      CommitDoesNotExistException,
+      CommitRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidCommitException,
+      InvalidConflictDetailLevelException,
+      InvalidConflictResolutionStrategyException,
+      InvalidContinuationTokenException,
+      InvalidMaxConflictFilesException,
+      InvalidMaxMergeHunksException,
+      InvalidMergeOptionException,
+      InvalidRepositoryNameException,
+      MaximumFileContentToLoadExceededException,
+      MaximumItemsToCompareExceededException,
+      MergeOptionRequiredException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+      TipsDivergenceExceededException,
+    ],
+  }),
+);
+/**
  * Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
  */
 export const getMergeConflicts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3690,42 +4076,111 @@ export const getMergeConflicts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about the merge options available for merging two specified
- * branches. For details about why a merge option is not available, use GetMergeConflicts
- * or DescribeMergeConflicts.
+ * Returns information about one or more merge conflicts in the attempted merge of two
+ * commit specifiers using the squash or three-way merge strategy. If the merge option for
+ * the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
  */
-export const getMergeOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMergeOptionsInput,
-  output: GetMergeOptionsOutput,
+export const describeMergeConflicts = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeMergeConflictsInput,
+    output: DescribeMergeConflictsOutput,
+    errors: [
+      CommitDoesNotExistException,
+      CommitRequiredException,
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      FileDoesNotExistException,
+      InvalidCommitException,
+      InvalidConflictDetailLevelException,
+      InvalidConflictResolutionStrategyException,
+      InvalidContinuationTokenException,
+      InvalidMaxMergeHunksException,
+      InvalidMergeOptionException,
+      InvalidPathException,
+      InvalidRepositoryNameException,
+      MaximumFileContentToLoadExceededException,
+      MaximumItemsToCompareExceededException,
+      MergeOptionRequiredException,
+      PathRequiredException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+      TipsDivergenceExceededException,
+    ],
+  }),
+);
+/**
+ * Deletes a specified file from a specified branch. A commit is created on the branch
+ * that contains the revision. The file still exists in the commits earlier to the commit
+ * that contains the deletion.
+ */
+export const deleteFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFileInput,
+  output: DeleteFileOutput,
   errors: [
-    CommitDoesNotExistException,
-    CommitRequiredException,
+    BranchDoesNotExistException,
+    BranchNameIsTagNameException,
+    BranchNameRequiredException,
+    CommitMessageLengthExceededException,
     EncryptionIntegrityChecksFailedException,
     EncryptionKeyAccessDeniedException,
     EncryptionKeyDisabledException,
     EncryptionKeyNotFoundException,
     EncryptionKeyUnavailableException,
-    InvalidCommitException,
-    InvalidConflictDetailLevelException,
-    InvalidConflictResolutionStrategyException,
+    FileDoesNotExistException,
+    InvalidBranchNameException,
+    InvalidEmailException,
+    InvalidParentCommitIdException,
+    InvalidPathException,
     InvalidRepositoryNameException,
-    MaximumFileContentToLoadExceededException,
-    MaximumItemsToCompareExceededException,
+    NameLengthExceededException,
+    ParentCommitDoesNotExistException,
+    ParentCommitIdOutdatedException,
+    ParentCommitIdRequiredException,
+    PathRequiredException,
     RepositoryDoesNotExistException,
     RepositoryNameRequiredException,
-    TipsDivergenceExceededException,
   ],
 }));
 /**
- * Gets information about one or more repositories.
+ * Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
  */
-export const listRepositories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRepositoriesInput,
-  output: ListRepositoriesOutput,
+export const putFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutFileInput,
+  output: PutFileOutput,
   errors: [
-    InvalidContinuationTokenException,
-    InvalidOrderException,
-    InvalidSortByException,
+    BranchDoesNotExistException,
+    BranchNameIsTagNameException,
+    BranchNameRequiredException,
+    CommitMessageLengthExceededException,
+    DirectoryNameConflictsWithFileNameException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    FileContentRequiredException,
+    FileContentSizeLimitExceededException,
+    FileNameConflictsWithDirectoryNameException,
+    FilePathConflictsWithSubmodulePathException,
+    FolderContentSizeLimitExceededException,
+    InvalidBranchNameException,
+    InvalidDeletionParameterException,
+    InvalidEmailException,
+    InvalidFileModeException,
+    InvalidParentCommitIdException,
+    InvalidPathException,
+    InvalidRepositoryNameException,
+    NameLengthExceededException,
+    ParentCommitDoesNotExistException,
+    ParentCommitIdOutdatedException,
+    ParentCommitIdRequiredException,
+    PathRequiredException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+    SameFileContentException,
   ],
 }));
 /**
@@ -3779,237 +4234,37 @@ export const mergePullRequestByThreeWay = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Sets aside (overrides) all approval rule requirements for a specified pull request.
+ * Creates a pull request in the specified repository.
  */
-export const overridePullRequestApprovalRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: OverridePullRequestApprovalRulesInput,
-    output: OverridePullRequestApprovalRulesResponse,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidOverrideStatusException,
-      InvalidPullRequestIdException,
-      InvalidRevisionIdException,
-      OverrideAlreadySetException,
-      OverrideStatusRequiredException,
-      PullRequestAlreadyClosedException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-      RevisionIdRequiredException,
-      RevisionNotCurrentException,
-    ],
-  }));
-/**
- * Posts a comment on a pull request.
- */
-export const postCommentForPullRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PostCommentForPullRequestInput,
-    output: PostCommentForPullRequestOutput,
-    errors: [
-      BeforeCommitIdAndAfterCommitIdAreSameException,
-      ClientRequestTokenRequiredException,
-      CommentContentRequiredException,
-      CommentContentSizeLimitExceededException,
-      CommitDoesNotExistException,
-      CommitIdRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      IdempotencyParameterMismatchException,
-      InvalidClientRequestTokenException,
-      InvalidCommitIdException,
-      InvalidFileLocationException,
-      InvalidFilePositionException,
-      InvalidPathException,
-      InvalidPullRequestIdException,
-      InvalidRelativeFileVersionEnumException,
-      InvalidRepositoryNameException,
-      PathDoesNotExistException,
-      PathRequiredException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-      RepositoryNotAssociatedWithPullRequestException,
-    ],
-  }),
-);
-/**
- * Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
- * Guide.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
+export const createPullRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePullRequestInput,
+  output: CreatePullRequestOutput,
   errors: [
-    InvalidRepositoryNameException,
-    InvalidResourceArnException,
-    InvalidSystemTagUsageException,
-    InvalidTagKeysListException,
-    RepositoryDoesNotExistException,
-    ResourceArnRequiredException,
-    TagKeysListRequiredException,
-    TagPolicyException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and
- * the approval pool for approvers.
- */
-export const updatePullRequestApprovalRuleContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdatePullRequestApprovalRuleContentInput,
-    output: UpdatePullRequestApprovalRuleContentOutput,
-    errors: [
-      ApprovalRuleContentRequiredException,
-      ApprovalRuleDoesNotExistException,
-      ApprovalRuleNameRequiredException,
-      CannotModifyApprovalRuleFromTemplateException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidApprovalRuleContentException,
-      InvalidApprovalRuleNameException,
-      InvalidPullRequestIdException,
-      InvalidRuleContentSha256Exception,
-      PullRequestAlreadyClosedException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-    ],
-  }));
-/**
- * Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
- */
-export const updatePullRequestApprovalState =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdatePullRequestApprovalStateInput,
-    output: UpdatePullRequestApprovalStateResponse,
-    errors: [
-      ApprovalStateRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidApprovalStateException,
-      InvalidPullRequestIdException,
-      InvalidRevisionIdException,
-      MaximumNumberOfApprovalsExceededException,
-      PullRequestAlreadyClosedException,
-      PullRequestCannotBeApprovedByAuthorException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-      RevisionIdRequiredException,
-      RevisionNotCurrentException,
-    ],
-  }));
-/**
- * Updates the status of a pull request.
- */
-export const updatePullRequestStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePullRequestStatusInput,
-    output: UpdatePullRequestStatusOutput,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidPullRequestIdException,
-      InvalidPullRequestStatusException,
-      InvalidPullRequestStatusUpdateException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-      PullRequestStatusRequiredException,
-    ],
-  }),
-);
-/**
- * Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
- */
-export const batchDescribeMergeConflicts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDescribeMergeConflictsInput,
-    output: BatchDescribeMergeConflictsOutput,
-    errors: [
-      CommitDoesNotExistException,
-      CommitRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidCommitException,
-      InvalidConflictDetailLevelException,
-      InvalidConflictResolutionStrategyException,
-      InvalidContinuationTokenException,
-      InvalidMaxConflictFilesException,
-      InvalidMaxMergeHunksException,
-      InvalidMergeOptionException,
-      InvalidRepositoryNameException,
-      MaximumFileContentToLoadExceededException,
-      MaximumItemsToCompareExceededException,
-      MergeOptionRequiredException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-      TipsDivergenceExceededException,
-    ],
-  }),
-);
-/**
- * Returns information about the contents of one or more commits in a repository.
- */
-export const batchGetCommits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGetCommitsInput,
-  output: BatchGetCommitsOutput,
-  errors: [
-    CommitIdsLimitExceededException,
-    CommitIdsListRequiredException,
+    ClientRequestTokenRequiredException,
     EncryptionIntegrityChecksFailedException,
     EncryptionKeyAccessDeniedException,
     EncryptionKeyDisabledException,
     EncryptionKeyNotFoundException,
     EncryptionKeyUnavailableException,
+    IdempotencyParameterMismatchException,
+    InvalidClientRequestTokenException,
+    InvalidDescriptionException,
+    InvalidReferenceNameException,
     InvalidRepositoryNameException,
+    InvalidTargetException,
+    InvalidTargetsException,
+    InvalidTitleException,
+    MaximumOpenPullRequestsExceededException,
+    MultipleRepositoriesInPullRequestException,
+    ReferenceDoesNotExistException,
+    ReferenceNameRequiredException,
+    ReferenceTypeNotSupportedException,
     RepositoryDoesNotExistException,
     RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Creates a new, empty repository.
- */
-export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRepositoryInput,
-  output: CreateRepositoryOutput,
-  errors: [
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyInvalidIdException,
-    EncryptionKeyInvalidUsageException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    InvalidRepositoryDescriptionException,
-    InvalidRepositoryNameException,
-    InvalidSystemTagUsageException,
-    InvalidTagsMapException,
-    OperationNotAllowedException,
-    RepositoryLimitExceededException,
-    RepositoryNameExistsException,
-    RepositoryNameRequiredException,
-    TagPolicyException,
-    TooManyTagsException,
+    SourceAndDestinationAreSameException,
+    TargetRequiredException,
+    TargetsRequiredException,
+    TitleRequiredException,
   ],
 }));
 /**
@@ -4065,56 +4320,6 @@ export const createUnreferencedMergeCommit =
     ],
   }));
 /**
- * Merges two branches using the squash merge strategy.
- */
-export const mergeBranchesBySquash = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: MergeBranchesBySquashInput,
-    output: MergeBranchesBySquashOutput,
-    errors: [
-      BranchDoesNotExistException,
-      BranchNameIsTagNameException,
-      BranchNameRequiredException,
-      CommitDoesNotExistException,
-      CommitMessageLengthExceededException,
-      CommitRequiredException,
-      ConcurrentReferenceUpdateException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      FileContentSizeLimitExceededException,
-      FileModeRequiredException,
-      FolderContentSizeLimitExceededException,
-      InvalidBranchNameException,
-      InvalidCommitException,
-      InvalidConflictDetailLevelException,
-      InvalidConflictResolutionException,
-      InvalidConflictResolutionStrategyException,
-      InvalidEmailException,
-      InvalidFileModeException,
-      InvalidPathException,
-      InvalidReplacementContentException,
-      InvalidReplacementTypeException,
-      InvalidRepositoryNameException,
-      InvalidTargetBranchException,
-      ManualMergeRequiredException,
-      MaximumConflictResolutionEntriesExceededException,
-      MaximumFileContentToLoadExceededException,
-      MaximumItemsToCompareExceededException,
-      MultipleConflictResolutionEntriesException,
-      NameLengthExceededException,
-      PathRequiredException,
-      ReplacementContentRequiredException,
-      ReplacementTypeRequiredException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-      TipsDivergenceExceededException,
-    ],
-  }),
-);
-/**
  * Merges two specified branches using the three-way merge strategy.
  */
 export const mergeBranchesByThreeWay = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -4166,36 +4371,6 @@ export const mergeBranchesByThreeWay = /*@__PURE__*/ /*#__PURE__*/ API.make(
 );
 /**
  * Attempts to merge the source commit of a pull request into the specified destination
- * branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
- */
-export const mergePullRequestByFastForward =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: MergePullRequestByFastForwardInput,
-    output: MergePullRequestByFastForwardOutput,
-    errors: [
-      ConcurrentReferenceUpdateException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidCommitIdException,
-      InvalidPullRequestIdException,
-      InvalidRepositoryNameException,
-      ManualMergeRequiredException,
-      PullRequestAlreadyClosedException,
-      PullRequestApprovalRulesNotSatisfiedException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-      ReferenceDoesNotExistException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-      RepositoryNotAssociatedWithPullRequestException,
-      TipOfSourceReferenceIsDifferentException,
-    ],
-  }));
-/**
- * Attempts to merge the source commit of a pull request into the specified destination
  * branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestBySquash = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -4245,259 +4420,52 @@ export const mergePullRequestBySquash = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Posts a comment on the comparison between two commits.
+ * Merges two branches using the squash merge strategy.
  */
-export const postCommentForComparedCommit =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PostCommentForComparedCommitInput,
-    output: PostCommentForComparedCommitOutput,
+export const mergeBranchesBySquash = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: MergeBranchesBySquashInput,
+    output: MergeBranchesBySquashOutput,
     errors: [
-      BeforeCommitIdAndAfterCommitIdAreSameException,
-      ClientRequestTokenRequiredException,
-      CommentContentRequiredException,
-      CommentContentSizeLimitExceededException,
+      BranchDoesNotExistException,
+      BranchNameIsTagNameException,
+      BranchNameRequiredException,
       CommitDoesNotExistException,
-      CommitIdRequiredException,
+      CommitMessageLengthExceededException,
+      CommitRequiredException,
+      ConcurrentReferenceUpdateException,
       EncryptionIntegrityChecksFailedException,
       EncryptionKeyAccessDeniedException,
       EncryptionKeyDisabledException,
       EncryptionKeyNotFoundException,
       EncryptionKeyUnavailableException,
-      IdempotencyParameterMismatchException,
-      InvalidClientRequestTokenException,
-      InvalidCommitIdException,
-      InvalidFileLocationException,
-      InvalidFilePositionException,
+      FileContentSizeLimitExceededException,
+      FileModeRequiredException,
+      FolderContentSizeLimitExceededException,
+      InvalidBranchNameException,
+      InvalidCommitException,
+      InvalidConflictDetailLevelException,
+      InvalidConflictResolutionException,
+      InvalidConflictResolutionStrategyException,
+      InvalidEmailException,
+      InvalidFileModeException,
       InvalidPathException,
-      InvalidRelativeFileVersionEnumException,
+      InvalidReplacementContentException,
+      InvalidReplacementTypeException,
       InvalidRepositoryNameException,
-      PathDoesNotExistException,
+      InvalidTargetBranchException,
+      ManualMergeRequiredException,
+      MaximumConflictResolutionEntriesExceededException,
+      MaximumFileContentToLoadExceededException,
+      MaximumItemsToCompareExceededException,
+      MultipleConflictResolutionEntriesException,
+      NameLengthExceededException,
       PathRequiredException,
+      ReplacementContentRequiredException,
+      ReplacementTypeRequiredException,
       RepositoryDoesNotExistException,
       RepositoryNameRequiredException,
-    ],
-  }));
-/**
- * Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or
- * update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
- */
-export const putCommentReaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutCommentReactionInput,
-  output: PutCommentReactionResponse,
-  errors: [
-    CommentDeletedException,
-    CommentDoesNotExistException,
-    CommentIdRequiredException,
-    InvalidCommentIdException,
-    InvalidReactionValueException,
-    ReactionLimitExceededException,
-    ReactionValueRequiredException,
-  ],
-}));
-/**
- * Adds or updates tags for a resource in CodeCommit. For a list of valid resources
- * in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
- * Guide.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
-  errors: [
-    InvalidRepositoryNameException,
-    InvalidResourceArnException,
-    InvalidSystemTagUsageException,
-    InvalidTagsMapException,
-    RepositoryDoesNotExistException,
-    ResourceArnRequiredException,
-    TagPolicyException,
-    TagsMapRequiredException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Creates an approval rule for a pull request.
- */
-export const createPullRequestApprovalRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePullRequestApprovalRuleInput,
-    output: CreatePullRequestApprovalRuleOutput,
-    errors: [
-      ApprovalRuleContentRequiredException,
-      ApprovalRuleNameAlreadyExistsException,
-      ApprovalRuleNameRequiredException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidApprovalRuleContentException,
-      InvalidApprovalRuleNameException,
-      InvalidPullRequestIdException,
-      NumberOfRulesExceededException,
-      PullRequestAlreadyClosedException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-    ],
-  }));
-/**
- * Deletes a specified file from a specified branch. A commit is created on the branch
- * that contains the revision. The file still exists in the commits earlier to the commit
- * that contains the deletion.
- */
-export const deleteFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFileInput,
-  output: DeleteFileOutput,
-  errors: [
-    BranchDoesNotExistException,
-    BranchNameIsTagNameException,
-    BranchNameRequiredException,
-    CommitMessageLengthExceededException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    FileDoesNotExistException,
-    InvalidBranchNameException,
-    InvalidEmailException,
-    InvalidParentCommitIdException,
-    InvalidPathException,
-    InvalidRepositoryNameException,
-    NameLengthExceededException,
-    ParentCommitDoesNotExistException,
-    ParentCommitIdOutdatedException,
-    ParentCommitIdRequiredException,
-    PathRequiredException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-  ],
-}));
-/**
- * Returns information about one or more pull request events.
- */
-export const describePullRequestEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePullRequestEventsInput,
-    output: DescribePullRequestEventsOutput,
-    errors: [
-      ActorDoesNotExistException,
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidActorArnException,
-      InvalidContinuationTokenException,
-      InvalidMaxResultsException,
-      InvalidPullRequestEventTypeException,
-      InvalidPullRequestIdException,
-      PullRequestDoesNotExistException,
-      PullRequestIdRequiredException,
-    ],
-  }),
-);
-/**
- * Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
- */
-export const putFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutFileInput,
-  output: PutFileOutput,
-  errors: [
-    BranchDoesNotExistException,
-    BranchNameIsTagNameException,
-    BranchNameRequiredException,
-    CommitMessageLengthExceededException,
-    DirectoryNameConflictsWithFileNameException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    FileContentRequiredException,
-    FileContentSizeLimitExceededException,
-    FileNameConflictsWithDirectoryNameException,
-    FilePathConflictsWithSubmodulePathException,
-    FolderContentSizeLimitExceededException,
-    InvalidBranchNameException,
-    InvalidDeletionParameterException,
-    InvalidEmailException,
-    InvalidFileModeException,
-    InvalidParentCommitIdException,
-    InvalidPathException,
-    InvalidRepositoryNameException,
-    NameLengthExceededException,
-    ParentCommitDoesNotExistException,
-    ParentCommitIdOutdatedException,
-    ParentCommitIdRequiredException,
-    PathRequiredException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-    SameFileContentException,
-  ],
-}));
-/**
- * Tests the functionality of repository triggers by sending information to the trigger
- * target. If real data is available in the repository, the test sends data from the last
- * commit. If no data is available, sample data is generated.
- */
-export const testRepositoryTriggers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TestRepositoryTriggersInput,
-    output: TestRepositoryTriggersOutput,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidRepositoryNameException,
-      InvalidRepositoryTriggerBranchNameException,
-      InvalidRepositoryTriggerCustomDataException,
-      InvalidRepositoryTriggerDestinationArnException,
-      InvalidRepositoryTriggerEventsException,
-      InvalidRepositoryTriggerNameException,
-      InvalidRepositoryTriggerRegionException,
-      MaximumBranchesExceededException,
-      MaximumRepositoryTriggersExceededException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-      RepositoryTriggerBranchNameListRequiredException,
-      RepositoryTriggerDestinationArnRequiredException,
-      RepositoryTriggerEventsListRequiredException,
-      RepositoryTriggerNameRequiredException,
-      RepositoryTriggersListRequiredException,
-    ],
-  }),
-);
-/**
- * Replaces all triggers for a repository. Used to create or delete triggers.
- */
-export const putRepositoryTriggers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRepositoryTriggersInput,
-    output: PutRepositoryTriggersOutput,
-    errors: [
-      EncryptionIntegrityChecksFailedException,
-      EncryptionKeyAccessDeniedException,
-      EncryptionKeyDisabledException,
-      EncryptionKeyNotFoundException,
-      EncryptionKeyUnavailableException,
-      InvalidRepositoryNameException,
-      InvalidRepositoryTriggerBranchNameException,
-      InvalidRepositoryTriggerCustomDataException,
-      InvalidRepositoryTriggerDestinationArnException,
-      InvalidRepositoryTriggerEventsException,
-      InvalidRepositoryTriggerNameException,
-      InvalidRepositoryTriggerRegionException,
-      MaximumBranchesExceededException,
-      MaximumRepositoryTriggersExceededException,
-      RepositoryDoesNotExistException,
-      RepositoryNameRequiredException,
-      RepositoryTriggerBranchNameListRequiredException,
-      RepositoryTriggerDestinationArnRequiredException,
-      RepositoryTriggerEventsListRequiredException,
-      RepositoryTriggerNameRequiredException,
-      RepositoryTriggersListRequiredException,
+      TipsDivergenceExceededException,
     ],
   }),
 );
@@ -4549,36 +4517,68 @@ export const createCommit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a pull request in the specified repository.
+ * Replaces all triggers for a repository. Used to create or delete triggers.
  */
-export const createPullRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePullRequestInput,
-  output: CreatePullRequestOutput,
-  errors: [
-    ClientRequestTokenRequiredException,
-    EncryptionIntegrityChecksFailedException,
-    EncryptionKeyAccessDeniedException,
-    EncryptionKeyDisabledException,
-    EncryptionKeyNotFoundException,
-    EncryptionKeyUnavailableException,
-    IdempotencyParameterMismatchException,
-    InvalidClientRequestTokenException,
-    InvalidDescriptionException,
-    InvalidReferenceNameException,
-    InvalidRepositoryNameException,
-    InvalidTargetException,
-    InvalidTargetsException,
-    InvalidTitleException,
-    MaximumOpenPullRequestsExceededException,
-    MultipleRepositoriesInPullRequestException,
-    ReferenceDoesNotExistException,
-    ReferenceNameRequiredException,
-    ReferenceTypeNotSupportedException,
-    RepositoryDoesNotExistException,
-    RepositoryNameRequiredException,
-    SourceAndDestinationAreSameException,
-    TargetRequiredException,
-    TargetsRequiredException,
-    TitleRequiredException,
-  ],
-}));
+export const putRepositoryTriggers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutRepositoryTriggersInput,
+    output: PutRepositoryTriggersOutput,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidRepositoryNameException,
+      InvalidRepositoryTriggerBranchNameException,
+      InvalidRepositoryTriggerCustomDataException,
+      InvalidRepositoryTriggerDestinationArnException,
+      InvalidRepositoryTriggerEventsException,
+      InvalidRepositoryTriggerNameException,
+      InvalidRepositoryTriggerRegionException,
+      MaximumBranchesExceededException,
+      MaximumRepositoryTriggersExceededException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+      RepositoryTriggerBranchNameListRequiredException,
+      RepositoryTriggerDestinationArnRequiredException,
+      RepositoryTriggerEventsListRequiredException,
+      RepositoryTriggerNameRequiredException,
+      RepositoryTriggersListRequiredException,
+    ],
+  }),
+);
+/**
+ * Tests the functionality of repository triggers by sending information to the trigger
+ * target. If real data is available in the repository, the test sends data from the last
+ * commit. If no data is available, sample data is generated.
+ */
+export const testRepositoryTriggers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: TestRepositoryTriggersInput,
+    output: TestRepositoryTriggersOutput,
+    errors: [
+      EncryptionIntegrityChecksFailedException,
+      EncryptionKeyAccessDeniedException,
+      EncryptionKeyDisabledException,
+      EncryptionKeyNotFoundException,
+      EncryptionKeyUnavailableException,
+      InvalidRepositoryNameException,
+      InvalidRepositoryTriggerBranchNameException,
+      InvalidRepositoryTriggerCustomDataException,
+      InvalidRepositoryTriggerDestinationArnException,
+      InvalidRepositoryTriggerEventsException,
+      InvalidRepositoryTriggerNameException,
+      InvalidRepositoryTriggerRegionException,
+      MaximumBranchesExceededException,
+      MaximumRepositoryTriggersExceededException,
+      RepositoryDoesNotExistException,
+      RepositoryNameRequiredException,
+      RepositoryTriggerBranchNameListRequiredException,
+      RepositoryTriggerDestinationArnRequiredException,
+      RepositoryTriggerEventsListRequiredException,
+      RepositoryTriggerNameRequiredException,
+      RepositoryTriggersListRequiredException,
+    ],
+  }),
+);

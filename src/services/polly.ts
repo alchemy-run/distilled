@@ -513,24 +513,20 @@ export class InvalidLexiconException extends S.TaggedError<InvalidLexiconExcepti
   "InvalidLexiconException",
   { message: S.optional(S.String) },
 ) {}
-export class EngineNotSupportedException extends S.TaggedError<EngineNotSupportedException>()(
-  "EngineNotSupportedException",
-  {},
-) {}
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class LexiconSizeExceededException extends S.TaggedError<LexiconSizeExceededException>()(
   "LexiconSizeExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidSampleRateException extends S.TaggedError<InvalidSampleRateException>()(
-  "InvalidSampleRateException",
+export class EngineNotSupportedException extends S.TaggedError<EngineNotSupportedException>()(
+  "EngineNotSupportedException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidTaskIdException extends S.TaggedError<InvalidTaskIdException>()(
@@ -545,8 +541,8 @@ export class InvalidS3BucketException extends S.TaggedError<InvalidS3BucketExcep
   "InvalidS3BucketException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidSsmlException extends S.TaggedError<InvalidSsmlException>()(
-  "InvalidSsmlException",
+export class InvalidSampleRateException extends S.TaggedError<InvalidSampleRateException>()(
+  "InvalidSampleRateException",
   { message: S.optional(S.String) },
 ) {}
 export class SynthesisTaskNotFoundException extends S.TaggedError<SynthesisTaskNotFoundException>()(
@@ -561,8 +557,8 @@ export class InvalidS3KeyException extends S.TaggedError<InvalidS3KeyException>(
   "InvalidS3KeyException",
   { message: S.optional(S.String) },
 ) {}
-export class LanguageNotSupportedException extends S.TaggedError<LanguageNotSupportedException>()(
-  "LanguageNotSupportedException",
+export class InvalidSsmlException extends S.TaggedError<InvalidSsmlException>()(
+  "InvalidSsmlException",
   { message: S.optional(S.String) },
 ) {}
 export class UnsupportedPlsAlphabetException extends S.TaggedError<UnsupportedPlsAlphabetException>()(
@@ -573,21 +569,25 @@ export class InvalidSnsTopicArnException extends S.TaggedError<InvalidSnsTopicAr
   "InvalidSnsTopicArnException",
   { message: S.optional(S.String) },
 ) {}
-export class MarksNotSupportedForFormatException extends S.TaggedError<MarksNotSupportedForFormatException>()(
-  "MarksNotSupportedForFormatException",
-  {},
-) {}
-export class SsmlMarksNotSupportedForTextTypeException extends S.TaggedError<SsmlMarksNotSupportedForTextTypeException>()(
-  "SsmlMarksNotSupportedForTextTypeException",
-  {},
+export class LanguageNotSupportedException extends S.TaggedError<LanguageNotSupportedException>()(
+  "LanguageNotSupportedException",
+  { message: S.optional(S.String) },
 ) {}
 export class UnsupportedPlsLanguageException extends S.TaggedError<UnsupportedPlsLanguageException>()(
   "UnsupportedPlsLanguageException",
   { message: S.optional(S.String) },
 ) {}
+export class MarksNotSupportedForFormatException extends S.TaggedError<MarksNotSupportedForFormatException>()(
+  "MarksNotSupportedForFormatException",
+  { message: S.optional(S.String) },
+) {}
+export class SsmlMarksNotSupportedForTextTypeException extends S.TaggedError<SsmlMarksNotSupportedForTextTypeException>()(
+  "SsmlMarksNotSupportedForTextTypeException",
+  { message: S.optional(S.String) },
+) {}
 export class TextLengthExceededException extends S.TaggedError<TextLengthExceededException>()(
   "TextLengthExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -603,6 +603,27 @@ export const deleteLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DeleteLexiconOutput,
   errors: [LexiconNotFoundException, ServiceFailureException],
 }));
+/**
+ * Returns the content of the specified pronunciation lexicon stored
+ * in an Amazon Web Services Region. For more information, see Managing Lexicons.
+ */
+export const getLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLexiconInput,
+  output: GetLexiconOutput,
+  errors: [LexiconNotFoundException, ServiceFailureException],
+}));
+/**
+ * Returns a list of SpeechSynthesisTask objects ordered by their
+ * creation date. This operation can filter the tasks by their status, for
+ * example, allowing users to list only tasks that are completed.
+ */
+export const listSpeechSynthesisTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSpeechSynthesisTasksInput,
+    output: ListSpeechSynthesisTasksOutput,
+    errors: [InvalidNextTokenException, ServiceFailureException],
+  }),
+);
 /**
  * Returns the list of voices that are available for use when
  * requesting speech synthesis. Each voice speaks a specified language, is
@@ -631,15 +652,6 @@ export const describeVoices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidNextTokenException, ServiceFailureException],
 }));
 /**
- * Returns the content of the specified pronunciation lexicon stored
- * in an Amazon Web Services Region. For more information, see Managing Lexicons.
- */
-export const getLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLexiconInput,
-  output: GetLexiconOutput,
-  errors: [LexiconNotFoundException, ServiceFailureException],
-}));
-/**
  * Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
 export const listLexicons = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -647,18 +659,6 @@ export const listLexicons = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: ListLexiconsOutput,
   errors: [InvalidNextTokenException, ServiceFailureException],
 }));
-/**
- * Returns a list of SpeechSynthesisTask objects ordered by their
- * creation date. This operation can filter the tasks by their status, for
- * example, allowing users to list only tasks that are completed.
- */
-export const listSpeechSynthesisTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSpeechSynthesisTasksInput,
-    output: ListSpeechSynthesisTasksOutput,
-    errors: [InvalidNextTokenException, ServiceFailureException],
-  }),
-);
 /**
  * Retrieves a specific SpeechSynthesisTask object based on its TaskID.
  * This object contains information about the given speech synthesis task,
@@ -699,6 +699,28 @@ export const putLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes.
+ * SSML input must be valid, well-formed SSML. Some alphabets might not be
+ * available with all the voices (for example, Cyrillic might not be read at
+ * all by English voices) unless phoneme mapping is used. For more
+ * information, see How it Works.
+ */
+export const synthesizeSpeech = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SynthesizeSpeechInput,
+  output: SynthesizeSpeechOutput,
+  errors: [
+    EngineNotSupportedException,
+    InvalidSampleRateException,
+    InvalidSsmlException,
+    LanguageNotSupportedException,
+    LexiconNotFoundException,
+    MarksNotSupportedForFormatException,
+    ServiceFailureException,
+    SsmlMarksNotSupportedForTextTypeException,
+    TextLengthExceededException,
+  ],
+}));
+/**
  * Allows the creation of an asynchronous synthesis task, by starting a
  * new `SpeechSynthesisTask`. This operation requires all the
  * standard information needed for speech synthesis, plus the name of an
@@ -730,25 +752,3 @@ export const startSpeechSynthesisTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes.
- * SSML input must be valid, well-formed SSML. Some alphabets might not be
- * available with all the voices (for example, Cyrillic might not be read at
- * all by English voices) unless phoneme mapping is used. For more
- * information, see How it Works.
- */
-export const synthesizeSpeech = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SynthesizeSpeechInput,
-  output: SynthesizeSpeechOutput,
-  errors: [
-    EngineNotSupportedException,
-    InvalidSampleRateException,
-    InvalidSsmlException,
-    LanguageNotSupportedException,
-    LexiconNotFoundException,
-    MarksNotSupportedForFormatException,
-    ServiceFailureException,
-    SsmlMarksNotSupportedForTextTypeException,
-    TextLengthExceededException,
-  ],
-}));

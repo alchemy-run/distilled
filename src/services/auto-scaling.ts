@@ -1982,42 +1982,42 @@ export class CreateAutoScalingGroupResponse extends S.Class<CreateAutoScalingGro
 //# Errors
 export class ResourceContentionFault extends S.TaggedError<ResourceContentionFault>()(
   "ResourceContentionFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceContention", httpResponseCode: 500 }),
 ) {}
 export class InstanceRefreshInProgressFault extends S.TaggedError<InstanceRefreshInProgressFault>()(
   "InstanceRefreshInProgressFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InstanceRefreshInProgress", httpResponseCode: 400 }),
-) {}
-export class ServiceLinkedRoleFailure extends S.TaggedError<ServiceLinkedRoleFailure>()(
-  "ServiceLinkedRoleFailure",
-  {},
-  T.AwsQueryError({ code: "ServiceLinkedRoleFailure", httpResponseCode: 500 }),
-) {}
-export class ResourceInUseFault extends S.TaggedError<ResourceInUseFault>()(
-  "ResourceInUseFault",
-  {},
-  T.AwsQueryError({ code: "ResourceInUse", httpResponseCode: 400 }),
-) {}
-export class LimitExceededFault extends S.TaggedError<LimitExceededFault>()(
-  "LimitExceededFault",
-  {},
-  T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
 ) {}
 export class AlreadyExistsFault extends S.TaggedError<AlreadyExistsFault>()(
   "AlreadyExistsFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "AlreadyExists", httpResponseCode: 400 }),
+) {}
+export class LimitExceededFault extends S.TaggedError<LimitExceededFault>()(
+  "LimitExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
+) {}
+export class ResourceInUseFault extends S.TaggedError<ResourceInUseFault>()(
+  "ResourceInUseFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceInUse", httpResponseCode: 400 }),
 ) {}
 export class ScalingActivityInProgressFault extends S.TaggedError<ScalingActivityInProgressFault>()(
   "ScalingActivityInProgressFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ScalingActivityInProgress", httpResponseCode: 400 }),
+) {}
+export class ServiceLinkedRoleFailure extends S.TaggedError<ServiceLinkedRoleFailure>()(
+  "ServiceLinkedRoleFailure",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ServiceLinkedRoleFailure", httpResponseCode: 500 }),
 ) {}
 export class ActiveInstanceRefreshNotFoundFault extends S.TaggedError<ActiveInstanceRefreshNotFoundFault>()(
   "ActiveInstanceRefreshNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ActiveInstanceRefreshNotFound",
     httpResponseCode: 400,
@@ -2025,16 +2025,8 @@ export class ActiveInstanceRefreshNotFoundFault extends S.TaggedError<ActiveInst
 ) {}
 export class InvalidNextToken extends S.TaggedError<InvalidNextToken>()(
   "InvalidNextToken",
-  {},
-  T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
-) {}
-export class IrreversibleInstanceRefreshFault extends S.TaggedError<IrreversibleInstanceRefreshFault>()(
-  "IrreversibleInstanceRefreshFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "IrreversibleInstanceRefresh",
-    httpResponseCode: 400,
-  }),
+  T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
 ) {}
 export class IdempotentParameterMismatchError extends S.TaggedError<IdempotentParameterMismatchError>()(
   "IdempotentParameterMismatchError",
@@ -2044,49 +2036,16 @@ export class IdempotentParameterMismatchError extends S.TaggedError<IdempotentPa
     httpResponseCode: 400,
   }),
 ) {}
+export class IrreversibleInstanceRefreshFault extends S.TaggedError<IrreversibleInstanceRefreshFault>()(
+  "IrreversibleInstanceRefreshFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "IrreversibleInstanceRefresh",
+    httpResponseCode: 400,
+  }),
+) {}
 
 //# Operations
-/**
- * This API operation is superseded by AttachTrafficSources, which
- * can attach multiple traffic sources types. We recommend using
- * `AttachTrafficSources` to simplify how you manage traffic sources.
- * However, we continue to support `AttachLoadBalancerTargetGroups`. You can
- * use both the original `AttachLoadBalancerTargetGroups` API operation and
- * `AttachTrafficSources` on the same Auto Scaling group.
- *
- * Attaches one or more target groups to the specified Auto Scaling group.
- *
- * This operation is used with the following load balancer types:
- *
- * - Application Load Balancer - Operates at the application layer (layer 7) and supports HTTP and
- * HTTPS.
- *
- * - Network Load Balancer - Operates at the transport layer (layer 4) and supports TCP, TLS, and
- * UDP.
- *
- * - Gateway Load Balancer - Operates at the network layer (layer 3).
- *
- * To describe the target groups for an Auto Scaling group, call the DescribeLoadBalancerTargetGroups
- * API. To detach the target group from
- * the Auto Scaling group, call the DetachLoadBalancerTargetGroups API.
- *
- * This operation is additive and does not detach existing target groups or Classic Load
- * Balancers from the Auto Scaling group.
- *
- * For more information, see Use Elastic Load Balancing to
- * distribute traffic across the instances in your Auto Scaling group in the
- * *Amazon EC2 Auto Scaling User Guide*.
- */
-export const attachLoadBalancerTargetGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachLoadBalancerTargetGroupsType,
-    output: AttachLoadBalancerTargetGroupsResultType,
-    errors: [
-      InstanceRefreshInProgressFault,
-      ResourceContentionFault,
-      ServiceLinkedRoleFailure,
-    ],
-  }));
 /**
  * Completes the lifecycle action for the specified token or instance with the specified
  * result.
@@ -2127,19 +2086,6 @@ export const completeLifecycleAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the specified launch configuration.
- *
- * The launch configuration must not be attached to an Auto Scaling group. When this call
- * completes, the launch configuration is no longer available for use.
- */
-export const deleteLaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: LaunchConfigurationNameType,
-    output: DeleteLaunchConfigurationResponse,
-    errors: [ResourceContentionFault, ResourceInUseFault],
-  }),
-);
-/**
  * Deletes the specified lifecycle hook.
  *
  * If there are any outstanding lifecycle actions, they are completed first
@@ -2161,21 +2107,6 @@ export const deleteNotificationConfiguration =
     errors: [ResourceContentionFault],
   }));
 /**
- * Deletes the specified scaling policy.
- *
- * Deleting either a step scaling policy or a simple scaling policy deletes the
- * underlying alarm action, but does not delete the alarm, even if it no longer has an
- * associated action.
- *
- * For more information, see Delete a scaling
- * policy in the *Amazon EC2 Auto Scaling User Guide*.
- */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePolicyType,
-  output: DeletePolicyResponse,
-  errors: [ResourceContentionFault, ServiceLinkedRoleFailure],
-}));
-/**
  * Deletes the specified scheduled action.
  */
 export const deleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2185,14 +2116,6 @@ export const deleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [ResourceContentionFault],
   }),
 );
-/**
- * Deletes the specified tags.
- */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTagsType,
-  output: DeleteTagsResponse,
-  errors: [ResourceContentionFault, ResourceInUseFault],
-}));
 /**
  * Describes the current Amazon EC2 Auto Scaling resource quotas for your account.
  *
@@ -2338,96 +2261,6 @@ export const enableMetricsCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates or updates a lifecycle hook for the specified Auto Scaling group.
- *
- * Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance
- * lifecycle, and then perform a custom action on instances when the corresponding
- * lifecycle event occurs.
- *
- * This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling
- * group:
- *
- * - (Optional) Create a launch template or launch configuration with a user data
- * script that runs while an instance is in a wait state due to a lifecycle
- * hook.
- *
- * - (Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke
- * your Lambda function when an instance is put into a wait state due to a
- * lifecycle hook.
- *
- * - (Optional) Create a notification target and an IAM role. The target can be
- * either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish
- * lifecycle notifications to the target.
- *
- * - Create the lifecycle hook. Specify whether the hook is
- * used when the instances launch or terminate.
- *
- * - If you need more time, record the lifecycle action heartbeat to keep the
- * instance in a wait state using the RecordLifecycleActionHeartbeat API call.
- *
- * - If you finish before the timeout period ends, send a callback by using the
- * CompleteLifecycleAction API call.
- *
- * For more information, see Amazon EC2 Auto Scaling lifecycle
- * hooks in the *Amazon EC2 Auto Scaling User Guide*.
- *
- * If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto Scaling
- * group, the call fails.
- *
- * You can view the lifecycle hooks for an Auto Scaling group using the
- * DescribeLifecycleHooks API call. If you are no longer using a lifecycle
- * hook, you can delete it by calling the DeleteLifecycleHook API.
- */
-export const putLifecycleHook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutLifecycleHookType,
-  output: PutLifecycleHookAnswer,
-  errors: [LimitExceededFault, ResourceContentionFault],
-}));
-/**
- * Configures an Auto Scaling group to send notifications when specified events take place.
- * Subscribers to the specified topic can have messages delivered to an endpoint such as a
- * web server or an email address.
- *
- * This configuration overwrites any existing configuration.
- *
- * For more information, see Amazon SNS
- * notification options for Amazon EC2 Auto Scaling in the
- * *Amazon EC2 Auto Scaling User Guide*.
- *
- * If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call
- * fails.
- */
-export const putNotificationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutNotificationConfigurationType,
-    output: PutNotificationConfigurationResponse,
-    errors: [
-      LimitExceededFault,
-      ResourceContentionFault,
-      ServiceLinkedRoleFailure,
-    ],
-  }));
-/**
- * Creates or updates a scheduled scaling action for an Auto Scaling group.
- *
- * For more information, see Scheduled scaling in the
- * *Amazon EC2 Auto Scaling User Guide*.
- *
- * You can view the scheduled actions for an Auto Scaling group using the
- * DescribeScheduledActions
- * API call. If you are no longer using a scheduled action, you can delete it by calling the
- * DeleteScheduledAction API.
- *
- * If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error
- * message.
- */
-export const putScheduledUpdateGroupAction =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutScheduledUpdateGroupActionType,
-    output: PutScheduledUpdateGroupActionResponse,
-    errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
-  }));
-/**
  * Records a heartbeat for the lifecycle action associated with the specified token or
  * instance. This extends the timeout by the length of time defined using the
  * PutLifecycleHook API call.
@@ -2466,33 +2299,6 @@ export const recordLifecycleActionHeartbeat =
     errors: [ResourceContentionFault],
   }));
 /**
- * Resumes the specified suspended auto scaling processes, or all suspended process, for
- * the specified Auto Scaling group.
- *
- * For more information, see Suspend and resume
- * Amazon EC2 Auto Scaling processes in the *Amazon EC2 Auto Scaling User Guide*.
- */
-export const resumeProcesses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ScalingProcessQuery,
-  output: ResumeProcessesResponse,
-  errors: [ResourceContentionFault, ResourceInUseFault],
-}));
-/**
- * Sets the size of the specified Auto Scaling group.
- *
- * If a scale-in activity occurs as a result of a new `DesiredCapacity` value
- * that is lower than the current size of the group, the Auto Scaling group uses its termination
- * policy to determine which instances to terminate.
- *
- * For more information, see Manual
- * scaling in the *Amazon EC2 Auto Scaling User Guide*.
- */
-export const setDesiredCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetDesiredCapacityType,
-  output: SetDesiredCapacityResponse,
-  errors: [ResourceContentionFault, ScalingActivityInProgressFault],
-}));
-/**
  * Sets the health status of the specified instance.
  *
  * For more information, see Set up a custom
@@ -2503,249 +2309,6 @@ export const setInstanceHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetInstanceHealthQuery,
   output: SetInstanceHealthResponse,
   errors: [ResourceContentionFault],
-}));
-/**
- * Updates the instance protection settings of the specified instances. This operation
- * cannot be called on instances in a warm pool.
- *
- * For more information, see Use
- * instance scale-in protection in the
- * *Amazon EC2 Auto Scaling User Guide*.
- *
- * If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call
- * fails.
- */
-export const setInstanceProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetInstanceProtectionQuery,
-    output: SetInstanceProtectionAnswer,
-    errors: [LimitExceededFault, ResourceContentionFault],
-  }),
-);
-/**
- * Suspends the specified auto scaling processes, or all processes, for the specified
- * Auto Scaling group.
- *
- * If you suspend either the `Launch` or `Terminate` process types,
- * it can prevent other process types from functioning properly. For more information, see
- * Suspend and resume
- * Amazon EC2 Auto Scaling processes in the *Amazon EC2 Auto Scaling User Guide*.
- *
- * To resume processes that have been suspended, call the ResumeProcesses API.
- */
-export const suspendProcesses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ScalingProcessQuery,
-  output: SuspendProcessesResponse,
-  errors: [ResourceContentionFault, ResourceInUseFault],
-}));
-/**
- * **We strongly recommend that all Auto Scaling groups use launch templates to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
- *
- * Updates the configuration for the specified Auto Scaling group.
- *
- * To update an Auto Scaling group, specify the name of the group and the property that you want
- * to change. Any properties that you don't specify are not changed by this update request.
- * The new settings take effect on any scaling activities after this call returns.
- *
- * If you associate a new launch configuration or template with an Auto Scaling group, all new
- * instances will get the updated configuration. Existing instances continue to run with
- * the configuration that they were originally launched with. When you update a group to
- * specify a mixed instances policy instead of a launch configuration or template, existing
- * instances may be replaced to match the new purchasing options that you specified in the
- * policy. For example, if the group currently has 100% On-Demand capacity and the policy
- * specifies 50% Spot capacity, this means that half of your instances will be gradually
- * terminated and relaunched as Spot Instances. When replacing instances, Amazon EC2 Auto Scaling launches
- * new instances before terminating the old ones, so that updating your group does not
- * compromise the performance or availability of your application.
- *
- * Note the following about changing `DesiredCapacity`, `MaxSize`,
- * or `MinSize`:
- *
- * - If a scale-in activity occurs as a result of a new
- * `DesiredCapacity` value that is lower than the current size of
- * the group, the Auto Scaling group uses its termination policy to determine which
- * instances to terminate.
- *
- * - If you specify a new value for `MinSize` without specifying a value
- * for `DesiredCapacity`, and the new `MinSize` is larger
- * than the current size of the group, this sets the group's
- * `DesiredCapacity` to the new `MinSize` value.
- *
- * - If you specify a new value for `MaxSize` without specifying a value
- * for `DesiredCapacity`, and the new `MaxSize` is smaller
- * than the current size of the group, this sets the group's
- * `DesiredCapacity` to the new `MaxSize` value.
- *
- * To see which properties have been set, call the DescribeAutoScalingGroups API.
- * To view the scaling policies for an Auto Scaling
- * group, call the DescribePolicies API. If the group has scaling
- * policies, you can update them by calling the PutScalingPolicy API.
- */
-export const updateAutoScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAutoScalingGroupType,
-    output: UpdateAutoScalingGroupResponse,
-    errors: [
-      ResourceContentionFault,
-      ScalingActivityInProgressFault,
-      ServiceLinkedRoleFailure,
-    ],
-  }),
-);
-/**
- * Attaches one or more EC2 instances to the specified Auto Scaling group.
- *
- * When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the
- * number of instances being attached. If the number of instances being attached plus the
- * desired capacity of the group exceeds the maximum size of the group, the operation
- * fails.
- *
- * If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are
- * also registered with the load balancer. If there are target groups attached to your Auto Scaling
- * group, the instances are also registered with the target groups.
- *
- * For more information, see Detach
- * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
- */
-export const attachInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AttachInstancesQuery,
-  output: AttachInstancesResponse,
-  errors: [ResourceContentionFault, ServiceLinkedRoleFailure],
-}));
-/**
- * This API operation is superseded by https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html, which
- * can attach multiple traffic sources types. We recommend using
- * `AttachTrafficSources` to simplify how you manage traffic sources.
- * However, we continue to support `AttachLoadBalancers`. You can use both
- * the original `AttachLoadBalancers` API operation and
- * `AttachTrafficSources` on the same Auto Scaling group.
- *
- * Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the
- * running instances with these Classic Load Balancers.
- *
- * To describe the load balancers for an Auto Scaling group, call the DescribeLoadBalancers API.
- * To detach a load balancer from the Auto Scaling group, call the DetachLoadBalancers
- * API.
- *
- * This operation is additive and does not detach existing Classic Load Balancers or
- * target groups from the Auto Scaling group.
- *
- * For more information, see Use Elastic Load Balancing to
- * distribute traffic across the instances in your Auto Scaling group in the
- * *Amazon EC2 Auto Scaling User Guide*.
- */
-export const attachLoadBalancers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AttachLoadBalancersType,
-  output: AttachLoadBalancersResultType,
-  errors: [
-    InstanceRefreshInProgressFault,
-    ResourceContentionFault,
-    ServiceLinkedRoleFailure,
-  ],
-}));
-/**
- * Attaches one or more traffic sources to the specified Auto Scaling group.
- *
- * You can use any of the following as traffic sources for an Auto Scaling group:
- *
- * - Application Load Balancer
- *
- * - Classic Load Balancer
- *
- * - Gateway Load Balancer
- *
- * - Network Load Balancer
- *
- * - VPC Lattice
- *
- * This operation is additive and does not detach existing traffic sources from the Auto Scaling
- * group.
- *
- * After the operation completes, use the DescribeTrafficSources API to
- * return details about the state of the attachments between traffic sources and your Auto Scaling
- * group. To detach a traffic source from the Auto Scaling group, call the
- * DetachTrafficSources API.
- */
-export const attachTrafficSources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachTrafficSourcesType,
-    output: AttachTrafficSourcesResultType,
-    errors: [
-      InstanceRefreshInProgressFault,
-      ResourceContentionFault,
-      ServiceLinkedRoleFailure,
-    ],
-  }),
-);
-/**
- * Creates or updates tags for the specified Auto Scaling group.
- *
- * When you specify a tag with a key that already exists, the operation overwrites the
- * previous tag definition, and you do not get an error message.
- *
- * For more information, see Tag Auto Scaling groups and
- * instances in the *Amazon EC2 Auto Scaling User Guide*.
- */
-export const createOrUpdateTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateOrUpdateTagsType,
-  output: CreateOrUpdateTagsResponse,
-  errors: [
-    AlreadyExistsFault,
-    LimitExceededFault,
-    ResourceContentionFault,
-    ResourceInUseFault,
-  ],
-}));
-/**
- * Deletes the specified Auto Scaling group.
- *
- * If the group has instances or scaling activities in progress, you must specify the
- * option to force the deletion in order for it to succeed. The force delete operation will
- * also terminate the EC2 instances. If the group has a warm pool, the force delete option
- * also deletes the warm pool.
- *
- * To remove instances from the Auto Scaling group before deleting it, call the
- * DetachInstances API with the list of instances and the option to
- * decrement the desired capacity. This ensures that Amazon EC2 Auto Scaling does not launch replacement
- * instances.
- *
- * To terminate all instances before deleting the Auto Scaling group, call the
- * UpdateAutoScalingGroup API and set the minimum size and desired capacity
- * of the Auto Scaling group to
- * zero.
- *
- * If the group has scaling policies, deleting the group deletes the policies, the
- * underlying alarm actions, and any alarm that no longer has an associated action.
- *
- * For more information, see Delete your Auto Scaling
- * infrastructure in the *Amazon EC2 Auto Scaling User Guide*.
- */
-export const deleteAutoScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAutoScalingGroupType,
-    output: DeleteAutoScalingGroupResponse,
-    errors: [
-      ResourceContentionFault,
-      ResourceInUseFault,
-      ScalingActivityInProgressFault,
-    ],
-  }),
-);
-/**
- * Deletes the warm pool for the specified Auto Scaling group.
- *
- * For more information, see Warm pools for
- * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
- */
-export const deleteWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWarmPoolType,
-  output: DeleteWarmPoolAnswer,
-  errors: [
-    LimitExceededFault,
-    ResourceContentionFault,
-    ResourceInUseFault,
-    ScalingActivityInProgressFault,
-  ],
 }));
 /**
  * Describes the available adjustment types for step scaling and simple scaling
@@ -2828,15 +2391,6 @@ export const enterStandby = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceContentionFault],
 }));
 /**
- * Executes the specified policy. This can be useful for testing the design of your
- * scaling policy.
- */
-export const executePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExecutePolicyType,
-  output: ExecutePolicyResponse,
-  errors: [ResourceContentionFault, ScalingActivityInProgressFault],
-}));
-/**
  * Moves the specified instances out of the standby state.
  *
  * After you put the instances back in service, the desired capacity is
@@ -2876,6 +2430,253 @@ export const putWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Suspends the specified auto scaling processes, or all processes, for the specified
+ * Auto Scaling group.
+ *
+ * If you suspend either the `Launch` or `Terminate` process types,
+ * it can prevent other process types from functioning properly. For more information, see
+ * Suspend and resume
+ * Amazon EC2 Auto Scaling processes in the *Amazon EC2 Auto Scaling User Guide*.
+ *
+ * To resume processes that have been suspended, call the ResumeProcesses API.
+ */
+export const suspendProcesses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ScalingProcessQuery,
+  output: SuspendProcessesResponse,
+  errors: [ResourceContentionFault, ResourceInUseFault],
+}));
+/**
+ * Creates or updates a scheduled scaling action for an Auto Scaling group.
+ *
+ * For more information, see Scheduled scaling in the
+ * *Amazon EC2 Auto Scaling User Guide*.
+ *
+ * You can view the scheduled actions for an Auto Scaling group using the
+ * DescribeScheduledActions
+ * API call. If you are no longer using a scheduled action, you can delete it by calling the
+ * DeleteScheduledAction API.
+ *
+ * If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error
+ * message.
+ */
+export const putScheduledUpdateGroupAction =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutScheduledUpdateGroupActionType,
+    output: PutScheduledUpdateGroupActionResponse,
+    errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
+  }));
+/**
+ * Creates or updates a lifecycle hook for the specified Auto Scaling group.
+ *
+ * Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance
+ * lifecycle, and then perform a custom action on instances when the corresponding
+ * lifecycle event occurs.
+ *
+ * This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling
+ * group:
+ *
+ * - (Optional) Create a launch template or launch configuration with a user data
+ * script that runs while an instance is in a wait state due to a lifecycle
+ * hook.
+ *
+ * - (Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke
+ * your Lambda function when an instance is put into a wait state due to a
+ * lifecycle hook.
+ *
+ * - (Optional) Create a notification target and an IAM role. The target can be
+ * either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish
+ * lifecycle notifications to the target.
+ *
+ * - Create the lifecycle hook. Specify whether the hook is
+ * used when the instances launch or terminate.
+ *
+ * - If you need more time, record the lifecycle action heartbeat to keep the
+ * instance in a wait state using the RecordLifecycleActionHeartbeat API call.
+ *
+ * - If you finish before the timeout period ends, send a callback by using the
+ * CompleteLifecycleAction API call.
+ *
+ * For more information, see Amazon EC2 Auto Scaling lifecycle
+ * hooks in the *Amazon EC2 Auto Scaling User Guide*.
+ *
+ * If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto Scaling
+ * group, the call fails.
+ *
+ * You can view the lifecycle hooks for an Auto Scaling group using the
+ * DescribeLifecycleHooks API call. If you are no longer using a lifecycle
+ * hook, you can delete it by calling the DeleteLifecycleHook API.
+ */
+export const putLifecycleHook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutLifecycleHookType,
+  output: PutLifecycleHookAnswer,
+  errors: [LimitExceededFault, ResourceContentionFault],
+}));
+/**
+ * Updates the instance protection settings of the specified instances. This operation
+ * cannot be called on instances in a warm pool.
+ *
+ * For more information, see Use
+ * instance scale-in protection in the
+ * *Amazon EC2 Auto Scaling User Guide*.
+ *
+ * If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call
+ * fails.
+ */
+export const setInstanceProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetInstanceProtectionQuery,
+    output: SetInstanceProtectionAnswer,
+    errors: [LimitExceededFault, ResourceContentionFault],
+  }),
+);
+/**
+ * Creates or updates tags for the specified Auto Scaling group.
+ *
+ * When you specify a tag with a key that already exists, the operation overwrites the
+ * previous tag definition, and you do not get an error message.
+ *
+ * For more information, see Tag Auto Scaling groups and
+ * instances in the *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const createOrUpdateTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOrUpdateTagsType,
+  output: CreateOrUpdateTagsResponse,
+  errors: [
+    AlreadyExistsFault,
+    LimitExceededFault,
+    ResourceContentionFault,
+    ResourceInUseFault,
+  ],
+}));
+/**
+ * Attaches one or more EC2 instances to the specified Auto Scaling group.
+ *
+ * When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the
+ * number of instances being attached. If the number of instances being attached plus the
+ * desired capacity of the group exceeds the maximum size of the group, the operation
+ * fails.
+ *
+ * If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are
+ * also registered with the load balancer. If there are target groups attached to your Auto Scaling
+ * group, the instances are also registered with the target groups.
+ *
+ * For more information, see Detach
+ * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const attachInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachInstancesQuery,
+  output: AttachInstancesResponse,
+  errors: [ResourceContentionFault, ServiceLinkedRoleFailure],
+}));
+/**
+ * Deletes the specified Auto Scaling group.
+ *
+ * If the group has instances or scaling activities in progress, you must specify the
+ * option to force the deletion in order for it to succeed. The force delete operation will
+ * also terminate the EC2 instances. If the group has a warm pool, the force delete option
+ * also deletes the warm pool.
+ *
+ * To remove instances from the Auto Scaling group before deleting it, call the
+ * DetachInstances API with the list of instances and the option to
+ * decrement the desired capacity. This ensures that Amazon EC2 Auto Scaling does not launch replacement
+ * instances.
+ *
+ * To terminate all instances before deleting the Auto Scaling group, call the
+ * UpdateAutoScalingGroup API and set the minimum size and desired capacity
+ * of the Auto Scaling group to
+ * zero.
+ *
+ * If the group has scaling policies, deleting the group deletes the policies, the
+ * underlying alarm actions, and any alarm that no longer has an associated action.
+ *
+ * For more information, see Delete your Auto Scaling
+ * infrastructure in the *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const deleteAutoScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAutoScalingGroupType,
+    output: DeleteAutoScalingGroupResponse,
+    errors: [
+      ResourceContentionFault,
+      ResourceInUseFault,
+      ScalingActivityInProgressFault,
+    ],
+  }),
+);
+/**
+ * Deletes the specified launch configuration.
+ *
+ * The launch configuration must not be attached to an Auto Scaling group. When this call
+ * completes, the launch configuration is no longer available for use.
+ */
+export const deleteLaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: LaunchConfigurationNameType,
+    output: DeleteLaunchConfigurationResponse,
+    errors: [ResourceContentionFault, ResourceInUseFault],
+  }),
+);
+/**
+ * Deletes the specified tags.
+ */
+export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTagsType,
+  output: DeleteTagsResponse,
+  errors: [ResourceContentionFault, ResourceInUseFault],
+}));
+/**
+ * Resumes the specified suspended auto scaling processes, or all suspended process, for
+ * the specified Auto Scaling group.
+ *
+ * For more information, see Suspend and resume
+ * Amazon EC2 Auto Scaling processes in the *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const resumeProcesses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ScalingProcessQuery,
+  output: ResumeProcessesResponse,
+  errors: [ResourceContentionFault, ResourceInUseFault],
+}));
+/**
+ * Deletes the warm pool for the specified Auto Scaling group.
+ *
+ * For more information, see Warm pools for
+ * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const deleteWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWarmPoolType,
+  output: DeleteWarmPoolAnswer,
+  errors: [
+    LimitExceededFault,
+    ResourceContentionFault,
+    ResourceInUseFault,
+    ScalingActivityInProgressFault,
+  ],
+}));
+/**
+ * Executes the specified policy. This can be useful for testing the design of your
+ * scaling policy.
+ */
+export const executePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecutePolicyType,
+  output: ExecutePolicyResponse,
+  errors: [ResourceContentionFault, ScalingActivityInProgressFault],
+}));
+/**
+ * Sets the size of the specified Auto Scaling group.
+ *
+ * If a scale-in activity occurs as a result of a new `DesiredCapacity` value
+ * that is lower than the current size of the group, the Auto Scaling group uses its termination
+ * policy to determine which instances to terminate.
+ *
+ * For more information, see Manual
+ * scaling in the *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const setDesiredCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetDesiredCapacityType,
+  output: SetDesiredCapacityResponse,
+  errors: [ResourceContentionFault, ScalingActivityInProgressFault],
+}));
+/**
  * Terminates the specified instance and optionally adjusts the desired group size. This
  * operation cannot be called on instances in a warm pool.
  *
@@ -2898,6 +2699,205 @@ export const terminateInstanceInAutoScalingGroup =
     input: TerminateInstanceInAutoScalingGroupType,
     output: ActivityType,
     errors: [ResourceContentionFault, ScalingActivityInProgressFault],
+  }));
+/**
+ * Deletes the specified scaling policy.
+ *
+ * Deleting either a step scaling policy or a simple scaling policy deletes the
+ * underlying alarm action, but does not delete the alarm, even if it no longer has an
+ * associated action.
+ *
+ * For more information, see Delete a scaling
+ * policy in the *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePolicyType,
+  output: DeletePolicyResponse,
+  errors: [ResourceContentionFault, ServiceLinkedRoleFailure],
+}));
+/**
+ * This API operation is superseded by https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html, which
+ * can attach multiple traffic sources types. We recommend using
+ * `AttachTrafficSources` to simplify how you manage traffic sources.
+ * However, we continue to support `AttachLoadBalancers`. You can use both
+ * the original `AttachLoadBalancers` API operation and
+ * `AttachTrafficSources` on the same Auto Scaling group.
+ *
+ * Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the
+ * running instances with these Classic Load Balancers.
+ *
+ * To describe the load balancers for an Auto Scaling group, call the DescribeLoadBalancers API.
+ * To detach a load balancer from the Auto Scaling group, call the DetachLoadBalancers
+ * API.
+ *
+ * This operation is additive and does not detach existing Classic Load Balancers or
+ * target groups from the Auto Scaling group.
+ *
+ * For more information, see Use Elastic Load Balancing to
+ * distribute traffic across the instances in your Auto Scaling group in the
+ * *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const attachLoadBalancers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachLoadBalancersType,
+  output: AttachLoadBalancersResultType,
+  errors: [
+    InstanceRefreshInProgressFault,
+    ResourceContentionFault,
+    ServiceLinkedRoleFailure,
+  ],
+}));
+/**
+ * Attaches one or more traffic sources to the specified Auto Scaling group.
+ *
+ * You can use any of the following as traffic sources for an Auto Scaling group:
+ *
+ * - Application Load Balancer
+ *
+ * - Classic Load Balancer
+ *
+ * - Gateway Load Balancer
+ *
+ * - Network Load Balancer
+ *
+ * - VPC Lattice
+ *
+ * This operation is additive and does not detach existing traffic sources from the Auto Scaling
+ * group.
+ *
+ * After the operation completes, use the DescribeTrafficSources API to
+ * return details about the state of the attachments between traffic sources and your Auto Scaling
+ * group. To detach a traffic source from the Auto Scaling group, call the
+ * DetachTrafficSources API.
+ */
+export const attachTrafficSources = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AttachTrafficSourcesType,
+    output: AttachTrafficSourcesResultType,
+    errors: [
+      InstanceRefreshInProgressFault,
+      ResourceContentionFault,
+      ServiceLinkedRoleFailure,
+    ],
+  }),
+);
+/**
+ * **We strongly recommend that all Auto Scaling groups use launch templates to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
+ *
+ * Updates the configuration for the specified Auto Scaling group.
+ *
+ * To update an Auto Scaling group, specify the name of the group and the property that you want
+ * to change. Any properties that you don't specify are not changed by this update request.
+ * The new settings take effect on any scaling activities after this call returns.
+ *
+ * If you associate a new launch configuration or template with an Auto Scaling group, all new
+ * instances will get the updated configuration. Existing instances continue to run with
+ * the configuration that they were originally launched with. When you update a group to
+ * specify a mixed instances policy instead of a launch configuration or template, existing
+ * instances may be replaced to match the new purchasing options that you specified in the
+ * policy. For example, if the group currently has 100% On-Demand capacity and the policy
+ * specifies 50% Spot capacity, this means that half of your instances will be gradually
+ * terminated and relaunched as Spot Instances. When replacing instances, Amazon EC2 Auto Scaling launches
+ * new instances before terminating the old ones, so that updating your group does not
+ * compromise the performance or availability of your application.
+ *
+ * Note the following about changing `DesiredCapacity`, `MaxSize`,
+ * or `MinSize`:
+ *
+ * - If a scale-in activity occurs as a result of a new
+ * `DesiredCapacity` value that is lower than the current size of
+ * the group, the Auto Scaling group uses its termination policy to determine which
+ * instances to terminate.
+ *
+ * - If you specify a new value for `MinSize` without specifying a value
+ * for `DesiredCapacity`, and the new `MinSize` is larger
+ * than the current size of the group, this sets the group's
+ * `DesiredCapacity` to the new `MinSize` value.
+ *
+ * - If you specify a new value for `MaxSize` without specifying a value
+ * for `DesiredCapacity`, and the new `MaxSize` is smaller
+ * than the current size of the group, this sets the group's
+ * `DesiredCapacity` to the new `MaxSize` value.
+ *
+ * To see which properties have been set, call the DescribeAutoScalingGroups API.
+ * To view the scaling policies for an Auto Scaling
+ * group, call the DescribePolicies API. If the group has scaling
+ * policies, you can update them by calling the PutScalingPolicy API.
+ */
+export const updateAutoScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAutoScalingGroupType,
+    output: UpdateAutoScalingGroupResponse,
+    errors: [
+      ResourceContentionFault,
+      ScalingActivityInProgressFault,
+      ServiceLinkedRoleFailure,
+    ],
+  }),
+);
+/**
+ * This API operation is superseded by AttachTrafficSources, which
+ * can attach multiple traffic sources types. We recommend using
+ * `AttachTrafficSources` to simplify how you manage traffic sources.
+ * However, we continue to support `AttachLoadBalancerTargetGroups`. You can
+ * use both the original `AttachLoadBalancerTargetGroups` API operation and
+ * `AttachTrafficSources` on the same Auto Scaling group.
+ *
+ * Attaches one or more target groups to the specified Auto Scaling group.
+ *
+ * This operation is used with the following load balancer types:
+ *
+ * - Application Load Balancer - Operates at the application layer (layer 7) and supports HTTP and
+ * HTTPS.
+ *
+ * - Network Load Balancer - Operates at the transport layer (layer 4) and supports TCP, TLS, and
+ * UDP.
+ *
+ * - Gateway Load Balancer - Operates at the network layer (layer 3).
+ *
+ * To describe the target groups for an Auto Scaling group, call the DescribeLoadBalancerTargetGroups
+ * API. To detach the target group from
+ * the Auto Scaling group, call the DetachLoadBalancerTargetGroups API.
+ *
+ * This operation is additive and does not detach existing target groups or Classic Load
+ * Balancers from the Auto Scaling group.
+ *
+ * For more information, see Use Elastic Load Balancing to
+ * distribute traffic across the instances in your Auto Scaling group in the
+ * *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const attachLoadBalancerTargetGroups =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AttachLoadBalancerTargetGroupsType,
+    output: AttachLoadBalancerTargetGroupsResultType,
+    errors: [
+      InstanceRefreshInProgressFault,
+      ResourceContentionFault,
+      ServiceLinkedRoleFailure,
+    ],
+  }));
+/**
+ * Configures an Auto Scaling group to send notifications when specified events take place.
+ * Subscribers to the specified topic can have messages delivered to an endpoint such as a
+ * web server or an email address.
+ *
+ * This configuration overwrites any existing configuration.
+ *
+ * For more information, see Amazon SNS
+ * notification options for Amazon EC2 Auto Scaling in the
+ * *Amazon EC2 Auto Scaling User Guide*.
+ *
+ * If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call
+ * fails.
+ */
+export const putNotificationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutNotificationConfigurationType,
+    output: PutNotificationConfigurationResponse,
+    errors: [
+      LimitExceededFault,
+      ResourceContentionFault,
+      ServiceLinkedRoleFailure,
+    ],
   }));
 /**
  * Deletes one or more scheduled actions for the specified Auto Scaling group.
@@ -2965,15 +2965,6 @@ export const createLaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets information about the launch configurations in the account and Region.
- */
-export const describeLaunchConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: LaunchConfigurationNamesType,
-    output: LaunchConfigurationsType,
-    errors: [InvalidNextToken, ResourceContentionFault],
-  }));
-/**
  * Gets information about the lifecycle hooks for the specified Auto Scaling group.
  */
 export const describeLifecycleHooks = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2983,6 +2974,137 @@ export const describeLifecycleHooks = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [ResourceContentionFault],
   }),
 );
+/**
+ * Retrieves the forecast data for a predictive scaling policy.
+ *
+ * Load forecasts are predictions of the hourly load values using historical load data
+ * from CloudWatch and an analysis of historical trends. Capacity forecasts are represented as
+ * predicted values for the minimum capacity that is needed on an hourly basis, based on
+ * the hourly load forecast.
+ *
+ * A minimum of 24 hours of data is required to create the initial forecasts. However,
+ * having a full 14 days of historical data results in more accurate forecasts.
+ *
+ * For more information, see Predictive
+ * scaling for Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
+ */
+export const getPredictiveScalingForecast =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetPredictiveScalingForecastType,
+    output: GetPredictiveScalingForecastAnswer,
+    errors: [ResourceContentionFault],
+  }));
+/**
+ * Gets information about the Auto Scaling instances in the account and Region.
+ */
+export const describeAutoScalingInstances =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAutoScalingInstancesType,
+    output: AutoScalingInstancesType,
+    errors: [InvalidNextToken, ResourceContentionFault],
+  }));
+/**
+ * Gets information about the scaling policies in the account and Region.
+ */
+export const describePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePoliciesType,
+  output: PoliciesType,
+  errors: [InvalidNextToken, ResourceContentionFault, ServiceLinkedRoleFailure],
+}));
+/**
+ * Launches a specified number of instances in an Auto Scaling group. Returns instance IDs and
+ * other details if launch is successful or error details if launch is unsuccessful.
+ */
+export const launchInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: LaunchInstancesRequest,
+  output: LaunchInstancesResult,
+  errors: [IdempotentParameterMismatchError, ResourceContentionFault],
+}));
+/**
+ * Starts an instance refresh.
+ *
+ * This operation is part of the instance refresh
+ * feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group.
+ * This feature is helpful, for example, when you have a new AMI or a new user data script.
+ * You just need to create a new launch template that specifies the new AMI or user data
+ * script. Then start an instance refresh to immediately begin the process of updating
+ * instances in the group.
+ *
+ * If successful, the request's response contains a unique ID that you can use to track
+ * the progress of the instance refresh. To query its status, call the DescribeInstanceRefreshes API.
+ * To describe the instance refreshes that
+ * have already run, call the DescribeInstanceRefreshes API. To cancel an
+ * instance refresh that is in progress, use the CancelInstanceRefresh
+ * API.
+ *
+ * An instance refresh might fail for several reasons, such as EC2 launch failures,
+ * misconfigured health checks, or not ignoring or allowing the termination of instances
+ * that are in `Standby` state or protected from scale in. You can monitor for
+ * failed EC2 launches using the scaling activities. To find the scaling activities, call
+ * the DescribeScalingActivities API.
+ *
+ * If you enable auto rollback, your Auto Scaling group will be rolled back automatically when
+ * the instance refresh fails. You can enable this feature before starting an instance
+ * refresh by specifying the `AutoRollback` property in the instance refresh
+ * preferences. Otherwise, to roll back an instance refresh before it finishes, use the
+ * RollbackInstanceRefresh API.
+ */
+export const startInstanceRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartInstanceRefreshType,
+    output: StartInstanceRefreshAnswer,
+    errors: [
+      InstanceRefreshInProgressFault,
+      LimitExceededFault,
+      ResourceContentionFault,
+    ],
+  }),
+);
+/**
+ * Cancels an instance refresh that is in progress and rolls back any changes that it
+ * made. Amazon EC2 Auto Scaling replaces any instances that were replaced during the instance refresh.
+ * This restores your Auto Scaling group to the configuration that it was using before the start of
+ * the instance refresh.
+ *
+ * This operation is part of the instance refresh
+ * feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group
+ * after you make configuration changes.
+ *
+ * A rollback is not supported in the following situations:
+ *
+ * - There is no desired configuration specified for the instance refresh.
+ *
+ * - The Auto Scaling group has a launch template that uses an Amazon Web Services Systems Manager parameter instead
+ * of an AMI ID for the `ImageId` property.
+ *
+ * - The Auto Scaling group uses the launch template's `$Latest` or
+ * `$Default` version.
+ *
+ * When you receive a successful response from this operation, Amazon EC2 Auto Scaling immediately
+ * begins replacing instances. You can check the status of this operation through the
+ * DescribeInstanceRefreshes API operation.
+ */
+export const rollbackInstanceRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RollbackInstanceRefreshType,
+    output: RollbackInstanceRefreshAnswer,
+    errors: [
+      ActiveInstanceRefreshNotFoundFault,
+      IrreversibleInstanceRefreshFault,
+      LimitExceededFault,
+      ResourceContentionFault,
+    ],
+  }),
+);
+/**
+ * Gets information about the launch configurations in the account and Region.
+ */
+export const describeLaunchConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: LaunchConfigurationNamesType,
+    output: LaunchConfigurationsType,
+    errors: [InvalidNextToken, ResourceContentionFault],
+  }));
 /**
  * This API operation is superseded by DescribeTrafficSources,
  * which can describe multiple traffic sources types. We recommend using
@@ -3158,128 +3280,6 @@ export const describeWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DescribeWarmPoolAnswer,
   errors: [InvalidNextToken, LimitExceededFault, ResourceContentionFault],
 }));
-/**
- * Retrieves the forecast data for a predictive scaling policy.
- *
- * Load forecasts are predictions of the hourly load values using historical load data
- * from CloudWatch and an analysis of historical trends. Capacity forecasts are represented as
- * predicted values for the minimum capacity that is needed on an hourly basis, based on
- * the hourly load forecast.
- *
- * A minimum of 24 hours of data is required to create the initial forecasts. However,
- * having a full 14 days of historical data results in more accurate forecasts.
- *
- * For more information, see Predictive
- * scaling for Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
- */
-export const getPredictiveScalingForecast =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPredictiveScalingForecastType,
-    output: GetPredictiveScalingForecastAnswer,
-    errors: [ResourceContentionFault],
-  }));
-/**
- * Cancels an instance refresh that is in progress and rolls back any changes that it
- * made. Amazon EC2 Auto Scaling replaces any instances that were replaced during the instance refresh.
- * This restores your Auto Scaling group to the configuration that it was using before the start of
- * the instance refresh.
- *
- * This operation is part of the instance refresh
- * feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group
- * after you make configuration changes.
- *
- * A rollback is not supported in the following situations:
- *
- * - There is no desired configuration specified for the instance refresh.
- *
- * - The Auto Scaling group has a launch template that uses an Amazon Web Services Systems Manager parameter instead
- * of an AMI ID for the `ImageId` property.
- *
- * - The Auto Scaling group uses the launch template's `$Latest` or
- * `$Default` version.
- *
- * When you receive a successful response from this operation, Amazon EC2 Auto Scaling immediately
- * begins replacing instances. You can check the status of this operation through the
- * DescribeInstanceRefreshes API operation.
- */
-export const rollbackInstanceRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RollbackInstanceRefreshType,
-    output: RollbackInstanceRefreshAnswer,
-    errors: [
-      ActiveInstanceRefreshNotFoundFault,
-      IrreversibleInstanceRefreshFault,
-      LimitExceededFault,
-      ResourceContentionFault,
-    ],
-  }),
-);
-/**
- * Gets information about the Auto Scaling instances in the account and Region.
- */
-export const describeAutoScalingInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAutoScalingInstancesType,
-    output: AutoScalingInstancesType,
-    errors: [InvalidNextToken, ResourceContentionFault],
-  }));
-/**
- * Gets information about the scaling policies in the account and Region.
- */
-export const describePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribePoliciesType,
-  output: PoliciesType,
-  errors: [InvalidNextToken, ResourceContentionFault, ServiceLinkedRoleFailure],
-}));
-/**
- * Launches a specified number of instances in an Auto Scaling group. Returns instance IDs and
- * other details if launch is successful or error details if launch is unsuccessful.
- */
-export const launchInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: LaunchInstancesRequest,
-  output: LaunchInstancesResult,
-  errors: [IdempotentParameterMismatchError, ResourceContentionFault],
-}));
-/**
- * Starts an instance refresh.
- *
- * This operation is part of the instance refresh
- * feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group.
- * This feature is helpful, for example, when you have a new AMI or a new user data script.
- * You just need to create a new launch template that specifies the new AMI or user data
- * script. Then start an instance refresh to immediately begin the process of updating
- * instances in the group.
- *
- * If successful, the request's response contains a unique ID that you can use to track
- * the progress of the instance refresh. To query its status, call the DescribeInstanceRefreshes API.
- * To describe the instance refreshes that
- * have already run, call the DescribeInstanceRefreshes API. To cancel an
- * instance refresh that is in progress, use the CancelInstanceRefresh
- * API.
- *
- * An instance refresh might fail for several reasons, such as EC2 launch failures,
- * misconfigured health checks, or not ignoring or allowing the termination of instances
- * that are in `Standby` state or protected from scale in. You can monitor for
- * failed EC2 launches using the scaling activities. To find the scaling activities, call
- * the DescribeScalingActivities API.
- *
- * If you enable auto rollback, your Auto Scaling group will be rolled back automatically when
- * the instance refresh fails. You can enable this feature before starting an instance
- * refresh by specifying the `AutoRollback` property in the instance refresh
- * preferences. Otherwise, to roll back an instance refresh before it finishes, use the
- * RollbackInstanceRefresh API.
- */
-export const startInstanceRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartInstanceRefreshType,
-    output: StartInstanceRefreshAnswer,
-    errors: [
-      InstanceRefreshInProgressFault,
-      LimitExceededFault,
-      ResourceContentionFault,
-    ],
-  }),
-);
 /**
  * Gets information about the Auto Scaling groups in the account and Region.
  *

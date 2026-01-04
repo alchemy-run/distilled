@@ -1554,34 +1554,90 @@ export class GenerateMatchIdOutput extends S.Class<GenerateMatchIdOutput>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ExceedsLimitException extends S.TaggedError<ExceedsLimitException>()(
   "ExceedsLimitException",
-  {},
+  {
+    message: S.optional(S.String),
+    quotaName: S.optional(S.String),
+    quotaValue: S.optional(S.Number),
+  },
 ) {}
 
 //# Operations
+/**
+ * Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
+/**
+ * Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the `IdMappingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
+ */
+export const deleteIdMappingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteIdMappingWorkflowInput,
+    output: DeleteIdMappingWorkflowOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes the `MatchingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
+ */
+export const deleteMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMatchingWorkflowInput,
+    output: DeleteMatchingWorkflowOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Deletes the policy statement.
  */
@@ -1608,6 +1664,94 @@ export const deleteSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the resource-based policy.
+ */
+export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPolicyInput,
+  output: PutPolicyOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a schema mapping.
+ *
+ * A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
+ */
+export const updateSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSchemaMappingInput,
+  output: UpdateSchemaMappingOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of all the `MatchingWorkflows` that have been created for an Amazon Web Services account.
+ */
+export const listMatchingWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMatchingWorkflowsInput,
+    output: ListMatchingWorkflowsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a list of all the `ProviderServices` that are available in this Amazon Web Services Region.
+ */
+export const listProviderServices = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListProviderServicesInput,
+    output: ListProviderServicesOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a list of all the `SchemaMappings` that have been created for an Amazon Web Services account.
+ */
+export const listSchemaMappings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSchemaMappingsInput,
+  output: ListSchemaMappingsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the `IdNamespace` with a given name.
+ */
+export const deleteIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdNamespaceInput,
+  output: DeleteIdNamespaceOutput,
+  errors: [
+    AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
@@ -1700,53 +1844,6 @@ export const listMatchingJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Displays the tags associated with an Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the resource-based policy.
- */
-export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutPolicyInput,
-  output: PutPolicyOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [InternalServerException, ResourceNotFoundException],
-}));
-/**
  * Updates an existing `IdMappingWorkflow`. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP `PUT` request instead of a `POST` request, and the `IdMappingWorkflow` must already exist for the method to succeed.
  *
  * Incremental processing is not supported for ID mapping workflows.
@@ -1791,110 +1888,6 @@ export const updateMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
       AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a schema mapping.
- *
- * A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
- */
-export const updateSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSchemaMappingInput,
-  output: UpdateSchemaMappingOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
- */
-export const addPolicyStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddPolicyStatementInput,
-  output: AddPolicyStatementOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes multiple unique IDs in a matching workflow.
- */
-export const batchDeleteUniqueId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDeleteUniqueIdInput,
-  output: BatchDeleteUniqueIdOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
- */
-export const createSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSchemaMappingInput,
-  output: CreateSchemaMappingOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ExceedsLimitException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the `IdMappingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
- */
-export const deleteIdMappingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIdMappingWorkflowInput,
-    output: DeleteIdMappingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes the `IdNamespace` with a given name.
- */
-export const deleteIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIdNamespaceInput,
-  output: DeleteIdNamespaceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the `MatchingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
- */
-export const deleteMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMatchingWorkflowInput,
-    output: DeleteMatchingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
       ThrottlingException,
       ValidationException,
     ],
@@ -1959,6 +1952,59 @@ export const listIdMappingJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
+ */
+export const addPolicyStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddPolicyStatementInput,
+  output: AddPolicyStatementOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the `ProviderService` of a given name.
+ */
+export const getProviderService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProviderServiceInput,
+  output: GetProviderServiceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Displays the tags associated with an Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes multiple unique IDs in a matching workflow.
+ */
+export const batchDeleteUniqueId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteUniqueIdInput,
+  output: BatchDeleteUniqueIdOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
  * Returns a list of all the `IdMappingWorkflows` that have been created for an Amazon Web Services account.
  */
 export const listIdMappingWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1974,43 +2020,62 @@ export const listIdMappingWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns a list of all the `MatchingWorkflows` that have been created for an Amazon Web Services account.
+ * Returns a list of all ID namespaces.
  */
-export const listMatchingWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMatchingWorkflowsInput,
-    output: ListMatchingWorkflowsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of all the `ProviderServices` that are available in this Amazon Web Services Region.
- */
-export const listProviderServices = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProviderServicesInput,
-    output: ListProviderServicesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of all the `SchemaMappings` that have been created for an Amazon Web Services account.
- */
-export const listSchemaMappings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSchemaMappingsInput,
-  output: ListSchemaMappingsOutput,
+export const listIdNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIdNamespacesInput,
+  output: ListIdNamespacesOutput,
   errors: [
     AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
+ */
+export const createIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdNamespaceInput,
+  output: CreateIdNamespaceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use `UpdateMatchingWorkflow`.
+ *
+ * For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
+ */
+export const createMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateMatchingWorkflowInput,
+    output: CreateMatchingWorkflowOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      ExceedsLimitException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
+ */
+export const createSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSchemaMappingInput,
+  output: CreateSchemaMappingOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
@@ -2049,48 +2114,6 @@ export const startMatchingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
- */
-export const createIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIdNamespaceInput,
-  output: CreateIdNamespaceOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ExceedsLimitException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the `ProviderService` of a given name.
- */
-export const getProviderService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProviderServiceInput,
-  output: GetProviderServiceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of all ID namespaces.
- */
-export const listIdNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListIdNamespacesInput,
-  output: ListIdNamespacesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Creates an `IdMappingWorkflow` object which stores the configuration of the data processing job to be run. Each `IdMappingWorkflow` must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
  *
  * Incremental processing is not supported for ID mapping workflows.
@@ -2099,25 +2122,6 @@ export const createIdMappingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: CreateIdMappingWorkflowInput,
     output: CreateIdMappingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ExceedsLimitException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use `UpdateMatchingWorkflow`.
- *
- * For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
- */
-export const createMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMatchingWorkflowInput,
-    output: CreateMatchingWorkflowOutput,
     errors: [
       AccessDeniedException,
       ConflictException,

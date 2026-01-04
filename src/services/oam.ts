@@ -622,10 +622,6 @@ export class CreateLinkOutput extends S.Class<CreateLinkOutput>(
 }) {}
 
 //# Errors
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
 export class InternalServiceFault extends S.TaggedError<InternalServiceFault>()(
   "InternalServiceFault",
   {
@@ -640,28 +636,154 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
     amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
 ) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    Message: S.optional(S.String),
+    amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
-) {}
-export class MissingRequiredParameterException extends S.TaggedError<MissingRequiredParameterException>()(
-  "MissingRequiredParameterException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    message: S.optional(S.String),
+    amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { Message: S.optional(S.String) },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class MissingRequiredParameterException extends S.TaggedError<MissingRequiredParameterException>()(
+  "MissingRequiredParameterException",
+  {
+    message: S.optional(S.String),
+    amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    Message: S.optional(S.String),
+    amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
 ) {}
 
 //# Operations
+/**
+ * Use this operation in a source account to return a list of links to monitoring account sinks that this source account has.
+ *
+ * To find a list of links for one monitoring account sink, use ListAttachedLinks from within the monitoring account.
+ */
+export const listLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLinksInput,
+  output: ListLinksOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Use this operation in a monitoring account to return the list of sinks created in that account.
+ */
+export const listSinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSinksInput,
+  output: ListSinksOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Removes one or more tags from the specified resource.
+ *
+ * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:TagResource` permission does not allow you to tag and untag links and sinks.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Displays the tags associated with a resource. Both sinks and links support tagging.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged.
+ *
+ * Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
+ *
+ * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.
+ *
+ * You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag.
+ *
+ * You can associate as many as 50 tags with a resource.
+ *
+ * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:ResourceTag` permission does not allow you to tag and untag links and sinks.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [
+    ResourceNotFoundException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
+ */
+export const deleteLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLinkInput,
+  output: DeleteLinkOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterException,
+    MissingRequiredParameterException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns a list of source account links that are linked to this monitoring account sink.
+ *
+ * To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
+ *
+ * To find a list of links for one source account, use ListLinks.
+ */
+export const listAttachedLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAttachedLinksInput,
+  output: ListAttachedLinksOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterException,
+    MissingRequiredParameterException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes a sink. You must delete all links to a sink before you can delete that sink.
+ */
+export const deleteSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSinkInput,
+  output: DeleteSinkOutput,
+  errors: [
+    ConflictException,
+    InternalServiceFault,
+    InvalidParameterException,
+    MissingRequiredParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns complete information about one link.
  *
@@ -706,14 +828,6 @@ export const getSinkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Displays the tags associated with a resource. Both sinks and links support tagging.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
  * Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organization or to individual accounts.
  *
  * You can also use a sink policy to limit the types of data that is shared. The six types of services with their respective resource types that you can allow or deny are:
@@ -743,16 +857,6 @@ export const putSinkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes one or more tags from the specified resource.
- *
- * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:TagResource` permission does not allow you to tag and untag links and sinks.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
  * Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation.
  *
  * When you update a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.
@@ -770,95 +874,21 @@ export const updateLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
+ * Use this to create a *sink* in the current account, so that it can be used as a monitoring account in CloudWatch cross-account observability. A sink is a resource that represents an attachment point in a monitoring account. Source accounts can link to the sink to send observability data.
+ *
+ * After you create a sink, you must create a sink policy that allows source accounts to attach to it. For more information, see PutSinkPolicy.
+ *
+ * Each account can contain one sink per Region. If you delete a sink, you can then create a new one in that Region.
  */
-export const deleteLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLinkInput,
-  output: DeleteLinkOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterException,
-    MissingRequiredParameterException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes a sink. You must delete all links to a sink before you can delete that sink.
- */
-export const deleteSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSinkInput,
-  output: DeleteSinkOutput,
+export const createSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSinkInput,
+  output: CreateSinkOutput,
   errors: [
     ConflictException,
     InternalServiceFault,
     InvalidParameterException,
     MissingRequiredParameterException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns a list of source account links that are linked to this monitoring account sink.
- *
- * To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
- *
- * To find a list of links for one source account, use ListLinks.
- */
-export const listAttachedLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAttachedLinksInput,
-  output: ListAttachedLinksOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterException,
-    MissingRequiredParameterException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Use this operation in a source account to return a list of links to monitoring account sinks that this source account has.
- *
- * To find a list of links for one monitoring account sink, use ListAttachedLinks from within the monitoring account.
- */
-export const listLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLinksInput,
-  output: ListLinksOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Use this operation in a monitoring account to return the list of sinks created in that account.
- */
-export const listSinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSinksInput,
-  output: ListSinksOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged.
- *
- * Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
- *
- * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.
- *
- * You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag.
- *
- * You can associate as many as 50 tags with a resource.
- *
- * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:ResourceTag` permission does not allow you to tag and untag links and sinks.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [
-    ResourceNotFoundException,
-    TooManyTagsException,
-    ValidationException,
+    ServiceQuotaExceededException,
   ],
 }));
 /**
@@ -875,24 +905,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const createLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLinkInput,
   output: CreateLinkOutput,
-  errors: [
-    ConflictException,
-    InternalServiceFault,
-    InvalidParameterException,
-    MissingRequiredParameterException,
-    ServiceQuotaExceededException,
-  ],
-}));
-/**
- * Use this to create a *sink* in the current account, so that it can be used as a monitoring account in CloudWatch cross-account observability. A sink is a resource that represents an attachment point in a monitoring account. Source accounts can link to the sink to send observability data.
- *
- * After you create a sink, you must create a sink policy that allows source accounts to attach to it. For more information, see PutSinkPolicy.
- *
- * Each account can contain one sink per Region. If you delete a sink, you can then create a new one in that Region.
- */
-export const createSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSinkInput,
-  output: CreateSinkOutput,
   errors: [
     ConflictException,
     InternalServiceFault,

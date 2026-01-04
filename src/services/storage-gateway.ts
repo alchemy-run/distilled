@@ -1996,18 +1996,54 @@ export class StorageGatewayError extends S.Class<StorageGatewayError>(
 //# Errors
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
-  {},
+  { message: S.optional(S.String), error: S.optional(StorageGatewayError) },
 ) {}
 export class InvalidGatewayRequestException extends S.TaggedError<InvalidGatewayRequestException>()(
   "InvalidGatewayRequestException",
-  {},
+  { message: S.optional(S.String), error: S.optional(StorageGatewayError) },
 ) {}
 export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableError>()(
   "ServiceUnavailableError",
-  {},
+  { message: S.optional(S.String), error: S.optional(StorageGatewayError) },
 ) {}
 
 //# Operations
+/**
+ * Configures one or more gateway local disks as cache for a gateway. This operation is
+ * only supported in the cached volume, tape, and file gateway type (see How Storage Gateway works (architecture).
+ *
+ * In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to
+ * add cache, and one or more disk IDs that you want to configure as cache.
+ */
+export const addCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddCacheInput,
+  output: AddCacheOutput,
+  errors: [InternalServerError, InvalidGatewayRequestException],
+}));
+/**
+ * Adds one or more tags to the specified resource. You use tags to add metadata to
+ * resources, which you can use to categorize these resources. For example, you can categorize
+ * resources by purpose, owner, environment, or team. Each tag consists of a key and a value,
+ * which you define. You can add tags to the following Storage Gateway resources:
+ *
+ * - Storage gateways of all types
+ *
+ * - Storage volumes
+ *
+ * - Virtual tapes
+ *
+ * - NFS and SMB file shares
+ *
+ * - File System associations
+ *
+ * You can create a maximum of 50 tags for each resource. Virtual tapes and storage volumes
+ * that are recovered to a new gateway maintain their tags.
+ */
+export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsToResourceInput,
+  output: AddTagsToResourceOutput,
+  errors: [InternalServerError, InvalidGatewayRequestException],
+}));
 /**
  * Configures one or more gateway local disks as upload buffer for a specified gateway.
  * This operation is supported for the stored volume, cached volume, and tape gateway
@@ -2140,37 +2176,6 @@ export const createSMBFileShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: CreateSMBFileShareOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
-/**
- * Initiates a snapshot of a gateway from a volume recovery point. This operation is only
- * supported in the cached volume gateway type.
- *
- * A volume recovery point is a point in time at which all data of the volume is consistent
- * and from which you can create a snapshot. To get a list of volume recovery point for cached
- * volume gateway, use ListVolumeRecoveryPoints.
- *
- * In the `CreateSnapshotFromVolumeRecoveryPoint` request, you identify the
- * volume by providing its Amazon Resource Name (ARN). You must also provide a description for
- * the snapshot. When the gateway takes a snapshot of the specified volume, the snapshot and
- * its description appear in the Storage Gateway console.
- * In response, the gateway returns
- * you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use
- * it when you want to create a volume from a snapshot.
- *
- * To list or delete a snapshot, you must use the Amazon EC2 API. For more information,
- * see DescribeSnapshots
- * or DeleteSnapshot in the Amazon Elastic Compute Cloud API
- * Reference.
- */
-export const createSnapshotFromVolumeRecoveryPoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateSnapshotFromVolumeRecoveryPointInput,
-    output: CreateSnapshotFromVolumeRecoveryPointOutput,
-    errors: [
-      InternalServerError,
-      InvalidGatewayRequestException,
-      ServiceUnavailableError,
-    ],
-  }));
 /**
  * Creates a volume on a specified gateway. This operation is only supported in the stored
  * volume gateway type.
@@ -3037,30 +3042,6 @@ export const activateGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
 /**
- * Adds one or more tags to the specified resource. You use tags to add metadata to
- * resources, which you can use to categorize these resources. For example, you can categorize
- * resources by purpose, owner, environment, or team. Each tag consists of a key and a value,
- * which you define. You can add tags to the following Storage Gateway resources:
- *
- * - Storage gateways of all types
- *
- * - Storage volumes
- *
- * - Virtual tapes
- *
- * - NFS and SMB file shares
- *
- * - File System associations
- *
- * You can create a maximum of 50 tags for each resource. Virtual tapes and storage volumes
- * that are recovered to a new gateway maintain their tags.
- */
-export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsToResourceInput,
-  output: AddTagsToResourceOutput,
-  errors: [InternalServerError, InvalidGatewayRequestException],
-}));
-/**
  * Associate an Amazon FSx file system with the FSx File Gateway. After the
  * association process is complete, the file shares on the Amazon FSx file system are
  * available for access through the gateway. This operation only supports the FSx File Gateway
@@ -3092,41 +3073,6 @@ export const createNFSFileShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNFSFileShareInput,
   output: CreateNFSFileShareOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
-}));
-/**
- * Initiates a snapshot of a volume.
- *
- * Storage Gateway provides the ability to back up point-in-time snapshots of your
- * data to Amazon Simple Storage (Amazon S3) for durable off-site recovery, and also
- * import the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute
- * Cloud (EC2). You can take snapshots of your gateway volume on a scheduled or ad hoc basis.
- * This API enables you to take an ad hoc snapshot. For more information, see Editing a
- * snapshot schedule.
- *
- * In the `CreateSnapshot` request, you identify the volume by providing its
- * Amazon Resource Name (ARN). You must also provide description for the snapshot. When
- * Storage Gateway takes the snapshot of specified volume, the snapshot and
- * description appears in the Storage Gateway console. In response, Storage Gateway
- * returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or
- * later use it when you want to create a volume from a snapshot. This operation is only
- * supported in stored and cached volume gateway type.
- *
- * To list or delete a snapshot, you must use the Amazon EC2 API. For more information,
- * see DescribeSnapshots
- * or DeleteSnapshot in the Amazon Elastic Compute Cloud API
- * Reference.
- *
- * Volume and snapshot IDs are changing to a longer length ID format. For more
- * information, see the important note on the Welcome page.
- */
-export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSnapshotInput,
-  output: CreateSnapshotOutput,
-  errors: [
-    InternalServerError,
-    InvalidGatewayRequestException,
-    ServiceUnavailableError,
-  ],
 }));
 /**
  * Returns information about the specified cache report, including completion status and
@@ -3515,14 +3461,68 @@ export const describeVTLDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
 /**
- * Configures one or more gateway local disks as cache for a gateway. This operation is
- * only supported in the cached volume, tape, and file gateway type (see How Storage Gateway works (architecture).
+ * Initiates a snapshot of a volume.
  *
- * In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to
- * add cache, and one or more disk IDs that you want to configure as cache.
+ * Storage Gateway provides the ability to back up point-in-time snapshots of your
+ * data to Amazon Simple Storage (Amazon S3) for durable off-site recovery, and also
+ * import the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute
+ * Cloud (EC2). You can take snapshots of your gateway volume on a scheduled or ad hoc basis.
+ * This API enables you to take an ad hoc snapshot. For more information, see Editing a
+ * snapshot schedule.
+ *
+ * In the `CreateSnapshot` request, you identify the volume by providing its
+ * Amazon Resource Name (ARN). You must also provide description for the snapshot. When
+ * Storage Gateway takes the snapshot of specified volume, the snapshot and
+ * description appears in the Storage Gateway console. In response, Storage Gateway
+ * returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or
+ * later use it when you want to create a volume from a snapshot. This operation is only
+ * supported in stored and cached volume gateway type.
+ *
+ * To list or delete a snapshot, you must use the Amazon EC2 API. For more information,
+ * see DescribeSnapshots
+ * or DeleteSnapshot in the Amazon Elastic Compute Cloud API
+ * Reference.
+ *
+ * Volume and snapshot IDs are changing to a longer length ID format. For more
+ * information, see the important note on the Welcome page.
  */
-export const addCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddCacheInput,
-  output: AddCacheOutput,
-  errors: [InternalServerError, InvalidGatewayRequestException],
+export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSnapshotInput,
+  output: CreateSnapshotOutput,
+  errors: [
+    InternalServerError,
+    InvalidGatewayRequestException,
+    ServiceUnavailableError,
+  ],
 }));
+/**
+ * Initiates a snapshot of a gateway from a volume recovery point. This operation is only
+ * supported in the cached volume gateway type.
+ *
+ * A volume recovery point is a point in time at which all data of the volume is consistent
+ * and from which you can create a snapshot. To get a list of volume recovery point for cached
+ * volume gateway, use ListVolumeRecoveryPoints.
+ *
+ * In the `CreateSnapshotFromVolumeRecoveryPoint` request, you identify the
+ * volume by providing its Amazon Resource Name (ARN). You must also provide a description for
+ * the snapshot. When the gateway takes a snapshot of the specified volume, the snapshot and
+ * its description appear in the Storage Gateway console.
+ * In response, the gateway returns
+ * you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use
+ * it when you want to create a volume from a snapshot.
+ *
+ * To list or delete a snapshot, you must use the Amazon EC2 API. For more information,
+ * see DescribeSnapshots
+ * or DeleteSnapshot in the Amazon Elastic Compute Cloud API
+ * Reference.
+ */
+export const createSnapshotFromVolumeRecoveryPoint =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateSnapshotFromVolumeRecoveryPointInput,
+    output: CreateSnapshotFromVolumeRecoveryPointOutput,
+    errors: [
+      InternalServerError,
+      InvalidGatewayRequestException,
+      ServiceUnavailableError,
+    ],
+  }));

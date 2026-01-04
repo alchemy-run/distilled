@@ -1018,10 +1018,6 @@ export class ComponentCandidate extends S.Class<ComponentCandidate>(
   versionRequirements: S.optional(ComponentVersionRequirementMap),
 }) {}
 export const ComponentCandidateList = S.Array(ComponentCandidate);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class ComponentDependencyRequirement extends S.Class<ComponentDependencyRequirement>(
   "ComponentDependencyRequirement",
 )({
@@ -1145,6 +1141,10 @@ export class CloudComponentStatus extends S.Class<CloudComponentStatus>(
   vendorGuidance: S.optional(S.String),
   vendorGuidanceMessage: S.optional(S.String),
 }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class Component extends S.Class<Component>("Component")({
   arn: S.optional(S.String),
   componentName: S.optional(S.String),
@@ -1329,31 +1329,43 @@ export class CreateComponentVersionResponse extends S.Class<CreateComponentVersi
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  {
+    message: S.String,
+    quotaCode: S.optional(S.String),
+    serviceCode: S.optional(S.String),
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.optional(S.String),
+    fields: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 export class RequestAlreadyInProgressException extends S.TaggedError<RequestAlreadyInProgressException>()(
   "RequestAlreadyInProgressException",
-  {},
+  { message: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -1393,109 +1405,6 @@ export const getServiceRoleForAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Associates a Greengrass service role with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass
- * uses this role to verify the identity of client devices and manage core device connectivity
- * information. The role must include the AWSGreengrassResourceAccessRolePolicy managed policy or a custom policy that
- * defines equivalent permissions for the IoT Greengrass features that you use. For more information, see
- * Greengrass service role in the *IoT Greengrass Version 2 Developer Guide*.
- */
-export const associateServiceRoleToAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateServiceRoleToAccountRequest,
-    output: AssociateServiceRoleToAccountResponse,
-    errors: [InternalServerException, ValidationException],
-  }));
-/**
- * Deletes a version of a component from IoT Greengrass.
- *
- * This operation deletes the component's recipe and artifacts. As a result, deployments
- * that refer to this component version will fail. If you have deployments that use this
- * component version, you can remove the component from the deployment or update the deployment
- * to use a valid version.
- */
-export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteComponentRequest,
-  output: DeleteComponentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a Greengrass core device, which is an IoT thing. This operation removes the core
- * device from the list of core devices. This operation doesn't delete the IoT thing. For more
- * information about how to delete the IoT thing, see DeleteThing in the
- * *IoT API Reference*.
- */
-export const deleteCoreDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCoreDeviceRequest,
-  output: DeleteCoreDeviceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a deployment. To delete an active deployment, you must first cancel it. For more
- * information, see CancelDeployment.
- *
- * Deleting a deployment doesn't affect core devices that run that deployment, because core
- * devices store the deployment's configuration on the device. Additionally, core devices can
- * roll back to a previous deployment that has been deleted.
- */
-export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDeploymentRequest,
-  output: DeleteDeploymentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the recipe for a version of a component.
- */
-export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetComponentRequest,
-  output: GetComponentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the pre-signed URL to download a public or a Lambda component artifact. Core devices
- * call this operation to identify the URL that they can use to download an artifact to
- * install.
- */
-export const getComponentVersionArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetComponentVersionArtifactRequest,
-    output: GetComponentVersionArtifactResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Retrieves connectivity information for a Greengrass core device.
  *
  * Connectivity information includes endpoints and ports where client devices
@@ -1511,30 +1420,12 @@ export const getConnectivityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerException, ValidationException],
 }));
 /**
- * Retrieves metadata for a Greengrass core device.
- *
- * IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the
- * IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud,
- * then the reported status of that device might not reflect its current status. The status
- * timestamp indicates when the device status was last updated.
- *
- * Core devices send status updates at the following times:
- *
- * - When the IoT Greengrass Core software starts
- *
- * - When the core device receives a deployment from the Amazon Web Services Cloud
- *
- * - When the status of any component on the core device becomes
- * `BROKEN`
- *
- * - At a regular interval that you can configure, which defaults to 24 hours
- *
- * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
- * cloud deployment
+ * Retrieves a paginated list of component summaries. This list includes components that you
+ * have permission to view.
  */
-export const getCoreDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCoreDeviceRequest,
-  output: GetCoreDeviceResponse,
+export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListComponentsRequest,
+  output: ListComponentsResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1544,61 +1435,21 @@ export const getCoreDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets a deployment. Deployments define the components that run on Greengrass core devices.
+ * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
  */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDeploymentRequest,
-  output: GetDeploymentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the list of tags for an IoT Greengrass resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds tags to an IoT Greengrass resource. If a tag already exists for the resource, this operation
- * updates the tag's value.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Cancels a deployment. This operation cancels the deployment for devices that haven't yet
- * received it. If a device already received the deployment, this operation doesn't change
- * anything for that device.
- */
-export const cancelDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelDeploymentRequest,
-  output: CancelDeploymentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const listEffectiveDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListEffectiveDeploymentsRequest,
+    output: ListEffectiveDeploymentsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Retrieves a paginated list of client devices that are associated with a core
  * device.
@@ -1721,34 +1572,145 @@ export const listInstalledComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Removes a tag from an IoT Greengrass resource.
+ * Deletes a Greengrass core device, which is an IoT thing. This operation removes the core
+ * device from the list of core devices. This operation doesn't delete the IoT thing. For more
+ * information about how to delete the IoT thing, see DeleteThing in the
+ * *IoT API Reference*.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const deleteCoreDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCoreDeviceRequest,
+  output: DeleteCoreDeviceResponse,
   errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Updates connectivity information for a Greengrass core device.
+ * Deletes a deployment. To delete an active deployment, you must first cancel it. For more
+ * information, see CancelDeployment.
  *
- * Connectivity information includes endpoints and ports where client devices
- * can connect to an MQTT broker on the core device. When a client device
- * calls the IoT Greengrass discovery API,
- * IoT Greengrass returns connectivity information for all of the core devices where the client device can
- * connect. For more information, see Connect client devices to
- * core devices in the *IoT Greengrass Version 2 Developer Guide*.
+ * Deleting a deployment doesn't affect core devices that run that deployment, because core
+ * devices store the deployment's configuration on the device. Additionally, core devices can
+ * roll back to a previous deployment that has been deleted.
  */
-export const updateConnectivityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeploymentRequest,
+  output: DeleteDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels a deployment. This operation cancels the deployment for devices that haven't yet
+ * received it. If a device already received the deployment, this operation doesn't change
+ * anything for that device.
+ */
+export const cancelDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelDeploymentRequest,
+  output: CancelDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the pre-signed URL to download a public or a Lambda component artifact. Core devices
+ * call this operation to identify the URL that they can use to download an artifact to
+ * install.
+ */
+export const getComponentVersionArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateConnectivityInfoRequest,
-    output: UpdateConnectivityInfoResponse,
-    errors: [InternalServerException, ValidationException],
+    input: GetComponentVersionArtifactRequest,
+    output: GetComponentVersionArtifactResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
   }),
 );
+/**
+ * Retrieves metadata for a Greengrass core device.
+ *
+ * IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the
+ * IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud,
+ * then the reported status of that device might not reflect its current status. The status
+ * timestamp indicates when the device status was last updated.
+ *
+ * Core devices send status updates at the following times:
+ *
+ * - When the IoT Greengrass Core software starts
+ *
+ * - When the core device receives a deployment from the Amazon Web Services Cloud
+ *
+ * - When the status of any component on the core device becomes
+ * `BROKEN`
+ *
+ * - At a regular interval that you can configure, which defaults to 24 hours
+ *
+ * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
+ * cloud deployment
+ */
+export const getCoreDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCoreDeviceRequest,
+  output: GetCoreDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets a deployment. Deployments define the components that run on Greengrass core devices.
+ */
+export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentRequest,
+  output: GetDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a version of a component from IoT Greengrass.
+ *
+ * This operation deletes the component's recipe and artifacts. As a result, deployments
+ * that refer to this component version will fail. If you have deployments that use this
+ * component version, you can remove the component from the deployment or update the deployment
+ * to use a valid version.
+ */
+export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteComponentRequest,
+  output: DeleteComponentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a list of client devices with a core device. Use this API operation to specify
  * which client devices can discover a core device through cloud discovery. With cloud discovery,
@@ -1806,12 +1768,78 @@ export const describeComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves a paginated list of component summaries. This list includes components that you
- * have permission to view.
+ * Associates a Greengrass service role with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass
+ * uses this role to verify the identity of client devices and manage core device connectivity
+ * information. The role must include the AWSGreengrassResourceAccessRolePolicy managed policy or a custom policy that
+ * defines equivalent permissions for the IoT Greengrass features that you use. For more information, see
+ * Greengrass service role in the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListComponentsRequest,
-  output: ListComponentsResponse,
+export const associateServiceRoleToAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateServiceRoleToAccountRequest,
+    output: AssociateServiceRoleToAccountResponse,
+    errors: [InternalServerException, ValidationException],
+  }));
+/**
+ * Updates connectivity information for a Greengrass core device.
+ *
+ * Connectivity information includes endpoints and ports where client devices
+ * can connect to an MQTT broker on the core device. When a client device
+ * calls the IoT Greengrass discovery API,
+ * IoT Greengrass returns connectivity information for all of the core devices where the client device can
+ * connect. For more information, see Connect client devices to
+ * core devices in the *IoT Greengrass Version 2 Developer Guide*.
+ */
+export const updateConnectivityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConnectivityInfoRequest,
+    output: UpdateConnectivityInfoResponse,
+    errors: [InternalServerException, ValidationException],
+  }),
+);
+/**
+ * Retrieves the list of tags for an IoT Greengrass resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds tags to an IoT Greengrass resource. If a tag already exists for the resource, this operation
+ * updates the tag's value.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a tag from an IoT Greengrass resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the recipe for a version of a component.
+ */
+export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetComponentRequest,
+  output: GetComponentResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1820,22 +1848,6 @@ export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
- */
-export const listEffectiveDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEffectiveDeploymentsRequest,
-    output: ListEffectiveDeploymentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Retrieves a list of components that meet the component, version, and platform requirements
  * of a deployment. Greengrass core devices call this operation when they receive a deployment to

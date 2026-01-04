@@ -373,22 +373,22 @@ export class StartHumanLoopResponse extends S.Class<StartHumanLoopResponse>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { Message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
@@ -409,6 +409,20 @@ export const deleteHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts a human loop, provided that at least one activation condition is met.
+ */
+export const startHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartHumanLoopRequest,
+  output: StartHumanLoopResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -449,20 +463,6 @@ export const stopHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a human loop, provided that at least one activation condition is met.
- */
-export const startHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartHumanLoopRequest,
-  output: StartHumanLoopResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],

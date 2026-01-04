@@ -689,48 +689,33 @@ export class DescribeAlarmResponse extends S.Class<DescribeAlarmResponse>(
 //# Errors
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
 /**
- * Acknowledges one or more alarms. The alarms change to the `ACKNOWLEDGED` state
- * after you acknowledge them.
+ * Disables one or more alarms. The alarms change to the `DISABLED` state after
+ * you disable them.
  */
-export const batchAcknowledgeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAcknowledgeAlarmRequest,
-    output: BatchAcknowledgeAlarmResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the ListDetectors API call.
- */
-export const batchDeleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDeleteDetectorRequest,
-  output: BatchDeleteDetectorResponse,
+export const batchDisableAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisableAlarmRequest,
+  output: BatchDisableAlarmResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -739,12 +724,43 @@ export const batchDeleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Disables one or more alarms. The alarms change to the `DISABLED` state after
- * you disable them.
+ * Updates the state, variable values, and timer settings of one or more detectors
+ * (instances) of a specified detector model.
  */
-export const batchDisableAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDisableAlarmRequest,
-  output: BatchDisableAlarmResponse,
+export const batchUpdateDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateDetectorRequest,
+  output: BatchUpdateDetectorResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns information about the specified detector (instance).
+ */
+export const describeDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDetectorRequest,
+  output: DescribeDetectorResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Sends a set of messages to the IoT Events system. Each message payload is transformed into
+ * the input you specify (`"inputName"`) and ingested into any detectors that monitor
+ * that input. If multiple messages are sent, the order in which the messages are processed isn't
+ * guaranteed. To guarantee ordering, you must send messages one at a time and wait for a
+ * successful response.
+ */
+export const batchPutMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchPutMessageRequest,
+  output: BatchPutMessageResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -795,16 +811,30 @@ export const batchSnoozeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists one or more alarms. The operation returns only the metadata associated with each
- * alarm.
+ * Acknowledges one or more alarms. The alarms change to the `ACKNOWLEDGED` state
+ * after you acknowledge them.
  */
-export const listAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAlarmsRequest,
-  output: ListAlarmsResponse,
+export const batchAcknowledgeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchAcknowledgeAlarmRequest,
+    output: BatchAcknowledgeAlarmResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the ListDetectors API call.
+ */
+export const batchDeleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteDetectorRequest,
+  output: BatchDeleteDetectorResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
-    ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,
   ],
@@ -824,46 +854,16 @@ export const listDetectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Sends a set of messages to the IoT Events system. Each message payload is transformed into
- * the input you specify (`"inputName"`) and ingested into any detectors that monitor
- * that input. If multiple messages are sent, the order in which the messages are processed isn't
- * guaranteed. To guarantee ordering, you must send messages one at a time and wait for a
- * successful response.
+ * Lists one or more alarms. The operation returns only the metadata associated with each
+ * alarm.
  */
-export const batchPutMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchPutMessageRequest,
-  output: BatchPutMessageResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns information about the specified detector (instance).
- */
-export const describeDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDetectorRequest,
-  output: DescribeDetectorResponse,
+export const listAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAlarmsRequest,
+  output: ListAlarmsResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
     ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the state, variable values, and timer settings of one or more detectors
- * (instances) of a specified detector model.
- */
-export const batchUpdateDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchUpdateDetectorRequest,
-  output: BatchUpdateDetectorResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
     ServiceUnavailableException,
     ThrottlingException,
   ],

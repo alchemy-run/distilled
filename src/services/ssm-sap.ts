@@ -1059,38 +1059,75 @@ export class GetComponentOutput extends S.Class<GetComponentOutput>(
 )({ Component: S.optional(Component), Tags: S.optional(TagMap) }) {}
 
 //# Errors
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String) },
 ) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Gets permissions associated with the target database.
+ * Lists the operations performed by AWS Systems Manager for SAP.
  */
-export const getResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOperationsInput,
+  output: ListOperationsOutput,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Lists the sub-check results of a specified configuration check operation.
+ */
+export const listSubCheckResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSubCheckResultsInput,
+  output: ListSubCheckResultsOutput,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Register an SAP application with AWS Systems Manager for SAP. You must meet the following requirements before registering.
+ *
+ * The SAP application you want to register with AWS Systems Manager for SAP is running on Amazon EC2.
+ *
+ * AWS Systems Manager Agent must be setup on an Amazon EC2 instance along with the required IAM permissions.
+ *
+ * Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
+ */
+export const registerApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterApplicationInput,
+  output: RegisterApplicationOutput,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the settings of an application registered with AWS Systems Manager for SAP.
+ */
+export const updateApplicationSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetResourcePermissionInput,
-    output: GetResourcePermissionOutput,
+    input: UpdateApplicationSettingsInput,
+    output: UpdateApplicationSettingsOutput,
     errors: [
+      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
+      UnauthorizedException,
       ValidationException,
     ],
   }),
@@ -1109,22 +1146,6 @@ export const listConfigurationCheckOperations =
     ],
   }));
 /**
- * Lists the operations performed by AWS Systems Manager for SAP.
- */
-export const listOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListOperationsInput,
-  output: ListOperationsOutput,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
-}));
-/**
  * Adds permissions to the target database.
  */
 export const putResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1138,6 +1159,44 @@ export const putResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Creates tag for a resource by specifying the ARN.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Removes permissions associated with the target database.
+ */
+export const deleteResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePermissionInput,
+    output: DeleteResourcePermissionOutput,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Delete the tags for a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+}));
 /**
  * Request is an operation which starts an application.
  *
@@ -1200,36 +1259,6 @@ export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates tag for a resource by specifying the ARN.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
-}));
-/**
- * Delete the tags for a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
-}));
-/**
- * Removes permissions associated with the target database.
- */
-export const deleteResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePermissionInput,
-    output: DeleteResourcePermissionOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Deregister an SAP application with AWS Systems Manager for SAP. This action does not aﬀect the existing setup of your SAP workloads on Amazon EC2.
  */
 export const deregisterApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1259,6 +1288,20 @@ export const getDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetDatabaseOutput,
   errors: [InternalServerException, ValidationException],
 }));
+/**
+ * Gets permissions associated with the target database.
+ */
+export const getResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetResourcePermissionInput,
+    output: GetResourcePermissionOutput,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Lists all the components registered with AWS Systems Manager for SAP.
  */
@@ -1293,49 +1336,6 @@ export const listDatabases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Lists the sub-check results of a specified configuration check operation.
- */
-export const listSubCheckResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSubCheckResultsInput,
-  output: ListSubCheckResultsOutput,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Register an SAP application with AWS Systems Manager for SAP. You must meet the following requirements before registering.
- *
- * The SAP application you want to register with AWS Systems Manager for SAP is running on Amazon EC2.
- *
- * AWS Systems Manager Agent must be setup on an Amazon EC2 instance along with the required IAM permissions.
- *
- * Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
- */
-export const registerApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterApplicationInput,
-  output: RegisterApplicationOutput,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the settings of an application registered with AWS Systems Manager for SAP.
- */
-export const updateApplicationSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateApplicationSettingsInput,
-    output: UpdateApplicationSettingsOutput,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Gets the details of a configuration check operation by specifying the operation ID.
  */

@@ -460,14 +460,8 @@ export class InternalDependencyException extends S.TaggedError<InternalDependenc
 ) {}
 export class InternalFailure extends S.TaggedError<InternalFailure>()(
   "InternalFailure",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class ModelError extends S.TaggedError<ModelError>()("ModelError", {
-  Message: S.optional(S.String),
-  OriginalStatusCode: S.optional(S.Number),
-  OriginalMessage: S.optional(S.String),
-  LogStreamArn: S.optional(S.String),
-}) {}
 export class ServiceUnavailable extends S.TaggedError<ServiceUnavailable>()(
   "ServiceUnavailable",
   { Message: S.optional(S.String) },
@@ -476,13 +470,19 @@ export class InternalStreamFailure extends S.TaggedError<InternalStreamFailure>(
   "InternalStreamFailure",
   { Message: S.optional(S.String) },
 ) {}
+export class ModelError extends S.TaggedError<ModelError>()("ModelError", {
+  Message: S.optional(S.String),
+  OriginalStatusCode: S.optional(S.Number),
+  OriginalMessage: S.optional(S.String),
+  LogStreamArn: S.optional(S.String),
+}) {}
 export class ModelStreamError extends S.TaggedError<ModelStreamError>()(
   "ModelStreamError",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
 ) {}
 export class ValidationError extends S.TaggedError<ValidationError>()(
   "ValidationError",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ModelNotReadyException extends S.TaggedError<ModelNotReadyException>()(
   "ModelNotReadyException",
@@ -491,6 +491,64 @@ export class ModelNotReadyException extends S.TaggedError<ModelNotReadyException
 ) {}
 
 //# Operations
+/**
+ * After you deploy a model into production using Amazon SageMaker AI hosting services,
+ * your client applications use this API to get inferences from the model hosted at the
+ * specified endpoint in an asynchronous manner.
+ *
+ * Inference requests sent to this API are enqueued for asynchronous processing. The
+ * processing of the inference request may or may not complete before you receive a
+ * response from this API. The response from this API will not contain the result of the
+ * inference request but contain information about where you can locate it.
+ *
+ * Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add
+ * additional headers. You should not rely on the behavior of headers outside those
+ * enumerated in the request syntax.
+ *
+ * Calls to `InvokeEndpointAsync` are authenticated by using Amazon Web Services Signature Version 4. For information, see Authenticating
+ * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
+ */
+export const invokeEndpointAsync = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeEndpointAsyncInput,
+  output: InvokeEndpointAsyncOutput,
+  errors: [InternalFailure, ServiceUnavailable, ValidationError],
+}));
+/**
+ * After you deploy a model into production using Amazon SageMaker AI hosting services,
+ * your client applications use this API to get inferences from the model hosted at the
+ * specified endpoint.
+ *
+ * For an overview of Amazon SageMaker AI, see How It Works.
+ *
+ * Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add
+ * additional headers. You should not rely on the behavior of headers outside those
+ * enumerated in the request syntax.
+ *
+ * Calls to `InvokeEndpoint` are authenticated by using Amazon Web Services
+ * Signature Version 4. For information, see Authenticating
+ * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
+ *
+ * A customer's model containers must respond to requests within 60 seconds. The model
+ * itself can have a maximum processing time of 60 seconds before responding to
+ * invocations. If your model is going to take 50-60 seconds of processing time, the SDK
+ * socket timeout should be set to be 70 seconds.
+ *
+ * Endpoints are scoped to an individual account, and are not public. The URL does
+ * not contain the account ID, but Amazon SageMaker AI determines the account ID from
+ * the authentication token that is supplied by the caller.
+ */
+export const invokeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeEndpointInput,
+  output: InvokeEndpointOutput,
+  errors: [
+    InternalDependencyException,
+    InternalFailure,
+    ModelError,
+    ModelNotReadyException,
+    ServiceUnavailable,
+    ValidationError,
+  ],
+}));
 /**
  * Invokes a model at the specified endpoint to return the inference response as a
  * stream. The inference stream provides the response payload incrementally as a series of
@@ -530,61 +588,3 @@ export const invokeEndpointWithResponseStream =
       ValidationError,
     ],
   }));
-/**
- * After you deploy a model into production using Amazon SageMaker AI hosting services,
- * your client applications use this API to get inferences from the model hosted at the
- * specified endpoint.
- *
- * For an overview of Amazon SageMaker AI, see How It Works.
- *
- * Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add
- * additional headers. You should not rely on the behavior of headers outside those
- * enumerated in the request syntax.
- *
- * Calls to `InvokeEndpoint` are authenticated by using Amazon Web Services
- * Signature Version 4. For information, see Authenticating
- * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
- *
- * A customer's model containers must respond to requests within 60 seconds. The model
- * itself can have a maximum processing time of 60 seconds before responding to
- * invocations. If your model is going to take 50-60 seconds of processing time, the SDK
- * socket timeout should be set to be 70 seconds.
- *
- * Endpoints are scoped to an individual account, and are not public. The URL does
- * not contain the account ID, but Amazon SageMaker AI determines the account ID from
- * the authentication token that is supplied by the caller.
- */
-export const invokeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InvokeEndpointInput,
-  output: InvokeEndpointOutput,
-  errors: [
-    InternalDependencyException,
-    InternalFailure,
-    ModelError,
-    ModelNotReadyException,
-    ServiceUnavailable,
-    ValidationError,
-  ],
-}));
-/**
- * After you deploy a model into production using Amazon SageMaker AI hosting services,
- * your client applications use this API to get inferences from the model hosted at the
- * specified endpoint in an asynchronous manner.
- *
- * Inference requests sent to this API are enqueued for asynchronous processing. The
- * processing of the inference request may or may not complete before you receive a
- * response from this API. The response from this API will not contain the result of the
- * inference request but contain information about where you can locate it.
- *
- * Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add
- * additional headers. You should not rely on the behavior of headers outside those
- * enumerated in the request syntax.
- *
- * Calls to `InvokeEndpointAsync` are authenticated by using Amazon Web Services Signature Version 4. For information, see Authenticating
- * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
- */
-export const invokeEndpointAsync = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InvokeEndpointAsyncInput,
-  output: InvokeEndpointAsyncOutput,
-  errors: [InternalFailure, ServiceUnavailable, ValidationError],
-}));

@@ -602,46 +602,226 @@ export class ListProgressUpdateStreamsResult extends S.Class<ListProgressUpdateS
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DryRunOperation extends S.TaggedError<DryRunOperation>()(
   "DryRunOperation",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class HomeRegionNotSetException extends S.TaggedError<HomeRegionNotSetException>()(
   "HomeRegionNotSetException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class PolicyErrorException extends S.TaggedError<PolicyErrorException>()(
   "PolicyErrorException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  {
+    Message: S.String,
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class UnauthorizedOperation extends S.TaggedError<UnauthorizedOperation>()(
   "UnauthorizedOperation",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Lists the created artifacts attached to a given migration task in an update stream. This
+ * API has the following traits:
+ *
+ * - Gets the list of the created artifacts while
+ * migration is taking place.
+ *
+ * - Shows the artifacts created by the migration tool that was associated by the
+ * `AssociateCreatedArtifact` API.
+ *
+ * - Lists created artifacts in a paginated interface.
+ */
+export const listCreatedArtifacts = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListCreatedArtifactsRequest,
+    output: ListCreatedArtifactsResult,
+    errors: [
+      AccessDeniedException,
+      HomeRegionNotSetException,
+      InternalServerError,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists discovered resources associated with the given `MigrationTask`.
+ */
+export const listDiscoveredResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDiscoveredResourcesRequest,
+    output: ListDiscoveredResourcesResult,
+    errors: [
+      AccessDeniedException,
+      HomeRegionNotSetException,
+      InternalServerError,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves a list of all attributes associated with a specific migration task.
+ */
+export const describeMigrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeMigrationTaskRequest,
+    output: DescribeMigrationTaskResult,
+    errors: [
+      AccessDeniedException,
+      HomeRegionNotSetException,
+      InternalServerError,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This is a paginated API that returns all the migration-task states for the specified
+ * `MigrationTaskName` and `ProgressUpdateStream`.
+ */
+export const listMigrationTaskUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMigrationTaskUpdatesRequest,
+    output: ListMigrationTaskUpdatesResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerError,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Gets the migration status of an application.
+ */
+export const describeApplicationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeApplicationStateRequest,
+    output: DescribeApplicationStateResult,
+    errors: [
+      AccessDeniedException,
+      HomeRegionNotSetException,
+      InternalServerError,
+      InvalidInputException,
+      PolicyErrorException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists all, or filtered by resource name, migration tasks associated with the user
+ * account making this call. This API has the following traits:
+ *
+ * - Can show a summary list of the most recent migration tasks.
+ *
+ * - Can show a summary list of migration tasks associated with a given discovered
+ * resource.
+ *
+ * - Lists migration tasks in a paginated interface.
+ */
+export const listMigrationTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMigrationTasksRequest,
+  output: ListMigrationTasksResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    PolicyErrorException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists all the migration statuses for your applications. If you use the optional
+ * `ApplicationIds` parameter, only the migration statuses for those
+ * applications will be returned.
+ */
+export const listApplicationStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListApplicationStatesRequest,
+    output: ListApplicationStatesResult,
+    errors: [
+      AccessDeniedException,
+      HomeRegionNotSetException,
+      InternalServerError,
+      InvalidInputException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists progress update streams associated with the user account making this call.
+ */
+export const listProgressUpdateStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListProgressUpdateStreamsRequest,
+    output: ListProgressUpdateStreamsResult,
+    errors: [
+      AccessDeniedException,
+      HomeRegionNotSetException,
+      InternalServerError,
+      InvalidInputException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists all the source resource that are associated with the specified
+ * `MigrationTaskName` and `ProgressUpdateStream`.
+ */
+export const listSourceResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSourceResourcesRequest,
+  output: ListSourceResourcesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a progress update stream which is an AWS resource used for access control as
  * well as a namespace for migration task names that is implicitly linked to your AWS account.
@@ -659,6 +839,73 @@ export const createProgressUpdateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
       HomeRegionNotSetException,
       InternalServerError,
       InvalidInputException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedOperation,
+    ],
+  }),
+);
+/**
+ * Notifies Migration Hub of the current status, progress, or other detail regarding a
+ * migration task. This API has the following traits:
+ *
+ * - Migration tools will call the `NotifyMigrationTaskState` API to share
+ * the latest progress and status.
+ *
+ * - `MigrationTaskName` is used for addressing updates to the correct
+ * target.
+ *
+ * - `ProgressUpdateStream` is used for access control and to provide a
+ * namespace for each migration tool.
+ */
+export const notifyMigrationTaskState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: NotifyMigrationTaskStateRequest,
+    output: NotifyMigrationTaskStateResult,
+    errors: [
+      AccessDeniedException,
+      DryRunOperation,
+      HomeRegionNotSetException,
+      InternalServerError,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedOperation,
+    ],
+  }),
+);
+/**
+ * Provides identifying details of the resource being migrated so that it can be associated
+ * in the Application Discovery Service repository. This association occurs asynchronously
+ * after `PutResourceAttributes` returns.
+ *
+ * - Keep in mind that subsequent calls to PutResourceAttributes will override
+ * previously stored attributes. For example, if it is first called with a MAC
+ * address, but later, it is desired to *add* an IP address, it
+ * will then be required to call it with *both* the IP and MAC
+ * addresses to prevent overriding the MAC address.
+ *
+ * - Note the instructions regarding the special use case of the
+ * `ResourceAttributeList`
+ * parameter when specifying any
+ * "VM" related value.
+ *
+ * Because this is an asynchronous call, it will always return 200, whether an
+ * association occurs or not. To confirm if an association was found based on the provided
+ * details, call `ListDiscoveredResources`.
+ */
+export const putResourceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutResourceAttributesRequest,
+    output: PutResourceAttributesResult,
+    errors: [
+      AccessDeniedException,
+      DryRunOperation,
+      HomeRegionNotSetException,
+      InternalServerError,
+      InvalidInputException,
+      ResourceNotFoundException,
       ServiceUnavailableException,
       ThrottlingException,
       UnauthorizedOperation,
@@ -704,25 +951,6 @@ export const deleteProgressUpdateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ServiceUnavailableException,
       ThrottlingException,
       UnauthorizedOperation,
-    ],
-  }),
-);
-/**
- * Gets the migration status of an application.
- */
-export const describeApplicationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationStateRequest,
-    output: DescribeApplicationStateResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      PolicyErrorException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
     ],
   }),
 );
@@ -819,158 +1047,6 @@ export const importMigrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the created artifacts attached to a given migration task in an update stream. This
- * API has the following traits:
- *
- * - Gets the list of the created artifacts while
- * migration is taking place.
- *
- * - Shows the artifacts created by the migration tool that was associated by the
- * `AssociateCreatedArtifact` API.
- *
- * - Lists created artifacts in a paginated interface.
- */
-export const listCreatedArtifacts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCreatedArtifactsRequest,
-    output: ListCreatedArtifactsResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists discovered resources associated with the given `MigrationTask`.
- */
-export const listDiscoveredResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDiscoveredResourcesRequest,
-    output: ListDiscoveredResourcesResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists all the source resource that are associated with the specified
- * `MigrationTaskName` and `ProgressUpdateStream`.
- */
-export const listSourceResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSourceResourcesRequest,
-  output: ListSourceResourcesResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerError,
-    InvalidInputException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Sets the migration state of an application. For a given application identified by the
- * value passed to `ApplicationId`, its status is set or updated by passing one of
- * three values to `Status`: NOT_STARTED | IN_PROGRESS |
- * COMPLETED.
- */
-export const notifyApplicationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: NotifyApplicationStateRequest,
-    output: NotifyApplicationStateResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      PolicyErrorException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
-/**
- * Notifies Migration Hub of the current status, progress, or other detail regarding a
- * migration task. This API has the following traits:
- *
- * - Migration tools will call the `NotifyMigrationTaskState` API to share
- * the latest progress and status.
- *
- * - `MigrationTaskName` is used for addressing updates to the correct
- * target.
- *
- * - `ProgressUpdateStream` is used for access control and to provide a
- * namespace for each migration tool.
- */
-export const notifyMigrationTaskState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: NotifyMigrationTaskStateRequest,
-    output: NotifyMigrationTaskStateResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
-/**
- * Provides identifying details of the resource being migrated so that it can be associated
- * in the Application Discovery Service repository. This association occurs asynchronously
- * after `PutResourceAttributes` returns.
- *
- * - Keep in mind that subsequent calls to PutResourceAttributes will override
- * previously stored attributes. For example, if it is first called with a MAC
- * address, but later, it is desired to *add* an IP address, it
- * will then be required to call it with *both* the IP and MAC
- * addresses to prevent overriding the MAC address.
- *
- * - Note the instructions regarding the special use case of the
- * `ResourceAttributeList`
- * parameter when specifying any
- * "VM" related value.
- *
- * Because this is an asynchronous call, it will always return 200, whether an
- * association occurs or not. To confirm if an association was found based on the provided
- * details, call `ListDiscoveredResources`.
- */
-export const putResourceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutResourceAttributesRequest,
-    output: PutResourceAttributesResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
-/**
  * Associates a created artifact of an AWS cloud resource, the target receiving the
  * migration, with the migration task performed by a migration tool. This API has the
  * following traits:
@@ -1003,6 +1079,26 @@ export const associateCreatedArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Associates a source resource with a migration task. For example, the source resource can
+ * be a source server, an application, or a migration wave.
+ */
+export const associateSourceResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateSourceResourceRequest,
+    output: AssociateSourceResourceResult,
+    errors: [
+      AccessDeniedException,
+      DryRunOperation,
+      InternalServerError,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedOperation,
+    ],
+  }),
+);
+/**
  * Associates a discovered resource ID from Application Discovery Service with a migration
  * task.
  */
@@ -1025,119 +1121,26 @@ export const associateDiscoveredResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Associates a source resource with a migration task. For example, the source resource can
- * be a source server, an application, or a migration wave.
+ * Sets the migration state of an application. For a given application identified by the
+ * value passed to `ApplicationId`, its status is set or updated by passing one of
+ * three values to `Status`: NOT_STARTED | IN_PROGRESS |
+ * COMPLETED.
  */
-export const associateSourceResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const notifyApplicationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AssociateSourceResourceRequest,
-    output: AssociateSourceResourceResult,
+    input: NotifyApplicationStateRequest,
+    output: NotifyApplicationStateResult,
     errors: [
       AccessDeniedException,
       DryRunOperation,
+      HomeRegionNotSetException,
       InternalServerError,
       InvalidInputException,
+      PolicyErrorException,
       ResourceNotFoundException,
       ServiceUnavailableException,
       ThrottlingException,
       UnauthorizedOperation,
-    ],
-  }),
-);
-/**
- * Retrieves a list of all attributes associated with a specific migration task.
- */
-export const describeMigrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMigrationTaskRequest,
-    output: DescribeMigrationTaskResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists all the migration statuses for your applications. If you use the optional
- * `ApplicationIds` parameter, only the migration statuses for those
- * applications will be returned.
- */
-export const listApplicationStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListApplicationStatesRequest,
-    output: ListApplicationStatesResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists all, or filtered by resource name, migration tasks associated with the user
- * account making this call. This API has the following traits:
- *
- * - Can show a summary list of the most recent migration tasks.
- *
- * - Can show a summary list of migration tasks associated with a given discovered
- * resource.
- *
- * - Lists migration tasks in a paginated interface.
- */
-export const listMigrationTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMigrationTasksRequest,
-  output: ListMigrationTasksResult,
-  errors: [
-    AccessDeniedException,
-    HomeRegionNotSetException,
-    InternalServerError,
-    InvalidInputException,
-    PolicyErrorException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * This is a paginated API that returns all the migration-task states for the specified
- * `MigrationTaskName` and `ProgressUpdateStream`.
- */
-export const listMigrationTaskUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMigrationTaskUpdatesRequest,
-    output: ListMigrationTaskUpdatesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists progress update streams associated with the user account making this call.
- */
-export const listProgressUpdateStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProgressUpdateStreamsRequest,
-    output: ListProgressUpdateStreamsResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ServiceUnavailableException,
-      ThrottlingException,
     ],
   }),
 );

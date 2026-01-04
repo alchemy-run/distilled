@@ -1072,18 +1072,18 @@ export class CreateSecurityConfigurationResponse extends S.Class<CreateSecurityC
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class EKSRequestThrottledException extends S.TaggedError<EKSRequestThrottledException>()(
   "EKSRequestThrottledException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { message: S.optional(S.String) },
 ) {}
 export class RequestThrottledException extends S.TaggedError<RequestThrottledException>()(
@@ -1092,6 +1092,108 @@ export class RequestThrottledException extends S.TaggedError<RequestThrottledExc
 ) {}
 
 //# Operations
+/**
+ * Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
+ * SparkSQL query, that you submit to Amazon EMR on EKS.
+ */
+export const cancelJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelJobRunRequest,
+  output: CancelJobRunResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Removes tags from resources.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the tags assigned to the resources.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any
+ * additional resource in your system. A single virtual cluster maps to a single Kubernetes
+ * namespace. Given this relationship, you can model virtual clusters the same way you model
+ * Kubernetes namespaces to meet your requirements.
+ */
+export const createVirtualCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateVirtualClusterRequest,
+    output: CreateVirtualClusterResponse,
+    errors: [
+      EKSRequestThrottledException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Displays detailed information about a specified job template. Job template stores values
+ * of StartJobRun API request in a template and can be used to start a job run. Job template
+ * allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing
+ * certain values in StartJobRun API request.
+ */
+export const describeJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeJobTemplateRequest,
+  output: DescribeJobTemplateResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Displays detailed information about a specified security configuration. Security
+ * configurations in Amazon EMR on EKS are templates for different security setups. You
+ * can use security configurations to configure the Lake Formation integration setup.
+ * You can also create a security configuration to re-use a security setup each time you
+ * create a virtual cluster.
+ */
+export const describeSecurityConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeSecurityConfigurationRequest,
+    output: DescribeSecurityConfigurationResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Displays detailed information about a specified virtual cluster. Virtual cluster is a
+ * managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
+ * clusters. They do not consume any additional resource in your system. A single virtual
+ * cluster maps to a single Kubernetes namespace. Given this relationship, you can model
+ * virtual clusters the same way you model Kubernetes namespaces to meet your
+ * requirements.
+ */
+export const describeVirtualCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeVirtualClusterRequest,
+    output: DescribeVirtualClusterResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Deletes a job template. Job template stores values of StartJobRun API request in a
  * template and can be used to start a job run. Job template allows two use cases: avoid
@@ -1173,18 +1275,6 @@ export const listSecurityConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists the tags assigned to the resources.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists information about the specified virtual cluster. Virtual cluster is a managed
  * entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
  * clusters. They do not consume any additional resource in your system. A single virtual
@@ -1217,96 +1307,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Removes tags from resources.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
- * SparkSQL query, that you submit to Amazon EMR on EKS.
- */
-export const cancelJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelJobRunRequest,
-  output: CancelJobRunResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any
- * additional resource in your system. A single virtual cluster maps to a single Kubernetes
- * namespace. Given this relationship, you can model virtual clusters the same way you model
- * Kubernetes namespaces to meet your requirements.
- */
-export const createVirtualCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVirtualClusterRequest,
-    output: CreateVirtualClusterResponse,
-    errors: [
-      EKSRequestThrottledException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Displays detailed information about a specified job template. Job template stores values
- * of StartJobRun API request in a template and can be used to start a job run. Job template
- * allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing
- * certain values in StartJobRun API request.
- */
-export const describeJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeJobTemplateRequest,
-  output: DescribeJobTemplateResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Displays detailed information about a specified security configuration. Security
- * configurations in Amazon EMR on EKS are templates for different security setups. You
- * can use security configurations to configure the Lake Formation integration setup.
- * You can also create a security configuration to re-use a security setup each time you
- * create a virtual cluster.
- */
-export const describeSecurityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSecurityConfigurationRequest,
-    output: DescribeSecurityConfigurationResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Displays detailed information about a specified virtual cluster. Virtual cluster is a
- * managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
- * clusters. They do not consume any additional resource in your system. A single virtual
- * cluster maps to a single Kubernetes namespace. Given this relationship, you can model
- * virtual clusters the same way you model Kubernetes namespaces to meet your
- * requirements.
- */
-export const describeVirtualCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVirtualClusterRequest,
-    output: DescribeVirtualClusterResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Displays detailed information about a job run. A job run is a unit of work, such as a
  * Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.

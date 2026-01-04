@@ -657,67 +657,48 @@ export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  {
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+    serviceCode: S.String,
+    quotaCode: S.String,
+  },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  {
+    message: S.String,
+    serviceCode: S.String,
+    quotaCode: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  {
+    message: S.String,
+    reason: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
-/**
- * Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain.
- *
- * Only the native tokens BTC and ETH, and the ERC-20,
- * ERC-721, and ERC 1155 token standards are supported.
- */
-export const getTokenBalance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTokenBalanceInput,
-  output: GetTokenBalanceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the details of a transaction.
- *
- * This action will return transaction details for all transactions
- * that are *confirmed* on the blockchain, even if they have not reached
- * finality.
- */
-export const getTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTransactionInput,
-  output: GetTransactionOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Lists all the contracts for a given contract type deployed by an address
  * (either a contract address or a wallet address).
@@ -737,75 +718,19 @@ export const listAssetContracts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all the transaction events for an address on the blockchain.
- *
- * This operation is only supported on the Bitcoin networks.
- */
-export const listFilteredTransactionEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListFilteredTransactionEventsInput,
-    output: ListFilteredTransactionEventsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * This action returns the following for a given blockchain network:
- *
- * - Lists all token balances owned by an address (either a contract
- * address or a wallet address).
- *
- * - Lists all token balances for all tokens created by a contract.
- *
- * - Lists all token balances for a given token.
- *
- * You must always specify the network property of
- * the `tokenFilter` when using this operation.
- */
-export const listTokenBalances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTokenBalancesInput,
-  output: ListTokenBalancesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all the transaction events for a transaction
+ * Gets the details of a transaction.
  *
  * This action will return transaction details for all transactions
  * that are *confirmed* on the blockchain, even if they have not reached
  * finality.
  */
-export const listTransactionEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTransactionEventsInput,
-    output: ListTransactionEventsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists all the transaction events for a transaction.
- */
-export const listTransactions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTransactionsInput,
-  output: ListTransactionsOutput,
+export const getTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTransactionInput,
+  output: GetTransactionOutput,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
@@ -844,6 +769,99 @@ export const batchGetTokenBalance = /*@__PURE__*/ /*#__PURE__*/ API.make(
 export const getAssetContract = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssetContractInput,
   output: GetAssetContractOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This action returns the following for a given blockchain network:
+ *
+ * - Lists all token balances owned by an address (either a contract
+ * address or a wallet address).
+ *
+ * - Lists all token balances for all tokens created by a contract.
+ *
+ * - Lists all token balances for a given token.
+ *
+ * You must always specify the network property of
+ * the `tokenFilter` when using this operation.
+ */
+export const listTokenBalances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTokenBalancesInput,
+  output: ListTokenBalancesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all the transaction events for a transaction.
+ */
+export const listTransactions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTransactionsInput,
+  output: ListTransactionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all the transaction events for an address on the blockchain.
+ *
+ * This operation is only supported on the Bitcoin networks.
+ */
+export const listFilteredTransactionEvents =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListFilteredTransactionEventsInput,
+    output: ListFilteredTransactionEventsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists all the transaction events for a transaction
+ *
+ * This action will return transaction details for all transactions
+ * that are *confirmed* on the blockchain, even if they have not reached
+ * finality.
+ */
+export const listTransactionEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTransactionEventsInput,
+    output: ListTransactionEventsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain.
+ *
+ * Only the native tokens BTC and ETH, and the ERC-20,
+ * ERC-721, and ERC 1155 token standards are supported.
+ */
+export const getTokenBalance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTokenBalanceInput,
+  output: GetTokenBalanceOutput,
   errors: [
     AccessDeniedException,
     InternalServerException,

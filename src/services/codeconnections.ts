@@ -755,31 +755,11 @@ export class UpdateSyncBlockerOutput extends S.Class<UpdateSyncBlockerOutput>(
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
-  "ResourceUnavailableException",
   { Message: S.optional(S.String) },
-) {}
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
-  "InvalidInputException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
@@ -789,48 +769,60 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
 ) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
+export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { Message: S.optional(S.String) },
 ) {}
-export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
-  "UnsupportedOperationException",
+export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
+  "ResourceUnavailableException",
+  { Message: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
   { Message: S.optional(S.String) },
 ) {}
 export class ConditionalCheckFailedException extends S.TaggedError<ConditionalCheckFailedException>()(
   "ConditionalCheckFailedException",
   { Message: S.optional(S.String) },
 ) {}
-export class UpdateOutOfSyncException extends S.TaggedError<UpdateOutOfSyncException>()(
-  "UpdateOutOfSyncException",
-  {},
-) {}
-export class SyncConfigurationStillExistsException extends S.TaggedError<SyncConfigurationStillExistsException>()(
-  "SyncConfigurationStillExistsException",
+export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+  "InvalidInputException",
   { Message: S.optional(S.String) },
 ) {}
-export class UnsupportedProviderTypeException extends S.TaggedError<UnsupportedProviderTypeException>()(
-  "UnsupportedProviderTypeException",
+export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
+  "UnsupportedOperationException",
+  { Message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
   { Message: S.optional(S.String) },
 ) {}
 export class RetryLatestCommitFailedException extends S.TaggedError<RetryLatestCommitFailedException>()(
   "RetryLatestCommitFailedException",
   { Message: S.optional(S.String) },
 ) {}
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
+  { Message: S.optional(S.String) },
+) {}
+export class SyncConfigurationStillExistsException extends S.TaggedError<SyncConfigurationStillExistsException>()(
+  "SyncConfigurationStillExistsException",
+  { Message: S.optional(S.String) },
+) {}
 export class SyncBlockerDoesNotExistException extends S.TaggedError<SyncBlockerDoesNotExistException>()(
   "SyncBlockerDoesNotExistException",
   { Message: S.optional(S.String) },
 ) {}
+export class UnsupportedProviderTypeException extends S.TaggedError<UnsupportedProviderTypeException>()(
+  "UnsupportedProviderTypeException",
+  { Message: S.optional(S.String) },
+) {}
+export class UpdateOutOfSyncException extends S.TaggedError<UpdateOutOfSyncException>()(
+  "UpdateOutOfSyncException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Removes tags from an Amazon Web Services resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [ResourceNotFoundException],
-}));
 /**
  * The connection to be deleted.
  */
@@ -840,41 +832,6 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFoundException],
 }));
 /**
- * The host to be deleted. Before you delete a host, all connections associated to the host must be deleted.
- *
- * A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
- */
-export const deleteHost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteHostInput,
-  output: DeleteHostOutput,
-  errors: [ResourceNotFoundException, ResourceUnavailableException],
-}));
-/**
- * Returns the host ARN and details such as status, provider type, endpoint, and, if
- * applicable, the VPC configuration.
- */
-export const getHost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetHostInput,
-  output: GetHostOutput,
-  errors: [ResourceNotFoundException, ResourceUnavailableException],
-}));
-/**
- * Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
- */
-export const getSyncConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSyncConfigurationInput,
-    output: GetSyncConfigurationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Lists the connections associated with your account.
  */
 export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -882,37 +839,6 @@ export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: ListConnectionsOutput,
   errors: [ResourceNotFoundException],
 }));
-/**
- * Lists the repository links created for connections in your account.
- */
-export const listRepositoryLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRepositoryLinksInput,
-  output: ListRepositoryLinksOutput,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns a list of sync configurations for a specified repository.
- */
-export const listSyncConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSyncConfigurationsInput,
-    output: ListSyncConfigurationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Gets the set of key-value pairs (metadata) that are used to manage the resource.
  */
@@ -931,18 +857,12 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [LimitExceededException, ResourceNotFoundException],
 }));
 /**
- * Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so
- * that it can access third-party code repositories. The connection is in pending status until
- * the third-party connection handshake is completed from the console.
+ * Removes tags from an Amazon Web Services resource.
  */
-export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateConnectionInput,
-  output: CreateConnectionOutput,
-  errors: [
-    LimitExceededException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-  ],
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [ResourceNotFoundException],
 }));
 /**
  * Creates a resource that represents the infrastructure where a third-party provider is
@@ -959,14 +879,90 @@ export const createHost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [LimitExceededException],
 }));
 /**
- * Creates a sync configuration which allows Amazon Web Services to sync content from a Git
- * repository to update a specified Amazon Web Services resource. Parameters for the sync
- * configuration are determined by the sync type.
+ * Returns the host ARN and details such as status, provider type, endpoint, and, if
+ * applicable, the VPC configuration.
  */
-export const createSyncConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getHost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetHostInput,
+  output: GetHostOutput,
+  errors: [ResourceNotFoundException, ResourceUnavailableException],
+}));
+/**
+ * Lists the hosts associated with your account.
+ */
+export const listHosts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListHostsInput,
+  output: ListHostsOutput,
+  errors: [],
+}));
+/**
+ * The host to be deleted. Before you delete a host, all connections associated to the host must be deleted.
+ *
+ * A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
+ */
+export const deleteHost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHostInput,
+  output: DeleteHostOutput,
+  errors: [ResourceNotFoundException, ResourceUnavailableException],
+}));
+/**
+ * Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so
+ * that it can access third-party code repositories. The connection is in pending status until
+ * the third-party connection handshake is completed from the console.
+ */
+export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectionInput,
+  output: CreateConnectionOutput,
+  errors: [
+    LimitExceededException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+  ],
+}));
+/**
+ * Returns the connection ARN and details such as status, owner, and provider type.
+ */
+export const getConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionInput,
+  output: GetConnectionOutput,
+  errors: [ResourceNotFoundException, ResourceUnavailableException],
+}));
+/**
+ * Updates a specified host with the provided configurations.
+ */
+export const updateHost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateHostInput,
+  output: UpdateHostOutput,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
+ */
+export const getSyncConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateSyncConfigurationInput,
-    output: CreateSyncConfigurationOutput,
+    input: GetSyncConfigurationInput,
+    output: GetSyncConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+ */
+export const createRepositoryLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRepositoryLinkInput,
+    output: CreateRepositoryLinkOutput,
     errors: [
       AccessDeniedException,
       ConcurrentModificationException,
@@ -978,6 +974,52 @@ export const createSyncConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Lists the repository sync definitions for repository links in your account.
+ */
+export const listRepositorySyncDefinitions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListRepositorySyncDefinitionsInput,
+    output: ListRepositorySyncDefinitionsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Returns details about a repository link. A repository link allows Git sync to monitor
+ * and sync changes from files in a specified Git repository.
+ */
+export const getRepositoryLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRepositoryLinkInput,
+  output: GetRepositoryLinkOutput,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    InternalServerException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the repository links created for connections in your account.
+ */
+export const listRepositoryLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRepositoryLinksInput,
+  output: ListRepositoryLinksOutput,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    InternalServerException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the sync configuration for a specified repository and connection.
  */
@@ -996,29 +1038,21 @@ export const deleteSyncConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns the connection ARN and details such as status, owner, and provider type.
+ * Returns a list of sync configurations for a specified repository.
  */
-export const getConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConnectionInput,
-  output: GetConnectionOutput,
-  errors: [ResourceNotFoundException, ResourceUnavailableException],
-}));
-/**
- * Returns details about a repository link. A repository link allows Git sync to monitor
- * and sync changes from files in a specified Git repository.
- */
-export const getRepositoryLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRepositoryLinkInput,
-  output: GetRepositoryLinkOutput,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
+export const listSyncConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSyncConfigurationsInput,
+    output: ListSyncConfigurationsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Returns a list of the most recent sync blockers.
  */
@@ -1031,98 +1065,6 @@ export const getSyncBlockerSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InternalServerException,
       InvalidInputException,
       ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists the hosts associated with your account.
- */
-export const listHosts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListHostsInput,
-  output: ListHostsOutput,
-  errors: [],
-}));
-/**
- * Lists the repository sync definitions for repository links in your account.
- */
-export const listRepositorySyncDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListRepositorySyncDefinitionsInput,
-    output: ListRepositorySyncDefinitionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates a specified host with the provided configurations.
- */
-export const updateHost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateHostInput,
-  output: UpdateHostOutput,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Updates the association between your connection and a specified external Git repository.
- * A repository link allows Git sync to monitor and sync changes to files in a specified Git
- * repository.
- */
-export const updateRepositoryLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRepositoryLinkInput,
-    output: UpdateRepositoryLinkOutput,
-    errors: [
-      AccessDeniedException,
-      ConditionalCheckFailedException,
-      InternalServerException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UpdateOutOfSyncException,
-    ],
-  }),
-);
-/**
- * Updates the sync configuration for your connection and a specified external Git repository.
- */
-export const updateSyncConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSyncConfigurationInput,
-    output: UpdateSyncConfigurationOutput,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      InternalServerException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UpdateOutOfSyncException,
-    ],
-  }),
-);
-/**
- * Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
- */
-export const createRepositoryLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRepositoryLinkInput,
-    output: CreateRepositoryLinkOutput,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      InternalServerException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
       ThrottlingException,
     ],
   }),
@@ -1162,21 +1104,22 @@ export const getResourceSyncStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the association between your connection and a specified external Git repository.
+ * Creates a sync configuration which allows Amazon Web Services to sync content from a Git
+ * repository to update a specified Amazon Web Services resource. Parameters for the sync
+ * configuration are determined by the sync type.
  */
-export const deleteRepositoryLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createSyncConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteRepositoryLinkInput,
-    output: DeleteRepositoryLinkOutput,
+    input: CreateSyncConfigurationInput,
+    output: CreateSyncConfigurationOutput,
     errors: [
       AccessDeniedException,
       ConcurrentModificationException,
       InternalServerException,
       InvalidInputException,
-      ResourceNotFoundException,
-      SyncConfigurationStillExistsException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
       ThrottlingException,
-      UnsupportedProviderTypeException,
     ],
   }),
 );
@@ -1196,3 +1139,60 @@ export const updateSyncBlocker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
+/**
+ * Deletes the association between your connection and a specified external Git repository.
+ */
+export const deleteRepositoryLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRepositoryLinkInput,
+    output: DeleteRepositoryLinkOutput,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
+      InternalServerException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      SyncConfigurationStillExistsException,
+      ThrottlingException,
+      UnsupportedProviderTypeException,
+    ],
+  }),
+);
+/**
+ * Updates the association between your connection and a specified external Git repository.
+ * A repository link allows Git sync to monitor and sync changes to files in a specified Git
+ * repository.
+ */
+export const updateRepositoryLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRepositoryLinkInput,
+    output: UpdateRepositoryLinkOutput,
+    errors: [
+      AccessDeniedException,
+      ConditionalCheckFailedException,
+      InternalServerException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UpdateOutOfSyncException,
+    ],
+  }),
+);
+/**
+ * Updates the sync configuration for your connection and a specified external Git repository.
+ */
+export const updateSyncConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSyncConfigurationInput,
+    output: UpdateSyncConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
+      InternalServerException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UpdateOutOfSyncException,
+    ],
+  }),
+);

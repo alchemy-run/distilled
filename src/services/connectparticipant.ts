@@ -609,11 +609,11 @@ export class GetTranscriptResponse extends S.Class<GetTranscriptResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
@@ -621,14 +621,14 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
+  { Message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { Message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
@@ -641,6 +641,96 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 ) {}
 
 //# Operations
+/**
+ * Cancels the authentication session. The opted out branch of the Authenticate Customer
+ * flow block will be taken.
+ *
+ * The current supported channel is chat. This API is not supported for Apple
+ * Messages for Business, WhatsApp, or SMS chats.
+ *
+ * `ConnectionToken` is used for invoking this API instead of
+ * `ParticipantToken`.
+ *
+ * The Amazon Connect Participant Service APIs do not use Signature Version 4
+ * authentication.
+ */
+export const cancelParticipantAuthentication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CancelParticipantAuthenticationRequest,
+    output: CancelParticipantAuthenticationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves the view for the specified view token.
+ *
+ * For security recommendations, see Amazon Connect Chat security best practices.
+ */
+export const describeView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeViewRequest,
+  output: DescribeViewResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * The `application/vnd.amazonaws.connect.event.connection.acknowledged`
+ * ContentType is no longer maintained since December 31, 2024. This event has been
+ * migrated to the CreateParticipantConnection API using the
+ * `ConnectParticipant` field.
+ *
+ * Sends an event. Message receipts are not supported when there are more than two active
+ * participants in the chat. Using the SendEvent API for message receipts when a supervisor
+ * is barged-in will result in a conflict exception.
+ *
+ * For security recommendations, see Amazon Connect Chat security best practices.
+ *
+ * `ConnectionToken` is used for invoking this API instead of
+ * `ParticipantToken`.
+ *
+ * The Amazon Connect Participant Service APIs do not use Signature Version 4
+ * authentication.
+ */
+export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendEventRequest,
+  output: SendEventResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Sends a message.
+ *
+ * For security recommendations, see Amazon Connect Chat security best practices.
+ *
+ * `ConnectionToken` is used for invoking this API instead of
+ * `ParticipantToken`.
+ *
+ * The Amazon Connect Participant Service APIs do not use Signature Version 4
+ * authentication.
+ */
+export const sendMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendMessageRequest,
+  output: SendMessageResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides a pre-signed URL for download of a completed attachment. This is an
  * asynchronous API for use with active contacts.
@@ -699,14 +789,7 @@ export const getAuthenticationUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * The `application/vnd.amazonaws.connect.event.connection.acknowledged`
- * ContentType is no longer maintained since December 31, 2024. This event has been
- * migrated to the CreateParticipantConnection API using the
- * `ConnectParticipant` field.
- *
- * Sends an event. Message receipts are not supported when there are more than two active
- * participants in the chat. Using the SendEvent API for message receipts when a supervisor
- * is barged-in will result in a conflict exception.
+ * Disconnects a participant.
  *
  * For security recommendations, see Amazon Connect Chat security best practices.
  *
@@ -716,41 +799,18 @@ export const getAuthenticationUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendEventRequest,
-  output: SendEventResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Cancels the authentication session. The opted out branch of the Authenticate Customer
- * flow block will be taken.
- *
- * The current supported channel is chat. This API is not supported for Apple
- * Messages for Business, WhatsApp, or SMS chats.
- *
- * `ConnectionToken` is used for invoking this API instead of
- * `ParticipantToken`.
- *
- * The Amazon Connect Participant Service APIs do not use Signature Version 4
- * authentication.
- */
-export const cancelParticipantAuthentication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelParticipantAuthenticationRequest,
-    output: CancelParticipantAuthenticationResponse,
+export const disconnectParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisconnectParticipantRequest,
+    output: DisconnectParticipantResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
       ThrottlingException,
       ValidationException,
     ],
-  }));
+  }),
+);
 /**
  * Allows you to confirm that the attachment has been uploaded using the pre-signed URL
  * provided in StartAttachmentUpload API. A conflict exception is thrown when an attachment
@@ -779,50 +839,6 @@ export const completeAttachmentUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Disconnects a participant.
- *
- * For security recommendations, see Amazon Connect Chat security best practices.
- *
- * `ConnectionToken` is used for invoking this API instead of
- * `ParticipantToken`.
- *
- * The Amazon Connect Participant Service APIs do not use Signature Version 4
- * authentication.
- */
-export const disconnectParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisconnectParticipantRequest,
-    output: DisconnectParticipantResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Sends a message.
- *
- * For security recommendations, see Amazon Connect Chat security best practices.
- *
- * `ConnectionToken` is used for invoking this API instead of
- * `ParticipantToken`.
- *
- * The Amazon Connect Participant Service APIs do not use Signature Version 4
- * authentication.
- */
-export const sendMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendMessageRequest,
-  output: SendMessageResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Provides a pre-signed Amazon S3 URL in response for uploading the file directly to
  * S3.
  *
@@ -847,22 +863,6 @@ export const startAttachmentUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Retrieves the view for the specified view token.
- *
- * For security recommendations, see Amazon Connect Chat security best practices.
- */
-export const describeView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeViewRequest,
-  output: DescribeViewResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Creates the participant's connection.
  *

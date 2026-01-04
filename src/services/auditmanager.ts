@@ -1680,10 +1680,6 @@ export class CreateControlMappingSource extends S.Class<CreateControlMappingSour
   troubleshootingText: S.optional(S.String),
 }) {}
 export const CreateControlMappingSources = S.Array(CreateControlMappingSource);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class URL extends S.Class<URL>("URL")({
   hyperlinkName: S.optional(S.String),
   link: S.optional(S.String),
@@ -2010,6 +2006,10 @@ export class BatchImportEvidenceToAssessmentControlError extends S.Class<BatchIm
 export const BatchImportEvidenceToAssessmentControlErrors = S.Array(
   BatchImportEvidenceToAssessmentControlError,
 );
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class ControlInsightsMetadataByAssessmentItem extends S.Class<ControlInsightsMetadataByAssessmentItem>(
   "ControlInsightsMetadataByAssessmentItem",
 )({
@@ -2084,184 +2084,34 @@ export class GetAssessmentResponse extends S.Class<GetAssessmentResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.optional(S.String),
+    fields: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.String },
 ) {}
 
 //# Operations
-/**
- * Deletes an assessment report in Audit Manager.
- *
- * When you run the `DeleteAssessmentReport` operation, Audit Manager
- * attempts to delete the following data:
- *
- * - The specified assessment report that’s stored in your S3 bucket
- *
- * - The associated metadata that’s stored in Audit Manager
- *
- * If Audit Manager can’t access the assessment report in your S3 bucket, the report
- * isn’t deleted. In this event, the `DeleteAssessmentReport` operation doesn’t
- * fail. Instead, it proceeds to delete the associated metadata only. You must then delete the
- * assessment report from the S3 bucket yourself.
- *
- * This scenario happens when Audit Manager receives a `403 (Forbidden)` or
- * `404 (Not Found)` error from Amazon S3. To avoid this, make sure that
- * your S3 bucket is available, and that you configured the correct permissions for Audit Manager to delete resources in your S3 bucket. For an example permissions policy that
- * you can use, see Assessment report destination permissions in the *Audit Manager User Guide*. For information about the issues that could cause a 403
- * (Forbidden) or `404 (Not Found`) error from Amazon S3, see
- * List of Error Codes in the Amazon Simple Storage Service API
- * Reference.
- */
-export const deleteAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAssessmentReportRequest,
-    output: DeleteAssessmentReportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a custom control in Audit Manager.
- *
- * When you invoke this operation, the custom control is deleted from any frameworks or
- * assessments that it’s currently part of. As a result, Audit Manager will stop
- * collecting evidence for that custom control in all of your assessments. This includes
- * assessments that you previously created before you deleted the custom control.
- */
-export const deleteControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteControlRequest,
-  output: DeleteControlResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deregisters an account in Audit Manager.
- *
- * Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By
- * default, Audit Manager retains your data. If you want to delete your data, you can
- * use the `DeregistrationPolicy` attribute to request the deletion of your
- * data.
- *
- * For more information about data retention, see Data
- * Protection in the *Audit Manager User Guide*.
- */
-export const deregisterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeregisterAccountRequest,
-  output: DeregisterAccountResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the specified Amazon Web Services account as a delegated administrator for
- * Audit Manager.
- *
- * When you remove a delegated administrator from your Audit Manager settings, you
- * continue to have access to the evidence that you previously collected under that account.
- * This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to
- * that delegated administrator account moving forward.
- *
- * Keep in mind the following cleanup task if you use evidence finder:
- *
- * Before you use your management account to remove a delegated administrator, make sure
- * that the current delegated administrator account signs in to Audit Manager and
- * disables evidence finder first. Disabling evidence finder automatically deletes the
- * event data store that was created in their account when they enabled evidence finder. If
- * this task isn’t completed, the event data store remains in their account. In this case,
- * we recommend that the original delegated administrator goes to CloudTrail Lake
- * and manually deletes the
- * event data store.
- *
- * This cleanup task is necessary to ensure that you don't end up with multiple event
- * data stores. Audit Manager ignores an unused event data store after you remove or
- * change a delegated administrator account. However, the unused event data store continues
- * to incur storage costs from CloudTrail Lake if you don't delete it.
- *
- * When you deregister a delegated administrator account for Audit Manager, the data
- * for that account isn’t deleted. If you want to delete resource data for a delegated
- * administrator account, you must perform that task separately before you deregister the
- * account. Either, you can do this in the Audit Manager console. Or, you can use one of
- * the delete API operations that are provided by Audit Manager.
- *
- * To delete your Audit Manager resource data, see the following instructions:
- *
- * - DeleteAssessment (see also: Deleting an
- * assessment in the Audit Manager User
- * Guide)
- *
- * - DeleteAssessmentFramework (see also: Deleting a
- * custom framework in the Audit Manager User
- * Guide)
- *
- * - DeleteAssessmentFrameworkShare (see also: Deleting a share request in the Audit Manager User
- * Guide)
- *
- * - DeleteAssessmentReport (see also: Deleting an assessment report in the Audit Manager User
- * Guide)
- *
- * - DeleteControl (see also: Deleting a custom
- * control in the Audit Manager User
- * Guide)
- *
- * At this time, Audit Manager doesn't provide an option to delete evidence for a
- * specific delegated administrator. Instead, when your management account deregisters Audit Manager, we perform a cleanup for the current delegated administrator account at the
- * time of deregistration.
- */
-export const deregisterOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterOrganizationAdminAccountRequest,
-    output: DeregisterOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates an evidence folder from the specified assessment report in Audit Manager.
- */
-export const disassociateAssessmentReportEvidenceFolder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAssessmentReportEvidenceFolderRequest,
-    output: DisassociateAssessmentReportEvidenceFolderResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
 /**
  * Gets the registration status of an account in Audit Manager.
  */
@@ -2270,147 +2120,6 @@ export const getAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetAccountStatusResponse,
   errors: [InternalServerException],
 }));
-/**
- * Gets the name of the delegated Amazon Web Services administrator account for a specified
- * organization.
- */
-export const getOrganizationAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOrganizationAdminAccountRequest,
-    output: GetOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Tags the specified resource in Audit Manager.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a tag from a resource in Audit Manager.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates an evidence folder to an assessment report in an Audit Manager
- * assessment.
- */
-export const associateAssessmentReportEvidenceFolder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateAssessmentReportEvidenceFolderRequest,
-    output: AssociateAssessmentReportEvidenceFolderResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a list of evidence from an assessment report in Audit Manager.
- */
-export const batchDisassociateAssessmentReportEvidence =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateAssessmentReportEvidenceRequest,
-    output: BatchDisassociateAssessmentReportEvidenceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes an assessment in Audit Manager.
- */
-export const deleteAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAssessmentRequest,
-  output: DeleteAssessmentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a custom framework in Audit Manager.
- */
-export const deleteAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAssessmentFrameworkRequest,
-    output: DeleteAssessmentFrameworkResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets all evidence from a specified evidence folder in Audit Manager.
- */
-export const getEvidenceByEvidenceFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEvidenceByEvidenceFolderRequest,
-    output: GetEvidenceByEvidenceFolderResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets the evidence folders from a specified assessment in Audit Manager.
- */
-export const getEvidenceFoldersByAssessment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEvidenceFoldersByAssessmentRequest,
-    output: GetEvidenceFoldersByAssessmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets a list of evidence folders that are associated with a specified control in an
- * Audit Manager assessment.
- */
-export const getEvidenceFoldersByAssessmentControl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEvidenceFoldersByAssessmentControlRequest,
-    output: GetEvidenceFoldersByAssessmentControlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
 /**
  * Gets the latest analytics data for all your current active assessments.
  */
@@ -2439,24 +2148,26 @@ export const getServicesInScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [AccessDeniedException, InternalServerException, ValidationException],
 }));
 /**
- * Lists analytics data for control domains within a specified active assessment.
- *
- * Audit Manager supports the control domains that are provided by Amazon Web Services
- * Control Catalog. For information about how to find a list of available control domains, see
- *
- * `ListDomains`
- * in the Amazon Web Services Control
- * Catalog API Reference.
- *
- * A control domain is listed only if at least one of the controls within that domain
- * collected evidence on the `lastUpdated` date of
- * `controlDomainInsights`. If this condition isn’t met, no data is listed
- * for that domain.
+ * Gets the settings for a specified Amazon Web Services account.
  */
-export const listControlDomainInsightsByAssessment =
+export const getSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSettingsRequest,
+  output: GetSettingsResponse,
+  errors: [AccessDeniedException, InternalServerException],
+}));
+/**
+ * Lists the latest analytics data for controls within a specific control domain and a
+ * specific active assessment.
+ *
+ * Control insights are listed only if the control belongs to the control domain and
+ * assessment that was specified. Moreover, the control must have collected evidence on the
+ * `lastUpdated` date of `controlInsightsByAssessment`. If neither
+ * of these conditions are met, no data is listed for that control.
+ */
+export const listAssessmentControlInsightsByControlDomain =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListControlDomainInsightsByAssessmentRequest,
-    output: ListControlDomainInsightsByAssessmentResponse,
+    input: ListAssessmentControlInsightsByControlDomainRequest,
+    output: ListAssessmentControlInsightsByControlDomainResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -2464,6 +2175,45 @@ export const listControlDomainInsightsByAssessment =
       ValidationException,
     ],
   }));
+/**
+ * Returns a list of current and past assessments from Audit Manager.
+ */
+export const listAssessments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAssessmentsRequest,
+  output: ListAssessmentsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+}));
+/**
+ * Updates a control within an assessment in Audit Manager.
+ */
+export const updateAssessmentControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAssessmentControlRequest,
+    output: UpdateAssessmentControlResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a custom framework in Audit Manager.
+ */
+export const updateAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAssessmentFrameworkRequest,
+    output: UpdateAssessmentFrameworkResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Returns a list of keywords that are pre-mapped to the specified control data
  * source.
@@ -2480,240 +2230,6 @@ export const listKeywordsForDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns a list of tags for the specified resource in Audit Manager.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Enables Audit Manager for the specified Amazon Web Services account.
- */
-export const registerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterAccountRequest,
-  output: RegisterAccountResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Enables an Amazon Web Services account within the organization as the delegated
- * administrator for Audit Manager.
- */
-export const registerOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterOrganizationAdminAccountRequest,
-    output: RegisterOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a share request for a custom framework in Audit Manager.
- *
- * The share request specifies a recipient and notifies them that a custom framework is
- * available. Recipients have 120 days to accept or decline the request. If no action is
- * taken, the share request expires.
- *
- * When you create a share request, Audit Manager stores a snapshot of your custom
- * framework in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also
- * stores a backup of the same snapshot in the US West (Oregon) Amazon Web Services Region.
- *
- * Audit Manager deletes the snapshot and the backup snapshot when one of the following
- * events occurs:
- *
- * - The sender revokes the share request.
- *
- * - The recipient declines the share request.
- *
- * - The recipient encounters an error and doesn't successfully accept the share
- * request.
- *
- * - The share request expires before the recipient responds to the request.
- *
- * When a sender resends a share request, the snapshot is replaced with an updated version that
- * corresponds with the latest version of the custom framework.
- *
- * When a recipient accepts a share request, the snapshot is replicated into their Amazon Web Services account under the Amazon Web Services Region that was specified in the share
- * request.
- *
- * When you invoke the `StartAssessmentFrameworkShare` API, you are about to
- * share a custom framework with another Amazon Web Services account. You may not share a
- * custom framework that is derived from a standard framework if the standard framework is
- * designated as not eligible for sharing by Amazon Web Services, unless you have obtained
- * permission to do so from the owner of the standard framework. To learn more about which
- * standard frameworks are eligible for sharing, see Framework sharing eligibility in the Audit Manager User
- * Guide.
- */
-export const startAssessmentFrameworkShare =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartAssessmentFrameworkShareRequest,
-    output: StartAssessmentFrameworkShareResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates a share request for a custom framework in Audit Manager.
- */
-export const updateAssessmentFrameworkShare =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAssessmentFrameworkShareRequest,
-    output: UpdateAssessmentFrameworkShareResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates the status of an assessment in Audit Manager.
- */
-export const updateAssessmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssessmentStatusRequest,
-    output: UpdateAssessmentStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Validates the integrity of an assessment report in Audit Manager.
- */
-export const validateAssessmentReportIntegrity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateAssessmentReportIntegrityRequest,
-    output: ValidateAssessmentReportIntegrityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Associates a list of evidence to an assessment report in an Audit Manager
- * assessment.
- */
-export const batchAssociateAssessmentReportEvidence =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchAssociateAssessmentReportEvidenceRequest,
-    output: BatchAssociateAssessmentReportEvidenceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes a batch of delegations for an assessment in Audit Manager.
- */
-export const batchDeleteDelegationByAssessment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteDelegationByAssessmentRequest,
-    output: BatchDeleteDelegationByAssessmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates an assessment report for the specified assessment.
- */
-export const createAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAssessmentReportRequest,
-    output: CreateAssessmentReportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a share request for a custom framework in Audit Manager.
- */
-export const deleteAssessmentFrameworkShare =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAssessmentFrameworkShareRequest,
-    output: DeleteAssessmentFrameworkShareResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets the URL of an assessment report in Audit Manager.
- */
-export const getAssessmentReportUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssessmentReportUrlRequest,
-    output: GetAssessmentReportUrlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets a list of changelogs from Audit Manager.
- */
-export const getChangeLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetChangeLogsRequest,
-  output: GetChangeLogsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about a specified control.
- */
-export const getControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetControlRequest,
-  output: GetControlResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Gets a list of delegations from an audit owner to a delegate.
  */
 export const getDelegations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2721,6 +2237,21 @@ export const getDelegations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetDelegationsResponse,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
 }));
+/**
+ * Gets all evidence from a specified evidence folder in Audit Manager.
+ */
+export const getEvidenceByEvidenceFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetEvidenceByEvidenceFolderRequest,
+    output: GetEvidenceByEvidenceFolderResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Creates a presigned Amazon S3 URL that can be used to upload a file as manual
  * evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User
@@ -2884,21 +2415,6 @@ export const listNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [AccessDeniedException, InternalServerException, ValidationException],
 }));
 /**
- * Edits an Audit Manager assessment.
- */
-export const updateAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAssessmentRequest,
-  output: UpdateAssessmentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates the status of a control set in an Audit Manager assessment.
  */
 export const updateAssessmentControlSetStatus =
@@ -2912,22 +2428,6 @@ export const updateAssessmentControlSetStatus =
       ValidationException,
     ],
   }));
-/**
- * Updates a custom framework in Audit Manager.
- */
-export const updateAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssessmentFrameworkRequest,
-    output: UpdateAssessmentFrameworkResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Updates a custom control in Audit Manager.
  */
@@ -2948,6 +2448,515 @@ export const updateSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSettingsRequest,
   output: UpdateSettingsResponse,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
+}));
+/**
+ * Gets the evidence folders from a specified assessment in Audit Manager.
+ */
+export const getEvidenceFoldersByAssessment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetEvidenceFoldersByAssessmentRequest,
+    output: GetEvidenceFoldersByAssessmentResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets a list of evidence folders that are associated with a specified control in an
+ * Audit Manager assessment.
+ */
+export const getEvidenceFoldersByAssessmentControl =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetEvidenceFoldersByAssessmentControlRequest,
+    output: GetEvidenceFoldersByAssessmentControlResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists analytics data for control domains within a specified active assessment.
+ *
+ * Audit Manager supports the control domains that are provided by Amazon Web Services
+ * Control Catalog. For information about how to find a list of available control domains, see
+ *
+ * `ListDomains`
+ * in the Amazon Web Services Control
+ * Catalog API Reference.
+ *
+ * A control domain is listed only if at least one of the controls within that domain
+ * collected evidence on the `lastUpdated` date of
+ * `controlDomainInsights`. If this condition isn’t met, no data is listed
+ * for that domain.
+ */
+export const listControlDomainInsightsByAssessment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListControlDomainInsightsByAssessmentRequest,
+    output: ListControlDomainInsightsByAssessmentResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns a list of tags for the specified resource in Audit Manager.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Enables Audit Manager for the specified Amazon Web Services account.
+ */
+export const registerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterAccountRequest,
+  output: RegisterAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Enables an Amazon Web Services account within the organization as the delegated
+ * administrator for Audit Manager.
+ */
+export const registerOrganizationAdminAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RegisterOrganizationAdminAccountRequest,
+    output: RegisterOrganizationAdminAccountResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a share request for a custom framework in Audit Manager.
+ *
+ * The share request specifies a recipient and notifies them that a custom framework is
+ * available. Recipients have 120 days to accept or decline the request. If no action is
+ * taken, the share request expires.
+ *
+ * When you create a share request, Audit Manager stores a snapshot of your custom
+ * framework in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also
+ * stores a backup of the same snapshot in the US West (Oregon) Amazon Web Services Region.
+ *
+ * Audit Manager deletes the snapshot and the backup snapshot when one of the following
+ * events occurs:
+ *
+ * - The sender revokes the share request.
+ *
+ * - The recipient declines the share request.
+ *
+ * - The recipient encounters an error and doesn't successfully accept the share
+ * request.
+ *
+ * - The share request expires before the recipient responds to the request.
+ *
+ * When a sender resends a share request, the snapshot is replaced with an updated version that
+ * corresponds with the latest version of the custom framework.
+ *
+ * When a recipient accepts a share request, the snapshot is replicated into their Amazon Web Services account under the Amazon Web Services Region that was specified in the share
+ * request.
+ *
+ * When you invoke the `StartAssessmentFrameworkShare` API, you are about to
+ * share a custom framework with another Amazon Web Services account. You may not share a
+ * custom framework that is derived from a standard framework if the standard framework is
+ * designated as not eligible for sharing by Amazon Web Services, unless you have obtained
+ * permission to do so from the owner of the standard framework. To learn more about which
+ * standard frameworks are eligible for sharing, see Framework sharing eligibility in the Audit Manager User
+ * Guide.
+ */
+export const startAssessmentFrameworkShare =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartAssessmentFrameworkShareRequest,
+    output: StartAssessmentFrameworkShareResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Validates the integrity of an assessment report in Audit Manager.
+ */
+export const validateAssessmentReportIntegrity =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ValidateAssessmentReportIntegrityRequest,
+    output: ValidateAssessmentReportIntegrityResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an assessment in Audit Manager.
+ */
+export const deleteAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssessmentRequest,
+  output: DeleteAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a custom framework in Audit Manager.
+ */
+export const deleteAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAssessmentFrameworkRequest,
+    output: DeleteAssessmentFrameworkResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a share request for a custom framework in Audit Manager.
+ */
+export const deleteAssessmentFrameworkShare =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteAssessmentFrameworkShareRequest,
+    output: DeleteAssessmentFrameworkShareResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an assessment report in Audit Manager.
+ *
+ * When you run the `DeleteAssessmentReport` operation, Audit Manager
+ * attempts to delete the following data:
+ *
+ * - The specified assessment report that’s stored in your S3 bucket
+ *
+ * - The associated metadata that’s stored in Audit Manager
+ *
+ * If Audit Manager can’t access the assessment report in your S3 bucket, the report
+ * isn’t deleted. In this event, the `DeleteAssessmentReport` operation doesn’t
+ * fail. Instead, it proceeds to delete the associated metadata only. You must then delete the
+ * assessment report from the S3 bucket yourself.
+ *
+ * This scenario happens when Audit Manager receives a `403 (Forbidden)` or
+ * `404 (Not Found)` error from Amazon S3. To avoid this, make sure that
+ * your S3 bucket is available, and that you configured the correct permissions for Audit Manager to delete resources in your S3 bucket. For an example permissions policy that
+ * you can use, see Assessment report destination permissions in the *Audit Manager User Guide*. For information about the issues that could cause a 403
+ * (Forbidden) or `404 (Not Found`) error from Amazon S3, see
+ * List of Error Codes in the Amazon Simple Storage Service API
+ * Reference.
+ */
+export const deleteAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAssessmentReportRequest,
+    output: DeleteAssessmentReportResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a custom control in Audit Manager.
+ *
+ * When you invoke this operation, the custom control is deleted from any frameworks or
+ * assessments that it’s currently part of. As a result, Audit Manager will stop
+ * collecting evidence for that custom control in all of your assessments. This includes
+ * assessments that you previously created before you deleted the custom control.
+ */
+export const deleteControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteControlRequest,
+  output: DeleteControlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deregisters an account in Audit Manager.
+ *
+ * Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By
+ * default, Audit Manager retains your data. If you want to delete your data, you can
+ * use the `DeregistrationPolicy` attribute to request the deletion of your
+ * data.
+ *
+ * For more information about data retention, see Data
+ * Protection in the *Audit Manager User Guide*.
+ */
+export const deregisterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterAccountRequest,
+  output: DeregisterAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the specified Amazon Web Services account as a delegated administrator for
+ * Audit Manager.
+ *
+ * When you remove a delegated administrator from your Audit Manager settings, you
+ * continue to have access to the evidence that you previously collected under that account.
+ * This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to
+ * that delegated administrator account moving forward.
+ *
+ * Keep in mind the following cleanup task if you use evidence finder:
+ *
+ * Before you use your management account to remove a delegated administrator, make sure
+ * that the current delegated administrator account signs in to Audit Manager and
+ * disables evidence finder first. Disabling evidence finder automatically deletes the
+ * event data store that was created in their account when they enabled evidence finder. If
+ * this task isn’t completed, the event data store remains in their account. In this case,
+ * we recommend that the original delegated administrator goes to CloudTrail Lake
+ * and manually deletes the
+ * event data store.
+ *
+ * This cleanup task is necessary to ensure that you don't end up with multiple event
+ * data stores. Audit Manager ignores an unused event data store after you remove or
+ * change a delegated administrator account. However, the unused event data store continues
+ * to incur storage costs from CloudTrail Lake if you don't delete it.
+ *
+ * When you deregister a delegated administrator account for Audit Manager, the data
+ * for that account isn’t deleted. If you want to delete resource data for a delegated
+ * administrator account, you must perform that task separately before you deregister the
+ * account. Either, you can do this in the Audit Manager console. Or, you can use one of
+ * the delete API operations that are provided by Audit Manager.
+ *
+ * To delete your Audit Manager resource data, see the following instructions:
+ *
+ * - DeleteAssessment (see also: Deleting an
+ * assessment in the Audit Manager User
+ * Guide)
+ *
+ * - DeleteAssessmentFramework (see also: Deleting a
+ * custom framework in the Audit Manager User
+ * Guide)
+ *
+ * - DeleteAssessmentFrameworkShare (see also: Deleting a share request in the Audit Manager User
+ * Guide)
+ *
+ * - DeleteAssessmentReport (see also: Deleting an assessment report in the Audit Manager User
+ * Guide)
+ *
+ * - DeleteControl (see also: Deleting a custom
+ * control in the Audit Manager User
+ * Guide)
+ *
+ * At this time, Audit Manager doesn't provide an option to delete evidence for a
+ * specific delegated administrator. Instead, when your management account deregisters Audit Manager, we perform a cleanup for the current delegated administrator account at the
+ * time of deregistration.
+ */
+export const deregisterOrganizationAdminAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeregisterOrganizationAdminAccountRequest,
+    output: DeregisterOrganizationAdminAccountResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates an evidence folder from the specified assessment report in Audit Manager.
+ */
+export const disassociateAssessmentReportEvidenceFolder =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateAssessmentReportEvidenceFolderRequest,
+    output: DisassociateAssessmentReportEvidenceFolderResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets the name of the delegated Amazon Web Services administrator account for a specified
+ * organization.
+ */
+export const getOrganizationAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetOrganizationAdminAccountRequest,
+    output: GetOrganizationAdminAccountResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Tags the specified resource in Audit Manager.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a tag from a resource in Audit Manager.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates an evidence folder to an assessment report in an Audit Manager
+ * assessment.
+ */
+export const associateAssessmentReportEvidenceFolder =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateAssessmentReportEvidenceFolderRequest,
+    output: AssociateAssessmentReportEvidenceFolderResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates a list of evidence from an assessment report in Audit Manager.
+ */
+export const batchDisassociateAssessmentReportEvidence =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDisassociateAssessmentReportEvidenceRequest,
+    output: BatchDisassociateAssessmentReportEvidenceResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Associates a list of evidence to an assessment report in an Audit Manager
+ * assessment.
+ */
+export const batchAssociateAssessmentReportEvidence =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchAssociateAssessmentReportEvidenceRequest,
+    output: BatchAssociateAssessmentReportEvidenceResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes a batch of delegations for an assessment in Audit Manager.
+ */
+export const batchDeleteDelegationByAssessment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDeleteDelegationByAssessmentRequest,
+    output: BatchDeleteDelegationByAssessmentResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates an assessment report for the specified assessment.
+ */
+export const createAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAssessmentReportRequest,
+    output: CreateAssessmentReportResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets the URL of an assessment report in Audit Manager.
+ */
+export const getAssessmentReportUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAssessmentReportUrlRequest,
+    output: GetAssessmentReportUrlResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets a list of changelogs from Audit Manager.
+ */
+export const getChangeLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChangeLogsRequest,
+  output: GetChangeLogsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about a specified control.
+ */
+export const getControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetControlRequest,
+  output: GetControlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
 }));
 /**
  * Creates a batch of delegations for an assessment in Audit Manager.
@@ -2998,6 +3007,80 @@ export const batchImportEvidenceToAssessmentControl =
     ],
   }));
 /**
+ * Gets information about a specified framework.
+ */
+export const getAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAssessmentFrameworkRequest,
+    output: GetAssessmentFrameworkResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets information about a specified evidence item.
+ */
+export const getEvidence = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEvidenceRequest,
+  output: GetEvidenceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Edits an Audit Manager assessment.
+ */
+export const updateAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssessmentRequest,
+  output: UpdateAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a share request for a custom framework in Audit Manager.
+ */
+export const updateAssessmentFrameworkShare =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateAssessmentFrameworkShareRequest,
+    output: UpdateAssessmentFrameworkShareResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the status of an assessment in Audit Manager.
+ */
+export const updateAssessmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAssessmentStatusRequest,
+    output: UpdateAssessmentStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Creates an assessment in Audit Manager.
  */
 export const createAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3042,85 +3125,6 @@ export const createControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Gets information about a specified framework.
- */
-export const getAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssessmentFrameworkRequest,
-    output: GetAssessmentFrameworkResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about a specified evidence item.
- */
-export const getEvidence = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEvidenceRequest,
-  output: GetEvidenceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the settings for a specified Amazon Web Services account.
- */
-export const getSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSettingsRequest,
-  output: GetSettingsResponse,
-  errors: [AccessDeniedException, InternalServerException],
-}));
-/**
- * Lists the latest analytics data for controls within a specific control domain and a
- * specific active assessment.
- *
- * Control insights are listed only if the control belongs to the control domain and
- * assessment that was specified. Moreover, the control must have collected evidence on the
- * `lastUpdated` date of `controlInsightsByAssessment`. If neither
- * of these conditions are met, no data is listed for that control.
- */
-export const listAssessmentControlInsightsByControlDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAssessmentControlInsightsByControlDomainRequest,
-    output: ListAssessmentControlInsightsByControlDomainResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns a list of current and past assessments from Audit Manager.
- */
-export const listAssessments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAssessmentsRequest,
-  output: ListAssessmentsResponse,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
-}));
-/**
- * Updates a control within an assessment in Audit Manager.
- */
-export const updateAssessmentControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssessmentControlRequest,
-    output: UpdateAssessmentControlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Gets information about a specified assessment.
  */

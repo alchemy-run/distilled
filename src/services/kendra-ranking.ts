@@ -394,69 +394,69 @@ export class RescoreResult extends S.Class<RescoreResult>("RescoreResult")({
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
-  "ResourceUnavailableException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
+  "ResourceUnavailableException",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Adds a specified tag to a specified rescore execution
- * plan. A rescore execution plan is an Amazon Kendra
- * Intelligent Ranking resource used for provisioning the
- * `Rescore` API. If the tag already exists,
- * the existing value is replaced with the new value.
+ * Lists your rescore execution plans. A rescore execution plan
+ * is an Amazon Kendra Intelligent Ranking resource used for
+ * provisioning the `Rescore` API.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceUnavailableException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const listRescoreExecutionPlans = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListRescoreExecutionPlansRequest,
+    output: ListRescoreExecutionPlansResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
- * Removes a tag from a rescore execution plan. A rescore
- * execution plan is an Amazon Kendra Intelligent
- * Ranking resource used for provisioning the
- * `Rescore` operation.
+ * Rescores or re-ranks search results from a search service
+ * such as OpenSearch (self managed). You use the semantic search
+ * capabilities of Amazon Kendra Intelligent Ranking to
+ * improve the search service's results.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const rescore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RescoreRequest,
+  output: RescoreResult,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
-    ResourceUnavailableException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -483,59 +483,6 @@ export const createRescoreExecutionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ConflictException,
       InternalServerException,
       ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a rescore execution plan. A rescore execution
- * plan is an Amazon Kendra Intelligent Ranking resource
- * used for provisioning the `Rescore` API.
- */
-export const deleteRescoreExecutionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRescoreExecutionPlanRequest,
-    output: DeleteRescoreExecutionPlanResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about a rescore execution plan. A rescore
- * execution plan is an Amazon Kendra Intelligent Ranking
- * resource used for provisioning the `Rescore` API.
- */
-export const describeRescoreExecutionPlan =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRescoreExecutionPlanRequest,
-    output: DescribeRescoreExecutionPlanResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists your rescore execution plans. A rescore execution plan
- * is an Amazon Kendra Intelligent Ranking resource used for
- * provisioning the `Rescore` API.
- */
-export const listRescoreExecutionPlans = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRescoreExecutionPlansRequest,
-    output: ListRescoreExecutionPlansResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
       ThrottlingException,
       ValidationException,
     ],
@@ -581,19 +528,72 @@ export const updateRescoreExecutionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Rescores or re-ranks search results from a search service
- * such as OpenSearch (self managed). You use the semantic search
- * capabilities of Amazon Kendra Intelligent Ranking to
- * improve the search service's results.
+ * Deletes a rescore execution plan. A rescore execution
+ * plan is an Amazon Kendra Intelligent Ranking resource
+ * used for provisioning the `Rescore` API.
  */
-export const rescore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RescoreRequest,
-  output: RescoreResult,
+export const deleteRescoreExecutionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRescoreExecutionPlanRequest,
+    output: DeleteRescoreExecutionPlanResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets information about a rescore execution plan. A rescore
+ * execution plan is an Amazon Kendra Intelligent Ranking
+ * resource used for provisioning the `Rescore` API.
+ */
+export const describeRescoreExecutionPlan =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeRescoreExecutionPlanRequest,
+    output: DescribeRescoreExecutionPlanResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Adds a specified tag to a specified rescore execution
+ * plan. A rescore execution plan is an Amazon Kendra
+ * Intelligent Ranking resource used for provisioning the
+ * `Rescore` API. If the tag already exists,
+ * the existing value is replaced with the new value.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a tag from a rescore execution plan. A rescore
+ * execution plan is an Amazon Kendra Intelligent
+ * Ranking resource used for provisioning the
+ * `Rescore` operation.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceUnavailableException,
     ThrottlingException,
     ValidationException,
   ],

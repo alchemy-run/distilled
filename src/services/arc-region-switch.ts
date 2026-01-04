@@ -255,6 +255,8 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export const RegionList = S.Array(S.String);
+export const TagKeys = S.Array(S.String);
 export class ApprovePlanExecutionStepRequest extends S.Class<ApprovePlanExecutionStepRequest>(
   "ApprovePlanExecutionStepRequest",
 )(
@@ -409,6 +411,18 @@ export class UpdatePlanExecutionStepRequest extends S.Class<UpdatePlanExecutionS
 export class UpdatePlanExecutionStepResponse extends S.Class<UpdatePlanExecutionStepResponse>(
   "UpdatePlanExecutionStepResponse",
 )({}) {}
+export class GetPlanRequest extends S.Class<GetPlanRequest>("GetPlanRequest")(
+  { arn: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  ),
+) {}
 export type Steps = Step[];
 export const Steps = S.Array(
   S.suspend((): S.Schema<Step, any> => Step),
@@ -454,7 +468,109 @@ export const ReportOutputList = S.Array(ReportOutputConfiguration);
 export class ReportConfiguration extends S.Class<ReportConfiguration>(
   "ReportConfiguration",
 )({ reportOutput: S.optional(ReportOutputList) }) {}
-export const RegionList = S.Array(S.String);
+export class UpdatePlanRequest extends S.Class<UpdatePlanRequest>(
+  "UpdatePlanRequest",
+)(
+  {
+    arn: S.String,
+    description: S.optional(S.String),
+    workflows: WorkflowList,
+    executionRole: S.String,
+    recoveryTimeObjectiveMinutes: S.optional(S.Number),
+    associatedAlarms: S.optional(AssociatedAlarmMap),
+    triggers: S.optional(TriggerList),
+    reportConfiguration: S.optional(ReportConfiguration),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  ),
+) {}
+export class DeletePlanRequest extends S.Class<DeletePlanRequest>(
+  "DeletePlanRequest",
+)(
+  { arn: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  ),
+) {}
+export class DeletePlanResponse extends S.Class<DeletePlanResponse>(
+  "DeletePlanResponse",
+)({}) {}
+export class ListPlansRequest extends S.Class<ListPlansRequest>(
+  "ListPlansRequest",
+)(
+  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
+  T.all(
+    T.Http({ method: "POST", uri: "/" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  ),
+) {}
+export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
+  "ListTagsForResourceRequest",
+)(
+  { arn: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  ),
+) {}
+export const Tags = S.Record({ key: S.String, value: S.String });
+export class TagResourceRequest extends S.Class<TagResourceRequest>(
+  "TagResourceRequest",
+)(
+  { arn: S.String, tags: Tags },
+  T.all(
+    T.Http({ method: "POST", uri: "/" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  ),
+) {}
+export class TagResourceResponse extends S.Class<TagResourceResponse>(
+  "TagResourceResponse",
+)({}) {}
+export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
+  "UntagResourceRequest",
+)(
+  { arn: S.String, resourceTagKeys: TagKeys },
+  T.all(
+    T.Http({ method: "POST", uri: "/" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  ),
+) {}
+export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
+  "UntagResourceResponse",
+)({}) {}
 export class Plan extends S.Class<Plan>("Plan")({
   arn: S.String,
   description: S.optional(S.String),
@@ -500,6 +616,35 @@ export class StartPlanExecutionResponse extends S.Class<StartPlanExecutionRespon
   activateRegion: S.optional(S.String),
   deactivateRegion: S.optional(S.String),
 }) {}
+export class GetPlanResponse extends S.Class<GetPlanResponse>(
+  "GetPlanResponse",
+)({ plan: S.optional(Plan) }) {}
+export class UpdatePlanResponse extends S.Class<UpdatePlanResponse>(
+  "UpdatePlanResponse",
+)({ plan: S.optional(Plan) }) {}
+export class AbbreviatedPlan extends S.Class<AbbreviatedPlan>(
+  "AbbreviatedPlan",
+)({
+  arn: S.String,
+  owner: S.String,
+  name: S.String,
+  regions: RegionList,
+  recoveryApproach: S.String,
+  primaryRegion: S.optional(S.String),
+  version: S.optional(S.String),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  description: S.optional(S.String),
+  executionRole: S.optional(S.String),
+  activePlanExecution: S.optional(S.String),
+  recoveryTimeObjectiveMinutes: S.optional(S.Number),
+}) {}
+export const PlanList = S.Array(AbbreviatedPlan);
+export class ListPlansResponse extends S.Class<ListPlansResponse>(
+  "ListPlansResponse",
+)({ plans: S.optional(PlanList), nextToken: S.optional(S.String) }) {}
+export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
+  "ListTagsForResourceResponse",
+)({ resourceTags: S.optional(Tags) }) {}
 export const Resources = S.Array(S.String);
 export class StepState extends S.Class<StepState>("StepState")({
   name: S.optional(S.String),
@@ -538,23 +683,6 @@ export class AbbreviatedExecution extends S.Class<AbbreviatedExecution>(
   actualRecoveryTime: S.optional(S.String),
 }) {}
 export const AbbreviatedExecutionsList = S.Array(AbbreviatedExecution);
-export class AbbreviatedPlan extends S.Class<AbbreviatedPlan>(
-  "AbbreviatedPlan",
-)({
-  arn: S.String,
-  owner: S.String,
-  name: S.String,
-  regions: RegionList,
-  recoveryApproach: S.String,
-  primaryRegion: S.optional(S.String),
-  version: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  description: S.optional(S.String),
-  executionRole: S.optional(S.String),
-  activePlanExecution: S.optional(S.String),
-  recoveryTimeObjectiveMinutes: S.optional(S.Number),
-}) {}
-export const PlanList = S.Array(AbbreviatedPlan);
 export class ListPlanExecutionEventsResponse extends S.Class<ListPlanExecutionEventsResponse>(
   "ListPlanExecutionEventsResponse",
 )({ items: S.optional(ExecutionEventList), nextToken: S.optional(S.String) }) {}
@@ -573,9 +701,24 @@ export class ListRoute53HealthChecksResponse extends S.Class<ListRoute53HealthCh
   healthChecks: S.optional(Route53HealthCheckList),
   nextToken: S.optional(S.String),
 }) {}
+export const AuroraClusterArns = S.Array(S.String);
+export const DocumentDbClusterArns = S.Array(S.String);
 export class MinimalWorkflow extends S.Class<MinimalWorkflow>(
   "MinimalWorkflow",
 )({ action: S.optional(S.String), name: S.optional(S.String) }) {}
+export class ExecutionApprovalConfiguration extends S.Class<ExecutionApprovalConfiguration>(
+  "ExecutionApprovalConfiguration",
+)({ timeoutMinutes: S.optional(S.Number), approvalRole: S.String }) {}
+export class ParallelExecutionBlockConfiguration extends S.Class<ParallelExecutionBlockConfiguration>(
+  "ParallelExecutionBlockConfiguration",
+)({ steps: S.suspend(() => Steps) }) {}
+export class RegionSwitchPlanConfiguration extends S.Class<RegionSwitchPlanConfiguration>(
+  "RegionSwitchPlanConfiguration",
+)({
+  crossAccountRole: S.optional(S.String),
+  externalId: S.optional(S.String),
+  arn: S.String,
+}) {}
 export class ResourceWarning extends S.Class<ResourceWarning>(
   "ResourceWarning",
 )({
@@ -606,34 +749,6 @@ export class GetPlanEvaluationStatusResponse extends S.Class<GetPlanEvaluationSt
   evaluationState: S.optional(S.String),
   warnings: S.optional(PlanWarnings),
   nextToken: S.optional(S.String),
-}) {}
-export const ReportOutput = S.Union(
-  S.Struct({ s3ReportOutput: S3ReportOutput }),
-  S.Struct({ failedReportOutput: FailedReportOutput }),
-);
-export const AuroraClusterArns = S.Array(S.String);
-export const DocumentDbClusterArns = S.Array(S.String);
-export class GeneratedReport extends S.Class<GeneratedReport>(
-  "GeneratedReport",
-)({
-  reportGenerationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  reportOutput: S.optional(ReportOutput),
-}) {}
-export const GeneratedReportDetails = S.Array(GeneratedReport);
-export class ExecutionApprovalConfiguration extends S.Class<ExecutionApprovalConfiguration>(
-  "ExecutionApprovalConfiguration",
-)({ timeoutMinutes: S.optional(S.Number), approvalRole: S.String }) {}
-export class ParallelExecutionBlockConfiguration extends S.Class<ParallelExecutionBlockConfiguration>(
-  "ParallelExecutionBlockConfiguration",
-)({ steps: S.suspend(() => Steps) }) {}
-export class RegionSwitchPlanConfiguration extends S.Class<RegionSwitchPlanConfiguration>(
-  "RegionSwitchPlanConfiguration",
-)({
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  arn: S.String,
 }) {}
 export class Lambdas extends S.Class<Lambdas>("Lambdas")({
   crossAccountRole: S.optional(S.String),
@@ -688,6 +803,10 @@ export const Route53ResourceRecordSetList = S.Array(Route53ResourceRecordSet);
 export class DocumentDbUngraceful extends S.Class<DocumentDbUngraceful>(
   "DocumentDbUngraceful",
 )({ ungraceful: S.optional(S.String) }) {}
+export const ReportOutput = S.Union(
+  S.Struct({ s3ReportOutput: S3ReportOutput }),
+  S.Struct({ failedReportOutput: FailedReportOutput }),
+);
 export class CustomActionLambdaConfiguration extends S.Class<CustomActionLambdaConfiguration>(
   "CustomActionLambdaConfiguration",
 )({
@@ -747,10 +866,39 @@ export class DocumentDbConfiguration extends S.Class<DocumentDbConfiguration>(
   globalClusterIdentifier: S.String,
   databaseClusterArns: DocumentDbClusterArns,
 }) {}
+export class GeneratedReport extends S.Class<GeneratedReport>(
+  "GeneratedReport",
+)({
+  reportGenerationTime: S.optional(
+    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  ),
+  reportOutput: S.optional(ReportOutput),
+}) {}
+export const GeneratedReportDetails = S.Array(GeneratedReport);
 export class ArcRoutingControlState extends S.Class<ArcRoutingControlState>(
   "ArcRoutingControlState",
 )({ routingControlArn: S.String, state: S.String }) {}
 export const ArcRoutingControlStates = S.Array(ArcRoutingControlState);
+export class GetPlanExecutionResponse extends S.Class<GetPlanExecutionResponse>(
+  "GetPlanExecutionResponse",
+)({
+  planArn: S.String,
+  executionId: S.String,
+  version: S.optional(S.String),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  comment: S.optional(S.String),
+  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  mode: S.String,
+  executionState: S.String,
+  executionAction: S.String,
+  executionRegion: S.String,
+  stepStates: S.optional(StepStates),
+  plan: S.optional(Plan),
+  actualRecoveryTime: S.optional(S.String),
+  generatedReportDetails: S.optional(GeneratedReportDetails),
+  nextToken: S.optional(S.String),
+}) {}
 export const RegionAndRoutingControls = S.Record({
   key: S.String,
   value: ArcRoutingControlStates,
@@ -824,60 +972,68 @@ export class Step extends S.Class<Step>("Step")({
   executionBlockConfiguration: S.suspend(() => ExecutionBlockConfiguration),
   executionBlockType: S.String,
 }) {}
-export class GetPlanExecutionResponse extends S.Class<GetPlanExecutionResponse>(
-  "GetPlanExecutionResponse",
-)({
-  planArn: S.String,
-  executionId: S.String,
-  version: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  comment: S.optional(S.String),
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  mode: S.String,
-  executionState: S.String,
-  executionAction: S.String,
-  executionRegion: S.String,
-  stepStates: S.optional(StepStates),
-  plan: S.optional(Plan),
-  actualRecoveryTime: S.optional(S.String),
-  generatedReportDetails: S.optional(GeneratedReportDetails),
-  nextToken: S.optional(S.String),
-}) {}
+export class CreatePlanRequest extends S.Class<CreatePlanRequest>(
+  "CreatePlanRequest",
+)(
+  {
+    description: S.optional(S.String),
+    workflows: WorkflowList,
+    executionRole: S.String,
+    recoveryTimeObjectiveMinutes: S.optional(S.Number),
+    associatedAlarms: S.optional(AssociatedAlarmMap),
+    triggers: S.optional(TriggerList),
+    reportConfiguration: S.optional(ReportConfiguration),
+    name: S.String,
+    regions: RegionList,
+    recoveryApproach: S.String,
+    primaryRegion: S.optional(S.String),
+    tags: S.optional(Tags),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  ),
+) {}
+export class CreatePlanResponse extends S.Class<CreatePlanResponse>(
+  "CreatePlanResponse",
+)({ plan: S.optional(Plan) }) {}
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class IllegalArgumentException extends S.TaggedError<IllegalArgumentException>()(
-  "IllegalArgumentException",
-  {},
+  { message: S.String },
 ) {}
 export class IllegalStateException extends S.TaggedError<IllegalStateException>()(
   "IllegalStateException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String },
+) {}
+export class IllegalArgumentException extends S.TaggedError<IllegalArgumentException>()(
+  "IllegalArgumentException",
+  { message: S.String },
 ) {}
 
 //# Operations
 /**
- * Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action.
+ * Lists all Region switch plans in your Amazon Web Services account.
  */
-export const updatePlanExecutionStep = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePlanExecutionStepRequest,
-    output: UpdatePlanExecutionStepResponse,
-    errors: [AccessDeniedException, ResourceNotFoundException],
-  }),
-);
+export const listPlans = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPlansRequest,
+  output: ListPlansResponse,
+  errors: [],
+}));
 /**
  * Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval.
  *
@@ -890,51 +1046,6 @@ export const approvePlanExecutionStep = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [AccessDeniedException, ResourceNotFoundException],
   }),
 );
-/**
- * Cancels an in-progress plan execution. This operation stops the execution of the plan and prevents any further steps from being processed.
- *
- * You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled.
- */
-export const cancelPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelPlanExecutionRequest,
-  output: CancelPlanExecutionResponse,
-  errors: [AccessDeniedException, ResourceNotFoundException],
-}));
-/**
- * Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan.
- */
-export const getPlanInRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPlanInRegionRequest,
-  output: GetPlanInRegionResponse,
-  errors: [AccessDeniedException, ResourceNotFoundException],
-}));
-/**
- * Starts the execution of a Region switch plan. You can execute a plan in either PRACTICE or RECOVERY mode.
- *
- * In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
- */
-export const startPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartPlanExecutionRequest,
-  output: StartPlanExecutionResponse,
-  errors: [
-    AccessDeniedException,
-    IllegalArgumentException,
-    IllegalStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action.
- */
-export const updatePlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePlanExecutionRequest,
-  output: UpdatePlanExecutionResponse,
-  errors: [
-    AccessDeniedException,
-    IllegalStateException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process.
  */
@@ -962,30 +1073,6 @@ export const listPlansInRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [AccessDeniedException],
 }));
 /**
- * List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
- */
-export const listRoute53HealthChecksInRegion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListRoute53HealthChecksInRegionRequest,
-    output: ListRoute53HealthChecksInRegionResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected.
- */
-export const getPlanEvaluationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPlanEvaluationStatusRequest,
-    output: GetPlanEvaluationStatusResponse,
-    errors: [AccessDeniedException, ResourceNotFoundException],
-  }),
-);
-/**
  * List the Amazon Route 53 health checks.
  */
 export const listRoute53HealthChecks = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1000,10 +1087,149 @@ export const listRoute53HealthChecks = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
+ */
+export const listRoute53HealthChecksInRegion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListRoute53HealthChecksInRegionRequest,
+    output: ListRoute53HealthChecksInRegionResponse,
+    errors: [
+      AccessDeniedException,
+      IllegalArgumentException,
+      InternalServerException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan.
+ */
+export const getPlanInRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPlanInRegionRequest,
+  output: GetPlanInRegionResponse,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+}));
+/**
+ * Retrieves detailed information about a Region switch plan. You must specify the ARN of the plan.
+ */
+export const getPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPlanRequest,
+  output: GetPlanResponse,
+  errors: [ResourceNotFoundException],
+}));
+/**
+ * Updates an existing Region switch plan. You can modify the plan's description, workflows, execution role, recovery time objective, associated alarms, and triggers.
+ */
+export const updatePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePlanRequest,
+  output: UpdatePlanResponse,
+  errors: [ResourceNotFoundException],
+}));
+/**
+ * Deletes a Region switch plan. You must specify the ARN of the plan to delete.
+ *
+ * You cannot delete a plan that has an active execution in progress.
+ */
+export const deletePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePlanRequest,
+  output: DeletePlanResponse,
+  errors: [IllegalStateException, ResourceNotFoundException],
+}));
+/**
+ * Adds or updates tags for a Region switch resource. You can assign metadata to your resources in the form of tags, which are key-value pairs.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
+/**
+ * Cancels an in-progress plan execution. This operation stops the execution of the plan and prevents any further steps from being processed.
+ *
+ * You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled.
+ */
+export const cancelPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelPlanExecutionRequest,
+  output: CancelPlanExecutionResponse,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+}));
+/**
+ * Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action.
+ */
+export const updatePlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePlanExecutionRequest,
+  output: UpdatePlanExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action.
+ */
+export const updatePlanExecutionStep = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePlanExecutionStepRequest,
+    output: UpdatePlanExecutionStepResponse,
+    errors: [AccessDeniedException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Removes tags from a Region switch resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
+/**
+ * Lists the tags attached to a Region switch resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
+/**
+ * Starts the execution of a Region switch plan. You can execute a plan in either PRACTICE or RECOVERY mode.
+ *
+ * In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
+ */
+export const startPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartPlanExecutionRequest,
+  output: StartPlanExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    IllegalStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected.
+ */
+export const getPlanEvaluationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPlanEvaluationStatusRequest,
+    output: GetPlanEvaluationStatusResponse,
+    errors: [AccessDeniedException, ResourceNotFoundException],
+  }),
+);
+/**
  * Retrieves detailed information about a specific plan execution. You must specify the plan ARN and execution ID.
  */
 export const getPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlanExecutionRequest,
   output: GetPlanExecutionResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
+}));
+/**
+ * Creates a new Region switch plan. A plan defines the steps required to shift traffic from one Amazon Web Services Region to another.
+ *
+ * You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and workflows that define the steps to execute during a Region switch.
+ */
+export const createPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePlanRequest,
+  output: CreatePlanResponse,
+  errors: [],
 }));

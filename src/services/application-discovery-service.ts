@@ -898,43 +898,43 @@ export class StartExportTaskResponse extends S.Class<StartExportTaskResponse>(
 //# Errors
 export class AuthorizationErrorException extends S.TaggedError<AuthorizationErrorException>()(
   "AuthorizationErrorException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class HomeRegionNotSetException extends S.TaggedError<HomeRegionNotSetException>()(
   "HomeRegionNotSetException",
-  {},
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
-  "InvalidParameterValueException",
-  {},
-) {}
-export class ServerInternalErrorException extends S.TaggedError<ServerInternalErrorException>()(
-  "ServerInternalErrorException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
-  "OperationNotPermittedException",
-  { message: S.optional(S.String) },
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
   { message: S.optional(S.String) },
 ) {}
 export class ConflictErrorException extends S.TaggedError<ConflictErrorException>()(
   "ConflictErrorException",
   { message: S.optional(S.String) },
 ) {}
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
+  "InvalidParameterValueException",
+  { message: S.optional(S.String) },
+) {}
+export class ServerInternalErrorException extends S.TaggedError<ServerInternalErrorException>()(
+  "ServerInternalErrorException",
+  { message: S.optional(S.String) },
+) {}
+export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
+  "OperationNotPermittedException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -954,41 +954,61 @@ export const associateConfigurationItemsToApplication =
     ],
   }));
 /**
- * Creates an application with the given name and description.
+ * Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services.
+ *
+ * Exports might provide an estimate of fees and savings based on certain information
+ * that you provide. Fee estimates do not include any taxes that might apply.
+ * Your actual fees and savings depend on a variety of factors, including your actual usage of Amazon Web Services
+ * services, which might vary from the estimates provided in this report.
+ *
+ * If you do not specify `preferences` or `agentIds` in the filter, a
+ * summary of all servers, applications, tags, and performance is generated. This data is an
+ * aggregation of all server data collected through on-premises tooling, file import, application
+ * grouping and applying tags.
+ *
+ * If you specify `agentIds` in a filter, the task exports up to 72 hours of
+ * detailed data collected by the identified Application Discovery Agent, including network,
+ * process, and performance details. A time range for exported agent data may be set by using
+ * `startTime` and `endTime`. Export of detailed agent data is limited to
+ * five concurrently running exports.
+ * Export of detailed agent data is limited to two exports per day.
+ *
+ * If you enable `ec2RecommendationsPreferences` in `preferences`
+ * , an
+ * Amazon EC2 instance matching the characteristics of each server in Application Discovery Service is generated.
+ * Changing the attributes of the `ec2RecommendationsPreferences` changes the
+ * criteria of the recommendation.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResponse,
+export const startExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartExportTaskRequest,
+  output: StartExportTaskResponse,
   errors: [
     AuthorizationErrorException,
     HomeRegionNotSetException,
     InvalidParameterException,
     InvalidParameterValueException,
+    OperationNotPermittedException,
     ServerInternalErrorException,
   ],
 }));
 /**
- * Deletes a list of applications and their associations with configuration
- * items.
+ * Retrieves a list of configuration items that have tags as specified by the key-value
+ * pairs, name and value, passed to the optional parameter `filters`.
+ *
+ * There are three valid tag filter names:
+ *
+ * - tagKey
+ *
+ * - tagValue
+ *
+ * - configurationId
+ *
+ * Also, all configuration items associated with your user that have tags can be
+ * listed if you call `DescribeTags` as is without passing any parameters.
  */
-export const deleteApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationsRequest,
-  output: DeleteApplicationsResponse,
-  errors: [
-    AuthorizationErrorException,
-    HomeRegionNotSetException,
-    InvalidParameterException,
-    InvalidParameterValueException,
-    ServerInternalErrorException,
-  ],
-}));
-/**
- * Deletes the association between configuration items and one or more tags. This API
- * accepts a list of multiple configuration items.
- */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTagsRequest,
-  output: DeleteTagsResponse,
+export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTagsRequest,
+  output: DescribeTagsResponse,
   errors: [
     AuthorizationErrorException,
     HomeRegionNotSetException,
@@ -999,52 +1019,73 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Disassociates one or more configuration items from an application.
- */
-export const disassociateConfigurationItemsFromApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateConfigurationItemsFromApplicationRequest,
-    output: DisassociateConfigurationItemsFromApplicationResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-  }));
-/**
- * Deprecated. Use `StartExportTask` instead.
+ * Starts an import task, which allows you to import details of your on-premises environment
+ * directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery
+ * Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector
+ * or Application Discovery Agent. This gives you the option to
+ * perform migration assessment and planning directly from your imported data, including the
+ * ability to group your devices as applications and track their migration status.
  *
- * Exports all discovered configuration data to an Amazon S3 bucket or an application that
- * enables you to view and evaluate the data. Data includes tags and tag associations, processes,
- * connections, servers, and system performance. This API returns an export ID that you can query
- * using the *DescribeExportConfigurations* API. The system imposes a limit of
- * two configuration exports in six hours.
+ * To start an import request, do this:
+ *
+ * - Download the specially formatted comma separated value (CSV) import template, which
+ * you can find here: https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv.
+ *
+ * - Fill out the template with your server and application data.
+ *
+ * - Upload your import file to an Amazon S3 bucket, and make a note of it's Object URL.
+ * Your import file must be in the CSV format.
+ *
+ * - Use the console or the `StartImportTask` command with the Amazon Web Services CLI or one
+ * of the Amazon Web Services SDKs to import the records from your file.
+ *
+ * For more information, including step-by-step procedures, see Migration Hub
+ * Import in the Amazon Web Services Application Discovery Service User
+ * Guide.
+ *
+ * There are limits to the number of import tasks you can create (and delete) in an Amazon Web Services
+ * account. For more information, see Amazon Web Services Application
+ * Discovery Service Limits in the Amazon Web Services Application Discovery Service User
+ * Guide.
  */
-export const exportConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportConfigurationsRequest,
-    output: ExportConfigurationsResponse,
+export const startImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartImportTaskRequest,
+  output: StartImportTaskResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ResourceInUseException,
+    ServerInternalErrorException,
+  ],
+}));
+/**
+ * Takes a list of configurationId as input and starts an asynchronous deletion
+ * task to remove the configurationItems. Returns a unique deletion task identifier.
+ */
+export const startBatchDeleteConfigurationTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartBatchDeleteConfigurationTaskRequest,
+    output: StartBatchDeleteConfigurationTaskResponse,
     errors: [
       AuthorizationErrorException,
       HomeRegionNotSetException,
       InvalidParameterException,
       InvalidParameterValueException,
+      LimitExceededException,
       OperationNotPermittedException,
       ServerInternalErrorException,
     ],
-  }),
-);
+  }));
 /**
- * Retrieves a short summary of discovered assets.
- *
- * This API operation takes no request parameters and is called as is at the command
- * prompt as shown in the example.
+ * Lists agents or collectors as specified by ID or other filters. All agents/collectors
+ * associated with your user can be listed if you call `DescribeAgents` as is
+ * without passing any parameters.
  */
-export const getDiscoverySummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDiscoverySummaryRequest,
-  output: GetDiscoverySummaryResponse,
+export const describeAgents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAgentsRequest,
+  output: DescribeAgentsResponse,
   errors: [
     AuthorizationErrorException,
     HomeRegionNotSetException,
@@ -1054,34 +1095,34 @@ export const getDiscoverySummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Instructs the specified agents to stop collecting data.
+ * Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not
+ * delete the previously discovered data.
+ * To delete the data collected, use `StartBatchDeleteConfigurationTask`.
  */
-export const stopDataCollectionByAgentIds =
+export const batchDeleteAgents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteAgentsRequest,
+  output: BatchDeleteAgentsResponse,
+  errors: [
+    AuthorizationErrorException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
+/**
+ * Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
+ */
+export const describeBatchDeleteConfigurationTask =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopDataCollectionByAgentIdsRequest,
-    output: StopDataCollectionByAgentIdsResponse,
+    input: DescribeBatchDeleteConfigurationTaskRequest,
+    output: DescribeBatchDeleteConfigurationTaskResponse,
     errors: [
       AuthorizationErrorException,
       HomeRegionNotSetException,
-      InvalidParameterException,
       InvalidParameterValueException,
       ServerInternalErrorException,
     ],
   }));
-/**
- * Updates metadata about an application.
- */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
-  errors: [
-    AuthorizationErrorException,
-    HomeRegionNotSetException,
-    InvalidParameterException,
-    InvalidParameterValueException,
-    ServerInternalErrorException,
-  ],
-}));
 /**
  * Deletes one or more import tasks, each identified by their import ID. Each import task has
  * a number of records that can identify servers or applications.
@@ -1105,24 +1146,6 @@ export const batchDeleteImportData = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates one or more tags for configuration items. Tags are metadata that help you
- * categorize IT assets. This API accepts a list of multiple configuration items.
- *
- * Do not store sensitive information (like personal data) in tags.
- */
-export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTagsRequest,
-  output: CreateTagsResponse,
-  errors: [
-    AuthorizationErrorException,
-    HomeRegionNotSetException,
-    InvalidParameterException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ServerInternalErrorException,
-  ],
-}));
 /**
  * Retrieves attributes for a list of configuration item IDs.
  *
@@ -1157,42 +1180,6 @@ export const describeConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists exports as specified by ID. All continuous exports associated with your user
- * can be listed if you call `DescribeContinuousExports` as is without passing
- * any parameters.
- */
-export const describeContinuousExports = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContinuousExportsRequest,
-    output: DescribeContinuousExportsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-      ServerInternalErrorException,
-    ],
-  }),
-);
-/**
- * `DescribeExportConfigurations` is deprecated. Use DescribeExportTasks, instead.
- */
-export const describeExportConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeExportConfigurationsRequest,
-    output: DescribeExportConfigurationsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ServerInternalErrorException,
-    ],
-  }));
 /**
  * Retrieve status of one or more export tasks. You can retrieve the status of up to 100
  * export tasks.
@@ -1239,23 +1226,130 @@ export const listServerNeighbors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Takes a list of configurationId as input and starts an asynchronous deletion
- * task to remove the configurationItems. Returns a unique deletion task identifier.
+ * Instructs the specified agents to start collecting data.
  */
-export const startBatchDeleteConfigurationTask =
+export const startDataCollectionByAgentIds =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartBatchDeleteConfigurationTaskRequest,
-    output: StartBatchDeleteConfigurationTaskResponse,
+    input: StartDataCollectionByAgentIdsRequest,
+    output: StartDataCollectionByAgentIdsResponse,
     errors: [
       AuthorizationErrorException,
       HomeRegionNotSetException,
       InvalidParameterException,
       InvalidParameterValueException,
-      LimitExceededException,
-      OperationNotPermittedException,
       ServerInternalErrorException,
     ],
   }));
+/**
+ * Creates an application with the given name and description.
+ */
+export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationRequest,
+  output: CreateApplicationResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
+/**
+ * Retrieves a short summary of discovered assets.
+ *
+ * This API operation takes no request parameters and is called as is at the command
+ * prompt as shown in the example.
+ */
+export const getDiscoverySummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDiscoverySummaryRequest,
+  output: GetDiscoverySummaryResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
+/**
+ * Instructs the specified agents to stop collecting data.
+ */
+export const stopDataCollectionByAgentIds =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StopDataCollectionByAgentIdsRequest,
+    output: StopDataCollectionByAgentIdsResponse,
+    errors: [
+      AuthorizationErrorException,
+      HomeRegionNotSetException,
+      InvalidParameterException,
+      InvalidParameterValueException,
+      ServerInternalErrorException,
+    ],
+  }));
+/**
+ * Deletes a list of applications and their associations with configuration
+ * items.
+ */
+export const deleteApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationsRequest,
+  output: DeleteApplicationsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
+/**
+ * Disassociates one or more configuration items from an application.
+ */
+export const disassociateConfigurationItemsFromApplication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateConfigurationItemsFromApplicationRequest,
+    output: DisassociateConfigurationItemsFromApplicationResponse,
+    errors: [
+      AuthorizationErrorException,
+      HomeRegionNotSetException,
+      InvalidParameterException,
+      InvalidParameterValueException,
+      ServerInternalErrorException,
+    ],
+  }));
+/**
+ * Updates metadata about an application.
+ */
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
+/**
+ * Lists exports as specified by ID. All continuous exports associated with your user
+ * can be listed if you call `DescribeContinuousExports` as is without passing
+ * any parameters.
+ */
+export const describeContinuousExports = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeContinuousExportsRequest,
+    output: DescribeContinuousExportsResponse,
+    errors: [
+      AuthorizationErrorException,
+      HomeRegionNotSetException,
+      InvalidParameterException,
+      InvalidParameterValueException,
+      OperationNotPermittedException,
+      ResourceNotFoundException,
+      ServerInternalErrorException,
+    ],
+  }),
+);
 /**
  * Start the continuous flow of agent's discovered data into Amazon Athena.
  */
@@ -1276,63 +1370,6 @@ export const startContinuousExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Instructs the specified agents to start collecting data.
- */
-export const startDataCollectionByAgentIds =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDataCollectionByAgentIdsRequest,
-    output: StartDataCollectionByAgentIdsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-  }));
-/**
- * Starts an import task, which allows you to import details of your on-premises environment
- * directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery
- * Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector
- * or Application Discovery Agent. This gives you the option to
- * perform migration assessment and planning directly from your imported data, including the
- * ability to group your devices as applications and track their migration status.
- *
- * To start an import request, do this:
- *
- * - Download the specially formatted comma separated value (CSV) import template, which
- * you can find here: https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv.
- *
- * - Fill out the template with your server and application data.
- *
- * - Upload your import file to an Amazon S3 bucket, and make a note of it's Object URL.
- * Your import file must be in the CSV format.
- *
- * - Use the console or the `StartImportTask` command with the Amazon Web Services CLI or one
- * of the Amazon Web Services SDKs to import the records from your file.
- *
- * For more information, including step-by-step procedures, see Migration Hub
- * Import in the Amazon Web Services Application Discovery Service User
- * Guide.
- *
- * There are limits to the number of import tasks you can create (and delete) in an Amazon Web Services
- * account. For more information, see Amazon Web Services Application
- * Discovery Service Limits in the Amazon Web Services Application Discovery Service User
- * Guide.
- */
-export const startImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartImportTaskRequest,
-  output: StartImportTaskResponse,
-  errors: [
-    AuthorizationErrorException,
-    HomeRegionNotSetException,
-    InvalidParameterException,
-    InvalidParameterValueException,
-    ResourceInUseException,
-    ServerInternalErrorException,
-  ],
-}));
-/**
  * Stop the continuous flow of agent's discovered data into Amazon Athena.
  */
 export const stopContinuousExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1352,61 +1389,28 @@ export const stopContinuousExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not
- * delete the previously discovered data.
- * To delete the data collected, use `StartBatchDeleteConfigurationTask`.
+ * Deprecated. Use `StartExportTask` instead.
+ *
+ * Exports all discovered configuration data to an Amazon S3 bucket or an application that
+ * enables you to view and evaluate the data. Data includes tags and tag associations, processes,
+ * connections, servers, and system performance. This API returns an export ID that you can query
+ * using the *DescribeExportConfigurations* API. The system imposes a limit of
+ * two configuration exports in six hours.
  */
-export const batchDeleteAgents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDeleteAgentsRequest,
-  output: BatchDeleteAgentsResponse,
-  errors: [
-    AuthorizationErrorException,
-    InvalidParameterException,
-    InvalidParameterValueException,
-    ServerInternalErrorException,
-  ],
-}));
-/**
- * Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
- */
-export const describeBatchDeleteConfigurationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBatchDeleteConfigurationTaskRequest,
-    output: DescribeBatchDeleteConfigurationTaskResponse,
+export const exportConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ExportConfigurationsRequest,
+    output: ExportConfigurationsResponse,
     errors: [
       AuthorizationErrorException,
       HomeRegionNotSetException,
+      InvalidParameterException,
       InvalidParameterValueException,
+      OperationNotPermittedException,
       ServerInternalErrorException,
     ],
-  }));
-/**
- * Retrieves a list of configuration items that have tags as specified by the key-value
- * pairs, name and value, passed to the optional parameter `filters`.
- *
- * There are three valid tag filter names:
- *
- * - tagKey
- *
- * - tagValue
- *
- * - configurationId
- *
- * Also, all configuration items associated with your user that have tags can be
- * listed if you call `DescribeTags` as is without passing any parameters.
- */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTagsRequest,
-  output: DescribeTagsResponse,
-  errors: [
-    AuthorizationErrorException,
-    HomeRegionNotSetException,
-    InvalidParameterException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-    ServerInternalErrorException,
-  ],
-}));
+  }),
+);
 /**
  * Retrieves a list of configuration items as specified by the value passed to the
  * required parameter `configurationType`. Optional filtering may be applied to refine
@@ -1425,56 +1429,52 @@ export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists agents or collectors as specified by ID or other filters. All agents/collectors
- * associated with your user can be listed if you call `DescribeAgents` as is
- * without passing any parameters.
+ * `DescribeExportConfigurations` is deprecated. Use DescribeExportTasks, instead.
  */
-export const describeAgents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAgentsRequest,
-  output: DescribeAgentsResponse,
+export const describeExportConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeExportConfigurationsRequest,
+    output: DescribeExportConfigurationsResponse,
+    errors: [
+      AuthorizationErrorException,
+      HomeRegionNotSetException,
+      InvalidParameterException,
+      InvalidParameterValueException,
+      ResourceNotFoundException,
+      ServerInternalErrorException,
+    ],
+  }));
+/**
+ * Creates one or more tags for configuration items. Tags are metadata that help you
+ * categorize IT assets. This API accepts a list of multiple configuration items.
+ *
+ * Do not store sensitive information (like personal data) in tags.
+ */
+export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTagsRequest,
+  output: CreateTagsResponse,
   errors: [
     AuthorizationErrorException,
     HomeRegionNotSetException,
     InvalidParameterException,
     InvalidParameterValueException,
+    ResourceNotFoundException,
     ServerInternalErrorException,
   ],
 }));
 /**
- * Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services.
- *
- * Exports might provide an estimate of fees and savings based on certain information
- * that you provide. Fee estimates do not include any taxes that might apply.
- * Your actual fees and savings depend on a variety of factors, including your actual usage of Amazon Web Services
- * services, which might vary from the estimates provided in this report.
- *
- * If you do not specify `preferences` or `agentIds` in the filter, a
- * summary of all servers, applications, tags, and performance is generated. This data is an
- * aggregation of all server data collected through on-premises tooling, file import, application
- * grouping and applying tags.
- *
- * If you specify `agentIds` in a filter, the task exports up to 72 hours of
- * detailed data collected by the identified Application Discovery Agent, including network,
- * process, and performance details. A time range for exported agent data may be set by using
- * `startTime` and `endTime`. Export of detailed agent data is limited to
- * five concurrently running exports.
- * Export of detailed agent data is limited to two exports per day.
- *
- * If you enable `ec2RecommendationsPreferences` in `preferences`
- * , an
- * Amazon EC2 instance matching the characteristics of each server in Application Discovery Service is generated.
- * Changing the attributes of the `ec2RecommendationsPreferences` changes the
- * criteria of the recommendation.
+ * Deletes the association between configuration items and one or more tags. This API
+ * accepts a list of multiple configuration items.
  */
-export const startExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartExportTaskRequest,
-  output: StartExportTaskResponse,
+export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTagsRequest,
+  output: DeleteTagsResponse,
   errors: [
     AuthorizationErrorException,
     HomeRegionNotSetException,
     InvalidParameterException,
     InvalidParameterValueException,
-    OperationNotPermittedException,
+    ResourceNotFoundException,
     ServerInternalErrorException,
   ],
 }));

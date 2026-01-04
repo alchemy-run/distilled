@@ -709,36 +709,36 @@ export class DeleteAnalysisSchemeResponse extends S.Class<DeleteAnalysisSchemeRe
 //# Errors
 export class BaseException extends S.TaggedError<BaseException>()(
   "BaseException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalException", httpResponseCode: 500 }),
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 409 }),
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class InvalidTypeException extends S.TaggedError<InvalidTypeException>()(
-  "InvalidTypeException",
-  {},
-  T.AwsQueryError({ code: "InvalidType", httpResponseCode: 409 }),
 ) {}
 export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
   "DisabledOperationException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
   T.AwsQueryError({ code: "DisabledAction", httpResponseCode: 409 }),
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 409 }),
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
   T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 409 }),
+) {}
+export class InvalidTypeException extends S.TaggedError<InvalidTypeException>()(
+  "InvalidTypeException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidType", httpResponseCode: 409 }),
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
@@ -747,6 +747,23 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
 ) {}
 
 //# Operations
+/**
+ * Lists all search domains owned by an account.
+ */
+export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDomainNamesRequest,
+  output: ListDomainNamesResponse,
+  errors: [BaseException],
+}));
+/**
+ * Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information,
+ * see Deleting a Search Domain in the *Amazon CloudSearch Developer Guide*.
+ */
+export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainRequest,
+  output: DeleteDomainResponse,
+  errors: [BaseException, InternalException],
+}));
 /**
  * Gets information about the search domains owned by this account. Can be limited to specific domains. Shows
  * all domains by default. To get the number of searchable documents in a domain, use the console or submit a `matchall` request to your domain's search endpoint: `q=matchall&q.parser=structured&size=0`. For more information,
@@ -757,6 +774,36 @@ export const describeDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DescribeDomainsResponse,
   errors: [BaseException, InternalException],
 }));
+/**
+ * Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeScalingParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeScalingParametersRequest,
+    output: DescribeScalingParametersResponse,
+    errors: [BaseException, InternalException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
+ * see Configuring Access for a Search Domain in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeServiceAccessPolicies =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeServiceAccessPoliciesRequest,
+    output: DescribeServiceAccessPoliciesResponse,
+    errors: [BaseException, InternalException, ResourceNotFoundException],
+  }));
+/**
+ * Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a `text` field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeAnalysisSchemes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAnalysisSchemesRequest,
+    output: DescribeAnalysisSchemesResponse,
+    errors: [BaseException, InternalException, ResourceNotFoundException],
+  }),
+);
 /**
  * Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
@@ -784,87 +831,20 @@ export const describeSuggesters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [BaseException, InternalException, ResourceNotFoundException],
 }));
 /**
- * Lists all search domains owned by an account.
+ * Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
  */
-export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDomainNamesRequest,
-  output: ListDomainNamesResponse,
-  errors: [BaseException],
-}));
-/**
- * Indexes the search suggestions. For more information, see Configuring Suggesters in the *Amazon CloudSearch Developer Guide*.
- */
-export const buildSuggesters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BuildSuggestersRequest,
-  output: BuildSuggestersResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information,
- * see Deleting a Search Domain in the *Amazon CloudSearch Developer Guide*.
- */
-export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDomainRequest,
-  output: DeleteDomainResponse,
-  errors: [BaseException, InternalException],
-}));
-/**
- * Removes an `Expression` from the search domain. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
- */
-export const deleteExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteExpressionRequest,
-  output: DeleteExpressionResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    InvalidTypeException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes an `IndexField` from the search domain. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
- */
-export const deleteIndexField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIndexFieldRequest,
-  output: DeleteIndexFieldResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    InvalidTypeException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
- */
-export const deleteSuggester = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSuggesterRequest,
-  output: DeleteSuggesterResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    InvalidTypeException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a `text` field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeAnalysisSchemes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAnalysisSchemesRequest,
-    output: DescribeAnalysisSchemesResponse,
-    errors: [BaseException, InternalException, ResourceNotFoundException],
-  }),
-);
+export const describeDomainEndpointOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeDomainEndpointOptionsRequest,
+    output: DescribeDomainEndpointOptionsResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }));
 /**
  * Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
  */
@@ -883,46 +863,11 @@ export const describeAvailabilityOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
+ * Indexes the search suggestions. For more information, see Configuring Suggesters in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeDomainEndpointOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDomainEndpointOptionsRequest,
-    output: DescribeDomainEndpointOptionsResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeScalingParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeScalingParametersRequest,
-    output: DescribeScalingParametersResponse,
-    errors: [BaseException, InternalException, ResourceNotFoundException],
-  }),
-);
-/**
- * Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
- * see Configuring Access for a Search Domain in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeServiceAccessPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeServiceAccessPoliciesRequest,
-    output: DescribeServiceAccessPoliciesResponse,
-    errors: [BaseException, InternalException, ResourceNotFoundException],
-  }));
-/**
- * Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is `RequiresIndexDocuments`.
- */
-export const indexDocuments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: IndexDocumentsRequest,
-  output: IndexDocumentsResponse,
+export const buildSuggesters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BuildSuggestersRequest,
+  output: BuildSuggestersResponse,
   errors: [
     BaseException,
     InternalException,
@@ -931,77 +876,20 @@ export const indexDocuments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
+ * Creates a new search domain. For more information,
+ * see Creating a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
-export const updateAvailabilityOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAvailabilityOptionsRequest,
-    output: UpdateAvailabilityOptionsResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      InvalidTypeException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const updateDomainEndpointOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDomainEndpointOptionsRequest,
-    output: UpdateDomainEndpointOptionsResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      InvalidTypeException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const updateScalingParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateScalingParametersRequest,
-    output: UpdateScalingParametersResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      InvalidTypeException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Configures the access rules that control access to the domain's document and search endpoints.
- * For more information, see
- * Configuring Access for an Amazon CloudSearch Domain.
- */
-export const updateServiceAccessPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceAccessPoliciesRequest,
-    output: UpdateServiceAccessPoliciesResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      InvalidTypeException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainRequest,
+  output: CreateDomainResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ValidationException,
+  ],
+}));
 /**
  * Configures an analysis scheme that can be applied to a `text` or `text-array` field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
@@ -1020,16 +908,14 @@ export const defineAnalysisScheme = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Configures an `Expression` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
+ * Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is `RequiresIndexDocuments`.
  */
-export const defineExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DefineExpressionRequest,
-  output: DefineExpressionResponse,
+export const indexDocuments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: IndexDocumentsRequest,
+  output: IndexDocumentsResponse,
   errors: [
     BaseException,
     InternalException,
-    InvalidTypeException,
-    LimitExceededException,
     ResourceNotFoundException,
     ValidationException,
   ],
@@ -1081,17 +967,131 @@ export const deleteAnalysisScheme = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a new search domain. For more information,
- * see Creating a Search Domain in the *Amazon CloudSearch Developer Guide*.
+ * Configures an `Expression` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
-export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDomainRequest,
-  output: CreateDomainResponse,
+export const defineExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DefineExpressionRequest,
+  output: DefineExpressionResponse,
   errors: [
     BaseException,
     InternalException,
+    InvalidTypeException,
     LimitExceededException,
-    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
     ValidationException,
   ],
 }));
+/**
+ * Removes an `Expression` from the search domain. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
+ */
+export const deleteExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteExpressionRequest,
+  output: DeleteExpressionResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    InvalidTypeException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes an `IndexField` from the search domain. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
+ */
+export const deleteIndexField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIndexFieldRequest,
+  output: DeleteIndexFieldResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    InvalidTypeException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
+ */
+export const deleteSuggester = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSuggesterRequest,
+  output: DeleteSuggesterResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    InvalidTypeException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const updateScalingParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateScalingParametersRequest,
+    output: UpdateScalingParametersResponse,
+    errors: [
+      BaseException,
+      InternalException,
+      InvalidTypeException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Configures the access rules that control access to the domain's document and search endpoints.
+ * For more information, see
+ * Configuring Access for an Amazon CloudSearch Domain.
+ */
+export const updateServiceAccessPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateServiceAccessPoliciesRequest,
+    output: UpdateServiceAccessPoliciesResponse,
+    errors: [
+      BaseException,
+      InternalException,
+      InvalidTypeException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const updateDomainEndpointOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDomainEndpointOptionsRequest,
+    output: UpdateDomainEndpointOptionsResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      InvalidTypeException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const updateAvailabilityOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAvailabilityOptionsRequest,
+    output: UpdateAvailabilityOptionsResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      InvalidTypeException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);

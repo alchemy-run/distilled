@@ -110,6 +110,7 @@ export const LocationsList = S.Array(S.String);
 export const LocationList = S.Array(S.String);
 export const GameLaunchArgList = S.Array(S.String);
 export const TagKeyList = S.Array(S.String);
+export const FilePaths = S.Array(S.String);
 export class AssociateApplicationsInput extends S.Class<AssociateApplicationsInput>(
   "AssociateApplicationsInput",
 )(
@@ -322,6 +323,69 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
 export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
   "UntagResourceResponse",
 )({}) {}
+export class GetApplicationInput extends S.Class<GetApplicationInput>(
+  "GetApplicationInput",
+)(
+  { Identifier: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "GET", uri: "/applications/{Identifier}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateApplicationInput extends S.Class<UpdateApplicationInput>(
+  "UpdateApplicationInput",
+)(
+  {
+    Identifier: S.String.pipe(T.HttpLabel()),
+    Description: S.optional(S.String),
+    ApplicationLogPaths: S.optional(FilePaths),
+    ApplicationLogOutputUri: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "PATCH", uri: "/applications/{Identifier}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteApplicationInput extends S.Class<DeleteApplicationInput>(
+  "DeleteApplicationInput",
+)(
+  { Identifier: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "DELETE", uri: "/applications/{Identifier}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteApplicationResponse extends S.Class<DeleteApplicationResponse>(
+  "DeleteApplicationResponse",
+)({}) {}
+export class ListApplicationsInput extends S.Class<ListApplicationsInput>(
+  "ListApplicationsInput",
+)(
+  {
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/applications" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export class LocationConfiguration extends S.Class<LocationConfiguration>(
   "LocationConfiguration",
 )({
@@ -332,6 +396,90 @@ export class LocationConfiguration extends S.Class<LocationConfiguration>(
   MaximumCapacity: S.optional(S.Number),
 }) {}
 export const LocationConfigurations = S.Array(LocationConfiguration);
+export const Tags = S.Record({ key: S.String, value: S.String });
+export class CreateStreamGroupInput extends S.Class<CreateStreamGroupInput>(
+  "CreateStreamGroupInput",
+)(
+  {
+    Description: S.String,
+    StreamClass: S.String,
+    DefaultApplicationIdentifier: S.optional(S.String),
+    LocationConfigurations: S.optional(LocationConfigurations),
+    Tags: S.optional(Tags),
+    ClientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/streamgroups" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetStreamGroupInput extends S.Class<GetStreamGroupInput>(
+  "GetStreamGroupInput",
+)(
+  { Identifier: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "GET", uri: "/streamgroups/{Identifier}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateStreamGroupInput extends S.Class<UpdateStreamGroupInput>(
+  "UpdateStreamGroupInput",
+)(
+  {
+    Identifier: S.String.pipe(T.HttpLabel()),
+    LocationConfigurations: S.optional(LocationConfigurations),
+    Description: S.optional(S.String),
+    DefaultApplicationIdentifier: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "PATCH", uri: "/streamgroups/{Identifier}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteStreamGroupInput extends S.Class<DeleteStreamGroupInput>(
+  "DeleteStreamGroupInput",
+)(
+  { Identifier: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "DELETE", uri: "/streamgroups/{Identifier}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteStreamGroupResponse extends S.Class<DeleteStreamGroupResponse>(
+  "DeleteStreamGroupResponse",
+)({}) {}
+export class ListStreamGroupsInput extends S.Class<ListStreamGroupsInput>(
+  "ListStreamGroupsInput",
+)(
+  {
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/streamgroups" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export const ArnList = S.Array(S.String);
 export const EnvironmentVariables = S.Record({
   key: S.String,
@@ -340,7 +488,9 @@ export const EnvironmentVariables = S.Record({
 export class PerformanceStatsConfiguration extends S.Class<PerformanceStatsConfiguration>(
   "PerformanceStatsConfiguration",
 )({ SharedWithClient: S.optional(S.Boolean) }) {}
-export const Tags = S.Record({ key: S.String, value: S.String });
+export class RuntimeEnvironment extends S.Class<RuntimeEnvironment>(
+  "RuntimeEnvironment",
+)({ Type: S.String, Version: S.String }) {}
 export class AddStreamGroupLocationsInput extends S.Class<AddStreamGroupLocationsInput>(
   "AddStreamGroupLocationsInput",
 )(
@@ -443,6 +593,126 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
 export class TagResourceResponse extends S.Class<TagResourceResponse>(
   "TagResourceResponse",
 )({}) {}
+export class CreateApplicationInput extends S.Class<CreateApplicationInput>(
+  "CreateApplicationInput",
+)(
+  {
+    Description: S.String,
+    RuntimeEnvironment: RuntimeEnvironment,
+    ExecutablePath: S.String,
+    ApplicationSourceUri: S.String,
+    ApplicationLogPaths: S.optional(FilePaths),
+    ApplicationLogOutputUri: S.optional(S.String),
+    Tags: S.optional(Tags),
+    ClientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/applications" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ReplicationStatus extends S.Class<ReplicationStatus>(
+  "ReplicationStatus",
+)({ Location: S.optional(S.String), Status: S.optional(S.String) }) {}
+export const ReplicationStatuses = S.Array(ReplicationStatus);
+export class UpdateApplicationOutput extends S.Class<UpdateApplicationOutput>(
+  "UpdateApplicationOutput",
+)({
+  Arn: S.String,
+  Description: S.optional(S.String),
+  RuntimeEnvironment: S.optional(RuntimeEnvironment),
+  ExecutablePath: S.optional(S.String),
+  ApplicationLogPaths: S.optional(FilePaths),
+  ApplicationLogOutputUri: S.optional(S.String),
+  ApplicationSourceUri: S.optional(S.String),
+  Id: S.optional(S.String),
+  Status: S.optional(S.String),
+  StatusReason: S.optional(S.String),
+  ReplicationStatuses: S.optional(ReplicationStatuses),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  AssociatedStreamGroups: S.optional(ArnList),
+}) {}
+export class DefaultApplication extends S.Class<DefaultApplication>(
+  "DefaultApplication",
+)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
+export class LocationState extends S.Class<LocationState>("LocationState")({
+  LocationName: S.optional(S.String),
+  Status: S.optional(S.String),
+  AlwaysOnCapacity: S.optional(S.Number),
+  OnDemandCapacity: S.optional(S.Number),
+  TargetIdleCapacity: S.optional(S.Number),
+  MaximumCapacity: S.optional(S.Number),
+  RequestedCapacity: S.optional(S.Number),
+  AllocatedCapacity: S.optional(S.Number),
+  IdleCapacity: S.optional(S.Number),
+}) {}
+export const LocationStates = S.Array(LocationState);
+export class GetStreamGroupOutput extends S.Class<GetStreamGroupOutput>(
+  "GetStreamGroupOutput",
+)({
+  Arn: S.String,
+  Description: S.optional(S.String),
+  DefaultApplication: S.optional(DefaultApplication),
+  LocationStates: S.optional(LocationStates),
+  StreamClass: S.optional(S.String),
+  Id: S.optional(S.String),
+  Status: S.optional(S.String),
+  StatusReason: S.optional(S.String),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  AssociatedApplications: S.optional(ArnList),
+}) {}
+export class UpdateStreamGroupOutput extends S.Class<UpdateStreamGroupOutput>(
+  "UpdateStreamGroupOutput",
+)({
+  Arn: S.String,
+  Description: S.optional(S.String),
+  DefaultApplication: S.optional(DefaultApplication),
+  LocationStates: S.optional(LocationStates),
+  StreamClass: S.optional(S.String),
+  Id: S.optional(S.String),
+  Status: S.optional(S.String),
+  StatusReason: S.optional(S.String),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  AssociatedApplications: S.optional(ArnList),
+}) {}
+export class ApplicationSummary extends S.Class<ApplicationSummary>(
+  "ApplicationSummary",
+)({
+  Arn: S.String,
+  Id: S.optional(S.String),
+  Description: S.optional(S.String),
+  Status: S.optional(S.String),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  RuntimeEnvironment: S.optional(RuntimeEnvironment),
+}) {}
+export const ApplicationSummaryList = S.Array(ApplicationSummary);
+export class StreamGroupSummary extends S.Class<StreamGroupSummary>(
+  "StreamGroupSummary",
+)({
+  Arn: S.String,
+  Id: S.optional(S.String),
+  Description: S.optional(S.String),
+  DefaultApplication: S.optional(DefaultApplication),
+  StreamClass: S.optional(S.String),
+  Status: S.optional(S.String),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+}) {}
+export const StreamGroupSummaryList = S.Array(StreamGroupSummary);
+export class AddStreamGroupLocationsOutput extends S.Class<AddStreamGroupLocationsOutput>(
+  "AddStreamGroupLocationsOutput",
+)({ Identifier: S.String, Locations: LocationStates }) {}
 export class GetStreamSessionOutput extends S.Class<GetStreamSessionOutput>(
   "GetStreamSessionOutput",
 )({
@@ -499,117 +769,187 @@ export class StartStreamSessionOutput extends S.Class<StartStreamSessionOutput>(
   ApplicationArn: S.optional(S.String),
   ExportFilesMetadata: S.optional(ExportFilesMetadata),
 }) {}
-export class LocationState extends S.Class<LocationState>("LocationState")({
-  LocationName: S.optional(S.String),
+export class CreateApplicationOutput extends S.Class<CreateApplicationOutput>(
+  "CreateApplicationOutput",
+)({
+  Arn: S.String,
+  Description: S.optional(S.String),
+  RuntimeEnvironment: S.optional(RuntimeEnvironment),
+  ExecutablePath: S.optional(S.String),
+  ApplicationLogPaths: S.optional(FilePaths),
+  ApplicationLogOutputUri: S.optional(S.String),
+  ApplicationSourceUri: S.optional(S.String),
+  Id: S.optional(S.String),
   Status: S.optional(S.String),
-  AlwaysOnCapacity: S.optional(S.Number),
-  OnDemandCapacity: S.optional(S.Number),
-  TargetIdleCapacity: S.optional(S.Number),
-  MaximumCapacity: S.optional(S.Number),
-  RequestedCapacity: S.optional(S.Number),
-  AllocatedCapacity: S.optional(S.Number),
-  IdleCapacity: S.optional(S.Number),
+  StatusReason: S.optional(S.String),
+  ReplicationStatuses: S.optional(ReplicationStatuses),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  AssociatedStreamGroups: S.optional(ArnList),
 }) {}
-export const LocationStates = S.Array(LocationState);
-export class AddStreamGroupLocationsOutput extends S.Class<AddStreamGroupLocationsOutput>(
-  "AddStreamGroupLocationsOutput",
-)({ Identifier: S.String, Locations: LocationStates }) {}
+export class GetApplicationOutput extends S.Class<GetApplicationOutput>(
+  "GetApplicationOutput",
+)({
+  Arn: S.String,
+  Description: S.optional(S.String),
+  RuntimeEnvironment: S.optional(RuntimeEnvironment),
+  ExecutablePath: S.optional(S.String),
+  ApplicationLogPaths: S.optional(FilePaths),
+  ApplicationLogOutputUri: S.optional(S.String),
+  ApplicationSourceUri: S.optional(S.String),
+  Id: S.optional(S.String),
+  Status: S.optional(S.String),
+  StatusReason: S.optional(S.String),
+  ReplicationStatuses: S.optional(ReplicationStatuses),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  AssociatedStreamGroups: S.optional(ArnList),
+}) {}
+export class ListApplicationsOutput extends S.Class<ListApplicationsOutput>(
+  "ListApplicationsOutput",
+)({
+  Items: S.optional(ApplicationSummaryList),
+  NextToken: S.optional(S.String),
+}) {}
+export class CreateStreamGroupOutput extends S.Class<CreateStreamGroupOutput>(
+  "CreateStreamGroupOutput",
+)({
+  Arn: S.String,
+  Description: S.optional(S.String),
+  DefaultApplication: S.optional(DefaultApplication),
+  LocationStates: S.optional(LocationStates),
+  StreamClass: S.optional(S.String),
+  Id: S.optional(S.String),
+  Status: S.optional(S.String),
+  StatusReason: S.optional(S.String),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  AssociatedApplications: S.optional(ArnList),
+}) {}
+export class ListStreamGroupsOutput extends S.Class<ListStreamGroupsOutput>(
+  "ListStreamGroupsOutput",
+)({
+  Items: S.optional(StreamGroupSummaryList),
+  NextToken: S.optional(S.String),
+}) {}
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
   { Message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String },
 ) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.String },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.String },
+) {}
 
 //# Operations
 /**
- * Export the files that your application modifies or generates in a stream session, which can help you debug or verify your application. When your application runs, it generates output files such as logs, diagnostic information, crash dumps, save files, user data, screenshots, and so on. The files can be defined by the engine or frameworks that your application uses, or information that you've programmed your application to output.
- *
- * You can only call this action on a stream session that is in progress, specifically in one of the following statuses `ACTIVE`, `CONNECTED`, `PENDING_CLIENT_RECONNECTION`, and `RECONNECTING`. You must provide an Amazon Simple Storage Service (Amazon S3) bucket to store the files in. When the session ends, Amazon GameLift Streams produces a compressed folder that contains all of the files and directories that were modified or created by the application during the stream session. AWS uses your security credentials to authenticate and authorize access to your Amazon S3 bucket.
- *
- * Amazon GameLift Streams collects the following generated and modified files. Find them in the corresponding folders in the `.zip` archive.
- *
- * - `application/`: The folder where your application or game is stored.
- *
- * - `profile/`: The user profile folder.
- *
- * - `temp/`: The system temp folder.
- *
- * To verify the status of the exported files, use GetStreamSession.
- *
- * To delete the files, delete the object in the S3 bucket.
+ * Retrieves a list of all Amazon GameLift Streams applications that are associated with the Amazon Web Services account in use. This operation returns applications in all statuses, in no particular order. You can paginate the results as needed.
  */
-export const exportStreamSessionFiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportStreamSessionFilesInput,
-    output: ExportStreamSessionFilesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves a list of Amazon GameLift Streams stream sessions that this user account has access to.
- *
- * In the returned list of stream sessions, the `ExportFilesMetadata` property only shows the `Status` value. To get the `OutpurUri` and `StatusReason` values, use GetStreamSession.
- *
- * We don't recommend using this operation to regularly check stream session statuses because it's costly. Instead, to check status updates for a specific stream session, use GetStreamSession.
- */
-export const listStreamSessionsByAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListStreamSessionsByAccountInput,
-    output: ListStreamSessionsByAccountOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource.
- *
- * **Learn more**
- *
- * Tagging Amazon Web Services Resources in the *Amazon Web Services General Reference*
- *
- * Amazon Web Services Tagging Strategies
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApplicationsInput,
+  output: ListApplicationsOutput,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves properties for a Amazon GameLift Streams stream session resource. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource.
+ */
+export const getStreamSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStreamSessionInput,
+  output: GetStreamSessionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of Amazon GameLift Streams stream sessions that a stream group is hosting.
+ *
+ * To retrieve stream sessions, specify the stream group, and optionally filter by stream session status. You can paginate the results as needed.
+ *
+ * This operation returns the requested stream sessions in no particular order.
+ */
+export const listStreamSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStreamSessionsInput,
+  output: ListStreamSessionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves properties for an Amazon GameLift Streams application resource. Specify the ID of the application that you want to retrieve. If the operation is successful, it returns properties for the requested application.
+ */
+export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationInput,
+  output: GetApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the mutable configuration settings for a Amazon GameLift Streams application resource. You can change the `Description`, `ApplicationLogOutputUri`, and `ApplicationLogPaths`.
+ *
+ * To update application settings, specify the application ID and provide the new values. If the operation is successful, it returns the complete updated set of settings for the application.
+ */
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationInput,
+  output: UpdateApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves properties for a Amazon GameLift Streams stream group resource. Specify the ID of the stream group that you want to retrieve. If the operation is successful, it returns properties for the requested stream group.
+ */
+export const getStreamGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStreamGroupInput,
+  output: GetStreamGroupOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -633,29 +973,6 @@ export const removeStreamGroupLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types:
- *
- * - Application
- *
- * - StreamGroup
- *
- * **Learn more**
- *
- * Tagging Amazon Web Services Resources in the *Amazon Web Services General Reference*
- *
- * Amazon Web Services Tagging Strategies
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Permanently terminates an active stream session. When called, the stream session status changes to `TERMINATING`. You can terminate a stream session in any status except `ACTIVATING`. If the stream session is in `ACTIVATING` status, an exception is thrown.
  */
 export const terminateStreamSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -672,37 +989,65 @@ export const terminateStreamSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Removes one or more tags from a Amazon GameLift Streams resource. To remove tags, specify the Amazon GameLift Streams resource and a list of one or more tags to remove.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in `ACTIVE` status. You can reverse this action by using DisassociateApplications.
+ * When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams in the stream group using the disassociated application. The disassociate action does not affect the stream capacity of a stream group. To disassociate an application, the stream group must be in `ACTIVE` status.
  *
- * If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application provided in `ApplicationIdentifiers` as the default.
+ * If you disassociate the default application, Amazon GameLift Streams will automatically choose a new default application from the remaining associated applications. To change which application is the default application, call UpdateStreamGroup and specify a new `DefaultApplicationIdentifier`.
  */
-export const associateApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const disassociateApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AssociateApplicationsInput,
-    output: AssociateApplicationsOutput,
+    input: DisassociateApplicationsInput,
+    output: DisassociateApplicationsOutput,
     errors: [
       AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
-      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],
   }),
 );
+/**
+ * Permanently deletes an Amazon GameLift Streams application resource. This also deletes the application content files stored with Amazon GameLift Streams. However, this does not delete the original files that you uploaded to your Amazon S3 bucket; you can delete these any time after Amazon GameLift Streams creates an application, which is the only time Amazon GameLift Streams accesses your Amazon S3 bucket.
+ *
+ * You can only delete an application that meets the following conditions:
+ *
+ * - The application is in `READY` or `ERROR` status. You cannot delete an application that's in `PROCESSING` or `INITIALIZED` status.
+ *
+ * - The application is not the default application of any stream groups. You must first delete the stream group by using DeleteStreamGroup.
+ *
+ * - The application is not linked to any stream groups. You must first unlink the stream group by using DisassociateApplications.
+ *
+ * - An application is not streaming in any ongoing stream session. You must wait until the client ends the stream session or call TerminateStreamSession to end the stream.
+ *
+ * If any active stream groups exist for this application, this request returns a `ValidationException`.
+ */
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationInput,
+  output: DeleteApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is `DELETING`. This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call ListStreamSessions to check for streams in progress and take action to stop them. When you delete a stream group, any application associations referring to that stream group are automatically removed.
+ */
+export const deleteStreamGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStreamGroupInput,
+  output: DeleteStreamGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables clients to reconnect to a stream session while preserving all session state and data in the disconnected session. This reconnection process can be initiated when a stream session is in either `PENDING_CLIENT_RECONNECTION` or `ACTIVE` status. The process works as follows:
  *
@@ -745,56 +1090,6 @@ export const createStreamSessionConnection =
       ValidationException,
     ],
   }));
-/**
- * When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams in the stream group using the disassociated application. The disassociate action does not affect the stream capacity of a stream group. To disassociate an application, the stream group must be in `ACTIVE` status.
- *
- * If you disassociate the default application, Amazon GameLift Streams will automatically choose a new default application from the remaining associated applications. To change which application is the default application, call UpdateStreamGroup and specify a new `DefaultApplicationIdentifier`.
- */
-export const disassociateApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateApplicationsInput,
-    output: DisassociateApplicationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves properties for a Amazon GameLift Streams stream session resource. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource.
- */
-export const getStreamSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStreamSessionInput,
-  output: GetStreamSessionOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves a list of Amazon GameLift Streams stream sessions that a stream group is hosting.
- *
- * To retrieve stream sessions, specify the stream group, and optionally filter by stream session status. You can paginate the results as needed.
- *
- * This operation returns the requested stream sessions in no particular order.
- */
-export const listStreamSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStreamSessionsInput,
-  output: ListStreamSessionsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * This action initiates a new stream session and outputs connection information that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams transmits from the server to the end-user. A stream session runs on a compute resource that a stream group has allocated. The start stream session process works as follows:
  *
@@ -867,6 +1162,191 @@ export const startStreamSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Retrieves a list of all Amazon GameLift Streams stream groups that are associated with the Amazon Web Services account in use. This operation returns stream groups in all statuses, in no particular order. You can paginate the results as needed.
+ */
+export const listStreamGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStreamGroupsInput,
+  output: ListStreamGroupsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of Amazon GameLift Streams stream sessions that this user account has access to.
+ *
+ * In the returned list of stream sessions, the `ExportFilesMetadata` property only shows the `Status` value. To get the `OutpurUri` and `StatusReason` values, use GetStreamSession.
+ *
+ * We don't recommend using this operation to regularly check stream session statuses because it's costly. Instead, to check status updates for a specific stream session, use GetStreamSession.
+ */
+export const listStreamSessionsByAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListStreamSessionsByAccountInput,
+    output: ListStreamSessionsByAccountOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource.
+ *
+ * **Learn more**
+ *
+ * Tagging Amazon Web Services Resources in the *Amazon Web Services General Reference*
+ *
+ * Amazon Web Services Tagging Strategies
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types:
+ *
+ * - Application
+ *
+ * - StreamGroup
+ *
+ * **Learn more**
+ *
+ * Tagging Amazon Web Services Resources in the *Amazon Web Services General Reference*
+ *
+ * Amazon Web Services Tagging Strategies
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes one or more tags from a Amazon GameLift Streams resource. To remove tags, specify the Amazon GameLift Streams resource and a list of one or more tags to remove.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Export the files that your application modifies or generates in a stream session, which can help you debug or verify your application. When your application runs, it generates output files such as logs, diagnostic information, crash dumps, save files, user data, screenshots, and so on. The files can be defined by the engine or frameworks that your application uses, or information that you've programmed your application to output.
+ *
+ * You can only call this action on a stream session that is in progress, specifically in one of the following statuses `ACTIVE`, `CONNECTED`, `PENDING_CLIENT_RECONNECTION`, and `RECONNECTING`. You must provide an Amazon Simple Storage Service (Amazon S3) bucket to store the files in. When the session ends, Amazon GameLift Streams produces a compressed folder that contains all of the files and directories that were modified or created by the application during the stream session. AWS uses your security credentials to authenticate and authorize access to your Amazon S3 bucket.
+ *
+ * Amazon GameLift Streams collects the following generated and modified files. Find them in the corresponding folders in the `.zip` archive.
+ *
+ * - `application/`: The folder where your application or game is stored.
+ *
+ * - `profile/`: The user profile folder.
+ *
+ * - `temp/`: The system temp folder.
+ *
+ * To verify the status of the exported files, use GetStreamSession.
+ *
+ * To delete the files, delete the object in the S3 bucket.
+ */
+export const exportStreamSessionFiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ExportStreamSessionFilesInput,
+    output: ExportStreamSessionFilesOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it.
+ *
+ * Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see **Getting Started** in the Amazon GameLift Streams Developer Guide.
+ *
+ * Make sure that your files in the Amazon S3 bucket are the correct version you want to use. If you change the files at a later time, you will need to create a new Amazon GameLift Streams application.
+ *
+ * If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to `INITIALIZED`. When an application reaches `READY` status, you can use the application to set up stream groups and start streams. To track application status, call GetApplication.
+ */
+export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationInput,
+  output: CreateApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration settings for an Amazon GameLift Streams stream group resource. To update a stream group, it must be in `ACTIVE` status. You can change the description, the set of locations, and the requested capacity of a stream group per location. If you want to change the stream class, create a new stream group.
+ *
+ * Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. The following capacity settings are available:
+ *
+ * - **Always-on capacity**: This setting, if non-zero, indicates minimum streaming capacity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle.
+ *
+ * - **Maximum capacity**: This indicates the maximum capacity that the service can allocate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is released.
+ *
+ * - **Target-idle capacity**: This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
+ *
+ * Values for capacity must be whole number multiples of the tenancy value of the stream group's stream class.
+ *
+ * To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group. Expired stream groups cannot be updated.
+ */
+export const updateStreamGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStreamGroupInput,
+  output: UpdateStreamGroupOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in `ACTIVE` status. You can reverse this action by using DisassociateApplications.
+ *
+ * If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application provided in `ApplicationIdentifiers` as the default.
+ */
+export const associateApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateApplicationsInput,
+    output: AssociateApplicationsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Add locations that can host stream sessions. To add a location, the stream group must be in `ACTIVE` status. You configure locations and their corresponding capacity for each stream group. Creating a stream group in a location that's nearest to your end users can help minimize latency and improve quality.
  *
  * This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
@@ -885,3 +1365,35 @@ export const addStreamGroupLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Stream groups manage how Amazon GameLift Streams allocates resources and handles concurrent streams, allowing you to effectively manage capacity and costs. Within a stream group, you specify an application to stream, streaming locations and their capacity, and the stream class you want to use when streaming applications to your end-users. A stream class defines the hardware configuration of the compute resources that Amazon GameLift Streams will use when streaming, such as the CPU, GPU, and memory.
+ *
+ * Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. The following capacity settings are available:
+ *
+ * - **Always-on capacity**: This setting, if non-zero, indicates minimum streaming capacity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle.
+ *
+ * - **Maximum capacity**: This indicates the maximum capacity that the service can allocate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is released.
+ *
+ * - **Target-idle capacity**: This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
+ *
+ * Values for capacity must be whole number multiples of the tenancy value of the stream group's stream class.
+ *
+ * To adjust the capacity of any `ACTIVE` stream group, call UpdateStreamGroup.
+ *
+ * If the `CreateStreamGroup` request is successful, Amazon GameLift Streams assigns a unique ID to the stream group resource and sets the status to `ACTIVATING`. It can take a few minutes for Amazon GameLift Streams to finish creating the stream group while it searches for unallocated compute resources and provisions them. When complete, the stream group status will be `ACTIVE` and you can start stream sessions by using StartStreamSession. To check the stream group's status, call GetStreamGroup.
+ *
+ * Stream groups should be recreated every 3-4 weeks to pick up important service updates and fixes. Stream groups that are older than 180 days can no longer be updated with new application associations. Stream groups expire when they are 365 days old, at which point they can no longer stream sessions. The exact expiration date is indicated by the date value in the `ExpiresAt` field.
+ */
+export const createStreamGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStreamGroupInput,
+  output: CreateStreamGroupOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

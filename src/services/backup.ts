@@ -3765,198 +3765,99 @@ export class CreateRestoreTestingSelectionOutput extends S.Class<CreateRestoreTe
 //# Errors
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
-  {},
-) {}
-export class MissingParameterValueException extends S.TaggedError<MissingParameterValueException>()(
-  "MissingParameterValueException",
-  {},
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
-  "InvalidResourceStateException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
   T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
+) {}
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
 ) {}
 export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
   "AlreadyExistsException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreatorRequestId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
+) {}
+export class MissingParameterValueException extends S.TaggedError<MissingParameterValueException>()(
+  "MissingParameterValueException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
+) {}
+export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
+  "InvalidResourceStateException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
 ) {}
 export class DependencyFailureException extends S.TaggedError<DependencyFailureException>()(
   "DependencyFailureException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Context: S.optional(S.String),
+  },
 ) {}
 
 //# Operations
-/**
- * Deletes event notifications for the specified backup vault.
- */
-export const deleteBackupVaultNotifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBackupVaultNotificationsInput,
-    output: DeleteBackupVaultNotificationsResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Deletes the recovery point specified by a recovery point ID.
- *
- * If the recovery point ID belongs to a continuous backup, calling this endpoint deletes
- * the existing continuous backup and stops future continuous backup.
- *
- * When an IAM role's permissions are insufficient to call this API, the service sends back
- * an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted.
- * Instead, it enters an `EXPIRED` state.
- *
- * `EXPIRED` recovery points can be deleted with this API once the IAM role
- * has the `iam:CreateServiceLinkedRole` action. To learn more about adding this role, see
- *
- * Troubleshooting manual deletions.
- *
- * If the user or role is deleted or the permission within the role is removed,
- * the deletion will not be successful and will enter an `EXPIRED` state.
- */
-export const deleteRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRecoveryPointInput,
-  output: DeleteRecoveryPointResponse,
-  errors: [
-    InvalidParameterValueException,
-    InvalidRequestException,
-    InvalidResourceStateException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Deletes the report plan specified by a report plan name.
- */
-export const deleteReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteReportPlanInput,
-  output: DeleteReportPlanResponse,
-  errors: [
-    ConflictException,
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This request deletes the specified restore testing plan.
- *
- * Deletion can only successfully occur if all associated
- * restore testing selections are deleted first.
- */
-export const deleteRestoreTestingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRestoreTestingPlanInput,
-    output: DeleteRestoreTestingPlanResponse,
-    errors: [InvalidRequestException, ServiceUnavailableException],
-  }),
-);
-/**
- * Input the Restore Testing Plan name and Restore Testing Selection
- * name.
- *
- * All testing selections associated with a restore testing plan must
- * be deleted before the restore testing plan can be deleted.
- */
-export const deleteRestoreTestingSelection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRestoreTestingSelectionInput,
-    output: DeleteRestoreTestingSelectionResponse,
-    errors: [ResourceNotFoundException, ServiceUnavailableException],
-  }));
-/**
- * Deletes the tiering configuration specified by a tiering configuration name.
- */
-export const deleteTieringConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTieringConfigurationInput,
-    output: DeleteTieringConfigurationOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
- */
-export const disassociateBackupVaultMpaApprovalTeam =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateBackupVaultMpaApprovalTeamInput,
-    output: DisassociateBackupVaultMpaApprovalTeamResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Deletes the specified continuous backup recovery point from Backup and
- * releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the
- * lifecycle that you specified in your original backup plan.
- *
- * Does not support snapshot backup recovery points.
- */
-export const disassociateRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateRecoveryPointInput,
-    output: DisassociateRecoveryPointResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      InvalidResourceStateException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * This action to a specific child (nested) recovery point removes the relationship
- * between the specified recovery point and its parent (composite) recovery point.
- */
-export const disassociateRecoveryPointFromParent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateRecoveryPointFromParentInput,
-    output: DisassociateRecoveryPointFromParentResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
 /**
  * Returns the Amazon Web Services resource types supported by Backup.
  */
@@ -3965,591 +3866,6 @@ export const getSupportedResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: GetSupportedResourceTypesRequest,
     output: GetSupportedResourceTypesOutput,
     errors: [ServiceUnavailableException],
-  }),
-);
-/**
- * Sets a resource-based policy that is used to manage access permissions on the target
- * backup vault. Requires a backup vault name and an access policy document in JSON
- * format.
- */
-export const putBackupVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutBackupVaultAccessPolicyInput,
-    output: PutBackupVaultAccessPolicyResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Applies Backup Vault Lock to a backup vault, preventing attempts to delete
- * any recovery point stored in or created in a backup vault. Vault Lock also prevents
- * attempts to update the lifecycle policy that controls the retention period of any recovery
- * point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and
- * maximum retention period for future backup and copy jobs that target a backup vault.
- *
- * Backup Vault Lock has been assessed by Cohasset Associates for use in environments
- * that are subject to SEC 17a-4, CFTC, and FINRA regulations. For more information about
- * how Backup Vault Lock relates to these regulations, see the
- * Cohasset Associates
- * Compliance Assessment.
- *
- * For more information, see Backup Vault Lock.
- */
-export const putBackupVaultLockConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBackupVaultLockConfigurationInput,
-    output: PutBackupVaultLockConfigurationResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Turns on notifications on a backup vault for the specified topic and events.
- */
-export const putBackupVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutBackupVaultNotificationsInput,
-    output: PutBackupVaultNotificationsResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * This request allows you to send your independent self-run
- * restore test validation results.
- * `RestoreJobId` and `ValidationStatus`
- * are required. Optionally, you can input a
- * `ValidationStatusMessage`.
- */
-export const putRestoreValidationResult = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRestoreValidationResultInput,
-    output: PutRestoreValidationResultResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault.
- */
-export const revokeRestoreAccessBackupVault =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RevokeRestoreAccessBackupVaultInput,
-    output: RevokeRestoreAccessBackupVaultResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Attempts to cancel a job to create a one-time backup of a resource.
- *
- * This action is not supported for the following services:
- *
- * - Amazon Aurora
- *
- * - Amazon DocumentDB (with MongoDB compatibility)
- *
- * - Amazon FSx for Lustre
- *
- * - Amazon FSx for NetApp ONTAP
- *
- * - Amazon FSx for OpenZFS
- *
- * - Amazon FSx for Windows File Server
- *
- * - Amazon Neptune
- *
- * - SAP HANA databases on Amazon EC2 instances
- *
- * - Amazon RDS
- */
-export const stopBackupJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopBackupJobInput,
-  output: StopBackupJobResponse,
-  errors: [
-    InvalidParameterValueException,
-    InvalidRequestException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Removes a set of key-value pairs from a recovery point, backup plan, or backup vault
- * identified by an Amazon Resource Name (ARN)
- *
- * This API is not supported for recovery points for resource types
- * including Aurora, Amazon DocumentDB. Amazon EBS,
- * Amazon FSx, Neptune, and Amazon RDS.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Updates whether the Amazon Web Services account is opted in to cross-account backup.
- * Returns an error if the account is not an Organizations management account. Use the
- * `DescribeGlobalSettings` API to determine the current settings.
- */
-export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGlobalSettingsInput,
-    output: UpdateGlobalSettingsResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Updates the current service opt-in settings for the Region.
- *
- * Use
- * the `DescribeRegionSettings` API to determine the resource types that are
- * supported.
- */
-export const updateRegionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRegionSettingsInput,
-    output: UpdateRegionSettingsResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Associates an MPA approval team with a backup vault.
- */
-export const associateBackupVaultMpaApprovalTeam =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateBackupVaultMpaApprovalTeamInput,
-    output: AssociateBackupVaultMpaApprovalTeamResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Removes the specified legal hold on a recovery point. This action can only be performed
- * by a user with sufficient permissions.
- */
-export const cancelLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelLegalHoldInput,
-  output: CancelLegalHoldOutput,
-  errors: [
-    InvalidParameterValueException,
-    InvalidResourceStateException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Creates a logical container to where backups may be copied.
- *
- * This request includes a name, the Region, the maximum number of retention days, the
- * minimum number of retention days, and optionally can include tags and a creator request
- * ID.
- *
- * Do not include sensitive data, such as passport numbers, in the name of a backup
- * vault.
- */
-export const createLogicallyAirGappedBackupVault =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLogicallyAirGappedBackupVaultInput,
-    output: CreateLogicallyAirGappedBackupVaultOutput,
-    errors: [
-      AlreadyExistsException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval.
- */
-export const createRestoreAccessBackupVault =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRestoreAccessBackupVaultInput,
-    output: CreateRestoreAccessBackupVaultOutput,
-    errors: [
-      AlreadyExistsException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Deletes a backup plan. A backup plan can only be deleted after all associated selections
- * of resources have been deleted. Deleting a backup plan deletes the current version of a
- * backup plan. Previous versions, if any, will still exist.
- */
-export const deleteBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBackupPlanInput,
-  output: DeleteBackupPlanOutput,
-  errors: [
-    InvalidParameterValueException,
-    InvalidRequestException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Deletes the resource selection associated with a backup plan that is specified by the
- * `SelectionId`.
- */
-export const deleteBackupSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBackupSelectionInput,
-    output: DeleteBackupSelectionResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Deletes the backup vault identified by its name. A vault can be deleted only if it is
- * empty.
- */
-export const deleteBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBackupVaultInput,
-  output: DeleteBackupVaultResponse,
-  errors: [
-    InvalidParameterValueException,
-    InvalidRequestException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Deletes the policy document that manages permissions on a backup vault.
- */
-export const deleteBackupVaultAccessPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBackupVaultAccessPolicyInput,
-    output: DeleteBackupVaultAccessPolicyResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Deletes Backup Vault Lock from a backup vault specified by a backup vault
- * name.
- *
- * If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using
- * API operations, and you will receive an `InvalidRequestException` if you attempt
- * to do so. For more information, see Vault Lock in the
- * *Backup Developer Guide*.
- */
-export const deleteBackupVaultLockConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBackupVaultLockConfigurationInput,
-    output: DeleteBackupVaultLockConfigurationResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Deletes the framework specified by a framework name.
- */
-export const deleteFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFrameworkInput,
-  output: DeleteFrameworkResponse,
-  errors: [
-    ConflictException,
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Returns the framework details for the specified `FrameworkName`.
- */
-export const describeFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFrameworkInput,
-  output: DescribeFrameworkOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Describes whether the Amazon Web Services account is opted in to cross-account backup.
- * Returns an error if the account is not a member of an Organizations organization.
- * Example: `describe-global-settings --region us-west-2`
- */
-export const describeGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGlobalSettingsInput,
-    output: DescribeGlobalSettingsOutput,
-    errors: [InvalidRequestException, ServiceUnavailableException],
-  }),
-);
-/**
- * Returns information about a saved resource, including the last time it was backed up,
- * its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved
- * resource.
- */
-export const describeProtectedResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProtectedResourceInput,
-    output: DescribeProtectedResourceOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Returns the current service opt-in settings for the Region. If service opt-in is enabled
- * for a service, Backup tries to protect that service's resources in this Region,
- * when the resource is included in an on-demand backup or scheduled backup plan. Otherwise,
- * Backup does not try to protect that service's resources in this
- * Region.
- */
-export const describeRegionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRegionSettingsInput,
-    output: DescribeRegionSettingsOutput,
-    errors: [ServiceUnavailableException],
-  }),
-);
-/**
- * Returns the backup plan that is specified by the plan ID as a backup template.
- */
-export const exportBackupPlanTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportBackupPlanTemplateInput,
-    output: ExportBackupPlanTemplateOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Returns a valid JSON document specifying a backup plan or an error.
- */
-export const getBackupPlanFromJSON = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBackupPlanFromJSONInput,
-    output: GetBackupPlanFromJSONOutput,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Returns the template specified by its `templateId` as a backup plan.
- */
-export const getBackupPlanFromTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBackupPlanFromTemplateInput,
-    output: GetBackupPlanFromTemplateOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Returns selection metadata and a document in JSON format that specifies a list of
- * resources that are associated with a backup plan.
- */
-export const getBackupSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBackupSelectionInput,
-  output: GetBackupSelectionOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Returns the access policy document that is associated with the named backup
- * vault.
- */
-export const getBackupVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBackupVaultAccessPolicyInput,
-    output: GetBackupVaultAccessPolicyOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Returns event notifications for the specified backup vault.
- */
-export const getBackupVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBackupVaultNotificationsInput,
-    output: GetBackupVaultNotificationsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * This action returns details for a specified legal hold. The details are the
- * body of a legal hold in JSON format, in addition to metadata.
- */
-export const getLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLegalHoldInput,
-  output: GetLegalHoldOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation returns the metadata and details specific to
- * the backup index associated with the specified recovery point.
- */
-export const getRecoveryPointIndexDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRecoveryPointIndexDetailsInput,
-    output: GetRecoveryPointIndexDetailsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Returns a set of metadata key-value pairs that were used to create the backup.
- */
-export const getRecoveryPointRestoreMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRecoveryPointRestoreMetadataInput,
-    output: GetRecoveryPointRestoreMetadataOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * This request returns the metadata for the specified restore job.
- */
-export const getRestoreJobMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRestoreJobMetadataInput,
-    output: GetRestoreJobMetadataOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * This request returns the minimal required set of metadata needed to
- * start a restore job with secure default settings. `BackupVaultName`
- * and `RecoveryPointArn` are required parameters.
- * `BackupVaultAccountId` is an optional parameter.
- */
-export const getRestoreTestingInferredMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRestoreTestingInferredMetadataInput,
-    output: GetRestoreTestingInferredMetadataOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Returns version metadata of your backup plans, including Amazon Resource Names (ARNs),
- * backup plan IDs, creation and deletion dates, plan names, and version IDs.
- */
-export const listBackupPlanVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBackupPlanVersionsInput,
-    output: ListBackupPlanVersionsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
   }),
 );
 /**
@@ -4595,241 +3911,68 @@ export const listReportPlans = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidParameterValueException, ServiceUnavailableException],
 }));
 /**
- * This returns restore jobs that contain the specified protected resource.
+ * This request deletes the specified restore testing plan.
  *
- * You must include `ResourceArn`. You can optionally include
- * `NextToken`, `ByStatus`, `MaxResults`,
- * `ByRecoveryPointCreationDateAfter` , and
- * `ByRecoveryPointCreationDateBefore`.
+ * Deletion can only successfully occur if all associated
+ * restore testing selections are deleted first.
  */
-export const listRestoreJobsByProtectedResource =
+export const deleteRestoreTestingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRestoreTestingPlanInput,
+    output: DeleteRestoreTestingPlanResponse,
+    errors: [InvalidRequestException, ServiceUnavailableException],
+  }),
+);
+/**
+ * Input the Restore Testing Plan name and Restore Testing Selection
+ * name.
+ *
+ * All testing selections associated with a restore testing plan must
+ * be deleted before the restore testing plan can be deleted.
+ */
+export const deleteRestoreTestingSelection =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListRestoreJobsByProtectedResourceInput,
-    output: ListRestoreJobsByProtectedResourceOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
+    input: DeleteRestoreTestingSelectionInput,
+    output: DeleteRestoreTestingSelectionResponse,
+    errors: [ResourceNotFoundException, ServiceUnavailableException],
   }));
 /**
- * Returns the tags assigned to the resource, such as a target recovery point, backup plan,
- * or backup vault.
- *
- * This operation returns results depending on the resource type used in the value for
- * `resourceArn`. For example, recovery points of Amazon DynamoDB with
- * Advanced Settings have an ARN (Amazon Resource Name) that begins with
- * `arn:aws:backup`. Recovery points (backups) of DynamoDB without
- * Advanced Settings enabled have an ARN that begins with
- * `arn:aws:dynamodb`.
- *
- * When this operation is called and when you include values of `resourceArn`
- * that have an ARN other than `arn:aws:backup`, it may return one of the
- * exceptions listed below. To prevent this exception, include only values representing
- * resource types that are fully managed by Backup. These have an ARN that begins
- * `arn:aws:backup` and they are noted in the Feature availability by resource table.
+ * Describes whether the Amazon Web Services account is opted in to cross-account backup.
+ * Returns an error if the account is not a member of an Organizations organization.
+ * Example: `describe-global-settings --region us-west-2`
  */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsInput,
-  output: ListTagsOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
+export const describeGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeGlobalSettingsInput,
+    output: DescribeGlobalSettingsOutput,
+    errors: [InvalidRequestException, ServiceUnavailableException],
+  }),
+);
 /**
- * Starts a job to create a one-time copy of the specified resource.
- *
- * Does not support continuous backups.
- *
- * See Copy
- * job retry for information on how Backup retries copy job
- * operations.
+ * Returns the current service opt-in settings for the Region. If service opt-in is enabled
+ * for a service, Backup tries to protect that service's resources in this Region,
+ * when the resource is included in an on-demand backup or scheduled backup plan. Otherwise,
+ * Backup does not try to protect that service's resources in this
+ * Region.
  */
-export const startCopyJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartCopyJobInput,
-  output: StartCopyJobOutput,
-  errors: [
-    InvalidParameterValueException,
-    InvalidRequestException,
-    LimitExceededException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
+export const describeRegionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeRegionSettingsInput,
+    output: DescribeRegionSettingsOutput,
+    errors: [ServiceUnavailableException],
+  }),
+);
 /**
- * Starts an on-demand report job for the specified report plan.
+ * Deletes the framework specified by a framework name.
  */
-export const startReportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartReportJobInput,
-  output: StartReportJobOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Starts scanning jobs for specific resources.
- */
-export const startScanJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartScanJobInput,
-  output: StartScanJobOutput,
-  errors: [
-    InvalidParameterValueException,
-    InvalidRequestException,
-    LimitExceededException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Assigns a set of key-value pairs to a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
-  errors: [
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Updates the specified backup plan. The new version is uniquely identified by its ID.
- */
-export const updateBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBackupPlanInput,
-  output: UpdateBackupPlanOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Updates the specified framework.
- */
-export const updateFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFrameworkInput,
-  output: UpdateFrameworkOutput,
-  errors: [
-    AlreadyExistsException,
-    ConflictException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation updates the settings of a recovery point index.
- *
- * Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn
- */
-export const updateRecoveryPointIndexSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRecoveryPointIndexSettingsInput,
-    output: UpdateRecoveryPointIndexSettingsOutput,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Sets the transition lifecycle of a recovery point.
- *
- * The lifecycle defines when a protected resource is transitioned to cold storage and when
- * it expires. Backup transitions and expires backups automatically according to
- * the lifecycle that you define.
- *
- * Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expression for
- * other resource types.
- *
- * Backups transitioned to cold storage must be stored in cold storage for a minimum of 90
- * days. Therefore, the “retention” setting must be 90 days greater than the “transition to
- * cold after days” setting. The “transition to cold after days” setting cannot be changed
- * after a backup has been transitioned to cold.
- *
- * If your lifecycle currently uses the parameters `DeleteAfterDays` and
- * `MoveToColdStorageAfterDays`, include these parameters and their values when you call
- * this operation. Not including them may result in your plan updating with null values.
- *
- * This operation does not support continuous backups.
- */
-export const updateRecoveryPointLifecycle =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRecoveryPointLifecycleInput,
-    output: UpdateRecoveryPointLifecycleOutput,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Updates the specified report plan.
- */
-export const updateReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateReportPlanInput,
-  output: UpdateReportPlanOutput,
+export const deleteFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFrameworkInput,
+  output: DeleteFrameworkResponse,
   errors: [
     ConflictException,
     InvalidParameterValueException,
     MissingParameterValueException,
     ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Creates a logical container where backups are stored. A `CreateBackupVault`
- * request includes a name, optionally one or more resource tags, an encryption key, and a
- * request ID.
- *
- * Do not include sensitive data, such as passport numbers, in the name of a backup
- * vault.
- */
-export const createBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBackupVaultInput,
-  output: CreateBackupVaultOutput,
-  errors: [
-    AlreadyExistsException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingParameterValueException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Creates a report plan. A report plan is a document that contains information about the
- * contents of the report and where Backup will deliver it.
- *
- * If you call `CreateReportPlan` with a plan that already exists, you receive
- * an `AlreadyExistsException` exception.
- */
-export const createReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateReportPlanInput,
-  output: CreateReportPlanOutput,
-  errors: [
-    AlreadyExistsException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingParameterValueException,
     ServiceUnavailableException,
   ],
 }));
@@ -4876,20 +4019,6 @@ export const describeReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns metadata associated with a restore job that is specified by a job ID.
- */
-export const describeRestoreJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeRestoreJobInput,
-  output: DescribeRestoreJobOutput,
-  errors: [
-    DependencyFailureException,
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
  * Returns scan job details for the specified ScanJobID.
  */
 export const describeScanJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -4902,6 +4031,22 @@ export const describeScanJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceUnavailableException,
   ],
 }));
+/**
+ * Returns a valid JSON document specifying a backup plan or an error.
+ */
+export const getBackupPlanFromJSON = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetBackupPlanFromJSONInput,
+    output: GetBackupPlanFromJSONOutput,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      LimitExceededException,
+      MissingParameterValueException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
 /**
  * Returns `RestoreTestingPlan` details for the specified
  * `RestoreTestingPlanName`. The details are the body of a restore testing plan
@@ -5316,6 +4461,899 @@ export const updateTieringConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Removes the specified legal hold on a recovery point. This action can only be performed
+ * by a user with sufficient permissions.
+ */
+export const cancelLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelLegalHoldInput,
+  output: CancelLegalHoldOutput,
+  errors: [
+    InvalidParameterValueException,
+    InvalidResourceStateException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates a logical container to where backups may be copied.
+ *
+ * This request includes a name, the Region, the maximum number of retention days, the
+ * minimum number of retention days, and optionally can include tags and a creator request
+ * ID.
+ *
+ * Do not include sensitive data, such as passport numbers, in the name of a backup
+ * vault.
+ */
+export const createLogicallyAirGappedBackupVault =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateLogicallyAirGappedBackupVaultInput,
+    output: CreateLogicallyAirGappedBackupVaultOutput,
+    errors: [
+      AlreadyExistsException,
+      InvalidParameterValueException,
+      InvalidRequestException,
+      LimitExceededException,
+      MissingParameterValueException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval.
+ */
+export const createRestoreAccessBackupVault =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateRestoreAccessBackupVaultInput,
+    output: CreateRestoreAccessBackupVaultOutput,
+    errors: [
+      AlreadyExistsException,
+      InvalidParameterValueException,
+      InvalidRequestException,
+      LimitExceededException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Updates the specified framework.
+ */
+export const updateFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFrameworkInput,
+  output: UpdateFrameworkOutput,
+  errors: [
+    AlreadyExistsException,
+    ConflictException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Returns the framework details for the specified `FrameworkName`.
+ */
+export const describeFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFrameworkInput,
+  output: DescribeFrameworkOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Returns information about a saved resource, including the last time it was backed up,
+ * its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved
+ * resource.
+ */
+export const describeProtectedResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeProtectedResourceInput,
+    output: DescribeProtectedResourceOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Returns the backup plan that is specified by the plan ID as a backup template.
+ */
+export const exportBackupPlanTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ExportBackupPlanTemplateInput,
+    output: ExportBackupPlanTemplateOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Returns the template specified by its `templateId` as a backup plan.
+ */
+export const getBackupPlanFromTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetBackupPlanFromTemplateInput,
+    output: GetBackupPlanFromTemplateOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Returns selection metadata and a document in JSON format that specifies a list of
+ * resources that are associated with a backup plan.
+ */
+export const getBackupSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBackupSelectionInput,
+  output: GetBackupSelectionOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Returns the access policy document that is associated with the named backup
+ * vault.
+ */
+export const getBackupVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetBackupVaultAccessPolicyInput,
+    output: GetBackupVaultAccessPolicyOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Returns event notifications for the specified backup vault.
+ */
+export const getBackupVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetBackupVaultNotificationsInput,
+    output: GetBackupVaultNotificationsOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * This action returns details for a specified legal hold. The details are the
+ * body of a legal hold in JSON format, in addition to metadata.
+ */
+export const getLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLegalHoldInput,
+  output: GetLegalHoldOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation returns the metadata and details specific to
+ * the backup index associated with the specified recovery point.
+ */
+export const getRecoveryPointIndexDetails =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRecoveryPointIndexDetailsInput,
+    output: GetRecoveryPointIndexDetailsOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Returns a set of metadata key-value pairs that were used to create the backup.
+ */
+export const getRecoveryPointRestoreMetadata =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRecoveryPointRestoreMetadataInput,
+    output: GetRecoveryPointRestoreMetadataOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * This request returns the metadata for the specified restore job.
+ */
+export const getRestoreJobMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetRestoreJobMetadataInput,
+    output: GetRestoreJobMetadataOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * This request returns the minimal required set of metadata needed to
+ * start a restore job with secure default settings. `BackupVaultName`
+ * and `RecoveryPointArn` are required parameters.
+ * `BackupVaultAccountId` is an optional parameter.
+ */
+export const getRestoreTestingInferredMetadata =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRestoreTestingInferredMetadataInput,
+    output: GetRestoreTestingInferredMetadataOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Returns version metadata of your backup plans, including Amazon Resource Names (ARNs),
+ * backup plan IDs, creation and deletion dates, plan names, and version IDs.
+ */
+export const listBackupPlanVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListBackupPlanVersionsInput,
+    output: ListBackupPlanVersionsOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * This returns restore jobs that contain the specified protected resource.
+ *
+ * You must include `ResourceArn`. You can optionally include
+ * `NextToken`, `ByStatus`, `MaxResults`,
+ * `ByRecoveryPointCreationDateAfter` , and
+ * `ByRecoveryPointCreationDateBefore`.
+ */
+export const listRestoreJobsByProtectedResource =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListRestoreJobsByProtectedResourceInput,
+    output: ListRestoreJobsByProtectedResourceOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Returns the tags assigned to the resource, such as a target recovery point, backup plan,
+ * or backup vault.
+ *
+ * This operation returns results depending on the resource type used in the value for
+ * `resourceArn`. For example, recovery points of Amazon DynamoDB with
+ * Advanced Settings have an ARN (Amazon Resource Name) that begins with
+ * `arn:aws:backup`. Recovery points (backups) of DynamoDB without
+ * Advanced Settings enabled have an ARN that begins with
+ * `arn:aws:dynamodb`.
+ *
+ * When this operation is called and when you include values of `resourceArn`
+ * that have an ARN other than `arn:aws:backup`, it may return one of the
+ * exceptions listed below. To prevent this exception, include only values representing
+ * resource types that are fully managed by Backup. These have an ARN that begins
+ * `arn:aws:backup` and they are noted in the Feature availability by resource table.
+ */
+export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsInput,
+  output: ListTagsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Starts an on-demand report job for the specified report plan.
+ */
+export const startReportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartReportJobInput,
+  output: StartReportJobOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Updates the specified backup plan. The new version is uniquely identified by its ID.
+ */
+export const updateBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBackupPlanInput,
+  output: UpdateBackupPlanOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation updates the settings of a recovery point index.
+ *
+ * Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn
+ */
+export const updateRecoveryPointIndexSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateRecoveryPointIndexSettingsInput,
+    output: UpdateRecoveryPointIndexSettingsOutput,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Sets the transition lifecycle of a recovery point.
+ *
+ * The lifecycle defines when a protected resource is transitioned to cold storage and when
+ * it expires. Backup transitions and expires backups automatically according to
+ * the lifecycle that you define.
+ *
+ * Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expression for
+ * other resource types.
+ *
+ * Backups transitioned to cold storage must be stored in cold storage for a minimum of 90
+ * days. Therefore, the “retention” setting must be 90 days greater than the “transition to
+ * cold after days” setting. The “transition to cold after days” setting cannot be changed
+ * after a backup has been transitioned to cold.
+ *
+ * If your lifecycle currently uses the parameters `DeleteAfterDays` and
+ * `MoveToColdStorageAfterDays`, include these parameters and their values when you call
+ * this operation. Not including them may result in your plan updating with null values.
+ *
+ * This operation does not support continuous backups.
+ */
+export const updateRecoveryPointLifecycle =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateRecoveryPointLifecycleInput,
+    output: UpdateRecoveryPointLifecycleOutput,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Updates the specified report plan.
+ */
+export const updateReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReportPlanInput,
+  output: UpdateReportPlanOutput,
+  errors: [
+    ConflictException,
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes the resource selection associated with a backup plan that is specified by the
+ * `SelectionId`.
+ */
+export const deleteBackupSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteBackupSelectionInput,
+    output: DeleteBackupSelectionResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Deletes the backup vault identified by its name. A vault can be deleted only if it is
+ * empty.
+ */
+export const deleteBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBackupVaultInput,
+  output: DeleteBackupVaultResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes the policy document that manages permissions on a backup vault.
+ */
+export const deleteBackupVaultAccessPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteBackupVaultAccessPolicyInput,
+    output: DeleteBackupVaultAccessPolicyResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Deletes Backup Vault Lock from a backup vault specified by a backup vault
+ * name.
+ *
+ * If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using
+ * API operations, and you will receive an `InvalidRequestException` if you attempt
+ * to do so. For more information, see Vault Lock in the
+ * *Backup Developer Guide*.
+ */
+export const deleteBackupVaultLockConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteBackupVaultLockConfigurationInput,
+    output: DeleteBackupVaultLockConfigurationResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Deletes event notifications for the specified backup vault.
+ */
+export const deleteBackupVaultNotifications =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteBackupVaultNotificationsInput,
+    output: DeleteBackupVaultNotificationsResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Deletes the tiering configuration specified by a tiering configuration name.
+ */
+export const deleteTieringConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteTieringConfigurationInput,
+    output: DeleteTieringConfigurationOutput,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
+ */
+export const disassociateBackupVaultMpaApprovalTeam =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateBackupVaultMpaApprovalTeamInput,
+    output: DisassociateBackupVaultMpaApprovalTeamResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * This action to a specific child (nested) recovery point removes the relationship
+ * between the specified recovery point and its parent (composite) recovery point.
+ */
+export const disassociateRecoveryPointFromParent =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateRecoveryPointFromParentInput,
+    output: DisassociateRecoveryPointFromParentResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Sets a resource-based policy that is used to manage access permissions on the target
+ * backup vault. Requires a backup vault name and an access policy document in JSON
+ * format.
+ */
+export const putBackupVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutBackupVaultAccessPolicyInput,
+    output: PutBackupVaultAccessPolicyResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Applies Backup Vault Lock to a backup vault, preventing attempts to delete
+ * any recovery point stored in or created in a backup vault. Vault Lock also prevents
+ * attempts to update the lifecycle policy that controls the retention period of any recovery
+ * point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and
+ * maximum retention period for future backup and copy jobs that target a backup vault.
+ *
+ * Backup Vault Lock has been assessed by Cohasset Associates for use in environments
+ * that are subject to SEC 17a-4, CFTC, and FINRA regulations. For more information about
+ * how Backup Vault Lock relates to these regulations, see the
+ * Cohasset Associates
+ * Compliance Assessment.
+ *
+ * For more information, see Backup Vault Lock.
+ */
+export const putBackupVaultLockConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutBackupVaultLockConfigurationInput,
+    output: PutBackupVaultLockConfigurationResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Turns on notifications on a backup vault for the specified topic and events.
+ */
+export const putBackupVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutBackupVaultNotificationsInput,
+    output: PutBackupVaultNotificationsResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * This request allows you to send your independent self-run
+ * restore test validation results.
+ * `RestoreJobId` and `ValidationStatus`
+ * are required. Optionally, you can input a
+ * `ValidationStatusMessage`.
+ */
+export const putRestoreValidationResult = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutRestoreValidationResultInput,
+    output: PutRestoreValidationResultResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault.
+ */
+export const revokeRestoreAccessBackupVault =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RevokeRestoreAccessBackupVaultInput,
+    output: RevokeRestoreAccessBackupVaultResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Attempts to cancel a job to create a one-time backup of a resource.
+ *
+ * This action is not supported for the following services:
+ *
+ * - Amazon Aurora
+ *
+ * - Amazon DocumentDB (with MongoDB compatibility)
+ *
+ * - Amazon FSx for Lustre
+ *
+ * - Amazon FSx for NetApp ONTAP
+ *
+ * - Amazon FSx for OpenZFS
+ *
+ * - Amazon FSx for Windows File Server
+ *
+ * - Amazon Neptune
+ *
+ * - SAP HANA databases on Amazon EC2 instances
+ *
+ * - Amazon RDS
+ */
+export const stopBackupJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopBackupJobInput,
+  output: StopBackupJobResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Removes a set of key-value pairs from a recovery point, backup plan, or backup vault
+ * identified by an Amazon Resource Name (ARN)
+ *
+ * This API is not supported for recovery points for resource types
+ * including Aurora, Amazon DocumentDB. Amazon EBS,
+ * Amazon FSx, Neptune, and Amazon RDS.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Updates whether the Amazon Web Services account is opted in to cross-account backup.
+ * Returns an error if the account is not an Organizations management account. Use the
+ * `DescribeGlobalSettings` API to determine the current settings.
+ */
+export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateGlobalSettingsInput,
+    output: UpdateGlobalSettingsResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Updates the current service opt-in settings for the Region.
+ *
+ * Use
+ * the `DescribeRegionSettings` API to determine the resource types that are
+ * supported.
+ */
+export const updateRegionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRegionSettingsInput,
+    output: UpdateRegionSettingsResponse,
+    errors: [
+      InvalidParameterValueException,
+      MissingParameterValueException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Deletes the report plan specified by a report plan name.
+ */
+export const deleteReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReportPlanInput,
+  output: DeleteReportPlanResponse,
+  errors: [
+    ConflictException,
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Associates an MPA approval team with a backup vault.
+ */
+export const associateBackupVaultMpaApprovalTeam =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateBackupVaultMpaApprovalTeamInput,
+    output: AssociateBackupVaultMpaApprovalTeamResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Deletes a backup plan. A backup plan can only be deleted after all associated selections
+ * of resources have been deleted. Deleting a backup plan deletes the current version of a
+ * backup plan. Previous versions, if any, will still exist.
+ */
+export const deleteBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBackupPlanInput,
+  output: DeleteBackupPlanOutput,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Starts a job to create a one-time copy of the specified resource.
+ *
+ * Does not support continuous backups.
+ *
+ * See Copy
+ * job retry for information on how Backup retries copy job
+ * operations.
+ */
+export const startCopyJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCopyJobInput,
+  output: StartCopyJobOutput,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Starts scanning jobs for specific resources.
+ */
+export const startScanJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartScanJobInput,
+  output: StartScanJobOutput,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Assigns a set of key-value pairs to a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceResponse,
+  errors: [
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates a logical container where backups are stored. A `CreateBackupVault`
+ * request includes a name, optionally one or more resource tags, an encryption key, and a
+ * request ID.
+ *
+ * Do not include sensitive data, such as passport numbers, in the name of a backup
+ * vault.
+ */
+export const createBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBackupVaultInput,
+  output: CreateBackupVaultOutput,
+  errors: [
+    AlreadyExistsException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates a report plan. A report plan is a document that contains information about the
+ * contents of the report and where Backup will deliver it.
+ *
+ * If you call `CreateReportPlan` with a plan that already exists, you receive
+ * an `AlreadyExistsException` exception.
+ */
+export const createReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReportPlanInput,
+  output: CreateReportPlanOutput,
+  errors: [
+    AlreadyExistsException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes the recovery point specified by a recovery point ID.
+ *
+ * If the recovery point ID belongs to a continuous backup, calling this endpoint deletes
+ * the existing continuous backup and stops future continuous backup.
+ *
+ * When an IAM role's permissions are insufficient to call this API, the service sends back
+ * an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted.
+ * Instead, it enters an `EXPIRED` state.
+ *
+ * `EXPIRED` recovery points can be deleted with this API once the IAM role
+ * has the `iam:CreateServiceLinkedRole` action. To learn more about adding this role, see
+ *
+ * Troubleshooting manual deletions.
+ *
+ * If the user or role is deleted or the permission within the role is removed,
+ * the deletion will not be successful and will enter an `EXPIRED` state.
+ */
+export const deleteRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRecoveryPointInput,
+  output: DeleteRecoveryPointResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    InvalidResourceStateException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes the specified continuous backup recovery point from Backup and
+ * releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the
+ * lifecycle that you specified in your original backup plan.
+ *
+ * Does not support snapshot backup recovery points.
+ */
+export const disassociateRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateRecoveryPointInput,
+    output: DisassociateRecoveryPointResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRequestException,
+      InvalidResourceStateException,
+      MissingParameterValueException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
  * Creates a framework with one or more controls. A framework is a collection of controls
  * that you can use to evaluate your backup practices. By using pre-built customizable
  * controls to define your policies, you can evaluate whether your backup practices comply
@@ -5472,6 +5510,20 @@ export const listRestoreAccessBackupVaults =
       ServiceUnavailableException,
     ],
   }));
+/**
+ * Returns metadata associated with a restore job that is specified by a job ID.
+ */
+export const describeRestoreJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRestoreJobInput,
+  output: DescribeRestoreJobOutput,
+  errors: [
+    DependencyFailureException,
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Creates a backup plan using a backup plan name and backup rules. A backup plan is a
  * document that contains information that Backup uses to schedule tasks that

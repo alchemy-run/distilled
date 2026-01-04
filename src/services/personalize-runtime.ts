@@ -353,11 +353,11 @@ export class GetPersonalizedRankingResponse extends S.Class<GetPersonalizedRanki
 //# Errors
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations

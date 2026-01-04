@@ -2125,7 +2125,6 @@ export class Session extends S.Class<Session>("Session")({
   streamUrl: S.optional(S.String),
   tokenValue: S.optional(S.String),
 }) {}
-export const ResourceIds = S.Array(S.String);
 export class UpdateManagedInstancesProviderConfiguration extends S.Class<UpdateManagedInstancesProviderConfiguration>(
   "UpdateManagedInstancesProviderConfiguration",
 )({
@@ -2304,6 +2303,7 @@ export class ServiceDeploymentBrief extends S.Class<ServiceDeploymentBrief>(
   statusReason: S.optional(S.String),
 }) {}
 export const ServiceDeploymentsBrief = S.Array(ServiceDeploymentBrief);
+export const ResourceIds = S.Array(S.String);
 export class ServiceRevisionLoadBalancer extends S.Class<ServiceRevisionLoadBalancer>(
   "ServiceRevisionLoadBalancer",
 )({
@@ -2662,82 +2662,74 @@ export class CreateServiceResponse extends S.Class<CreateServiceResponse>(
 //# Errors
 export class ClientException extends S.TaggedError<ClientException>()(
   "ClientException",
-  {},
-) {}
-export class ClusterNotFoundException extends S.TaggedError<ClusterNotFoundException>()(
-  "ClusterNotFoundException",
-  {},
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
-export class ServerException extends S.TaggedError<ServerException>()(
-  "ServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class NamespaceNotFoundException extends S.TaggedError<NamespaceNotFoundException>()(
-  "NamespaceNotFoundException",
-  {},
-) {}
-export class ServiceNotActiveException extends S.TaggedError<ServiceNotActiveException>()(
-  "ServiceNotActiveException",
-  {},
-) {}
-export class ServiceNotFoundException extends S.TaggedError<ServiceNotFoundException>()(
-  "ServiceNotFoundException",
-  {},
-) {}
-export class UnsupportedFeatureException extends S.TaggedError<UnsupportedFeatureException>()(
-  "UnsupportedFeatureException",
-  {},
-) {}
-export class TaskSetNotFoundException extends S.TaggedError<TaskSetNotFoundException>()(
-  "TaskSetNotFoundException",
-  {},
-) {}
-export class PlatformTaskDefinitionIncompatibilityException extends S.TaggedError<PlatformTaskDefinitionIncompatibilityException>()(
-  "PlatformTaskDefinitionIncompatibilityException",
-  {},
+export class ClusterNotFoundException extends S.TaggedError<ClusterNotFoundException>()(
+  "ClusterNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class AttributeLimitExceededException extends S.TaggedError<AttributeLimitExceededException>()(
   "AttributeLimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class TargetNotFoundException extends S.TaggedError<TargetNotFoundException>()(
-  "TargetNotFoundException",
-  {},
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { message: S.optional(S.String) },
 ) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
+export class ServerException extends S.TaggedError<ServerException>()(
+  "ServerException",
   { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { resourceIds: S.optional(ResourceIds), message: S.optional(S.String) },
 ) {}
+export class NamespaceNotFoundException extends S.TaggedError<NamespaceNotFoundException>()(
+  "NamespaceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class TargetNotFoundException extends S.TaggedError<TargetNotFoundException>()(
+  "TargetNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceNotActiveException extends S.TaggedError<ServiceNotActiveException>()(
+  "ServiceNotActiveException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
 export class MissingVersionException extends S.TaggedError<MissingVersionException>()(
   "MissingVersionException",
   { message: S.optional(S.String) },
 ) {}
-export class PlatformUnknownException extends S.TaggedError<PlatformUnknownException>()(
-  "PlatformUnknownException",
-  {},
+export class UnsupportedFeatureException extends S.TaggedError<UnsupportedFeatureException>()(
+  "UnsupportedFeatureException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceNotFoundException extends S.TaggedError<ServiceNotFoundException>()(
+  "ServiceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { message: S.optional(S.String) },
 ) {}
 export class TargetNotConnectedException extends S.TaggedError<TargetNotConnectedException>()(
   "TargetNotConnectedException",
   { message: S.optional(S.String) },
 ) {}
-export class UpdateInProgressException extends S.TaggedError<UpdateInProgressException>()(
-  "UpdateInProgressException",
+export class PlatformTaskDefinitionIncompatibilityException extends S.TaggedError<PlatformTaskDefinitionIncompatibilityException>()(
+  "PlatformTaskDefinitionIncompatibilityException",
+  { message: S.optional(S.String) },
+) {}
+export class ClusterContainsCapacityProviderException extends S.TaggedError<ClusterContainsCapacityProviderException>()(
+  "ClusterContainsCapacityProviderException",
   { message: S.optional(S.String) },
 ) {}
 export class ServiceDeploymentNotFoundException extends S.TaggedError<ServiceDeploymentNotFoundException>()(
@@ -2748,8 +2740,16 @@ export class NoUpdateAvailableException extends S.TaggedError<NoUpdateAvailableE
   "NoUpdateAvailableException",
   { message: S.optional(S.String) },
 ) {}
-export class ClusterContainsCapacityProviderException extends S.TaggedError<ClusterContainsCapacityProviderException>()(
-  "ClusterContainsCapacityProviderException",
+export class UpdateInProgressException extends S.TaggedError<UpdateInProgressException>()(
+  "UpdateInProgressException",
+  { message: S.optional(S.String) },
+) {}
+export class TaskSetNotFoundException extends S.TaggedError<TaskSetNotFoundException>()(
+  "TaskSetNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class PlatformUnknownException extends S.TaggedError<PlatformUnknownException>()(
+  "PlatformUnknownException",
   { message: S.optional(S.String) },
 ) {}
 export class ClusterContainsContainerInstancesException extends S.TaggedError<ClusterContainsContainerInstancesException>()(
@@ -2775,6 +2775,19 @@ export class ClusterContainsTasksException extends S.TaggedError<ClusterContains
 
 //# Operations
 /**
+ * This action is only used by the Amazon ECS agent, and it is not intended for use
+ * outside of the agent.
+ *
+ * Returns an endpoint for the Amazon ECS agent to poll for updates.
+ */
+export const discoverPollEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DiscoverPollEndpointRequest,
+    output: DiscoverPollEndpointResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
  * Describes one or more of your clusters.
  *
  * For CLI
@@ -2784,35 +2797,6 @@ export const describeClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClustersRequest,
   output: DescribeClustersResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
-}));
-/**
- * Describes one or more container instances. Returns metadata about each container
- * instance requested.
- */
-export const describeContainerInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContainerInstancesRequest,
-    output: DescribeContainerInstancesResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Describes the specified services running in your cluster.
- */
-export const describeServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeServicesRequest,
-  output: DescribeServicesResponse,
-  errors: [
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-  ],
 }));
 /**
  * Describes a task definition. You can specify a `family` and
@@ -2831,19 +2815,6 @@ export const describeTaskDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * This action is only used by the Amazon ECS agent, and it is not intended for use
- * outside of the agent.
- *
- * Returns an endpoint for the Amazon ECS agent to poll for updates.
- */
-export const discoverPollEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DiscoverPollEndpointRequest,
-    output: DiscoverPollEndpointResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
-/**
  * Lists the account settings for a specified principal.
  */
 export const listAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2852,71 +2823,12 @@ export const listAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ClientException, InvalidParameterException, ServerException],
 }));
 /**
- * Lists the attributes for Amazon ECS resources within a specified target type and
- * cluster. When you specify a target type and cluster, `ListAttributes` returns
- * a list of attribute objects, one for each attribute on each resource. You can filter the
- * list of results to a single attribute name to only return results that have that name.
- * You can also filter the results by attribute name and value. You can do this, for
- * example, to see which container instances in a cluster are running a Linux AMI
- * (`ecs.os-type=linux`).
- */
-export const listAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAttributesRequest,
-  output: ListAttributesResponse,
-  errors: [ClusterNotFoundException, InvalidParameterException],
-}));
-/**
  * Returns a list of existing clusters.
  */
 export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListClustersRequest,
   output: ListClustersResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
-}));
-/**
- * Returns a list of container instances in a specified cluster. You can filter the
- * results of a `ListContainerInstances` operation with cluster query language
- * statements inside the `filter` parameter. For more information, see Cluster Query Language in the Amazon Elastic
- * Container Service Developer Guide.
- */
-export const listContainerInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListContainerInstancesRequest,
-    output: ListContainerInstancesResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Returns a list of services. You can filter the results by cluster, launch type, and
- * scheduling strategy.
- */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListServicesRequest,
-  output: ListServicesResponse,
-  errors: [
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-  ],
-}));
-/**
- * List the tags for an Amazon ECS resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-  ],
 }));
 /**
  * Returns a list of task definition families that are registered to your account. This
@@ -2971,64 +2883,118 @@ export const putAccountSettingDefault = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Stops a running task. Any tags associated with the task will be deleted.
- *
- * When you call `StopTask` on a task, the equivalent of docker
- * stop is issued to the containers running in the task. This results in a
- * stop signal value and a default 30-second timeout, after which the
- * `SIGKILL` value is sent and the containers are forcibly stopped. This
- * signal can be defined in your container image with the `STOPSIGNAL` instruction
- * and will default to `SIGTERM`. If the container handles the `SIGTERM`
- * value gracefully and exits within 30 seconds from receiving it, no `SIGKILL` value
- * is sent.
- *
- * For Windows containers, POSIX signals do not work and runtime stops the container by
- * sending a `CTRL_SHUTDOWN_EVENT`. For more information, see Unable to react to graceful shutdown
- * of (Windows) container #25982 on GitHub.
- *
- * The default 30-second timeout can be configured on the Amazon ECS container agent
- * with the `ECS_CONTAINER_STOP_TIMEOUT` variable. For more information, see
- * Amazon ECS Container Agent Configuration in the
- * *Amazon Elastic Container Service Developer Guide*.
+ * Disables an account setting for a specified user, role, or the root user for an
+ * account.
  */
-export const stopTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopTaskRequest,
-  output: StopTaskResponse,
-  errors: [
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-  ],
+export const deleteAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAccountSettingRequest,
+    output: DeleteAccountSettingResponse,
+    errors: [ClientException, InvalidParameterException, ServerException],
+  }),
+);
+/**
+ * Lists the attributes for Amazon ECS resources within a specified target type and
+ * cluster. When you specify a target type and cluster, `ListAttributes` returns
+ * a list of attribute objects, one for each attribute on each resource. You can filter the
+ * list of results to a single attribute name to only return results that have that name.
+ * You can also filter the results by attribute name and value. You can do this, for
+ * example, to see which container instances in a cluster are running a Linux AMI
+ * (`ecs.os-type=linux`).
+ */
+export const listAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAttributesRequest,
+  output: ListAttributesResponse,
+  errors: [ClusterNotFoundException, InvalidParameterException],
 }));
 /**
- * Deletes specified tags from a resource.
+ * This action is only used by the Amazon ECS agent, and it is not intended for use
+ * outside of the agent.
+ *
+ * Registers an EC2 instance into the specified cluster. This instance becomes available
+ * to place containers on.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
+export const registerContainerInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RegisterContainerInstanceRequest,
+    output: RegisterContainerInstanceResponse,
+    errors: [ClientException, InvalidParameterException, ServerException],
+  }),
+);
 /**
- * Updates the cluster.
+ * This action is only used by the Amazon ECS agent, and it is not intended for use
+ * outside of the agent.
+ *
+ * Sent to acknowledge that an attachment changed states.
  */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateClusterRequest,
-  output: UpdateClusterResponse,
-  errors: [
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    NamespaceNotFoundException,
-    ServerException,
-  ],
-}));
+export const submitAttachmentStateChanges =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SubmitAttachmentStateChangesRequest,
+    output: SubmitAttachmentStateChangesResponse,
+    errors: [
+      AccessDeniedException,
+      ClientException,
+      InvalidParameterException,
+      ServerException,
+    ],
+  }));
+/**
+ * This action is only used by the Amazon ECS agent, and it is not intended for use
+ * outside of the agent.
+ *
+ * Sent to acknowledge that a task changed states.
+ */
+export const submitTaskStateChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SubmitTaskStateChangeRequest,
+    output: SubmitTaskStateChangeResponse,
+    errors: [
+      AccessDeniedException,
+      ClientException,
+      InvalidParameterException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Deletes one or more task definitions.
+ *
+ * You must deregister a task definition revision before you delete it. For more
+ * information, see DeregisterTaskDefinition.
+ *
+ * When you delete a task definition revision, it is immediately transitions from the
+ * `INACTIVE` to `DELETE_IN_PROGRESS`. Existing tasks and
+ * services that reference a `DELETE_IN_PROGRESS` task definition revision
+ * continue to run without disruption. Existing services that reference a
+ * `DELETE_IN_PROGRESS` task definition revision can still scale up or down
+ * by modifying the service's desired count.
+ *
+ * You can't use a `DELETE_IN_PROGRESS` task definition revision to run new
+ * tasks or create new services. You also can't update an existing service to reference a
+ * `DELETE_IN_PROGRESS` task definition revision.
+ *
+ * A task definition revision will stay in `DELETE_IN_PROGRESS` status until
+ * all the associated tasks and services have been terminated.
+ *
+ * When you delete all `INACTIVE` task definition revisions, the task
+ * definition name is not displayed in the console and not returned in the API. If a task
+ * definition revisions are in the `DELETE_IN_PROGRESS` state, the task
+ * definition name is displayed in the console and returned in the API. The task definition
+ * name is retained by Amazon ECS and the revision is incremented the next time you create
+ * a task definition with that name.
+ */
+export const deleteTaskDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteTaskDefinitionsRequest,
+    output: DeleteTaskDefinitionsResponse,
+    errors: [
+      AccessDeniedException,
+      ClientException,
+      InvalidParameterException,
+      ServerException,
+    ],
+  }),
+);
 /**
  * Modifies the settings to use for a cluster.
  */
@@ -3108,6 +3074,442 @@ export const updateContainerInstancesState =
     ],
   }));
 /**
+ * Describes one or more container instances. Returns metadata about each container
+ * instance requested.
+ */
+export const describeContainerInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeContainerInstancesRequest,
+    output: DescribeContainerInstancesResponse,
+    errors: [
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Describes the specified services running in your cluster.
+ */
+export const describeServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeServicesRequest,
+  output: DescribeServicesResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
+/**
+ * Returns a list of container instances in a specified cluster. You can filter the
+ * results of a `ListContainerInstances` operation with cluster query language
+ * statements inside the `filter` parameter. For more information, see Cluster Query Language in the Amazon Elastic
+ * Container Service Developer Guide.
+ */
+export const listContainerInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListContainerInstancesRequest,
+    output: ListContainerInstancesResponse,
+    errors: [
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Returns a list of services. You can filter the results by cluster, launch type, and
+ * scheduling strategy.
+ */
+export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
+/**
+ * List the tags for an Amazon ECS resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
+/**
+ * Stops a running task. Any tags associated with the task will be deleted.
+ *
+ * When you call `StopTask` on a task, the equivalent of docker
+ * stop is issued to the containers running in the task. This results in a
+ * stop signal value and a default 30-second timeout, after which the
+ * `SIGKILL` value is sent and the containers are forcibly stopped. This
+ * signal can be defined in your container image with the `STOPSIGNAL` instruction
+ * and will default to `SIGTERM`. If the container handles the `SIGTERM`
+ * value gracefully and exits within 30 seconds from receiving it, no `SIGKILL` value
+ * is sent.
+ *
+ * For Windows containers, POSIX signals do not work and runtime stops the container by
+ * sending a `CTRL_SHUTDOWN_EVENT`. For more information, see Unable to react to graceful shutdown
+ * of (Windows) container #25982 on GitHub.
+ *
+ * The default 30-second timeout can be configured on the Amazon ECS container agent
+ * with the `ECS_CONTAINER_STOP_TIMEOUT` variable. For more information, see
+ * Amazon ECS Container Agent Configuration in the
+ * *Amazon Elastic Container Service Developer Guide*.
+ */
+export const stopTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopTaskRequest,
+  output: StopTaskResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
+/**
+ * This action is only used by the Amazon ECS agent, and it is not intended for use
+ * outside of the agent.
+ *
+ * Sent to acknowledge that a container changed states.
+ */
+export const submitContainerStateChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SubmitContainerStateChangeRequest,
+    output: SubmitContainerStateChangeResponse,
+    errors: [AccessDeniedException, ClientException, ServerException],
+  }),
+);
+/**
+ * Deregisters the specified task definition by family and revision. Upon deregistration,
+ * the task definition is marked as `INACTIVE`. Existing tasks and services that
+ * reference an `INACTIVE` task definition continue to run without disruption.
+ * Existing services that reference an `INACTIVE` task definition can still
+ * scale up or down by modifying the service's desired count. If you want to delete a task
+ * definition revision, you must first deregister the task definition revision.
+ *
+ * You can't use an `INACTIVE` task definition to run new tasks or create new
+ * services, and you can't update an existing service to reference an `INACTIVE`
+ * task definition. However, there may be up to a 10-minute window following deregistration
+ * where these restrictions have not yet taken effect.
+ *
+ * At this time, `INACTIVE` task definitions remain discoverable in your
+ * account indefinitely. However, this behavior is subject to change in the future. We
+ * don't recommend that you rely on `INACTIVE` task definitions persisting
+ * beyond the lifecycle of any associated tasks and services.
+ *
+ * You must deregister a task definition revision before you delete it. For more
+ * information, see DeleteTaskDefinitions.
+ */
+export const deregisterTaskDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeregisterTaskDefinitionRequest,
+    output: DeregisterTaskDefinitionResponse,
+    errors: [ClientException, InvalidParameterException, ServerException],
+  }),
+);
+/**
+ * This operation lists all of the services that are associated with a Cloud Map namespace.
+ * This list might include services in different clusters. In contrast,
+ * `ListServices` can only list services in one cluster at a time. If you
+ * need to filter the list of services in a single cluster by various parameters, use
+ * `ListServices`. For more information, see Service Connect
+ * in the *Amazon Elastic Container Service Developer Guide*.
+ */
+export const listServicesByNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListServicesByNamespaceRequest,
+    output: ListServicesByNamespaceResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      NamespaceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Create or update an attribute on an Amazon ECS resource. If the attribute doesn't
+ * exist, it's created. If the attribute exists, its value is replaced with the specified
+ * value. To delete an attribute, use DeleteAttributes. For more information, see Attributes in the Amazon Elastic Container
+ * Service Developer Guide.
+ */
+export const putAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAttributesRequest,
+  output: PutAttributesResponse,
+  errors: [
+    AttributeLimitExceededException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    TargetNotFoundException,
+  ],
+}));
+/**
+ * Describes one or more of your capacity providers.
+ */
+export const describeCapacityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCapacityProvidersRequest,
+    output: DescribeCapacityProvidersResponse,
+    errors: [
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      ServerException,
+      UnsupportedFeatureException,
+    ],
+  }),
+);
+/**
+ * Returns a list of tasks. You can filter the results by cluster, task definition
+ * family, container instance, launch type, what IAM principal started the task, or by the
+ * desired status of the task.
+ *
+ * Recently stopped tasks might appear in the returned results.
+ */
+export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTasksRequest,
+  output: ListTasksResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotFoundException,
+  ],
+}));
+/**
+ * Runs a command remotely on a container within a task.
+ *
+ * If you use a condition key in your IAM policy to refine the conditions for the policy
+ * statement, for example limit the actions to a specific cluster, you receive an
+ * `AccessDeniedException` when there is a mismatch between the condition
+ * key value and the corresponding parameter value.
+ *
+ * For information about required permissions and considerations, see Using
+ * Amazon ECS Exec for debugging in the Amazon ECS Developer
+ * Guide.
+ */
+export const executeCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteCommandRequest,
+  output: ExecuteCommandResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    TargetNotConnectedException,
+  ],
+}));
+/**
+ * Updates the cluster.
+ */
+export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterRequest,
+  output: UpdateClusterResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    NamespaceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Deletes one or more custom attributes from an Amazon ECS resource.
+ */
+export const deleteAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAttributesRequest,
+  output: DeleteAttributesResponse,
+  errors: [
+    ClusterNotFoundException,
+    InvalidParameterException,
+    TargetNotFoundException,
+  ],
+}));
+/**
+ * Describes the task sets in the specified cluster and service. This is used when a
+ * service uses the `EXTERNAL` deployment controller type. For more information,
+ * see Amazon ECS Deployment
+ * Types in the Amazon Elastic Container Service Developer
+ * Guide.
+ */
+export const describeTaskSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTaskSetsRequest,
+  output: DescribeTaskSetsResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotActiveException,
+    ServiceNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
+/**
+ * Associates the specified tags to a resource with the specified
+ * `resourceArn`. If existing tags on a resource aren't specified in the
+ * request parameters, they aren't changed. When a resource is deleted, the tags that are
+ * associated with that resource are deleted as well.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Deletes specified tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Retrieves detailed information about an Express service, including current status,
+ * configuration, managed infrastructure, and service revisions.
+ *
+ * Returns comprehensive service details, active service revisions, ingress paths with
+ * endpoints, and managed Amazon Web Services resource status including load balancers and auto-scaling
+ * policies.
+ *
+ * Use the `include` parameter to retrieve additional information such as
+ * resource tags.
+ */
+export const describeExpressGatewayService =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeExpressGatewayServiceRequest,
+    output: DescribeExpressGatewayServiceResponse,
+    errors: [
+      AccessDeniedException,
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ServerException,
+      UnsupportedFeatureException,
+    ],
+  }));
+/**
+ * Retrieves the protection status of tasks in an Amazon ECS service.
+ */
+export const getTaskProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTaskProtectionRequest,
+  output: GetTaskProtectionResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    UnsupportedFeatureException,
+  ],
+}));
+/**
+ * Starts a new task from the specified task definition on the specified container
+ * instance or instances.
+ *
+ * On March 21, 2024, a change was made to resolve the task definition revision
+ * before authorization. When a task definition revision is not specified,
+ * authorization will occur using the latest revision of a task definition.
+ *
+ * Amazon Elastic Inference (EI) is no longer available to customers.
+ *
+ * Alternatively, you can use`RunTask` to place tasks for you. For more
+ * information, see Scheduling Tasks in the Amazon Elastic
+ * Container Service Developer Guide.
+ *
+ * You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when
+ * creating or updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic
+ * Container Service Developer Guide.
+ */
+export const startTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTaskRequest,
+  output: StartTaskResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    UnsupportedFeatureException,
+  ],
+}));
+/**
+ * Deletes the specified capacity provider.
+ *
+ * The `FARGATE` and `FARGATE_SPOT` capacity providers are
+ * reserved and can't be deleted. You can disassociate them from a cluster using either
+ * PutClusterCapacityProviders or by deleting the cluster.
+ *
+ * Prior to a capacity provider being deleted, the capacity provider must be removed from
+ * the capacity provider strategy from all services. The UpdateService API
+ * can be used to remove a capacity provider from a service's capacity provider strategy.
+ * When updating a service, the `forceNewDeployment` option can be used to
+ * ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity
+ * provider are transitioned to use the capacity from the remaining capacity providers.
+ * Only capacity providers that aren't associated with a cluster can be deleted. To remove
+ * a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
+ */
+export const deleteCapacityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCapacityProviderRequest,
+    output: DeleteCapacityProviderResponse,
+    errors: [
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      ServerException,
+      UnsupportedFeatureException,
+    ],
+  }),
+);
+/**
+ * Modifies the parameters for a capacity provider.
+ *
+ * These changes only apply to new Amazon ECS Managed Instances, or EC2 instances, not
+ * existing ones.
+ */
+export const updateCapacityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateCapacityProviderRequest,
+    output: UpdateCapacityProviderResponse,
+    errors: [
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      ServerException,
+      UnsupportedFeatureException,
+    ],
+  }),
+);
+/**
  * Updates the protection status of a task. You can set `protectionEnabled` to
  * `true` to protect your task from termination during scale-in events from
  * Service
@@ -3154,656 +3556,6 @@ export const updateTaskProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Modifies a task set. This is used when a service uses the `EXTERNAL`
- * deployment controller type. For more information, see Amazon ECS Deployment
- * Types in the Amazon Elastic Container Service Developer
- * Guide.
- */
-export const updateTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTaskSetRequest,
-  output: UpdateTaskSetResponse,
-  errors: [
-    AccessDeniedException,
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-    ServiceNotActiveException,
-    ServiceNotFoundException,
-    TaskSetNotFoundException,
-    UnsupportedFeatureException,
-  ],
-}));
-/**
- * Disables an account setting for a specified user, role, or the root user for an
- * account.
- */
-export const deleteAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountSettingRequest,
-    output: DeleteAccountSettingResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-  }),
-);
-/**
- * Deletes one or more task definitions.
- *
- * You must deregister a task definition revision before you delete it. For more
- * information, see DeregisterTaskDefinition.
- *
- * When you delete a task definition revision, it is immediately transitions from the
- * `INACTIVE` to `DELETE_IN_PROGRESS`. Existing tasks and
- * services that reference a `DELETE_IN_PROGRESS` task definition revision
- * continue to run without disruption. Existing services that reference a
- * `DELETE_IN_PROGRESS` task definition revision can still scale up or down
- * by modifying the service's desired count.
- *
- * You can't use a `DELETE_IN_PROGRESS` task definition revision to run new
- * tasks or create new services. You also can't update an existing service to reference a
- * `DELETE_IN_PROGRESS` task definition revision.
- *
- * A task definition revision will stay in `DELETE_IN_PROGRESS` status until
- * all the associated tasks and services have been terminated.
- *
- * When you delete all `INACTIVE` task definition revisions, the task
- * definition name is not displayed in the console and not returned in the API. If a task
- * definition revisions are in the `DELETE_IN_PROGRESS` state, the task
- * definition name is displayed in the console and returned in the API. The task definition
- * name is retained by Amazon ECS and the revision is incremented the next time you create
- * a task definition with that name.
- */
-export const deleteTaskDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTaskDefinitionsRequest,
-    output: DeleteTaskDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Deregisters the specified task definition by family and revision. Upon deregistration,
- * the task definition is marked as `INACTIVE`. Existing tasks and services that
- * reference an `INACTIVE` task definition continue to run without disruption.
- * Existing services that reference an `INACTIVE` task definition can still
- * scale up or down by modifying the service's desired count. If you want to delete a task
- * definition revision, you must first deregister the task definition revision.
- *
- * You can't use an `INACTIVE` task definition to run new tasks or create new
- * services, and you can't update an existing service to reference an `INACTIVE`
- * task definition. However, there may be up to a 10-minute window following deregistration
- * where these restrictions have not yet taken effect.
- *
- * At this time, `INACTIVE` task definitions remain discoverable in your
- * account indefinitely. However, this behavior is subject to change in the future. We
- * don't recommend that you rely on `INACTIVE` task definitions persisting
- * beyond the lifecycle of any associated tasks and services.
- *
- * You must deregister a task definition revision before you delete it. For more
- * information, see DeleteTaskDefinitions.
- */
-export const deregisterTaskDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterTaskDefinitionRequest,
-    output: DeregisterTaskDefinitionResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-  }),
-);
-/**
- * Describes one or more of your capacity providers.
- */
-export const describeCapacityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCapacityProvidersRequest,
-    output: DescribeCapacityProvidersResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
-/**
- * Retrieves detailed information about an Express service, including current status,
- * configuration, managed infrastructure, and service revisions.
- *
- * Returns comprehensive service details, active service revisions, ingress paths with
- * endpoints, and managed Amazon Web Services resource status including load balancers and auto-scaling
- * policies.
- *
- * Use the `include` parameter to retrieve additional information such as
- * resource tags.
- */
-export const describeExpressGatewayService =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeExpressGatewayServiceRequest,
-    output: DescribeExpressGatewayServiceResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }));
-/**
- * Describes the task sets in the specified cluster and service. This is used when a
- * service uses the `EXTERNAL` deployment controller type. For more information,
- * see Amazon ECS Deployment
- * Types in the Amazon Elastic Container Service Developer
- * Guide.
- */
-export const describeTaskSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTaskSetsRequest,
-  output: DescribeTaskSetsResponse,
-  errors: [
-    AccessDeniedException,
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-    ServiceNotActiveException,
-    ServiceNotFoundException,
-    UnsupportedFeatureException,
-  ],
-}));
-/**
- * Retrieves the protection status of tasks in an Amazon ECS service.
- */
-export const getTaskProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTaskProtectionRequest,
-  output: GetTaskProtectionResponse,
-  errors: [
-    AccessDeniedException,
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-    UnsupportedFeatureException,
-  ],
-}));
-/**
- * This operation lists all of the services that are associated with a Cloud Map namespace.
- * This list might include services in different clusters. In contrast,
- * `ListServices` can only list services in one cluster at a time. If you
- * need to filter the list of services in a single cluster by various parameters, use
- * `ListServices`. For more information, see Service Connect
- * in the *Amazon Elastic Container Service Developer Guide*.
- */
-export const listServicesByNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListServicesByNamespaceRequest,
-    output: ListServicesByNamespaceResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      NamespaceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Returns a list of tasks. You can filter the results by cluster, task definition
- * family, container instance, launch type, what IAM principal started the task, or by the
- * desired status of the task.
- *
- * Recently stopped tasks might appear in the returned results.
- */
-export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTasksRequest,
-  output: ListTasksResponse,
-  errors: [
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-    ServiceNotFoundException,
-  ],
-}));
-/**
- * Create or update an attribute on an Amazon ECS resource. If the attribute doesn't
- * exist, it's created. If the attribute exists, its value is replaced with the specified
- * value. To delete an attribute, use DeleteAttributes. For more information, see Attributes in the Amazon Elastic Container
- * Service Developer Guide.
- */
-export const putAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutAttributesRequest,
-  output: PutAttributesResponse,
-  errors: [
-    AttributeLimitExceededException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    TargetNotFoundException,
-  ],
-}));
-/**
- * This action is only used by the Amazon ECS agent, and it is not intended for use
- * outside of the agent.
- *
- * Registers an EC2 instance into the specified cluster. This instance becomes available
- * to place containers on.
- */
-export const registerContainerInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterContainerInstanceRequest,
-    output: RegisterContainerInstanceResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-  }),
-);
-/**
- * Starts a new task from the specified task definition on the specified container
- * instance or instances.
- *
- * On March 21, 2024, a change was made to resolve the task definition revision
- * before authorization. When a task definition revision is not specified,
- * authorization will occur using the latest revision of a task definition.
- *
- * Amazon Elastic Inference (EI) is no longer available to customers.
- *
- * Alternatively, you can use`RunTask` to place tasks for you. For more
- * information, see Scheduling Tasks in the Amazon Elastic
- * Container Service Developer Guide.
- *
- * You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when
- * creating or updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic
- * Container Service Developer Guide.
- */
-export const startTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartTaskRequest,
-  output: StartTaskResponse,
-  errors: [
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-    UnsupportedFeatureException,
-  ],
-}));
-/**
- * This action is only used by the Amazon ECS agent, and it is not intended for use
- * outside of the agent.
- *
- * Sent to acknowledge that an attachment changed states.
- */
-export const submitAttachmentStateChanges =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SubmitAttachmentStateChangesRequest,
-    output: SubmitAttachmentStateChangesResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }));
-/**
- * This action is only used by the Amazon ECS agent, and it is not intended for use
- * outside of the agent.
- *
- * Sent to acknowledge that a container changed states.
- */
-export const submitContainerStateChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SubmitContainerStateChangeRequest,
-    output: SubmitContainerStateChangeResponse,
-    errors: [AccessDeniedException, ClientException, ServerException],
-  }),
-);
-/**
- * This action is only used by the Amazon ECS agent, and it is not intended for use
- * outside of the agent.
- *
- * Sent to acknowledge that a task changed states.
- */
-export const submitTaskStateChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SubmitTaskStateChangeRequest,
-    output: SubmitTaskStateChangeResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Associates the specified tags to a resource with the specified
- * `resourceArn`. If existing tags on a resource aren't specified in the
- * request parameters, they aren't changed. When a resource is deleted, the tags that are
- * associated with that resource are deleted as well.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Updates an existing Express service configuration. Modifies container settings, resource
- * allocation, auto-scaling configuration, and other service parameters without recreating the
- * service.
- *
- * Amazon ECS creates a new service revision with updated configuration and performs a rolling
- * deployment to replace existing tasks. The service remains available during updates,
- * ensuring zero-downtime deployments.
- *
- * Some parameters like the infrastructure role cannot be modified after service creation
- * and require creating a new service.
- */
-export const updateExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateExpressGatewayServiceRequest,
-    output: UpdateExpressGatewayServiceResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      ServiceNotActiveException,
-      ServiceNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
-/**
- * Modifies the parameters of a service.
- *
- * On March 21, 2024, a change was made to resolve the task definition revision
- * before authorization. When a task definition revision is not specified,
- * authorization will occur using the latest revision of a task definition.
- *
- * For services using the rolling update (`ECS`) you can update the desired
- * count, deployment configuration, network configuration, load balancers, service
- * registries, enable ECS managed tags option, propagate tags option, task placement
- * constraints and strategies, and task definition. When you update any of these
- * parameters, Amazon ECS starts new tasks with the new configuration.
- *
- * You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when
- * starting or running a task, or when creating or updating a service. For more
- * information, see Amazon EBS volumes in the Amazon Elastic
- * Container Service Developer Guide. You can update your volume
- * configurations and trigger a new deployment. `volumeConfigurations` is only
- * supported for REPLICA service and not DAEMON service. If you leave
- * `volumeConfigurations`
- * `null`, it doesn't trigger a new deployment. For more information on volumes,
- * see Amazon EBS volumes in the Amazon Elastic
- * Container Service Developer Guide.
- *
- * For services using the blue/green (`CODE_DEPLOY`) deployment controller,
- * only the desired count, deployment configuration, health check grace period, task
- * placement constraints and strategies, enable ECS managed tags option, and propagate tags
- * can be updated using this API. If the network configuration, platform version, task
- * definition, or load balancer need to be updated, create a new CodeDeploy deployment. For
- * more information, see CreateDeployment in the CodeDeploy API
- * Reference.
- *
- * For services using an external deployment controller, you can update only the desired
- * count, task placement constraints and strategies, health check grace period, enable ECS
- * managed tags option, and propagate tags option, using this API. If the launch type, load
- * balancer, network configuration, platform version, or task definition need to be
- * updated, create a new task set For more information, see CreateTaskSet.
- *
- * You can add to or subtract from the number of instantiations of a task definition in a
- * service by specifying the cluster that the service is running in and a new
- * `desiredCount` parameter.
- *
- * You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when
- * starting or running a task, or when creating or updating a service. For more
- * information, see Amazon EBS volumes in the Amazon Elastic
- * Container Service Developer Guide.
- *
- * If you have updated the container image of your application, you can create a new task
- * definition with that image and deploy it to your service. The service scheduler uses the
- * minimum healthy percent and maximum percent parameters (in the service's deployment
- * configuration) to determine the deployment strategy.
- *
- * If your updated Docker image uses the same tag as what is in the existing task
- * definition for your service (for example, `my_image:latest`), you don't
- * need to create a new revision of your task definition. You can update the service
- * using the `forceNewDeployment` option. The new tasks launched by the
- * deployment pull the current image/tag combination from your repository when they
- * start.
- *
- * You can also update the deployment configuration of a service. When a deployment is
- * triggered by updating the task definition of a service, the service scheduler uses the
- * deployment configuration parameters, `minimumHealthyPercent` and
- * `maximumPercent`, to determine the deployment strategy.
- *
- * - If `minimumHealthyPercent` is below 100%, the scheduler can ignore
- * `desiredCount` temporarily during a deployment. For example, if
- * `desiredCount` is four tasks, a minimum of 50% allows the
- * scheduler to stop two existing tasks before starting two new tasks. Tasks for
- * services that don't use a load balancer are considered healthy if they're in the
- * `RUNNING` state. Tasks for services that use a load balancer are
- * considered healthy if they're in the `RUNNING` state and are reported
- * as healthy by the load balancer.
- *
- * - The `maximumPercent` parameter represents an upper limit on the
- * number of running tasks during a deployment. You can use it to define the
- * deployment batch size. For example, if `desiredCount` is four tasks,
- * a maximum of 200% starts four new tasks before stopping the four older tasks
- * (provided that the cluster resources required to do this are available).
- *
- * When UpdateService
- * stops a task during a deployment, the equivalent of `docker stop` is issued
- * to the containers running in the task. This results in a `SIGTERM` and a
- * 30-second timeout. After this, `SIGKILL` is sent and the containers are
- * forcibly stopped. If the container handles the `SIGTERM` gracefully and exits
- * within 30 seconds from receiving it, no `SIGKILL` is sent.
- *
- * When the service scheduler launches new tasks, it determines task placement in your
- * cluster with the following logic.
- *
- * - Determine which of the container instances in your cluster can support your
- * service's task definition. For example, they have the required CPU, memory,
- * ports, and container instance attributes.
- *
- * - By default, the service scheduler attempts to balance tasks across
- * Availability Zones in this manner even though you can choose a different
- * placement strategy.
- *
- * - Sort the valid container instances by the fewest number of running
- * tasks for this service in the same Availability Zone as the instance.
- * For example, if zone A has one running service task and zones B and C
- * each have zero, valid container instances in either zone B or C are
- * considered optimal for placement.
- *
- * - Place the new service task on a valid container instance in an optimal
- * Availability Zone (based on the previous steps), favoring container
- * instances with the fewest number of running tasks for this
- * service.
- *
- * When the service scheduler stops running tasks, it attempts to maintain balance across
- * the Availability Zones in your cluster using the following logic:
- *
- * - Sort the container instances by the largest number of running tasks for this
- * service in the same Availability Zone as the instance. For example, if zone A
- * has one running service task and zones B and C each have two, container
- * instances in either zone B or C are considered optimal for termination.
- *
- * - Stop the task on a container instance in an optimal Availability Zone (based
- * on the previous steps), favoring container instances with the largest number of
- * running tasks for this service.
- */
-export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateServiceRequest,
-  output: UpdateServiceResponse,
-  errors: [
-    AccessDeniedException,
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    NamespaceNotFoundException,
-    PlatformTaskDefinitionIncompatibilityException,
-    PlatformUnknownException,
-    ServerException,
-    ServiceNotActiveException,
-    ServiceNotFoundException,
-    UnsupportedFeatureException,
-  ],
-}));
-/**
- * Modifies which task set in a service is the primary task set. Any parameters that are
- * updated on the primary task set in a service will transition to the service. This is
- * used when a service uses the `EXTERNAL` deployment controller type. For more
- * information, see Amazon ECS Deployment
- * Types in the Amazon Elastic Container Service Developer
- * Guide.
- */
-export const updateServicePrimaryTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServicePrimaryTaskSetRequest,
-    output: UpdateServicePrimaryTaskSetResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      ServiceNotActiveException,
-      ServiceNotFoundException,
-      TaskSetNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
-/**
- * Creates an Express service that simplifies deploying containerized web applications on
- * Amazon ECS with managed Amazon Web Services infrastructure. This operation provisions and configures
- * Application Load Balancers, target groups, security groups, and auto-scaling policies
- * automatically.
- *
- * Specify a primary container configuration with your application image and basic
- * settings. Amazon ECS creates the necessary Amazon Web Services resources for traffic distribution, health
- * monitoring, network access control, and capacity management.
- *
- * Provide an execution role for task operations and an infrastructure role for managing
- * Amazon Web Services resources on your behalf.
- */
-export const createExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateExpressGatewayServiceRequest,
-    output: CreateExpressGatewayServiceResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      PlatformTaskDefinitionIncompatibilityException,
-      PlatformUnknownException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
-/**
- * Create a task set in the specified cluster and service. This is used when a service
- * uses the `EXTERNAL` deployment controller type. For more information, see
- * Amazon ECS deployment
- * types in the Amazon Elastic Container Service Developer
- * Guide.
- *
- * On March 21, 2024, a change was made to resolve the task definition revision
- * before authorization. When a task definition revision is not specified,
- * authorization will occur using the latest revision of a task definition.
- *
- * For information about the maximum number of task sets and other quotas, see Amazon ECS service quotas in the Amazon Elastic Container Service
- * Developer Guide.
- */
-export const createTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTaskSetRequest,
-  output: CreateTaskSetResponse,
-  errors: [
-    AccessDeniedException,
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    NamespaceNotFoundException,
-    PlatformTaskDefinitionIncompatibilityException,
-    PlatformUnknownException,
-    ServerException,
-    ServiceNotActiveException,
-    ServiceNotFoundException,
-    UnsupportedFeatureException,
-  ],
-}));
-/**
- * Deletes one or more custom attributes from an Amazon ECS resource.
- */
-export const deleteAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAttributesRequest,
-  output: DeleteAttributesResponse,
-  errors: [
-    ClusterNotFoundException,
-    InvalidParameterException,
-    TargetNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified capacity provider.
- *
- * The `FARGATE` and `FARGATE_SPOT` capacity providers are
- * reserved and can't be deleted. You can disassociate them from a cluster using either
- * PutClusterCapacityProviders or by deleting the cluster.
- *
- * Prior to a capacity provider being deleted, the capacity provider must be removed from
- * the capacity provider strategy from all services. The UpdateService API
- * can be used to remove a capacity provider from a service's capacity provider strategy.
- * When updating a service, the `forceNewDeployment` option can be used to
- * ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity
- * provider are transitioned to use the capacity from the remaining capacity providers.
- * Only capacity providers that aren't associated with a cluster can be deleted. To remove
- * a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
- */
-export const deleteCapacityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCapacityProviderRequest,
-    output: DeleteCapacityProviderResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
-/**
- * Deletes a specified task set within a service. This is used when a service uses the
- * `EXTERNAL` deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Container
- * Service Developer Guide.
- */
-export const deleteTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTaskSetRequest,
-  output: DeleteTaskSetResponse,
-  errors: [
-    AccessDeniedException,
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-    ServiceNotActiveException,
-    ServiceNotFoundException,
-    TaskSetNotFoundException,
-    UnsupportedFeatureException,
-  ],
-}));
-/**
  * Describes one or more of your service deployments.
  *
  * A service deployment happens when you release a software update for the service. For
@@ -3825,30 +3577,6 @@ export const describeServiceDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Runs a command remotely on a container within a task.
- *
- * If you use a condition key in your IAM policy to refine the conditions for the policy
- * statement, for example limit the actions to a specific cluster, you receive an
- * `AccessDeniedException` when there is a mismatch between the condition
- * key value and the corresponding parameter value.
- *
- * For information about required permissions and considerations, see Using
- * Amazon ECS Exec for debugging in the Amazon ECS Developer
- * Guide.
- */
-export const executeCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExecuteCommandRequest,
-  output: ExecuteCommandResponse,
-  errors: [
-    AccessDeniedException,
-    ClientException,
-    ClusterNotFoundException,
-    InvalidParameterException,
-    ServerException,
-    TargetNotConnectedException,
-  ],
-}));
 /**
  * This operation lists all the service deployments that meet the specified filter
  * criteria.
@@ -3874,125 +3602,30 @@ export const listServiceDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Modifies the available capacity providers and the default capacity provider strategy
- * for a cluster.
+ * Updates an existing Express service configuration. Modifies container settings, resource
+ * allocation, auto-scaling configuration, and other service parameters without recreating the
+ * service.
  *
- * You must specify both the available capacity providers and a default capacity provider
- * strategy for the cluster. If the specified cluster has existing capacity providers
- * associated with it, you must specify all existing capacity providers in addition to any
- * new ones you want to add. Any existing capacity providers that are associated with a
- * cluster that are omitted from a PutClusterCapacityProviders API call will be disassociated with the
- * cluster. You can only disassociate an existing capacity provider from a cluster if it's
- * not being used by any existing tasks.
+ * Amazon ECS creates a new service revision with updated configuration and performs a rolling
+ * deployment to replace existing tasks. The service remains available during updates,
+ * ensuring zero-downtime deployments.
  *
- * When creating a service or running a task on a cluster, if no capacity provider or
- * launch type is specified, then the cluster's default capacity provider strategy is used.
- * We recommend that you define a default capacity provider strategy for your cluster.
- * However, you must specify an empty array (`[]`) to bypass defining a default
- * strategy.
- *
- * Amazon ECS Managed Instances doesn't support this, because when you create a capacity
- * provider with Amazon ECS Managed Instances, it becomes available only within the
- * specified cluster.
+ * Some parameters like the infrastructure role cannot be modified after service creation
+ * and require creating a new service.
  */
-export const putClusterCapacityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: PutClusterCapacityProvidersRequest,
-    output: PutClusterCapacityProvidersResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ResourceInUseException,
-      ServerException,
-      UpdateInProgressException,
-    ],
-  }),
-);
-/**
- * Stops an ongoing service deployment.
- *
- * The following stop types are avaiable:
- *
- * - ROLLBACK - This option rolls back the service deployment to the previous
- * service revision.
- *
- * You can use this option even if you didn't configure the service deployment
- * for the rollback option.
- *
- * For more information, see Stopping Amazon
- * ECS service deployments in the Amazon Elastic Container Service
- * Developer Guide.
- */
-export const stopServiceDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopServiceDeploymentRequest,
-    output: StopServiceDeploymentResponse,
+    input: UpdateExpressGatewayServiceRequest,
+    output: UpdateExpressGatewayServiceResponse,
     errors: [
       AccessDeniedException,
       ClientException,
-      ConflictException,
-      InvalidParameterException,
-      ServerException,
-      ServiceDeploymentNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
-/**
- * Modifies the parameters for a capacity provider.
- *
- * These changes only apply to new Amazon ECS Managed Instances, or EC2 instances, not
- * existing ones.
- */
-export const updateCapacityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCapacityProviderRequest,
-    output: UpdateCapacityProviderResponse,
-    errors: [
-      ClientException,
       ClusterNotFoundException,
       InvalidParameterException,
       ServerException,
+      ServiceNotActiveException,
+      ServiceNotFoundException,
       UnsupportedFeatureException,
-    ],
-  }),
-);
-/**
- * Updates the Amazon ECS container agent on a specified container instance. Updating the
- * Amazon ECS container agent doesn't interrupt running tasks or services on the container
- * instance. The process for updating the agent differs depending on whether your container
- * instance was launched with the Amazon ECS-optimized AMI or another operating
- * system.
- *
- * The `UpdateContainerAgent` API isn't supported for container instances
- * using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update the container
- * agent, you can update the `ecs-init` package. This updates the agent. For
- * more information, see Updating the
- * Amazon ECS container agent in the Amazon Elastic Container
- * Service Developer Guide.
- *
- * Agent updates with the `UpdateContainerAgent` API operation do not
- * apply to Windows container instances. We recommend that you launch new container
- * instances to update the agent version in your Windows clusters.
- *
- * The `UpdateContainerAgent` API requires an Amazon ECS-optimized AMI or
- * Amazon Linux AMI with the `ecs-init` service installed and running. For help
- * updating the Amazon ECS container agent on other operating systems, see Manually updating the Amazon ECS container agent in the Amazon
- * Elastic Container Service Developer Guide.
- */
-export const updateContainerAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContainerAgentRequest,
-    output: UpdateContainerAgentResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      MissingVersionException,
-      NoUpdateAvailableException,
-      ServerException,
-      UpdateInProgressException,
     ],
   }),
 );
@@ -4159,6 +3792,205 @@ export const registerTaskDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Stops an ongoing service deployment.
+ *
+ * The following stop types are avaiable:
+ *
+ * - ROLLBACK - This option rolls back the service deployment to the previous
+ * service revision.
+ *
+ * You can use this option even if you didn't configure the service deployment
+ * for the rollback option.
+ *
+ * For more information, see Stopping Amazon
+ * ECS service deployments in the Amazon Elastic Container Service
+ * Developer Guide.
+ */
+export const stopServiceDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopServiceDeploymentRequest,
+    output: StopServiceDeploymentResponse,
+    errors: [
+      AccessDeniedException,
+      ClientException,
+      ConflictException,
+      InvalidParameterException,
+      ServerException,
+      ServiceDeploymentNotFoundException,
+      UnsupportedFeatureException,
+    ],
+  }),
+);
+/**
+ * Modifies the available capacity providers and the default capacity provider strategy
+ * for a cluster.
+ *
+ * You must specify both the available capacity providers and a default capacity provider
+ * strategy for the cluster. If the specified cluster has existing capacity providers
+ * associated with it, you must specify all existing capacity providers in addition to any
+ * new ones you want to add. Any existing capacity providers that are associated with a
+ * cluster that are omitted from a PutClusterCapacityProviders API call will be disassociated with the
+ * cluster. You can only disassociate an existing capacity provider from a cluster if it's
+ * not being used by any existing tasks.
+ *
+ * When creating a service or running a task on a cluster, if no capacity provider or
+ * launch type is specified, then the cluster's default capacity provider strategy is used.
+ * We recommend that you define a default capacity provider strategy for your cluster.
+ * However, you must specify an empty array (`[]`) to bypass defining a default
+ * strategy.
+ *
+ * Amazon ECS Managed Instances doesn't support this, because when you create a capacity
+ * provider with Amazon ECS Managed Instances, it becomes available only within the
+ * specified cluster.
+ */
+export const putClusterCapacityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutClusterCapacityProvidersRequest,
+    output: PutClusterCapacityProvidersResponse,
+    errors: [
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      ResourceInUseException,
+      ServerException,
+      UpdateInProgressException,
+    ],
+  }),
+);
+/**
+ * Modifies which task set in a service is the primary task set. Any parameters that are
+ * updated on the primary task set in a service will transition to the service. This is
+ * used when a service uses the `EXTERNAL` deployment controller type. For more
+ * information, see Amazon ECS Deployment
+ * Types in the Amazon Elastic Container Service Developer
+ * Guide.
+ */
+export const updateServicePrimaryTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateServicePrimaryTaskSetRequest,
+    output: UpdateServicePrimaryTaskSetResponse,
+    errors: [
+      AccessDeniedException,
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      ServerException,
+      ServiceNotActiveException,
+      ServiceNotFoundException,
+      TaskSetNotFoundException,
+      UnsupportedFeatureException,
+    ],
+  }),
+);
+/**
+ * Updates the Amazon ECS container agent on a specified container instance. Updating the
+ * Amazon ECS container agent doesn't interrupt running tasks or services on the container
+ * instance. The process for updating the agent differs depending on whether your container
+ * instance was launched with the Amazon ECS-optimized AMI or another operating
+ * system.
+ *
+ * The `UpdateContainerAgent` API isn't supported for container instances
+ * using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update the container
+ * agent, you can update the `ecs-init` package. This updates the agent. For
+ * more information, see Updating the
+ * Amazon ECS container agent in the Amazon Elastic Container
+ * Service Developer Guide.
+ *
+ * Agent updates with the `UpdateContainerAgent` API operation do not
+ * apply to Windows container instances. We recommend that you launch new container
+ * instances to update the agent version in your Windows clusters.
+ *
+ * The `UpdateContainerAgent` API requires an Amazon ECS-optimized AMI or
+ * Amazon Linux AMI with the `ecs-init` service installed and running. For help
+ * updating the Amazon ECS container agent on other operating systems, see Manually updating the Amazon ECS container agent in the Amazon
+ * Elastic Container Service Developer Guide.
+ */
+export const updateContainerAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContainerAgentRequest,
+    output: UpdateContainerAgentResponse,
+    errors: [
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      MissingVersionException,
+      NoUpdateAvailableException,
+      ServerException,
+      UpdateInProgressException,
+    ],
+  }),
+);
+/**
+ * Modifies a task set. This is used when a service uses the `EXTERNAL`
+ * deployment controller type. For more information, see Amazon ECS Deployment
+ * Types in the Amazon Elastic Container Service Developer
+ * Guide.
+ */
+export const updateTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTaskSetRequest,
+  output: UpdateTaskSetResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotActiveException,
+    ServiceNotFoundException,
+    TaskSetNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
+/**
+ * Deletes a specified task set within a service. This is used when a service uses the
+ * `EXTERNAL` deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Container
+ * Service Developer Guide.
+ */
+export const deleteTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTaskSetRequest,
+  output: DeleteTaskSetResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotActiveException,
+    ServiceNotFoundException,
+    TaskSetNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
+/**
+ * Creates an Express service that simplifies deploying containerized web applications on
+ * Amazon ECS with managed Amazon Web Services infrastructure. This operation provisions and configures
+ * Application Load Balancers, target groups, security groups, and auto-scaling policies
+ * automatically.
+ *
+ * Specify a primary container configuration with your application image and basic
+ * settings. Amazon ECS creates the necessary Amazon Web Services resources for traffic distribution, health
+ * monitoring, network access control, and capacity management.
+ *
+ * Provide an execution role for task operations and an infrastructure role for managing
+ * Amazon Web Services resources on your behalf.
+ */
+export const createExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateExpressGatewayServiceRequest,
+    output: CreateExpressGatewayServiceResponse,
+    errors: [
+      AccessDeniedException,
+      ClientException,
+      ClusterNotFoundException,
+      InvalidParameterException,
+      PlatformTaskDefinitionIncompatibilityException,
+      PlatformUnknownException,
+      ServerException,
+      UnsupportedFeatureException,
+    ],
+  }),
+);
+/**
  * Describes one or more service revisions.
  *
  * A service revision is a version of the service that includes the values for the Amazon
@@ -4255,6 +4087,174 @@ export const runTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     PlatformTaskDefinitionIncompatibilityException,
     PlatformUnknownException,
     ServerException,
+    UnsupportedFeatureException,
+  ],
+}));
+/**
+ * Modifies the parameters of a service.
+ *
+ * On March 21, 2024, a change was made to resolve the task definition revision
+ * before authorization. When a task definition revision is not specified,
+ * authorization will occur using the latest revision of a task definition.
+ *
+ * For services using the rolling update (`ECS`) you can update the desired
+ * count, deployment configuration, network configuration, load balancers, service
+ * registries, enable ECS managed tags option, propagate tags option, task placement
+ * constraints and strategies, and task definition. When you update any of these
+ * parameters, Amazon ECS starts new tasks with the new configuration.
+ *
+ * You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when
+ * starting or running a task, or when creating or updating a service. For more
+ * information, see Amazon EBS volumes in the Amazon Elastic
+ * Container Service Developer Guide. You can update your volume
+ * configurations and trigger a new deployment. `volumeConfigurations` is only
+ * supported for REPLICA service and not DAEMON service. If you leave
+ * `volumeConfigurations`
+ * `null`, it doesn't trigger a new deployment. For more information on volumes,
+ * see Amazon EBS volumes in the Amazon Elastic
+ * Container Service Developer Guide.
+ *
+ * For services using the blue/green (`CODE_DEPLOY`) deployment controller,
+ * only the desired count, deployment configuration, health check grace period, task
+ * placement constraints and strategies, enable ECS managed tags option, and propagate tags
+ * can be updated using this API. If the network configuration, platform version, task
+ * definition, or load balancer need to be updated, create a new CodeDeploy deployment. For
+ * more information, see CreateDeployment in the CodeDeploy API
+ * Reference.
+ *
+ * For services using an external deployment controller, you can update only the desired
+ * count, task placement constraints and strategies, health check grace period, enable ECS
+ * managed tags option, and propagate tags option, using this API. If the launch type, load
+ * balancer, network configuration, platform version, or task definition need to be
+ * updated, create a new task set For more information, see CreateTaskSet.
+ *
+ * You can add to or subtract from the number of instantiations of a task definition in a
+ * service by specifying the cluster that the service is running in and a new
+ * `desiredCount` parameter.
+ *
+ * You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when
+ * starting or running a task, or when creating or updating a service. For more
+ * information, see Amazon EBS volumes in the Amazon Elastic
+ * Container Service Developer Guide.
+ *
+ * If you have updated the container image of your application, you can create a new task
+ * definition with that image and deploy it to your service. The service scheduler uses the
+ * minimum healthy percent and maximum percent parameters (in the service's deployment
+ * configuration) to determine the deployment strategy.
+ *
+ * If your updated Docker image uses the same tag as what is in the existing task
+ * definition for your service (for example, `my_image:latest`), you don't
+ * need to create a new revision of your task definition. You can update the service
+ * using the `forceNewDeployment` option. The new tasks launched by the
+ * deployment pull the current image/tag combination from your repository when they
+ * start.
+ *
+ * You can also update the deployment configuration of a service. When a deployment is
+ * triggered by updating the task definition of a service, the service scheduler uses the
+ * deployment configuration parameters, `minimumHealthyPercent` and
+ * `maximumPercent`, to determine the deployment strategy.
+ *
+ * - If `minimumHealthyPercent` is below 100%, the scheduler can ignore
+ * `desiredCount` temporarily during a deployment. For example, if
+ * `desiredCount` is four tasks, a minimum of 50% allows the
+ * scheduler to stop two existing tasks before starting two new tasks. Tasks for
+ * services that don't use a load balancer are considered healthy if they're in the
+ * `RUNNING` state. Tasks for services that use a load balancer are
+ * considered healthy if they're in the `RUNNING` state and are reported
+ * as healthy by the load balancer.
+ *
+ * - The `maximumPercent` parameter represents an upper limit on the
+ * number of running tasks during a deployment. You can use it to define the
+ * deployment batch size. For example, if `desiredCount` is four tasks,
+ * a maximum of 200% starts four new tasks before stopping the four older tasks
+ * (provided that the cluster resources required to do this are available).
+ *
+ * When UpdateService
+ * stops a task during a deployment, the equivalent of `docker stop` is issued
+ * to the containers running in the task. This results in a `SIGTERM` and a
+ * 30-second timeout. After this, `SIGKILL` is sent and the containers are
+ * forcibly stopped. If the container handles the `SIGTERM` gracefully and exits
+ * within 30 seconds from receiving it, no `SIGKILL` is sent.
+ *
+ * When the service scheduler launches new tasks, it determines task placement in your
+ * cluster with the following logic.
+ *
+ * - Determine which of the container instances in your cluster can support your
+ * service's task definition. For example, they have the required CPU, memory,
+ * ports, and container instance attributes.
+ *
+ * - By default, the service scheduler attempts to balance tasks across
+ * Availability Zones in this manner even though you can choose a different
+ * placement strategy.
+ *
+ * - Sort the valid container instances by the fewest number of running
+ * tasks for this service in the same Availability Zone as the instance.
+ * For example, if zone A has one running service task and zones B and C
+ * each have zero, valid container instances in either zone B or C are
+ * considered optimal for placement.
+ *
+ * - Place the new service task on a valid container instance in an optimal
+ * Availability Zone (based on the previous steps), favoring container
+ * instances with the fewest number of running tasks for this
+ * service.
+ *
+ * When the service scheduler stops running tasks, it attempts to maintain balance across
+ * the Availability Zones in your cluster using the following logic:
+ *
+ * - Sort the container instances by the largest number of running tasks for this
+ * service in the same Availability Zone as the instance. For example, if zone A
+ * has one running service task and zones B and C each have two, container
+ * instances in either zone B or C are considered optimal for termination.
+ *
+ * - Stop the task on a container instance in an optimal Availability Zone (based
+ * on the previous steps), favoring container instances with the largest number of
+ * running tasks for this service.
+ */
+export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceRequest,
+  output: UpdateServiceResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    NamespaceNotFoundException,
+    PlatformTaskDefinitionIncompatibilityException,
+    PlatformUnknownException,
+    ServerException,
+    ServiceNotActiveException,
+    ServiceNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
+/**
+ * Create a task set in the specified cluster and service. This is used when a service
+ * uses the `EXTERNAL` deployment controller type. For more information, see
+ * Amazon ECS deployment
+ * types in the Amazon Elastic Container Service Developer
+ * Guide.
+ *
+ * On March 21, 2024, a change was made to resolve the task definition revision
+ * before authorization. When a task definition revision is not specified,
+ * authorization will occur using the latest revision of a task definition.
+ *
+ * For information about the maximum number of task sets and other quotas, see Amazon ECS service quotas in the Amazon Elastic Container Service
+ * Developer Guide.
+ */
+export const createTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTaskSetRequest,
+  output: CreateTaskSetResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    NamespaceNotFoundException,
+    PlatformTaskDefinitionIncompatibilityException,
+    PlatformUnknownException,
+    ServerException,
+    ServiceNotActiveException,
+    ServiceNotFoundException,
     UnsupportedFeatureException,
   ],
 }));

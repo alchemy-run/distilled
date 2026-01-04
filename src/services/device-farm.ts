@@ -1708,47 +1708,47 @@ export class ListUniqueProblemsResult extends S.Class<ListUniqueProblemsResult>(
 //# Errors
 export class ArgumentException extends S.TaggedError<ArgumentException>()(
   "ArgumentException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
-) {}
-export class ServiceAccountException extends S.TaggedError<ServiceAccountException>()(
-  "ServiceAccountException",
-  {},
-) {}
-export class CannotDeleteException extends S.TaggedError<CannotDeleteException>()(
-  "CannotDeleteException",
   { message: S.optional(S.String) },
 ) {}
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ServiceAccountException extends S.TaggedError<ServiceAccountException>()(
+  "ServiceAccountException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidOperationException extends S.TaggedError<InvalidOperationException>()(
   "InvalidOperationException",
   { message: S.optional(S.String) },
 ) {}
-export class TagOperationException extends S.TaggedError<TagOperationException>()(
-  "TagOperationException",
-  {},
+export class CannotDeleteException extends S.TaggedError<CannotDeleteException>()(
+  "CannotDeleteException",
+  { message: S.optional(S.String) },
 ) {}
 export class NotEligibleException extends S.TaggedError<NotEligibleException>()(
   "NotEligibleException",
-  {},
-) {}
-export class TagPolicyException extends S.TaggedError<TagPolicyException>()(
-  "TagPolicyException",
-  { message: S.optional(S.String), resourceName: S.optional(S.String) },
+  { message: S.optional(S.String) },
 ) {}
 export class IdempotencyException extends S.TaggedError<IdempotencyException>()(
   "IdempotencyException",
   { message: S.optional(S.String) },
+) {}
+export class TagOperationException extends S.TaggedError<TagOperationException>()(
+  "TagOperationException",
+  { message: S.optional(S.String), resourceName: S.optional(S.String) },
+) {}
+export class TagPolicyException extends S.TaggedError<TagPolicyException>()(
+  "TagPolicyException",
+  { message: S.optional(S.String), resourceName: S.optional(S.String) },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
@@ -1757,109 +1757,60 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 
 //# Operations
 /**
- * Deletes a completed remote access session and its results. You cannot delete a remote access session if it is still active.
- *
- * You cannot undo this operation.
+ * Gets a list of all Selenium testing projects in your account.
  */
-export const deleteRemoteAccessSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listTestGridProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteRemoteAccessSessionRequest,
-    output: DeleteRemoteAccessSessionResult,
+    input: ListTestGridProjectsRequest,
+    output: ListTestGridProjectsResult,
+    errors: [ArgumentException, InternalServiceException],
+  }),
+);
+/**
+ * Returns a list of the actions taken in a TestGridSession.
+ */
+export const listTestGridSessionActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTestGridSessionActionsRequest,
+    output: ListTestGridSessionActionsResult,
+    errors: [ArgumentException, InternalServiceException, NotFoundException],
+  }),
+);
+/**
+ * Retrieves a list of artifacts created during the session.
+ */
+export const listTestGridSessionArtifacts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListTestGridSessionArtifactsRequest,
+    output: ListTestGridSessionArtifactsResult,
+    errors: [ArgumentException, InternalServiceException, NotFoundException],
+  }));
+/**
+ * Returns information about all Amazon Virtual Private Cloud (VPC) endpoint
+ * configurations in the AWS account.
+ */
+export const listVPCEConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListVPCEConfigurationsRequest,
+    output: ListVPCEConfigurationsResult,
+    errors: [ArgumentException, ServiceAccountException],
+  }),
+);
+/**
+ * Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
+ */
+export const updateVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateVPCEConfigurationRequest,
+    output: UpdateVPCEConfigurationResult,
     errors: [
       ArgumentException,
-      LimitExceededException,
+      InvalidOperationException,
       NotFoundException,
       ServiceAccountException,
     ],
   }),
 );
-/**
- * Deletes the run, given the run ARN. You cannot delete a run if it is still active.
- *
- * You cannot undo this operation.
- */
-export const deleteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRunRequest,
-  output: DeleteRunResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
-}));
-/**
- * Deletes an upload given the upload ARN.
- */
-export const deleteUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUploadRequest,
-  output: DeleteUploadResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
-}));
-/**
- * Deletes a device pool given the pool ARN. Does not allow deletion of curated pools
- * owned by the system.
- */
-export const deleteDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDevicePoolRequest,
-  output: DeleteDevicePoolResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
-}));
-/**
- * Deletes a profile that can be applied to one or more private device instances.
- */
-export const deleteInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInstanceProfileRequest,
-    output: DeleteInstanceProfileResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
-/**
- * Deletes a network profile.
- */
-export const deleteNetworkProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteNetworkProfileRequest,
-    output: DeleteNetworkProfileResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
-/**
- * Deletes an AWS Device Farm project, given the project ARN. You cannot delete a project if it has an active run or session.
- *
- * You cannot undo this operation.
- */
-export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProjectRequest,
-  output: DeleteProjectResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
-}));
 /**
  * Deletes a Selenium testing project and all content generated under it. You cannot delete a project if it has active sessions.
  *
@@ -1874,21 +1825,6 @@ export const deleteTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
       CannotDeleteException,
       InternalServiceException,
       NotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
- */
-export const deleteVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVPCEConfigurationRequest,
-    output: DeleteVPCEConfigurationResult,
-    errors: [
-      ArgumentException,
-      InvalidOperationException,
-      NotFoundException,
-      ServiceAccountException,
     ],
   }),
 );
@@ -1931,17 +1867,6 @@ export const getUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceAccountException,
   ],
 }));
-/**
- * Returns information about the configuration settings for your Amazon Virtual Private
- * Cloud (VPC) endpoint.
- */
-export const getVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetVPCEConfigurationRequest,
-    output: GetVPCEConfigurationResult,
-    errors: [ArgumentException, NotFoundException, ServiceAccountException],
-  }),
-);
 /**
  * Installs an application to the device in a remote access session. For Android
  * applications, the file must be in .apk format. For iOS applications, the file must be in
@@ -2081,34 +2006,6 @@ export const listSuites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * List the tags for an AWS Device Farm resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [ArgumentException, NotFoundException, TagOperationException],
-}));
-/**
- * Gets a list of all Selenium testing projects in your account.
- */
-export const listTestGridProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTestGridProjectsRequest,
-    output: ListTestGridProjectsResult,
-    errors: [ArgumentException, InternalServiceException],
-  }),
-);
-/**
- * Retrieves a list of sessions for a TestGridProject.
- */
-export const listTestGridSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTestGridSessionsRequest,
-    output: ListTestGridSessionsResult,
-    errors: [ArgumentException, InternalServiceException, NotFoundException],
-  }),
-);
-/**
  * Gets information about tests in a given test suite.
  */
 export const listTests = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2130,33 +2027,6 @@ export const listUploads = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     ArgumentException,
     LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
-}));
-/**
- * Returns information about all Amazon Virtual Private Cloud (VPC) endpoint
- * configurations in the AWS account.
- */
-export const listVPCEConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVPCEConfigurationsRequest,
-    output: ListVPCEConfigurationsResult,
-    errors: [ArgumentException, ServiceAccountException],
-  }),
-);
-/**
- * Explicitly sets the quantity of devices to renew for an offering, starting from the
- * `effectiveDate` of the next period. The API returns a `NotEligible` error if the
- * user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
- */
-export const renewOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RenewOfferingRequest,
-  output: RenewOfferingResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotEligibleException,
     NotFoundException,
     ServiceAccountException,
   ],
@@ -2207,14 +2077,6 @@ export const stopRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     NotFoundException,
     ServiceAccountException,
   ],
-}));
-/**
- * Deletes the specified tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [ArgumentException, NotFoundException, TagOperationException],
 }));
 /**
  * Updates information about a private device instance.
@@ -2291,21 +2153,6 @@ export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Change details of a project.
- */
-export const updateTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTestGridProjectRequest,
-    output: UpdateTestGridProjectResult,
-    errors: [
-      ArgumentException,
-      InternalServiceException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
  * Updates an uploaded test spec.
  */
 export const updateUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2319,20 +2166,95 @@ export const updateUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
+ * Deletes a profile that can be applied to one or more private device instances.
  */
-export const updateVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateVPCEConfigurationRequest,
-    output: UpdateVPCEConfigurationResult,
+    input: DeleteInstanceProfileRequest,
+    output: DeleteInstanceProfileResult,
     errors: [
       ArgumentException,
-      InvalidOperationException,
+      LimitExceededException,
       NotFoundException,
       ServiceAccountException,
     ],
   }),
 );
+/**
+ * Deletes a network profile.
+ */
+export const deleteNetworkProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteNetworkProfileRequest,
+    output: DeleteNetworkProfileResult,
+    errors: [
+      ArgumentException,
+      LimitExceededException,
+      NotFoundException,
+      ServiceAccountException,
+    ],
+  }),
+);
+/**
+ * Deletes an AWS Device Farm project, given the project ARN. You cannot delete a project if it has an active run or session.
+ *
+ * You cannot undo this operation.
+ */
+export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectRequest,
+  output: DeleteProjectResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
+/**
+ * Deletes a completed remote access session and its results. You cannot delete a remote access session if it is still active.
+ *
+ * You cannot undo this operation.
+ */
+export const deleteRemoteAccessSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRemoteAccessSessionRequest,
+    output: DeleteRemoteAccessSessionResult,
+    errors: [
+      ArgumentException,
+      LimitExceededException,
+      NotFoundException,
+      ServiceAccountException,
+    ],
+  }),
+);
+/**
+ * Deletes the run, given the run ARN. You cannot delete a run if it is still active.
+ *
+ * You cannot undo this operation.
+ */
+export const deleteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRunRequest,
+  output: DeleteRunResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
+/**
+ * Deletes an upload given the upload ARN.
+ */
+export const deleteUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUploadRequest,
+  output: DeleteUploadResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Creates a device pool.
  */
@@ -2378,44 +2300,6 @@ export const createNetworkProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a project.
- */
-export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProjectRequest,
-  output: CreateProjectResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-    TagOperationException,
-  ],
-}));
-/**
- * Creates a Selenium testing project. Projects are used to track TestGridSession
- * instances.
- */
-export const createTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTestGridProjectRequest,
-    output: CreateTestGridProjectResult,
-    errors: [
-      ArgumentException,
-      InternalServiceException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates a signed, short-term URL that can be passed to a Selenium `RemoteWebDriver`
- * constructor.
- */
-export const createTestGridUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTestGridUrlRequest,
-  output: CreateTestGridUrlResult,
-  errors: [ArgumentException, InternalServiceException, NotFoundException],
-}));
-/**
  * Uploads an app or test scripts.
  */
 export const createUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2443,6 +2327,20 @@ export const createVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Deletes a device pool given the pool ARN. Does not allow deletion of curated pools
+ * owned by the system.
+ */
+export const deleteDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDevicePoolRequest,
+  output: DeleteDevicePoolResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the
  * account.
@@ -2523,6 +2421,55 @@ export const getTest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Retrieves a list of sessions for a TestGridProject.
+ */
+export const listTestGridSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTestGridSessionsRequest,
+    output: ListTestGridSessionsResult,
+    errors: [ArgumentException, InternalServiceException, NotFoundException],
+  }),
+);
+/**
+ * Change details of a project.
+ */
+export const updateTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTestGridProjectRequest,
+    output: UpdateTestGridProjectResult,
+    errors: [
+      ArgumentException,
+      InternalServiceException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a signed, short-term URL that can be passed to a Selenium `RemoteWebDriver`
+ * constructor.
+ */
+export const createTestGridUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTestGridUrlRequest,
+  output: CreateTestGridUrlResult,
+  errors: [ArgumentException, InternalServiceException, NotFoundException],
+}));
+/**
+ * Creates a Selenium testing project. Projects are used to track TestGridSession
+ * instances.
+ */
+export const createTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateTestGridProjectRequest,
+    output: CreateTestGridProjectResult,
+    errors: [
+      ArgumentException,
+      InternalServiceException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
  * Retrieves information about a Selenium testing project.
  */
 export const getTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2542,6 +2489,17 @@ export const getTestGridSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetTestGridSessionResult,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
 }));
+/**
+ * Returns information about the configuration settings for your Amazon Virtual Private
+ * Cloud (VPC) endpoint.
+ */
+export const getVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetVPCEConfigurationRequest,
+    output: GetVPCEConfigurationResult,
+    errors: [ArgumentException, NotFoundException, ServiceAccountException],
+  }),
+);
 /**
  * Gets information about artifacts.
  */
@@ -2569,24 +2527,6 @@ export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of offering promotions. Each offering promotion record contains the ID and description
- * of the promotion. The API returns a `NotEligible` error if the caller is not permitted to invoke
- * the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
- */
-export const listOfferingPromotions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOfferingPromotionsRequest,
-    output: ListOfferingPromotionsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotEligibleException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
-/**
  * Gets information about samples, given an AWS Device Farm job ARN.
  */
 export const listSamples = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2600,41 +2540,20 @@ export const listSamples = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of the actions taken in a TestGridSession.
+ * Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
  */
-export const listTestGridSessionActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListTestGridSessionActionsRequest,
-    output: ListTestGridSessionActionsResult,
-    errors: [ArgumentException, InternalServiceException, NotFoundException],
+    input: DeleteVPCEConfigurationRequest,
+    output: DeleteVPCEConfigurationResult,
+    errors: [
+      ArgumentException,
+      InvalidOperationException,
+      NotFoundException,
+      ServiceAccountException,
+    ],
   }),
 );
-/**
- * Retrieves a list of artifacts created during the session.
- */
-export const listTestGridSessionArtifacts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListTestGridSessionArtifactsRequest,
-    output: ListTestGridSessionArtifactsResult,
-    errors: [ArgumentException, InternalServiceException, NotFoundException],
-  }));
-/**
- * Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased
- * quantity for an offering, unless the renewal was overridden. The API returns a `NotEligible`
- * error if the user is not permitted to invoke the operation. If you must be able to invoke this operation,
- * contact aws-devicefarm-support@amazon.com.
- */
-export const purchaseOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PurchaseOfferingRequest,
-  output: PurchaseOfferingResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotEligibleException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
-}));
 /**
  * Specifies and starts a remote access session.
  */
@@ -2677,23 +2596,6 @@ export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets the current status and future status of all offerings purchased by an AWS account. The response
- * indicates how many offerings are currently available and the offerings that will be available in the next
- * period. The API returns a `NotEligible` error if the user is not permitted to invoke the
- * operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
- */
-export const getOfferingStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetOfferingStatusRequest,
-  output: GetOfferingStatusResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotEligibleException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
-}));
-/**
  * Returns a link to a currently running remote access session.
  */
 export const getRemoteAccessSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2721,6 +2623,24 @@ export const getRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceAccountException,
   ],
 }));
+/**
+ * Returns a list of offering promotions. Each offering promotion record contains the ID and description
+ * of the promotion. The API returns a `NotEligible` error if the caller is not permitted to invoke
+ * the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
+ */
+export const listOfferingPromotions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListOfferingPromotionsRequest,
+    output: ListOfferingPromotionsResult,
+    errors: [
+      ArgumentException,
+      LimitExceededException,
+      NotEligibleException,
+      NotFoundException,
+      ServiceAccountException,
+    ],
+  }),
+);
 /**
  * Returns a list of products or offerings that the user can manage through the API. Each offering record
  * indicates the recurring price per unit and the frequency for that offering. The API returns a
@@ -2772,20 +2692,84 @@ export const scheduleRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags
- * on a resource are not specified in the request parameters, they are not changed. When a resource is deleted,
- * the tags associated with that resource are also deleted.
+ * Creates a project.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectRequest,
+  output: CreateProjectResult,
   errors: [
     ArgumentException,
+    LimitExceededException,
     NotFoundException,
+    ServiceAccountException,
     TagOperationException,
-    TagPolicyException,
-    TooManyTagsException,
   ],
+}));
+/**
+ * Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased
+ * quantity for an offering, unless the renewal was overridden. The API returns a `NotEligible`
+ * error if the user is not permitted to invoke the operation. If you must be able to invoke this operation,
+ * contact aws-devicefarm-support@amazon.com.
+ */
+export const purchaseOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseOfferingRequest,
+  output: PurchaseOfferingResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotEligibleException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
+/**
+ * Explicitly sets the quantity of devices to renew for an offering, starting from the
+ * `effectiveDate` of the next period. The API returns a `NotEligible` error if the
+ * user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
+ */
+export const renewOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RenewOfferingRequest,
+  output: RenewOfferingResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotEligibleException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
+/**
+ * Gets the current status and future status of all offerings purchased by an AWS account. The response
+ * indicates how many offerings are currently available and the offerings that will be available in the next
+ * period. The API returns a `NotEligible` error if the user is not permitted to invoke the
+ * operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
+ */
+export const getOfferingStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOfferingStatusRequest,
+  output: GetOfferingStatusResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotEligibleException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
+/**
+ * List the tags for an AWS Device Farm resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [ArgumentException, NotFoundException, TagOperationException],
+}));
+/**
+ * Deletes the specified tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [ArgumentException, NotFoundException, TagOperationException],
 }));
 /**
  * Gets information about compatibility with a device pool.
@@ -2818,5 +2802,21 @@ export const listUniqueProblems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     LimitExceededException,
     NotFoundException,
     ServiceAccountException,
+  ],
+}));
+/**
+ * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags
+ * on a resource are not specified in the request parameters, they are not changed. When a resource is deleted,
+ * the tags associated with that resource are also deleted.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ArgumentException,
+    NotFoundException,
+    TagOperationException,
+    TagPolicyException,
+    TooManyTagsException,
   ],
 }));

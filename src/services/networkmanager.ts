@@ -2970,7 +2970,6 @@ export class CoreNetworkSummary extends S.Class<CoreNetworkSummary>(
   Tags: S.optional(TagList),
 }) {}
 export const CoreNetworkSummaryList = S.Array(CoreNetworkSummary);
-export const ExceptionContextMap = S.Record({ key: S.String, value: S.String });
 export class AssociateConnectPeerResponse extends S.Class<AssociateConnectPeerResponse>(
   "AssociateConnectPeerResponse",
 )({ ConnectPeerAssociation: S.optional(ConnectPeerAssociation) }) {}
@@ -3194,10 +3193,6 @@ export class RoutingInformationNextHop extends S.Class<RoutingInformationNextHop
   SegmentName: S.optional(S.String),
   EdgeLocation: S.optional(S.String),
 }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class NetworkTelemetry extends S.Class<NetworkTelemetry>(
   "NetworkTelemetry",
 )({
@@ -3279,6 +3274,7 @@ export class CoreNetworkChangeEventValues extends S.Class<CoreNetworkChangeEvent
 export class WhenSentTo extends S.Class<WhenSentTo>("WhenSentTo")({
   WhenSentToSegmentsList: S.optional(WhenSentToSegmentsList),
 }) {}
+export const ExceptionContextMap = S.Record({ key: S.String, value: S.String });
 export class CoreNetworkChangeEvent extends S.Class<CoreNetworkChangeEvent>(
   "CoreNetworkChangeEvent",
 )({
@@ -3332,6 +3328,10 @@ export class Via extends S.Class<Via>("Via")({
   NetworkFunctionGroups: S.optional(NetworkFunctionGroupList),
   WithEdgeOverrides: S.optional(WithEdgeOverridesList),
 }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, Message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class NetworkRoute extends S.Class<NetworkRoute>("NetworkRoute")({
   DestinationCidrBlock: S.optional(S.String),
   Destinations: S.optional(NetworkRouteDestinationList),
@@ -3407,97 +3407,188 @@ export class GetCoreNetworkChangeSetResponse extends S.Class<GetCoreNetworkChang
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  {
+    Message: S.String,
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  {
+    Message: S.String,
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class CoreNetworkPolicyException extends S.TaggedError<CoreNetworkPolicyException>()(
   "CoreNetworkPolicyException",
   { Message: S.String, Errors: S.optional(CoreNetworkPolicyErrorList) },
 ) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  {
+    Message: S.String,
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    LimitCode: S.String,
+    ServiceCode: S.String,
+  },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    Message: S.String,
+    ResourceId: S.String,
+    ResourceType: S.String,
+    Context: S.optional(ExceptionContextMap),
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.String,
+    Reason: S.optional(S.String),
+    Fields: S.optional(ValidationExceptionFieldList),
+  },
+) {}
 
 //# Operations
 /**
- * Deletes the specified connection in your global network.
+ * Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
  */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConnectionRequest,
-  output: DeleteConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
- */
-export const deleteCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCoreNetworkRequest,
-  output: DeleteCoreNetworkResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an association between a core network and a prefix list.
- */
-export const deleteCoreNetworkPrefixListAssociation =
+export const listOrganizationServiceAccessStatus =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCoreNetworkPrefixListAssociationRequest,
-    output: DeleteCoreNetworkPrefixListAssociationResponse,
+    input: ListOrganizationServiceAccessStatusRequest,
+    output: ListOrganizationServiceAccessStatusResponse,
+    errors: [],
+  }));
+/**
+ * Gets the count of network resources, by resource type, for the specified global network.
+ */
+export const getNetworkResourceCounts = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetNetworkResourceCountsRequest,
+    output: GetNetworkResourceCountsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets the network routes of the specified global network.
+ */
+export const getNetworkRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNetworkRoutesRequest,
+  output: GetNetworkRoutesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about the specified route analysis.
+ */
+export const getRouteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRouteAnalysisRequest,
+  output: GetRouteAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
+ */
+export const startOrganizationServiceAccessUpdate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartOrganizationServiceAccessUpdateRequest,
+    output: StartOrganizationServiceAccessUpdateResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
       InternalServerException,
-      ResourceNotFoundException,
       ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],
   }));
 /**
- * Deletes an existing global network. You must first delete all global network objects
- * (devices, links, and sites), deregister all transit gateways, and delete any core networks.
+ * Returns a list of core network Connect peers.
  */
-export const deleteGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGlobalNetworkRequest,
-  output: DeleteGlobalNetworkResponse,
+export const listConnectPeers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConnectPeersRequest,
+  output: ListConnectPeersResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of owned and shared core networks.
+ */
+export const listCoreNetworks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCoreNetworksRequest,
+  output: ListCoreNetworksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a resource policy.
+ */
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of core network attachments.
+ */
+export const listAttachments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAttachmentsRequest,
+  output: ListAttachmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the peerings for a core network.
+ */
+export const listPeerings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPeeringsRequest,
+  output: ListPeeringsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
@@ -3519,16 +3610,62 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes an existing site. The site cannot be associated with any device or link.
+ * Creates or updates a resource policy.
  */
-export const deleteSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSiteRequest,
-  output: DeleteSiteResponse,
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
+ */
+export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectionRequest,
+  output: CreateConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new, empty global network.
+ */
+export const createGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGlobalNetworkRequest,
+  output: CreateGlobalNetworkResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a core network as part of your global network, and optionally, with a core network policy.
+ */
+export const createCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCoreNetworkRequest,
+  output: CreateCoreNetworkResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    CoreNetworkPolicyException,
+    InternalServerException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -3552,6 +3689,175 @@ export const describeGlobalNetworks = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Returns information about a core network change event.
+ */
+export const getCoreNetworkChangeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCoreNetworkChangeEventsRequest,
+    output: GetCoreNetworkChangeEventsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns information about a core network Connect attachment.
+ */
+export const getConnectAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetConnectAttachmentRequest,
+    output: GetConnectAttachmentResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets the network resource relationships for the specified global network.
+ */
+export const getNetworkResourceRelationships =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetNetworkResourceRelationshipsRequest,
+    output: GetNetworkResourceRelationshipsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Describes the network resources for the specified global network.
+ *
+ * The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
+ */
+export const getNetworkResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNetworkResourcesRequest,
+  output: GetNetworkResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a VPC attachment.
+ */
+export const getVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVpcAttachmentRequest,
+  output: GetVpcAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the routing policy associations for attachments in a core network.
+ */
+export const listAttachmentRoutingPolicyAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAttachmentRoutingPolicyAssociationsRequest,
+    output: ListAttachmentRoutingPolicyAssociationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns a list of core network policy versions.
+ */
+export const listCoreNetworkPolicyVersions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCoreNetworkPolicyVersionsRequest,
+    output: ListCoreNetworkPolicyVersionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the prefix list associations for a core network.
+ */
+export const listCoreNetworkPrefixListAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCoreNetworkPrefixListAssociationsRequest,
+    output: ListCoreNetworkPrefixListAssociationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Starts analyzing the routing path between the specified source and destination. For more information,
+ * see Route Analyzer.
+ */
+export const startRouteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartRouteAnalysisRequest,
+  output: StartRouteAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the resource metadata for the specified global network.
+ */
+export const updateNetworkResourceMetadata =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateNetworkResourceMetadataRequest,
+    output: UpdateNetworkResourceMetadataResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an existing site. The site cannot be associated with any device or link.
+ */
+export const deleteSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSiteRequest,
+  output: DeleteSiteResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a core network Connect peer from a device and a link.
  */
@@ -3619,51 +3925,6 @@ export const disassociateTransitGatewayConnectPeer =
     ],
   }));
 /**
- * Executes a change set on your core network. Deploys changes globally based on the policy submitted..
- */
-export const executeCoreNetworkChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExecuteCoreNetworkChangeSetRequest,
-    output: ExecuteCoreNetworkChangeSetResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about one or more of your connections in a global network.
- */
-export const getConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConnectionsRequest,
-  output: GetConnectionsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a core network Connect peer.
- */
-export const getConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConnectPeerRequest,
-  output: GetConnectPeerResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Returns information about a core network Connect peer associations.
  */
 export const getConnectPeerAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -3673,36 +3934,6 @@ export const getConnectPeerAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [
       AccessDeniedException,
       ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns information about the LIVE policy for a core network.
- */
-export const getCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCoreNetworkRequest,
-  output: GetCoreNetworkResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
- */
-export const getCoreNetworkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCoreNetworkPolicyRequest,
-    output: GetCoreNetworkPolicyResponse,
-    errors: [
-      AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -3728,109 +3959,6 @@ export const getCustomerGatewayAssociations =
     ],
   }));
 /**
- * Gets information about one or more of your devices in a global network.
- */
-export const getDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDevicesRequest,
-  output: GetDevicesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
- */
-export const getDirectConnectGatewayAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDirectConnectGatewayAttachmentRequest,
-    output: GetDirectConnectGatewayAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets the link associations for a device or a link. Either the device ID or the link ID
- * must be specified.
- */
-export const getLinkAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLinkAssociationsRequest,
-  output: GetLinkAssociationsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about one or more links in a specified global network.
- *
- * If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
- */
-export const getLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLinksRequest,
-  output: GetLinksResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a resource policy.
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about one or more of your sites in a global network.
- */
-export const getSites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSitesRequest,
-  output: GetSitesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a site-to-site VPN attachment.
- */
-export const getSiteToSiteVpnAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSiteToSiteVpnAttachmentRequest,
-    output: GetSiteToSiteVpnAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Gets information about one or more of your transit gateway Connect peer associations in a global network.
  */
 export const getTransitGatewayConnectPeerAssociations =
@@ -3846,93 +3974,6 @@ export const getTransitGatewayConnectPeerAssociations =
       ValidationException,
     ],
   }));
-/**
- * Returns information about a transit gateway peer.
- */
-export const getTransitGatewayPeering = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTransitGatewayPeeringRequest,
-    output: GetTransitGatewayPeeringResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about the transit gateway registrations in a specified
- * global network.
- */
-export const getTransitGatewayRegistrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTransitGatewayRegistrationsRequest,
-    output: GetTransitGatewayRegistrationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns information about a transit gateway route table attachment.
- */
-export const getTransitGatewayRouteTableAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTransitGatewayRouteTableAttachmentRequest,
-    output: GetTransitGatewayRouteTableAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns a list of core network attachments.
- */
-export const listAttachments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAttachmentsRequest,
-  output: ListAttachmentsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the peerings for a core network.
- */
-export const listPeerings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPeeringsRequest,
-  output: ListPeeringsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the tags for a specified resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Applies a routing policy label to an attachment for traffic routing decisions.
  */
@@ -3950,21 +3991,6 @@ export const putAttachmentRoutingPolicyLabel =
       ValidationException,
     ],
   }));
-/**
- * Creates or updates a resource policy.
- */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Registers a transit gateway in your global network. Not all Regions support transit
  * gateways for global networks. For a list of the supported Regions, see Region Availability in the Amazon Web Services Transit Gateways for Global
@@ -4034,37 +4060,6 @@ export const restoreCoreNetworkPolicyVersion =
       ValidationException,
     ],
   }));
-/**
- * Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
- */
-export const startOrganizationServiceAccessUpdate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartOrganizationServiceAccessUpdateRequest,
-    output: StartOrganizationServiceAccessUpdateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Removes tags from a specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Updates the information for an existing connection. To remove information for any of the parameters,
  * specify an empty string.
@@ -4193,6 +4188,149 @@ export const updateVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Executes a change set on your core network. Deploys changes globally based on the policy submitted..
+ */
+export const executeCoreNetworkChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ExecuteCoreNetworkChangeSetRequest,
+    output: ExecuteCoreNetworkChangeSetResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Tags a specified resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from a specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an association between a core network and a prefix list for routing control.
+ */
+export const createCoreNetworkPrefixListAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateCoreNetworkPrefixListAssociationRequest,
+    output: CreateCoreNetworkPrefixListAssociationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an attachment. Supports all attachment types.
+ */
+export const deleteAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAttachmentRequest,
+  output: DeleteAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified connection in your global network.
+ */
+export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionRequest,
+  output: DeleteConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
+ */
+export const deleteCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCoreNetworkRequest,
+  output: DeleteCoreNetworkResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an association between a core network and a prefix list.
+ */
+export const deleteCoreNetworkPrefixListAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteCoreNetworkPrefixListAssociationRequest,
+    output: DeleteCoreNetworkPrefixListAssociationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an existing global network. You must first delete all global network objects
+ * (devices, links, and sites), deregister all transit gateways, and delete any core networks.
+ */
+export const deleteGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGlobalNetworkRequest,
+  output: DeleteGlobalNetworkResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Associates a core network Connect peer with a device and optionally, with a link.
  *
  * If you specify a link, it must be associated with the specified device. You can only
@@ -4303,21 +4441,6 @@ export const createConnectAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
- */
-export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateConnectionRequest,
-  output: CreateConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance.
  * The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
  */
@@ -4333,23 +4456,6 @@ export const createConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Creates an association between a core network and a prefix list for routing control.
- */
-export const createCoreNetworkPrefixListAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCoreNetworkPrefixListAssociationRequest,
-    output: CreateCoreNetworkPrefixListAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Creates a new device in a global network. If you specify both a site ID and a
  * location, the location of the site is used for visualization in the Network Manager console.
@@ -4383,21 +4489,6 @@ export const createDirectConnectGatewayAttachment =
       ValidationException,
     ],
   }));
-/**
- * Creates a new, empty global network.
- */
-export const createGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGlobalNetworkRequest,
-  output: CreateGlobalNetworkResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Creates a new link for a specified site.
  */
@@ -4527,12 +4618,54 @@ export const deleteLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about a core network Connect attachment.
+ * Gets information about one or more of your connections in a global network.
  */
-export const getConnectAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionsRequest,
+  output: GetConnectionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a core network Connect peer.
+ */
+export const getConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectPeerRequest,
+  output: GetConnectPeerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about the LIVE policy for a core network.
+ */
+export const getCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCoreNetworkRequest,
+  output: GetCoreNetworkResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
+ */
+export const getCoreNetworkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetConnectAttachmentRequest,
-    output: GetConnectAttachmentResponse,
+    input: GetCoreNetworkPolicyRequest,
+    output: GetCoreNetworkPolicyResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -4543,27 +4676,26 @@ export const getConnectAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets the count of network resources, by resource type, for the specified global network.
+ * Gets information about one or more of your devices in a global network.
  */
-export const getNetworkResourceCounts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetNetworkResourceCountsRequest,
-    output: GetNetworkResourceCountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDevicesRequest,
+  output: GetDevicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
- * Gets the network resource relationships for the specified global network.
+ * Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
  */
-export const getNetworkResourceRelationships =
+export const getDirectConnectGatewayAttachment =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetNetworkResourceRelationshipsRequest,
-    output: GetNetworkResourceRelationshipsResponse,
+    input: GetDirectConnectGatewayAttachmentRequest,
+    output: GetDirectConnectGatewayAttachmentResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -4573,13 +4705,28 @@ export const getNetworkResourceRelationships =
     ],
   }));
 /**
- * Describes the network resources for the specified global network.
+ * Gets the link associations for a device or a link. Either the device ID or the link ID
+ * must be specified.
+ */
+export const getLinkAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLinkAssociationsRequest,
+  output: GetLinkAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about one or more links in a specified global network.
  *
- * The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
+ * If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
  */
-export const getNetworkResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetNetworkResourcesRequest,
-  output: GetNetworkResourcesResponse,
+export const getLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLinksRequest,
+  output: GetLinksResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4589,11 +4736,11 @@ export const getNetworkResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about a VPC attachment.
+ * Gets information about one or more of your sites in a global network.
  */
-export const getVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVpcAttachmentRequest,
-  output: GetVpcAttachmentResponse,
+export const getSites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSitesRequest,
+  output: GetSitesResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4603,87 +4750,14 @@ export const getVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the routing policy associations for attachments in a core network.
+ * Returns information about a site-to-site VPN attachment.
  */
-export const listAttachmentRoutingPolicyAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAttachmentRoutingPolicyAssociationsRequest,
-    output: ListAttachmentRoutingPolicyAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns a list of core network Connect peers.
- */
-export const listConnectPeers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListConnectPeersRequest,
-  output: ListConnectPeersResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of core network policy versions.
- */
-export const listCoreNetworkPolicyVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCoreNetworkPolicyVersionsRequest,
-    output: ListCoreNetworkPolicyVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the prefix list associations for a core network.
- */
-export const listCoreNetworkPrefixListAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCoreNetworkPrefixListAssociationsRequest,
-    output: ListCoreNetworkPrefixListAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns a list of owned and shared core networks.
- */
-export const listCoreNetworks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCoreNetworksRequest,
-  output: ListCoreNetworksResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
- */
-export const putCoreNetworkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getSiteToSiteVpnAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: PutCoreNetworkPolicyRequest,
-    output: PutCoreNetworkPolicyResponse,
+    input: GetSiteToSiteVpnAttachmentRequest,
+    output: GetSiteToSiteVpnAttachmentResponse,
     errors: [
       AccessDeniedException,
-      ConflictException,
-      CoreNetworkPolicyException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -4692,53 +4766,66 @@ export const putCoreNetworkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Starts analyzing the routing path between the specified source and destination. For more information,
- * see Route Analyzer.
+ * Returns information about a transit gateway peer.
  */
-export const startRouteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartRouteAnalysisRequest,
-  output: StartRouteAnalysisResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Tags a specified resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the resource metadata for the specified global network.
- */
-export const updateNetworkResourceMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateNetworkResourceMetadataRequest,
-    output: UpdateNetworkResourceMetadataResponse,
+export const getTransitGatewayPeering = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetTransitGatewayPeeringRequest,
+    output: GetTransitGatewayPeeringResponse,
     errors: [
       AccessDeniedException,
-      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets information about the transit gateway registrations in a specified
+ * global network.
+ */
+export const getTransitGatewayRegistrations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTransitGatewayRegistrationsRequest,
+    output: GetTransitGatewayRegistrationsResponse,
+    errors: [
+      AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],
   }));
+/**
+ * Returns information about a transit gateway route table attachment.
+ */
+export const getTransitGatewayRouteTableAttachment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTransitGatewayRouteTableAttachmentRequest,
+    output: GetTransitGatewayRouteTableAttachmentResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the tags for a specified resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Accepts a core network attachment request.
  *
@@ -4748,21 +4835,6 @@ export const updateNetworkResourceMetadata =
 export const acceptAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptAttachmentRequest,
   output: AcceptAttachmentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an attachment. Supports all attachment types.
- */
-export const deleteAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAttachmentRequest,
-  output: DeleteAttachmentResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4836,30 +4908,23 @@ export const listCoreNetworkRoutingInformation =
     ],
   }));
 /**
- * Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
+ * Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
  */
-export const listOrganizationServiceAccessStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListOrganizationServiceAccessStatusRequest,
-    output: ListOrganizationServiceAccessStatusResponse,
-    errors: [],
-  }));
-/**
- * Creates a core network as part of your global network, and optionally, with a core network policy.
- */
-export const createCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCoreNetworkRequest,
-  output: CreateCoreNetworkResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    CoreNetworkPolicyException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const putCoreNetworkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutCoreNetworkPolicyRequest,
+    output: PutCoreNetworkPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      CoreNetworkPolicyException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Deletes a Connect peer.
  */
@@ -4884,50 +4949,6 @@ export const deletePeering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a core network change event.
- */
-export const getCoreNetworkChangeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCoreNetworkChangeEventsRequest,
-    output: GetCoreNetworkChangeEventsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets the network routes of the specified global network.
- */
-export const getNetworkRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetNetworkRoutesRequest,
-  output: GetNetworkRoutesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about the specified route analysis.
- */
-export const getRouteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRouteAnalysisRequest,
-  output: GetRouteAnalysisResponse,
-  errors: [
-    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,

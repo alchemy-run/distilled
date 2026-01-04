@@ -746,48 +746,28 @@ export class UpdateRecordsResponse extends S.Class<UpdateRecordsResponse>(
 //# Errors
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-  T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
-) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
-  "NotAuthorizedException",
-  {},
-  T.AwsQueryError({ code: "NotAuthorizedError", httpResponseCode: 403 }),
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-  T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
-) {}
-export class InvalidConfigurationException extends S.TaggedError<InvalidConfigurationException>()(
-  "InvalidConfigurationException",
-  {},
-  T.AwsQueryError({ code: "InvalidConfiguration", httpResponseCode: 400 }),
 ) {}
 export class AlreadyStreamedException extends S.TaggedError<AlreadyStreamedException>()(
   "AlreadyStreamedException",
   { message: S.String },
   T.AwsQueryError({ code: "AlreadyStreamed", httpResponseCode: 400 }),
 ) {}
+export class InvalidConfigurationException extends S.TaggedError<InvalidConfigurationException>()(
+  "InvalidConfigurationException",
+  { message: S.String },
+  T.AwsQueryError({ code: "InvalidConfiguration", httpResponseCode: 400 }),
+) {}
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { message: S.String },
+  T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
+) {}
 export class DuplicateRequestException extends S.TaggedError<DuplicateRequestException>()(
   "DuplicateRequestException",
   { message: S.String },
   T.AwsQueryError({ code: "DuplicateRequest", httpResponseCode: 400 }),
-) {}
-export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
-  "ResourceConflictException",
-  { message: S.String },
-  T.AwsQueryError({ code: "ResourceConflict", httpResponseCode: 409 }),
 ) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
@@ -802,10 +782,30 @@ export class InvalidLambdaFunctionOutputException extends S.TaggedError<InvalidL
     httpResponseCode: 400,
   }),
 ) {}
+export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
+  "NotAuthorizedException",
+  { message: S.String },
+  T.AwsQueryError({ code: "NotAuthorizedError", httpResponseCode: 403 }),
+) {}
 export class LambdaThrottledException extends S.TaggedError<LambdaThrottledException>()(
   "LambdaThrottledException",
   { message: S.String },
   T.AwsQueryError({ code: "LambdaThrottled", httpResponseCode: 429 }),
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String },
+  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { message: S.String },
+  T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
+) {}
+export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
+  "ResourceConflictException",
+  { message: S.String },
+  T.AwsQueryError({ code: "ResourceConflict", httpResponseCode: 409 }),
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
@@ -882,197 +882,21 @@ export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets a list of identity pools registered with Cognito.
+ * Deletes the specific dataset. The dataset will be deleted permanently, and the action can't
+ * be undone. Datasets that this dataset was merged with will no longer report the merge. Any
+ * subsequent operation on this dataset will result in a
+ * ResourceNotFoundException.
  *
- * ListIdentityPoolUsage can only be called with developer credentials. You
- * cannot make this API call with the temporary user credentials provided by Cognito
- * Identity.
- *
- * ListIdentityPoolUsage
- * The following examples have been edited for readability.
- *
- * POST / HTTP/1.1
- * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: 9be7c425-ef05-48c0-aef3-9f0ff2fe17d3
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListIdentityPoolUsage
- * HOST: cognito-sync.us-east-1.amazonaws.com:443
- * X-AMZ-DATE: 20141111T211414Z
- * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature=
- *
- * {
- * "Operation": "com.amazonaws.cognito.sync.model#ListIdentityPoolUsage",
- * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
- * "Input":
- * {
- * "MaxResults": "2"
- * }
- * }
- *
- * 1.1 200 OK
- * x-amzn-requestid: 9be7c425-ef05-48c0-aef3-9f0ff2fe17d3
- * content-type: application/json
- * content-length: 519
- * date: Tue, 11 Nov 2014 21:14:14 GMT
- *
- * {
- * "Output":
- * {
- * "__type": "com.amazonaws.cognito.sync.model#ListIdentityPoolUsageResponse",
- * "Count": 2,
- * "IdentityPoolUsages": [
- * {
- * "DataStorage": 0,
- * "IdentityPoolId": "IDENTITY_POOL_ID",
- * "LastModifiedDate": 1.413836234607E9,
- * "SyncSessionsCount": null
- * },
- * {
- * "DataStorage": 0,
- * "IdentityPoolId": "IDENTITY_POOL_ID",
- * "LastModifiedDate": 1.410892165601E9,
- * "SyncSessionsCount": null
- * }],
- * "MaxResults": 2,
- * "NextToken": "dXMtZWFzdC0xOjBjMWJhMDUyLWUwOTgtNDFmYS1hNzZlLWVhYTJjMTI1Zjg2MQ=="
- * },
- * "Version": "1.0"
- * }
+ * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
  */
-export const listIdentityPoolUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIdentityPoolUsageRequest,
-    output: ListIdentityPoolUsageResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Registers a device to receive push sync notifications.
- *
- * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
- *
- * RegisterDevice
- * The following examples have been edited for readability.
- *
- * POST / HTTP/1.1
- * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: 368f9200-3eca-449e-93b3-7b9c08d8e185
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.RegisterDevice
- * HOST: cognito-sync.us-east-1.amazonaws.com
- * X-AMZ-DATE: 20141004T194643Z
- * X-AMZ-SECURITY-TOKEN:
- * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
- *
- * {
- * "Operation": "com.amazonaws.cognito.sync.model#RegisterDevice",
- * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
- * "Input":
- * {
- * "IdentityPoolId": "ID_POOL_ID",
- * "IdentityId": "IDENTITY_ID",
- * "Platform": "GCM",
- * "Token": "PUSH_TOKEN"
- * }
- * }
- *
- * 1.1 200 OK
- * x-amzn-requestid: 368f9200-3eca-449e-93b3-7b9c08d8e185
- * date: Sat, 04 Oct 2014 19:46:44 GMT
- * content-type: application/json
- * content-length: 145
- *
- * {
- * "Output":
- * {
- * "__type": "com.amazonaws.cognito.sync.model#RegisterDeviceResponse",
- * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
- * },
- * "Version": "1.0"
- * }
- */
-export const registerDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterDeviceRequest,
-  output: RegisterDeviceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidConfigurationException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key.
- *
- * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
- */
-export const setCognitoEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetCognitoEventsRequest,
-  output: SetCognitoEventsResponse,
+export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetRequest,
+  output: DeleteDatasetResponse,
   errors: [
     InternalErrorException,
     InvalidParameterException,
     NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Subscribes to receive notifications when a dataset is modified by another device.
- *
- * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
- *
- * SubscribeToDataset
- * The following examples have been edited for readability.
- *
- * POST / HTTP/1.1
- * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: 8b9932b7-201d-4418-a960-0a470e11de9f
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SubscribeToDataset
- * HOST: cognito-sync.us-east-1.amazonaws.com
- * X-AMZ-DATE: 20141004T195350Z
- * X-AMZ-SECURITY-TOKEN:
- * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
- *
- * {
- * "Operation": "com.amazonaws.cognito.sync.model#SubscribeToDataset",
- * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
- * "Input":
- * {
- * "IdentityPoolId": "ID_POOL_ID",
- * "IdentityId": "IDENTITY_ID",
- * "DatasetName": "Rufus",
- * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
- * }
- * }
- *
- * 1.1 200 OK
- * x-amzn-requestid: 8b9932b7-201d-4418-a960-0a470e11de9f
- * date: Sat, 04 Oct 2014 19:53:50 GMT
- * content-type: application/json
- * content-length: 99
- *
- * {
- * "Output":
- * {
- * "__type": "com.amazonaws.cognito.sync.model#SubscribeToDatasetResponse"
- * },
- * "Version": "1.0"
- * }
- */
-export const subscribeToDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SubscribeToDatasetRequest,
-  output: SubscribeToDatasetResponse,
-  errors: [
-    InternalErrorException,
-    InvalidConfigurationException,
-    InvalidParameterException,
-    NotAuthorizedException,
+    ResourceConflictException,
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
@@ -1136,15 +960,159 @@ export const unsubscribeFromDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets meta data about a dataset by identity and dataset name. With Amazon Cognito Sync, each
- * identity has access only to its own data. Thus, the credentials used to make this API call
- * need to have access to the identity data.
+ * Registers a device to receive push sync notifications.
  *
- * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
+ * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
+ *
+ * RegisterDevice
+ * The following examples have been edited for readability.
+ *
+ * POST / HTTP/1.1
+ * CONTENT-TYPE: application/json
+ * X-AMZN-REQUESTID: 368f9200-3eca-449e-93b3-7b9c08d8e185
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.RegisterDevice
+ * HOST: cognito-sync.us-east-1.amazonaws.com
+ * X-AMZ-DATE: 20141004T194643Z
+ * X-AMZ-SECURITY-TOKEN:
+ * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
+ *
+ * {
+ * "Operation": "com.amazonaws.cognito.sync.model#RegisterDevice",
+ * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+ * "Input":
+ * {
+ * "IdentityPoolId": "ID_POOL_ID",
+ * "IdentityId": "IDENTITY_ID",
+ * "Platform": "GCM",
+ * "Token": "PUSH_TOKEN"
+ * }
+ * }
+ *
+ * 1.1 200 OK
+ * x-amzn-requestid: 368f9200-3eca-449e-93b3-7b9c08d8e185
+ * date: Sat, 04 Oct 2014 19:46:44 GMT
+ * content-type: application/json
+ * content-length: 145
+ *
+ * {
+ * "Output":
+ * {
+ * "__type": "com.amazonaws.cognito.sync.model#RegisterDeviceResponse",
+ * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
+ * },
+ * "Version": "1.0"
+ * }
  */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDatasetRequest,
-  output: DescribeDatasetResponse,
+export const registerDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterDeviceRequest,
+  output: RegisterDeviceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidConfigurationException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Get the status of the last BulkPublish operation for an identity pool.
+ *
+ * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+ */
+export const getBulkPublishDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetBulkPublishDetailsRequest,
+    output: GetBulkPublishDetailsResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Gets the events and the corresponding Lambda functions associated with an identity pool.
+ *
+ * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+ */
+export const getCognitoEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCognitoEventsRequest,
+  output: GetCognitoEventsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets the configuration settings of an identity pool.
+ *
+ * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+ *
+ * GetIdentityPoolConfiguration
+ * The following examples have been edited for readability.
+ *
+ * POST / HTTP/1.1
+ * CONTENT-TYPE: application/json
+ * X-AMZN-REQUESTID: b1cfdd4b-f620-4fe4-be0f-02024a1d33da
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.GetIdentityPoolConfiguration
+ * HOST: cognito-sync.us-east-1.amazonaws.com
+ * X-AMZ-DATE: 20141004T195722Z
+ * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
+ *
+ * {
+ * "Operation": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfiguration",
+ * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+ * "Input":
+ * {
+ * "IdentityPoolId": "ID_POOL_ID"
+ * }
+ * }
+ *
+ * 1.1 200 OK
+ * x-amzn-requestid: b1cfdd4b-f620-4fe4-be0f-02024a1d33da
+ * date: Sat, 04 Oct 2014 19:57:22 GMT
+ * content-type: application/json
+ * content-length: 332
+ *
+ * {
+ * "Output":
+ * {
+ * "__type": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfigurationResponse",
+ * "IdentityPoolId": "ID_POOL_ID",
+ * "PushSync":
+ * {
+ * "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"],
+ * "RoleArn": "ROLEARN"
+ * }
+ * },
+ * "Version": "1.0"
+ * }
+ */
+export const getIdentityPoolConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetIdentityPoolConfigurationRequest,
+    output: GetIdentityPoolConfigurationResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key.
+ *
+ * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+ */
+export const setCognitoEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetCognitoEventsRequest,
+  output: SetCognitoEventsResponse,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -1274,156 +1242,57 @@ export const describeIdentityUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Get the status of the last BulkPublish operation for an identity pool.
+ * Subscribes to receive notifications when a dataset is modified by another device.
  *
- * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
- */
-export const getBulkPublishDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBulkPublishDetailsRequest,
-    output: GetBulkPublishDetailsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Gets the events and the corresponding Lambda functions associated with an identity pool.
+ * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
  *
- * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
- */
-export const getCognitoEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCognitoEventsRequest,
-  output: GetCognitoEventsResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets the configuration settings of an identity pool.
- *
- * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
- *
- * GetIdentityPoolConfiguration
+ * SubscribeToDataset
  * The following examples have been edited for readability.
  *
  * POST / HTTP/1.1
  * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: b1cfdd4b-f620-4fe4-be0f-02024a1d33da
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.GetIdentityPoolConfiguration
+ * X-AMZN-REQUESTID: 8b9932b7-201d-4418-a960-0a470e11de9f
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SubscribeToDataset
  * HOST: cognito-sync.us-east-1.amazonaws.com
- * X-AMZ-DATE: 20141004T195722Z
+ * X-AMZ-DATE: 20141004T195350Z
+ * X-AMZ-SECURITY-TOKEN:
  * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
  *
  * {
- * "Operation": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfiguration",
+ * "Operation": "com.amazonaws.cognito.sync.model#SubscribeToDataset",
  * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
  * "Input":
  * {
- * "IdentityPoolId": "ID_POOL_ID"
- * }
- * }
- *
- * 1.1 200 OK
- * x-amzn-requestid: b1cfdd4b-f620-4fe4-be0f-02024a1d33da
- * date: Sat, 04 Oct 2014 19:57:22 GMT
- * content-type: application/json
- * content-length: 332
- *
- * {
- * "Output":
- * {
- * "__type": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfigurationResponse",
  * "IdentityPoolId": "ID_POOL_ID",
- * "PushSync":
- * {
- * "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"],
- * "RoleArn": "ROLEARN"
- * }
- * },
- * "Version": "1.0"
- * }
- */
-export const getIdentityPoolConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIdentityPoolConfigurationRequest,
-    output: GetIdentityPoolConfigurationResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Gets paginated records, optionally changed after a particular sync count for a dataset and
- * identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus,
- * the credentials used to make this API call need to have access to the identity data.
- *
- * ListRecords can be called with temporary user credentials provided by Cognito
- * Identity or with developer credentials. You should use Cognito Identity credentials to make
- * this API call.
- *
- * ListRecords
- * The following examples have been edited for readability.
- *
- * POST / HTTP/1.1
- * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: b3d2e31e-d6b7-4612-8e84-c9ba288dab5d
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListRecords
- * HOST: cognito-sync.us-east-1.amazonaws.com:443
- * X-AMZ-DATE: 20141111T183230Z
- * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature=
- *
- * {
- * "Operation": "com.amazonaws.cognito.sync.model#ListRecords",
- * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
- * "Input":
- * {
- * "IdentityPoolId": "IDENTITY_POOL_ID",
  * "IdentityId": "IDENTITY_ID",
- * "DatasetName": "newDataSet"
+ * "DatasetName": "Rufus",
+ * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
  * }
  * }
  *
  * 1.1 200 OK
- * x-amzn-requestid: b3d2e31e-d6b7-4612-8e84-c9ba288dab5d
+ * x-amzn-requestid: 8b9932b7-201d-4418-a960-0a470e11de9f
+ * date: Sat, 04 Oct 2014 19:53:50 GMT
  * content-type: application/json
- * content-length: 623
- * date: Tue, 11 Nov 2014 18:32:30 GMT
+ * content-length: 99
  *
  * {
  * "Output":
  * {
- * "__type": "com.amazonaws.cognito.sync.model#ListRecordsResponse",
- * "Count": 0,
- * "DatasetDeletedAfterRequestedSyncCount": false,
- * "DatasetExists": false,
- * "DatasetSyncCount": 0,
- * "LastModifiedBy": null,
- * "MergedDatasetNames": null,
- * "NextToken": null,
- * "Records": [],
- * "SyncSessionToken": "SYNC_SESSION_TOKEN"
+ * "__type": "com.amazonaws.cognito.sync.model#SubscribeToDatasetResponse"
  * },
  * "Version": "1.0"
  * }
  */
-export const listRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRecordsRequest,
-  output: ListRecordsResponse,
+export const subscribeToDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubscribeToDatasetRequest,
+  output: SubscribeToDatasetResponse,
   errors: [
     InternalErrorException,
+    InvalidConfigurationException,
     InvalidParameterException,
     NotAuthorizedException,
+    ResourceNotFoundException,
     TooManyRequestsException,
   ],
 }));
@@ -1442,26 +1311,6 @@ export const bulkPublish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidParameterException,
     NotAuthorizedException,
     ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specific dataset. The dataset will be deleted permanently, and the action can't
- * be undone. Datasets that this dataset was merged with will no longer report the merge. Any
- * subsequent operation on this dataset will result in a
- * ResourceNotFoundException.
- *
- * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
- */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatasetRequest,
-  output: DeleteDatasetResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
   ],
 }));
 /**
@@ -1527,6 +1376,157 @@ export const setIdentityPoolConfiguration =
       TooManyRequestsException,
     ],
   }));
+/**
+ * Gets a list of identity pools registered with Cognito.
+ *
+ * ListIdentityPoolUsage can only be called with developer credentials. You
+ * cannot make this API call with the temporary user credentials provided by Cognito
+ * Identity.
+ *
+ * ListIdentityPoolUsage
+ * The following examples have been edited for readability.
+ *
+ * POST / HTTP/1.1
+ * CONTENT-TYPE: application/json
+ * X-AMZN-REQUESTID: 9be7c425-ef05-48c0-aef3-9f0ff2fe17d3
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListIdentityPoolUsage
+ * HOST: cognito-sync.us-east-1.amazonaws.com:443
+ * X-AMZ-DATE: 20141111T211414Z
+ * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature=
+ *
+ * {
+ * "Operation": "com.amazonaws.cognito.sync.model#ListIdentityPoolUsage",
+ * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+ * "Input":
+ * {
+ * "MaxResults": "2"
+ * }
+ * }
+ *
+ * 1.1 200 OK
+ * x-amzn-requestid: 9be7c425-ef05-48c0-aef3-9f0ff2fe17d3
+ * content-type: application/json
+ * content-length: 519
+ * date: Tue, 11 Nov 2014 21:14:14 GMT
+ *
+ * {
+ * "Output":
+ * {
+ * "__type": "com.amazonaws.cognito.sync.model#ListIdentityPoolUsageResponse",
+ * "Count": 2,
+ * "IdentityPoolUsages": [
+ * {
+ * "DataStorage": 0,
+ * "IdentityPoolId": "IDENTITY_POOL_ID",
+ * "LastModifiedDate": 1.413836234607E9,
+ * "SyncSessionsCount": null
+ * },
+ * {
+ * "DataStorage": 0,
+ * "IdentityPoolId": "IDENTITY_POOL_ID",
+ * "LastModifiedDate": 1.410892165601E9,
+ * "SyncSessionsCount": null
+ * }],
+ * "MaxResults": 2,
+ * "NextToken": "dXMtZWFzdC0xOjBjMWJhMDUyLWUwOTgtNDFmYS1hNzZlLWVhYTJjMTI1Zjg2MQ=="
+ * },
+ * "Version": "1.0"
+ * }
+ */
+export const listIdentityPoolUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListIdentityPoolUsageRequest,
+    output: ListIdentityPoolUsageResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      NotAuthorizedException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Gets paginated records, optionally changed after a particular sync count for a dataset and
+ * identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus,
+ * the credentials used to make this API call need to have access to the identity data.
+ *
+ * ListRecords can be called with temporary user credentials provided by Cognito
+ * Identity or with developer credentials. You should use Cognito Identity credentials to make
+ * this API call.
+ *
+ * ListRecords
+ * The following examples have been edited for readability.
+ *
+ * POST / HTTP/1.1
+ * CONTENT-TYPE: application/json
+ * X-AMZN-REQUESTID: b3d2e31e-d6b7-4612-8e84-c9ba288dab5d
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListRecords
+ * HOST: cognito-sync.us-east-1.amazonaws.com:443
+ * X-AMZ-DATE: 20141111T183230Z
+ * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature=
+ *
+ * {
+ * "Operation": "com.amazonaws.cognito.sync.model#ListRecords",
+ * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+ * "Input":
+ * {
+ * "IdentityPoolId": "IDENTITY_POOL_ID",
+ * "IdentityId": "IDENTITY_ID",
+ * "DatasetName": "newDataSet"
+ * }
+ * }
+ *
+ * 1.1 200 OK
+ * x-amzn-requestid: b3d2e31e-d6b7-4612-8e84-c9ba288dab5d
+ * content-type: application/json
+ * content-length: 623
+ * date: Tue, 11 Nov 2014 18:32:30 GMT
+ *
+ * {
+ * "Output":
+ * {
+ * "__type": "com.amazonaws.cognito.sync.model#ListRecordsResponse",
+ * "Count": 0,
+ * "DatasetDeletedAfterRequestedSyncCount": false,
+ * "DatasetExists": false,
+ * "DatasetSyncCount": 0,
+ * "LastModifiedBy": null,
+ * "MergedDatasetNames": null,
+ * "NextToken": null,
+ * "Records": [],
+ * "SyncSessionToken": "SYNC_SESSION_TOKEN"
+ * },
+ * "Version": "1.0"
+ * }
+ */
+export const listRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRecordsRequest,
+  output: ListRecordsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets meta data about a dataset by identity and dataset name. With Amazon Cognito Sync, each
+ * identity has access only to its own data. Thus, the credentials used to make this API call
+ * need to have access to the identity data.
+ *
+ * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
+ */
+export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDatasetRequest,
+  output: DescribeDatasetResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Posts updates to records and adds and deletes records for a dataset and user.
  *

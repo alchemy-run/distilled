@@ -2141,120 +2141,14 @@ export class RegisterJobDefinitionResponse extends S.Class<RegisterJobDefinition
 //# Errors
 export class ClientException extends S.TaggedError<ClientException>()(
   "ClientException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ServerException extends S.TaggedError<ServerException>()(
   "ServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Deletes the specified consumable resource.
- */
-export const deleteConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConsumableResourceRequest,
-    output: DeleteConsumableResourceResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
-/**
- * Deletes the specified job queue. You must first disable submissions for a queue with the
- * UpdateJobQueue operation. All jobs in the queue are eventually terminated
- * when you delete a job queue. The jobs are terminated at a rate of about 16 jobs each
- * second.
- *
- * It's not necessary to disassociate compute environments from a queue before submitting a
- * `DeleteJobQueue` request.
- */
-export const deleteJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJobQueueRequest,
-  output: DeleteJobQueueResponse,
-  errors: [ClientException, ServerException],
-}));
-/**
- * Deletes the specified scheduling policy.
- *
- * You can't delete a scheduling policy that's used in any job queues.
- */
-export const deleteSchedulingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSchedulingPolicyRequest,
-    output: DeleteSchedulingPolicyResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
-/**
- * Deletes a Service environment. Before you can delete a service environment, you must first set its state to `DISABLED` with the `UpdateServiceEnvironment` API operation and disassociate it from any job queues with the `UpdateJobQueue` API operation.
- */
-export const deleteServiceEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceEnvironmentRequest,
-    output: DeleteServiceEnvironmentResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
-/**
- * Deregisters an Batch job definition. Job definitions are permanently deleted after 180
- * days.
- */
-export const deregisterJobDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterJobDefinitionRequest,
-    output: DeregisterJobDefinitionResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
-/**
- * Associates the specified tags to a resource with the specified `resourceArn`.
- * If existing tags on a resource aren't specified in the request parameters, they aren't
- * changed. When a resource is deleted, the tags that are associated with that resource are
- * deleted as well. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
- * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [ClientException, ServerException],
-}));
-/**
- * Terminates a job in a job queue. Jobs that are in the `STARTING` or
- * `RUNNING` state are terminated, which causes them to transition to
- * `FAILED`. Jobs that have not progressed to the `STARTING` state are
- * cancelled.
- */
-export const terminateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TerminateJobRequest,
-  output: TerminateJobResponse,
-  errors: [ClientException, ServerException],
-}));
-/**
- * Terminates a service job in a job queue.
- */
-export const terminateServiceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TerminateServiceJobRequest,
-  output: TerminateServiceJobResponse,
-  errors: [ClientException, ServerException],
-}));
-/**
- * Deletes specified tags from an Batch resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [ClientException, ServerException],
-}));
-/**
- * Updates a scheduling policy.
- */
-export const updateSchedulingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSchedulingPolicyRequest,
-    output: UpdateSchedulingPolicyResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
 /**
  * Cancels a job in an Batch job queue. Jobs that are in a `SUBMITTED`, `PENDING`, or `RUNNABLE` state are cancelled and the job status is updated to `FAILED`.
  *
@@ -2276,80 +2170,6 @@ export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: CancelJobResponse,
   errors: [ClientException, ServerException],
 }));
-/**
- * Creates an Batch consumable resource.
- */
-export const createConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConsumableResourceRequest,
-    output: CreateConsumableResourceResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
-/**
- * Deletes an Batch compute environment.
- *
- * Before you can delete a compute environment, you must set its state to
- * `DISABLED` with the UpdateComputeEnvironment API operation and
- * disassociate it from any job queues with the UpdateJobQueue API operation.
- * Compute environments that use Fargate resources must terminate all active jobs on that
- * compute environment before deleting the compute environment. If this isn't done, the compute
- * environment enters an invalid state.
- */
-export const deleteComputeEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteComputeEnvironmentRequest,
-    output: DeleteComputeEnvironmentResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
-/**
- * Returns a description of the specified consumable resource.
- */
-export const describeConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConsumableResourceRequest,
-    output: DescribeConsumableResourceResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
-/**
- * Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
- * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [ClientException, ServerException],
-}));
-/**
- * Updates a consumable resource.
- */
-export const updateConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConsumableResourceRequest,
-    output: UpdateConsumableResourceResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
-/**
- * Updates a job queue.
- */
-export const updateJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateJobQueueRequest,
-  output: UpdateJobQueueResponse,
-  errors: [ClientException, ServerException],
-}));
-/**
- * Updates a service environment. You can update the state of a service environment from `ENABLED` to `DISABLED` to prevent new service jobs from being placed in the service environment.
- */
-export const updateServiceEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceEnvironmentRequest,
-    output: UpdateServiceEnvironmentResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
 /**
  * Creates an Batch job queue. When you create a job queue, you associate one or more
  * compute environments to the queue and assign an order of preference for the compute
@@ -2462,6 +2282,186 @@ export const updateComputeEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: UpdateComputeEnvironmentRequest,
     output: UpdateComputeEnvironmentResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Creates an Batch consumable resource.
+ */
+export const createConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateConsumableResourceRequest,
+    output: CreateConsumableResourceResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Returns a description of the specified consumable resource.
+ */
+export const describeConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeConsumableResourceRequest,
+    output: DescribeConsumableResourceResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
+ * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [ClientException, ServerException],
+}));
+/**
+ * Updates a consumable resource.
+ */
+export const updateConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConsumableResourceRequest,
+    output: UpdateConsumableResourceResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Updates a job queue.
+ */
+export const updateJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateJobQueueRequest,
+  output: UpdateJobQueueResponse,
+  errors: [ClientException, ServerException],
+}));
+/**
+ * Updates a service environment. You can update the state of a service environment from `ENABLED` to `DISABLED` to prevent new service jobs from being placed in the service environment.
+ */
+export const updateServiceEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateServiceEnvironmentRequest,
+    output: UpdateServiceEnvironmentResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Deletes an Batch compute environment.
+ *
+ * Before you can delete a compute environment, you must set its state to
+ * `DISABLED` with the UpdateComputeEnvironment API operation and
+ * disassociate it from any job queues with the UpdateJobQueue API operation.
+ * Compute environments that use Fargate resources must terminate all active jobs on that
+ * compute environment before deleting the compute environment. If this isn't done, the compute
+ * environment enters an invalid state.
+ */
+export const deleteComputeEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteComputeEnvironmentRequest,
+    output: DeleteComputeEnvironmentResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Deletes the specified consumable resource.
+ */
+export const deleteConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConsumableResourceRequest,
+    output: DeleteConsumableResourceResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Deletes the specified job queue. You must first disable submissions for a queue with the
+ * UpdateJobQueue operation. All jobs in the queue are eventually terminated
+ * when you delete a job queue. The jobs are terminated at a rate of about 16 jobs each
+ * second.
+ *
+ * It's not necessary to disassociate compute environments from a queue before submitting a
+ * `DeleteJobQueue` request.
+ */
+export const deleteJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJobQueueRequest,
+  output: DeleteJobQueueResponse,
+  errors: [ClientException, ServerException],
+}));
+/**
+ * Deletes the specified scheduling policy.
+ *
+ * You can't delete a scheduling policy that's used in any job queues.
+ */
+export const deleteSchedulingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSchedulingPolicyRequest,
+    output: DeleteSchedulingPolicyResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Deletes a Service environment. Before you can delete a service environment, you must first set its state to `DISABLED` with the `UpdateServiceEnvironment` API operation and disassociate it from any job queues with the `UpdateJobQueue` API operation.
+ */
+export const deleteServiceEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteServiceEnvironmentRequest,
+    output: DeleteServiceEnvironmentResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Deregisters an Batch job definition. Job definitions are permanently deleted after 180
+ * days.
+ */
+export const deregisterJobDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeregisterJobDefinitionRequest,
+    output: DeregisterJobDefinitionResponse,
+    errors: [ClientException, ServerException],
+  }),
+);
+/**
+ * Associates the specified tags to a resource with the specified `resourceArn`.
+ * If existing tags on a resource aren't specified in the request parameters, they aren't
+ * changed. When a resource is deleted, the tags that are associated with that resource are
+ * deleted as well. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
+ * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [ClientException, ServerException],
+}));
+/**
+ * Terminates a job in a job queue. Jobs that are in the `STARTING` or
+ * `RUNNING` state are terminated, which causes them to transition to
+ * `FAILED`. Jobs that have not progressed to the `STARTING` state are
+ * cancelled.
+ */
+export const terminateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateJobRequest,
+  output: TerminateJobResponse,
+  errors: [ClientException, ServerException],
+}));
+/**
+ * Terminates a service job in a job queue.
+ */
+export const terminateServiceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateServiceJobRequest,
+  output: TerminateServiceJobResponse,
+  errors: [ClientException, ServerException],
+}));
+/**
+ * Deletes specified tags from an Batch resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [ClientException, ServerException],
+}));
+/**
+ * Updates a scheduling policy.
+ */
+export const updateSchedulingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSchedulingPolicyRequest,
+    output: UpdateSchedulingPolicyResponse,
     errors: [ClientException, ServerException],
   }),
 );

@@ -743,48 +743,85 @@ export class ListClusterSnapshotsOutput extends S.Class<ListClusterSnapshotsOutp
   snapshots: S.optional(ClusterSnapshotList),
   nextToken: S.optional(S.String),
 }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class ApplyPendingMaintenanceActionOutput extends S.Class<ApplyPendingMaintenanceActionOutput>(
   "ApplyPendingMaintenanceActionOutput",
 )({ resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction }) {}
 export class CreateClusterOutput extends S.Class<CreateClusterOutput>(
   "CreateClusterOutput",
 )({ cluster: Cluster }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
+/**
+ * Returns information about provisioned Amazon DocumentDB elastic clusters.
+ */
+export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListClustersInput,
+  output: ListClustersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete an elastic cluster snapshot.
+ */
+export const deleteClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteClusterSnapshotInput,
+    output: DeleteClusterSnapshotOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Retrieves all maintenance actions that are pending.
  */
@@ -803,6 +840,94 @@ export const getPendingMaintenanceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Modifies an elastic cluster. This includes updating admin-username/password,
+ * upgrading the API version, and setting up a backup window and maintenance window
+ */
+export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterInput,
+  output: UpdateClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * The type of pending maintenance action to be applied to the resource.
+ */
+export const applyPendingMaintenanceAction =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ApplyPendingMaintenanceActionInput,
+    output: ApplyPendingMaintenanceActionOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns information about snapshots for a specified elastic cluster.
+ */
+export const listClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListClusterSnapshotsInput,
+    output: ListClusterSnapshotsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Adds metadata tags to an elastic cluster resource
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a specific elastic cluster.
+ */
+export const getCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClusterInput,
+  output: GetClusterOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a specific elastic cluster snapshot
+ */
+export const getClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClusterSnapshotInput,
+  output: GetClusterSnapshotOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Retrieves a list of all maintenance actions that are pending.
  */
 export const listPendingMaintenanceActions =
@@ -816,19 +941,6 @@ export const listPendingMaintenanceActions =
       ValidationException,
     ],
   }));
-/**
- * Lists all tags on a elastic cluster resource
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Restarts the stopped elastic cluster that is specified by `clusterARN`.
  */
@@ -859,19 +971,6 @@ export const stopCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Adds metadata tags to an elastic cluster resource
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Removes metadata tags from an elastic cluster resource
  */
 export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -885,12 +984,24 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Modifies an elastic cluster. This includes updating admin-username/password,
- * upgrading the API version, and setting up a backup window and maintenance window
+ * Lists all tags on a elastic cluster resource
  */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateClusterInput,
-  output: UpdateClusterOutput,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete an elastic cluster.
+ */
+export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterInput,
+  output: DeleteClusterOutput,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -900,6 +1011,24 @@ export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Restores an elastic cluster from a snapshot.
+ */
+export const restoreClusterFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RestoreClusterFromSnapshotInput,
+    output: RestoreClusterFromSnapshotOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Copies a snapshot of an elastic cluster.
  */
@@ -935,114 +1064,6 @@ export const createClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Delete an elastic cluster.
- */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterInput,
-  output: DeleteClusterOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Delete an elastic cluster snapshot.
- */
-export const deleteClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClusterSnapshotInput,
-    output: DeleteClusterSnapshotOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns information about a specific elastic cluster.
- */
-export const getCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetClusterInput,
-  output: GetClusterOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about provisioned Amazon DocumentDB elastic clusters.
- */
-export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListClustersInput,
-  output: ListClustersOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about snapshots for a specified elastic cluster.
- */
-export const listClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListClusterSnapshotsInput,
-    output: ListClusterSnapshotsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Restores an elastic cluster from a snapshot.
- */
-export const restoreClusterFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreClusterFromSnapshotInput,
-    output: RestoreClusterFromSnapshotOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * The type of pending maintenance action to be applied to the resource.
- */
-export const applyPendingMaintenanceAction =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ApplyPendingMaintenanceActionInput,
-    output: ApplyPendingMaintenanceActionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
  * Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
  */
 export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1053,20 +1074,6 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a specific elastic cluster snapshot
- */
-export const getClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetClusterSnapshotInput,
-  output: GetClusterSnapshotOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

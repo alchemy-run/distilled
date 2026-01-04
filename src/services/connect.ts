@@ -8274,9 +8274,6 @@ export type Expressions = Expression[];
 export const Expressions = S.Array(
   S.suspend((): S.Schema<Expression, any> => Expression),
 ) as any as S.Schema<Expressions>;
-export const InvalidRequestExceptionReason = S.Union(
-  S.Struct({ AttachedFileInvalidRequestExceptionReason: S.String }),
-);
 export class AttachedFile extends S.Class<AttachedFile>("AttachedFile")({
   CreationTime: S.String,
   FileArn: S.String,
@@ -9165,13 +9162,6 @@ export class VocabularySummary extends S.Class<VocabularySummary>(
   FailureReason: S.optional(S.String),
 }) {}
 export const VocabularySummaryList = S.Array(VocabularySummary);
-export const ServiceQuotaExceededExceptionReason = S.Union(
-  S.Struct({ AttachedFileServiceQuotaExceededExceptionReason: S.String }),
-);
-export class ProblemDetail extends S.Class<ProblemDetail>("ProblemDetail")({
-  message: S.optional(S.String),
-}) {}
-export const Problems = S.Array(ProblemDetail);
 export class HierarchyStructureUpdate extends S.Class<HierarchyStructureUpdate>(
   "HierarchyStructureUpdate",
 )({
@@ -10343,6 +10333,9 @@ export const ParticipantTimerValue = S.Union(
   S.Struct({ ParticipantTimerAction: S.String }),
   S.Struct({ ParticipantTimerDurationInMinutes: S.Number }),
 );
+export const InvalidRequestExceptionReason = S.Union(
+  S.Struct({ AttachedFileInvalidRequestExceptionReason: S.String }),
+);
 export class BatchCreateDataTableValueSuccessResult extends S.Class<BatchCreateDataTableValueSuccessResult>(
   "BatchCreateDataTableValueSuccessResult",
 )({
@@ -10645,12 +10638,10 @@ export const WorkspaceSearchSummaryList = S.Array(WorkspaceSearchSummary);
 export class InboundEmailContent extends S.Class<InboundEmailContent>(
   "InboundEmailContent",
 )({ MessageSourceType: S.String, RawMessage: S.optional(InboundRawMessage) }) {}
-export class PropertyValidationExceptionProperty extends S.Class<PropertyValidationExceptionProperty>(
-  "PropertyValidationExceptionProperty",
-)({ PropertyPath: S.String, Reason: S.String, Message: S.String }) {}
-export const PropertyValidationExceptionPropertyList = S.Array(
-  PropertyValidationExceptionProperty,
-);
+export class ProblemDetail extends S.Class<ProblemDetail>("ProblemDetail")({
+  message: S.optional(S.String),
+}) {}
+export const Problems = S.Array(ProblemDetail);
 export class StateTransition extends S.Class<StateTransition>(
   "StateTransition",
 )({
@@ -11278,6 +11269,12 @@ export class AgentsCriteria extends S.Class<AgentsCriteria>("AgentsCriteria")({
 export const UpdateParticipantRoleConfigChannelInfo = S.Union(
   S.Struct({ Chat: ChatParticipantRoleConfig }),
 );
+export class PropertyValidationExceptionProperty extends S.Class<PropertyValidationExceptionProperty>(
+  "PropertyValidationExceptionProperty",
+)({ PropertyPath: S.String, Reason: S.String, Message: S.String }) {}
+export const PropertyValidationExceptionPropertyList = S.Array(
+  PropertyValidationExceptionProperty,
+);
 export class HierarchyGroups extends S.Class<HierarchyGroups>(
   "HierarchyGroups",
 )({
@@ -11696,6 +11693,9 @@ export class EvaluationFormNumericQuestionProperties extends S.Class<EvaluationF
 export class AudioFeatures extends S.Class<AudioFeatures>("AudioFeatures")({
   EchoReduction: S.optional(S.String),
 }) {}
+export const ServiceQuotaExceededExceptionReason = S.Union(
+  S.Struct({ AttachedFileServiceQuotaExceededExceptionReason: S.String }),
+);
 export const EvaluationFormSingleSelectQuestionAutomationOption = S.Union(
   S.Struct({ RuleCategory: SingleSelectQuestionRuleCategoryAutomation }),
 );
@@ -12307,101 +12307,114 @@ export class DescribeContactEvaluationResponse extends S.Class<DescribeContactEv
 )({ Evaluation: Evaluation, EvaluationForm: EvaluationFormContent }) {}
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  {},
-  T.AwsQueryError({ code: "AccessDeniedException", httpResponseCode: 403 }),
-) {}
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
-  {},
-) {}
-export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
-  "ResourceConflictException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-  T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
-) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-  T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 429 }),
-) {}
-export class InvalidActiveRegionException extends S.TaggedError<InvalidActiveRegionException>()(
-  "InvalidActiveRegionException",
-  {},
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "AccessDeniedException", httpResponseCode: 403 }),
 ) {}
 export class DuplicateResourceException extends S.TaggedError<DuplicateResourceException>()(
   "DuplicateResourceException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConditionalOperationFailedException extends S.TaggedError<ConditionalOperationFailedException>()(
   "ConditionalOperationFailedException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { Message: S.optional(S.String) },
 ) {}
 export class IdempotencyException extends S.TaggedError<IdempotencyException>()(
   "IdempotencyException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidContactFlowException extends S.TaggedError<InvalidContactFlowException>()(
-  "InvalidContactFlowException",
-  {},
-) {}
-export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
-  "ResourceNotReadyException",
-  {},
-) {}
-export class InvalidContactFlowModuleException extends S.TaggedError<InvalidContactFlowModuleException>()(
-  "InvalidContactFlowModuleException",
-  { Problems: S.optional(Problems) },
+export class InvalidActiveRegionException extends S.TaggedError<InvalidActiveRegionException>()(
+  "InvalidActiveRegionException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ContactNotFoundException extends S.TaggedError<ContactNotFoundException>()(
   "ContactNotFoundException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ContactNotFoundException", httpResponseCode: 410 }),
 ) {}
-export class PropertyValidationException extends S.TaggedError<PropertyValidationException>()(
-  "PropertyValidationException",
-  {},
+export class InvalidContactFlowModuleException extends S.TaggedError<InvalidContactFlowModuleException>()(
+  "InvalidContactFlowModuleException",
+  { Problems: S.optional(Problems) },
+) {}
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(InvalidRequestExceptionReason),
+  },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ContactFlowNotPublishedException extends S.TaggedError<ContactFlowNotPublishedException>()(
   "ContactFlowNotPublishedException",
   { Message: S.optional(S.String) },
 ) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
+) {}
+export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
+  "ResourceConflictException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidContactFlowException extends S.TaggedError<InvalidContactFlowException>()(
+  "InvalidContactFlowException",
+  { problems: S.optional(Problems) },
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  {
+    Message: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+  },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 429 }),
+) {}
+export class PropertyValidationException extends S.TaggedError<PropertyValidationException>()(
+  "PropertyValidationException",
+  {
+    Message: S.String,
+    PropertyList: S.optional(PropertyValidationExceptionPropertyList),
+  },
+) {}
+export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
+  "ResourceNotReadyException",
+  { Message: S.optional(S.String) },
+) {}
 export class UserNotFoundException extends S.TaggedError<UserNotFoundException>()(
   "UserNotFoundException",
   { Message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ServiceQuotaExceededExceptionReason),
+  },
 ) {}
 export class MaximumResultReturnedException extends S.TaggedError<MaximumResultReturnedException>()(
   "MaximumResultReturnedException",
@@ -12429,6 +12442,308 @@ export class OutboundContactNotPermittedException extends S.TaggedError<Outbound
 ) {}
 
 //# Operations
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Returns the current state of the specified instance identifier. It tracks the instance while it is being created
+ * and returns an error status, if applicable.
+ *
+ * If an instance is not created successfully, the instance status reason field returns details relevant to the
+ * reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
+ */
+export const describeInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstanceRequest,
+  output: DescribeInstanceResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the
+ * provided `TargetArn` is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with
+ * the traffic distribution group.
+ */
+export const searchAvailablePhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchAvailablePhoneNumbersRequest,
+    output: SearchAvailablePhoneNumbersResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Searches the flow modules in an Amazon Connect instance, with optional filtering.
+ */
+export const searchContactFlowModules = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchContactFlowModulesRequest,
+    output: SearchContactFlowModulesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Searches email address in an instance, with optional filtering.
+ */
+export const searchEmailAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchEmailAddressesRequest,
+    output: SearchEmailAddressesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Searches evaluation forms in an Amazon Connect instance, with optional filtering.
+ *
+ * **Use cases**
+ *
+ * Following are common uses cases for this API:
+ *
+ * - List all evaluation forms in an instance.
+ *
+ * - Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more.
+ *
+ * - Find all evaluation forms that are tagged with a specific set of tags.
+ *
+ * **Important things to know**
+ *
+ * - A Search operation, unlike a List operation, takes time to index changes to resource (create, update or
+ * delete). If you don't see updated information for recently changed contact evaluations, try calling the API again
+ * in a few seconds.
+ *
+ * **Endpoints**: See Amazon Connect endpoints and quotas.
+ */
+export const searchEvaluationForms = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchEvaluationFormsRequest,
+    output: SearchEvaluationFormsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Searches the hours of operation overrides.
+ */
+export const searchHoursOfOperationOverrides =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SearchHoursOfOperationOverridesRequest,
+    output: SearchHoursOfOperationOverridesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Searches security profiles in an Amazon Connect instance, with optional filtering.
+ *
+ * For information about security profiles, see Security Profiles in the *Amazon Connect Administrator Guide*. For a mapping of the API name and user interface name of the security
+ * profile permissions, see List
+ * of security profile permissions.
+ */
+export const searchSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchSecurityProfilesRequest,
+    output: SearchSecurityProfilesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Searches for workspace associations with users or routing profiles based on various criteria.
+ */
+export const searchWorkspaceAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchWorkspaceAssociationsRequest,
+    output: SearchWorkspaceAssociationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Searches workspaces based on name, description, visibility, or tags.
+ */
+export const searchWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchWorkspacesRequest,
+  output: SearchWorkspacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the specified flow.
+ *
+ * You can also create and update flows using the Amazon Connect
+ * Flow language.
+ *
+ * Use the `$SAVED` alias in the request to describe the `SAVED` content of a Flow. For
+ * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
+ * be supplied to view saved content that has not been published.
+ */
+export const updateContactFlowContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContactFlowContentRequest,
+    output: UpdateContactFlowContentResponse,
+    errors: [
+      InternalServiceException,
+      InvalidContactFlowException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves the contact attributes for the specified contact.
+ */
+export const getContactAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetContactAttributesRequest,
+    output: GetContactAttributesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Retrieves the current traffic distribution for a given traffic distribution group.
+ */
+export const getTrafficDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetTrafficDistributionRequest,
+    output: GetTrafficDistributionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Deletes the Amazon Connect instance. For more information, see Delete your Amazon Connect instance in the
+ * *Amazon Connect Administrator Guide*.
+ *
+ * Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
+ * If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
+ * You must wait 30 days before you can restart creating and deleting instances in your account.
+ */
+export const deleteInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInstanceRequest,
+  output: DeleteInstanceResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not
+ * have any use cases associated with it.
+ */
+export const deleteIntegrationAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteIntegrationAssociationRequest,
+    output: DeleteIntegrationAssociationResponse,
+    errors: [
+      InternalServiceException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes a use case from an integration association.
+ */
+export const deleteUseCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUseCaseRequest,
+  output: DeleteUseCaseResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+ */
+export const disassociateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateBotRequest,
+  output: DisassociateBotResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time
+ * analysis sessions for the given language.
+ */
+export const associateDefaultVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateDefaultVocabularyRequest,
+    output: AssociateDefaultVocabularyResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group
  * is created.
@@ -12481,290 +12796,6 @@ export const deleteAttachedFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a contact evaluation in the specified Amazon Connect instance.
- */
-export const deleteContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContactEvaluationRequest,
-    output: DeleteContactEvaluationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a flow for the specified Amazon Connect instance.
- */
-export const deleteContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteContactFlowRequest,
-  output: DeleteContactFlowResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes the specified flow module.
- */
-export const deleteContactFlowModule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContactFlowModuleRequest,
-    output: DeleteContactFlowModuleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Removes an alias reference, breaking the named connection to the underlying module version without affecting the
- * version itself.
- */
-export const deleteContactFlowModuleAlias =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteContactFlowModuleAliasRequest,
-    output: DeleteContactFlowModuleAliasResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Removes a specific version of a contact flow module.
- */
-export const deleteContactFlowModuleVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteContactFlowModuleVersionRequest,
-    output: DeleteContactFlowModuleVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Deletes the particular version specified in flow version identifier.
- */
-export const deleteContactFlowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContactFlowVersionRequest,
-    output: DeleteContactFlowVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes email address from the specified Amazon Connect instance.
- */
-export const deleteEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEmailAddressRequest,
-  output: DeleteEmailAddressResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes an evaluation form in the specified Amazon Connect instance.
- *
- * - If the version property is provided, only the specified version of the evaluation form is deleted.
- *
- * - If no version is provided, then the full form (all versions) is deleted.
- */
-export const deleteEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEvaluationFormRequest,
-    output: DeleteEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes an hours of operation.
- */
-export const deleteHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteHoursOfOperationRequest,
-    output: DeleteHoursOfOperationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes an hours of operation override in an Amazon Connect hours of operation resource.
- */
-export const deleteHoursOfOperationOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteHoursOfOperationOverrideRequest,
-    output: DeleteHoursOfOperationOverrideResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Deletes the Amazon Connect instance. For more information, see Delete your Amazon Connect instance in the
- * *Amazon Connect Administrator Guide*.
- *
- * Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
- * If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
- * You must wait 30 days before you can restart creating and deleting instances in your account.
- */
-export const deleteInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteInstanceRequest,
-  output: DeleteInstanceResponse,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not
- * have any use cases associated with it.
- */
-export const deleteIntegrationAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIntegrationAssociationRequest,
-    output: DeleteIntegrationAssociationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Deletes a prompt.
- */
-export const deletePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePromptRequest,
-  output: DeletePromptResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes registration for a device token and a chat contact.
- */
-export const deletePushNotificationRegistration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePushNotificationRegistrationRequest,
-    output: DeletePushNotificationRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Deletes a queue.
- */
-export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteQueueRequest,
-  output: DeleteQueueResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a quick connect.
- *
- * After calling DeleteUser, it's important to call `DeleteQuickConnect` to delete any records related to the
- * deleted users. This will help you:
- *
- * - Avoid dangling resources that impact your service quotas.
- *
- * - Remove deleted users so they don't appear to agents as transfer options.
- *
- * - Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if
- * you're using Amazon Connect Global Resiliency.
- */
-export const deleteQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteQuickConnectRequest,
-  output: DeleteQuickConnectResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a routing profile.
- */
-export const deleteRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRoutingProfileRequest,
-    output: DeleteRoutingProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Deletes a rule for the specified Amazon Connect instance.
  */
 export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -12778,416 +12809,6 @@ export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a security profile.
- */
-export const deleteSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSecurityProfileRequest,
-    output: DeleteSecurityProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes the task template.
- */
-export const deleteTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTaskTemplateRequest,
-  output: DeleteTaskTemplateResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
- *
- * For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the
- * *Amazon Connect Administrator Guide*.
- */
-export const deleteTrafficDistributionGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTrafficDistributionGroupRequest,
-    output: DeleteTrafficDistributionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Deletes a use case from an integration association.
- */
-export const deleteUseCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUseCaseRequest,
-  output: DeleteUseCaseResponse,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a user account from the specified Amazon Connect instance.
- *
- * For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect
- * Instance in the *Amazon Connect Administrator Guide*.
- *
- * After calling DeleteUser, call DeleteQuickConnect to delete any records
- * related to the deleted users. This will help you:
- *
- * - Avoid dangling resources that impact your service quotas.
- *
- * - Remove deleted users so they don't appear to agents as transfer options.
- *
- * - Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if
- * you're using Amazon Connect Global Resiliency.
- */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child
- * groups.
- */
-export const deleteUserHierarchyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserHierarchyGroupRequest,
-    output: DeleteUserHierarchyGroupResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes the particular version specified in `ViewVersion` identifier.
- */
-export const deleteViewVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteViewVersionRequest,
-  output: DeleteViewVersionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes a workspace and removes all associated view and resource assignments.
- */
-export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWorkspaceRequest,
-  output: DeleteWorkspaceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a media asset (such as a logo) from a workspace.
- */
-export const deleteWorkspaceMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkspaceMediaRequest,
-    output: DeleteWorkspaceMediaResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Removes the association between a view and a page in a workspace. The page will display the default view after
- * deletion.
- */
-export const deleteWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWorkspacePageRequest,
-  output: DeleteWorkspacePageResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes the dataset ID associated with a given Amazon Connect instance.
- */
-export const disassociateAnalyticsDataSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAnalyticsDataSetRequest,
-    output: DisassociateAnalyticsDataSetResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Revokes access to integrated applications from Amazon Connect.
- */
-export const disassociateApprovedOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateApprovedOriginRequest,
-    output: DisassociateApprovedOriginResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
- */
-export const disassociateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateBotRequest,
-  output: DisassociateBotResponse,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes the alias association between two email addresses in an Amazon Connect instance. After
- * disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address.
- * Both email addresses continue to exist independently and can receive emails directly.
- *
- * **Use cases**
- *
- * Following are common uses cases for this API:
- *
- * - **Department separation**: Remove alias relationships when splitting a
- * consolidated support queue back into separate department-specific queues.
- *
- * - **Email address retirement**: Cleanly remove forwarding relationships before
- * decommissioning old email addresses.
- *
- * - **Organizational restructuring**: Reconfigure email routing when business
- * processes change and aliases are no longer needed.
- *
- * **Important things to know**
- *
- * - Concurrent operations: This API uses distributed locking, so concurrent operations on the same email addresses
- * may be temporarily blocked.
- *
- * - Emails sent to the former alias address are still delivered directly to that address if it exists.
- *
- * - You do not need to delete the email addresses after disassociation. Both addresses remain active
- * independently.
- *
- * - After a successful disassociation, you can immediately create a new alias relationship with the same
- * addresses.
- *
- * - 200 status means alias was successfully disassociated.
- *
- * `DisassociateEmailAddressAlias` does not return the following information:
- *
- * - Details in the response about the email that was disassociated. The response returns an empty body.
- *
- * - The timestamp of when the disassociation occurred.
- *
- * **Endpoints**: See Amazon Connect endpoints and quotas.
- *
- * **Related operations**
- *
- * - AssociateEmailAddressAlias: Associates an email address alias with an existing email address in an
- * Amazon Connect instance.
- *
- * - DescribeEmailAddress: View current alias configurations for an email address.
- *
- * - SearchEmailAddresses: Find email addresses and their alias relationships across an instance.
- *
- * - CreateEmailAddress: Create new email addresses that can participate in alias relationships.
- *
- * - DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).
- *
- * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
- */
-export const disassociateEmailAddressAlias =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateEmailAddressAliasRequest,
-    output: DisassociateEmailAddressAliasResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Disassociates a connect resource from a flow.
- */
-export const disassociateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateFlowRequest,
-  output: DisassociateFlowResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Removes the storage type configurations for the specified resource type and association ID.
- */
-export const disassociateInstanceStorageConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateInstanceStorageConfigRequest,
-    output: DisassociateInstanceStorageConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Remove the Lambda function from the dropdown options available in the relevant flow blocks.
- */
-export const disassociateLambdaFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateLambdaFunctionRequest,
-    output: DisassociateLambdaFunctionResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Revokes authorization from the specified instance to access the specified Amazon Lex bot.
- */
-export const disassociateLexBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateLexBotRequest,
-  output: DisassociateLexBotResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes the flow association from a phone number claimed to your Amazon Connect instance.
- *
- * If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the
- * `PhoneNumberId` URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling
- * this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a
- * full phone number ARN. If a UUID is provided in this scenario, you will receive a
- * `ResourceNotFoundException`.
- */
-export const disassociatePhoneNumberContactFlow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociatePhoneNumberContactFlowRequest,
-    output: DisassociatePhoneNumberContactFlowResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Disassociates a set of quick connects from a queue.
- */
-export const disassociateQueueQuickConnects =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateQueueQuickConnectsRequest,
-    output: DisassociateQueueQuickConnectsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Deletes the specified security key.
- */
-export const disassociateSecurityKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateSecurityKeyRequest,
-    output: DisassociateSecurityKeyResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the
  * traffic distribution group is created.
@@ -13205,752 +12826,6 @@ export const disassociateTrafficDistributionGroupUser =
       ThrottlingException,
     ],
   }));
-/**
- * Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to
- * receive a new routed contact. Contacts can only be dismissed if they are in a `MISSED`,
- * `ERROR`, `ENDED`, or `REJECTED` state in the Agent Event Stream.
- */
-export const dismissUserContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DismissUserContactRequest,
-  output: DismissUserContactResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Imports a media asset (such as a logo) for use in a workspace.
- */
-export const importWorkspaceMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportWorkspaceMediaRequest,
-    output: ImportWorkspaceMediaResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Allows pausing an ongoing task contact.
- */
-export const pauseContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PauseContactRequest,
-  output: PauseContactResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a
- * contact, this sets the agent's next status.
- *
- * For more information, see Agent status and Set your
- * next status in the *Amazon Connect Administrator Guide*.
- */
-export const putUserStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutUserStatusRequest,
-  output: PutUserStatusResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Allows resuming a task contact in a paused state.
- */
-export const resumeContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResumeContactRequest,
-  output: ResumeContactResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing
- * capabilities in the *Amazon Connect Administrator Guide*.
- */
-export const startScreenSharing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartScreenSharingRequest,
-  output: StartScreenSharingResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Stops in-flight message processing for an ongoing chat session.
- */
-export const stopContactMediaProcessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopContactMediaProcessingRequest,
-    output: StopContactMediaProcessingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use
- * StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For
- * scenarios where the recording has started and you want to suspend it for sensitive information (for example, to
- * collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording.
- *
- * Only voice recordings are supported at this time.
- */
-export const stopContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopContactRecordingRequest,
-    output: StopContactRecordingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming
- * API.
- */
-export const stopContactStreaming = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopContactStreamingRequest,
-    output: StopContactStreamingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration:
- * call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be
- * suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a
- * credit card number. Then use ResumeContactRecording to restart
- * recording the screen.
- *
- * The period of time that the recording is suspended is filled with silence in the final recording.
- *
- * Voice (IVR, agent) and screen recordings are supported.
- */
-export const suspendContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SuspendContactRecordingRequest,
-    output: SuspendContactRecordingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Adds the specified tags to the specified resource.
- *
- * Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent
- * statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Amazon Connect.
- *
- * For sample policies that use tags, see Amazon Connect Identity-Based Policy
- * Examples in the *Amazon Connect Administrator Guide*.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed
- * view of your Amazon Connect usage.
- */
-export const untagContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagContactRequest,
-  output: UntagContactResponse,
-  errors: [
-    InternalServiceException,
-    InvalidActiveRegionException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes the specified tags from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates agent status.
- */
-export const updateAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAgentStatusRequest,
-  output: UpdateAgentStatusResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * This API is in preview release for Amazon Connect and is subject to change. To
- * request access to this API, contact Amazon Web Services Support.
- *
- * Updates the selected authentication profile.
- */
-export const updateAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAuthenticationProfileRequest,
-    output: UpdateAuthenticationProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates or updates user-defined contact
- * attributes associated with the specified contact.
- *
- * You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the
- * call is active, you can update the customer's name or the reason the customer called. You can add notes about steps
- * that the agent took during the call that display to the next agent that takes the call. You can also update
- * attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers.
- *
- * Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information
- * about contact record retention and the maximum size of the contact record attributes section, see Feature
- * specifications in the *Amazon Connect Administrator Guide*.
- */
-export const updateContactAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactAttributesRequest,
-    output: UpdateContactAttributesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Updates metadata about specified flow.
- */
-export const updateContactFlowMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactFlowMetadataRequest,
-    output: UpdateContactFlowMetadataResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates a specific Aliases metadata, including the version it’s tied to, it’s name, and description.
- */
-export const updateContactFlowModuleAlias =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContactFlowModuleAliasRequest,
-    output: UpdateContactFlowModuleAliasResponse,
-    errors: [
-      AccessDeniedException,
-      ConditionalOperationFailedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates metadata about specified flow module.
- */
-export const updateContactFlowModuleMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContactFlowModuleMetadataRequest,
-    output: UpdateContactFlowModuleMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * The name of the flow.
- *
- * You can also create and update flows using the Amazon Connect
- * Flow language.
- */
-export const updateContactFlowName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactFlowNameRequest,
-    output: UpdateContactFlowNameResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the scheduled time of a task contact that is already scheduled.
- */
-export const updateContactSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactScheduleRequest,
-    output: UpdateContactScheduleResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the hours of operation.
- */
-export const updateHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateHoursOfOperationRequest,
-    output: UpdateHoursOfOperationResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Update the hours of operation override.
- */
-export const updateHoursOfOperationOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateHoursOfOperationOverrideRequest,
-    output: UpdateHoursOfOperationOverrideResponse,
-    errors: [
-      ConditionalOperationFailedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Updates the value for the specified attribute type.
- */
-export const updateInstanceAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInstanceAttributeRequest,
-    output: UpdateInstanceAttributeResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Updates an existing configuration for a resource type. This API is idempotent.
- */
-export const updateInstanceStorageConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInstanceStorageConfigRequest,
-    output: UpdateInstanceStorageConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Instructs Amazon Connect to resume the authentication process. The subsequent actions depend on the request
- * body contents:
- *
- * - **If a code is provided**: Connect retrieves the identity information from Amazon
- * Cognito and imports it into Connect Customer Profiles.
- *
- * - **If an error is provided**: The error branch of the Authenticate Customer block
- * is executed.
- *
- * The API returns a success response to acknowledge the request. However, the interaction and exchange of
- * identity information occur asynchronously after the response is returned.
- */
-export const updateParticipantAuthentication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateParticipantAuthenticationRequest,
-    output: UpdateParticipantAuthenticationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates a phone number’s metadata.
- *
- * To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API.
- */
-export const updatePhoneNumberMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePhoneNumberMetadataRequest,
-    output: UpdatePhoneNumberMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotencyException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates a predefined attribute for the specified Amazon Connect instance. A *predefined attribute* is
- * made up of a name and a value.
- *
- * For the predefined attributes per instance quota, see Amazon Connect
- * quotas.
- *
- * **Use cases**
- *
- * Following are common uses cases for this API:
- *
- * - Update routing proficiency (for example, agent certification) that has predefined values (for example, a list
- * of possible certifications). For more information, see Create predefined attributes for routing contacts to
- * agents.
- *
- * - Update an attribute for business unit name that has a list of predefined business unit names used in your
- * organization. This is a use case where information for a contact varies between transfers or conferences. For more
- * information, see Use contact segment attributes.
- *
- * **Endpoints**: See Amazon Connect endpoints and quotas.
- */
-export const updatePredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePredefinedAttributeRequest,
-    output: UpdatePredefinedAttributeResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the hours of operation for the specified queue.
- */
-export const updateQueueHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQueueHoursOfOperationRequest,
-    output: UpdateQueueHoursOfOperationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the maximum number of contacts allowed in a queue before it is considered full.
- */
-export const updateQueueMaxContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQueueMaxContactsRequest,
-    output: UpdateQueueMaxContactsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the name and description of a queue. At least `Name` or `Description` must be provided.
- */
-export const updateQueueName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateQueueNameRequest,
-  output: UpdateQueueNameResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
- *
- * - If the phone number is claimed to a traffic distribution group that was created in the
- * same Region as the Amazon Connect instance where you are calling this API, then you can use a
- * full phone number ARN or a UUID for `OutboundCallerIdNumberId`. However, if the phone number is claimed
- * to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a
- * UUID is provided in this scenario, you will receive a
- * `ResourceNotFoundException`.
- *
- * - Only use the phone number ARN format that doesn't contain `instance` in the path, for example,
- * `arn:aws:connect:us-east-1:1234567890:phone-number/uuid`. This is the same ARN format that is returned
- * when you call the ListPhoneNumbersV2 API.
- *
- * - If you plan to use IAM policies to allow/deny access to this API for phone number resources
- * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
- */
-export const updateQueueOutboundCallerConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQueueOutboundCallerConfigRequest,
-    output: UpdateQueueOutboundCallerConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates the outbound email address Id for a specified queue.
- */
-export const updateQueueOutboundEmailConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQueueOutboundEmailConfigRequest,
-    output: UpdateQueueOutboundEmailConfigResponse,
-    errors: [
-      AccessDeniedException,
-      ConditionalOperationFailedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates the status of the queue.
- */
-export const updateQueueStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateQueueStatusRequest,
-  output: UpdateQueueStatusResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the configuration settings for the specified quick connect.
- */
-export const updateQuickConnectConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQuickConnectConfigRequest,
-    output: UpdateQuickConnectConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
- */
-export const updateQuickConnectName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQuickConnectNameRequest,
-    output: UpdateQuickConnectNameResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Whether agents with this routing profile will have their routing order calculated based on time since
- * their last inbound contact or *longest idle time*.
- */
-export const updateRoutingProfileAgentAvailabilityTimer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRoutingProfileAgentAvailabilityTimerRequest,
-    output: UpdateRoutingProfileAgentAvailabilityTimerResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
- */
-export const updateRoutingProfileConcurrency =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRoutingProfileConcurrencyRequest,
-    output: UpdateRoutingProfileConcurrencyResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates the default outbound queue of a routing profile.
- */
-export const updateRoutingProfileDefaultOutboundQueue =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRoutingProfileDefaultOutboundQueueRequest,
-    output: UpdateRoutingProfileDefaultOutboundQueueResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
- */
-export const updateRoutingProfileName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoutingProfileNameRequest,
-    output: UpdateRoutingProfileNameResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the properties associated with a set of queues for a routing profile.
- */
-export const updateRoutingProfileQueues = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoutingProfileQueuesRequest,
-    output: UpdateRoutingProfileQueuesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Updates a rule for the specified Amazon Connect instance.
  *
@@ -13970,348 +12845,34 @@ export const updateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a security profile.
- *
- * For information about security profiles, see Security Profiles in the *Amazon Connect Administrator Guide*. For a mapping of the API name and user interface name of the security
- * profile permissions, see List
- * of security profile permissions.
+ * Creates an Amazon Web Services resource association with an Amazon Connect instance.
  */
-export const updateSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSecurityProfileRequest,
-    output: UpdateSecurityProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Assigns the specified hierarchy group to the specified user.
- */
-export const updateUserHierarchy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserHierarchyRequest,
-  output: UpdateUserHierarchyResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the name of the user hierarchy group.
- */
-export const updateUserHierarchyGroupName =
+export const createIntegrationAssociation =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateUserHierarchyGroupNameRequest,
-    output: UpdateUserHierarchyGroupNameResponse,
+    input: CreateIntegrationAssociationRequest,
+    output: CreateIntegrationAssociationResponse,
     errors: [
       DuplicateResourceException,
       InternalServiceException,
-      InvalidParameterException,
       InvalidRequestException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }));
 /**
- * Updates the identity information for the specified user.
- *
- * We strongly recommend limiting who has the ability to invoke `UpdateUserIdentityInfo`. Someone with
- * that ability can change the login credentials of other users by changing their email address. This poses a security
- * risk to your organization. They can change the email address of a user to the attacker's email address, and then
- * reset the password through email. For more information, see Best Practices for Security Profiles
- * in the *Amazon Connect Administrator Guide*.
+ * Creates a use case for an integration association.
  */
-export const updateUserIdentityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserIdentityInfoRequest,
-    output: UpdateUserIdentityInfoResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the phone configuration settings for the specified user.
- */
-export const updateUserPhoneConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserPhoneConfigRequest,
-    output: UpdateUserPhoneConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the properties associated with the proficiencies of a user.
- */
-export const updateUserProficiencies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserProficienciesRequest,
-    output: UpdateUserProficienciesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Assigns the specified routing profile to the specified user.
- */
-export const updateUserRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserRoutingProfileRequest,
-    output: UpdateUserRoutingProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Assigns the specified security profiles to the specified user.
- */
-export const updateUserSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserSecurityProfilesRequest,
-    output: UpdateUserSecurityProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the view metadata. Note that either `Name` or `Description` must be
- * provided.
- */
-export const updateViewMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateViewMetadataRequest,
-  output: UpdateViewMetadataResponse,
+export const createUseCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUseCaseRequest,
+  output: CreateUseCaseResponse,
   errors: [
-    AccessDeniedException,
     DuplicateResourceException,
     InternalServiceException,
-    InvalidParameterException,
     InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the metadata of a workspace, such as its name and description.
- */
-export const updateWorkspaceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkspaceMetadataRequest,
-    output: UpdateWorkspaceMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the configuration of a page in a workspace, including the associated view and input data.
- */
-export const updateWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWorkspacePageRequest,
-  output: UpdateWorkspacePageResponse,
-  errors: [
-    AccessDeniedException,
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceConflictException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
 }));
-/**
- * Updates the theme configuration for a workspace, including colors and styling.
- */
-export const updateWorkspaceTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkspaceThemeRequest,
-    output: UpdateWorkspaceThemeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the visibility setting of a workspace, controlling whether it is available to all users, assigned users
- * only, or none.
- */
-export const updateWorkspaceVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkspaceVisibilityRequest,
-    output: UpdateWorkspaceVisibilityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is
- * activated, it is available to start new evaluations based on the form.
- */
-export const activateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ActivateEvaluationFormRequest,
-    output: ActivateEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Associates the specified dataset for a Amazon Connect instance with the target account. You can associate
- * only one dataset in a single call.
- */
-export const associateAnalyticsDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateAnalyticsDataSetRequest,
-    output: AssociateAnalyticsDataSetResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Associates an approved origin to an Amazon Connect instance.
- */
-export const associateApprovedOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateApprovedOriginRequest,
-    output: AssociateApprovedOriginResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2
- * bot.
- */
-export const associateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateBotRequest,
-  output: AssociateBotResponse,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Associates a queued contact with an agent.
- *
- * **Use cases**
- *
- * Following are common uses cases for this API:
- *
- * - Programmatically assign queued contacts to available users.
- *
- * - Leverage the IAM context key `connect:PreferredUserArn` to restrict contact association to specific
- * preferred user.
- *
- * **Important things to know**
- *
- * - Use this API with chat, email, and task contacts. It does not support voice contacts.
- *
- * - Use it to associate contacts with users regardless of their current state, including custom states. Ensure
- * your application logic accounts for user availability before making associations.
- *
- * - It honors the IAM context key `connect:PreferredUserArn` to prevent unauthorized contact
- * associations.
- *
- * - It respects the IAM context key `connect:PreferredUserArn` to enforce authorization controls and
- * prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your
- * intended use cases.
- *
- * - The service quota *Queues per routing profile per instance* applies to manually assigned
- * queues, too. For more information about this quota, see Amazon Connect
- * quotas in the *Amazon Connect Administrator Guide*.
- *
- * **Endpoints**: See Amazon Connect endpoints and quotas.
- */
-export const associateContactWithUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateContactWithUserRequest,
-    output: AssociateContactWithUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Associates an email address alias with an existing email address in an Amazon Connect instance. This creates
  * a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary
@@ -14383,1555 +12944,6 @@ export const associateEmailAddressAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Associates a connect resource to a flow.
- */
-export const associateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateFlowRequest,
-  output: AssociateFlowResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Allows the specified Amazon Connect instance to access the specified Lambda function.
- */
-export const associateLambdaFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateLambdaFunctionRequest,
-    output: AssociateLambdaFunctionResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API
- * only supports the association of Amazon Lex V1 bots.
- */
-export const associateLexBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateLexBotRequest,
-  output: AssociateLexBotResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Associates a flow with a phone number claimed to your Amazon Connect instance.
- *
- * If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the
- * `PhoneNumberId` URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling
- * this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a
- * full phone number ARN. If a UUID is provided
- * in
- * this scenario, you will receive a `ResourceNotFoundException`.
- */
-export const associatePhoneNumberContactFlow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociatePhoneNumberContactFlowRequest,
-    output: AssociatePhoneNumberContactFlowResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Associates a set of quick connects with a queue.
- */
-export const associateQueueQuickConnects = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateQueueQuickConnectsRequest,
-    output: AssociateQueueQuickConnectsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Associates a set of queues with a routing profile.
- */
-export const associateRoutingProfileQueues =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateRoutingProfileQueuesRequest,
-    output: AssociateRoutingProfileQueuesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Associates a security key to the instance.
- */
-export const associateSecurityKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSecurityKeyRequest,
-    output: AssociateSecurityKeyResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Associate security profiles with an Entity in an Amazon Connect instance.
- */
-export const associateSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSecurityProfilesRequest,
-    output: AssociateSecurityProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      ConditionalOperationFailedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Associates a set of proficiencies with a user.
- */
-export const associateUserProficiencies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateUserProficienciesRequest,
-    output: AssociateUserProficienciesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate
- * multiple datasets in a single call.
- */
-export const batchDisassociateAnalyticsDataSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateAnalyticsDataSetRequest,
-    output: BatchDisassociateAnalyticsDataSetResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Creates an agent status for the specified Amazon Connect instance.
- */
-export const createAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAgentStatusRequest,
-  output: CreateAgentStatusResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a flow for the specified Amazon Connect instance.
- *
- * You can also create and update flows using the Amazon Connect
- * Flow language.
- */
-export const createContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateContactFlowRequest,
-  output: CreateContactFlowResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidContactFlowException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a named alias that points to a specific version of a contact flow module.
- */
-export const createContactFlowModuleAlias =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContactFlowModuleAliasRequest,
-    output: CreateContactFlowModuleAliasResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Creates an immutable snapshot of a contact flow module, preserving its content and settings at a specific point
- * in time for version control and rollback capabilities.
- */
-export const createContactFlowModuleVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContactFlowModuleVersionRequest,
-    output: CreateContactFlowModuleVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the
- * `FlowContentSha256` provided is different from the `FlowContentSha256` of the
- * `$LATEST` published flow content, then an error is returned. This API only supports creating versions for
- * flows of type `Campaign`.
- */
-export const createContactFlowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContactFlowVersionRequest,
-    output: CreateContactFlowVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates a new data table with the specified properties. Supports the creation of all table properties except for
- * attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per
- * instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
- */
-export const createDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDataTableRequest,
-  output: CreateDataTableResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Create new email address in the specified Amazon Connect instance. For more information about email
- * addresses, see Create email
- * addresses in the Amazon Connect Administrator Guide.
- */
-export const createEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEmailAddressRequest,
-  output: CreateEmailAddressResponse,
-  errors: [
-    AccessDeniedException,
-    DuplicateResourceException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any
- * storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any
- * configurations on features, such as Contact Lens for Amazon Connect.
- *
- * For more information, see Create an Amazon Connect instance in the
- * *Amazon Connect Administrator Guide*.
- *
- * Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
- * If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
- * You must wait 30 days before you can restart creating and deleting instances in your account.
- */
-export const createInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInstanceRequest,
-  output: CreateInstanceResponse,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates an Amazon Web Services resource association with an Amazon Connect instance.
- */
-export const createIntegrationAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIntegrationAssociationRequest,
-    output: CreateIntegrationAssociationResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see
- * Enable persistent chat in
- * the *Amazon Connect Administrator Guide*.
- */
-export const createPersistentContactAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePersistentContactAssociationRequest,
-    output: CreatePersistentContactAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Creates a new predefined attribute for the specified Amazon Connect instance. A *predefined attribute*
- * is made up of a name and a value.
- *
- * For the predefined attributes per instance quota, see Amazon Connect
- * quotas.
- *
- * **Use cases**
- *
- * Following are common uses cases for this API:
- *
- * - Create an attribute for routing proficiency (for example, agent certification) that has predefined values (for
- * example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to
- * agents.
- *
- * - Create an attribute for business unit name that has a list of predefined business unit names used in your
- * organization. This is a use case where information for a contact varies between transfers or conferences. For more
- * information, see Use contact segment attributes.
- *
- * **Endpoints**: See Amazon Connect endpoints and quotas.
- */
-export const createPredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePredefinedAttributeRequest,
-    output: CreatePredefinedAttributeResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates a prompt. For more information about prompts, such as supported file types and maximum length, see
- * Create prompts in the
- * *Amazon Connect Administrator Guide*.
- */
-export const createPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePromptRequest,
-  output: CreatePromptResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a use case for an integration association.
- */
-export const createUseCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUseCaseRequest,
-  output: CreateUseCaseResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a new user hierarchy group.
- */
-export const createUserHierarchyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateUserHierarchyGroupRequest,
-    output: CreateUserHierarchyGroupResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to
- * be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time
- * contact analysis sessions for that language.
- */
-export const createVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVocabularyRequest,
-  output: CreateVocabularyResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Associates a view with a page in a workspace, defining what users see when they navigate to that page.
- */
-export const createWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateWorkspacePageRequest,
-  output: CreateWorkspacePageResponse,
-  errors: [
-    AccessDeniedException,
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer
- * available for users to start new evaluations based on the form.
- */
-export const deactivateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeactivateEvaluationFormRequest,
-    output: DeactivateEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a data table and all associated attributes, versions, audits, and values. Does not update any references
- * to the data table, even from other data tables. This includes dynamic values and conditional validations. System
- * managed data tables are not deletable by customers. API users may delete the table at any time. When deletion is
- * requested from the admin website, a warning is shown alerting the user of the most recent time the table and its
- * values were accessed.
- */
-export const deleteDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDataTableRequest,
-  output: DeleteDataTableResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes an attribute and all its values from a data table.
- */
-export const deleteDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDataTableAttributeRequest,
-    output: DeleteDataTableAttributeResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a predefined attribute from the specified Amazon Connect instance.
- */
-export const deletePredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePredefinedAttributeRequest,
-    output: DeletePredefinedAttributeResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
- */
-export const deleteView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteViewRequest,
-  output: DeleteViewResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes the vocabulary that has the given identifier.
- */
-export const deleteVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVocabularyRequest,
-  output: DeleteVocabularyResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Describe email address form the specified Amazon Connect instance.
- */
-export const describeEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEmailAddressRequest,
-    output: DescribeEmailAddressResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Retrieves the current storage configurations for the specified resource type, association ID, and instance
- * ID.
- */
-export const describeInstanceStorageConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeInstanceStorageConfigRequest,
-    output: DescribeInstanceStorageConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Retrieves the view for the specified Amazon Connect instance and view identifier.
- *
- * The view identifier can be supplied as a ViewId or ARN.
- *
- * `$SAVED` needs to be supplied if a view is unpublished.
- *
- * The view identifier can contain an optional qualifier, for example, `:$SAVED`, which
- * is either an actual version number or an Amazon Connect managed qualifier `$SAVED | $LATEST`. If it is
- * not supplied, then `$LATEST` is assumed for customer managed views and an error is returned if there is no
- * published content available. Version 1 is assumed for Amazon Web Services managed views.
- */
-export const describeView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeViewRequest,
-  output: DescribeViewResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Disassociates a set of queues from a routing profile.
- *
- * Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a
- * single call results in an InvalidParameterException.
- */
-export const disassociateRoutingProfileQueues =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateRoutingProfileQueuesRequest,
-    output: DisassociateRoutingProfileQueuesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance.
- */
-export const disassociateSecurityProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSecurityProfilesRequest,
-    output: DisassociateSecurityProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      ConditionalOperationFailedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Disassociates a set of proficiencies from a user.
- */
-export const disassociateUserProficiencies =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateUserProficienciesRequest,
-    output: DisassociateUserProficienciesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Removes the association between a workspace and one or more users or routing profiles.
- */
-export const disassociateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateWorkspaceRequest,
-    output: DisassociateWorkspaceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Retrieves the contact attributes for the specified contact.
- */
-export const getContactAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContactAttributesRequest,
-    output: GetContactAttributesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Retrieves the flow associated for a given resource.
- */
-export const getFlowAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFlowAssociationRequest,
-  output: GetFlowAssociationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Gets the prompt file.
- */
-export const getPromptFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPromptFileRequest,
-  output: GetPromptFileResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Gets details about a specific task template in the specified Amazon Connect instance.
- */
-export const getTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTaskTemplateRequest,
-  output: GetTaskTemplateResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves the current traffic distribution for a given traffic distribution group.
- */
-export const getTrafficDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTrafficDistributionRequest,
-    output: GetTrafficDistributionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an
- * Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.
- *
- * Call the DescribePhoneNumber API to verify the status of a previous `ImportPhoneNumber` operation.
- *
- * If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota
- * exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180
- * days past the oldest number released has expired.
- *
- * By default you can claim or import and then release up to 200% of your maximum number of active phone numbers.
- * If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds
- * 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until
- * 180 days past the oldest number released has expired.
- *
- * For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers,
- * and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At
- * that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
- */
-export const importPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportPhoneNumberRequest,
-  output: ImportPhoneNumberResponse,
-  errors: [
-    AccessDeniedException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists the association status of requested dataset ID for a given Amazon Connect instance.
- */
-export const listAnalyticsDataAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAnalyticsDataAssociationsRequest,
-    output: ListAnalyticsDataAssociationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Returns a paginated list of all approved origins associated with the instance.
- */
-export const listApprovedOrigins = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApprovedOriginsRequest,
-  output: ListApprovedOriginsResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed.
- * Customers can request an increase by using Amazon Web Services Service Quotas. The response can be filtered by specific attribute IDs
- * for CloudFormation integration.
- */
-export const listDataTableAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDataTableAttributesRequest,
-    output: ListDataTableAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance.
- */
-export const listEntitySecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEntitySecurityProfilesRequest,
-    output: ListEntitySecurityProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * List the flow association based on the filters.
- */
-export const listFlowAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListFlowAssociationsRequest,
-    output: ListFlowAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * List the hours of operation overrides.
- */
-export const listHoursOfOperationOverrides =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListHoursOfOperationOverridesRequest,
-    output: ListHoursOfOperationOverridesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Returns a paginated list of all attribute types for the given instance.
- */
-export const listInstanceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListInstanceAttributesRequest,
-    output: ListInstanceAttributesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Returns a paginated list of storage configs for the identified instance and resource type.
- */
-export const listInstanceStorageConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListInstanceStorageConfigsRequest,
-    output: ListInstanceStorageConfigsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow
- * blocks.
- */
-export const listLambdaFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLambdaFunctionsRequest,
-  output: ListLambdaFunctionsResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return
- * both Amazon Lex V1 and V2 bots, use the ListBots API.
- */
-export const listLexBots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLexBotsRequest,
-  output: ListLexBotsResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Provides information about the quick connects for the specified Amazon Connect instance.
- */
-export const listQuickConnects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListQuickConnectsRequest,
-  output: ListQuickConnectsResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns a list of third-party applications or MCP Servers in a specific security profile.
- */
-export const listSecurityProfileApplications =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSecurityProfileApplicationsRequest,
-    output: ListSecurityProfileApplicationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * A list of Flow Modules an AI Agent can invoke as a tool
- */
-export const listSecurityProfileFlowModules =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSecurityProfileFlowModulesRequest,
-    output: ListSecurityProfileFlowModulesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Lists the permissions granted to a security profile.
- *
- * For information about security profiles, see Security Profiles in the *Amazon Connect Administrator Guide*. For a mapping of the API name and user interface name of the security
- * profile permissions, see List
- * of security profile permissions.
- */
-export const listSecurityProfilePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSecurityProfilePermissionsRequest,
-    output: ListSecurityProfilePermissionsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Lists the tags for the specified resource.
- *
- * For sample policies that use tags, see Amazon Connect Identity-Based Policy
- * Examples in the *Amazon Connect Administrator Guide*.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists proficiencies associated with a user.
- */
-export const listUserProficiencies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListUserProficienciesRequest,
-    output: ListUserProficienciesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by
- * *userId* will be set to silent monitoring mode on the contact.
- */
-export const monitorContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: MonitorContactRequest,
-  output: MonitorContactResponse,
-  errors: [
-    AccessDeniedException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API
- * only in the Amazon Web Services Region where the number was claimed.
- *
- * To release phone numbers from a traffic distribution group, use the `ReleasePhoneNumber` API, not the Amazon Connect admin website.
- *
- * After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be
- * searched for or claimed again until the period has ended. If you accidentally release a phone number, contact
- * Amazon Web Services Support.
- *
- * If you plan to claim and release numbers frequently,
- * contact us for a service quota exception. Otherwise, it is possible you will be blocked from
- * claiming and releasing any more numbers until up to 180 days past the oldest number
- * released has expired.
- *
- * By default you can claim and release up to 200% of your maximum number of active
- * phone numbers. If you claim and release phone numbers using
- * the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number
- * service level quota, you will be blocked from claiming any more numbers until 180
- * days past the oldest number released has expired.
- *
- * For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180
- * day period you release 99, claim 99, and then release 99, you will have exceeded the
- * 200% limit. At that point you are blocked from claiming any more numbers until you
- * open an Amazon Web Services support ticket.
- */
-export const releasePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReleasePhoneNumberRequest,
-  output: ReleasePhoneNumberResponse,
-  errors: [
-    AccessDeniedException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidParameterException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Replicates an Amazon Connect instance in the specified Amazon Web Services Region and copies configuration
- * information for Amazon Connect resources across Amazon Web Services Regions.
- *
- * For more information about replicating an Amazon Connect instance, see Create a replica of your existing Amazon Connect
- * instance in the *Amazon Connect Administrator Guide*.
- */
-export const replicateInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReplicateInstanceRequest,
-  output: ReplicateInstanceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    ResourceNotReadyException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API
- * resumes recording whatever recording is selected in the flow configuration: call, screen, or both. If only call
- * recording or only screen recording is enabled, then it would resume.
- *
- * Voice and screen recordings are supported.
- */
-export const resumeContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResumeContactRecordingRequest,
-    output: ResumeContactRecordingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Starts recording the contact:
- *
- * - If the API is called *before* the agent joins the call, recording starts when the agent
- * joins the call.
- *
- * - If the API is called *after* the agent joins the call, recording starts at the time of the
- * API call.
- *
- * StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an
- * ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and
- * you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number),
- * use SuspendContactRecording and ResumeContactRecording.
- *
- * You can use this API to override the recording behavior configured in the Set recording behavior block.
- *
- * Only voice recordings are supported at this time.
- */
-export const startContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartContactRecordingRequest,
-    output: StartContactRecordingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a
- * customer.
- */
-export const startOutboundEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartOutboundEmailContactRequest,
-    output: StartOutboundEmailContactResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotencyException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Amazon Connect in the
- * *Amazon Connect Administrator Guide*.
- *
- * When using `PreviousContactId` and `RelatedContactId` input parameters, note the
- * following:
- *
- * - `PreviousContactId`
- *
- * - Any updates to user-defined task contact attributes on any contact linked through the same
- * `PreviousContactId` will affect every contact in the chain.
- *
- * - There can be a maximum of 12 linked task contacts in a chain. That is, 12 task contacts can be created that
- * share the same `PreviousContactId`.
- *
- * - `RelatedContactId`
- *
- * - Copies contact attributes from the related task contact to the new contact.
- *
- * - Any update on attributes in a new task contact does not update attributes on previous contact.
- *
- * - There’s no limit on the number of task contacts that can be created that use the same
- * `RelatedContactId`.
- *
- * In addition, when calling StartTaskContact include only one of these parameters: `ContactFlowID`,
- * `QuickConnectID`, or `TaskTemplateID`. Only one parameter is required as long as the task
- * template has a flow configured to run it. If more than one parameter is specified, or only the
- * `TaskTemplateID` is specified but it does not have a flow configured, the request returns an error
- * because Amazon Connect cannot identify the unique flow to run when the task is created.
- *
- * A `ServiceQuotaExceededException` occurs when the number of open tasks exceeds the active tasks quota
- * or there are already 12 tasks referencing the same `PreviousContactId`. For more information about service
- * quotas for task contacts, see Amazon Connect service quotas in the
- * *Amazon Connect Administrator Guide*.
- */
-export const startTaskContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartTaskContactRequest,
-  output: StartTaskContactResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed
- * view of your Amazon Connect usage.
- */
-export const tagContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagContactRequest,
-  output: TagContactResponse,
-  errors: [
-    InternalServiceException,
-    InvalidActiveRegionException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Transfers `TASK` or `EMAIL`
- * contacts from one agent or queue to another agent or queue at any point after a contact is
- * created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the
- * destination queue. This gives you more control over contact handling and helps you adhere to the service level
- * agreement (SLA) guaranteed to your customers.
- *
- * Note the following requirements:
- *
- * - Transfer is only supported for `TASK` and `EMAIL` contacts.
- *
- * - Do not use both `QueueId` and `UserId` in the same call.
- *
- * - The following flow types are supported: Inbound flow, Transfer to agent flow, and Transfer to queue
- * flow.
- *
- * - The `TransferContact` API can be called only on active contacts.
- *
- * - A contact cannot be transferred more than 11 times.
- */
-export const transferContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TransferContactRequest,
-  output: TransferContactResponse,
-  errors: [
-    AccessDeniedException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Adds or updates user-defined contact information associated with the specified contact. At least one field to be
- * updated must be present in the request.
- *
- * You can add or update user-defined contact information for both ongoing and completed contacts.
- */
-export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateContactRequest,
-  output: UpdateContactResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServiceException,
-    InvalidActiveRegionException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation
- * must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An
- * answer or note can be deleted by passing an empty object (`{}`) to the question identifier.
- */
-export const updateContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactEvaluationRequest,
-    output: UpdateContactEvaluationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates specified flow module for the specified Amazon Connect instance.
- *
- * Use the `$SAVED` alias in the request to describe the `SAVED` content of a Flow. For
- * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
- * be supplied to view saved content that has not been published.
- */
-export const updateContactFlowModuleContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContactFlowModuleContentRequest,
-    output: UpdateContactFlowModuleContentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidContactFlowModuleException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates all properties for an attribute using all properties from CreateDataTableAttribute. There are no other
- * granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed
- * attributes are not mutable by customers. Changing an attribute's validation does not invalidate existing values since
- * validation only runs when values are created or updated.
- */
-export const updateDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDataTableAttributeRequest,
-    output: UpdateDataTableAttributeResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the metadata properties of a data table. Accepts all fields similar to CreateDataTable, except for
- * fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties
- * must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable.
- */
-export const updateDataTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDataTableMetadataRequest,
-    output: UpdateDataTableMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates an email address metadata. For more information about email addresses, see Create email addresses in the Amazon Connect
- * Administrator Guide.
- */
-export const updateEmailAddressMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEmailAddressMetadataRequest,
-    output: UpdateEmailAddressMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotencyException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question
- * and section identifiers cannot be duplicated within the same evaluation form.
- *
- * This operation does not support partial updates. Instead it does a full update of evaluation form
- * content.
- */
-export const updateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEvaluationFormRequest,
-    output: UpdateEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region.
- *
- * After using this API, you must verify that the phone number is attached to the correct flow in the target
- * instance or traffic distribution group. You need to do this because the API switches only the phone number to a new
- * instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too.
- *
- * You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
- */
-export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePhoneNumberRequest,
-  output: UpdatePhoneNumberResponse,
-  errors: [
-    AccessDeniedException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidParameterException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates a prompt.
- */
-export const updatePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePromptRequest,
-  output: UpdatePromptResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the view content of the given view identifier in the specified Amazon Connect instance.
- *
- * It performs content validation if `Status` is set to `SAVED` and performs full content
- * validation if `Status` is `PUBLISHED`. Note that the `$SAVED` alias' content will
- * always be updated, but the `$LATEST` alias' content will only be updated if `Status` is
- * `PUBLISHED`.
- */
-export const updateViewContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateViewContentRequest,
-  output: UpdateViewContentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time
- * analysis sessions for the given language.
- */
-export const associateDefaultVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDefaultVocabularyRequest,
-    output: AssociateDefaultVocabularyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Associates a workspace with one or more users or routing profiles, allowing them to access the workspace's
  * configured views and pages.
  */
@@ -15997,211 +13009,6 @@ export const batchGetFlowAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Updates multiple data table values using all properties from BatchCreateDataTableValue. System managed values
- * are not modifiable by customers. The operation requires proper lock versions to prevent concurrent modification
- * conflicts.
- */
-export const batchUpdateDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchUpdateDataTableValueRequest,
-    output: BatchUpdateDataTableValueResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call
- * this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was
- * created.
- *
- * For more information about how to use this operation, see Claim a phone number in your country and Claim
- * phone numbers to traffic distribution groups in the Amazon Connect Administrator
- * Guide.
- *
- * You can call the SearchAvailablePhoneNumbers API for
- * available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status
- * of a previous ClaimPhoneNumber operation.
- *
- * If you plan to claim and release numbers frequently,
- * contact us for a service quota exception. Otherwise, it is possible you will be blocked from
- * claiming and releasing any more numbers until up to 180 days past the oldest number
- * released has expired.
- *
- * By default you can claim and release up to 200% of your maximum number of active
- * phone numbers. If you claim and release phone numbers using
- * the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number
- * service level quota, you will be blocked from claiming any more numbers until 180
- * days past the oldest number released has expired.
- *
- * For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180
- * day period you release 99, claim 99, and then release 99, you will have exceeded the
- * 200% limit. At that point you are blocked from claiming any more numbers until you
- * open an Amazon Web Services support ticket.
- */
-export const claimPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ClaimPhoneNumberRequest,
-  output: ClaimPhoneNumberResponse,
-  errors: [
-    AccessDeniedException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a flow module for the specified Amazon Connect instance.
- */
-export const createContactFlowModule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContactFlowModuleRequest,
-    output: CreateContactFlowModuleResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      IdempotencyException,
-      InternalServiceException,
-      InvalidContactFlowModuleException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates registration for a device token and a chat contact to receive real-time push notifications. For more
- * information about push notifications, see Set up push notifications in Amazon Connect for mobile chat in the *Amazon Connect Administrator Guide*.
- */
-export const createPushNotificationRegistration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePushNotificationRegistrationRequest,
-    output: CreatePushNotificationRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Creates a new queue for the specified Amazon Connect instance.
- *
- * - If the phone number is claimed to a traffic distribution group that was created in the
- * same Region as the Amazon Connect instance where you are calling this API, then you can use a
- * full phone number ARN or a UUID for `OutboundCallerIdNumberId`. However, if the phone number is claimed
- * to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a
- * UUID is provided in this scenario, you will receive a
- * `ResourceNotFoundException`.
- *
- * - Only use the phone number ARN format that doesn't contain `instance` in the path, for example,
- * `arn:aws:connect:us-east-1:1234567890:phone-number/uuid`. This is the same ARN format that is returned
- * when you call the ListPhoneNumbersV2 API.
- *
- * - If you plan to use IAM policies to allow/deny access to this API for phone number resources
- * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
- */
-export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateQueueRequest,
-  output: CreateQueueResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a traffic distribution group given an Amazon Connect instance that has been replicated.
- *
- * The `SignInConfig` distribution is available only on a
- * default `TrafficDistributionGroup` (see the `IsDefault` parameter in the
- * TrafficDistributionGroup
- * data type). If you call
- * `UpdateTrafficDistribution` with a modified `SignInConfig` and a non-default `TrafficDistributionGroup`,
- * an `InvalidRequestException` is returned.
- *
- * For more information about creating traffic distribution groups, see Set up traffic distribution groups in the
- * *Amazon Connect Administrator Guide*.
- */
-export const createTrafficDistributionGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTrafficDistributionGroupRequest,
-    output: CreateTrafficDistributionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ResourceNotReadyException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Creates a user account for the specified Amazon Connect instance.
- *
- * Certain UserIdentityInfo parameters are required in some situations. For example, `Email`,
- * `FirstName` and `LastName` are required if you are using Amazon Connect or SAML for
- * identity management.
- *
- * For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect
- * Administrator Guide.
- */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a new view with the possible status of `SAVED` or `PUBLISHED`.
- *
- * The views will have a unique name for each connect instance.
- *
- * It performs basic content validation if the status is `SAVED` or full content validation if the
- * status is set to `PUBLISHED`. An error is returned if validation fails. It associates either the
- * `$SAVED` qualifier or both of the `$SAVED` and `$LATEST` qualifiers with the
- * provided view content based on the status. The view is idempotent if ClientToken is provided.
- */
-export const createView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateViewRequest,
-  output: CreateViewResponse,
-  errors: [
-    AccessDeniedException,
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * Describes an agent status.
  */
@@ -16302,22 +13109,6 @@ export const describeDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InternalServiceException,
       InvalidParameterException,
       InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Describes an evaluation form in the specified Amazon Connect instance. If the version property is not
- * provided, the latest version of the evaluation form is described.
- */
-export const describeEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEvaluationFormRequest,
-    output: DescribeEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
@@ -16746,34 +13537,6 @@ export const listDefaultVocabularies = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists evaluation forms in the specified Amazon Connect instance.
- */
-export const listEvaluationForms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEvaluationFormsRequest,
-  output: ListEvaluationFormsResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists versions of an evaluation form in the specified Amazon Connect instance.
- */
-export const listEvaluationFormVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEvaluationFormVersionsRequest,
-    output: ListEvaluationFormVersionsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Provides information about the hours of operation for the specified Amazon Connect instance.
  *
  * For more information about hours of operation, see Set the Hours of Operation for a Queue in the
@@ -16840,30 +13603,6 @@ export const listPhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServiceException,
     InvalidParameterException,
     InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided `TargetArn`
- * is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group.
- *
- * For more information about phone numbers, see Set Up Phone Numbers for Your Contact
- * Center in the *Amazon Connect Administrator Guide*.
- *
- * - When given an instance ARN, `ListPhoneNumbersV2` returns only the phone numbers claimed to the
- * instance.
- *
- * - When given a traffic distribution group ARN `ListPhoneNumbersV2` returns only the phone numbers claimed to the
- * traffic distribution group.
- */
-export const listPhoneNumbersV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPhoneNumbersV2Request,
-  output: ListPhoneNumbersV2Response,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
@@ -17137,40 +13876,6 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns views in the given instance.
- *
- * Results are sorted primarily by type, and secondarily by name.
- */
-export const listViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListViewsRequest,
-  output: ListViewsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Returns all the available versions for the specified Amazon Connect instance and view identifier.
- *
- * Results will be sorted from highest to lowest.
- */
-export const listViewVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListViewVersionsRequest,
-  output: ListViewVersionsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Lists media assets (such as logos) associated with a workspace.
  */
 export const listWorkspaceMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -17215,23 +13920,6 @@ export const listWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
-/**
- * Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the
- * provided `TargetArn` is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with
- * the traffic distribution group.
- */
-export const searchAvailablePhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchAvailablePhoneNumbersRequest,
-    output: SearchAvailablePhoneNumbersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Searches for data tables based on the table's ID, name, and description. In the future, this operation can
  * support searching on attribute names and possibly primary values. Follows other search operations closely and
@@ -17431,123 +14119,32 @@ export const sendChatIntegrationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Send outbound email for outbound campaigns. For more information about outbound campaigns, see Set up Amazon Connect
- * outbound campaigns.
+ * Starts recording the contact:
  *
- * Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account
- * and call this API.
+ * - If the API is called *before* the agent joins the call, recording starts when the agent
+ * joins the call.
+ *
+ * - If the API is called *after* the agent joins the call, recording starts at the time of the
+ * API call.
+ *
+ * StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an
+ * ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and
+ * you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number),
+ * use SuspendContactRecording and ResumeContactRecording.
+ *
+ * You can use this API to override the recording behavior configured in the Set recording behavior block.
+ *
+ * Only voice recordings are supported at this time.
  */
-export const sendOutboundEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendOutboundEmailRequest,
-  output: SendOutboundEmailResponse,
-  errors: [
-    AccessDeniedException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain
- * credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service.
- *
- * When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the
- * created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.
- *
- * A 429 error occurs in the following situations:
- *
- * - API rate limit is exceeded. API TPS throttling returns a `TooManyRequests` exception.
- *
- * - The quota for
- * concurrent active chats is exceeded. Active chat throttling returns a
- * `LimitExceededException`.
- *
- * If you use the `ChatDurationInMinutes` parameter and receive a 400 error, your account may not
- * support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.
- *
- * For more information about chat, see the following topics in the Amazon Connect
- * Administrator Guide:
- *
- * - Concepts: Web and mobile messaging capabilities in Amazon Connect
- *
- * - Amazon Connect Chat security best practices
- */
-export const startChatContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartChatContactRequest,
-  output: StartChatContactResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the
- * particular contact. The evaluation form version used for the contact evaluation corresponds to the currently
- * activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.
- *
- * Evaluations created through the public API do not contain answer values suggested from automation.
- */
-export const startContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const startContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartContactEvaluationRequest,
-    output: StartContactEvaluationResponse,
+    input: StartContactRecordingRequest,
+    output: StartContactRecordingResponse,
     errors: [
       InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Enables in-flight message processing for an ongoing chat session. Message processing will stay active for the
- * rest of the chat, even if an individual contact segment ends.
- */
-export const startContactMediaProcessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartContactMediaProcessingRequest,
-    output: StartContactMediaProcessingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
+      InvalidActiveRegionException,
       InvalidParameterException,
       InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
-/**
- * Initiates real-time message streaming for a new chat contact.
- *
- * For more information about message streaming, see Enable real-time chat message streaming in the
- * *Amazon Connect Administrator Guide*.
- *
- * For more information about chat, see the following topics in the Amazon Connect
- * Administrator Guide:
- *
- * - Concepts: Web and mobile messaging capabilities in Amazon Connect
- *
- * - Amazon Connect Chat security best practices
- */
-export const startContactStreaming = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartContactStreamingRequest,
-    output: StartContactStreamingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
       ResourceNotFoundException,
     ],
   }),
@@ -17580,30 +14177,6 @@ export const stopContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
   ],
 }));
-/**
- * Updates the specified flow.
- *
- * You can also create and update flows using the Amazon Connect
- * Flow language.
- *
- * Use the `$SAVED` alias in the request to describe the `SAVED` content of a Flow. For
- * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
- * be supplied to view saved content that has not been published.
- */
-export const updateContactFlowContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactFlowContentRequest,
-    output: UpdateContactFlowContentResponse,
-    errors: [
-      InternalServiceException,
-      InvalidContactFlowException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Updates the primary values for a record. This operation affects all existing values that are currently
  * associated to the record and its primary values. Users that have restrictions on attributes and/or primary values are
@@ -17656,33 +14229,1872 @@ export const updateTrafficDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
+ * Associates a queued contact with an agent.
+ *
+ * **Use cases**
+ *
+ * Following are common uses cases for this API:
+ *
+ * - Programmatically assign queued contacts to available users.
+ *
+ * - Leverage the IAM context key `connect:PreferredUserArn` to restrict contact association to specific
+ * preferred user.
+ *
+ * **Important things to know**
+ *
+ * - Use this API with chat, email, and task contacts. It does not support voice contacts.
+ *
+ * - Use it to associate contacts with users regardless of their current state, including custom states. Ensure
+ * your application logic accounts for user availability before making associations.
+ *
+ * - It honors the IAM context key `connect:PreferredUserArn` to prevent unauthorized contact
+ * associations.
+ *
+ * - It respects the IAM context key `connect:PreferredUserArn` to enforce authorization controls and
+ * prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your
+ * intended use cases.
+ *
+ * - The service quota *Queues per routing profile per instance* applies to manually assigned
+ * queues, too. For more information about this quota, see Amazon Connect
+ * quotas in the *Amazon Connect Administrator Guide*.
+ *
+ * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const updateUserHierarchyStructure =
+export const associateContactWithUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateContactWithUserRequest,
+    output: AssociateContactWithUserResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Associates a set of queues with a routing profile.
+ */
+export const associateRoutingProfileQueues =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateUserHierarchyStructureRequest,
-    output: UpdateUserHierarchyStructureResponse,
+    input: AssociateRoutingProfileQueuesRequest,
+    output: AssociateRoutingProfileQueuesResponse,
     errors: [
       InternalServiceException,
       InvalidParameterException,
       InvalidRequestException,
-      ResourceInUseException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }));
 /**
- * Creates values for attributes in a data table. The value may be a default or it may be associated with a primary
- * value. The value must pass all customer defined validation as well as the default validation for the value type. The
- * operation must conform to Batch Operation API Standards. Although the standard specifies that successful and failed
- * entities are listed separately in the response, authorization fails if any primary values or attributes are
- * unauthorized. The combination of primary values and the attribute name serve as the identifier for the individual
- * item request.
+ * Associates a set of proficiencies with a user.
  */
-export const batchCreateDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const associateUserProficiencies = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: BatchCreateDataTableValueRequest,
-    output: BatchCreateDataTableValueResponse,
+    input: AssociateUserProficienciesRequest,
+    output: AssociateUserProficienciesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate
+ * multiple datasets in a single call.
+ */
+export const batchDisassociateAnalyticsDataSet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDisassociateAnalyticsDataSetRequest,
+    output: BatchDisassociateAnalyticsDataSetResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see
+ * Enable persistent chat in
+ * the *Amazon Connect Administrator Guide*.
+ */
+export const createPersistentContactAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreatePersistentContactAssociationRequest,
+    output: CreatePersistentContactAssociationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Describe email address form the specified Amazon Connect instance.
+ */
+export const describeEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEmailAddressRequest,
+    output: DescribeEmailAddressResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Retrieves the current storage configurations for the specified resource type, association ID, and instance
+ * ID.
+ */
+export const describeInstanceStorageConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeInstanceStorageConfigRequest,
+    output: DescribeInstanceStorageConfigResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Disassociates a set of queues from a routing profile.
+ *
+ * Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a
+ * single call results in an InvalidParameterException.
+ */
+export const disassociateRoutingProfileQueues =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateRoutingProfileQueuesRequest,
+    output: DisassociateRoutingProfileQueuesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Disassociates a set of proficiencies from a user.
+ */
+export const disassociateUserProficiencies =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateUserProficienciesRequest,
+    output: DisassociateUserProficienciesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Removes the association between a workspace and one or more users or routing profiles.
+ */
+export const disassociateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateWorkspaceRequest,
+    output: DisassociateWorkspaceResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves the flow associated for a given resource.
+ */
+export const getFlowAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFlowAssociationRequest,
+  output: GetFlowAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Gets the prompt file.
+ */
+export const getPromptFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPromptFileRequest,
+  output: GetPromptFileResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Gets details about a specific task template in the specified Amazon Connect instance.
+ */
+export const getTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTaskTemplateRequest,
+  output: GetTaskTemplateResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the association status of requested dataset ID for a given Amazon Connect instance.
+ */
+export const listAnalyticsDataAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAnalyticsDataAssociationsRequest,
+    output: ListAnalyticsDataAssociationsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Returns a paginated list of all approved origins associated with the instance.
+ */
+export const listApprovedOrigins = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApprovedOriginsRequest,
+  output: ListApprovedOriginsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed.
+ * Customers can request an increase by using Amazon Web Services Service Quotas. The response can be filtered by specific attribute IDs
+ * for CloudFormation integration.
+ */
+export const listDataTableAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDataTableAttributesRequest,
+    output: ListDataTableAttributesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance.
+ */
+export const listEntitySecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListEntitySecurityProfilesRequest,
+    output: ListEntitySecurityProfilesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * List the flow association based on the filters.
+ */
+export const listFlowAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListFlowAssociationsRequest,
+    output: ListFlowAssociationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * List the hours of operation overrides.
+ */
+export const listHoursOfOperationOverrides =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListHoursOfOperationOverridesRequest,
+    output: ListHoursOfOperationOverridesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Returns a paginated list of all attribute types for the given instance.
+ */
+export const listInstanceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListInstanceAttributesRequest,
+    output: ListInstanceAttributesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Returns a paginated list of storage configs for the identified instance and resource type.
+ */
+export const listInstanceStorageConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListInstanceStorageConfigsRequest,
+    output: ListInstanceStorageConfigsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow
+ * blocks.
+ */
+export const listLambdaFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLambdaFunctionsRequest,
+  output: ListLambdaFunctionsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return
+ * both Amazon Lex V1 and V2 bots, use the ListBots API.
+ */
+export const listLexBots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLexBotsRequest,
+  output: ListLexBotsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Provides information about the quick connects for the specified Amazon Connect instance.
+ */
+export const listQuickConnects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListQuickConnectsRequest,
+  output: ListQuickConnectsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns a list of third-party applications or MCP Servers in a specific security profile.
+ */
+export const listSecurityProfileApplications =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSecurityProfileApplicationsRequest,
+    output: ListSecurityProfileApplicationsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * A list of Flow Modules an AI Agent can invoke as a tool
+ */
+export const listSecurityProfileFlowModules =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSecurityProfileFlowModulesRequest,
+    output: ListSecurityProfileFlowModulesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists the permissions granted to a security profile.
+ *
+ * For information about security profiles, see Security Profiles in the *Amazon Connect Administrator Guide*. For a mapping of the API name and user interface name of the security
+ * profile permissions, see List
+ * of security profile permissions.
+ */
+export const listSecurityProfilePermissions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSecurityProfilePermissionsRequest,
+    output: ListSecurityProfilePermissionsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists the tags for the specified resource.
+ *
+ * For sample policies that use tags, see Amazon Connect Identity-Based Policy
+ * Examples in the *Amazon Connect Administrator Guide*.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists proficiencies associated with a user.
+ */
+export const listUserProficiencies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListUserProficienciesRequest,
+    output: ListUserProficienciesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Update the hours of operation override.
+ */
+export const updateHoursOfOperationOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateHoursOfOperationOverrideRequest,
+    output: UpdateHoursOfOperationOverrideResponse,
+    errors: [
+      ConditionalOperationFailedException,
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates a prompt.
+ */
+export const updatePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePromptRequest,
+  output: UpdatePromptResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes an hours of operation.
+ */
+export const deleteHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteHoursOfOperationRequest,
+    output: DeleteHoursOfOperationResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes an hours of operation override in an Amazon Connect hours of operation resource.
+ */
+export const deleteHoursOfOperationOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteHoursOfOperationOverrideRequest,
+    output: DeleteHoursOfOperationOverrideResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes a prompt.
+ */
+export const deletePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePromptRequest,
+  output: DeletePromptResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a quick connect.
+ *
+ * After calling DeleteUser, it's important to call `DeleteQuickConnect` to delete any records related to the
+ * deleted users. This will help you:
+ *
+ * - Avoid dangling resources that impact your service quotas.
+ *
+ * - Remove deleted users so they don't appear to agents as transfer options.
+ *
+ * - Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if
+ * you're using Amazon Connect Global Resiliency.
+ */
+export const deleteQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQuickConnectRequest,
+  output: DeleteQuickConnectResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the task template.
+ */
+export const deleteTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTaskTemplateRequest,
+  output: DeleteTaskTemplateResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a user account from the specified Amazon Connect instance.
+ *
+ * For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect
+ * Instance in the *Amazon Connect Administrator Guide*.
+ *
+ * After calling DeleteUser, call DeleteQuickConnect to delete any records
+ * related to the deleted users. This will help you:
+ *
+ * - Avoid dangling resources that impact your service quotas.
+ *
+ * - Remove deleted users so they don't appear to agents as transfer options.
+ *
+ * - Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if
+ * you're using Amazon Connect Global Resiliency.
+ */
+export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserRequest,
+  output: DeleteUserResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a media asset (such as a logo) from a workspace.
+ */
+export const deleteWorkspaceMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteWorkspaceMediaRequest,
+    output: DeleteWorkspaceMediaResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Removes the dataset ID associated with a given Amazon Connect instance.
+ */
+export const disassociateAnalyticsDataSet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateAnalyticsDataSetRequest,
+    output: DisassociateAnalyticsDataSetResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Revokes access to integrated applications from Amazon Connect.
+ */
+export const disassociateApprovedOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateApprovedOriginRequest,
+    output: DisassociateApprovedOriginResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Removes the storage type configurations for the specified resource type and association ID.
+ */
+export const disassociateInstanceStorageConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateInstanceStorageConfigRequest,
+    output: DisassociateInstanceStorageConfigResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Remove the Lambda function from the dropdown options available in the relevant flow blocks.
+ */
+export const disassociateLambdaFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateLambdaFunctionRequest,
+    output: DisassociateLambdaFunctionResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Revokes authorization from the specified instance to access the specified Amazon Lex bot.
+ */
+export const disassociateLexBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateLexBotRequest,
+  output: DisassociateLexBotResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Disassociates a set of quick connects from a queue.
+ */
+export const disassociateQueueQuickConnects =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateQueueQuickConnectsRequest,
+    output: DisassociateQueueQuickConnectsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Deletes the specified security key.
+ */
+export const disassociateSecurityKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateSecurityKeyRequest,
+    output: DisassociateSecurityKeyResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Imports a media asset (such as a logo) for use in a workspace.
+ */
+export const importWorkspaceMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ImportWorkspaceMediaRequest,
+    output: ImportWorkspaceMediaResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming
+ * API.
+ */
+export const stopContactStreaming = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopContactStreamingRequest,
+    output: StopContactStreamingResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Adds the specified tags to the specified resource.
+ *
+ * Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent
+ * statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Amazon Connect.
+ *
+ * For sample policies that use tags, see Amazon Connect Identity-Based Policy
+ * Examples in the *Amazon Connect Administrator Guide*.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Removes the specified tags from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change. To
+ * request access to this API, contact Amazon Web Services Support.
+ *
+ * Updates the selected authentication profile.
+ */
+export const updateAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAuthenticationProfileRequest,
+    output: UpdateAuthenticationProfileResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Updates the value for the specified attribute type.
+ */
+export const updateInstanceAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateInstanceAttributeRequest,
+    output: UpdateInstanceAttributeResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Updates an existing configuration for a resource type. This API is idempotent.
+ */
+export const updateInstanceStorageConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateInstanceStorageConfigRequest,
+    output: UpdateInstanceStorageConfigResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates a predefined attribute for the specified Amazon Connect instance. A *predefined attribute* is
+ * made up of a name and a value.
+ *
+ * For the predefined attributes per instance quota, see Amazon Connect
+ * quotas.
+ *
+ * **Use cases**
+ *
+ * Following are common uses cases for this API:
+ *
+ * - Update routing proficiency (for example, agent certification) that has predefined values (for example, a list
+ * of possible certifications). For more information, see Create predefined attributes for routing contacts to
+ * agents.
+ *
+ * - Update an attribute for business unit name that has a list of predefined business unit names used in your
+ * organization. This is a use case where information for a contact varies between transfers or conferences. For more
+ * information, see Use contact segment attributes.
+ *
+ * **Endpoints**: See Amazon Connect endpoints and quotas.
+ */
+export const updatePredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePredefinedAttributeRequest,
+    output: UpdatePredefinedAttributeResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the hours of operation for the specified queue.
+ */
+export const updateQueueHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateQueueHoursOfOperationRequest,
+    output: UpdateQueueHoursOfOperationResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the maximum number of contacts allowed in a queue before it is considered full.
+ */
+export const updateQueueMaxContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateQueueMaxContactsRequest,
+    output: UpdateQueueMaxContactsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
+ *
+ * - If the phone number is claimed to a traffic distribution group that was created in the
+ * same Region as the Amazon Connect instance where you are calling this API, then you can use a
+ * full phone number ARN or a UUID for `OutboundCallerIdNumberId`. However, if the phone number is claimed
+ * to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a
+ * UUID is provided in this scenario, you will receive a
+ * `ResourceNotFoundException`.
+ *
+ * - Only use the phone number ARN format that doesn't contain `instance` in the path, for example,
+ * `arn:aws:connect:us-east-1:1234567890:phone-number/uuid`. This is the same ARN format that is returned
+ * when you call the ListPhoneNumbersV2 API.
+ *
+ * - If you plan to use IAM policies to allow/deny access to this API for phone number resources
+ * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
+ */
+export const updateQueueOutboundCallerConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateQueueOutboundCallerConfigRequest,
+    output: UpdateQueueOutboundCallerConfigResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates the status of the queue.
+ */
+export const updateQueueStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueueStatusRequest,
+  output: UpdateQueueStatusResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the configuration settings for the specified quick connect.
+ */
+export const updateQuickConnectConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateQuickConnectConfigRequest,
+    output: UpdateQuickConnectConfigResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
+ */
+export const updateQuickConnectName = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateQuickConnectNameRequest,
+    output: UpdateQuickConnectNameResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Whether agents with this routing profile will have their routing order calculated based on time since
+ * their last inbound contact or *longest idle time*.
+ */
+export const updateRoutingProfileAgentAvailabilityTimer =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateRoutingProfileAgentAvailabilityTimerRequest,
+    output: UpdateRoutingProfileAgentAvailabilityTimerResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
+ */
+export const updateRoutingProfileConcurrency =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateRoutingProfileConcurrencyRequest,
+    output: UpdateRoutingProfileConcurrencyResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates the default outbound queue of a routing profile.
+ */
+export const updateRoutingProfileDefaultOutboundQueue =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateRoutingProfileDefaultOutboundQueueRequest,
+    output: UpdateRoutingProfileDefaultOutboundQueueResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates the properties associated with a set of queues for a routing profile.
+ */
+export const updateRoutingProfileQueues = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRoutingProfileQueuesRequest,
+    output: UpdateRoutingProfileQueuesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates a security profile.
+ *
+ * For information about security profiles, see Security Profiles in the *Amazon Connect Administrator Guide*. For a mapping of the API name and user interface name of the security
+ * profile permissions, see List
+ * of security profile permissions.
+ */
+export const updateSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSecurityProfileRequest,
+    output: UpdateSecurityProfileResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Assigns the specified hierarchy group to the specified user.
+ */
+export const updateUserHierarchy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserHierarchyRequest,
+  output: UpdateUserHierarchyResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the identity information for the specified user.
+ *
+ * We strongly recommend limiting who has the ability to invoke `UpdateUserIdentityInfo`. Someone with
+ * that ability can change the login credentials of other users by changing their email address. This poses a security
+ * risk to your organization. They can change the email address of a user to the attacker's email address, and then
+ * reset the password through email. For more information, see Best Practices for Security Profiles
+ * in the *Amazon Connect Administrator Guide*.
+ */
+export const updateUserIdentityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateUserIdentityInfoRequest,
+    output: UpdateUserIdentityInfoResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the phone configuration settings for the specified user.
+ */
+export const updateUserPhoneConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateUserPhoneConfigRequest,
+    output: UpdateUserPhoneConfigResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the properties associated with the proficiencies of a user.
+ */
+export const updateUserProficiencies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateUserProficienciesRequest,
+    output: UpdateUserProficienciesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Assigns the specified routing profile to the specified user.
+ */
+export const updateUserRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateUserRoutingProfileRequest,
+    output: UpdateUserRoutingProfileResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Assigns the specified security profiles to the specified user.
+ */
+export const updateUserSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateUserSecurityProfilesRequest,
+    output: UpdateUserSecurityProfilesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Associates the specified dataset for a Amazon Connect instance with the target account. You can associate
+ * only one dataset in a single call.
+ */
+export const associateAnalyticsDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateAnalyticsDataSetRequest,
+    output: AssociateAnalyticsDataSetResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Associates a connect resource to a flow.
+ */
+export const associateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateFlowRequest,
+  output: AssociateFlowResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a flow for the specified Amazon Connect instance.
+ */
+export const deleteContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactFlowRequest,
+  output: DeleteContactFlowResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the specified flow module.
+ */
+export const deleteContactFlowModule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteContactFlowModuleRequest,
+    output: DeleteContactFlowModuleResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Removes an alias reference, breaking the named connection to the underlying module version without affecting the
+ * version itself.
+ */
+export const deleteContactFlowModuleAlias =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteContactFlowModuleAliasRequest,
+    output: DeleteContactFlowModuleAliasResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Removes a specific version of a contact flow module.
+ */
+export const deleteContactFlowModuleVersion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteContactFlowModuleVersionRequest,
+    output: DeleteContactFlowModuleVersionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes the particular version specified in flow version identifier.
+ */
+export const deleteContactFlowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteContactFlowVersionRequest,
+    output: DeleteContactFlowVersionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes email address from the specified Amazon Connect instance.
+ */
+export const deleteEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEmailAddressRequest,
+  output: DeleteEmailAddressResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a workspace and removes all associated view and resource assignments.
+ */
+export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkspaceRequest,
+  output: DeleteWorkspaceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Removes the association between a view and a page in a workspace. The page will display the default view after
+ * deletion.
+ */
+export const deleteWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkspacePageRequest,
+  output: DeleteWorkspacePageResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Removes the alias association between two email addresses in an Amazon Connect instance. After
+ * disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address.
+ * Both email addresses continue to exist independently and can receive emails directly.
+ *
+ * **Use cases**
+ *
+ * Following are common uses cases for this API:
+ *
+ * - **Department separation**: Remove alias relationships when splitting a
+ * consolidated support queue back into separate department-specific queues.
+ *
+ * - **Email address retirement**: Cleanly remove forwarding relationships before
+ * decommissioning old email addresses.
+ *
+ * - **Organizational restructuring**: Reconfigure email routing when business
+ * processes change and aliases are no longer needed.
+ *
+ * **Important things to know**
+ *
+ * - Concurrent operations: This API uses distributed locking, so concurrent operations on the same email addresses
+ * may be temporarily blocked.
+ *
+ * - Emails sent to the former alias address are still delivered directly to that address if it exists.
+ *
+ * - You do not need to delete the email addresses after disassociation. Both addresses remain active
+ * independently.
+ *
+ * - After a successful disassociation, you can immediately create a new alias relationship with the same
+ * addresses.
+ *
+ * - 200 status means alias was successfully disassociated.
+ *
+ * `DisassociateEmailAddressAlias` does not return the following information:
+ *
+ * - Details in the response about the email that was disassociated. The response returns an empty body.
+ *
+ * - The timestamp of when the disassociation occurred.
+ *
+ * **Endpoints**: See Amazon Connect endpoints and quotas.
+ *
+ * **Related operations**
+ *
+ * - AssociateEmailAddressAlias: Associates an email address alias with an existing email address in an
+ * Amazon Connect instance.
+ *
+ * - DescribeEmailAddress: View current alias configurations for an email address.
+ *
+ * - SearchEmailAddresses: Find email addresses and their alias relationships across an instance.
+ *
+ * - CreateEmailAddress: Create new email addresses that can participate in alias relationships.
+ *
+ * - DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).
+ *
+ * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
+ */
+export const disassociateEmailAddressAlias =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateEmailAddressAliasRequest,
+    output: DisassociateEmailAddressAliasResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Disassociates a connect resource from a flow.
+ */
+export const disassociateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateFlowRequest,
+  output: DisassociateFlowResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance.
+ */
+export const disassociateSecurityProfiles =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateSecurityProfilesRequest,
+    output: DisassociateSecurityProfilesResponse,
+    errors: [
+      AccessDeniedException,
+      ConditionalOperationFailedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to
+ * receive a new routed contact. Contacts can only be dismissed if they are in a `MISSED`,
+ * `ERROR`, `ENDED`, or `REJECTED` state in the Agent Event Stream.
+ */
+export const dismissUserContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DismissUserContactRequest,
+  output: DismissUserContactResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a
+ * contact, this sets the agent's next status.
+ *
+ * For more information, see Agent status and Set your
+ * next status in the *Amazon Connect Administrator Guide*.
+ */
+export const putUserStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutUserStatusRequest,
+  output: PutUserStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing
+ * capabilities in the *Amazon Connect Administrator Guide*.
+ */
+export const startScreenSharing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartScreenSharingRequest,
+  output: StartScreenSharingResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a specific Aliases metadata, including the version it’s tied to, it’s name, and description.
+ */
+export const updateContactFlowModuleAlias =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateContactFlowModuleAliasRequest,
+    output: UpdateContactFlowModuleAliasResponse,
+    errors: [
+      AccessDeniedException,
+      ConditionalOperationFailedException,
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates metadata about specified flow module.
+ */
+export const updateContactFlowModuleMetadata =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateContactFlowModuleMetadataRequest,
+    output: UpdateContactFlowModuleMetadataResponse,
+    errors: [
+      AccessDeniedException,
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates the outbound email address Id for a specified queue.
+ */
+export const updateQueueOutboundEmailConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateQueueOutboundEmailConfigRequest,
+    output: UpdateQueueOutboundEmailConfigResponse,
+    errors: [
+      AccessDeniedException,
+      ConditionalOperationFailedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates the metadata of a workspace, such as its name and description.
+ */
+export const updateWorkspaceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateWorkspaceMetadataRequest,
+    output: UpdateWorkspaceMetadataResponse,
+    errors: [
+      AccessDeniedException,
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration of a page in a workspace, including the associated view and input data.
+ */
+export const updateWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkspacePageRequest,
+  output: UpdateWorkspacePageResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the theme configuration for a workspace, including colors and styling.
+ */
+export const updateWorkspaceTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateWorkspaceThemeRequest,
+    output: UpdateWorkspaceThemeResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the visibility setting of a workspace, controlling whether it is available to all users, assigned users
+ * only, or none.
+ */
+export const updateWorkspaceVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateWorkspaceVisibilityRequest,
+    output: UpdateWorkspaceVisibilityResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates metadata about specified flow.
+ */
+export const updateContactFlowMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContactFlowMetadataRequest,
+    output: UpdateContactFlowMetadataResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * The name of the flow.
+ *
+ * You can also create and update flows using the Amazon Connect
+ * Flow language.
+ */
+export const updateContactFlowName = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContactFlowNameRequest,
+    output: UpdateContactFlowNameResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the hours of operation.
+ */
+export const updateHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateHoursOfOperationRequest,
+    output: UpdateHoursOfOperationResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the name and description of a queue. At least `Name` or `Description` must be provided.
+ */
+export const updateQueueName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueueNameRequest,
+  output: UpdateQueueNameResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
+ */
+export const updateRoutingProfileName = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRoutingProfileNameRequest,
+    output: UpdateRoutingProfileNameResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the name of the user hierarchy group.
+ */
+export const updateUserHierarchyGroupName =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateUserHierarchyGroupNameRequest,
+    output: UpdateUserHierarchyGroupNameResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Associate security profiles with an Entity in an Amazon Connect instance.
+ */
+export const associateSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateSecurityProfilesRequest,
+    output: AssociateSecurityProfilesResponse,
+    errors: [
+      AccessDeniedException,
+      ConditionalOperationFailedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates specified flow module for the specified Amazon Connect instance.
+ *
+ * Use the `$SAVED` alias in the request to describe the `SAVED` content of a Flow. For
+ * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
+ * be supplied to view saved content that has not been published.
+ */
+export const updateContactFlowModuleContent =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateContactFlowModuleContentRequest,
+    output: UpdateContactFlowModuleContentResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidContactFlowModuleException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates an email address metadata. For more information about email addresses, see Create email addresses in the Amazon Connect
+ * Administrator Guide.
+ */
+export const updateEmailAddressMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEmailAddressMetadataRequest,
+    output: UpdateEmailAddressMetadataResponse,
+    errors: [
+      AccessDeniedException,
+      IdempotencyException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes an attribute and all its values from a data table.
+ */
+export const deleteDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDataTableAttributeRequest,
+    output: DeleteDataTableAttributeResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Adds or updates user-defined contact information associated with the specified contact. At least one field to be
+ * updated must be present in the request.
+ *
+ * You can add or update user-defined contact information for both ongoing and completed contacts.
+ */
+export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactRequest,
+  output: UpdateContactResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidActiveRegionException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the metadata properties of a data table. Accepts all fields similar to CreateDataTable, except for
+ * fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties
+ * must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable.
+ */
+export const updateDataTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDataTableMetadataRequest,
+    output: UpdateDataTableMetadataResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -17691,11 +16103,391 @@ export const batchCreateDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InvalidParameterException,
       InvalidRequestException,
       ResourceNotFoundException,
-      ServiceQuotaExceededException,
       ThrottlingException,
     ],
   }),
 );
+/**
+ * Deletes a data table and all associated attributes, versions, audits, and values. Does not update any references
+ * to the data table, even from other data tables. This includes dynamic values and conditional validations. System
+ * managed data tables are not deletable by customers. API users may delete the table at any time. When deletion is
+ * requested from the admin website, a warning is shown alerting the user of the most recent time the table and its
+ * values were accessed.
+ */
+export const deleteDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataTableRequest,
+  output: DeleteDataTableResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Allows resuming a task contact in a paused state.
+ */
+export const resumeContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResumeContactRequest,
+  output: ResumeContactResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Instructs Amazon Connect to resume the authentication process. The subsequent actions depend on the request
+ * body contents:
+ *
+ * - **If a code is provided**: Connect retrieves the identity information from Amazon
+ * Cognito and imports it into Connect Customer Profiles.
+ *
+ * - **If an error is provided**: The error branch of the Authenticate Customer block
+ * is executed.
+ *
+ * The API returns a success response to acknowledge the request. However, the interaction and exchange of
+ * identity information occur asynchronously after the response is returned.
+ */
+export const updateParticipantAuthentication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateParticipantAuthenticationRequest,
+    output: UpdateParticipantAuthenticationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates multiple data table values using all properties from BatchCreateDataTableValue. System managed values
+ * are not modifiable by customers. The operation requires proper lock versions to prevent concurrent modification
+ * conflicts.
+ */
+export const batchUpdateDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchUpdateDataTableValueRequest,
+    output: BatchUpdateDataTableValueResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed
+ * view of your Amazon Connect usage.
+ */
+export const tagContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagContactRequest,
+  output: TagContactResponse,
+  errors: [
+    InternalServiceException,
+    InvalidActiveRegionException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API
+ * resumes recording whatever recording is selected in the flow configuration: call, screen, or both. If only call
+ * recording or only screen recording is enabled, then it would resume.
+ *
+ * Voice and screen recordings are supported.
+ */
+export const resumeContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResumeContactRecordingRequest,
+    output: ResumeContactRecordingResponse,
+    errors: [
+      InternalServiceException,
+      InvalidActiveRegionException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use
+ * StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For
+ * scenarios where the recording has started and you want to suspend it for sensitive information (for example, to
+ * collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording.
+ *
+ * Only voice recordings are supported at this time.
+ */
+export const stopContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopContactRecordingRequest,
+    output: StopContactRecordingResponse,
+    errors: [
+      InternalServiceException,
+      InvalidActiveRegionException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration:
+ * call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be
+ * suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a
+ * credit card number. Then use ResumeContactRecording to restart
+ * recording the screen.
+ *
+ * The period of time that the recording is suspended is filled with silence in the final recording.
+ *
+ * Voice (IVR, agent) and screen recordings are supported.
+ */
+export const suspendContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SuspendContactRecordingRequest,
+    output: SuspendContactRecordingResponse,
+    errors: [
+      InternalServiceException,
+      InvalidActiveRegionException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed
+ * view of your Amazon Connect usage.
+ */
+export const untagContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagContactRequest,
+  output: UntagContactResponse,
+  errors: [
+    InternalServiceException,
+    InvalidActiveRegionException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates or updates user-defined contact
+ * attributes associated with the specified contact.
+ *
+ * You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the
+ * call is active, you can update the customer's name or the reason the customer called. You can add notes about steps
+ * that the agent took during the call that display to the next agent that takes the call. You can also update
+ * attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers.
+ *
+ * Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information
+ * about contact record retention and the maximum size of the contact record attributes section, see Feature
+ * specifications in the *Amazon Connect Administrator Guide*.
+ */
+export const updateContactAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContactAttributesRequest,
+    output: UpdateContactAttributesResponse,
+    errors: [
+      InternalServiceException,
+      InvalidActiveRegionException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region.
+ *
+ * After using this API, you must verify that the phone number is attached to the correct flow in the target
+ * instance or traffic distribution group. You need to do this because the API switches only the phone number to a new
+ * instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too.
+ *
+ * You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
+ */
+export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePhoneNumberRequest,
+  output: UpdatePhoneNumberResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes an evaluation form in the specified Amazon Connect instance. If the version property is not
+ * provided, the latest version of the evaluation form is described.
+ */
+export const describeEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEvaluationFormRequest,
+    output: DescribeEvaluationFormResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists evaluation forms in the specified Amazon Connect instance.
+ */
+export const listEvaluationForms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEvaluationFormsRequest,
+  output: ListEvaluationFormsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists versions of an evaluation form in the specified Amazon Connect instance.
+ */
+export const listEvaluationFormVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListEvaluationFormVersionsRequest,
+    output: ListEvaluationFormVersionsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided `TargetArn`
+ * is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group.
+ *
+ * For more information about phone numbers, see Set Up Phone Numbers for Your Contact
+ * Center in the *Amazon Connect Administrator Guide*.
+ *
+ * - When given an instance ARN, `ListPhoneNumbersV2` returns only the phone numbers claimed to the
+ * instance.
+ *
+ * - When given a traffic distribution group ARN `ListPhoneNumbersV2` returns only the phone numbers claimed to the
+ * traffic distribution group.
+ */
+export const listPhoneNumbersV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPhoneNumbersV2Request,
+  output: ListPhoneNumbersV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Associates a flow with a phone number claimed to your Amazon Connect instance.
+ *
+ * If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the
+ * `PhoneNumberId` URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling
+ * this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a
+ * full phone number ARN. If a UUID is provided
+ * in
+ * this scenario, you will receive a `ResourceNotFoundException`.
+ */
+export const associatePhoneNumberContactFlow =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociatePhoneNumberContactFlowRequest,
+    output: AssociatePhoneNumberContactFlowResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes registration for a device token and a chat contact.
+ */
+export const deletePushNotificationRegistration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeletePushNotificationRegistrationRequest,
+    output: DeletePushNotificationRegistrationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Removes the flow association from a phone number claimed to your Amazon Connect instance.
+ *
+ * If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the
+ * `PhoneNumberId` URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling
+ * this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a
+ * full phone number ARN. If a UUID is provided in this scenario, you will receive a
+ * `ResourceNotFoundException`.
+ */
+export const disassociatePhoneNumberContactFlow =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociatePhoneNumberContactFlowRequest,
+    output: DisassociatePhoneNumberContactFlowResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an
+ * Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.
+ *
+ * Call the DescribePhoneNumber API to verify the status of a previous `ImportPhoneNumber` operation.
+ *
+ * If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota
+ * exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180
+ * days past the oldest number released has expired.
+ *
+ * By default you can claim or import and then release up to 200% of your maximum number of active phone numbers.
+ * If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds
+ * 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until
+ * 180 days past the oldest number released has expired.
+ *
+ * For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers,
+ * and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At
+ * that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
+ */
+export const importPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportPhoneNumberRequest,
+  output: ImportPhoneNumberResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested
  * from the admin website, a warning is shown alerting the user of the most recent time the attribute and its values
@@ -17736,132 +16528,44 @@ export const batchDescribeDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Adds an attribute to an existing data table. Creating a new primary attribute uses the empty value for the
- * specified value type for all existing records. This should not affect uniqueness of published data tables since the
- * existing primary values will already be unique. Creating attributes does not create any values. System managed tables
- * may not allow customers to create new attributes.
- */
-export const createDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataTableAttributeRequest,
-    output: CreateDataTableAttributeResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates hours of operation.
- */
-export const createHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateHoursOfOperationRequest,
-    output: CreateHoursOfOperationResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates an hours of operation override in an Amazon Connect hours of operation resource.
- */
-export const createHoursOfOperationOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateHoursOfOperationOverrideRequest,
-    output: CreateHoursOfOperationOverrideResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Creates a quick connect for the specified Amazon Connect instance.
- */
-export const createQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateQuickConnectRequest,
-  output: CreateQuickConnectResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a new routing profile.
- */
-export const createRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRoutingProfileRequest,
-    output: CreateRoutingProfileResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates a new task template in the specified Amazon Connect instance.
- */
-export const createTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTaskTemplateRequest,
-  output: CreateTaskTemplateResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    PropertyValidationException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Publishes a new version of the view identifier.
+ * Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call
+ * this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was
+ * created.
  *
- * Versions are immutable and monotonically increasing.
+ * For more information about how to use this operation, see Claim a phone number in your country and Claim
+ * phone numbers to traffic distribution groups in the Amazon Connect Administrator
+ * Guide.
  *
- * It returns the highest version if there is no change in content compared to that version. An error is displayed
- * if the supplied ViewContentSha256 is different from the ViewContentSha256 of the `$LATEST` alias.
+ * You can call the SearchAvailablePhoneNumbers API for
+ * available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status
+ * of a previous ClaimPhoneNumber operation.
+ *
+ * If you plan to claim and release numbers frequently,
+ * contact us for a service quota exception. Otherwise, it is possible you will be blocked from
+ * claiming and releasing any more numbers until up to 180 days past the oldest number
+ * released has expired.
+ *
+ * By default you can claim and release up to 200% of your maximum number of active
+ * phone numbers. If you claim and release phone numbers using
+ * the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number
+ * service level quota, you will be blocked from claiming any more numbers until 180
+ * days past the oldest number released has expired.
+ *
+ * For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180
+ * day period you release 99, claim 99, and then release 99, you will have exceeded the
+ * 200% limit. At that point you are blocked from claiming any more numbers until you
+ * open an Amazon Web Services support ticket.
  */
-export const createViewVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateViewVersionRequest,
-  output: CreateViewVersionResponse,
+export const claimPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ClaimPhoneNumberRequest,
+  output: ClaimPhoneNumberResponse,
   errors: [
     AccessDeniedException,
+    IdempotencyException,
     InternalServiceException,
     InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
+    ThrottlingException,
   ],
 }));
 /**
@@ -17891,24 +16595,6 @@ export const describeContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
-  ],
-}));
-/**
- * This API is in preview release for Amazon Connect and is subject to change.
- *
- * Returns the current state of the specified instance identifier. It tracks the instance while it is being created
- * and returns an error status, if applicable.
- *
- * If an instance is not created successfully, the instance status reason field returns details relevant to the
- * reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
- */
-export const describeInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeInstanceRequest,
-  output: DescribeInstanceResponse,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
   ],
 }));
 /**
@@ -18028,29 +16714,6 @@ export const getEffectiveHoursOfOperations =
     ],
   }));
 /**
- * Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action.
- *
- * For more information about how SAML sign-in works in Amazon Connect, see Configure SAML with IAM for Amazon Connect
- * in the *Amazon Connect Administrator Guide*.
- *
- * This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error
- * message similar to the following one appears:
- *
- * `Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect`
- */
-export const getFederationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFederationTokenRequest,
-  output: GetFederationTokenResponse,
-  errors: [
-    DuplicateResourceException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    UserNotFoundException,
-  ],
-}));
-/**
  * Lists contact evaluations in the specified Amazon Connect instance.
  */
 export const listContactEvaluations = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -18134,195 +16797,287 @@ export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Searches the flow modules in an Amazon Connect instance, with optional filtering.
+ * Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer
+ * available for users to start new evaluations based on the form.
  */
-export const searchContactFlowModules = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deactivateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: SearchContactFlowModulesRequest,
-    output: SearchContactFlowModulesResponse,
+    input: DeactivateEvaluationFormRequest,
+    output: DeactivateEvaluationFormResponse,
     errors: [
       InternalServiceException,
       InvalidParameterException,
-      InvalidRequestException,
+      ResourceConflictException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }),
 );
 /**
- * Searches email address in an instance, with optional filtering.
+ * Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation
+ * must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An
+ * answer or note can be deleted by passing an empty object (`{}`) to the question identifier.
  */
-export const searchEmailAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: SearchEmailAddressesRequest,
-    output: SearchEmailAddressesResponse,
+    input: UpdateContactEvaluationRequest,
+    output: UpdateContactEvaluationResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a contact evaluation in the specified Amazon Connect instance.
+ */
+export const deleteContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteContactEvaluationRequest,
+    output: DeleteContactEvaluationResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes an evaluation form in the specified Amazon Connect instance.
+ *
+ * - If the version property is provided, only the specified version of the evaluation form is deleted.
+ *
+ * - If no version is provided, then the full form (all versions) is deleted.
+ */
+export const deleteEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEvaluationFormRequest,
+    output: DeleteEvaluationFormResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is
+ * activated, it is available to start new evaluations based on the form.
+ */
+export const activateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ActivateEvaluationFormRequest,
+    output: ActivateEvaluationFormResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API
+ * only in the Amazon Web Services Region where the number was claimed.
+ *
+ * To release phone numbers from a traffic distribution group, use the `ReleasePhoneNumber` API, not the Amazon Connect admin website.
+ *
+ * After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be
+ * searched for or claimed again until the period has ended. If you accidentally release a phone number, contact
+ * Amazon Web Services Support.
+ *
+ * If you plan to claim and release numbers frequently,
+ * contact us for a service quota exception. Otherwise, it is possible you will be blocked from
+ * claiming and releasing any more numbers until up to 180 days past the oldest number
+ * released has expired.
+ *
+ * By default you can claim and release up to 200% of your maximum number of active
+ * phone numbers. If you claim and release phone numbers using
+ * the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number
+ * service level quota, you will be blocked from claiming any more numbers until 180
+ * days past the oldest number released has expired.
+ *
+ * For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180
+ * day period you release 99, claim 99, and then release 99, you will have exceeded the
+ * 200% limit. At that point you are blocked from claiming any more numbers until you
+ * open an Amazon Web Services support ticket.
+ */
+export const releasePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReleasePhoneNumberRequest,
+  output: ReleasePhoneNumberResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the vocabulary that has the given identifier.
+ */
+export const deleteVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVocabularyRequest,
+  output: DeleteVocabularyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
+ *
+ * For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the
+ * *Amazon Connect Administrator Guide*.
+ */
+export const deleteTrafficDistributionGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteTrafficDistributionGroupRequest,
+    output: DeleteTrafficDistributionGroupResponse,
     errors: [
       AccessDeniedException,
       InternalServiceException,
-      InvalidParameterException,
       InvalidRequestException,
-      ResourceNotFoundException,
+      ResourceInUseException,
       ThrottlingException,
     ],
-  }),
-);
+  }));
 /**
- * Searches evaluation forms in an Amazon Connect instance, with optional filtering.
- *
- * **Use cases**
- *
- * Following are common uses cases for this API:
- *
- * - List all evaluation forms in an instance.
- *
- * - Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more.
- *
- * - Find all evaluation forms that are tagged with a specific set of tags.
- *
- * **Important things to know**
- *
- * - A Search operation, unlike a List operation, takes time to index changes to resource (create, update or
- * delete). If you don't see updated information for recently changed contact evaluations, try calling the API again
- * in a few seconds.
- *
- * **Endpoints**: See Amazon Connect endpoints and quotas.
+ * Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
  */
-export const searchEvaluationForms = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchEvaluationFormsRequest,
-    output: SearchEvaluationFormsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Searches the hours of operation overrides.
- */
-export const searchHoursOfOperationOverrides =
+export const updateUserHierarchyStructure =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SearchHoursOfOperationOverridesRequest,
-    output: SearchHoursOfOperationOverridesResponse,
+    input: UpdateUserHierarchyStructureRequest,
+    output: UpdateUserHierarchyStructureResponse,
     errors: [
       InternalServiceException,
       InvalidParameterException,
       InvalidRequestException,
+      ResourceInUseException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }));
 /**
- * Searches security profiles in an Amazon Connect instance, with optional filtering.
- *
- * For information about security profiles, see Security Profiles in the *Amazon Connect Administrator Guide*. For a mapping of the API name and user interface name of the security
- * profile permissions, see List
- * of security profile permissions.
+ * Deletes a predefined attribute from the specified Amazon Connect instance.
  */
-export const searchSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deletePredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: SearchSecurityProfilesRequest,
-    output: SearchSecurityProfilesResponse,
+    input: DeletePredefinedAttributeRequest,
+    output: DeletePredefinedAttributeResponse,
     errors: [
       InternalServiceException,
       InvalidParameterException,
       InvalidRequestException,
+      ResourceInUseException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }),
 );
 /**
- * Searches for workspace associations with users or routing profiles based on various criteria.
+ * Deletes a queue.
  */
-export const searchWorkspaceAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchWorkspaceAssociationsRequest,
-    output: SearchWorkspaceAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Searches workspaces based on name, description, visibility, or tags.
- */
-export const searchWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchWorkspacesRequest,
-  output: SearchWorkspacesResponse,
+export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueueRequest,
+  output: DeleteQueueResponse,
   errors: [
-    AccessDeniedException,
     InternalServiceException,
     InvalidParameterException,
     InvalidRequestException,
+    ResourceInUseException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
 }));
 /**
- * Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the
- * `ContactId` of the outbound SMS or WhatsApp contact created.
- *
- * **SourceEndpoint** only supports Endpoints with
- * `CONNECT_PHONENUMBER_ARN` as Type and **DestinationEndpoint** only supports
- * Endpoints with `TELEPHONE_NUMBER` as Type. **ContactFlowId** initiates the
- * flow to manage the new contact created.
- *
- * This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect
- * an ongoing contact to an outbound SMS or WhatsApp contact by using the StartOutboundChatContact Flow
- * Action.
- *
- * For more information about using SMS or WhatsApp in Amazon Connect, see the following topics in
- * the *Amazon Connect Administrator Guide*:
- *
- * - Set up SMS
- * messaging
- *
- * - Request an SMS-enabled phone
- * number through Amazon Web Services End User Messaging SMS
- *
- * - Set up WhatsApp
- * Business messaging
+ * Deletes a routing profile.
  */
-export const startOutboundChatContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartOutboundChatContactRequest,
-    output: StartOutboundChatContactResponse,
+    input: DeleteRoutingProfileRequest,
+    output: DeleteRoutingProfileResponse,
     errors: [
-      AccessDeniedException,
-      ConflictException,
       InternalServiceException,
+      InvalidParameterException,
       InvalidRequestException,
-      LimitExceededException,
+      ResourceInUseException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }),
 );
 /**
- * Updates details about a specific task template in the specified Amazon Connect instance. This operation does
- * not support partial updates. Instead it does a full update of template content.
+ * Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child
+ * groups.
  */
-export const updateTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTaskTemplateRequest,
-  output: UpdateTaskTemplateResponse,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    PropertyValidationException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
+export const deleteUserHierarchyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteUserHierarchyGroupRequest,
+    output: DeleteUserHierarchyGroupResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a security profile.
+ */
+export const deleteSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSecurityProfileRequest,
+    output: DeleteSecurityProfileResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates a phone number’s metadata.
+ *
+ * To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API.
+ */
+export const updatePhoneNumberMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePhoneNumberMetadataRequest,
+    output: UpdatePhoneNumberMetadataResponse,
+    errors: [
+      AccessDeniedException,
+      IdempotencyException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -18366,56 +17121,6 @@ export const batchPutContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     LimitExceededException,
     ResourceNotFoundException,
-  ],
-}));
-/**
- * Only the VOICE, EMAIL, and TASK channels are supported.
- *
- * - For VOICE: The supported initiation method is `TRANSFER`. The contacts created with this
- * initiation method have a subtype `connect:ExternalAudio`.
- *
- * - For EMAIL: The supported initiation methods are `OUTBOUND`, `AGENT_REPLY`, and
- * `FLOW`.
- *
- * - For TASK: The supported initiation method is `API`. Contacts created with this API have a sub-type
- * of `connect:ExternalTask`.
- *
- * Creates a new VOICE, EMAIL, or TASK contact.
- *
- * After a contact is created, you can move it to the desired state by using the `InitiateAs` parameter.
- * While you can use API to create task contacts that are in the `COMPLETED` state, you must contact Amazon Web Services Support before using it for bulk import use cases. Bulk import causes your requests to be throttled or
- * fail if your CreateContact limits aren't high enough.
- */
-export const createContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateContactRequest,
-  output: CreateContactResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by
- * integrating custom participants or Enable multi-user web, in-app, and video
- * calling.
- */
-export const createParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateParticipantRequest,
-  output: CreateParticipantResponse,
-  errors: [
-    ConflictException,
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
   ],
 }));
 /**
@@ -18483,42 +17188,6 @@ export const searchContactFlows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Provides a pre-signed Amazon S3 URL in response for uploading your content.
- *
- * You may only use this API to upload attachments to an Amazon Connect Case or Amazon Connect Email.
- */
-export const startAttachedFileUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAttachedFileUploadRequest,
-    output: StartAttachedFileUploadResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of
- * this API provides the ContactId of the email contact created.
- */
-export const startEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartEmailContactRequest,
-  output: StartEmailContactResponse,
-  errors: [
-    AccessDeniedException,
-    IdempotencyException,
-    InternalServiceException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are
  * merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted
  * with the existing answers and notes. You can delete an answer or note by passing an empty object (`{}`) to
@@ -18564,6 +17233,674 @@ export const updateParticipantRoleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InvalidParameterException,
       InvalidRequestException,
       ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action.
+ *
+ * For more information about how SAML sign-in works in Amazon Connect, see Configure SAML with IAM for Amazon Connect
+ * in the *Amazon Connect Administrator Guide*.
+ *
+ * This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error
+ * message similar to the following one appears:
+ *
+ * `Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect`
+ */
+export const getFederationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFederationTokenRequest,
+  output: GetFederationTokenResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    UserNotFoundException,
+  ],
+}));
+/**
+ * Returns views in the given instance.
+ *
+ * Results are sorted primarily by type, and secondarily by name.
+ */
+export const listViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListViewsRequest,
+  output: ListViewsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates hours of operation.
+ */
+export const createHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateHoursOfOperationRequest,
+    output: CreateHoursOfOperationResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates an hours of operation override in an Amazon Connect hours of operation resource.
+ */
+export const createHoursOfOperationOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateHoursOfOperationOverrideRequest,
+    output: CreateHoursOfOperationOverrideResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Creates a quick connect for the specified Amazon Connect instance.
+ */
+export const createQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQuickConnectRequest,
+  output: CreateQuickConnectResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a new routing profile.
+ */
+export const createRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRoutingProfileRequest,
+    output: CreateRoutingProfileResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the
+ * `ContactId` of the outbound SMS or WhatsApp contact created.
+ *
+ * **SourceEndpoint** only supports Endpoints with
+ * `CONNECT_PHONENUMBER_ARN` as Type and **DestinationEndpoint** only supports
+ * Endpoints with `TELEPHONE_NUMBER` as Type. **ContactFlowId** initiates the
+ * flow to manage the new contact created.
+ *
+ * This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect
+ * an ongoing contact to an outbound SMS or WhatsApp contact by using the StartOutboundChatContact Flow
+ * Action.
+ *
+ * For more information about using SMS or WhatsApp in Amazon Connect, see the following topics in
+ * the *Amazon Connect Administrator Guide*:
+ *
+ * - Set up SMS
+ * messaging
+ *
+ * - Request an SMS-enabled phone
+ * number through Amazon Web Services End User Messaging SMS
+ *
+ * - Set up WhatsApp
+ * Business messaging
+ */
+export const startOutboundChatContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartOutboundChatContactRequest,
+    output: StartOutboundChatContactResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a new queue for the specified Amazon Connect instance.
+ *
+ * - If the phone number is claimed to a traffic distribution group that was created in the
+ * same Region as the Amazon Connect instance where you are calling this API, then you can use a
+ * full phone number ARN or a UUID for `OutboundCallerIdNumberId`. However, if the phone number is claimed
+ * to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a
+ * UUID is provided in this scenario, you will receive a
+ * `ResourceNotFoundException`.
+ *
+ * - Only use the phone number ARN format that doesn't contain `instance` in the path, for example,
+ * `arn:aws:connect:us-east-1:1234567890:phone-number/uuid`. This is the same ARN format that is returned
+ * when you call the ListPhoneNumbersV2 API.
+ *
+ * - If you plan to use IAM policies to allow/deny access to this API for phone number resources
+ * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
+ */
+export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQueueRequest,
+  output: CreateQueueResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a user account for the specified Amazon Connect instance.
+ *
+ * Certain UserIdentityInfo parameters are required in some situations. For example, `Email`,
+ * `FirstName` and `LastName` are required if you are using Amazon Connect or SAML for
+ * identity management.
+ *
+ * For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect
+ * Administrator Guide.
+ */
+export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserRequest,
+  output: CreateUserResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain
+ * credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service.
+ *
+ * When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the
+ * created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.
+ *
+ * A 429 error occurs in the following situations:
+ *
+ * - API rate limit is exceeded. API TPS throttling returns a `TooManyRequests` exception.
+ *
+ * - The quota for
+ * concurrent active chats is exceeded. Active chat throttling returns a
+ * `LimitExceededException`.
+ *
+ * If you use the `ChatDurationInMinutes` parameter and receive a 400 error, your account may not
+ * support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.
+ *
+ * For more information about chat, see the following topics in the Amazon Connect
+ * Administrator Guide:
+ *
+ * - Concepts: Web and mobile messaging capabilities in Amazon Connect
+ *
+ * - Amazon Connect Chat security best practices
+ */
+export const startChatContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartChatContactRequest,
+  output: StartChatContactResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Initiates real-time message streaming for a new chat contact.
+ *
+ * For more information about message streaming, see Enable real-time chat message streaming in the
+ * *Amazon Connect Administrator Guide*.
+ *
+ * For more information about chat, see the following topics in the Amazon Connect
+ * Administrator Guide:
+ *
+ * - Concepts: Web and mobile messaging capabilities in Amazon Connect
+ *
+ * - Amazon Connect Chat security best practices
+ */
+export const startContactStreaming = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartContactStreamingRequest,
+    output: StartContactStreamingResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates an immutable snapshot of a contact flow module, preserving its content and settings at a specific point
+ * in time for version control and rollback capabilities.
+ */
+export const createContactFlowModuleVersion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateContactFlowModuleVersionRequest,
+    output: CreateContactFlowModuleVersionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the
+ * `FlowContentSha256` provided is different from the `FlowContentSha256` of the
+ * `$LATEST` published flow content, then an error is returned. This API only supports creating versions for
+ * flows of type `Campaign`.
+ */
+export const createContactFlowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateContactFlowVersionRequest,
+    output: CreateContactFlowVersionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates agent status.
+ */
+export const updateAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAgentStatusRequest,
+  output: UpdateAgentStatusResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Associates a set of quick connects with a queue.
+ */
+export const associateQueueQuickConnects = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateQueueQuickConnectsRequest,
+    output: AssociateQueueQuickConnectsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the scheduled time of a task contact that is already scheduled.
+ */
+export const updateContactSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContactScheduleRequest,
+    output: UpdateContactScheduleResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Stops in-flight message processing for an ongoing chat session.
+ */
+export const stopContactMediaProcessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopContactMediaProcessingRequest,
+    output: StopContactMediaProcessingResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates an agent status for the specified Amazon Connect instance.
+ */
+export const createAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAgentStatusRequest,
+  output: CreateAgentStatusResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a named alias that points to a specific version of a contact flow module.
+ */
+export const createContactFlowModuleAlias =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateContactFlowModuleAliasRequest,
+    output: CreateContactFlowModuleAliasResponse,
+    errors: [
+      AccessDeniedException,
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Creates a new predefined attribute for the specified Amazon Connect instance. A *predefined attribute*
+ * is made up of a name and a value.
+ *
+ * For the predefined attributes per instance quota, see Amazon Connect
+ * quotas.
+ *
+ * **Use cases**
+ *
+ * Following are common uses cases for this API:
+ *
+ * - Create an attribute for routing proficiency (for example, agent certification) that has predefined values (for
+ * example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to
+ * agents.
+ *
+ * - Create an attribute for business unit name that has a list of predefined business unit names used in your
+ * organization. This is a use case where information for a contact varies between transfers or conferences. For more
+ * information, see Use contact segment attributes.
+ *
+ * **Endpoints**: See Amazon Connect endpoints and quotas.
+ */
+export const createPredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePredefinedAttributeRequest,
+    output: CreatePredefinedAttributeResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a prompt. For more information about prompts, such as supported file types and maximum length, see
+ * Create prompts in the
+ * *Amazon Connect Administrator Guide*.
+ */
+export const createPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePromptRequest,
+  output: CreatePromptResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a new user hierarchy group.
+ */
+export const createUserHierarchyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateUserHierarchyGroupRequest,
+    output: CreateUserHierarchyGroupResponse,
+    errors: [
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Allows pausing an ongoing task contact.
+ */
+export const pauseContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PauseContactRequest,
+  output: PauseContactResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a flow module for the specified Amazon Connect instance.
+ */
+export const createContactFlowModule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateContactFlowModuleRequest,
+    output: CreateContactFlowModuleResponse,
+    errors: [
+      AccessDeniedException,
+      DuplicateResourceException,
+      IdempotencyException,
+      InternalServiceException,
+      InvalidContactFlowModuleException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a flow for the specified Amazon Connect instance.
+ *
+ * You can also create and update flows using the Amazon Connect
+ * Flow language.
+ */
+export const createContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContactFlowRequest,
+  output: CreateContactFlowResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidContactFlowException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns all the available versions for the specified Amazon Connect instance and view identifier.
+ *
+ * Results will be sorted from highest to lowest.
+ */
+export const listViewVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListViewVersionsRequest,
+  output: ListViewVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves the view for the specified Amazon Connect instance and view identifier.
+ *
+ * The view identifier can be supplied as a ViewId or ARN.
+ *
+ * `$SAVED` needs to be supplied if a view is unpublished.
+ *
+ * The view identifier can contain an optional qualifier, for example, `:$SAVED`, which
+ * is either an actual version number or an Amazon Connect managed qualifier `$SAVED | $LATEST`. If it is
+ * not supplied, then `$LATEST` is assumed for customer managed views and an error is returned if there is no
+ * published content available. Version 1 is assumed for Amazon Web Services managed views.
+ */
+export const describeView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeViewRequest,
+  output: DescribeViewResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the view content of the given view identifier in the specified Amazon Connect instance.
+ *
+ * It performs content validation if `Status` is set to `SAVED` and performs full content
+ * validation if `Status` is `PUBLISHED`. Note that the `$SAVED` alias' content will
+ * always be updated, but the `$LATEST` alias' content will only be updated if `Status` is
+ * `PUBLISHED`.
+ */
+export const updateViewContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateViewContentRequest,
+  output: UpdateViewContentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
+ */
+export const deleteView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteViewRequest,
+  output: DeleteViewResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes the particular version specified in `ViewVersion` identifier.
+ */
+export const deleteViewVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteViewVersionRequest,
+  output: DeleteViewVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the view metadata. Note that either `Name` or `Description` must be
+ * provided.
+ */
+export const updateViewMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateViewMetadataRequest,
+  output: UpdateViewMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Adds an attribute to an existing data table. Creating a new primary attribute uses the empty value for the
+ * specified value type for all existing records. This should not affect uniqueness of published data tables since the
+ * existing primary values will already be unique. Creating attributes does not create any values. System managed tables
+ * may not allow customers to create new attributes.
+ */
+export const createDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDataTableAttributeRequest,
+    output: CreateDataTableAttributeResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
       ThrottlingException,
     ],
   }),
@@ -18820,6 +18157,682 @@ export const searchResourceTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     MaximumResultReturnedException,
     ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the
+ * particular contact. The evaluation form version used for the contact evaluation corresponds to the currently
+ * activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.
+ *
+ * Evaluations created through the public API do not contain answer values suggested from automation.
+ */
+export const startContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartContactEvaluationRequest,
+    output: StartContactEvaluationResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any
+ * storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any
+ * configurations on features, such as Contact Lens for Amazon Connect.
+ *
+ * For more information, see Create an Amazon Connect instance in the
+ * *Amazon Connect Administrator Guide*.
+ *
+ * Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
+ * If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
+ * You must wait 30 days before you can restart creating and deleting instances in your account.
+ */
+export const createInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstanceRequest,
+  output: CreateInstanceResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to
+ * be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time
+ * contact analysis sessions for that language.
+ */
+export const createVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVocabularyRequest,
+  output: CreateVocabularyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Associates an approved origin to an Amazon Connect instance.
+ */
+export const associateApprovedOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateApprovedOriginRequest,
+    output: AssociateApprovedOriginResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a new data table with the specified properties. Supports the creation of all table properties except for
+ * attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per
+ * instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
+ */
+export const createDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataTableRequest,
+  output: CreateDataTableResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Send outbound email for outbound campaigns. For more information about outbound campaigns, see Set up Amazon Connect
+ * outbound campaigns.
+ *
+ * Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account
+ * and call this API.
+ */
+export const sendOutboundEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendOutboundEmailRequest,
+  output: SendOutboundEmailResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Associates a security key to the instance.
+ */
+export const associateSecurityKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateSecurityKeyRequest,
+    output: AssociateSecurityKeyResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Amazon Connect in the
+ * *Amazon Connect Administrator Guide*.
+ *
+ * When using `PreviousContactId` and `RelatedContactId` input parameters, note the
+ * following:
+ *
+ * - `PreviousContactId`
+ *
+ * - Any updates to user-defined task contact attributes on any contact linked through the same
+ * `PreviousContactId` will affect every contact in the chain.
+ *
+ * - There can be a maximum of 12 linked task contacts in a chain. That is, 12 task contacts can be created that
+ * share the same `PreviousContactId`.
+ *
+ * - `RelatedContactId`
+ *
+ * - Copies contact attributes from the related task contact to the new contact.
+ *
+ * - Any update on attributes in a new task contact does not update attributes on previous contact.
+ *
+ * - There’s no limit on the number of task contacts that can be created that use the same
+ * `RelatedContactId`.
+ *
+ * In addition, when calling StartTaskContact include only one of these parameters: `ContactFlowID`,
+ * `QuickConnectID`, or `TaskTemplateID`. Only one parameter is required as long as the task
+ * template has a flow configured to run it. If more than one parameter is specified, or only the
+ * `TaskTemplateID` is specified but it does not have a flow configured, the request returns an error
+ * because Amazon Connect cannot identify the unique flow to run when the task is created.
+ *
+ * A `ServiceQuotaExceededException` occurs when the number of open tasks exceeds the active tasks quota
+ * or there are already 12 tasks referencing the same `PreviousContactId`. For more information about service
+ * quotas for task contacts, see Amazon Connect service quotas in the
+ * *Amazon Connect Administrator Guide*.
+ */
+export const startTaskContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTaskContactRequest,
+  output: StartTaskContactResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Allows the specified Amazon Connect instance to access the specified Lambda function.
+ */
+export const associateLambdaFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateLambdaFunctionRequest,
+    output: AssociateLambdaFunctionResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API
+ * only supports the association of Amazon Lex V1 bots.
+ */
+export const associateLexBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateLexBotRequest,
+  output: AssociateLexBotResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by
+ * *userId* will be set to silent monitoring mode on the contact.
+ */
+export const monitorContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MonitorContactRequest,
+  output: MonitorContactResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a
+ * customer.
+ */
+export const startOutboundEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartOutboundEmailContactRequest,
+    output: StartOutboundEmailContactResponse,
+    errors: [
+      AccessDeniedException,
+      IdempotencyException,
+      InternalServiceException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Transfers `TASK` or `EMAIL`
+ * contacts from one agent or queue to another agent or queue at any point after a contact is
+ * created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the
+ * destination queue. This gives you more control over contact handling and helps you adhere to the service level
+ * agreement (SLA) guaranteed to your customers.
+ *
+ * Note the following requirements:
+ *
+ * - Transfer is only supported for `TASK` and `EMAIL` contacts.
+ *
+ * - Do not use both `QueueId` and `UserId` in the same call.
+ *
+ * - The following flow types are supported: Inbound flow, Transfer to agent flow, and Transfer to queue
+ * flow.
+ *
+ * - The `TransferContact` API can be called only on active contacts.
+ *
+ * - A contact cannot be transferred more than 11 times.
+ */
+export const transferContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TransferContactRequest,
+  output: TransferContactResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Create new email address in the specified Amazon Connect instance. For more information about email
+ * addresses, see Create email
+ * addresses in the Amazon Connect Administrator Guide.
+ */
+export const createEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEmailAddressRequest,
+  output: CreateEmailAddressResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates registration for a device token and a chat contact to receive real-time push notifications. For more
+ * information about push notifications, see Set up push notifications in Amazon Connect for mobile chat in the *Amazon Connect Administrator Guide*.
+ */
+export const createPushNotificationRegistration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreatePushNotificationRegistrationRequest,
+    output: CreatePushNotificationRegistrationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Creates values for attributes in a data table. The value may be a default or it may be associated with a primary
+ * value. The value must pass all customer defined validation as well as the default validation for the value type. The
+ * operation must conform to Batch Operation API Standards. Although the standard specifies that successful and failed
+ * entities are listed separately in the response, authorization fails if any primary values or attributes are
+ * unauthorized. The combination of primary values and the attribute name serve as the identifier for the individual
+ * item request.
+ */
+export const batchCreateDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchCreateDataTableValueRequest,
+    output: BatchCreateDataTableValueResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      DuplicateResourceException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question
+ * and section identifiers cannot be duplicated within the same evaluation form.
+ *
+ * This operation does not support partial updates. Instead it does a full update of evaluation form
+ * content.
+ */
+export const updateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEvaluationFormRequest,
+    output: UpdateEvaluationFormResponse,
+    errors: [
+      InternalServiceException,
+      InvalidParameterException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Publishes a new version of the view identifier.
+ *
+ * Versions are immutable and monotonically increasing.
+ *
+ * It returns the highest version if there is no change in content compared to that version. An error is displayed
+ * if the supplied ViewContentSha256 is different from the ViewContentSha256 of the `$LATEST` alias.
+ */
+export const createViewVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateViewVersionRequest,
+  output: CreateViewVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a new view with the possible status of `SAVED` or `PUBLISHED`.
+ *
+ * The views will have a unique name for each connect instance.
+ *
+ * It performs basic content validation if the status is `SAVED` or full content validation if the
+ * status is set to `PUBLISHED`. An error is returned if validation fails. It associates either the
+ * `$SAVED` qualifier or both of the `$SAVED` and `$LATEST` qualifiers with the
+ * provided view content based on the status. The view is idempotent if ClientToken is provided.
+ */
+export const createView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateViewRequest,
+  output: CreateViewResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * This API is in preview release for Amazon Connect and is subject to change.
+ *
+ * Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2
+ * bot.
+ */
+export const associateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateBotRequest,
+  output: AssociateBotResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Only the VOICE, EMAIL, and TASK channels are supported.
+ *
+ * - For VOICE: The supported initiation method is `TRANSFER`. The contacts created with this
+ * initiation method have a subtype `connect:ExternalAudio`.
+ *
+ * - For EMAIL: The supported initiation methods are `OUTBOUND`, `AGENT_REPLY`, and
+ * `FLOW`.
+ *
+ * - For TASK: The supported initiation method is `API`. Contacts created with this API have a sub-type
+ * of `connect:ExternalTask`.
+ *
+ * Creates a new VOICE, EMAIL, or TASK contact.
+ *
+ * After a contact is created, you can move it to the desired state by using the `InitiateAs` parameter.
+ * While you can use API to create task contacts that are in the `COMPLETED` state, you must contact Amazon Web Services Support before using it for bulk import use cases. Bulk import causes your requests to be throttled or
+ * fail if your CreateContact limits aren't high enough.
+ */
+export const createContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContactRequest,
+  output: CreateContactResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by
+ * integrating custom participants or Enable multi-user web, in-app, and video
+ * calling.
+ */
+export const createParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateParticipantRequest,
+  output: CreateParticipantResponse,
+  errors: [
+    ConflictException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Provides a pre-signed Amazon S3 URL in response for uploading your content.
+ *
+ * You may only use this API to upload attachments to an Amazon Connect Case or Amazon Connect Email.
+ */
+export const startAttachedFileUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartAttachedFileUploadRequest,
+    output: StartAttachedFileUploadResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidRequestException,
+      ResourceConflictException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of
+ * this API provides the ContactId of the email contact created.
+ */
+export const startEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartEmailContactRequest,
+  output: StartEmailContactResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates details about a specific task template in the specified Amazon Connect instance. This operation does
+ * not support partial updates. Instead it does a full update of template content.
+ */
+export const updateTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTaskTemplateRequest,
+  output: UpdateTaskTemplateResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    PropertyValidationException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a traffic distribution group given an Amazon Connect instance that has been replicated.
+ *
+ * The `SignInConfig` distribution is available only on a
+ * default `TrafficDistributionGroup` (see the `IsDefault` parameter in the
+ * TrafficDistributionGroup
+ * data type). If you call
+ * `UpdateTrafficDistribution` with a modified `SignInConfig` and a non-default `TrafficDistributionGroup`,
+ * an `InvalidRequestException` is returned.
+ *
+ * For more information about creating traffic distribution groups, see Set up traffic distribution groups in the
+ * *Amazon Connect Administrator Guide*.
+ */
+export const createTrafficDistributionGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateTrafficDistributionGroupRequest,
+    output: CreateTrafficDistributionGroupResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidRequestException,
+      ResourceConflictException,
+      ResourceNotFoundException,
+      ResourceNotReadyException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Associates a view with a page in a workspace, defining what users see when they navigate to that page.
+ */
+export const createWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkspacePageRequest,
+  output: CreateWorkspacePageResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Enables in-flight message processing for an ongoing chat session. Message processing will stay active for the
+ * rest of the chat, even if an individual contact segment ends.
+ */
+export const startContactMediaProcessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartContactMediaProcessingRequest,
+    output: StartContactMediaProcessingResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+    ],
+  }),
+);
+/**
+ * Updates all properties for an attribute using all properties from CreateDataTableAttribute. There are no other
+ * granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed
+ * attributes are not mutable by customers. Changing an attribute's validation does not invalidate existing values since
+ * validation only runs when values are created or updated.
+ */
+export const updateDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDataTableAttributeRequest,
+    output: UpdateDataTableAttributeResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a new task template in the specified Amazon Connect instance.
+ */
+export const createTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTaskTemplateRequest,
+  output: CreateTaskTemplateResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    PropertyValidationException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Replicates an Amazon Connect instance in the specified Amazon Web Services Region and copies configuration
+ * information for Amazon Connect resources across Amazon Web Services Regions.
+ *
+ * For more information about replicating an Amazon Connect instance, see Create a replica of your existing Amazon Connect
+ * instance in the *Amazon Connect Administrator Guide*.
+ */
+export const replicateInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplicateInstanceRequest,
+  output: ReplicateInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ResourceNotReadyException,
+    ServiceQuotaExceededException,
     ThrottlingException,
   ],
 }));

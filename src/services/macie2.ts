@@ -3339,31 +3339,31 @@ export class GetFindingsResponse extends S.Class<GetFindingsResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  { message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String).pipe(T.JsonName("message")) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String).pipe(T.JsonName("message")) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
@@ -3372,12 +3372,90 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
 
 //# Operations
 /**
- * Deletes a findings filter.
+ * Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
  */
-export const deleteFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [],
+}));
+/**
+ * Removes one or more tags (keys and values) from an Amazon Macie resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [],
+}));
+/**
+ * Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [],
+}));
+/**
+ * Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
+ */
+export const listManagedDataIdentifiers = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteFindingsFilterRequest,
-    output: DeleteFindingsFilterResponse,
+    input: ListManagedDataIdentifiersRequest,
+    output: ListManagedDataIdentifiersResponse,
+    errors: [],
+  }),
+);
+/**
+ * Checks whether occurrences of sensitive data can be retrieved for a finding.
+ */
+export const getSensitiveDataOccurrencesAvailability =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetSensitiveDataOccurrencesAvailabilityRequest,
+    output: GetSensitiveDataOccurrencesAvailabilityResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
+ */
+export const getAutomatedDiscoveryConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetAutomatedDiscoveryConfigurationRequest,
+    output: GetAutomatedDiscoveryConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves the classification scope settings for an account.
+ */
+export const getClassificationScope = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetClassificationScopeRequest,
+    output: GetClassificationScopeResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves the criteria and other settings for a custom data identifier.
+ */
+export const getCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCustomDataIdentifierRequest,
+    output: GetCustomDataIdentifierResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -3390,11 +3468,249 @@ export const deleteFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the association between an Amazon Macie administrator account and an account.
+ * Retrieves (queries) aggregated statistical data about findings.
  */
-export const deleteMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMemberRequest,
-  output: DeleteMemberResponse,
+export const getFindingStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetFindingStatisticsRequest,
+    output: GetFindingStatisticsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves a subset of information about all the allow lists for an account.
+ */
+export const listAllowLists = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAllowListsRequest,
+  output: ListAllowListsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the status of automated sensitive data discovery for one or more accounts.
+ */
+export const listAutomatedDiscoveryAccounts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAutomatedDiscoveryAccountsRequest,
+    output: ListAutomatedDiscoveryAccountsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves a subset of information about the classification scope for an account.
+ */
+export const listClassificationScopes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListClassificationScopesRequest,
+    output: ListClassificationScopesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
+ */
+export const listResourceProfileArtifacts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListResourceProfileArtifactsRequest,
+    output: ListResourceProfileArtifactsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the classification scope settings for an account.
+ */
+export const updateClassificationScope = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateClassificationScopeRequest,
+    output: UpdateClassificationScopeResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
+ */
+export const updateRevealConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRevealConfigurationRequest,
+    output: UpdateRevealConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
+ */
+export const getRevealConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetRevealConfigurationRequest,
+    output: GetRevealConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
+ */
+export const updateAutomatedDiscoveryConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateAutomatedDiscoveryConfigurationRequest,
+    output: UpdateAutomatedDiscoveryConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves the settings for the sensitivity inspection template for an account.
+ */
+export const getSensitivityInspectionTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetSensitivityInspectionTemplateRequest,
+    output: GetSensitivityInspectionTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the settings for an allow list.
+ */
+export const updateAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAllowListRequest,
+  output: UpdateAllowListResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the settings for the sensitivity inspection template for an account.
+ */
+export const updateSensitivityInspectionTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateSensitivityInspectionTemplateRequest,
+    output: UpdateSensitivityInspectionTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an allow list.
+ */
+export const deleteAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAllowListRequest,
+  output: DeleteAllowListResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the settings and status of an allow list.
+ */
+export const getAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAllowListRequest,
+  output: GetAllowListResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Changes the status of automated sensitive data discovery for one or more accounts.
+ */
+export const batchUpdateAutomatedDiscoveryAccounts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchUpdateAutomatedDiscoveryAccountsRequest,
+    output: BatchUpdateAutomatedDiscoveryAccountsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
+ */
+export const getResourceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceProfileRequest,
+  output: GetResourceProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves (queries) aggregated usage data for an account.
+ */
+export const getUsageTotals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUsageTotalsRequest,
+  output: GetUsageTotalsResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3406,12 +3722,62 @@ export const deleteMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves the Amazon Macie configuration settings for an organization in Organizations.
+ * Retrieves a subset of information about the custom data identifiers for an account.
  */
-export const describeOrganizationConfiguration =
+export const listCustomDataIdentifiers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListCustomDataIdentifiersRequest,
+    output: ListCustomDataIdentifiersResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves a subset of information about all the findings filters for an account.
+ */
+export const listFindingsFilters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFindingsFiltersRequest,
+  output: ListFindingsFiltersResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
+ */
+export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMembersRequest,
+  output: ListMembersResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
+ */
+export const listOrganizationAdminAccounts =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConfigurationRequest,
-    output: DescribeOrganizationConfigurationResponse,
+    input: ListOrganizationAdminAccountsRequest,
+    output: ListOrganizationAdminAccountsResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -3423,11 +3789,42 @@ export const describeOrganizationConfiguration =
     ],
   }));
 /**
- * Disables Amazon Macie and deletes all settings and resources for a Macie account.
+ * Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
  */
-export const disableMacie = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableMacieRequest,
-  output: DisableMacieResponse,
+export const listResourceProfileDetections =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListResourceProfileDetectionsRequest,
+    output: ListResourceProfileDetectionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves a subset of information about the sensitivity inspection template for an account.
+ */
+export const listSensitivityInspectionTemplates =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSensitivityInspectionTemplatesRequest,
+    output: ListSensitivityInspectionTemplatesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves the criteria and other settings for a findings filter.
+ */
+export const getFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFindingsFilterRequest,
+  output: GetFindingsFilterResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3438,6 +3835,140 @@ export const disableMacie = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Retrieves the configuration settings for publishing findings to Security Hub.
+ */
+export const getFindingsPublicationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetFindingsPublicationConfigurationRequest,
+    output: GetFindingsPublicationConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves information about an account that's associated with an Amazon Macie administrator account.
+ */
+export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMemberRequest,
+  output: GetMemberResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a subset of information about one or more findings.
+ */
+export const listFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFindingsRequest,
+  output: ListFindingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about Amazon Macie membership invitations that were received by an account.
+ */
+export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInvitationsRequest,
+  output: ListInvitationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds or updates the configuration settings for storing data classification results.
+ */
+export const putClassificationExportConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutClassificationExportConfigurationRequest,
+    output: PutClassificationExportConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Tests criteria for a custom data identifier.
+ */
+export const testCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: TestCustomDataIdentifierRequest,
+    output: TestCustomDataIdentifierResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the criteria and other settings for a findings filter.
+ */
+export const updateFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateFindingsFilterRequest,
+    output: UpdateFindingsFilterResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the sensitivity scoring settings for an S3 bucket.
+ */
+export const updateResourceProfileDetections =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateResourceProfileDetectionsRequest,
+    output: UpdateResourceProfileDetectionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
@@ -3445,40 +3976,6 @@ export const disableOrganizationAdminAccount =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     input: DisableOrganizationAdminAccountRequest,
     output: DisableOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a member account from its Amazon Macie administrator account.
- */
-export const disassociateFromAdministratorAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromAdministratorAccountRequest,
-    output: DisassociateFromAdministratorAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
- */
-export const disassociateFromMasterAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromMasterAccountRequest,
-    output: DisassociateFromMasterAccountResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -3534,20 +4031,6 @@ export const enableOrganizationAdminAccount =
       InternalServerException,
       ResourceNotFoundException,
       ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
- */
-export const getAutomatedDiscoveryConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAutomatedDiscoveryConfigurationRequest,
-    output: GetAutomatedDiscoveryConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
       ThrottlingException,
       ValidationException,
     ],
@@ -3613,36 +4096,6 @@ export const putFindingsPublicationConfiguration =
       InternalServerException,
       ResourceNotFoundException,
       ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [],
-}));
-/**
- * Removes one or more tags (keys and values) from an Amazon Macie resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [],
-}));
-/**
- * Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
- */
-export const updateAutomatedDiscoveryConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAutomatedDiscoveryConfigurationRequest,
-    output: UpdateAutomatedDiscoveryConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
       ThrottlingException,
       ValidationException,
     ],
@@ -3715,22 +4168,39 @@ export const updateOrganizationConfiguration =
     ],
   }));
 /**
- * Updates the sensitivity score for an S3 bucket.
+ * Disassociates a member account from its Amazon Macie administrator account.
  */
-export const updateResourceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourceProfileRequest,
-    output: UpdateResourceProfileResponse,
+export const disassociateFromAdministratorAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateFromAdministratorAccountRequest,
+    output: DisassociateFromAdministratorAccountResponse,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],
-  }),
-);
+  }));
+/**
+ * (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
+ */
+export const disassociateFromMasterAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateFromMasterAccountRequest,
+    output: DisassociateFromMasterAccountResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * Accepts an Amazon Macie membership invitation that was received from a specific account.
  */
@@ -3766,36 +4236,6 @@ export const createSampleFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Declines Amazon Macie membership invitations that were received from specific accounts.
- */
-export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeclineInvitationsRequest,
-  output: DeclineInvitationsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an allow list.
- */
-export const deleteAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAllowListRequest,
-  output: DeleteAllowListResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Soft deletes a custom data identifier.
  */
 export const deleteCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -3814,11 +4254,111 @@ export const deleteCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deletes a findings filter.
+ */
+export const deleteFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteFindingsFilterRequest,
+    output: DeleteFindingsFilterResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes the association between an Amazon Macie administrator account and an account.
+ */
+export const deleteMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMemberRequest,
+  output: DeleteMemberResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the Amazon Macie configuration settings for an organization in Organizations.
+ */
+export const describeOrganizationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeOrganizationConfigurationRequest,
+    output: DescribeOrganizationConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Declines Amazon Macie membership invitations that were received from specific accounts.
+ */
+export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeclineInvitationsRequest,
+  output: DeclineInvitationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Deletes Amazon Macie membership invitations that were received from specific accounts.
  */
 export const deleteInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInvitationsRequest,
   output: DeleteInvitationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the sensitivity score for an S3 bucket.
+ */
+export const updateResourceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateResourceProfileRequest,
+    output: UpdateResourceProfileResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Disables Amazon Macie and deletes all settings and resources for a Macie account.
+ */
+export const disableMacie = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableMacieRequest,
+  output: DisableMacieResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3847,255 +4387,6 @@ export const getAdministratorAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Retrieves the criteria and other settings for a custom data identifier.
- */
-export const getCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCustomDataIdentifierRequest,
-    output: GetCustomDataIdentifierResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves the criteria and other settings for a findings filter.
- */
-export const getFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFindingsFilterRequest,
-  output: GetFindingsFilterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the configuration settings for publishing findings to Security Hub.
- */
-export const getFindingsPublicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetFindingsPublicationConfigurationRequest,
-    output: GetFindingsPublicationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves information about an account that's associated with an Amazon Macie administrator account.
- */
-export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMemberRequest,
-  output: GetMemberResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
- */
-export const getRevealConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRevealConfigurationRequest,
-    output: GetRevealConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Checks whether occurrences of sensitive data can be retrieved for a finding.
- */
-export const getSensitiveDataOccurrencesAvailability =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSensitiveDataOccurrencesAvailabilityRequest,
-    output: GetSensitiveDataOccurrencesAvailabilityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Retrieves the settings for the sensitivity inspection template for an account.
- */
-export const getSensitivityInspectionTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSensitivityInspectionTemplateRequest,
-    output: GetSensitivityInspectionTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves a subset of information about one or more findings.
- */
-export const listFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFindingsRequest,
-  output: ListFindingsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about Amazon Macie membership invitations that were received by an account.
- */
-export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInvitationsRequest,
-  output: ListInvitationsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [],
-}));
-/**
- * Adds or updates the configuration settings for storing data classification results.
- */
-export const putClassificationExportConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutClassificationExportConfigurationRequest,
-    output: PutClassificationExportConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Tests criteria for a custom data identifier.
- */
-export const testCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TestCustomDataIdentifierRequest,
-    output: TestCustomDataIdentifierResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the settings for an allow list.
- */
-export const updateAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAllowListRequest,
-  output: UpdateAllowListResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the criteria and other settings for a findings filter.
- */
-export const updateFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFindingsFilterRequest,
-    output: UpdateFindingsFilterResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the sensitivity scoring settings for an S3 bucket.
- */
-export const updateResourceProfileDetections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateResourceProfileDetectionsRequest,
-    output: UpdateResourceProfileDetectionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates the settings for the sensitivity inspection template for an account.
- */
-export const updateSensitivityInspectionTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSensitivityInspectionTemplateRequest,
-    output: UpdateSensitivityInspectionTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Retrieves information about one or more custom data identifiers.
  */
@@ -4182,20 +4473,6 @@ export const describeClassificationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves the settings and status of an allow list.
- */
-export const getAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAllowListRequest,
-  output: GetAllowListResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Retrieves the configuration settings for storing data classification results.
  */
 export const getClassificationExportConfiguration =
@@ -4208,249 +4485,6 @@ export const getClassificationExportConfiguration =
       InternalServerException,
       ResourceNotFoundException,
       ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
- */
-export const getResourceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourceProfileRequest,
-  output: GetResourceProfileResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves (queries) aggregated usage data for an account.
- */
-export const getUsageTotals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUsageTotalsRequest,
-  output: GetUsageTotalsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves a subset of information about all the allow lists for an account.
- */
-export const listAllowLists = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAllowListsRequest,
-  output: ListAllowListsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the status of automated sensitive data discovery for one or more accounts.
- */
-export const listAutomatedDiscoveryAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAutomatedDiscoveryAccountsRequest,
-    output: ListAutomatedDiscoveryAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves a subset of information about the classification scope for an account.
- */
-export const listClassificationScopes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListClassificationScopesRequest,
-    output: ListClassificationScopesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves a subset of information about the custom data identifiers for an account.
- */
-export const listCustomDataIdentifiers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCustomDataIdentifiersRequest,
-    output: ListCustomDataIdentifiersResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves a subset of information about all the findings filters for an account.
- */
-export const listFindingsFilters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFindingsFiltersRequest,
-  output: ListFindingsFiltersResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
- */
-export const listManagedDataIdentifiers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListManagedDataIdentifiersRequest,
-    output: ListManagedDataIdentifiersResponse,
-    errors: [],
-  }),
-);
-/**
- * Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
- */
-export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMembersRequest,
-  output: ListMembersResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
- */
-export const listOrganizationAdminAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListOrganizationAdminAccountsRequest,
-    output: ListOrganizationAdminAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
- */
-export const listResourceProfileArtifacts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListResourceProfileArtifactsRequest,
-    output: ListResourceProfileArtifactsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
- */
-export const listResourceProfileDetections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListResourceProfileDetectionsRequest,
-    output: ListResourceProfileDetectionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves a subset of information about the sensitivity inspection template for an account.
- */
-export const listSensitivityInspectionTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSensitivityInspectionTemplatesRequest,
-    output: ListSensitivityInspectionTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates the classification scope settings for an account.
- */
-export const updateClassificationScope = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClassificationScopeRequest,
-    output: UpdateClassificationScopeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
- */
-export const updateRevealConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRevealConfigurationRequest,
-    output: UpdateRevealConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Changes the status of automated sensitive data discovery for one or more accounts.
- */
-export const batchUpdateAutomatedDiscoveryAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateAutomatedDiscoveryAccountsRequest,
-    output: BatchUpdateAutomatedDiscoveryAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
       ThrottlingException,
       ValidationException,
     ],
@@ -4487,40 +4521,6 @@ export const getBucketStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Retrieves the classification scope settings for an account.
- */
-export const getClassificationScope = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetClassificationScopeRequest,
-    output: GetClassificationScopeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves (queries) aggregated statistical data about findings.
- */
-export const getFindingStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetFindingStatisticsRequest,
-    output: GetFindingStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Creates and defines the criteria and other settings for a findings filter.
  */

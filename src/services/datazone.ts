@@ -205,6 +205,18 @@ export const ApplicableAssetTypes = S.Array(S.String);
 export const NotificationSubjects = S.Array(S.String);
 export const SearchOutputAdditionalAttributes = S.Array(S.String);
 export const TagKeyList = S.Array(S.String);
+export class FormInput extends S.Class<FormInput>("FormInput")({
+  formName: S.String,
+  typeIdentifier: S.optional(S.String),
+  typeRevision: S.optional(S.String),
+  content: S.optional(S.String),
+}) {}
+export const FormInputList = S.Array(FormInput);
+export const EnabledRegionList = S.Array(S.String);
+export const GlossaryUsageRestrictions = S.Array(S.String);
+export const MetadataGenerationRunTypes = S.Array(S.String);
+export const ProjectIds = S.Array(S.String);
+export const AssetTypeIdentifiers = S.Array(S.String);
 export class AssociateEnvironmentRoleInput extends S.Class<AssociateEnvironmentRoleInput>(
   "AssociateEnvironmentRoleInput",
 )(
@@ -2561,15 +2573,1100 @@ export class UpdateUserProfileInput extends S.Class<UpdateUserProfileInput>(
     rules,
   ),
 ) {}
+export class GetAssetInput extends S.Class<GetAssetInput>("GetAssetInput")(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/assets/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteAssetInput extends S.Class<DeleteAssetInput>(
+  "DeleteAssetInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/assets/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteAssetOutput extends S.Class<DeleteAssetOutput>(
+  "DeleteAssetOutput",
+)({}) {}
+export class BusinessNameGenerationConfiguration extends S.Class<BusinessNameGenerationConfiguration>(
+  "BusinessNameGenerationConfiguration",
+)({ enabled: S.optional(S.Boolean) }) {}
+export class PredictionConfiguration extends S.Class<PredictionConfiguration>(
+  "PredictionConfiguration",
+)({
+  businessNameGeneration: S.optional(BusinessNameGenerationConfiguration),
+}) {}
+export class CreateAssetRevisionInput extends S.Class<CreateAssetRevisionInput>(
+  "CreateAssetRevisionInput",
+)(
+  {
+    name: S.String,
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    typeRevision: S.optional(S.String),
+    description: S.optional(S.String),
+    glossaryTerms: S.optional(GlossaryTerms),
+    formsInput: S.optional(FormInputList),
+    predictionConfiguration: S.optional(PredictionConfiguration),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/assets/{identifier}/revisions",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteAssetTypeInput extends S.Class<DeleteAssetTypeInput>(
+  "DeleteAssetTypeInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/asset-types/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteAssetTypeOutput extends S.Class<DeleteAssetTypeOutput>(
+  "DeleteAssetTypeOutput",
+)({}) {}
+export class GetAssetTypeInput extends S.Class<GetAssetTypeInput>(
+  "GetAssetTypeInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/asset-types/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetDataProductInput extends S.Class<GetDataProductInput>(
+  "GetDataProductInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/data-products/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteDataProductInput extends S.Class<DeleteDataProductInput>(
+  "DeleteDataProductInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/data-products/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteDataProductOutput extends S.Class<DeleteDataProductOutput>(
+  "DeleteDataProductOutput",
+)({}) {}
+export const ItemGlossaryTerms = S.Array(S.String);
+export class DataProductItem extends S.Class<DataProductItem>(
+  "DataProductItem",
+)({
+  itemType: S.String,
+  identifier: S.String,
+  revision: S.optional(S.String),
+  glossaryTerms: S.optional(ItemGlossaryTerms),
+}) {}
+export const DataProductItems = S.Array(DataProductItem);
+export class CreateDataProductRevisionInput extends S.Class<CreateDataProductRevisionInput>(
+  "CreateDataProductRevisionInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    name: S.String,
+    description: S.optional(S.String),
+    glossaryTerms: S.optional(GlossaryTerms),
+    items: S.optional(DataProductItems),
+    formsInput: S.optional(FormInputList),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/data-products/{identifier}/revisions",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetDataSourceInput extends S.Class<GetDataSourceInput>(
+  "GetDataSourceInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/data-sources/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ScheduleConfiguration extends S.Class<ScheduleConfiguration>(
+  "ScheduleConfiguration",
+)({ timezone: S.optional(S.String), schedule: S.optional(S.String) }) {}
+export class FilterExpression extends S.Class<FilterExpression>(
+  "FilterExpression",
+)({ type: S.String, expression: S.String }) {}
+export const FilterExpressions = S.Array(FilterExpression);
+export class RelationalFilterConfiguration extends S.Class<RelationalFilterConfiguration>(
+  "RelationalFilterConfiguration",
+)({
+  databaseName: S.String,
+  schemaName: S.optional(S.String),
+  filterExpressions: S.optional(FilterExpressions),
+}) {}
+export const RelationalFilterConfigurations = S.Array(
+  RelationalFilterConfiguration,
+);
+export class GlueRunConfigurationInput extends S.Class<GlueRunConfigurationInput>(
+  "GlueRunConfigurationInput",
+)({
+  dataAccessRole: S.optional(S.String),
+  relationalFilterConfigurations: RelationalFilterConfigurations,
+  autoImportDataQualityResult: S.optional(S.Boolean),
+  catalogName: S.optional(S.String),
+}) {}
+export class RedshiftCredentialConfiguration extends S.Class<RedshiftCredentialConfiguration>(
+  "RedshiftCredentialConfiguration",
+)({ secretManagerArn: S.String }) {}
+export class RedshiftClusterStorage extends S.Class<RedshiftClusterStorage>(
+  "RedshiftClusterStorage",
+)({ clusterName: S.String }) {}
+export class RedshiftServerlessStorage extends S.Class<RedshiftServerlessStorage>(
+  "RedshiftServerlessStorage",
+)({ workgroupName: S.String }) {}
+export const RedshiftStorage = S.Union(
+  S.Struct({ redshiftClusterSource: RedshiftClusterStorage }),
+  S.Struct({ redshiftServerlessSource: RedshiftServerlessStorage }),
+);
+export class RedshiftRunConfigurationInput extends S.Class<RedshiftRunConfigurationInput>(
+  "RedshiftRunConfigurationInput",
+)({
+  dataAccessRole: S.optional(S.String),
+  relationalFilterConfigurations: RelationalFilterConfigurations,
+  redshiftCredentialConfiguration: S.optional(RedshiftCredentialConfiguration),
+  redshiftStorage: S.optional(RedshiftStorage),
+}) {}
+export const TrackingAssetArns = S.Array(S.String);
+export const TrackingAssets = S.Record({
+  key: S.String,
+  value: TrackingAssetArns,
+});
+export class SageMakerRunConfigurationInput extends S.Class<SageMakerRunConfigurationInput>(
+  "SageMakerRunConfigurationInput",
+)({ trackingAssets: TrackingAssets }) {}
+export const DataSourceConfigurationInput = S.Union(
+  S.Struct({ glueRunConfiguration: GlueRunConfigurationInput }),
+  S.Struct({ redshiftRunConfiguration: RedshiftRunConfigurationInput }),
+  S.Struct({ sageMakerRunConfiguration: SageMakerRunConfigurationInput }),
+);
+export class RecommendationConfiguration extends S.Class<RecommendationConfiguration>(
+  "RecommendationConfiguration",
+)({ enableBusinessNameGeneration: S.optional(S.Boolean) }) {}
+export class UpdateDataSourceInput extends S.Class<UpdateDataSourceInput>(
+  "UpdateDataSourceInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    enableSetting: S.optional(S.String),
+    publishOnImport: S.optional(S.Boolean),
+    assetFormsInput: S.optional(FormInputList),
+    schedule: S.optional(ScheduleConfiguration),
+    configuration: S.optional(DataSourceConfigurationInput),
+    recommendation: S.optional(RecommendationConfiguration),
+    retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
+  },
+  T.all(
+    T.Http({
+      method: "PATCH",
+      uri: "/v2/domains/{domainIdentifier}/data-sources/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteDataSourceInput extends S.Class<DeleteDataSourceInput>(
+  "DeleteDataSourceInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
+    retainPermissionsOnRevokeFailure: S.optional(S.Boolean).pipe(
+      T.HttpQuery("retainPermissionsOnRevokeFailure"),
+    ),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/data-sources/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ListDataSourcesInput extends S.Class<ListDataSourcesInput>(
+  "ListDataSourcesInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    projectIdentifier: S.String.pipe(T.HttpQuery("projectIdentifier")),
+    environmentIdentifier: S.optional(S.String).pipe(
+      T.HttpQuery("environmentIdentifier"),
+    ),
+    connectionIdentifier: S.optional(S.String).pipe(
+      T.HttpQuery("connectionIdentifier"),
+    ),
+    type: S.optional(S.String).pipe(T.HttpQuery("type")),
+    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    name: S.optional(S.String).pipe(T.HttpQuery("name")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/data-sources",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class StartDataSourceRunInput extends S.Class<StartDataSourceRunInput>(
+  "StartDataSourceRunInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    dataSourceIdentifier: S.String.pipe(T.HttpLabel()),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/data-sources/{dataSourceIdentifier}/runs",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetDataSourceRunInput extends S.Class<GetDataSourceRunInput>(
+  "GetDataSourceRunInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/data-source-runs/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ListDataSourceRunsInput extends S.Class<ListDataSourceRunsInput>(
+  "ListDataSourceRunsInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    dataSourceIdentifier: S.String.pipe(T.HttpLabel()),
+    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/data-sources/{dataSourceIdentifier}/runs",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetDomainInput extends S.Class<GetDomainInput>("GetDomainInput")(
+  { identifier: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "GET", uri: "/v2/domains/{identifier}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class SingleSignOn extends S.Class<SingleSignOn>("SingleSignOn")({
+  type: S.optional(S.String),
+  userAssignment: S.optional(S.String),
+  idcInstanceArn: S.optional(S.String),
+}) {}
+export class UpdateDomainInput extends S.Class<UpdateDomainInput>(
+  "UpdateDomainInput",
+)(
+  {
+    identifier: S.String.pipe(T.HttpLabel()),
+    description: S.optional(S.String),
+    singleSignOn: S.optional(SingleSignOn),
+    domainExecutionRole: S.optional(S.String),
+    serviceRole: S.optional(S.String),
+    name: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
+  },
+  T.all(
+    T.Http({ method: "PUT", uri: "/v2/domains/{identifier}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteDomainInput extends S.Class<DeleteDomainInput>(
+  "DeleteDomainInput",
+)(
+  {
+    identifier: S.String.pipe(T.HttpLabel()),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
+    skipDeletionCheck: S.optional(S.Boolean).pipe(
+      T.HttpQuery("skipDeletionCheck"),
+    ),
+  },
+  T.all(
+    T.Http({ method: "DELETE", uri: "/v2/domains/{identifier}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ListDomainsInput extends S.Class<ListDomainsInput>(
+  "ListDomainsInput",
+)(
+  {
+    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/v2/domains" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CreateDomainUnitInput extends S.Class<CreateDomainUnitInput>(
+  "CreateDomainUnitInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    name: S.String,
+    parentDomainUnitIdentifier: S.String,
+    description: S.optional(S.String),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/domain-units",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetDomainUnitInput extends S.Class<GetDomainUnitInput>(
+  "GetDomainUnitInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/domain-units/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateDomainUnitInput extends S.Class<UpdateDomainUnitInput>(
+  "UpdateDomainUnitInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "PUT",
+      uri: "/v2/domains/{domainIdentifier}/domain-units/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteDomainUnitInput extends S.Class<DeleteDomainUnitInput>(
+  "DeleteDomainUnitInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/domain-units/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteDomainUnitOutput extends S.Class<DeleteDomainUnitOutput>(
+  "DeleteDomainUnitOutput",
+)({}) {}
+export class ListDomainUnitsForParentInput extends S.Class<ListDomainUnitsForParentInput>(
+  "ListDomainUnitsForParentInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    parentDomainUnitIdentifier: S.String.pipe(
+      T.HttpQuery("parentDomainUnitIdentifier"),
+    ),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/domain-units",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetEnvironmentBlueprintConfigurationInput extends S.Class<GetEnvironmentBlueprintConfigurationInput>(
+  "GetEnvironmentBlueprintConfigurationInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    environmentBlueprintIdentifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteEnvironmentBlueprintConfigurationInput extends S.Class<DeleteEnvironmentBlueprintConfigurationInput>(
+  "DeleteEnvironmentBlueprintConfigurationInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    environmentBlueprintIdentifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteEnvironmentBlueprintConfigurationOutput extends S.Class<DeleteEnvironmentBlueprintConfigurationOutput>(
+  "DeleteEnvironmentBlueprintConfigurationOutput",
+)({}) {}
+export class ListEnvironmentBlueprintConfigurationsInput extends S.Class<ListEnvironmentBlueprintConfigurationsInput>(
+  "ListEnvironmentBlueprintConfigurationsInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteFormTypeInput extends S.Class<DeleteFormTypeInput>(
+  "DeleteFormTypeInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    formTypeIdentifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/form-types/{formTypeIdentifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteFormTypeOutput extends S.Class<DeleteFormTypeOutput>(
+  "DeleteFormTypeOutput",
+)({}) {}
+export class GetFormTypeInput extends S.Class<GetFormTypeInput>(
+  "GetFormTypeInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    formTypeIdentifier: S.String.pipe(T.HttpLabel()),
+    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/form-types/{formTypeIdentifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CreateGlossaryInput extends S.Class<CreateGlossaryInput>(
+  "CreateGlossaryInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    name: S.String,
+    owningProjectIdentifier: S.String,
+    description: S.optional(S.String),
+    status: S.optional(S.String),
+    usageRestrictions: S.optional(GlossaryUsageRestrictions),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/glossaries",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetGlossaryInput extends S.Class<GetGlossaryInput>(
+  "GetGlossaryInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/glossaries/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateGlossaryInput extends S.Class<UpdateGlossaryInput>(
+  "UpdateGlossaryInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    status: S.optional(S.String),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "PATCH",
+      uri: "/v2/domains/{domainIdentifier}/glossaries/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteGlossaryInput extends S.Class<DeleteGlossaryInput>(
+  "DeleteGlossaryInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/glossaries/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteGlossaryOutput extends S.Class<DeleteGlossaryOutput>(
+  "DeleteGlossaryOutput",
+)({}) {}
+export class GetGlossaryTermInput extends S.Class<GetGlossaryTermInput>(
+  "GetGlossaryTermInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/glossary-terms/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class TermRelations extends S.Class<TermRelations>("TermRelations")({
+  isA: S.optional(GlossaryTerms),
+  classifies: S.optional(GlossaryTerms),
+}) {}
+export class UpdateGlossaryTermInput extends S.Class<UpdateGlossaryTermInput>(
+  "UpdateGlossaryTermInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    glossaryIdentifier: S.optional(S.String),
+    identifier: S.String.pipe(T.HttpLabel()),
+    name: S.optional(S.String),
+    shortDescription: S.optional(S.String),
+    longDescription: S.optional(S.String),
+    termRelations: S.optional(TermRelations),
+    status: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "PATCH",
+      uri: "/v2/domains/{domainIdentifier}/glossary-terms/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteGlossaryTermInput extends S.Class<DeleteGlossaryTermInput>(
+  "DeleteGlossaryTermInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/glossary-terms/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteGlossaryTermOutput extends S.Class<DeleteGlossaryTermOutput>(
+  "DeleteGlossaryTermOutput",
+)({}) {}
+export class GetListingInput extends S.Class<GetListingInput>(
+  "GetListingInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    listingRevision: S.optional(S.String).pipe(T.HttpQuery("listingRevision")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/listings/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteListingInput extends S.Class<DeleteListingInput>(
+  "DeleteListingInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/listings/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteListingOutput extends S.Class<DeleteListingOutput>(
+  "DeleteListingOutput",
+)({}) {}
+export class GetMetadataGenerationRunInput extends S.Class<GetMetadataGenerationRunInput>(
+  "GetMetadataGenerationRunInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    type: S.optional(S.String).pipe(T.HttpQuery("type")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CancelMetadataGenerationRunInput extends S.Class<CancelMetadataGenerationRunInput>(
+  "CancelMetadataGenerationRunInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}/cancel",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CancelMetadataGenerationRunOutput extends S.Class<CancelMetadataGenerationRunOutput>(
+  "CancelMetadataGenerationRunOutput",
+)({}) {}
+export class ListMetadataGenerationRunsInput extends S.Class<ListMetadataGenerationRunsInput>(
+  "ListMetadataGenerationRunsInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    type: S.optional(S.String).pipe(T.HttpQuery("type")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    targetIdentifier: S.optional(S.String).pipe(
+      T.HttpQuery("targetIdentifier"),
+    ),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetRuleInput extends S.Class<GetRuleInput>("GetRuleInput")(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/rules/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export const RuleAssetTypeList = S.Array(S.String);
+export class AssetTypesForRule extends S.Class<AssetTypesForRule>(
+  "AssetTypesForRule",
+)({
+  selectionMode: S.String,
+  specificAssetTypes: S.optional(RuleAssetTypeList),
+}) {}
+export const RuleProjectIdentifierList = S.Array(S.String);
+export class ProjectsForRule extends S.Class<ProjectsForRule>(
+  "ProjectsForRule",
+)({
+  selectionMode: S.String,
+  specificProjects: S.optional(RuleProjectIdentifierList),
+}) {}
+export class RuleScope extends S.Class<RuleScope>("RuleScope")({
+  assetType: S.optional(AssetTypesForRule),
+  dataProduct: S.optional(S.Boolean),
+  project: S.optional(ProjectsForRule),
+}) {}
+export class MetadataFormReference extends S.Class<MetadataFormReference>(
+  "MetadataFormReference",
+)({ typeIdentifier: S.String, typeRevision: S.String }) {}
+export const RequiredMetadataFormList = S.Array(MetadataFormReference);
+export class MetadataFormEnforcementDetail extends S.Class<MetadataFormEnforcementDetail>(
+  "MetadataFormEnforcementDetail",
+)({ requiredMetadataForms: S.optional(RequiredMetadataFormList) }) {}
+export const GlossaryTermIdentifiers = S.Array(S.String);
+export class GlossaryTermEnforcementDetail extends S.Class<GlossaryTermEnforcementDetail>(
+  "GlossaryTermEnforcementDetail",
+)({ requiredGlossaryTermIds: S.optional(GlossaryTermIdentifiers) }) {}
+export const RuleDetail = S.Union(
+  S.Struct({ metadataFormEnforcementDetail: MetadataFormEnforcementDetail }),
+  S.Struct({ glossaryTermEnforcementDetail: GlossaryTermEnforcementDetail }),
+);
+export class UpdateRuleInput extends S.Class<UpdateRuleInput>(
+  "UpdateRuleInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    scope: S.optional(RuleScope),
+    detail: S.optional(RuleDetail),
+    includeChildDomainUnits: S.optional(S.Boolean),
+  },
+  T.all(
+    T.Http({
+      method: "PATCH",
+      uri: "/v2/domains/{domainIdentifier}/rules/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteRuleInput extends S.Class<DeleteRuleInput>(
+  "DeleteRuleInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/v2/domains/{domainIdentifier}/rules/{identifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteRuleOutput extends S.Class<DeleteRuleOutput>(
+  "DeleteRuleOutput",
+)({}) {}
+export class ListRulesInput extends S.Class<ListRulesInput>("ListRulesInput")(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    targetType: S.String.pipe(T.HttpLabel()),
+    targetIdentifier: S.String.pipe(T.HttpLabel()),
+    ruleType: S.optional(S.String).pipe(T.HttpQuery("ruleType")),
+    action: S.optional(S.String).pipe(T.HttpQuery("ruleAction")),
+    projectIds: S.optional(ProjectIds).pipe(T.HttpQuery("projectIds")),
+    assetTypes: S.optional(AssetTypeIdentifiers).pipe(
+      T.HttpQuery("assetTypes"),
+    ),
+    dataProduct: S.optional(S.Boolean).pipe(T.HttpQuery("dataProduct")),
+    includeCascaded: S.optional(S.Boolean).pipe(T.HttpQuery("includeCascaded")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/v2/domains/{domainIdentifier}/list-rules/{targetType}/{targetIdentifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export const FilterIds = S.Array(S.String);
 export class Unit extends S.Class<Unit>("Unit")({}) {}
-export class FormInput extends S.Class<FormInput>("FormInput")({
-  formName: S.String,
-  typeIdentifier: S.optional(S.String),
-  typeRevision: S.optional(S.String),
-  content: S.optional(S.String),
-}) {}
-export const FormInputList = S.Array(FormInput);
 export const PredictionChoices = S.Array(S.Number);
 export type FilterList = FilterClause[];
 export const FilterList = S.Array(
@@ -2736,7 +3833,14 @@ export const AggregationList = S.Array(AggregationListItem);
 export class FailureCause extends S.Class<FailureCause>("FailureCause")({
   message: S.optional(S.String),
 }) {}
+export const DomainUnitIds = S.Array(S.String);
+export const GlobalParameterMap = S.Record({ key: S.String, value: S.String });
+export const Model = S.Union(S.Struct({ smithy: S.String }));
+export class MetadataGenerationRunTarget extends S.Class<MetadataGenerationRunTarget>(
+  "MetadataGenerationRunTarget",
+)({ type: S.String, identifier: S.String, revision: S.optional(S.String) }) {}
 export const ProjectProfileList = S.Array(S.String);
+export const S3LocationList = S.Array(S.String);
 export class AcceptPredictionsInput extends S.Class<AcceptPredictionsInput>(
   "AcceptPredictionsInput",
 )(
@@ -3486,6 +4590,525 @@ export class UpdateUserProfileOutput extends S.Class<UpdateUserProfileOutput>(
   status: S.optional(S.String),
   details: S.optional(UserProfileDetails),
 }) {}
+export class AssetListingDetails extends S.Class<AssetListingDetails>(
+  "AssetListingDetails",
+)({ listingId: S.String, listingStatus: S.String }) {}
+export const FormOutputList = S.Array(FormOutput);
+export class TimeSeriesDataPointSummaryFormOutput extends S.Class<TimeSeriesDataPointSummaryFormOutput>(
+  "TimeSeriesDataPointSummaryFormOutput",
+)({
+  formName: S.String,
+  typeIdentifier: S.String,
+  typeRevision: S.optional(S.String),
+  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  contentSummary: S.optional(S.String),
+  id: S.optional(S.String),
+}) {}
+export const TimeSeriesDataPointSummaryFormOutputList = S.Array(
+  TimeSeriesDataPointSummaryFormOutput,
+);
+export class CreateAssetRevisionOutput extends S.Class<CreateAssetRevisionOutput>(
+  "CreateAssetRevisionOutput",
+)({
+  id: S.String,
+  name: S.String,
+  typeIdentifier: S.String,
+  typeRevision: S.String,
+  externalIdentifier: S.optional(S.String),
+  revision: S.String,
+  description: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  firstRevisionCreatedAt: S.optional(
+    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  ),
+  firstRevisionCreatedBy: S.optional(S.String),
+  glossaryTerms: S.optional(GlossaryTerms),
+  governedGlossaryTerms: S.optional(GovernedGlossaryTerms),
+  owningProjectId: S.String,
+  domainId: S.String,
+  listing: S.optional(AssetListingDetails),
+  formsOutput: FormOutputList,
+  readOnlyFormsOutput: S.optional(FormOutputList),
+  latestTimeSeriesDataPointFormsOutput: S.optional(
+    TimeSeriesDataPointSummaryFormOutputList,
+  ),
+  predictionConfiguration: S.optional(PredictionConfiguration),
+}) {}
+export class CreateDataProductInput extends S.Class<CreateDataProductInput>(
+  "CreateDataProductInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    name: S.String,
+    owningProjectIdentifier: S.String,
+    description: S.optional(S.String),
+    glossaryTerms: S.optional(GlossaryTerms),
+    formsInput: S.optional(FormInputList),
+    items: S.optional(DataProductItems),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/data-products",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetDataProductOutput extends S.Class<GetDataProductOutput>(
+  "GetDataProductOutput",
+)({
+  domainId: S.String,
+  id: S.String,
+  revision: S.String,
+  owningProjectId: S.String,
+  name: S.String,
+  status: S.String,
+  description: S.optional(S.String),
+  glossaryTerms: S.optional(GlossaryTerms),
+  items: S.optional(DataProductItems),
+  formsOutput: S.optional(FormOutputList),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  firstRevisionCreatedAt: S.optional(
+    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  ),
+  firstRevisionCreatedBy: S.optional(S.String),
+}) {}
+export class CreateDataProductRevisionOutput extends S.Class<CreateDataProductRevisionOutput>(
+  "CreateDataProductRevisionOutput",
+)({
+  domainId: S.String,
+  id: S.String,
+  revision: S.String,
+  owningProjectId: S.String,
+  name: S.String,
+  status: S.String,
+  description: S.optional(S.String),
+  glossaryTerms: S.optional(GlossaryTerms),
+  items: S.optional(DataProductItems),
+  formsOutput: S.optional(FormOutputList),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  firstRevisionCreatedAt: S.optional(
+    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  ),
+  firstRevisionCreatedBy: S.optional(S.String),
+}) {}
+export class GlueRunConfigurationOutput extends S.Class<GlueRunConfigurationOutput>(
+  "GlueRunConfigurationOutput",
+)({
+  accountId: S.optional(S.String),
+  region: S.optional(S.String),
+  dataAccessRole: S.optional(S.String),
+  relationalFilterConfigurations: RelationalFilterConfigurations,
+  autoImportDataQualityResult: S.optional(S.Boolean),
+  catalogName: S.optional(S.String),
+}) {}
+export class RedshiftRunConfigurationOutput extends S.Class<RedshiftRunConfigurationOutput>(
+  "RedshiftRunConfigurationOutput",
+)({
+  accountId: S.optional(S.String),
+  region: S.optional(S.String),
+  dataAccessRole: S.optional(S.String),
+  relationalFilterConfigurations: RelationalFilterConfigurations,
+  redshiftCredentialConfiguration: S.optional(RedshiftCredentialConfiguration),
+  redshiftStorage: RedshiftStorage,
+}) {}
+export class SageMakerRunConfigurationOutput extends S.Class<SageMakerRunConfigurationOutput>(
+  "SageMakerRunConfigurationOutput",
+)({
+  accountId: S.optional(S.String),
+  region: S.optional(S.String),
+  trackingAssets: TrackingAssets,
+}) {}
+export const DataSourceConfigurationOutput = S.Union(
+  S.Struct({ glueRunConfiguration: GlueRunConfigurationOutput }),
+  S.Struct({ redshiftRunConfiguration: RedshiftRunConfigurationOutput }),
+  S.Struct({ sageMakerRunConfiguration: SageMakerRunConfigurationOutput }),
+);
+export class DataSourceErrorMessage extends S.Class<DataSourceErrorMessage>(
+  "DataSourceErrorMessage",
+)({ errorType: S.String, errorDetail: S.optional(S.String) }) {}
+export class SelfGrantStatusDetail extends S.Class<SelfGrantStatusDetail>(
+  "SelfGrantStatusDetail",
+)({
+  databaseName: S.String,
+  schemaName: S.optional(S.String),
+  status: S.String,
+  failureCause: S.optional(S.String),
+}) {}
+export const SelfGrantStatusDetails = S.Array(SelfGrantStatusDetail);
+export class GlueSelfGrantStatusOutput extends S.Class<GlueSelfGrantStatusOutput>(
+  "GlueSelfGrantStatusOutput",
+)({ selfGrantStatusDetails: SelfGrantStatusDetails }) {}
+export class RedshiftSelfGrantStatusOutput extends S.Class<RedshiftSelfGrantStatusOutput>(
+  "RedshiftSelfGrantStatusOutput",
+)({ selfGrantStatusDetails: SelfGrantStatusDetails }) {}
+export const SelfGrantStatusOutput = S.Union(
+  S.Struct({ glueSelfGrantStatus: GlueSelfGrantStatusOutput }),
+  S.Struct({ redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput }),
+);
+export class UpdateDataSourceOutput extends S.Class<UpdateDataSourceOutput>(
+  "UpdateDataSourceOutput",
+)({
+  id: S.String,
+  status: S.optional(S.String),
+  type: S.optional(S.String),
+  name: S.String,
+  description: S.optional(S.String),
+  domainId: S.String,
+  projectId: S.String,
+  environmentId: S.optional(S.String),
+  connectionId: S.optional(S.String),
+  configuration: S.optional(DataSourceConfigurationOutput),
+  recommendation: S.optional(RecommendationConfiguration),
+  enableSetting: S.optional(S.String),
+  publishOnImport: S.optional(S.Boolean),
+  assetFormsOutput: S.optional(FormOutputList),
+  schedule: S.optional(ScheduleConfiguration),
+  lastRunStatus: S.optional(S.String),
+  lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  lastRunErrorMessage: S.optional(DataSourceErrorMessage),
+  errorMessage: S.optional(DataSourceErrorMessage),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  selfGrantStatus: S.optional(SelfGrantStatusOutput),
+  retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
+}) {}
+export class DeleteDataSourceOutput extends S.Class<DeleteDataSourceOutput>(
+  "DeleteDataSourceOutput",
+)({
+  id: S.String,
+  status: S.optional(S.String),
+  type: S.optional(S.String),
+  name: S.String,
+  description: S.optional(S.String),
+  domainId: S.String,
+  projectId: S.String,
+  environmentId: S.optional(S.String),
+  connectionId: S.optional(S.String),
+  configuration: S.optional(DataSourceConfigurationOutput),
+  enableSetting: S.optional(S.String),
+  publishOnImport: S.optional(S.Boolean),
+  assetFormsOutput: S.optional(FormOutputList),
+  schedule: S.optional(ScheduleConfiguration),
+  lastRunStatus: S.optional(S.String),
+  lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  lastRunErrorMessage: S.optional(DataSourceErrorMessage),
+  errorMessage: S.optional(DataSourceErrorMessage),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  selfGrantStatus: S.optional(SelfGrantStatusOutput),
+  retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
+}) {}
+export class CreateDomainInput extends S.Class<CreateDomainInput>(
+  "CreateDomainInput",
+)(
+  {
+    name: S.String,
+    description: S.optional(S.String),
+    singleSignOn: S.optional(SingleSignOn),
+    domainExecutionRole: S.String,
+    kmsKeyIdentifier: S.optional(S.String),
+    tags: S.optional(Tags),
+    domainVersion: S.optional(S.String),
+    serviceRole: S.optional(S.String),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/v2/domains" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetDomainOutput extends S.Class<GetDomainOutput>(
+  "GetDomainOutput",
+)({
+  id: S.String,
+  rootDomainUnitId: S.optional(S.String),
+  name: S.optional(S.String),
+  description: S.optional(S.String),
+  singleSignOn: S.optional(SingleSignOn),
+  domainExecutionRole: S.String,
+  arn: S.optional(S.String),
+  kmsKeyIdentifier: S.optional(S.String),
+  status: S.String,
+  portalUrl: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  tags: S.optional(Tags),
+  domainVersion: S.optional(S.String),
+  serviceRole: S.optional(S.String),
+}) {}
+export class UpdateDomainOutput extends S.Class<UpdateDomainOutput>(
+  "UpdateDomainOutput",
+)({
+  id: S.String,
+  rootDomainUnitId: S.optional(S.String),
+  description: S.optional(S.String),
+  singleSignOn: S.optional(SingleSignOn),
+  domainExecutionRole: S.optional(S.String),
+  serviceRole: S.optional(S.String),
+  name: S.optional(S.String),
+  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+}) {}
+export class DeleteDomainOutput extends S.Class<DeleteDomainOutput>(
+  "DeleteDomainOutput",
+)({ status: S.String }) {}
+export class DomainUnitUserProperties extends S.Class<DomainUnitUserProperties>(
+  "DomainUnitUserProperties",
+)({ userId: S.optional(S.String) }) {}
+export class DomainUnitGroupProperties extends S.Class<DomainUnitGroupProperties>(
+  "DomainUnitGroupProperties",
+)({ groupId: S.optional(S.String) }) {}
+export const DomainUnitOwnerProperties = S.Union(
+  S.Struct({ user: DomainUnitUserProperties }),
+  S.Struct({ group: DomainUnitGroupProperties }),
+);
+export const DomainUnitOwners = S.Array(DomainUnitOwnerProperties);
+export class GetDomainUnitOutput extends S.Class<GetDomainUnitOutput>(
+  "GetDomainUnitOutput",
+)({
+  id: S.String,
+  domainId: S.String,
+  name: S.String,
+  parentDomainUnitId: S.optional(S.String),
+  description: S.optional(S.String),
+  owners: DomainUnitOwners,
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  lastUpdatedBy: S.optional(S.String),
+}) {}
+export class UpdateDomainUnitOutput extends S.Class<UpdateDomainUnitOutput>(
+  "UpdateDomainUnitOutput",
+)({
+  id: S.String,
+  domainId: S.String,
+  name: S.String,
+  owners: DomainUnitOwners,
+  description: S.optional(S.String),
+  parentDomainUnitId: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  lastUpdatedBy: S.optional(S.String),
+}) {}
+export const RegionalParameter = S.Record({ key: S.String, value: S.String });
+export const RegionalParameterMap = S.Record({
+  key: S.String,
+  value: RegionalParameter,
+});
+export class LakeFormationConfiguration extends S.Class<LakeFormationConfiguration>(
+  "LakeFormationConfiguration",
+)({
+  locationRegistrationRole: S.optional(S.String),
+  locationRegistrationExcludeS3Locations: S.optional(S3LocationList),
+}) {}
+export const ProvisioningConfiguration = S.Union(
+  S.Struct({ lakeFormationConfiguration: LakeFormationConfiguration }),
+);
+export const ProvisioningConfigurationList = S.Array(ProvisioningConfiguration);
+export class GetEnvironmentBlueprintConfigurationOutput extends S.Class<GetEnvironmentBlueprintConfigurationOutput>(
+  "GetEnvironmentBlueprintConfigurationOutput",
+)({
+  domainId: S.String,
+  environmentBlueprintId: S.String,
+  provisioningRoleArn: S.optional(S.String),
+  environmentRolePermissionBoundary: S.optional(S.String),
+  manageAccessRoleArn: S.optional(S.String),
+  enabledRegions: S.optional(EnabledRegionList),
+  regionalParameters: S.optional(RegionalParameterMap),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  provisioningConfigurations: S.optional(ProvisioningConfigurationList),
+}) {}
+export class CreateFormTypeInput extends S.Class<CreateFormTypeInput>(
+  "CreateFormTypeInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    name: S.String,
+    model: Model,
+    owningProjectIdentifier: S.String,
+    status: S.optional(S.String),
+    description: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/form-types",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CreateGlossaryOutput extends S.Class<CreateGlossaryOutput>(
+  "CreateGlossaryOutput",
+)({
+  domainId: S.String,
+  id: S.String,
+  name: S.String,
+  owningProjectId: S.String,
+  description: S.optional(S.String),
+  status: S.optional(S.String),
+  usageRestrictions: S.optional(GlossaryUsageRestrictions),
+}) {}
+export class GetGlossaryOutput extends S.Class<GetGlossaryOutput>(
+  "GetGlossaryOutput",
+)({
+  domainId: S.String,
+  id: S.String,
+  owningProjectId: S.String,
+  name: S.String,
+  description: S.optional(S.String),
+  status: S.String,
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  updatedBy: S.optional(S.String),
+  usageRestrictions: S.optional(GlossaryUsageRestrictions),
+}) {}
+export class UpdateGlossaryOutput extends S.Class<UpdateGlossaryOutput>(
+  "UpdateGlossaryOutput",
+)({
+  domainId: S.String,
+  id: S.String,
+  name: S.String,
+  owningProjectId: S.String,
+  description: S.optional(S.String),
+  status: S.optional(S.String),
+  usageRestrictions: S.optional(GlossaryUsageRestrictions),
+}) {}
+export class CreateGlossaryTermInput extends S.Class<CreateGlossaryTermInput>(
+  "CreateGlossaryTermInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    glossaryIdentifier: S.String,
+    name: S.String,
+    status: S.optional(S.String),
+    shortDescription: S.optional(S.String),
+    longDescription: S.optional(S.String),
+    termRelations: S.optional(TermRelations),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/glossary-terms",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetGlossaryTermOutput extends S.Class<GetGlossaryTermOutput>(
+  "GetGlossaryTermOutput",
+)({
+  domainId: S.String,
+  glossaryId: S.String,
+  id: S.String,
+  name: S.String,
+  shortDescription: S.optional(S.String),
+  longDescription: S.optional(S.String),
+  termRelations: S.optional(TermRelations),
+  status: S.String,
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  updatedBy: S.optional(S.String),
+  usageRestrictions: S.optional(GlossaryUsageRestrictions),
+}) {}
+export class UpdateGlossaryTermOutput extends S.Class<UpdateGlossaryTermOutput>(
+  "UpdateGlossaryTermOutput",
+)({
+  id: S.String,
+  domainId: S.String,
+  glossaryId: S.String,
+  name: S.String,
+  status: S.String,
+  shortDescription: S.optional(S.String),
+  longDescription: S.optional(S.String),
+  termRelations: S.optional(TermRelations),
+  usageRestrictions: S.optional(GlossaryUsageRestrictions),
+}) {}
+export class StartMetadataGenerationRunInput extends S.Class<StartMetadataGenerationRunInput>(
+  "StartMetadataGenerationRunInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    type: S.optional(S.String),
+    types: S.optional(MetadataGenerationRunTypes),
+    target: MetadataGenerationRunTarget,
+    clientToken: S.optional(S.String),
+    owningProjectIdentifier: S.String,
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DomainUnitTarget extends S.Class<DomainUnitTarget>(
+  "DomainUnitTarget",
+)({ domainUnitId: S.String, includeChildDomainUnits: S.optional(S.Boolean) }) {}
+export const RuleTarget = S.Union(
+  S.Struct({ domainUnitTarget: DomainUnitTarget }),
+);
+export class GetRuleOutput extends S.Class<GetRuleOutput>("GetRuleOutput")({
+  identifier: S.String,
+  revision: S.String,
+  name: S.String,
+  ruleType: S.String,
+  target: RuleTarget,
+  action: S.String,
+  scope: RuleScope,
+  detail: RuleDetail,
+  targetType: S.optional(S.String),
+  description: S.optional(S.String),
+  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  createdBy: S.String,
+  lastUpdatedBy: S.String,
+}) {}
+export class UpdateRuleOutput extends S.Class<UpdateRuleOutput>(
+  "UpdateRuleOutput",
+)({
+  identifier: S.String,
+  revision: S.String,
+  name: S.String,
+  ruleType: S.String,
+  target: RuleTarget,
+  action: S.String,
+  scope: RuleScope,
+  detail: RuleDetail,
+  description: S.optional(S.String),
+  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  createdBy: S.String,
+  lastUpdatedBy: S.String,
+}) {}
 export class CreateDomainUnitPolicyGrantDetail extends S.Class<CreateDomainUnitPolicyGrantDetail>(
   "CreateDomainUnitPolicyGrantDetail",
 )({ includeChildDomainUnits: S.optional(S.Boolean) }) {}
@@ -3636,6 +5259,11 @@ export class AmazonQPropertiesPatch extends S.Class<AmazonQPropertiesPatch>(
 export class MlflowPropertiesPatch extends S.Class<MlflowPropertiesPatch>(
   "MlflowPropertiesPatch",
 )({ trackingServerArn: S.optional(S.String) }) {}
+export class FormEntryInput extends S.Class<FormEntryInput>("FormEntryInput")({
+  typeIdentifier: S.String,
+  typeRevision: S.String,
+  required: S.optional(S.Boolean),
+}) {}
 export type RowFilterList = RowFilter[];
 export const RowFilterList = S.Array(
   S.suspend(() => RowFilter),
@@ -3668,7 +5296,6 @@ export const PolicyGrantDetail = S.Union(
   }),
   S.Struct({ useAssetType: UseAssetTypePolicyGrantDetail }),
 );
-export const FormOutputList = S.Array(FormOutput);
 export class BatchGetAttributeOutput extends S.Class<BatchGetAttributeOutput>(
   "BatchGetAttributeOutput",
 )({ attributeIdentifier: S.String, forms: S.optional(FormOutputList) }) {}
@@ -4177,19 +5804,6 @@ export class SubscriptionTargetSummary extends S.Class<SubscriptionTargetSummary
   provider: S.String,
 }) {}
 export const SubscriptionTargets = S.Array(SubscriptionTargetSummary);
-export class TimeSeriesDataPointSummaryFormOutput extends S.Class<TimeSeriesDataPointSummaryFormOutput>(
-  "TimeSeriesDataPointSummaryFormOutput",
-)({
-  formName: S.String,
-  typeIdentifier: S.String,
-  typeRevision: S.optional(S.String),
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  contentSummary: S.optional(S.String),
-  id: S.optional(S.String),
-}) {}
-export const TimeSeriesDataPointSummaryFormOutputList = S.Array(
-  TimeSeriesDataPointSummaryFormOutput,
-);
 export const TimeSeriesDataPointFormOutputList = S.Array(
   TimeSeriesDataPointFormOutput,
 );
@@ -4212,6 +5826,129 @@ export class UserProfileSummary extends S.Class<UserProfileSummary>(
   details: S.optional(UserProfileDetails),
 }) {}
 export const UserProfileSummaries = S.Array(UserProfileSummary);
+export const FormsInputMap = S.Record({ key: S.String, value: FormEntryInput });
+export class DataSourceSummary extends S.Class<DataSourceSummary>(
+  "DataSourceSummary",
+)({
+  domainId: S.String,
+  environmentId: S.optional(S.String),
+  connectionId: S.optional(S.String),
+  dataSourceId: S.String,
+  name: S.String,
+  type: S.String,
+  status: S.String,
+  enableSetting: S.optional(S.String),
+  schedule: S.optional(ScheduleConfiguration),
+  lastRunStatus: S.optional(S.String),
+  lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  lastRunErrorMessage: S.optional(DataSourceErrorMessage),
+  lastRunAssetCount: S.optional(S.Number),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  description: S.optional(S.String),
+}) {}
+export const DataSourceSummaries = S.Array(DataSourceSummary);
+export class RunStatisticsForAssets extends S.Class<RunStatisticsForAssets>(
+  "RunStatisticsForAssets",
+)({
+  added: S.optional(S.Number),
+  updated: S.optional(S.Number),
+  unchanged: S.optional(S.Number),
+  skipped: S.optional(S.Number),
+  failed: S.optional(S.Number),
+}) {}
+export class DataSourceRunLineageSummary extends S.Class<DataSourceRunLineageSummary>(
+  "DataSourceRunLineageSummary",
+)({ importStatus: S.optional(S.String) }) {}
+export class DataSourceRunSummary extends S.Class<DataSourceRunSummary>(
+  "DataSourceRunSummary",
+)({
+  id: S.String,
+  dataSourceId: S.String,
+  type: S.String,
+  status: S.String,
+  projectId: S.String,
+  runStatisticsForAssets: S.optional(RunStatisticsForAssets),
+  errorMessage: S.optional(DataSourceErrorMessage),
+  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  stoppedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  lineageSummary: S.optional(DataSourceRunLineageSummary),
+}) {}
+export const DataSourceRunSummaries = S.Array(DataSourceRunSummary);
+export class DomainSummary extends S.Class<DomainSummary>("DomainSummary")({
+  id: S.String,
+  name: S.String,
+  description: S.optional(S.String),
+  arn: S.String,
+  managedAccountId: S.String,
+  status: S.String,
+  portalUrl: S.optional(S.String),
+  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  domainVersion: S.optional(S.String),
+}) {}
+export const DomainSummaries = S.Array(DomainSummary);
+export class DomainUnitSummary extends S.Class<DomainUnitSummary>(
+  "DomainUnitSummary",
+)({ name: S.String, id: S.String }) {}
+export const DomainUnitSummaries = S.Array(DomainUnitSummary);
+export class EnvironmentBlueprintConfigurationItem extends S.Class<EnvironmentBlueprintConfigurationItem>(
+  "EnvironmentBlueprintConfigurationItem",
+)({
+  domainId: S.String,
+  environmentBlueprintId: S.String,
+  provisioningRoleArn: S.optional(S.String),
+  environmentRolePermissionBoundary: S.optional(S.String),
+  manageAccessRoleArn: S.optional(S.String),
+  enabledRegions: S.optional(EnabledRegionList),
+  regionalParameters: S.optional(RegionalParameterMap),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  provisioningConfigurations: S.optional(ProvisioningConfigurationList),
+}) {}
+export const EnvironmentBlueprintConfigurations = S.Array(
+  EnvironmentBlueprintConfigurationItem,
+);
+export class Import extends S.Class<Import>("Import")({
+  name: S.String,
+  revision: S.String,
+}) {}
+export const ImportList = S.Array(Import);
+export class MetadataGenerationRunTypeStat extends S.Class<MetadataGenerationRunTypeStat>(
+  "MetadataGenerationRunTypeStat",
+)({ type: S.String, status: S.String, errorMessage: S.optional(S.String) }) {}
+export const MetadataGenerationRunTypeStats = S.Array(
+  MetadataGenerationRunTypeStat,
+);
+export class MetadataGenerationRunItem extends S.Class<MetadataGenerationRunItem>(
+  "MetadataGenerationRunItem",
+)({
+  domainId: S.String,
+  id: S.String,
+  target: S.optional(MetadataGenerationRunTarget),
+  status: S.optional(S.String),
+  type: S.optional(S.String),
+  types: S.optional(MetadataGenerationRunTypes),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  owningProjectId: S.String,
+}) {}
+export const MetadataGenerationRuns = S.Array(MetadataGenerationRunItem);
+export class RuleSummary extends S.Class<RuleSummary>("RuleSummary")({
+  identifier: S.optional(S.String),
+  revision: S.optional(S.String),
+  ruleType: S.optional(S.String),
+  name: S.optional(S.String),
+  targetType: S.optional(S.String),
+  target: S.optional(RuleTarget),
+  action: S.optional(S.String),
+  scope: S.optional(RuleScope),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  lastUpdatedBy: S.optional(S.String),
+}) {}
+export const RuleSummaries = S.Array(RuleSummary);
 export const EnvironmentFailureReasonsList = S.Array(EnvironmentError);
 export class AcceptPredictionsOutput extends S.Class<AcceptPredictionsOutput>(
   "AcceptPredictionsOutput",
@@ -4637,6 +6374,269 @@ export class UpdateSubscriptionGrantStatusOutput extends S.Class<UpdateSubscript
   assets: S.optional(SubscribedAssets),
   subscriptionId: S.optional(S.String),
 }) {}
+export class CreateAssetInput extends S.Class<CreateAssetInput>(
+  "CreateAssetInput",
+)(
+  {
+    name: S.String,
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    externalIdentifier: S.optional(S.String),
+    typeIdentifier: S.String,
+    typeRevision: S.optional(S.String),
+    description: S.optional(S.String),
+    glossaryTerms: S.optional(GlossaryTerms),
+    formsInput: S.optional(FormInputList),
+    owningProjectIdentifier: S.String,
+    predictionConfiguration: S.optional(PredictionConfiguration),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/assets" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetAssetOutput extends S.Class<GetAssetOutput>("GetAssetOutput")({
+  id: S.String,
+  name: S.String,
+  typeIdentifier: S.String,
+  typeRevision: S.String,
+  externalIdentifier: S.optional(S.String),
+  revision: S.String,
+  description: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  firstRevisionCreatedAt: S.optional(
+    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  ),
+  firstRevisionCreatedBy: S.optional(S.String),
+  glossaryTerms: S.optional(GlossaryTerms),
+  governedGlossaryTerms: S.optional(GovernedGlossaryTerms),
+  owningProjectId: S.String,
+  domainId: S.String,
+  listing: S.optional(AssetListingDetails),
+  formsOutput: FormOutputList,
+  readOnlyFormsOutput: S.optional(FormOutputList),
+  latestTimeSeriesDataPointFormsOutput: S.optional(
+    TimeSeriesDataPointSummaryFormOutputList,
+  ),
+}) {}
+export class CreateAssetTypeInput extends S.Class<CreateAssetTypeInput>(
+  "CreateAssetTypeInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    name: S.String,
+    description: S.optional(S.String),
+    formsInput: FormsInputMap,
+    owningProjectIdentifier: S.String,
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/asset-types",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CreateDataProductOutput extends S.Class<CreateDataProductOutput>(
+  "CreateDataProductOutput",
+)({
+  domainId: S.String,
+  id: S.String,
+  revision: S.String,
+  owningProjectId: S.String,
+  name: S.String,
+  status: S.String,
+  description: S.optional(S.String),
+  glossaryTerms: S.optional(GlossaryTerms),
+  items: S.optional(DataProductItems),
+  formsOutput: S.optional(FormOutputList),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  firstRevisionCreatedAt: S.optional(
+    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  ),
+  firstRevisionCreatedBy: S.optional(S.String),
+}) {}
+export class ListDataSourcesOutput extends S.Class<ListDataSourcesOutput>(
+  "ListDataSourcesOutput",
+)({ items: DataSourceSummaries, nextToken: S.optional(S.String) }) {}
+export class StartDataSourceRunOutput extends S.Class<StartDataSourceRunOutput>(
+  "StartDataSourceRunOutput",
+)({
+  domainId: S.String,
+  dataSourceId: S.String,
+  id: S.String,
+  projectId: S.String,
+  status: S.String,
+  type: S.String,
+  dataSourceConfigurationSnapshot: S.optional(S.String),
+  runStatisticsForAssets: S.optional(RunStatisticsForAssets),
+  errorMessage: S.optional(DataSourceErrorMessage),
+  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  stoppedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+}) {}
+export class GetDataSourceRunOutput extends S.Class<GetDataSourceRunOutput>(
+  "GetDataSourceRunOutput",
+)({
+  domainId: S.String,
+  dataSourceId: S.String,
+  id: S.String,
+  projectId: S.String,
+  status: S.String,
+  type: S.String,
+  dataSourceConfigurationSnapshot: S.optional(S.String),
+  runStatisticsForAssets: S.optional(RunStatisticsForAssets),
+  lineageSummary: S.optional(DataSourceRunLineageSummary),
+  errorMessage: S.optional(DataSourceErrorMessage),
+  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  stoppedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+}) {}
+export class ListDataSourceRunsOutput extends S.Class<ListDataSourceRunsOutput>(
+  "ListDataSourceRunsOutput",
+)({ items: DataSourceRunSummaries, nextToken: S.optional(S.String) }) {}
+export class CreateDomainOutput extends S.Class<CreateDomainOutput>(
+  "CreateDomainOutput",
+)({
+  id: S.String,
+  rootDomainUnitId: S.optional(S.String),
+  name: S.optional(S.String),
+  description: S.optional(S.String),
+  singleSignOn: S.optional(SingleSignOn),
+  domainExecutionRole: S.optional(S.String),
+  arn: S.optional(S.String),
+  kmsKeyIdentifier: S.optional(S.String),
+  status: S.optional(S.String),
+  portalUrl: S.optional(S.String),
+  tags: S.optional(Tags),
+  domainVersion: S.optional(S.String),
+  serviceRole: S.optional(S.String),
+}) {}
+export class ListDomainsOutput extends S.Class<ListDomainsOutput>(
+  "ListDomainsOutput",
+)({ items: DomainSummaries, nextToken: S.optional(S.String) }) {}
+export class ListDomainUnitsForParentOutput extends S.Class<ListDomainUnitsForParentOutput>(
+  "ListDomainUnitsForParentOutput",
+)({ items: DomainUnitSummaries, nextToken: S.optional(S.String) }) {}
+export class PutEnvironmentBlueprintConfigurationInput extends S.Class<PutEnvironmentBlueprintConfigurationInput>(
+  "PutEnvironmentBlueprintConfigurationInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    environmentBlueprintIdentifier: S.String.pipe(T.HttpLabel()),
+    provisioningRoleArn: S.optional(S.String),
+    manageAccessRoleArn: S.optional(S.String),
+    environmentRolePermissionBoundary: S.optional(S.String),
+    enabledRegions: EnabledRegionList,
+    regionalParameters: S.optional(RegionalParameterMap),
+    globalParameters: S.optional(GlobalParameterMap),
+    provisioningConfigurations: S.optional(ProvisioningConfigurationList),
+  },
+  T.all(
+    T.Http({
+      method: "PUT",
+      uri: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ListEnvironmentBlueprintConfigurationsOutput extends S.Class<ListEnvironmentBlueprintConfigurationsOutput>(
+  "ListEnvironmentBlueprintConfigurationsOutput",
+)({
+  items: S.optional(EnvironmentBlueprintConfigurations),
+  nextToken: S.optional(S.String),
+}) {}
+export class CreateFormTypeOutput extends S.Class<CreateFormTypeOutput>(
+  "CreateFormTypeOutput",
+)({
+  domainId: S.String,
+  name: S.String,
+  revision: S.String,
+  description: S.optional(S.String),
+  owningProjectId: S.optional(S.String),
+  originDomainId: S.optional(S.String),
+  originProjectId: S.optional(S.String),
+}) {}
+export class GetFormTypeOutput extends S.Class<GetFormTypeOutput>(
+  "GetFormTypeOutput",
+)({
+  domainId: S.String,
+  name: S.String,
+  revision: S.String,
+  model: Model,
+  owningProjectId: S.optional(S.String),
+  originDomainId: S.optional(S.String),
+  originProjectId: S.optional(S.String),
+  status: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  description: S.optional(S.String),
+  imports: S.optional(ImportList),
+}) {}
+export class CreateGlossaryTermOutput extends S.Class<CreateGlossaryTermOutput>(
+  "CreateGlossaryTermOutput",
+)({
+  id: S.String,
+  domainId: S.String,
+  glossaryId: S.String,
+  name: S.String,
+  status: S.String,
+  shortDescription: S.optional(S.String),
+  longDescription: S.optional(S.String),
+  termRelations: S.optional(TermRelations),
+  usageRestrictions: S.optional(GlossaryUsageRestrictions),
+}) {}
+export class StartMetadataGenerationRunOutput extends S.Class<StartMetadataGenerationRunOutput>(
+  "StartMetadataGenerationRunOutput",
+)({
+  domainId: S.String,
+  id: S.String,
+  status: S.optional(S.String),
+  type: S.optional(S.String),
+  types: S.optional(MetadataGenerationRunTypes),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  owningProjectId: S.optional(S.String),
+}) {}
+export class GetMetadataGenerationRunOutput extends S.Class<GetMetadataGenerationRunOutput>(
+  "GetMetadataGenerationRunOutput",
+)({
+  domainId: S.String,
+  id: S.String,
+  target: S.optional(MetadataGenerationRunTarget),
+  status: S.optional(S.String),
+  type: S.optional(S.String),
+  types: S.optional(MetadataGenerationRunTypes),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  owningProjectId: S.String,
+  typeStats: S.optional(MetadataGenerationRunTypeStats),
+}) {}
+export class ListMetadataGenerationRunsOutput extends S.Class<ListMetadataGenerationRunsOutput>(
+  "ListMetadataGenerationRunsOutput",
+)({
+  items: S.optional(MetadataGenerationRuns),
+  nextToken: S.optional(S.String),
+}) {}
+export class ListRulesOutput extends S.Class<ListRulesOutput>(
+  "ListRulesOutput",
+)({ items: RuleSummaries, nextToken: S.optional(S.String) }) {}
 export class SparkGluePropertiesInput extends S.Class<SparkGluePropertiesInput>(
   "SparkGluePropertiesInput",
 )({
@@ -4649,9 +6649,6 @@ export class SparkGluePropertiesInput extends S.Class<SparkGluePropertiesInput>(
   pythonVirtualEnv: S.optional(S.String),
   workerType: S.optional(S.String),
 }) {}
-export class DataSourceErrorMessage extends S.Class<DataSourceErrorMessage>(
-  "DataSourceErrorMessage",
-)({ errorType: S.String, errorDetail: S.optional(S.String) }) {}
 export class LineageInfo extends S.Class<LineageInfo>("LineageInfo")({
   eventId: S.optional(S.String),
   eventStatus: S.optional(S.String),
@@ -4683,6 +6680,34 @@ export const FormsOutputMap = S.Record({
   key: S.String,
   value: FormEntryOutput,
 });
+export class AssetTypeItem extends S.Class<AssetTypeItem>("AssetTypeItem")({
+  domainId: S.String,
+  name: S.String,
+  revision: S.String,
+  description: S.optional(S.String),
+  formsOutput: FormsOutputMap,
+  owningProjectId: S.String,
+  originDomainId: S.optional(S.String),
+  originProjectId: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  updatedBy: S.optional(S.String),
+}) {}
+export class FormTypeData extends S.Class<FormTypeData>("FormTypeData")({
+  domainId: S.String,
+  name: S.String,
+  revision: S.String,
+  model: S.optional(Model),
+  status: S.optional(S.String),
+  owningProjectId: S.optional(S.String),
+  originDomainId: S.optional(S.String),
+  originProjectId: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  description: S.optional(S.String),
+  imports: S.optional(ImportList),
+}) {}
 export class LineageNodeTypeItem extends S.Class<LineageNodeTypeItem>(
   "LineageNodeTypeItem",
 )({
@@ -4755,6 +6780,12 @@ export class SubscriptionRequestSummary extends S.Class<SubscriptionRequestSumma
   metadataFormsSummary: S.optional(MetadataFormsSummary),
 }) {}
 export const SubscriptionRequests = S.Array(SubscriptionRequestSummary);
+export const SearchTypesResultItem = S.Union(
+  S.Struct({ assetTypeItem: AssetTypeItem }),
+  S.Struct({ formTypeItem: FormTypeData }),
+  S.Struct({ lineageNodeTypeItem: LineageNodeTypeItem }),
+);
+export const SearchTypesResultItems = S.Array(SearchTypesResultItem);
 export class LineageSqlQueryRunDetails extends S.Class<LineageSqlQueryRunDetails>(
   "LineageSqlQueryRunDetails",
 )({
@@ -4773,12 +6804,6 @@ export class UserDetails extends S.Class<UserDetails>("UserDetails")({
 export class GroupDetails extends S.Class<GroupDetails>("GroupDetails")({
   groupId: S.String,
 }) {}
-export const Model = S.Union(S.Struct({ smithy: S.String }));
-export class Import extends S.Class<Import>("Import")({
-  name: S.String,
-  revision: S.String,
-}) {}
-export const ImportList = S.Array(Import);
 export class GlueConnectionPatch extends S.Class<GlueConnectionPatch>(
   "GlueConnectionPatch",
 )({
@@ -4786,6 +6811,12 @@ export class GlueConnectionPatch extends S.Class<GlueConnectionPatch>(
   connectionProperties: S.optional(ConnectionProperties),
   authenticationConfiguration: S.optional(AuthenticationConfigurationPatch),
 }) {}
+export class ListingSummary extends S.Class<ListingSummary>("ListingSummary")({
+  listingId: S.optional(S.String),
+  listingRevision: S.optional(S.String),
+  glossaryTerms: S.optional(DetailedGlossaryTerms),
+}) {}
+export const ListingSummaries = S.Array(ListingSummary);
 export class AcceptSubscriptionRequestOutput extends S.Class<AcceptSubscriptionRequestOutput>(
   "AcceptSubscriptionRequestOutput",
 )({
@@ -4989,6 +7020,13 @@ export class ListEntityOwnersOutput extends S.Class<ListEntityOwnersOutput>(
 export class ListSubscriptionRequestsOutput extends S.Class<ListSubscriptionRequestsOutput>(
   "ListSubscriptionRequestsOutput",
 )({ items: SubscriptionRequests, nextToken: S.optional(S.String) }) {}
+export class SearchTypesOutput extends S.Class<SearchTypesOutput>(
+  "SearchTypesOutput",
+)({
+  items: S.optional(SearchTypesResultItems),
+  nextToken: S.optional(S.String),
+  totalMatchCount: S.optional(S.Number),
+}) {}
 export class UpdateProjectInput extends S.Class<UpdateProjectInput>(
   "UpdateProjectInput",
 )(
@@ -5009,6 +7047,115 @@ export class UpdateProjectInput extends S.Class<UpdateProjectInput>(
       method: "PATCH",
       uri: "/v2/domains/{domainIdentifier}/projects/{identifier}",
     }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CreateAssetOutput extends S.Class<CreateAssetOutput>(
+  "CreateAssetOutput",
+)({
+  id: S.String,
+  name: S.String,
+  typeIdentifier: S.String,
+  typeRevision: S.String,
+  externalIdentifier: S.optional(S.String),
+  revision: S.String,
+  description: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  firstRevisionCreatedAt: S.optional(
+    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  ),
+  firstRevisionCreatedBy: S.optional(S.String),
+  glossaryTerms: S.optional(GlossaryTerms),
+  governedGlossaryTerms: S.optional(GovernedGlossaryTerms),
+  owningProjectId: S.String,
+  domainId: S.String,
+  listing: S.optional(AssetListingDetails),
+  formsOutput: FormOutputList,
+  readOnlyFormsOutput: S.optional(FormOutputList),
+  latestTimeSeriesDataPointFormsOutput: S.optional(
+    TimeSeriesDataPointSummaryFormOutputList,
+  ),
+  predictionConfiguration: S.optional(PredictionConfiguration),
+}) {}
+export class CreateAssetTypeOutput extends S.Class<CreateAssetTypeOutput>(
+  "CreateAssetTypeOutput",
+)({
+  domainId: S.String,
+  name: S.String,
+  revision: S.String,
+  description: S.optional(S.String),
+  formsOutput: FormsOutputMap,
+  owningProjectId: S.optional(S.String),
+  originDomainId: S.optional(S.String),
+  originProjectId: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  updatedBy: S.optional(S.String),
+}) {}
+export class GetAssetTypeOutput extends S.Class<GetAssetTypeOutput>(
+  "GetAssetTypeOutput",
+)({
+  domainId: S.String,
+  name: S.String,
+  revision: S.String,
+  description: S.optional(S.String),
+  formsOutput: FormsOutputMap,
+  owningProjectId: S.String,
+  originDomainId: S.optional(S.String),
+  originProjectId: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  updatedBy: S.optional(S.String),
+}) {}
+export class CreateDomainUnitOutput extends S.Class<CreateDomainUnitOutput>(
+  "CreateDomainUnitOutput",
+)({
+  id: S.String,
+  domainId: S.String,
+  name: S.String,
+  parentDomainUnitId: S.optional(S.String),
+  description: S.optional(S.String),
+  owners: DomainUnitOwners,
+  ancestorDomainUnitIds: DomainUnitIds,
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+}) {}
+export class PutEnvironmentBlueprintConfigurationOutput extends S.Class<PutEnvironmentBlueprintConfigurationOutput>(
+  "PutEnvironmentBlueprintConfigurationOutput",
+)({
+  domainId: S.String,
+  environmentBlueprintId: S.String,
+  provisioningRoleArn: S.optional(S.String),
+  environmentRolePermissionBoundary: S.optional(S.String),
+  manageAccessRoleArn: S.optional(S.String),
+  enabledRegions: S.optional(EnabledRegionList),
+  regionalParameters: S.optional(RegionalParameterMap),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  provisioningConfigurations: S.optional(ProvisioningConfigurationList),
+}) {}
+export class CreateRuleInput extends S.Class<CreateRuleInput>(
+  "CreateRuleInput",
+)(
+  {
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    name: S.String,
+    target: RuleTarget,
+    action: S.String,
+    scope: RuleScope,
+    detail: RuleDetail,
+    description: S.optional(S.String),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/rules" }),
     svc,
     auth,
     proto,
@@ -5046,23 +7193,33 @@ export class AggregationOutputItem extends S.Class<AggregationOutputItem>(
   displayValue: S.optional(S.String),
 }) {}
 export const AggregationOutputItems = S.Array(AggregationOutputItem);
-export class FormTypeData extends S.Class<FormTypeData>("FormTypeData")({
-  domainId: S.String,
-  name: S.String,
-  revision: S.String,
-  model: S.optional(Model),
-  status: S.optional(S.String),
-  owningProjectId: S.optional(S.String),
-  originDomainId: S.optional(S.String),
-  originProjectId: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdBy: S.optional(S.String),
-  description: S.optional(S.String),
-  imports: S.optional(ImportList),
-}) {}
 export class GluePropertiesPatch extends S.Class<GluePropertiesPatch>(
   "GluePropertiesPatch",
 )({ glueConnectionInput: S.optional(GlueConnectionPatch) }) {}
+export class AssetListing extends S.Class<AssetListing>("AssetListing")({
+  assetId: S.optional(S.String),
+  assetRevision: S.optional(S.String),
+  assetType: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  forms: S.optional(S.String),
+  latestTimeSeriesDataPointForms: S.optional(
+    TimeSeriesDataPointSummaryFormOutputList,
+  ),
+  glossaryTerms: S.optional(DetailedGlossaryTerms),
+  governedGlossaryTerms: S.optional(DetailedGlossaryTerms),
+  owningProjectId: S.optional(S.String),
+}) {}
+export class DataProductListing extends S.Class<DataProductListing>(
+  "DataProductListing",
+)({
+  dataProductId: S.optional(S.String),
+  dataProductRevision: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  forms: S.optional(S.String),
+  glossaryTerms: S.optional(DetailedGlossaryTerms),
+  owningProjectId: S.optional(S.String),
+  items: S.optional(ListingSummaries),
+}) {}
 export const JobRunDetails = S.Union(
   S.Struct({ lineageRunDetails: LineageRunDetails }),
 );
@@ -5105,6 +7262,10 @@ export const ConnectionPropertiesPatch = S.Union(
   S.Struct({ amazonQProperties: AmazonQPropertiesPatch }),
   S.Struct({ mlflowProperties: MlflowPropertiesPatch }),
 );
+export const ListingItem = S.Union(
+  S.Struct({ assetListing: AssetListing }),
+  S.Struct({ dataProductListing: DataProductListing }),
+);
 export class OpenLineageRunEventSummary extends S.Class<OpenLineageRunEventSummary>(
   "OpenLineageRunEventSummary",
 )({
@@ -5114,7 +7275,6 @@ export class OpenLineageRunEventSummary extends S.Class<OpenLineageRunEventSumma
   inputs: S.optional(NameIdentifiers),
   outputs: S.optional(NameIdentifiers),
 }) {}
-export const GlossaryUsageRestrictions = S.Array(S.String);
 export class MatchOffset extends S.Class<MatchOffset>("MatchOffset")({
   startOffset: S.optional(S.Number),
   endOffset: S.optional(S.Number),
@@ -5268,6 +7428,94 @@ export class UpdateProjectOutput extends S.Class<UpdateProjectOutput>(
   userParameters: S.optional(EnvironmentConfigurationUserParametersList),
   environmentDeploymentDetails: S.optional(EnvironmentDeploymentDetails),
 }) {}
+export class CreateDataSourceInput extends S.Class<CreateDataSourceInput>(
+  "CreateDataSourceInput",
+)(
+  {
+    name: S.String,
+    description: S.optional(S.String),
+    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    projectIdentifier: S.String,
+    environmentIdentifier: S.optional(S.String),
+    connectionIdentifier: S.optional(S.String),
+    type: S.String,
+    configuration: S.optional(DataSourceConfigurationInput),
+    recommendation: S.optional(RecommendationConfiguration),
+    enableSetting: S.optional(S.String),
+    schedule: S.optional(ScheduleConfiguration),
+    publishOnImport: S.optional(S.Boolean),
+    assetFormsInput: S.optional(FormInputList),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/v2/domains/{domainIdentifier}/data-sources",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetDataSourceOutput extends S.Class<GetDataSourceOutput>(
+  "GetDataSourceOutput",
+)({
+  id: S.String,
+  status: S.optional(S.String),
+  type: S.optional(S.String),
+  name: S.String,
+  description: S.optional(S.String),
+  domainId: S.String,
+  projectId: S.String,
+  environmentId: S.optional(S.String),
+  connectionId: S.optional(S.String),
+  configuration: S.optional(DataSourceConfigurationOutput),
+  recommendation: S.optional(RecommendationConfiguration),
+  enableSetting: S.optional(S.String),
+  publishOnImport: S.optional(S.Boolean),
+  assetFormsOutput: S.optional(FormOutputList),
+  schedule: S.optional(ScheduleConfiguration),
+  lastRunStatus: S.optional(S.String),
+  lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  lastRunErrorMessage: S.optional(DataSourceErrorMessage),
+  lastRunAssetCount: S.optional(S.Number),
+  errorMessage: S.optional(DataSourceErrorMessage),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  selfGrantStatus: S.optional(SelfGrantStatusOutput),
+}) {}
+export class GetListingOutput extends S.Class<GetListingOutput>(
+  "GetListingOutput",
+)({
+  domainId: S.String,
+  id: S.String,
+  listingRevision: S.String,
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  createdBy: S.optional(S.String),
+  updatedBy: S.optional(S.String),
+  item: S.optional(ListingItem),
+  name: S.optional(S.String),
+  description: S.optional(S.String),
+  status: S.optional(S.String),
+}) {}
+export class CreateRuleOutput extends S.Class<CreateRuleOutput>(
+  "CreateRuleOutput",
+)({
+  identifier: S.String,
+  name: S.String,
+  ruleType: S.String,
+  target: RuleTarget,
+  action: S.String,
+  scope: RuleScope,
+  detail: RuleDetail,
+  targetType: S.optional(S.String),
+  description: S.optional(S.String),
+  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  createdBy: S.String,
+}) {}
 export const EventSummary = S.Union(
   S.Struct({ openLineageRunEventSummary: OpenLineageRunEventSummary }),
 );
@@ -5287,20 +7535,6 @@ export class DataProductListingItem extends S.Class<DataProductListingItem>(
   owningProjectId: S.optional(S.String),
   additionalAttributes: S.optional(DataProductListingItemAdditionalAttributes),
   items: S.optional(ListingSummaryItems),
-}) {}
-export class AssetTypeItem extends S.Class<AssetTypeItem>("AssetTypeItem")({
-  domainId: S.String,
-  name: S.String,
-  revision: S.String,
-  description: S.optional(S.String),
-  formsOutput: FormsOutputMap,
-  owningProjectId: S.String,
-  originDomainId: S.optional(S.String),
-  originProjectId: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdBy: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  updatedBy: S.optional(S.String),
 }) {}
 export class AuthenticationConfigurationInput extends S.Class<AuthenticationConfigurationInput>(
   "AuthenticationConfigurationInput",
@@ -5324,12 +7558,6 @@ export class LineageEventSummary extends S.Class<LineageEventSummary>(
   createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
 }) {}
 export const LineageEventSummaries = S.Array(LineageEventSummary);
-export const SearchTypesResultItem = S.Union(
-  S.Struct({ assetTypeItem: AssetTypeItem }),
-  S.Struct({ formTypeItem: FormTypeData }),
-  S.Struct({ lineageNodeTypeItem: LineageNodeTypeItem }),
-);
-export const SearchTypesResultItems = S.Array(SearchTypesResultItem);
 export class GlueConnectionInput extends S.Class<GlueConnectionInput>(
   "GlueConnectionInput",
 )({
@@ -5349,10 +7577,6 @@ export class GlueConnectionInput extends S.Class<GlueConnectionInput>(
 export class GlossaryItemAdditionalAttributes extends S.Class<GlossaryItemAdditionalAttributes>(
   "GlossaryItemAdditionalAttributes",
 )({ matchRationale: S.optional(MatchRationale) }) {}
-export class TermRelations extends S.Class<TermRelations>("TermRelations")({
-  isA: S.optional(GlossaryTerms),
-  classifies: S.optional(GlossaryTerms),
-}) {}
 export class GlossaryTermItemAdditionalAttributes extends S.Class<GlossaryTermItemAdditionalAttributes>(
   "GlossaryTermItemAdditionalAttributes",
 )({ matchRationale: S.optional(MatchRationale) }) {}
@@ -5416,13 +7640,6 @@ export class ListLineageEventsOutput extends S.Class<ListLineageEventsOutput>(
   items: S.optional(LineageEventSummaries),
   nextToken: S.optional(S.String),
 }) {}
-export class SearchTypesOutput extends S.Class<SearchTypesOutput>(
-  "SearchTypesOutput",
-)({
-  items: S.optional(SearchTypesResultItems),
-  nextToken: S.optional(S.String),
-  totalMatchCount: S.optional(S.Number),
-}) {}
 export class UpdateConnectionOutput extends S.Class<UpdateConnectionOutput>(
   "UpdateConnectionOutput",
 )({
@@ -5437,6 +7654,31 @@ export class UpdateConnectionOutput extends S.Class<UpdateConnectionOutput>(
   props: S.optional(ConnectionPropertiesOutput),
   type: S.String,
   scope: S.optional(S.String),
+}) {}
+export class CreateDataSourceOutput extends S.Class<CreateDataSourceOutput>(
+  "CreateDataSourceOutput",
+)({
+  id: S.String,
+  status: S.optional(S.String),
+  type: S.optional(S.String),
+  name: S.String,
+  description: S.optional(S.String),
+  domainId: S.String,
+  projectId: S.String,
+  environmentId: S.optional(S.String),
+  connectionId: S.optional(S.String),
+  configuration: S.optional(DataSourceConfigurationOutput),
+  recommendation: S.optional(RecommendationConfiguration),
+  enableSetting: S.optional(S.String),
+  publishOnImport: S.optional(S.Boolean),
+  assetFormsOutput: S.optional(FormOutputList),
+  schedule: S.optional(ScheduleConfiguration),
+  lastRunStatus: S.optional(S.String),
+  lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  lastRunErrorMessage: S.optional(DataSourceErrorMessage),
+  errorMessage: S.optional(DataSourceErrorMessage),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
 }) {}
 export class GluePropertiesInput extends S.Class<GluePropertiesInput>(
   "GluePropertiesInput",
@@ -5633,34 +7875,363 @@ export class SearchListingsOutput extends S.Class<SearchListingsOutput>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.String },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.String },
 ) {}
 
 //# Operations
+/**
+ * Deletes the blueprint configuration in Amazon DataZone.
+ */
+export const deleteEnvironmentBlueprintConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteEnvironmentBlueprintConfigurationInput,
+    output: DeleteEnvironmentBlueprintConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets the data portal URL for the specified Amazon DataZone domain.
+ */
+export const getIamPortalLoginUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetIamPortalLoginUrlInput,
+    output: GetIamPortalLoginUrlOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Rejects the specified subscription request.
+ */
+export const rejectSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RejectSubscriptionRequestInput,
+    output: RejectSubscriptionRequestOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Revokes a specified subscription in Amazon DataZone.
+ */
+export const revokeSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeSubscriptionInput,
+  output: RevokeSubscriptionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an asset filter.
+ *
+ * Prerequisites:
+ *
+ * - The domain, asset, and asset filter identifier must all exist.
+ *
+ * - The asset must contain the columns being referenced in the update.
+ *
+ * - If applying a row filter, ensure the column referenced in the expression exists in the asset schema.
+ */
+export const updateAssetFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssetFilterInput,
+  output: UpdateAssetFilterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an environment action.
+ */
+export const updateEnvironmentAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEnvironmentActionInput,
+    output: UpdateEnvironmentActionOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a specified subscription request in Amazon DataZone.
+ */
+export const updateSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSubscriptionRequestInput,
+    output: UpdateSubscriptionRequestOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the specified subscription target in Amazon DataZone.
+ */
+export const updateSubscriptionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSubscriptionTargetInput,
+    output: UpdateSubscriptionTargetOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a revision of the asset.
+ *
+ * Asset revisions represent new versions of existing assets, capturing changes to either the underlying data or its metadata. They maintain a historical record of how assets evolve over time, who made changes, and when those changes occurred. This versioning capability is crucial for governance and compliance, allowing organizations to track changes, understand their impact, and roll back if necessary.
+ *
+ * Prerequisites:
+ *
+ * - Asset must already exist in the domain with identifier.
+ *
+ * - `formsInput` is required when asset has the form type. `typeRevision` should be the latest version of form type.
+ *
+ * - The form content must include all required fields (e.g., `bucketArn` for `S3ObjectCollectionForm`).
+ *
+ * - The owning project of the original asset must still exist and be active.
+ *
+ * - User must have write access to the project and domain.
+ */
+export const createAssetRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssetRevisionInput,
+  output: CreateAssetRevisionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a data product revision.
+ *
+ * Prerequisites:
+ *
+ * - The original data product must exist in the given domain.
+ *
+ * - User must have permissions on the data product.
+ *
+ * - The domain must be valid and accessible.
+ *
+ * - The new revision name must comply with naming constraints (if required).
+ */
+export const createDataProductRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDataProductRevisionInput,
+    output: CreateDataProductRevisionOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a Amazon DataZone domain.
+ */
+export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainInput,
+  output: DeleteDomainOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the domain unit.
+ */
+export const updateDomainUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainUnitInput,
+  output: UpdateDomainUnitOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the business glossary in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - The glossary must exist in the given domain.
+ *
+ * - The caller must have the `datazone:UpdateGlossary` permission to update it.
+ *
+ * - When updating the name, the new name must be unique within the domain.
+ *
+ * - The glossary must not be deleted or in a terminal state.
+ */
+export const updateGlossary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGlossaryInput,
+  output: UpdateGlossaryOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a business glossary term in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - Glossary term must exist in the specified domain.
+ *
+ * - New name must not conflict with existing terms in the same glossary.
+ *
+ * - User must have permissions on the term.
+ *
+ * - The term must not be in DELETED status.
+ */
+export const updateGlossaryTerm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGlossaryTermInput,
+  output: UpdateGlossaryTermOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates governed terms with an asset.
+ */
+export const associateGovernedTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateGovernedTermsInput,
+    output: AssociateGovernedTermsOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an asset filter.
+ *
+ * Prerequisites:
+ *
+ * - The asset filter must exist.
+ *
+ * - The domain and asset must not have been deleted.
+ *
+ * - Ensure the --identifier refers to a valid filter ID.
+ */
+export const deleteAssetFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssetFilterInput,
+  output: DeleteAssetFilterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment.
+ */
+export const deleteEnvironmentAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEnvironmentActionInput,
+    output: DeleteEnvironmentActionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Deletes a blueprint in Amazon DataZone.
  */
@@ -5678,6 +8249,488 @@ export const deleteEnvironmentBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Deletes a subscription request in Amazon DataZone.
+ */
+export const deleteSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSubscriptionRequestInput,
+    output: DeleteSubscriptionRequestResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a subscription target in Amazon DataZone.
+ */
+export const deleteSubscriptionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSubscriptionTargetInput,
+    output: DeleteSubscriptionTargetResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Disassociates the environment role in Amazon DataZone.
+ */
+export const disassociateEnvironmentRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateEnvironmentRoleInput,
+    output: DisassociateEnvironmentRoleOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Disassociates restricted terms from an asset.
+ */
+export const disassociateGovernedTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateGovernedTermsInput,
+    output: DisassociateGovernedTermsOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the owner of the root domain unit.
+ */
+export const updateRootDomainUnitOwner = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRootDomainUnitOwnerInput,
+    output: UpdateRootDomainUnitOwnerOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an asset in Amazon DataZone.
+ *
+ * - --domain-identifier must refer to a valid and existing domain.
+ *
+ * - --identifier must refer to an existing asset in the specified domain.
+ *
+ * - Asset must not be referenced in any existing asset filters.
+ *
+ * - Asset must not be linked to any draft or published data product.
+ *
+ * - User must have delete permissions for the domain and project.
+ */
+export const deleteAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssetInput,
+  output: DeleteAssetOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an asset type in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - The asset type must exist in the domain.
+ *
+ * - You must have DeleteAssetType permission.
+ *
+ * - The asset type must not be in use (e.g., assigned to any asset). If used, deletion will fail.
+ *
+ * - You should retrieve the asset type using get-asset-type to confirm its presence before deletion.
+ */
+export const deleteAssetType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssetTypeInput,
+  output: DeleteAssetTypeOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a data product in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - The data product must exist and not be deleted or archived.
+ *
+ * - The user must have delete permissions for the data product.
+ *
+ * - Domain and project must be active.
+ */
+export const deleteDataProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataProductInput,
+  output: DeleteDataProductOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a domain unit.
+ */
+export const deleteDomainUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainUnitInput,
+  output: DeleteDomainUnitOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes and metadata form type in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - The form type must exist in the domain.
+ *
+ * - The form type must not be in use by any asset types or assets.
+ *
+ * - The domain must be valid and accessible.
+ *
+ * - User must have delete permissions on the form type.
+ *
+ * - Any dependencies (such as linked asset types) must be removed first.
+ */
+export const deleteFormType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFormTypeInput,
+  output: DeleteFormTypeOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a business glossary in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - The glossary must be in DISABLED state.
+ *
+ * - The glossary must not have any glossary terms associated with it.
+ *
+ * - The glossary must exist in the specified domain.
+ *
+ * - The caller must have the `datazone:DeleteGlossary` permission in the domain and glossary.
+ *
+ * - Glossary should not be linked to any active metadata forms.
+ */
+export const deleteGlossary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGlossaryInput,
+  output: DeleteGlossaryOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a business glossary term in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - Glossary term must exist and be active.
+ *
+ * - The term must not be linked to other assets or child terms.
+ *
+ * - Caller must have delete permissions in the domain/glossary.
+ *
+ * - Ensure all associations (such as to assets or parent terms) are removed before deletion.
+ */
+export const deleteGlossaryTerm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGlossaryTermInput,
+  output: DeleteGlossaryTermOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a listing (a record of an asset at a given time).
+ */
+export const deleteListing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteListingInput,
+  output: DeleteListingOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels the metadata generation run.
+ *
+ * Prerequisites:
+ *
+ * - The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS).
+ *
+ * - Runs in SUCCEEDED status cannot be cancelled.
+ *
+ * - User must have access to the run and cancel permissions.
+ */
+export const cancelMetadataGenerationRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelMetadataGenerationRunInput,
+    output: CancelMetadataGenerationRunOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+ */
+export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRuleInput,
+  output: DeleteRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
+ */
+export const acceptPredictions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptPredictionsInput,
+  output: AcceptPredictionsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified group profile in Amazon DataZone.
+ */
+export const updateGroupProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGroupProfileInput,
+  output: UpdateGroupProfileOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified user profile in Amazon DataZone.
+ */
+export const updateUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserProfileInput,
+  output: UpdateUserProfileOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the data product.
+ *
+ * Prerequisites:
+ *
+ * - The data product ID must exist.
+ *
+ * - The domain must be valid and accessible.
+ *
+ * - User must have read or discovery permissions for the data product.
+ */
+export const getDataProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataProductInput,
+  output: GetDataProductOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the details of the specified domain unit.
+ */
+export const getDomainUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainUnitInput,
+  output: GetDomainUnitOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the blueprint configuration in Amazon DataZone.
+ */
+export const getEnvironmentBlueprintConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetEnvironmentBlueprintConfigurationInput,
+    output: GetEnvironmentBlueprintConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets a business glossary in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - The specified glossary ID must exist and be associated with the given domain.
+ *
+ * - The caller must have the `datazone:GetGlossary` permission on the domain.
+ */
+export const getGlossary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGlossaryInput,
+  output: GetGlossaryOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets a business glossary term in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - Glossary term with identifier must exist in the domain.
+ *
+ * - User must have permission on the glossary term.
+ *
+ * - Domain must be accessible and active.
+ */
+export const getGlossaryTerm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGlossaryTermInput,
+  output: GetGlossaryTermOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+ */
+export const getRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRuleInput,
+  output: GetRuleOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an account pool.
+ */
+export const deleteAccountPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountPoolInput,
+  output: DeleteAccountPoolOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an environment in Amazon DataZone.
+ */
+export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEnvironmentInput,
+  output: DeleteEnvironmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an environment profile in Amazon DataZone.
  */
@@ -5725,40 +8778,6 @@ export const deleteProjectProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a subscription request in Amazon DataZone.
- */
-export const deleteSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSubscriptionRequestInput,
-    output: DeleteSubscriptionRequestResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a subscription target in Amazon DataZone.
- */
-export const deleteSubscriptionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSubscriptionTargetInput,
-    output: DeleteSubscriptionTargetResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Deletes the specified time series form for the specified asset.
  */
 export const deleteTimeSeriesDataPoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -5767,40 +8786,6 @@ export const deleteTimeSeriesDataPoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
     output: DeleteTimeSeriesDataPointsOutput,
     errors: [
       AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Disassociates the environment role in Amazon DataZone.
- */
-export const disassociateEnvironmentRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateEnvironmentRoleInput,
-    output: DisassociateEnvironmentRoleOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Disassociates restricted terms from an asset.
- */
-export const disassociateGovernedTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateGovernedTermsInput,
-    output: DisassociateGovernedTermsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -5823,31 +8808,6 @@ export const removeEntityOwner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes a policy grant.
- */
-export const removePolicyGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemovePolicyGrantInput,
-  output: RemovePolicyGrantOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Tags a resource in Amazon DataZone.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Untags a resource in Amazon DataZone.
  */
 export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5855,75 +8815,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: UntagResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
-/**
- * Updates the owner of the root domain unit.
- */
-export const updateRootDomainUnitOwner = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRootDomainUnitOwnerInput,
-    output: UpdateRootDomainUnitOwnerOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Associates the environment role in Amazon DataZone.
- */
-export const associateEnvironmentRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateEnvironmentRoleInput,
-    output: AssociateEnvironmentRoleOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Associates governed terms with an asset.
- */
-export const associateGovernedTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateGovernedTermsInput,
-    output: AssociateGovernedTermsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates an Amazon DataZone environment profile.
- */
-export const createEnvironmentProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEnvironmentProfileInput,
-    output: CreateEnvironmentProfileOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Creates a group profile in Amazon DataZone.
  */
@@ -5937,24 +8828,6 @@ export const createGroupProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog.
- */
-export const createListingChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateListingChangeSetInput,
-    output: CreateListingChangeSetOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Creates a project membership in Amazon DataZone.
  */
@@ -5971,43 +8844,6 @@ export const createProjectMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes an account pool.
- */
-export const deleteAccountPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountPoolInput,
-  output: DeleteAccountPoolOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an asset filter.
- *
- * Prerequisites:
- *
- * - The asset filter must exist.
- *
- * - The domain and asset must not have been deleted.
- *
- * - Ensure the --identifier refers to a valid filter ID.
- */
-export const deleteAssetFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAssetFilterInput,
-  output: DeleteAssetFilterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -6021,54 +8857,6 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Deletes an environment in Amazon DataZone.
- */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentInput,
-  output: DeleteEnvironmentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment.
- */
-export const deleteEnvironmentAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEnvironmentActionInput,
-    output: DeleteEnvironmentActionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes project membership in Amazon DataZone.
- */
-export const deleteProjectMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProjectMembershipInput,
-    output: DeleteProjectMembershipOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Gets the details of the account pool.
  */
@@ -6198,23 +8986,6 @@ export const getGroupProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Gets the data portal URL for the specified Amazon DataZone domain.
- */
-export const getIamPortalLoginUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIamPortalLoginUrlInput,
-    output: GetIamPortalLoginUrlOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Describes the lineage event.
  */
@@ -6346,48 +9117,12 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Posts a data lineage event.
+ * Associates the environment role in Amazon DataZone.
  */
-export const postLineageEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PostLineageEventInput,
-  output: PostLineageEventOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates data export configuration details.
- *
- * In the current release, you can enable exporting asset metadata only for one domain per Amazon Web Services account per region. If you disable exporting asset metadata feature for a domain where it's already enabled, you cannot enable this feature for another domain in the same Amazon Web Services account and region.
- */
-export const putDataExportConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const associateEnvironmentRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: PutDataExportConfigurationInput,
-    output: PutDataExportConfigurationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Rejects the specified subscription request.
- */
-export const rejectSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectSubscriptionRequestInput,
-    output: RejectSubscriptionRequestOutput,
+    input: AssociateEnvironmentRoleInput,
+    output: AssociateEnvironmentRoleOutput,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -6398,237 +9133,6 @@ export const rejectSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Revokes a specified subscription in Amazon DataZone.
- */
-export const revokeSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokeSubscriptionInput,
-  output: RevokeSubscriptionOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the account pool.
- */
-export const updateAccountPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountPoolInput,
-  output: UpdateAccountPoolOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an asset filter.
- *
- * Prerequisites:
- *
- * - The domain, asset, and asset filter identifier must all exist.
- *
- * - The asset must contain the columns being referenced in the update.
- *
- * - If applying a row filter, ensure the column referenced in the expression exists in the asset schema.
- */
-export const updateAssetFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAssetFilterInput,
-  output: UpdateAssetFilterOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the specified environment in Amazon DataZone.
- */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentInput,
-  output: UpdateEnvironmentOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an environment action.
- */
-export const updateEnvironmentAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEnvironmentActionInput,
-    output: UpdateEnvironmentActionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates an environment blueprint in Amazon DataZone.
- */
-export const updateEnvironmentBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEnvironmentBlueprintInput,
-    output: UpdateEnvironmentBlueprintOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the specified environment profile in Amazon DataZone.
- */
-export const updateEnvironmentProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEnvironmentProfileInput,
-    output: UpdateEnvironmentProfileOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the specified group profile in Amazon DataZone.
- */
-export const updateGroupProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateGroupProfileInput,
-  output: UpdateGroupProfileOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a project profile.
- */
-export const updateProjectProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProjectProfileInput,
-    output: UpdateProjectProfileOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a specified subscription request in Amazon DataZone.
- */
-export const updateSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSubscriptionRequestInput,
-    output: UpdateSubscriptionRequestOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the specified subscription target in Amazon DataZone.
- */
-export const updateSubscriptionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSubscriptionTargetInput,
-    output: UpdateSubscriptionTargetOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the specified user profile in Amazon DataZone.
- */
-export const updateUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserProfileInput,
-  output: UpdateUserProfileOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
- */
-export const acceptPredictions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AcceptPredictionsInput,
-  output: AcceptPredictionsOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds the owner of an entity (a domain unit).
- */
-export const addEntityOwner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddEntityOwnerInput,
-  output: AddEntityOwnerOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Gets the attribute metadata.
  */
@@ -6722,19 +9226,6 @@ export const getTimeSeriesDataPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists existing account pools.
- */
-export const listAccountPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAccountPoolsInput,
-  output: ListAccountPoolsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists asset filters.
  *
  * Prerequisites:
@@ -6779,19 +9270,6 @@ export const listAssetRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
- */
-export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListConnectionsInput,
-  output: ListConnectionsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists data product revisions.
  *
  * Prerequisites:
@@ -6816,21 +9294,6 @@ export const listDataProductRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists existing environment actions.
- */
-export const listEnvironmentActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEnvironmentActionsInput,
-    output: ListEnvironmentActionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Lists blueprints in an Amazon DataZone environment.
  */
 export const listEnvironmentBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -6846,34 +9309,6 @@ export const listEnvironmentBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists Amazon DataZone environment profiles.
- */
-export const listEnvironmentProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEnvironmentProfilesInput,
-    output: ListEnvironmentProfilesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists Amazon DataZone environments.
- */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEnvironmentsInput,
-  output: ListEnvironmentsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Lists job runs.
  */
@@ -6904,45 +9339,6 @@ export const listLineageNodeHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists policy grants.
- */
-export const listPolicyGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPolicyGrantsInput,
-  output: ListPolicyGrantsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists project profiles.
- */
-export const listProjectProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListProjectProfilesInput,
-  output: ListProjectProfilesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists Amazon DataZone projects.
- */
-export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListProjectsInput,
-  output: ListProjectsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Lists subscription grants.
  */
@@ -7006,24 +9402,6 @@ export const listTimeSeriesDataPoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Posts time series data points to Amazon DataZone for the specified asset.
- */
-export const postTimeSeriesDataPoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PostTimeSeriesDataPointsInput,
-    output: PostTimeSeriesDataPointsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.
  */
 export const rejectPredictions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -7065,6 +9443,114 @@ export const searchUserProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Lists existing account pools.
+ */
+export const listAccountPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAccountPoolsInput,
+  output: ListAccountPoolsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+ */
+export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConnectionsInput,
+  output: ListConnectionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists existing environment actions.
+ */
+export const listEnvironmentActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListEnvironmentActionsInput,
+    output: ListEnvironmentActionsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists Amazon DataZone environment profiles.
+ */
+export const listEnvironmentProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListEnvironmentProfilesInput,
+    output: ListEnvironmentProfilesOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists Amazon DataZone environments.
+ */
+export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEnvironmentsInput,
+  output: ListEnvironmentsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists policy grants.
+ */
+export const listPolicyGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPolicyGrantsInput,
+  output: ListPolicyGrantsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists project profiles.
+ */
+export const listProjectProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProjectProfilesInput,
+  output: ListProjectProfilesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists Amazon DataZone projects.
+ */
+export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProjectsInput,
+  output: ListProjectsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Updates the status of the specified subscription grant status in Amazon DataZone.
  */
 export const updateSubscriptionGrantStatus =
@@ -7081,23 +9567,175 @@ export const updateSubscriptionGrantStatus =
     ],
   }));
 /**
- * Accepts a subscription request to a specific asset.
+ * Gets an Amazon DataZone asset.
+ *
+ * An asset is the fundamental building block in Amazon DataZone, representing any data resource that needs to be cataloged and managed. It can take many forms, from Amazon S3 buckets and database tables to dashboards and machine learning models. Each asset contains comprehensive metadata about the resource, including its location, schema, ownership, and lineage information. Assets are essential for organizing and managing data resources across an organization, making them discoverable and usable while maintaining proper governance.
+ *
+ * Before using the Amazon DataZone GetAsset command, ensure the following prerequisites are met:
+ *
+ * - Domain identifier must exist and be valid
+ *
+ * - Asset identifier must exist
+ *
+ * - User must have the required permissions to perform the action
  */
-export const acceptSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssetInput,
+  output: GetAssetOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists child domain units for the specified parent domain unit.
+ */
+export const listDomainUnitsForParent = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AcceptSubscriptionRequestInput,
-    output: AcceptSubscriptionRequestOutput,
+    input: ListDomainUnitsForParentInput,
+    output: ListDomainUnitsForParentOutput,
     errors: [
       AccessDeniedException,
-      ConflictException,
       InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],
   }),
 );
+/**
+ * Gets a metadata form type in Amazon DataZone.
+ *
+ * Form types define the structure and validation rules for collecting metadata about assets in Amazon DataZone. They act as templates that ensure consistent metadata capture across similar types of assets, while allowing for customization to meet specific organizational needs. Form types can include required fields, validation rules, and dependencies, helping maintain high-quality metadata that makes data assets more discoverable and usable.
+ *
+ * - The form type with the specified identifier must exist in the given domain.
+ *
+ * - The domain must be valid and active.
+ *
+ * - User must have permission on the form type.
+ *
+ * - The form type should not be deleted or in an invalid state.
+ *
+ * One use case for this API is to determine whether a form field is indexed for search.
+ *
+ * A searchable field will be annotated with `@amazon.datazone#searchable`. By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. If a field is indexed technical identifier search, it will be annotated with `@amazon.datazone#searchable(modes:["TECHNICAL"])`. If a field is indexed for lexical search (supports stemmed and prefix matches but not semantic matches), it will be annotated with `@amazon.datazone#searchable(modes:["LEXICAL"])`.
+ *
+ * A field storing glossary term IDs (which is filterable) will be annotated with `@amazon.datazone#glossaryterm("${glossaryId}")`.
+ */
+export const getFormType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFormTypeInput,
+  output: GetFormTypeOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets a metadata generation run in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - Valid domain and run identifier.
+ *
+ * - The metadata generation run must exist.
+ *
+ * - User must have read access to the metadata run.
+ */
+export const getMetadataGenerationRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMetadataGenerationRunInput,
+    output: GetMetadataGenerationRunOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all metadata generation runs.
+ *
+ * Metadata generation runs represent automated processes that leverage AI/ML capabilities to create or enhance asset metadata at scale. This feature helps organizations maintain comprehensive and consistent metadata across large numbers of assets without manual intervention. It can automatically generate business descriptions, tags, and other metadata elements, significantly reducing the time and effort required for metadata management while improving consistency and completeness.
+ *
+ * Prerequisites:
+ *
+ * - Valid domain identifier.
+ *
+ * - User must have access to metadata generation runs in the domain.
+ */
+export const listMetadataGenerationRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMetadataGenerationRunsInput,
+    output: ListMetadataGenerationRunsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+ */
+export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRulesInput,
+  output: ListRulesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Tags a resource in Amazon DataZone.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists blueprint configurations for a Amazon DataZone environment.
+ */
+export const listEnvironmentBlueprintConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListEnvironmentBlueprintConfigurationsInput,
+    output: ListEnvironmentBlueprintConfigurationsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Removes a policy grant.
+ */
+export const removePolicyGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemovePolicyGrantInput,
+  output: RemovePolicyGrantOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Writes the attribute metadata.
  */
@@ -7116,22 +9754,6 @@ export const batchPutAttributesMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates an account pool.
- */
-export const createAccountPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountPoolInput,
-  output: CreateAccountPoolOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Creates an action for the environment, for example, creates a console link for an analytics tool that is available in this environment.
  */
 export const createEnvironmentAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -7149,40 +9771,6 @@ export const createEnvironmentAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a Amazon DataZone blueprint.
- */
-export const createEnvironmentBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEnvironmentBlueprintInput,
-    output: CreateEnvironmentBlueprintOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates an Amazon DataZone project.
- */
-export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProjectInput,
-  output: CreateProjectOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Creates a subsscription grant in Amazon DataZone.
  */
 export const createSubscriptionGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -7194,24 +9782,6 @@ export const createSubscriptionGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ConflictException,
       InternalServerException,
       ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a subscription request in Amazon DataZone.
- */
-export const createSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSubscriptionRequestInput,
-    output: CreateSubscriptionRequestOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],
@@ -7262,24 +9832,6 @@ export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists data source run activities.
- */
-export const listDataSourceRunActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDataSourceRunActivitiesInput,
-    output: ListDataSourceRunActivitiesOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Lists the entity (domain units) owners.
  */
 export const listEntityOwners = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -7308,6 +9860,777 @@ export const listSubscriptionRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Searches for types in Amazon DataZone.
+ *
+ * Prerequisites:
+ *
+ * - The --domain-identifier must refer to an existing Amazon DataZone domain.
+ *
+ * - --search-scope must be one of the valid values including: ASSET_TYPE, GLOSSARY_TERM_TYPE, DATA_PRODUCT_TYPE.
+ *
+ * - The --managed flag must be present without a value.
+ *
+ * - The user must have permissions for form or asset types in the domain.
+ *
+ * - If using --filters, ensure that the JSON is valid.
+ *
+ * - Filters contain correct structure (attribute, value, operator).
+ */
+export const searchTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchTypesInput,
+  output: SearchTypesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets an Amazon DataZone asset type.
+ *
+ * Asset types define the categories and characteristics of different kinds of data assets within Amazon DataZone.. They determine what metadata fields are required, what operations are possible, and how the asset integrates with other Amazon Web Services services. Asset types can range from built-in types like Amazon S3 buckets and Amazon Web Services Glue tables to custom types defined for specific organizational needs. Understanding asset types is crucial for properly organizing and managing different kinds of data resources.
+ *
+ * Prerequisites:
+ *
+ * - The asset type with identifier must exist in the domain. ResourceNotFoundException.
+ *
+ * - You must have the GetAssetType permission.
+ *
+ * - Ensure the domain-identifier value is correct and accessible.
+ */
+export const getAssetType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssetTypeInput,
+  output: GetAssetTypeOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a data product.
+ *
+ * A data product is a comprehensive package that combines data assets with their associated metadata, documentation, and access controls. It's designed to serve specific business needs or use cases, making it easier for users to find and consume data appropriately. Data products include important information about data quality, freshness, and usage guidelines, effectively bridging the gap between data producers and consumers while ensuring proper governance.
+ *
+ * Prerequisites:
+ *
+ * - The domain must exist and be accessible.
+ *
+ * - The owning project must be valid and active.
+ *
+ * - The name must be unique within the domain (no existing data product with the same name).
+ *
+ * - User must have create permissions for data products in the project.
+ */
+export const createDataProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataProductInput,
+  output: CreateDataProductOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a domain unit in Amazon DataZone.
+ */
+export const createDomainUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainUnitInput,
+  output: CreateDomainUnitOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Writes the configuration for the specified environment blueprint in Amazon DataZone.
+ */
+export const putEnvironmentBlueprintConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutEnvironmentBlueprintConfigurationInput,
+    output: PutEnvironmentBlueprintConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists data sources in Amazon DataZone.
+ */
+export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDataSourcesInput,
+  output: ListDataSourcesOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Start the run of the specified data source in Amazon DataZone.
+ */
+export const startDataSourceRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataSourceRunInput,
+  output: StartDataSourceRunOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets an Amazon DataZone data source run.
+ */
+export const getDataSourceRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataSourceRunInput,
+  output: GetDataSourceRunOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists data source runs in Amazon DataZone.
+ */
+export const listDataSourceRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDataSourceRunsInput,
+  output: ListDataSourceRunsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an Amazon DataZone domain.
+ */
+export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainInput,
+  output: CreateDomainOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists Amazon DataZone domains.
+ */
+export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDomainsInput,
+  output: ListDomainsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a metadata form type.
+ *
+ * Prerequisites:
+ *
+ * - The domain must exist and be in an `ENABLED` state.
+ *
+ * - The owning project must exist and be accessible.
+ *
+ * - The name must be unique within the domain.
+ *
+ * For custom form types, to indicate that a field should be searchable, annotate it with `@amazon.datazone#searchable`. By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a field should be indexed for lexical search (which disables semantic search but supports stemmed and partial matches), annotate it with `@amazon.datazone#searchable(modes:["LEXICAL"])`. To indicate that a field should be indexed for technical identifier search (for more information on technical identifier search, see: https://aws.amazon.com/blogs/big-data/streamline-data-discovery-with-precise-technical-identifier-search-in-amazon-sagemaker-unified-studio/), annotate it with `@amazon.datazone#searchable(modes:["TECHNICAL"])`.
+ *
+ * To denote that a field will store glossary term ids (which are filterable via the Search/SearchListings APIs), annotate it with `@amazon.datazone#glossaryterm("${GLOSSARY_ID}")`, where `${GLOSSARY_ID}` is the id of the glossary that the glossary terms stored in the field belong to.
+ */
+export const createFormType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFormTypeInput,
+  output: CreateFormTypeOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a business glossary term.
+ *
+ * A glossary term represents an individual entry within the Amazon DataZone glossary, serving as a standardized definition for a specific business concept or data element. Each term can include rich metadata such as detailed definitions, synonyms, related terms, and usage examples. Glossary terms can be linked directly to data assets, providing business context to technical data elements. This linking capability helps users understand the business meaning of data fields and ensures consistent interpretation across different systems and teams. Terms can also have relationships with other terms, creating a semantic network that reflects the complexity of business concepts.
+ *
+ * Prerequisites:
+ *
+ * - Domain must exist.
+ *
+ * - Glossary must exist.
+ *
+ * - The term name must be unique within the glossary.
+ *
+ * - Ensure term does not conflict with existing terms in hierarchy.
+ */
+export const createGlossaryTerm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGlossaryTermInput,
+  output: CreateGlossaryTermOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts the metadata generation run.
+ *
+ * Prerequisites:
+ *
+ * - Asset must be created and belong to the specified domain and project.
+ *
+ * - Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table).
+ *
+ * - Asset must have a structured schema with valid rows and columns.
+ *
+ * - Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES, BUSINESS_GLOSSARY_ASSOCIATIONS.
+ *
+ * - The user must have permission to run metadata generation in the domain/project.
+ */
+export const startMetadataGenerationRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartMetadataGenerationRunInput,
+    output: StartMetadataGenerationRunOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates an Amazon DataZone environment profile.
+ */
+export const createEnvironmentProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEnvironmentProfileInput,
+    output: CreateEnvironmentProfileOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog.
+ */
+export const createListingChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateListingChangeSetInput,
+    output: CreateListingChangeSetOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Posts a data lineage event.
+ */
+export const postLineageEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PostLineageEventInput,
+  output: PostLineageEventOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates data export configuration details.
+ *
+ * In the current release, you can enable exporting asset metadata only for one domain per Amazon Web Services account per region. If you disable exporting asset metadata feature for a domain where it's already enabled, you cannot enable this feature for another domain in the same Amazon Web Services account and region.
+ */
+export const putDataExportConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutDataExportConfigurationInput,
+    output: PutDataExportConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the account pool.
+ */
+export const updateAccountPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountPoolInput,
+  output: UpdateAccountPoolOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified environment in Amazon DataZone.
+ */
+export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnvironmentInput,
+  output: UpdateEnvironmentOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an environment blueprint in Amazon DataZone.
+ */
+export const updateEnvironmentBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEnvironmentBlueprintInput,
+    output: UpdateEnvironmentBlueprintOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the specified environment profile in Amazon DataZone.
+ */
+export const updateEnvironmentProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEnvironmentProfileInput,
+    output: UpdateEnvironmentProfileOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a project profile.
+ */
+export const updateProjectProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateProjectProfileInput,
+    output: UpdateProjectProfileOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the specified data source in Amazon DataZone.
+ */
+export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataSourceInput,
+  output: UpdateDataSourceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a data source in Amazon DataZone.
+ */
+export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataSourceInput,
+  output: DeleteDataSourceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a Amazon DataZone domain.
+ */
+export const updateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainInput,
+  output: UpdateDomainOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an Amazon DataZone business glossary.
+ *
+ * Specifies that this is a create glossary policy.
+ *
+ * A glossary serves as the central repository for business terminology and definitions within an organization. It helps establish and maintain a common language across different departments and teams, reducing miscommunication and ensuring consistent interpretation of business concepts. Glossaries can include hierarchical relationships between terms, cross-references, and links to actual data assets, making them invaluable for both business users and technical teams trying to understand and use data correctly.
+ *
+ * Prerequisites:
+ *
+ * - Domain must exist and be in an active state.
+ *
+ * - Owning project must exist and be accessible by the caller.
+ *
+ * - The glossary name must be unique within the domain.
+ */
+export const createGlossary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGlossaryInput,
+  output: CreateGlossaryOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+ */
+export const updateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRuleInput,
+  output: UpdateRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds the owner of an entity (a domain unit).
+ */
+export const addEntityOwner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddEntityOwnerInput,
+  output: AddEntityOwnerOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets an Amazon DataZone domain.
+ */
+export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainInput,
+  output: GetDomainOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes project membership in Amazon DataZone.
+ */
+export const deleteProjectMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteProjectMembershipInput,
+    output: DeleteProjectMembershipOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Posts time series data points to Amazon DataZone for the specified asset.
+ */
+export const postTimeSeriesDataPoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PostTimeSeriesDataPointsInput,
+    output: PostTimeSeriesDataPointsOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Accepts a subscription request to a specific asset.
+ */
+export const acceptSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AcceptSubscriptionRequestInput,
+    output: AcceptSubscriptionRequestOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates an account pool.
+ */
+export const createAccountPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountPoolInput,
+  output: CreateAccountPoolOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a Amazon DataZone blueprint.
+ */
+export const createEnvironmentBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEnvironmentBlueprintInput,
+    output: CreateEnvironmentBlueprintOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates an Amazon DataZone project.
+ */
+export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectInput,
+  output: CreateProjectOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a subscription request in Amazon DataZone.
+ */
+export const createSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateSubscriptionRequestInput,
+    output: CreateSubscriptionRequestOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists data source run activities.
+ */
+export const listDataSourceRunActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDataSourceRunActivitiesInput,
+    output: ListDataSourceRunActivitiesOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates an asset in Amazon DataZone catalog.
+ *
+ * Before creating assets, make sure that the following requirements are met:
+ *
+ * - `--domain-identifier` must refer to an existing domain.
+ *
+ * - `--owning-project-identifier` must be a valid project within the domain.
+ *
+ * - Asset type must be created beforehand using `create-asset-type`, or be a supported system-defined type. For more information, see create-asset-type.
+ *
+ * - `--type-revision` (if used) must match a valid revision of the asset type.
+ *
+ * - `formsInput` is required when it is associated as required in the `asset-type`. For more information, see create-form-type.
+ *
+ * - Form content must include all required fields as per the form schema (e.g., `bucketArn`).
+ *
+ * You must invoke the following pre-requisite commands before invoking this API:
+ *
+ * - CreateFormType
+ *
+ * - CreateAssetType
+ */
+export const createAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssetInput,
+  output: CreateAssetOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a custom asset type.
+ *
+ * Prerequisites:
+ *
+ * - The `formsInput` field is required, however, can be passed as empty (e.g. `-forms-input {})`.
+ *
+ * - You must have `CreateAssetType` permissions.
+ *
+ * - The domain-identifier and owning-project-identifier must be valid and active.
+ *
+ * - The name of the asset type must be unique within the domain — duplicate names will cause failure.
+ *
+ * - JSON input must be valid — incorrect formatting causes Invalid JSON errors.
+ */
+export const createAssetType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssetTypeInput,
+  output: CreateAssetTypeOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a project profile.
  */
@@ -7400,6 +10723,52 @@ export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Gets an Amazon DataZone data source.
+ */
+export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataSourceInput,
+  output: GetDataSourceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned.
+ */
+export const getListing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetListingInput,
+  output: GetListingOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+ */
+export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRuleInput,
+  output: CreateRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or environment profiles.
  */
 export const addPolicyGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -7443,38 +10812,27 @@ export const listLineageEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Searches for types in Amazon DataZone.
- *
- * Prerequisites:
- *
- * - The --domain-identifier must refer to an existing Amazon DataZone domain.
- *
- * - --search-scope must be one of the valid values including: ASSET_TYPE, GLOSSARY_TERM_TYPE, DATA_PRODUCT_TYPE.
- *
- * - The --managed flag must be present without a value.
- *
- * - The user must have permissions for form or asset types in the domain.
- *
- * - If using --filters, ensure that the JSON is valid.
- *
- * - Filters contain correct structure (attribute, value, operator).
- */
-export const searchTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchTypesInput,
-  output: SearchTypesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionInput,
   output: UpdateConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an Amazon DataZone data source.
+ */
+export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataSourceInput,
+  output: CreateDataSourceOutput,
   errors: [
     AccessDeniedException,
     ConflictException,

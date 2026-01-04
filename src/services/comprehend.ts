@@ -1461,9 +1461,6 @@ export class TaskConfig extends S.Class<TaskConfig>("TaskConfig")({
   DocumentClassificationConfig: S.optional(DocumentClassificationConfig),
   EntityRecognitionConfig: S.optional(EntityRecognitionConfig),
 }) {}
-export class InvalidRequestDetail extends S.Class<InvalidRequestDetail>(
-  "InvalidRequestDetail",
-)({ Reason: S.optional(S.String) }) {}
 export class DatasetProperties extends S.Class<DatasetProperties>(
   "DatasetProperties",
 )({
@@ -2218,6 +2215,9 @@ export class DatasetInputDataConfig extends S.Class<DatasetInputDataConfig>(
     DatasetEntityRecognizerInputDataConfig,
   ),
 }) {}
+export class InvalidRequestDetail extends S.Class<InvalidRequestDetail>(
+  "InvalidRequestDetail",
+)({ Reason: S.optional(S.String) }) {}
 export class DocumentMetadata extends S.Class<DocumentMetadata>(
   "DocumentMetadata",
 )({
@@ -2355,104 +2355,154 @@ export class DescribeEntityRecognizerResponse extends S.Class<DescribeEntityReco
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
-  {},
-) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
-  "ResourceUnavailableException",
-  {},
+export class BatchSizeLimitExceededException extends S.TaggedError<BatchSizeLimitExceededException>()(
+  "BatchSizeLimitExceededException",
+  { Message: S.optional(S.String) },
 ) {}
-export class KmsKeyValidationException extends S.TaggedError<KmsKeyValidationException>()(
-  "KmsKeyValidationException",
-  {},
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(S.String),
+    Detail: S.optional(InvalidRequestDetail),
+  },
 ) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  {},
+export class InvalidFilterException extends S.TaggedError<InvalidFilterException>()(
+  "InvalidFilterException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
 ) {}
 export class JobNotFoundException extends S.TaggedError<JobNotFoundException>()(
   "JobNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class TextSizeLimitExceededException extends S.TaggedError<TextSizeLimitExceededException>()(
+  "TextSizeLimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { Message: S.optional(S.String) },
+) {}
+export class KmsKeyValidationException extends S.TaggedError<KmsKeyValidationException>()(
+  "KmsKeyValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
+  "ResourceUnavailableException",
+  { Message: S.optional(S.String) },
+) {}
+export class UnsupportedLanguageException extends S.TaggedError<UnsupportedLanguageException>()(
+  "UnsupportedLanguageException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
+  "ResourceLimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyTagKeysException extends S.TaggedError<TooManyTagKeysException>()(
   "TooManyTagKeysException",
   { Message: S.optional(S.String) },
 ) {}
-export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
-  "ResourceLimitExceededException",
-  {},
-) {}
-export class BatchSizeLimitExceededException extends S.TaggedError<BatchSizeLimitExceededException>()(
-  "BatchSizeLimitExceededException",
-  {},
-) {}
-export class TextSizeLimitExceededException extends S.TaggedError<TextSizeLimitExceededException>()(
-  "TextSizeLimitExceededException",
-  {},
-) {}
-export class UnsupportedLanguageException extends S.TaggedError<UnsupportedLanguageException>()(
-  "UnsupportedLanguageException",
-  {},
-) {}
-export class InvalidFilterException extends S.TaggedError<InvalidFilterException>()(
-  "InvalidFilterException",
-  {},
-) {}
 
 //# Operations
 /**
- * Deletes a resource-based policy that is attached to a custom model.
+ * Gets a list of the flywheels that you have created.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listFlywheels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFlywheelsRequest,
+  output: ListFlywheelsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a classification request to analyze a single document in real-time. `ClassifyDocument`
+ * supports the following model types:
+ *
+ * - Custom classifier - a custom model that you have created and trained.
+ * For input, you can provide plain text, a single-page document (PDF, Word, or image), or
+ * Amazon Textract API output. For more information, see Custom classification in the *Amazon Comprehend Developer Guide*.
+ *
+ * - Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying
+ * input prompts for generative AI applications.
+ * For input, you provide English plain text input.
+ * For prompt safety classification, the response includes only the `Classes` field.
+ * For more information about prompt safety classifiers, see Prompt safety classification in the *Amazon Comprehend Developer Guide*.
+ *
+ * If the system detects errors while processing a page in the input document,
+ * the API response includes an `Errors` field that describes the errors.
+ *
+ * If the system detects a document-level error in your input document, the API returns an
+ * `InvalidRequestException` error response.
+ * For details about this exception, see
+ *
+ * Errors in semi-structured documents in the Comprehend Developer Guide.
+ */
+export const classifyDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ClassifyDocumentRequest,
+  output: ClassifyDocumentResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceUnavailableException,
+    TextSizeLimitExceededException,
+  ],
+}));
+/**
+ * Start the flywheel iteration.This operation uses any new datasets to train a new model version.
+ * For more information about flywheels, see
+ * Flywheel overview in the *Amazon Comprehend Developer Guide*.
+ */
+export const startFlywheelIteration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
+    input: StartFlywheelIterationRequest,
+    output: StartFlywheelIterationResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
+      ResourceInUseException,
       ResourceNotFoundException,
+      TooManyRequestsException,
     ],
   }),
 );
 /**
- * Stops an entity recognizer training job while in progress.
- *
- * If the training job state is `TRAINING`, the job is marked for termination and
- * put into the `STOP_REQUESTED` state. If the training job completes before it can be
- * stopped, it is put into the `TRAINED`; otherwise the training job is stopped and
- * putted into the `STOPPED` state and the service sends back an HTTP 200 response
- * with an empty HTTP body.
+ * Deletes a model-specific endpoint for a previously-trained custom model. All endpoints
+ * must be deleted in order for the model to be deleted.
+ * For information about endpoints, see Managing endpoints.
  */
-export const stopTrainingEntityRecognizer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopTrainingEntityRecognizerRequest,
-    output: StopTrainingEntityRecognizerResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEndpointRequest,
+  output: DeleteEndpointResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes an entity recognizer.
  *
@@ -2498,6 +2548,21 @@ export const deleteFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * List the datasets that you have configured in this Region. For more information about datasets, see
+ * Flywheel overview in the *Amazon Comprehend Developer Guide*.
+ */
+export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDatasetsRequest,
+  output: ListDatasetsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
  * Gets the details of a resource-based policy that is attached to a custom model, including
  * the JSON body of the policy.
  */
@@ -2539,138 +2604,185 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts an asynchronous entity detection job for a collection of documents. Use the operation to track the status of a job.
- *
- * This API can be used for either standard entity detection or custom entity recognition. In
- * order to be used for custom entity recognition, the optional `EntityRecognizerArn`
- * must be used in order to provide access to the recognizer being used to detect the custom
- * entity.
+ * Deletes a resource-based policy that is attached to a custom model.
  */
-export const startEntitiesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartEntitiesDetectionJobRequest,
-    output: StartEntitiesDetectionJobResponse,
+    input: DeleteResourcePolicyRequest,
+    output: DeleteResourcePolicyResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
-      KmsKeyValidationException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Stops a document classifier training job while in progress.
+ *
+ * If the training job state is `TRAINING`, the job is marked for termination and
+ * put into the `STOP_REQUESTED` state. If the training job completes before it can be
+ * stopped, it is put into the `TRAINED`; otherwise the training job is stopped and
+ * put into the `STOPPED` state and the service sends back an HTTP 200 response with
+ * an empty HTTP body.
+ */
+export const stopTrainingDocumentClassifier =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StopTrainingDocumentClassifierRequest,
+    output: StopTrainingDocumentClassifierResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Stops an entity recognizer training job while in progress.
+ *
+ * If the training job state is `TRAINING`, the job is marked for termination and
+ * put into the `STOP_REQUESTED` state. If the training job completes before it can be
+ * stopped, it is put into the `TRAINED`; otherwise the training job is stopped and
+ * putted into the `STOPPED` state and the service sends back an HTTP 200 response
+ * with an empty HTTP body.
+ */
+export const stopTrainingEntityRecognizer =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StopTrainingEntityRecognizerRequest,
+    output: StopTrainingEntityRecognizerResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Returns information about the dataset that you specify.
+ * For more information about datasets, see
+ * Flywheel overview in the *Amazon Comprehend Developer Guide*.
+ */
+export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDatasetRequest,
+  output: DescribeDatasetResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets the properties associated with a specific endpoint. Use this operation to get the
+ * status of an endpoint.
+ * For information about endpoints, see Managing endpoints.
+ */
+export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEndpointRequest,
+  output: DescribeEndpointResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Provides configuration information about the flywheel. For more information about flywheels, see
+ * Flywheel overview in the *Amazon Comprehend Developer Guide*.
+ */
+export const describeFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFlywheelRequest,
+  output: DescribeFlywheelResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Information about the history of a flywheel iteration.
+ * For more information about flywheels, see
+ * Flywheel overview in the *Amazon Comprehend Developer Guide*.
+ */
+export const listFlywheelIterationHistory =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListFlywheelIterationHistoryRequest,
+    output: ListFlywheelIterationHistoryResponse,
+    errors: [
+      InternalServerException,
+      InvalidFilterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Deletes a previously created document classifier
+ *
+ * Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted.
+ * If an active inference job is using the model, a `ResourceInUseException` will be
+ * returned.
+ *
+ * This is an asynchronous action that puts the classifier into a DELETING state, and it is
+ * then removed by a background job. Once removed, the classifier disappears from your account
+ * and is no longer available for use.
+ */
+export const deleteDocumentClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDocumentClassifierRequest,
+    output: DeleteDocumentClassifierResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
       ResourceInUseException,
       ResourceNotFoundException,
       ResourceUnavailableException,
       TooManyRequestsException,
-      TooManyTagsException,
     ],
   }),
 );
 /**
- * Starts an asynchronous event detection job for a collection of documents.
+ * Gets the properties associated with a document classifier.
  */
-export const startEventsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeDocumentClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartEventsDetectionJobRequest,
-    output: StartEventsDetectionJobResponse,
+    input: DescribeDocumentClassifierRequest,
+    output: DescribeDocumentClassifierResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
- * Start the flywheel iteration.This operation uses any new datasets to train a new model version.
- * For more information about flywheels, see
- * Flywheel overview in the *Amazon Comprehend Developer Guide*.
- */
-export const startFlywheelIteration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartFlywheelIterationRequest,
-    output: StartFlywheelIterationResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceInUseException,
       ResourceNotFoundException,
       TooManyRequestsException,
     ],
   }),
 );
 /**
- * Starts an asynchronous key phrase detection job for a collection of documents. Use the
- * operation to track the status of a
- * job.
+ * Stops a dominant language detection job in progress.
+ *
+ * If the job state is `IN_PROGRESS` the job is marked for termination and put
+ * into the `STOP_REQUESTED` state. If the job completes before it can be stopped, it
+ * is put into the `COMPLETED` state; otherwise the job is stopped and put into the
+ * `STOPPED` state.
+ *
+ * If the job is in the `COMPLETED` or `FAILED` state when you call the
+ * `StopDominantLanguageDetectionJob` operation, the operation returns a 400
+ * Internal Request Exception.
+ *
+ * When a job is stopped, any documents already processed are written to the output
+ * location.
  */
-export const startKeyPhrasesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartKeyPhrasesDetectionJobRequest,
-    output: StartKeyPhrasesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
- * Starts an asynchronous sentiment detection job for a collection of documents. Use the
- * operation to track the status of a
- * job.
- */
-export const startSentimentDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartSentimentDetectionJobRequest,
-    output: StartSentimentDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
- * Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the
- * `DescribeTargetedSentimentDetectionJob` operation to track the status of a
- * job.
- */
-export const startTargetedSentimentDetectionJob =
+export const stopDominantLanguageDetectionJob =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartTargetedSentimentDetectionJobRequest,
-    output: StartTargetedSentimentDetectionJobResponse,
+    input: StopDominantLanguageDetectionJobRequest,
+    output: StopDominantLanguageDetectionJobResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
+      JobNotFoundException,
     ],
   }));
-/**
- * Starts an asynchronous topic detection job. Use the
- * `DescribeTopicDetectionJob` operation to track the status of a job.
- */
-export const startTopicsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartTopicsDetectionJobRequest,
-    output: StartTopicsDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }),
-);
 /**
  * Stops an entities detection job in progress.
  *
@@ -2803,215 +2915,6 @@ export const stopTargetedSentimentDetectionJob =
     ],
   }));
 /**
- * Stops a document classifier training job while in progress.
- *
- * If the training job state is `TRAINING`, the job is marked for termination and
- * put into the `STOP_REQUESTED` state. If the training job completes before it can be
- * stopped, it is put into the `TRAINED`; otherwise the training job is stopped and
- * put into the `STOPPED` state and the service sends back an HTTP 200 response with
- * an empty HTTP body.
- */
-export const stopTrainingDocumentClassifier =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopTrainingDocumentClassifierRequest,
-    output: StopTrainingDocumentClassifierResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair
- * that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
- * "Sales" as the key might be added to a resource to indicate its use by the sales department.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Removes a specific tag associated with an Amazon Comprehend resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyTagKeysException,
-  ],
-}));
-/**
- * Updates information about the specified endpoint.
- * For information about endpoints, see Managing endpoints.
- */
-export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEndpointRequest,
-  output: UpdateEndpointResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Inspects a batch of documents and returns an inference of the prevailing sentiment,
- * `POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`,
- * in each one.
- */
-export const batchDetectSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDetectSentimentRequest,
-    output: BatchDetectSentimentResponse,
-    errors: [
-      BatchSizeLimitExceededException,
-      InternalServerException,
-      InvalidRequestException,
-      TextSizeLimitExceededException,
-      UnsupportedLanguageException,
-    ],
-  }),
-);
-/**
- * Inspects the text of a batch of documents for the syntax and part of speech of the words
- * in the document and returns information about them. For more information, see
- * Syntax in the Comprehend Developer Guide.
- */
-export const batchDetectSyntax = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDetectSyntaxRequest,
-  output: BatchDetectSyntaxResponse,
-  errors: [
-    BatchSizeLimitExceededException,
-    InternalServerException,
-    InvalidRequestException,
-    TextSizeLimitExceededException,
-    UnsupportedLanguageException,
-  ],
-}));
-/**
- * Inspects a batch of documents and returns a sentiment analysis
- * for each entity identified in the documents.
- *
- * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
- */
-export const batchDetectTargetedSentiment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDetectTargetedSentimentRequest,
-    output: BatchDetectTargetedSentimentResponse,
-    errors: [
-      BatchSizeLimitExceededException,
-      InternalServerException,
-      InvalidRequestException,
-      TextSizeLimitExceededException,
-      UnsupportedLanguageException,
-    ],
-  }));
-/**
- * Analyzes input text for the presence of personally identifiable information (PII) and
- * returns the labels of identified PII entity types such as name, address, bank account number,
- * or phone number.
- */
-export const containsPiiEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ContainsPiiEntitiesRequest,
-  output: ContainsPiiEntitiesResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TextSizeLimitExceededException,
-    UnsupportedLanguageException,
-  ],
-}));
-/**
- * Creates a model-specific endpoint for synchronous inference for a previously trained
- * custom model
- * For information about endpoints, see Managing endpoints.
- */
-export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEndpointRequest,
-  output: CreateEndpointResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    TooManyRequestsException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Deletes a previously created document classifier
- *
- * Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted.
- * If an active inference job is using the model, a `ResourceInUseException` will be
- * returned.
- *
- * This is an asynchronous action that puts the classifier into a DELETING state, and it is
- * then removed by a background job. Once removed, the classifier disappears from your account
- * and is no longer available for use.
- */
-export const deleteDocumentClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDocumentClassifierRequest,
-    output: DeleteDocumentClassifierResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Deletes a model-specific endpoint for a previously-trained custom model. All endpoints
- * must be deleted in order for the model to be deleted.
- * For information about endpoints, see Managing endpoints.
- */
-export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEndpointRequest,
-  output: DeleteEndpointResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Returns information about the dataset that you specify.
- * For more information about datasets, see
- * Flywheel overview in the *Amazon Comprehend Developer Guide*.
- */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDatasetRequest,
-  output: DescribeDatasetResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Gets the properties associated with a document classification job. Use this operation to
  * get the status of a classification job.
  */
@@ -3042,21 +2945,6 @@ export const describeDominantLanguageDetectionJob =
     ],
   }));
 /**
- * Gets the properties associated with a specific endpoint. Use this operation to get the
- * status of an endpoint.
- * For information about endpoints, see Managing endpoints.
- */
-export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEndpointRequest,
-  output: DescribeEndpointResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Gets the properties associated with an entities detection job. Use this operation to get
  * the status of a detection job.
  */
@@ -3086,20 +2974,6 @@ export const describeEventsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Provides configuration information about the flywheel. For more information about flywheels, see
- * Flywheel overview in the *Amazon Comprehend Developer Guide*.
- */
-export const describeFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFlywheelRequest,
-  output: DescribeFlywheelResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * Gets the properties associated with a key phrases detection job. Use this operation to get
  * the status of a detection job.
@@ -3177,71 +3051,60 @@ export const detectDominantLanguage = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Detects the key noun phrases found in the text.
+ * Determines the dominant language of the input text for a batch of documents. For a list
+ * of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
  */
-export const detectKeyPhrases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectKeyPhrasesRequest,
-  output: DetectKeyPhrasesResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TextSizeLimitExceededException,
-    UnsupportedLanguageException,
-  ],
-}));
+export const batchDetectDominantLanguage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchDetectDominantLanguageRequest,
+    output: BatchDetectDominantLanguageResponse,
+    errors: [
+      BatchSizeLimitExceededException,
+      InternalServerException,
+      InvalidRequestException,
+      TextSizeLimitExceededException,
+    ],
+  }),
+);
 /**
- * Inspects the input text for entities that contain personally identifiable information
- * (PII) and returns information about them.
+ * Gets a list of summaries of the document classifiers that you have created
  */
-export const detectPiiEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectPiiEntitiesRequest,
-  output: DetectPiiEntitiesResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TextSizeLimitExceededException,
-    UnsupportedLanguageException,
-  ],
-}));
+export const listDocumentClassifierSummaries =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDocumentClassifierSummariesRequest,
+    output: ListDocumentClassifierSummariesResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TooManyRequestsException,
+    ],
+  }));
 /**
- * Inspects text and returns an inference of the prevailing sentiment
- * (`POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`).
+ * Gets a list of all existing endpoints that you've created.
+ * For information about endpoints, see Managing endpoints.
  */
-export const detectSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectSentimentRequest,
-  output: DetectSentimentResponse,
+export const listEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEndpointsRequest,
+  output: ListEndpointsResponse,
   errors: [
     InternalServerException,
     InvalidRequestException,
-    TextSizeLimitExceededException,
-    UnsupportedLanguageException,
-  ],
-}));
-/**
- * Creates a new custom model that replicates a source custom model that you import. The
- * source model can be in your Amazon Web Services account or another one.
- *
- * If the source model is in another Amazon Web Services account, then it must have a resource-based policy
- * that authorizes you to import it.
- *
- * The source model must be in the same Amazon Web Services Region that you're using when you import. You
- * can't import a model that's in a different Region.
- */
-export const importModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportModelRequest,
-  output: ImportModelResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    KmsKeyValidationException,
-    ResourceInUseException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
     TooManyRequestsException,
-    TooManyTagsException,
   ],
 }));
+/**
+ * Gets a list of summaries for the entity recognizers that you have created.
+ */
+export const listEntityRecognizerSummaries =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListEntityRecognizerSummariesRequest,
+    output: ListEntityRecognizerSummariesResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TooManyRequestsException,
+    ],
+  }));
 /**
  * Gets a list of the documentation classification jobs that you have submitted.
  */
@@ -3272,19 +3135,6 @@ export const listDocumentClassifiers = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets a list of summaries of the document classifiers that you have created
- */
-export const listDocumentClassifierSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDocumentClassifierSummariesRequest,
-    output: ListDocumentClassifierSummariesResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
  * Gets a list of the dominant language detection jobs that you have submitted.
  */
 export const listDominantLanguageDetectionJobs =
@@ -3298,19 +3148,6 @@ export const listDominantLanguageDetectionJobs =
       TooManyRequestsException,
     ],
   }));
-/**
- * Gets a list of all existing endpoints that you've created.
- * For information about endpoints, see Managing endpoints.
- */
-export const listEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEndpointsRequest,
-  output: ListEndpointsResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * Gets a list of the entity detection jobs that you have submitted.
  */
@@ -3348,19 +3185,6 @@ export const listEntityRecognizers = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets a list of summaries for the entity recognizers that you have created.
- */
-export const listEntityRecognizerSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListEntityRecognizerSummariesRequest,
-    output: ListEntityRecognizerSummariesResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
  * Gets a list of the events detection jobs that you have submitted.
  */
 export const listEventsDetectionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -3375,23 +3199,6 @@ export const listEventsDetectionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Information about the history of a flywheel iteration.
- * For more information about flywheels, see
- * Flywheel overview in the *Amazon Comprehend Developer Guide*.
- */
-export const listFlywheelIterationHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListFlywheelIterationHistoryRequest,
-    output: ListFlywheelIterationHistoryResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
 /**
  * Get a list of key phrase detection jobs that you have submitted.
  */
@@ -3466,82 +3273,35 @@ export const listTopicsDetectionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Starts an asynchronous document classification job using a custom classification model. Use the
- * `DescribeDocumentClassificationJob`
- * operation to track the progress of the job.
+ * Retrieve the configuration properties of a flywheel iteration.
+ * For more information about flywheels, see
+ * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const startDocumentClassificationJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDocumentClassificationJobRequest,
-    output: StartDocumentClassificationJobResponse,
+export const describeFlywheelIteration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeFlywheelIterationRequest,
+    output: DescribeFlywheelIterationResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
       ResourceNotFoundException,
-      ResourceUnavailableException,
       TooManyRequestsException,
-      TooManyTagsException,
     ],
-  }));
+  }),
+);
 /**
- * Starts an asynchronous dominant language detection job for a collection of documents. Use
- * the operation to track the status
- * of a job.
+ * Gets the properties associated with a PII entities detection job. For example, you can use
+ * this operation to get the job status.
  */
-export const startDominantLanguageDetectionJob =
+export const describePiiEntitiesDetectionJob =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDominantLanguageDetectionJobRequest,
-    output: StartDominantLanguageDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }));
-/**
- * Starts an asynchronous PII entity detection job for a collection of documents.
- */
-export const startPiiEntitiesDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartPiiEntitiesDetectionJobRequest,
-    output: StartPiiEntitiesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }));
-/**
- * Stops a dominant language detection job in progress.
- *
- * If the job state is `IN_PROGRESS` the job is marked for termination and put
- * into the `STOP_REQUESTED` state. If the job completes before it can be stopped, it
- * is put into the `COMPLETED` state; otherwise the job is stopped and put into the
- * `STOPPED` state.
- *
- * If the job is in the `COMPLETED` or `FAILED` state when you call the
- * `StopDominantLanguageDetectionJob` operation, the operation returns a 400
- * Internal Request Exception.
- *
- * When a job is stopped, any documents already processed are written to the output
- * location.
- */
-export const stopDominantLanguageDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopDominantLanguageDetectionJobRequest,
-    output: StopDominantLanguageDetectionJobResponse,
+    input: DescribePiiEntitiesDetectionJobRequest,
+    output: DescribePiiEntitiesDetectionJobResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
       JobNotFoundException,
+      TooManyRequestsException,
     ],
   }));
 /**
@@ -3559,21 +3319,98 @@ export const updateFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Determines the dominant language of the input text for a batch of documents. For a list
- * of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
+ * Provides details about an entity recognizer including status, S3 buckets containing
+ * training data, recognizer metadata, metrics, and so on.
  */
-export const batchDetectDominantLanguage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeEntityRecognizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: BatchDetectDominantLanguageRequest,
-    output: BatchDetectDominantLanguageResponse,
+    input: DescribeEntityRecognizerRequest,
+    output: DescribeEntityRecognizerResponse,
     errors: [
-      BatchSizeLimitExceededException,
       InternalServerException,
       InvalidRequestException,
-      TextSizeLimitExceededException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
     ],
   }),
 );
+/**
+ * Inspects text for syntax and the part of speech of words in the document. For more
+ * information, see
+ * Syntax in the Comprehend Developer Guide.
+ */
+export const detectSyntax = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectSyntaxRequest,
+  output: DetectSyntaxResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
+/**
+ * Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair
+ * that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
+ * "Sales" as the key might be added to a resource to indicate its use by the sales department.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Removes a specific tag associated with an Amazon Comprehend resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyTagKeysException,
+  ],
+}));
+/**
+ * Inspects the input text and returns a sentiment analysis for each entity identified in the text.
+ *
+ * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
+ */
+export const detectTargetedSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DetectTargetedSentimentRequest,
+    output: DetectTargetedSentimentResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TextSizeLimitExceededException,
+      UnsupportedLanguageException,
+    ],
+  }),
+);
+/**
+ * Performs toxicity analysis on the list of text strings that you provide as input.
+ * The API response contains a results list that matches the size of the input list.
+ * For more information about toxicity detection, see Toxicity detection in the *Amazon Comprehend Developer Guide*.
+ */
+export const detectToxicContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectToxicContentRequest,
+  output: DetectToxicContentResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
 /**
  * Inspects the text of a batch of documents for named entities and returns information
  * about them. For more information about named entities, see
@@ -3607,21 +3444,126 @@ export const batchDetectKeyPhrases = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a classification request to analyze a single document in real-time. `ClassifyDocument`
- * supports the following model types:
+ * Inspects a batch of documents and returns an inference of the prevailing sentiment,
+ * `POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`,
+ * in each one.
+ */
+export const batchDetectSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchDetectSentimentRequest,
+    output: BatchDetectSentimentResponse,
+    errors: [
+      BatchSizeLimitExceededException,
+      InternalServerException,
+      InvalidRequestException,
+      TextSizeLimitExceededException,
+      UnsupportedLanguageException,
+    ],
+  }),
+);
+/**
+ * Inspects the text of a batch of documents for the syntax and part of speech of the words
+ * in the document and returns information about them. For more information, see
+ * Syntax in the Comprehend Developer Guide.
+ */
+export const batchDetectSyntax = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDetectSyntaxRequest,
+  output: BatchDetectSyntaxResponse,
+  errors: [
+    BatchSizeLimitExceededException,
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
+/**
+ * Inspects a batch of documents and returns a sentiment analysis
+ * for each entity identified in the documents.
  *
- * - Custom classifier - a custom model that you have created and trained.
- * For input, you can provide plain text, a single-page document (PDF, Word, or image), or
- * Amazon Textract API output. For more information, see Custom classification in the *Amazon Comprehend Developer Guide*.
+ * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
+ */
+export const batchDetectTargetedSentiment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDetectTargetedSentimentRequest,
+    output: BatchDetectTargetedSentimentResponse,
+    errors: [
+      BatchSizeLimitExceededException,
+      InternalServerException,
+      InvalidRequestException,
+      TextSizeLimitExceededException,
+      UnsupportedLanguageException,
+    ],
+  }));
+/**
+ * Analyzes input text for the presence of personally identifiable information (PII) and
+ * returns the labels of identified PII entity types such as name, address, bank account number,
+ * or phone number.
+ */
+export const containsPiiEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ContainsPiiEntitiesRequest,
+  output: ContainsPiiEntitiesResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
+/**
+ * Detects the key noun phrases found in the text.
+ */
+export const detectKeyPhrases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectKeyPhrasesRequest,
+  output: DetectKeyPhrasesResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
+/**
+ * Inspects the input text for entities that contain personally identifiable information
+ * (PII) and returns information about them.
+ */
+export const detectPiiEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectPiiEntitiesRequest,
+  output: DetectPiiEntitiesResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
+/**
+ * Inspects text and returns an inference of the prevailing sentiment
+ * (`POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`).
+ */
+export const detectSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectSentimentRequest,
+  output: DetectSentimentResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
+/**
+ * Detects named entities in input text when you use the pre-trained model.
+ * Detects custom entities if you have a custom entity recognition model.
  *
- * - Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying
- * input prompts for generative AI applications.
- * For input, you provide English plain text input.
- * For prompt safety classification, the response includes only the `Classes` field.
- * For more information about prompt safety classifiers, see Prompt safety classification in the *Amazon Comprehend Developer Guide*.
+ * When detecting named entities using the pre-trained model, use plain text as the input.
+ * For more information about named entities, see
+ * Entities in the Comprehend Developer Guide.
  *
- * If the system detects errors while processing a page in the input document,
- * the API response includes an `Errors` field that describes the errors.
+ * When you use a custom entity recognition model,
+ * you can input plain text or you can upload a single-page input document (text, PDF, Word, or image).
+ *
+ * If the system detects errors while processing a page in the input document, the API response
+ * includes an entry in `Errors` for each error.
  *
  * If the system detects a document-level error in your input document, the API returns an
  * `InvalidRequestException` error response.
@@ -3629,14 +3571,69 @@ export const batchDetectKeyPhrases = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Errors in semi-structured documents in the Comprehend Developer Guide.
  */
-export const classifyDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ClassifyDocumentRequest,
-  output: ClassifyDocumentResponse,
+export const detectEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectEntitiesRequest,
+  output: DetectEntitiesResponse,
   errors: [
     InternalServerException,
     InvalidRequestException,
     ResourceUnavailableException,
     TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
+/**
+ * Updates information about the specified endpoint.
+ * For information about endpoints, see Managing endpoints.
+ */
+export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEndpointRequest,
+  output: UpdateEndpointResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a model-specific endpoint for synchronous inference for a previously trained
+ * custom model
+ * For information about endpoints, see Managing endpoints.
+ */
+export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEndpointRequest,
+  output: CreateEndpointResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Creates a dataset to upload training or test data for a model associated with a flywheel.
+ * For more information about datasets, see
+ * Flywheel overview in the *Amazon Comprehend Developer Guide*.
+ */
+export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatasetRequest,
+  output: CreateDatasetResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    TooManyTagsException,
   ],
 }));
 /**
@@ -3717,189 +3714,196 @@ export const createFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieve the configuration properties of a flywheel iteration.
- * For more information about flywheels, see
- * Flywheel overview in the *Amazon Comprehend Developer Guide*.
+ * Starts an asynchronous dominant language detection job for a collection of documents. Use
+ * the operation to track the status
+ * of a job.
  */
-export const describeFlywheelIteration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFlywheelIterationRequest,
-    output: DescribeFlywheelIterationResponse,
+export const startDominantLanguageDetectionJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartDominantLanguageDetectionJobRequest,
+    output: StartDominantLanguageDetectionJobResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
-      ResourceNotFoundException,
+      KmsKeyValidationException,
+      ResourceInUseException,
       TooManyRequestsException,
+      TooManyTagsException,
+    ],
+  }));
+/**
+ * Starts an asynchronous entity detection job for a collection of documents. Use the operation to track the status of a job.
+ *
+ * This API can be used for either standard entity detection or custom entity recognition. In
+ * order to be used for custom entity recognition, the optional `EntityRecognizerArn`
+ * must be used in order to provide access to the recognizer being used to detect the custom
+ * entity.
+ */
+export const startEntitiesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartEntitiesDetectionJobRequest,
+    output: StartEntitiesDetectionJobResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      KmsKeyValidationException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      TooManyRequestsException,
+      TooManyTagsException,
     ],
   }),
 );
 /**
- * Gets the properties associated with a PII entities detection job. For example, you can use
- * this operation to get the job status.
+ * Starts an asynchronous event detection job for a collection of documents.
  */
-export const describePiiEntitiesDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePiiEntitiesDetectionJobRequest,
-    output: DescribePiiEntitiesDetectionJobResponse,
+export const startEventsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartEventsDetectionJobRequest,
+    output: StartEventsDetectionJobResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
-      JobNotFoundException,
+      KmsKeyValidationException,
+      ResourceInUseException,
       TooManyRequestsException,
+      TooManyTagsException,
+    ],
+  }),
+);
+/**
+ * Starts an asynchronous key phrase detection job for a collection of documents. Use the
+ * operation to track the status of a
+ * job.
+ */
+export const startKeyPhrasesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartKeyPhrasesDetectionJobRequest,
+    output: StartKeyPhrasesDetectionJobResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      KmsKeyValidationException,
+      ResourceInUseException,
+      TooManyRequestsException,
+      TooManyTagsException,
+    ],
+  }),
+);
+/**
+ * Starts an asynchronous sentiment detection job for a collection of documents. Use the
+ * operation to track the status of a
+ * job.
+ */
+export const startSentimentDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartSentimentDetectionJobRequest,
+    output: StartSentimentDetectionJobResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      KmsKeyValidationException,
+      ResourceInUseException,
+      TooManyRequestsException,
+      TooManyTagsException,
+    ],
+  }),
+);
+/**
+ * Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the
+ * `DescribeTargetedSentimentDetectionJob` operation to track the status of a
+ * job.
+ */
+export const startTargetedSentimentDetectionJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartTargetedSentimentDetectionJobRequest,
+    output: StartTargetedSentimentDetectionJobResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      KmsKeyValidationException,
+      ResourceInUseException,
+      TooManyRequestsException,
+      TooManyTagsException,
     ],
   }));
 /**
- * Inspects text for syntax and the part of speech of words in the document. For more
- * information, see
- * Syntax in the Comprehend Developer Guide.
+ * Starts an asynchronous topic detection job. Use the
+ * `DescribeTopicDetectionJob` operation to track the status of a job.
  */
-export const detectSyntax = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectSyntaxRequest,
-  output: DetectSyntaxResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TextSizeLimitExceededException,
-    UnsupportedLanguageException,
-  ],
-}));
+export const startTopicsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartTopicsDetectionJobRequest,
+    output: StartTopicsDetectionJobResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      KmsKeyValidationException,
+      ResourceInUseException,
+      TooManyRequestsException,
+      TooManyTagsException,
+    ],
+  }),
+);
 /**
- * List the datasets that you have configured in this Region. For more information about datasets, see
- * Flywheel overview in the *Amazon Comprehend Developer Guide*.
+ * Starts an asynchronous document classification job using a custom classification model. Use the
+ * `DescribeDocumentClassificationJob`
+ * operation to track the progress of the job.
  */
-export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDatasetsRequest,
-  output: ListDatasetsResponse,
-  errors: [
-    InternalServerException,
-    InvalidFilterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
+export const startDocumentClassificationJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartDocumentClassificationJobRequest,
+    output: StartDocumentClassificationJobResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      KmsKeyValidationException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
+      TooManyRequestsException,
+      TooManyTagsException,
+    ],
+  }));
 /**
- * Gets a list of the flywheels that you have created.
+ * Starts an asynchronous PII entity detection job for a collection of documents.
  */
-export const listFlywheels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFlywheelsRequest,
-  output: ListFlywheelsResponse,
-  errors: [
-    InternalServerException,
-    InvalidFilterException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
-}));
+export const startPiiEntitiesDetectionJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartPiiEntitiesDetectionJobRequest,
+    output: StartPiiEntitiesDetectionJobResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      KmsKeyValidationException,
+      ResourceInUseException,
+      TooManyRequestsException,
+      TooManyTagsException,
+    ],
+  }));
 /**
- * Creates a dataset to upload training or test data for a model associated with a flywheel.
- * For more information about datasets, see
- * Flywheel overview in the *Amazon Comprehend Developer Guide*.
+ * Creates a new custom model that replicates a source custom model that you import. The
+ * source model can be in your Amazon Web Services account or another one.
+ *
+ * If the source model is in another Amazon Web Services account, then it must have a resource-based policy
+ * that authorizes you to import it.
+ *
+ * The source model must be in the same Amazon Web Services Region that you're using when you import. You
+ * can't import a model that's in a different Region.
  */
-export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDatasetRequest,
-  output: CreateDatasetResponse,
+export const importModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportModelRequest,
+  output: ImportModelResponse,
   errors: [
     InternalServerException,
     InvalidRequestException,
+    KmsKeyValidationException,
     ResourceInUseException,
     ResourceLimitExceededException,
     ResourceNotFoundException,
+    ResourceUnavailableException,
     TooManyRequestsException,
     TooManyTagsException,
   ],
 }));
-/**
- * Gets the properties associated with a document classifier.
- */
-export const describeDocumentClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDocumentClassifierRequest,
-    output: DescribeDocumentClassifierResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Detects named entities in input text when you use the pre-trained model.
- * Detects custom entities if you have a custom entity recognition model.
- *
- * When detecting named entities using the pre-trained model, use plain text as the input.
- * For more information about named entities, see
- * Entities in the Comprehend Developer Guide.
- *
- * When you use a custom entity recognition model,
- * you can input plain text or you can upload a single-page input document (text, PDF, Word, or image).
- *
- * If the system detects errors while processing a page in the input document, the API response
- * includes an entry in `Errors` for each error.
- *
- * If the system detects a document-level error in your input document, the API returns an
- * `InvalidRequestException` error response.
- * For details about this exception, see
- *
- * Errors in semi-structured documents in the Comprehend Developer Guide.
- */
-export const detectEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectEntitiesRequest,
-  output: DetectEntitiesResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceUnavailableException,
-    TextSizeLimitExceededException,
-    UnsupportedLanguageException,
-  ],
-}));
-/**
- * Inspects the input text and returns a sentiment analysis for each entity identified in the text.
- *
- * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
- */
-export const detectTargetedSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetectTargetedSentimentRequest,
-    output: DetectTargetedSentimentResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TextSizeLimitExceededException,
-      UnsupportedLanguageException,
-    ],
-  }),
-);
-/**
- * Performs toxicity analysis on the list of text strings that you provide as input.
- * The API response contains a results list that matches the size of the input list.
- * For more information about toxicity detection, see Toxicity detection in the *Amazon Comprehend Developer Guide*.
- */
-export const detectToxicContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectToxicContentRequest,
-  output: DetectToxicContentResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TextSizeLimitExceededException,
-    UnsupportedLanguageException,
-  ],
-}));
-/**
- * Provides details about an entity recognizer including status, S3 buckets containing
- * training data, recognizer metadata, metrics, and so on.
- */
-export const describeEntityRecognizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEntityRecognizerRequest,
-    output: DescribeEntityRecognizerResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);

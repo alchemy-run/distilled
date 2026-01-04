@@ -290,11 +290,11 @@ export class GetIceServerConfigResponse extends S.Class<GetIceServerConfigRespon
 //# Errors
 export class ClientLimitExceededException extends S.TaggedError<ClientLimitExceededException>()(
   "ClientLimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
   "InvalidArgumentException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
   "NotAuthorizedException",
@@ -306,7 +306,7 @@ export class InvalidClientException extends S.TaggedError<InvalidClientException
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class SessionExpiredException extends S.TaggedError<SessionExpiredException>()(
   "SessionExpiredException",

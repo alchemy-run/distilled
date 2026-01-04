@@ -486,28 +486,28 @@ export class CreateScalingPlanResponse extends S.Class<CreateScalingPlanResponse
 //# Errors
 export class ConcurrentUpdateException extends S.TaggedError<ConcurrentUpdateException>()(
   "ConcurrentUpdateException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConcurrentUpdateException", httpResponseCode: 500 }),
 ) {}
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServiceException", httpResponseCode: 500 }),
 ) {}
 export class ObjectNotFoundException extends S.TaggedError<ObjectNotFoundException>()(
   "ObjectNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ObjectNotFoundException", httpResponseCode: 400 }),
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidNextTokenException", httpResponseCode: 400 }),
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
@@ -516,25 +516,6 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 ) {}
 
 //# Operations
-/**
- * Deletes the specified scaling plan.
- *
- * Deleting a scaling plan deletes the underlying ScalingInstruction for
- * all of the scalable resources that are covered by the plan.
- *
- * If the plan has launched resources or has scaling activities in progress, you must
- * delete those resources separately.
- */
-export const deleteScalingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteScalingPlanRequest,
-  output: DeleteScalingPlanResponse,
-  errors: [
-    ConcurrentUpdateException,
-    InternalServiceException,
-    ObjectNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Retrieves the forecast data for a scalable resource.
  *
@@ -578,6 +559,25 @@ export const describeScalingPlanResources =
       ValidationException,
     ],
   }));
+/**
+ * Deletes the specified scaling plan.
+ *
+ * Deleting a scaling plan deletes the underlying ScalingInstruction for
+ * all of the scalable resources that are covered by the plan.
+ *
+ * If the plan has launched resources or has scaling activities in progress, you must
+ * delete those resources separately.
+ */
+export const deleteScalingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScalingPlanRequest,
+  output: DeleteScalingPlanResponse,
+  errors: [
+    ConcurrentUpdateException,
+    InternalServiceException,
+    ObjectNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes one or more of your scaling plans.
  */

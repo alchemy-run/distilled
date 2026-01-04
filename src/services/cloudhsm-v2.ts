@@ -570,34 +570,72 @@ export class DeleteClusterResponse extends S.Class<DeleteClusterResponse>(
 //# Errors
 export class CloudHsmAccessDeniedException extends S.TaggedError<CloudHsmAccessDeniedException>()(
   "CloudHsmAccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class CloudHsmInternalFailureException extends S.TaggedError<CloudHsmInternalFailureException>()(
   "CloudHsmInternalFailureException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class CloudHsmInvalidRequestException extends S.TaggedError<CloudHsmInvalidRequestException>()(
   "CloudHsmInvalidRequestException",
-  {},
-) {}
-export class CloudHsmResourceNotFoundException extends S.TaggedError<CloudHsmResourceNotFoundException>()(
-  "CloudHsmResourceNotFoundException",
-  {},
-) {}
-export class CloudHsmServiceException extends S.TaggedError<CloudHsmServiceException>()(
-  "CloudHsmServiceException",
-  {},
-) {}
-export class CloudHsmTagException extends S.TaggedError<CloudHsmTagException>()(
-  "CloudHsmTagException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class CloudHsmResourceLimitExceededException extends S.TaggedError<CloudHsmResourceLimitExceededException>()(
   "CloudHsmResourceLimitExceededException",
   { Message: S.optional(S.String) },
 ) {}
+export class CloudHsmResourceNotFoundException extends S.TaggedError<CloudHsmResourceNotFoundException>()(
+  "CloudHsmResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class CloudHsmServiceException extends S.TaggedError<CloudHsmServiceException>()(
+  "CloudHsmServiceException",
+  { Message: S.optional(S.String) },
+) {}
+export class CloudHsmTagException extends S.TaggedError<CloudHsmTagException>()(
+  "CloudHsmTagException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP
+ * address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to
+ * specify only one of these values. To find these values, use DescribeClusters.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account.
+ */
+export const deleteHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHsmRequest,
+  output: DeleteHsmResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+  ],
+}));
+/**
+ * Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from
+ * any RAM resource shares. Deleting the resource policy attached to a backup will not impact any clusters created from that
+ * backup.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+ */
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyRequest,
+    output: DeleteResourcePolicyResponse,
+    errors: [
+      CloudHsmAccessDeniedException,
+      CloudHsmInternalFailureException,
+      CloudHsmInvalidRequestException,
+      CloudHsmResourceNotFoundException,
+      CloudHsmServiceException,
+    ],
+  }),
+);
 /**
  * Retrieves the resource policy document attached to a given resource.
  *
@@ -716,41 +754,6 @@ export const restoreBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes the specified tag or tags from the specified CloudHSM cluster.
- *
- * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-    CloudHsmTagException,
-  ],
-}));
-/**
- * Creates a new CloudHSM cluster.
- *
- * **Cross-account use:** Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup
- * ARN in the value of the SourceBackupId parameter.
- */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateClusterRequest,
-  output: CreateClusterResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-    CloudHsmTagException,
-  ],
-}));
-/**
  * Creates a new hardware security module (HSM) in the specified CloudHSM
  * cluster.
  *
@@ -783,67 +786,6 @@ export const deleteBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     CloudHsmInvalidRequestException,
     CloudHsmResourceNotFoundException,
     CloudHsmServiceException,
-  ],
-}));
-/**
- * Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP
- * address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to
- * specify only one of these values. To find these values, use DescribeClusters.
- *
- * **Cross-account use:** No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account.
- */
-export const deleteHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteHsmRequest,
-  output: DeleteHsmResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-  ],
-}));
-/**
- * Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from
- * any RAM resource shares. Deleting the resource policy attached to a backup will not impact any clusters created from that
- * backup.
- *
- * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
- */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      CloudHsmAccessDeniedException,
-      CloudHsmInternalFailureException,
-      CloudHsmInvalidRequestException,
-      CloudHsmResourceNotFoundException,
-      CloudHsmServiceException,
-    ],
-  }),
-);
-/**
- * Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true.
- *
- * This is a paginated operation, which means that each response might contain only a
- * subset of all the backups. When the response contains only a subset of backups, it includes a
- * `NextToken` value. Use this value in a subsequent `DescribeBackups`
- * request to get more backups. When you receive a response with no `NextToken` (or an
- * empty or null value), that means there are no more backups to get.
- *
- * **Cross-account use:** Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
- */
-export const describeBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBackupsRequest,
-  output: DescribeBackupsResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-    CloudHsmTagException,
   ],
 }));
 /**
@@ -892,18 +834,41 @@ export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Adds or overwrites one or more tags for the specified CloudHSM cluster.
+ * Creates a new CloudHSM cluster.
  *
- * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+ * **Cross-account use:** Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup
+ * ARN in the value of the SourceBackupId parameter.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterRequest,
+  output: CreateClusterResponse,
   errors: [
     CloudHsmAccessDeniedException,
     CloudHsmInternalFailureException,
     CloudHsmInvalidRequestException,
-    CloudHsmResourceLimitExceededException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+    CloudHsmTagException,
+  ],
+}));
+/**
+ * Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true.
+ *
+ * This is a paginated operation, which means that each response might contain only a
+ * subset of all the backups. When the response contains only a subset of backups, it includes a
+ * `NextToken` value. Use this value in a subsequent `DescribeBackups`
+ * request to get more backups. When you receive a response with no `NextToken` (or an
+ * empty or null value), that means there are no more backups to get.
+ *
+ * **Cross-account use:** Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
+ */
+export const describeBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBackupsRequest,
+  output: DescribeBackupsResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
     CloudHsmResourceNotFoundException,
     CloudHsmServiceException,
     CloudHsmTagException,
@@ -935,6 +900,41 @@ export const copyBackupToRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
   output: DeleteClusterResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+    CloudHsmTagException,
+  ],
+}));
+/**
+ * Adds or overwrites one or more tags for the specified CloudHSM cluster.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceLimitExceededException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+    CloudHsmTagException,
+  ],
+}));
+/**
+ * Removes the specified tag or tags from the specified CloudHSM cluster.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     CloudHsmAccessDeniedException,
     CloudHsmInternalFailureException,

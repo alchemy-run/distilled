@@ -1,5 +1,5 @@
 import { expect } from "@effect/vitest";
-import { Effect, Stream } from "effect";
+import { Effect, Schedule, Stream } from "effect";
 import {
   // Multipart upload operations
   abortMultipartUpload,
@@ -712,17 +712,26 @@ test(
         },
       });
 
-      lifecycleResult = yield* getBucketLifecycleConfiguration({
-        Bucket: bucket,
-      });
-      if (
-        lifecycleResult.Rules?.[0]?.AbortIncompleteMultipartUpload
-          ?.DaysAfterInitiation !== 1
-      ) {
-        return yield* Effect.fail(
-          new Error(`Test 4: Expected DaysAfterInitiation=1`),
-        );
-      }
+      // Retry to handle eventual consistency
+      yield* Effect.gen(function* () {
+        const result = yield* getBucketLifecycleConfiguration({
+          Bucket: bucket,
+        });
+        const rule = result.Rules?.[0];
+        if (rule?.AbortIncompleteMultipartUpload?.DaysAfterInitiation !== 1) {
+          return yield* Effect.fail(
+            new Error(
+              `Test 4: Expected DaysAfterInitiation=1, got rule: ${JSON.stringify(rule, null, 2)}`,
+            ),
+          );
+        }
+      }).pipe(
+        Effect.retry({
+          schedule: Schedule.spaced("1 second").pipe(
+            Schedule.intersect(Schedule.recurs(10)),
+          ),
+        }),
+      );
 
       // Cleanup
       yield* deleteBucketLifecycle({ Bucket: bucket });

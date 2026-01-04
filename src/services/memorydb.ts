@@ -1321,98 +1321,39 @@ export class CreateSnapshotResponse extends S.Class<CreateSnapshotResponse>(
 )({ Snapshot: S.optional(Snapshot) }, ns) {}
 
 //# Errors
-export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
-  "InvalidParameterCombinationException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidParameterCombination",
-    httpResponseCode: 400,
-  }),
-) {}
 export class ACLNotFoundFault extends S.TaggedError<ACLNotFoundFault>()(
   "ACLNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ACLNotFound", httpResponseCode: 404 }),
 ) {}
 export class ClusterNotFoundFault extends S.TaggedError<ClusterNotFoundFault>()(
   "ClusterNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ClusterNotFound", httpResponseCode: 404 }),
-) {}
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
-  "InvalidParameterValueException",
-  {},
-  T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
-) {}
-export class ServiceLinkedRoleNotFoundFault extends S.TaggedError<ServiceLinkedRoleNotFoundFault>()(
-  "ServiceLinkedRoleNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "ServiceLinkedRoleNotFoundFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class MultiRegionClusterNotFoundFault extends S.TaggedError<MultiRegionClusterNotFoundFault>()(
-  "MultiRegionClusterNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "MultiRegionClusterNotFound",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidARNFault extends S.TaggedError<InvalidARNFault>()(
-  "InvalidARNFault",
-  {},
-  T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }),
-) {}
-export class InvalidClusterStateFault extends S.TaggedError<InvalidClusterStateFault>()(
-  "InvalidClusterStateFault",
-  {},
-  T.AwsQueryError({ code: "InvalidClusterState", httpResponseCode: 400 }),
 ) {}
 export class InvalidMultiRegionClusterStateFault extends S.TaggedError<InvalidMultiRegionClusterStateFault>()(
   "InvalidMultiRegionClusterStateFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "InvalidMultiRegionClusterState",
     httpResponseCode: 400,
   }),
 ) {}
-export class MultiRegionParameterGroupNotFoundFault extends S.TaggedError<MultiRegionParameterGroupNotFoundFault>()(
-  "MultiRegionParameterGroupNotFoundFault",
-  {},
+export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
+  "InvalidParameterCombinationException",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "MultiRegionParameterGroupNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidParameterGroupStateFault extends S.TaggedError<InvalidParameterGroupStateFault>()(
-  "InvalidParameterGroupStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidParameterGroupState",
+    code: "InvalidParameterCombination",
     httpResponseCode: 400,
   }),
 ) {}
-export class ParameterGroupNotFoundFault extends S.TaggedError<ParameterGroupNotFoundFault>()(
-  "ParameterGroupNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "ParameterGroupNotFound", httpResponseCode: 404 }),
-) {}
-export class InvalidSnapshotStateFault extends S.TaggedError<InvalidSnapshotStateFault>()(
-  "InvalidSnapshotStateFault",
-  {},
-  T.AwsQueryError({ code: "InvalidSnapshotState", httpResponseCode: 400 }),
-) {}
-export class SnapshotNotFoundFault extends S.TaggedError<SnapshotNotFoundFault>()(
-  "SnapshotNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "SnapshotNotFoundFault", httpResponseCode: 404 }),
-) {}
-export class SubnetGroupNotFoundFault extends S.TaggedError<SubnetGroupNotFoundFault>()(
-  "SubnetGroupNotFoundFault",
+export class ServiceLinkedRoleNotFoundFault extends S.TaggedError<ServiceLinkedRoleNotFoundFault>()(
+  "ServiceLinkedRoleNotFoundFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetGroupNotFoundFault", httpResponseCode: 404 }),
+  T.AwsQueryError({
+    code: "ServiceLinkedRoleNotFoundFault",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class APICallRateForCustomerExceededFault extends S.TaggedError<APICallRateForCustomerExceededFault>()(
   "APICallRateForCustomerExceededFault",
@@ -1422,54 +1363,162 @@ export class APICallRateForCustomerExceededFault extends S.TaggedError<APICallRa
     httpResponseCode: 400,
   }),
 ) {}
+export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
+  "InvalidSubnet",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
+) {}
+export class DuplicateUserNameFault extends S.TaggedError<DuplicateUserNameFault>()(
+  "DuplicateUserNameFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DuplicateUserName", httpResponseCode: 400 }),
+) {}
+export class InvalidACLStateFault extends S.TaggedError<InvalidACLStateFault>()(
+  "InvalidACLStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidACLState", httpResponseCode: 400 }),
+) {}
+export class InvalidClusterStateFault extends S.TaggedError<InvalidClusterStateFault>()(
+  "InvalidClusterStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidClusterState", httpResponseCode: 400 }),
+) {}
+export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
+  "InvalidParameterValueException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
+) {}
+export class InvalidParameterGroupStateFault extends S.TaggedError<InvalidParameterGroupStateFault>()(
+  "InvalidParameterGroupStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidParameterGroupState",
+    httpResponseCode: 400,
+  }),
+) {}
+export class SubnetGroupInUseFault extends S.TaggedError<SubnetGroupInUseFault>()(
+  "SubnetGroupInUseFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetGroupInUse", httpResponseCode: 400 }),
+) {}
 export class UserNotFoundFault extends S.TaggedError<UserNotFoundFault>()(
   "UserNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "UserNotFound", httpResponseCode: 404 }),
 ) {}
-export class ReservedNodeAlreadyExistsFault extends S.TaggedError<ReservedNodeAlreadyExistsFault>()(
-  "ReservedNodeAlreadyExistsFault",
+export class ClusterQuotaForCustomerExceededFault extends S.TaggedError<ClusterQuotaForCustomerExceededFault>()(
+  "ClusterQuotaForCustomerExceededFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ReservedNodeAlreadyExists", httpResponseCode: 404 }),
+  T.AwsQueryError({
+    code: "ClusterQuotaForCustomerExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class SubnetGroupNotFoundFault extends S.TaggedError<SubnetGroupNotFoundFault>()(
+  "SubnetGroupNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetGroupNotFoundFault", httpResponseCode: 404 }),
+) {}
+export class InvalidARNFault extends S.TaggedError<InvalidARNFault>()(
+  "InvalidARNFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }),
 ) {}
 export class DefaultUserRequired extends S.TaggedError<DefaultUserRequired>()(
   "DefaultUserRequired",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "DefaultUserRequired", httpResponseCode: 400 }),
 ) {}
-export class DuplicateUserNameFault extends S.TaggedError<DuplicateUserNameFault>()(
-  "DuplicateUserNameFault",
-  {},
-  T.AwsQueryError({ code: "DuplicateUserName", httpResponseCode: 400 }),
-) {}
-export class InvalidACLStateFault extends S.TaggedError<InvalidACLStateFault>()(
-  "InvalidACLStateFault",
-  {},
-  T.AwsQueryError({ code: "InvalidACLState", httpResponseCode: 400 }),
-) {}
-export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
-  "InvalidSubnet",
+export class ACLAlreadyExistsFault extends S.TaggedError<ACLAlreadyExistsFault>()(
+  "ACLAlreadyExistsFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "ACLAlreadyExists", httpResponseCode: 400 }),
+) {}
+export class MultiRegionClusterNotFoundFault extends S.TaggedError<MultiRegionClusterNotFoundFault>()(
+  "MultiRegionClusterNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "MultiRegionClusterNotFound",
+    httpResponseCode: 404,
+  }),
+) {}
+export class ParameterGroupNotFoundFault extends S.TaggedError<ParameterGroupNotFoundFault>()(
+  "ParameterGroupNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ParameterGroupNotFound", httpResponseCode: 404 }),
 ) {}
 export class InvalidUserStateFault extends S.TaggedError<InvalidUserStateFault>()(
   "InvalidUserStateFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidUserState", httpResponseCode: 400 }),
 ) {}
-export class SnapshotAlreadyExistsFault extends S.TaggedError<SnapshotAlreadyExistsFault>()(
-  "SnapshotAlreadyExistsFault",
-  {},
+export class ReservedNodeNotFoundFault extends S.TaggedError<ReservedNodeNotFoundFault>()(
+  "ReservedNodeNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ReservedNodeNotFound", httpResponseCode: 404 }),
+) {}
+export class InvalidKMSKeyFault extends S.TaggedError<InvalidKMSKeyFault>()(
+  "InvalidKMSKeyFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidKMSKeyFault", httpResponseCode: 400 }),
+) {}
+export class SubnetInUse extends S.TaggedError<SubnetInUse>()(
+  "SubnetInUse",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }),
+) {}
+export class MultiRegionParameterGroupNotFoundFault extends S.TaggedError<MultiRegionParameterGroupNotFoundFault>()(
+  "MultiRegionParameterGroupNotFoundFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "SnapshotAlreadyExistsFault",
+    code: "MultiRegionParameterGroupNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
+export class ReservedNodesOfferingNotFoundFault extends S.TaggedError<ReservedNodesOfferingNotFoundFault>()(
+  "ReservedNodesOfferingNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ReservedNodesOfferingNotFound",
+    httpResponseCode: 404,
+  }),
+) {}
+export class InvalidSnapshotStateFault extends S.TaggedError<InvalidSnapshotStateFault>()(
+  "InvalidSnapshotStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidSnapshotState", httpResponseCode: 400 }),
+) {}
+export class SnapshotNotFoundFault extends S.TaggedError<SnapshotNotFoundFault>()(
+  "SnapshotNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SnapshotNotFoundFault", httpResponseCode: 404 }),
+) {}
+export class ReservedNodeAlreadyExistsFault extends S.TaggedError<ReservedNodeAlreadyExistsFault>()(
+  "ReservedNodeAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ReservedNodeAlreadyExists", httpResponseCode: 404 }),
+) {}
+export class ServiceUpdateNotFoundFault extends S.TaggedError<ServiceUpdateNotFoundFault>()(
+  "ServiceUpdateNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ServiceUpdateNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
+export class TagQuotaPerResourceExceeded extends S.TaggedError<TagQuotaPerResourceExceeded>()(
+  "TagQuotaPerResourceExceeded",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "TagQuotaPerResourceExceeded",
     httpResponseCode: 400,
   }),
 ) {}
-export class ClusterQuotaForCustomerExceededFault extends S.TaggedError<ClusterQuotaForCustomerExceededFault>()(
-  "ClusterQuotaForCustomerExceededFault",
-  {},
+export class SnapshotAlreadyExistsFault extends S.TaggedError<SnapshotAlreadyExistsFault>()(
+  "SnapshotAlreadyExistsFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "ClusterQuotaForCustomerExceeded",
+    code: "SnapshotAlreadyExistsFault",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1481,68 +1530,6 @@ export class ParameterGroupAlreadyExistsFault extends S.TaggedError<ParameterGro
     httpResponseCode: 400,
   }),
 ) {}
-export class TagQuotaPerResourceExceeded extends S.TaggedError<TagQuotaPerResourceExceeded>()(
-  "TagQuotaPerResourceExceeded",
-  {},
-  T.AwsQueryError({
-    code: "TagQuotaPerResourceExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class SubnetGroupInUseFault extends S.TaggedError<SubnetGroupInUseFault>()(
-  "SubnetGroupInUseFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetGroupInUse", httpResponseCode: 400 }),
-) {}
-export class ReservedNodesOfferingNotFoundFault extends S.TaggedError<ReservedNodesOfferingNotFoundFault>()(
-  "ReservedNodesOfferingNotFoundFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ReservedNodesOfferingNotFound",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidKMSKeyFault extends S.TaggedError<InvalidKMSKeyFault>()(
-  "InvalidKMSKeyFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidKMSKeyFault", httpResponseCode: 400 }),
-) {}
-export class ReservedNodeQuotaExceededFault extends S.TaggedError<ReservedNodeQuotaExceededFault>()(
-  "ReservedNodeQuotaExceededFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ReservedNodeQuotaExceeded", httpResponseCode: 400 }),
-) {}
-export class TagNotFoundFault extends S.TaggedError<TagNotFoundFault>()(
-  "TagNotFoundFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TagNotFound", httpResponseCode: 404 }),
-) {}
-export class SubnetInUse extends S.TaggedError<SubnetInUse>()(
-  "SubnetInUse",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }),
-) {}
-export class ServiceUpdateNotFoundFault extends S.TaggedError<ServiceUpdateNotFoundFault>()(
-  "ServiceUpdateNotFoundFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ServiceUpdateNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class SnapshotQuotaExceededFault extends S.TaggedError<SnapshotQuotaExceededFault>()(
-  "SnapshotQuotaExceededFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "SnapshotQuotaExceededFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ACLAlreadyExistsFault extends S.TaggedError<ACLAlreadyExistsFault>()(
-  "ACLAlreadyExistsFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ACLAlreadyExists", httpResponseCode: 400 }),
-) {}
 export class MultiRegionClusterAlreadyExistsFault extends S.TaggedError<MultiRegionClusterAlreadyExistsFault>()(
   "MultiRegionClusterAlreadyExistsFault",
   { message: S.optional(S.String) },
@@ -1550,39 +1537,6 @@ export class MultiRegionClusterAlreadyExistsFault extends S.TaggedError<MultiReg
     code: "MultiRegionClusterAlreadyExistsFault",
     httpResponseCode: 400,
   }),
-) {}
-export class ParameterGroupQuotaExceededFault extends S.TaggedError<ParameterGroupQuotaExceededFault>()(
-  "ParameterGroupQuotaExceededFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ParameterGroupQuotaExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class UserAlreadyExistsFault extends S.TaggedError<UserAlreadyExistsFault>()(
-  "UserAlreadyExistsFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "UserAlreadyExists", httpResponseCode: 400 }),
-) {}
-export class ReservedNodeNotFoundFault extends S.TaggedError<ReservedNodeNotFoundFault>()(
-  "ReservedNodeNotFoundFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ReservedNodeNotFound", httpResponseCode: 404 }),
-) {}
-export class ShardNotFoundFault extends S.TaggedError<ShardNotFoundFault>()(
-  "ShardNotFoundFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ShardNotFoundFault", httpResponseCode: 404 }),
-) {}
-export class InvalidNodeStateFault extends S.TaggedError<InvalidNodeStateFault>()(
-  "InvalidNodeStateFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidNodeState", httpResponseCode: 400 }),
-) {}
-export class SubnetNotAllowedFault extends S.TaggedError<SubnetNotAllowedFault>()(
-  "SubnetNotAllowedFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
 ) {}
 export class ACLQuotaExceededFault extends S.TaggedError<ACLQuotaExceededFault>()(
   "ACLQuotaExceededFault",
@@ -1594,18 +1548,61 @@ export class SubnetGroupAlreadyExistsFault extends S.TaggedError<SubnetGroupAlre
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "SubnetGroupAlreadyExists", httpResponseCode: 400 }),
 ) {}
-export class UserQuotaExceededFault extends S.TaggedError<UserQuotaExceededFault>()(
-  "UserQuotaExceededFault",
+export class InvalidNodeStateFault extends S.TaggedError<InvalidNodeStateFault>()(
+  "InvalidNodeStateFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "UserQuotaExceeded", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidNodeState", httpResponseCode: 400 }),
 ) {}
-export class TestFailoverNotAvailableFault extends S.TaggedError<TestFailoverNotAvailableFault>()(
-  "TestFailoverNotAvailableFault",
+export class SubnetNotAllowedFault extends S.TaggedError<SubnetNotAllowedFault>()(
+  "SubnetNotAllowedFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
+) {}
+export class ReservedNodeQuotaExceededFault extends S.TaggedError<ReservedNodeQuotaExceededFault>()(
+  "ReservedNodeQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ReservedNodeQuotaExceeded", httpResponseCode: 400 }),
+) {}
+export class UserAlreadyExistsFault extends S.TaggedError<UserAlreadyExistsFault>()(
+  "UserAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UserAlreadyExists", httpResponseCode: 400 }),
+) {}
+export class TagNotFoundFault extends S.TaggedError<TagNotFoundFault>()(
+  "TagNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TagNotFound", httpResponseCode: 404 }),
+) {}
+export class ParameterGroupQuotaExceededFault extends S.TaggedError<ParameterGroupQuotaExceededFault>()(
+  "ParameterGroupQuotaExceededFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "TestFailoverNotAvailableFault",
+    code: "ParameterGroupQuotaExceeded",
     httpResponseCode: 400,
   }),
+) {}
+export class ShardNotFoundFault extends S.TaggedError<ShardNotFoundFault>()(
+  "ShardNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ShardNotFoundFault", httpResponseCode: 404 }),
+) {}
+export class SnapshotQuotaExceededFault extends S.TaggedError<SnapshotQuotaExceededFault>()(
+  "SnapshotQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SnapshotQuotaExceededFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ClusterAlreadyExistsFault extends S.TaggedError<ClusterAlreadyExistsFault>()(
+  "ClusterAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ClusterAlreadyExists", httpResponseCode: 400 }),
+) {}
+export class SubnetGroupQuotaExceededFault extends S.TaggedError<SubnetGroupQuotaExceededFault>()(
+  "SubnetGroupQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetGroupQuotaExceeded", httpResponseCode: 400 }),
 ) {}
 export class InvalidVPCNetworkStateFault extends S.TaggedError<InvalidVPCNetworkStateFault>()(
   "InvalidVPCNetworkStateFault",
@@ -1620,21 +1617,16 @@ export class SubnetQuotaExceededFault extends S.TaggedError<SubnetQuotaExceededF
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "SubnetQuotaExceededFault", httpResponseCode: 400 }),
 ) {}
-export class ClusterAlreadyExistsFault extends S.TaggedError<ClusterAlreadyExistsFault>()(
-  "ClusterAlreadyExistsFault",
+export class UserQuotaExceededFault extends S.TaggedError<UserQuotaExceededFault>()(
+  "UserQuotaExceededFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ClusterAlreadyExists", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "UserQuotaExceeded", httpResponseCode: 400 }),
 ) {}
-export class SubnetGroupQuotaExceededFault extends S.TaggedError<SubnetGroupQuotaExceededFault>()(
-  "SubnetGroupQuotaExceededFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetGroupQuotaExceeded", httpResponseCode: 400 }),
-) {}
-export class NodeQuotaForClusterExceededFault extends S.TaggedError<NodeQuotaForClusterExceededFault>()(
-  "NodeQuotaForClusterExceededFault",
+export class TestFailoverNotAvailableFault extends S.TaggedError<TestFailoverNotAvailableFault>()(
+  "TestFailoverNotAvailableFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "NodeQuotaForClusterExceeded",
+    code: "TestFailoverNotAvailableFault",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1646,11 +1638,11 @@ export class InsufficientClusterCapacityFault extends S.TaggedError<Insufficient
     httpResponseCode: 400,
   }),
 ) {}
-export class NodeQuotaForCustomerExceededFault extends S.TaggedError<NodeQuotaForCustomerExceededFault>()(
-  "NodeQuotaForCustomerExceededFault",
+export class NodeQuotaForClusterExceededFault extends S.TaggedError<NodeQuotaForClusterExceededFault>()(
+  "NodeQuotaForClusterExceededFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "NodeQuotaForCustomerExceeded",
+    code: "NodeQuotaForClusterExceeded",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1662,6 +1654,14 @@ export class InvalidCredentialsException extends S.TaggedError<InvalidCredential
     httpResponseCode: 408,
   }),
 ) {}
+export class NodeQuotaForCustomerExceededFault extends S.TaggedError<NodeQuotaForCustomerExceededFault>()(
+  "NodeQuotaForCustomerExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "NodeQuotaForCustomerExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
 export class NoOperationFault extends S.TaggedError<NoOperationFault>()(
   "NoOperationFault",
   { message: S.optional(S.String) },
@@ -1669,7 +1669,7 @@ export class NoOperationFault extends S.TaggedError<NoOperationFault>()(
 ) {}
 export class ShardsPerClusterQuotaExceededFault extends S.TaggedError<ShardsPerClusterQuotaExceededFault>()(
   "ShardsPerClusterQuotaExceededFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ShardsPerClusterQuotaExceeded",
     httpResponseCode: 400,
@@ -1686,6 +1686,71 @@ export const describeACLs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ACLNotFoundFault, InvalidParameterCombinationException],
 }));
 /**
+ * Returns a list of users.
+ */
+export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUsersRequest,
+  output: DescribeUsersResponse,
+  errors: [InvalidParameterCombinationException, UserNotFoundFault],
+}));
+/**
+ * Changes the list of users that belong to the Access Control List.
+ */
+export const updateACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateACLRequest,
+  output: UpdateACLResponse,
+  errors: [
+    ACLNotFoundFault,
+    DefaultUserRequired,
+    DuplicateUserNameFault,
+    InvalidACLStateFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    UserNotFoundFault,
+  ],
+}));
+/**
+ * Returns a list of the available Redis OSS engine versions.
+ */
+export const describeEngineVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEngineVersionsRequest,
+    output: DescribeEngineVersionsResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ServiceLinkedRoleNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter.
+ *
+ * By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
+ */
+export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventsRequest,
+  output: DescribeEventsResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+}));
+/**
+ * Returns details of the service updates.
+ */
+export const describeServiceUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeServiceUpdatesRequest,
+    output: DescribeServiceUpdatesResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }),
+);
+/**
  * Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
  */
 export const describeClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1698,19 +1763,6 @@ export const describeClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
-/**
- * Lists the allowed updates for a multi-Region cluster.
- */
-export const listAllowedMultiRegionClusterUpdates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAllowedMultiRegionClusterUpdatesRequest,
-    output: ListAllowedMultiRegionClusterUpdatesResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionClusterNotFoundFault,
-    ],
-  }));
 /**
  * Lists all available node types that you can scale to from your cluster's current node type.
  *
@@ -1729,21 +1781,39 @@ export const listAllowedNodeTypeUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the configuration of an existing multi-Region cluster.
+ * Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
-export const updateMultiRegionCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteACLRequest,
+  output: DeleteACLResponse,
+  errors: [
+    ACLNotFoundFault,
+    InvalidACLStateFault,
+    InvalidParameterValueException,
+  ],
+}));
+/**
+ * Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
+ */
+export const describeSubnetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateMultiRegionClusterRequest,
-    output: UpdateMultiRegionClusterResponse,
-    errors: [
-      InvalidMultiRegionClusterStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionClusterNotFoundFault,
-      MultiRegionParameterGroupNotFoundFault,
-    ],
+    input: DescribeSubnetGroupsRequest,
+    output: DescribeSubnetGroupsResponse,
+    errors: [ServiceLinkedRoleNotFoundFault, SubnetGroupNotFoundFault],
   }),
 );
+/**
+ * Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
+ */
+export const deleteSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSubnetGroupRequest,
+  output: DeleteSubnetGroupResponse,
+  errors: [
+    ServiceLinkedRoleNotFoundFault,
+    SubnetGroupInUseFault,
+    SubnetGroupNotFoundFault,
+  ],
+}));
 /**
  * Deletes an existing multi-Region cluster.
  */
@@ -1776,59 +1846,29 @@ export const deleteParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
+ * Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
  */
-export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSnapshotRequest,
-  output: DeleteSnapshotResponse,
+export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserRequest,
+  output: DeleteUserResponse,
   errors: [
-    InvalidParameterCombinationException,
     InvalidParameterValueException,
-    InvalidSnapshotStateFault,
-    ServiceLinkedRoleNotFoundFault,
-    SnapshotNotFoundFault,
+    InvalidUserStateFault,
+    UserNotFoundFault,
   ],
 }));
 /**
- * Returns a list of the available Redis OSS engine versions.
+ * Returns information about reserved nodes for this account, or about a specified reserved node.
  */
-export const describeEngineVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeReservedNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeEngineVersionsRequest,
-    output: DescribeEngineVersionsResponse,
+    input: DescribeReservedNodesRequest,
+    output: DescribeReservedNodesResponse,
     errors: [
       InvalidParameterCombinationException,
       InvalidParameterValueException,
+      ReservedNodeNotFoundFault,
       ServiceLinkedRoleNotFoundFault,
-    ],
-  }),
-);
-/**
- * Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter.
- *
- * By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
- */
-export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEventsRequest,
-  output: DescribeEventsResponse,
-  errors: [
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    ServiceLinkedRoleNotFoundFault,
-  ],
-}));
-/**
- * Returns details about one or more multi-Region clusters.
- */
-export const describeMultiRegionClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMultiRegionClustersRequest,
-    output: DescribeMultiRegionClustersResponse,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionClusterNotFoundFault,
     ],
   }),
 );
@@ -1847,60 +1887,19 @@ export const describeMultiRegionParameterGroups =
     ],
   }));
 /**
- * Returns the detailed parameter list for a particular multi-region parameter group.
+ * Lists available reserved node offerings.
  */
-export const describeMultiRegionParameters =
+export const describeReservedNodesOfferings =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMultiRegionParametersRequest,
-    output: DescribeMultiRegionParametersResponse,
+    input: DescribeReservedNodesOfferingsRequest,
+    output: DescribeReservedNodesOfferingsResponse,
     errors: [
       InvalidParameterCombinationException,
       InvalidParameterValueException,
-      MultiRegionParameterGroupNotFoundFault,
+      ReservedNodesOfferingNotFoundFault,
       ServiceLinkedRoleNotFoundFault,
     ],
   }));
-/**
- * Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
- */
-export const describeParameterGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeParameterGroupsRequest,
-    output: DescribeParameterGroupsResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }),
-);
-/**
- * Returns the detailed parameter list for a particular parameter group.
- */
-export const describeParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeParametersRequest,
-  output: DescribeParametersResponse,
-  errors: [
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    ParameterGroupNotFoundFault,
-    ServiceLinkedRoleNotFoundFault,
-  ],
-}));
-/**
- * Returns details of the service updates.
- */
-export const describeServiceUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeServiceUpdatesRequest,
-    output: DescribeServiceUpdatesResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }),
-);
 /**
  * Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot,
  * or just the snapshots associated with a particular cluster.
@@ -1916,15 +1915,31 @@ export const describeSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
+ * Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates.
  */
-export const describeSubnetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSubnetGroupsRequest,
-    output: DescribeSubnetGroupsResponse,
-    errors: [ServiceLinkedRoleNotFoundFault, SubnetGroupNotFoundFault],
-  }),
-);
+export const batchUpdateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateClusterRequest,
+  output: BatchUpdateClusterResponse,
+  errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
+}));
+/**
+ * Deletes a cluster. It also deletes all associated nodes and node endpoints.
+ *
+ * `CreateSnapshot` permission is required to create a final snapshot.
+ * Without this permission, the API call will fail with an `Access Denied` exception.
+ */
+export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterRequest,
+  output: DeleteClusterResponse,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ServiceLinkedRoleNotFoundFault,
+    SnapshotAlreadyExistsFault,
+  ],
+}));
 /**
  * Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see Tagging your MemoryDB resources.
  *
@@ -1948,155 +1963,47 @@ export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
+ * Returns details about one or more multi-Region clusters.
  */
-export const resetParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResetParameterGroupRequest,
-  output: ResetParameterGroupResponse,
-  errors: [
-    InvalidParameterCombinationException,
-    InvalidParameterGroupStateFault,
-    InvalidParameterValueException,
-    ParameterGroupNotFoundFault,
-    ServiceLinkedRoleNotFoundFault,
-  ],
-}));
-/**
- * Changes the list of users that belong to the Access Control List.
- */
-export const updateACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateACLRequest,
-  output: UpdateACLResponse,
-  errors: [
-    ACLNotFoundFault,
-    DefaultUserRequired,
-    DuplicateUserNameFault,
-    InvalidACLStateFault,
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    UserNotFoundFault,
-  ],
-}));
-/**
- * Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
- */
-export const updateParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeMultiRegionClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateParameterGroupRequest,
-    output: UpdateParameterGroupResponse,
+    input: DescribeMultiRegionClustersRequest,
+    output: DescribeMultiRegionClustersResponse,
     errors: [
+      ClusterNotFoundFault,
       InvalidParameterCombinationException,
-      InvalidParameterGroupStateFault,
       InvalidParameterValueException,
-      ParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
+      MultiRegionClusterNotFoundFault,
     ],
   }),
 );
 /**
- * Changes user password(s) and/or access string.
+ * Updates the configuration of an existing multi-Region cluster.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserRequest,
-  output: UpdateUserResponse,
-  errors: [
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    InvalidUserStateFault,
-    UserNotFoundFault,
-  ],
-}));
-/**
- * Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see Authenticating users with Access Contol Lists (ACLs).
- */
-export const deleteACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteACLRequest,
-  output: DeleteACLResponse,
-  errors: [
-    ACLNotFoundFault,
-    InvalidACLStateFault,
-    InvalidParameterValueException,
-  ],
-}));
-/**
- * Deletes a cluster. It also deletes all associated nodes and node endpoints.
- *
- * `CreateSnapshot` permission is required to create a final snapshot.
- * Without this permission, the API call will fail with an `Access Denied` exception.
- */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterRequest,
-  output: DeleteClusterResponse,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    ServiceLinkedRoleNotFoundFault,
-    SnapshotAlreadyExistsFault,
-  ],
-}));
-/**
- * Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
- */
-export const deleteSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSubnetGroupRequest,
-  output: DeleteSubnetGroupResponse,
-  errors: [
-    ServiceLinkedRoleNotFoundFault,
-    SubnetGroupInUseFault,
-    SubnetGroupNotFoundFault,
-  ],
-}));
-/**
- * Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
- */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
-  errors: [
-    InvalidParameterValueException,
-    InvalidUserStateFault,
-    UserNotFoundFault,
-  ],
-}));
-/**
- * Lists available reserved node offerings.
- */
-export const describeReservedNodesOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeReservedNodesOfferingsRequest,
-    output: DescribeReservedNodesOfferingsResponse,
+export const updateMultiRegionCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateMultiRegionClusterRequest,
+    output: UpdateMultiRegionClusterResponse,
     errors: [
+      InvalidMultiRegionClusterStateFault,
       InvalidParameterCombinationException,
       InvalidParameterValueException,
-      ReservedNodesOfferingNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
+      MultiRegionClusterNotFoundFault,
+      MultiRegionParameterGroupNotFoundFault,
     ],
-  }));
+  }),
+);
 /**
- * Returns a list of users.
+ * Lists the allowed updates for a multi-Region cluster.
  */
-export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUsersRequest,
-  output: DescribeUsersResponse,
-  errors: [InvalidParameterCombinationException, UserNotFoundFault],
-}));
-/**
- * Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
- */
-export const purchaseReservedNodesOffering =
+export const listAllowedMultiRegionClusterUpdates =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseReservedNodesOfferingRequest,
-    output: PurchaseReservedNodesOfferingResponse,
+    input: ListAllowedMultiRegionClusterUpdatesRequest,
+    output: ListAllowedMultiRegionClusterUpdatesResponse,
     errors: [
       InvalidParameterCombinationException,
       InvalidParameterValueException,
-      ReservedNodeAlreadyExistsFault,
-      ReservedNodeQuotaExceededFault,
-      ReservedNodesOfferingNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-      TagQuotaPerResourceExceeded,
+      MultiRegionClusterNotFoundFault,
     ],
   }));
 /**
@@ -2130,6 +2037,155 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Returns the detailed parameter list for a particular parameter group.
+ */
+export const describeParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeParametersRequest,
+  output: DescribeParametersResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ParameterGroupNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+}));
+/**
+ * Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
+ */
+export const describeParameterGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeParameterGroupsRequest,
+    output: DescribeParameterGroupsResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ParameterGroupNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
+ */
+export const updateParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateParameterGroupRequest,
+    output: UpdateParameterGroupResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterGroupStateFault,
+      InvalidParameterValueException,
+      ParameterGroupNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
+ */
+export const resetParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetParameterGroupRequest,
+  output: ResetParameterGroupResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterGroupStateFault,
+    InvalidParameterValueException,
+    ParameterGroupNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+}));
+/**
+ * Changes user password(s) and/or access string.
+ */
+export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserRequest,
+  output: UpdateUserResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    InvalidUserStateFault,
+    UserNotFoundFault,
+  ],
+}));
+/**
+ * Creates a new multi-Region cluster.
+ */
+export const createMultiRegionCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateMultiRegionClusterRequest,
+    output: CreateMultiRegionClusterResponse,
+    errors: [
+      ClusterQuotaForCustomerExceededFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      MultiRegionClusterAlreadyExistsFault,
+      MultiRegionParameterGroupNotFoundFault,
+      TagQuotaPerResourceExceeded,
+    ],
+  }),
+);
+/**
+ * Returns the detailed parameter list for a particular multi-region parameter group.
+ */
+export const describeMultiRegionParameters =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeMultiRegionParametersRequest,
+    output: DescribeMultiRegionParametersResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      MultiRegionParameterGroupNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
+    ],
+  }));
+/**
+ * Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
+ */
+export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSnapshotRequest,
+  output: DeleteSnapshotResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    InvalidSnapshotStateFault,
+    ServiceLinkedRoleNotFoundFault,
+    SnapshotNotFoundFault,
+  ],
+}));
+/**
+ * Creates an Access Control List. For more information, see Authenticating users with Access Contol Lists (ACLs).
+ */
+export const createACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateACLRequest,
+  output: CreateACLResponse,
+  errors: [
+    ACLAlreadyExistsFault,
+    ACLQuotaExceededFault,
+    DefaultUserRequired,
+    DuplicateUserNameFault,
+    InvalidParameterValueException,
+    TagQuotaPerResourceExceeded,
+    UserNotFoundFault,
+  ],
+}));
+/**
+ * Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
+ */
+export const purchaseReservedNodesOffering =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PurchaseReservedNodesOfferingRequest,
+    output: PurchaseReservedNodesOfferingResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ReservedNodeAlreadyExistsFault,
+      ReservedNodeQuotaExceededFault,
+      ReservedNodesOfferingNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
+      TagQuotaPerResourceExceeded,
+    ],
+  }));
+/**
  * Use this operation to remove tags on a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources.
  *
  * When you remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources.
@@ -2160,48 +2216,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates.
- */
-export const batchUpdateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchUpdateClusterRequest,
-  output: BatchUpdateClusterResponse,
-  errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
-}));
-/**
- * Makes a copy of an existing snapshot.
- */
-export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CopySnapshotRequest,
-  output: CopySnapshotResponse,
-  errors: [
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    InvalidSnapshotStateFault,
-    ServiceLinkedRoleNotFoundFault,
-    SnapshotAlreadyExistsFault,
-    SnapshotNotFoundFault,
-    SnapshotQuotaExceededFault,
-    TagQuotaPerResourceExceeded,
-  ],
-}));
-/**
- * Creates a new multi-Region cluster.
- */
-export const createMultiRegionCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMultiRegionClusterRequest,
-    output: CreateMultiRegionClusterResponse,
-    errors: [
-      ClusterQuotaForCustomerExceededFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionClusterAlreadyExistsFault,
-      MultiRegionParameterGroupNotFoundFault,
-      TagQuotaPerResourceExceeded,
-    ],
-  }),
-);
-/**
  * Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For
  * more information, see Configuring engine parameters using parameter groups.
  */
@@ -2221,34 +2235,20 @@ export const createParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns information about reserved nodes for this account, or about a specified reserved node.
+ * Makes a copy of an existing snapshot.
  */
-export const describeReservedNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReservedNodesRequest,
-    output: DescribeReservedNodesResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ReservedNodeNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }),
-);
-/**
- * Creates an Access Control List. For more information, see Authenticating users with Access Contol Lists (ACLs).
- */
-export const createACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateACLRequest,
-  output: CreateACLResponse,
+export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopySnapshotRequest,
+  output: CopySnapshotResponse,
   errors: [
-    ACLAlreadyExistsFault,
-    ACLQuotaExceededFault,
-    DefaultUserRequired,
-    DuplicateUserNameFault,
+    InvalidParameterCombinationException,
     InvalidParameterValueException,
+    InvalidSnapshotStateFault,
+    ServiceLinkedRoleNotFoundFault,
+    SnapshotAlreadyExistsFault,
+    SnapshotNotFoundFault,
+    SnapshotQuotaExceededFault,
     TagQuotaPerResourceExceeded,
-    UserNotFoundFault,
   ],
 }));
 /**
@@ -2266,6 +2266,21 @@ export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     SnapshotAlreadyExistsFault,
     SnapshotQuotaExceededFault,
     TagQuotaPerResourceExceeded,
+  ],
+}));
+/**
+ * Updates a subnet group. For more information, see Updating a subnet group
+ */
+export const updateSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSubnetGroupRequest,
+  output: UpdateSubnetGroupResponse,
+  errors: [
+    InvalidSubnet,
+    ServiceLinkedRoleNotFoundFault,
+    SubnetGroupNotFoundFault,
+    SubnetInUse,
+    SubnetNotAllowedFault,
+    SubnetQuotaExceededFault,
   ],
 }));
 /**
@@ -2302,21 +2317,6 @@ export const failoverShard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a subnet group. For more information, see Updating a subnet group
- */
-export const updateSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSubnetGroupRequest,
-  output: UpdateSubnetGroupResponse,
-  errors: [
-    InvalidSubnet,
-    ServiceLinkedRoleNotFoundFault,
-    SubnetGroupNotFoundFault,
-    SubnetInUse,
-    SubnetNotAllowedFault,
-    SubnetQuotaExceededFault,
-  ],
-}));
-/**
  * Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment.
  *
  * When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes.
@@ -2333,31 +2333,6 @@ export const createSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     SubnetNotAllowedFault,
     SubnetQuotaExceededFault,
     TagQuotaPerResourceExceeded,
-  ],
-}));
-/**
- * Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
- */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateClusterRequest,
-  output: UpdateClusterResponse,
-  errors: [
-    ACLNotFoundFault,
-    ClusterNotFoundFault,
-    ClusterQuotaForCustomerExceededFault,
-    InvalidACLStateFault,
-    InvalidClusterStateFault,
-    InvalidKMSKeyFault,
-    InvalidNodeStateFault,
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    InvalidVPCNetworkStateFault,
-    NodeQuotaForClusterExceededFault,
-    NodeQuotaForCustomerExceededFault,
-    NoOperationFault,
-    ParameterGroupNotFoundFault,
-    ServiceLinkedRoleNotFoundFault,
-    ShardsPerClusterQuotaExceededFault,
   ],
 }));
 /**
@@ -2385,5 +2360,30 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ShardsPerClusterQuotaExceededFault,
     SubnetGroupNotFoundFault,
     TagQuotaPerResourceExceeded,
+  ],
+}));
+/**
+ * Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
+ */
+export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterRequest,
+  output: UpdateClusterResponse,
+  errors: [
+    ACLNotFoundFault,
+    ClusterNotFoundFault,
+    ClusterQuotaForCustomerExceededFault,
+    InvalidACLStateFault,
+    InvalidClusterStateFault,
+    InvalidKMSKeyFault,
+    InvalidNodeStateFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    InvalidVPCNetworkStateFault,
+    NodeQuotaForClusterExceededFault,
+    NodeQuotaForCustomerExceededFault,
+    NoOperationFault,
+    ParameterGroupNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+    ShardsPerClusterQuotaExceededFault,
   ],
 }));

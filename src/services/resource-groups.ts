@@ -863,49 +863,166 @@ export class ListGroupResourcesOutput extends S.Class<ListGroupResourcesOutput>(
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
   "MethodNotAllowedException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { Message: S.optional(S.String) },
 ) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Attaches a service configuration to the specified group. This occurs asynchronously,
- * and can take time to complete. You can use GetGroupConfiguration to
- * check the status of the update.
+ * Creates a resource group with the specified name and description. You can optionally
+ * include either a resource query or a service configuration. For more information about
+ * constructing a resource query, see Build queries and groups in
+ * Resource Groups in the *Resource Groups User Guide*. For more information
+ * about service-linked groups and service configurations, see Service configurations for Resource Groups.
  *
  * **Minimum permissions**
  *
  * To run this command, you must have the following permissions:
  *
- * - `resource-groups:PutGroupConfiguration`
+ * - `resource-groups:CreateGroup`
  */
-export const putGroupConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGroupInput,
+  output: CreateGroupOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Returns the status of the last grouping or ungrouping action for
+ * each resource in the specified application group.
+ */
+export const listGroupingStatuses = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: PutGroupConfigurationInput,
-    output: PutGroupConfigurationOutput,
+    input: ListGroupingStatusesInput,
+    output: ListGroupingStatusesOutput,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Returns a list of existing Resource Groups in your account.
+ *
+ * **Minimum permissions**
+ *
+ * To run this command, you must have the following permissions:
+ *
+ * - `resource-groups:ListGroups`
+ */
+export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupsInput,
+  output: ListGroupsOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves the current status of optional features in Resource Groups.
+ */
+export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountSettingsRequest,
+  output: GetAccountSettingsOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Turns on or turns off optional features in Resource Groups.
+ *
+ * The preceding example shows that the request to turn on group lifecycle events is
+ * `IN_PROGRESS`. You can call the GetAccountSettings
+ * operation to check for completion by looking for `GroupLifecycleEventsStatus`
+ * to change to `ACTIVE`.
+ */
+export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountSettingsInput,
+    output: UpdateAccountSettingsOutput,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified resource group. Deleting a resource group does not delete any
+ * resources that are members of the group; it only deletes the group structure.
+ *
+ * **Minimum permissions**
+ *
+ * To run this command, you must have the following permissions:
+ *
+ * - `resource-groups:DeleteGroup`
+ */
+export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupInput,
+  output: DeleteGroupOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves the service configuration associated with the specified resource group. For
+ * details about the service configuration syntax, see Service configurations for Resource Groups.
+ *
+ * **Minimum permissions**
+ *
+ * To run this command, you must have the following permissions:
+ *
+ * - `resource-groups:GetGroupConfiguration`
+ */
+export const getGroupConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetGroupConfigurationInput,
+    output: GetGroupConfigurationOutput,
     errors: [
       BadRequestException,
       ForbiddenException,
@@ -917,27 +1034,19 @@ export const putGroupConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an
- * application. To start a tag-sync task, you need a resource tagging role.
- * The resource tagging role grants permissions to tag and untag applications resources and must include a
- * trust policy that allows Resource Groups to assume the role and perform resource tagging tasks on your behalf.
- *
- * For instructions on creating a tag-sync task, see Create a tag-sync
- * using the Resource Groups API in the *Amazon Web Services Service Catalog AppRegistry Administrator Guide*.
+ * Retrieves the resource query associated with the specified resource group. For more
+ * information about resource queries, see Create
+ * a tag-based group in Resource Groups.
  *
  * **Minimum permissions**
  *
  * To run this command, you must have the following permissions:
  *
- * - `resource-groups:StartTagSyncTask` on the application group
- *
- * - `resource-groups:CreateGroup`
- *
- * - `iam:PassRole` on the role provided in the request
+ * - `resource-groups:GetGroupQuery`
  */
-export const startTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartTagSyncTaskInput,
-  output: StartTagSyncTaskOutput,
+export const getGroupQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGroupQueryInput,
+  output: GetGroupQueryOutput,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -945,7 +1054,81 @@ export const startTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     MethodNotAllowedException,
     NotFoundException,
     TooManyRequestsException,
-    UnauthorizedException,
+  ],
+}));
+/**
+ * Adds the specified resources to the specified group.
+ *
+ * You can only use this operation with the following groups:
+ *
+ * - `AWS::EC2::HostManagement`
+ *
+ * - `AWS::EC2::CapacityReservationPool`
+ *
+ * - `AWS::ResourceGroups::ApplicationGroup`
+ *
+ * Other resource group types and resource types are not currently supported by this
+ * operation.
+ *
+ * **Minimum permissions**
+ *
+ * To run this command, you must have the following permissions:
+ *
+ * - `resource-groups:GroupResources`
+ */
+export const groupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GroupResourcesInput,
+  output: GroupResourcesOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Returns information about a specified resource group.
+ *
+ * **Minimum permissions**
+ *
+ * To run this command, you must have the following permissions:
+ *
+ * - `resource-groups:GetGroup`
+ */
+export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGroupInput,
+  output: GetGroupOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Returns a list of tags that are associated with a resource group, specified by an
+ * Amazon resource name (ARN).
+ *
+ * **Minimum permissions**
+ *
+ * To run this command, you must have the following permissions:
+ *
+ * - `resource-groups:GetTags`
+ */
+export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTagsInput,
+  output: GetTagsOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
   ],
 }));
 /**
@@ -1021,27 +1204,6 @@ export const untag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Turns on or turns off optional features in Resource Groups.
- *
- * The preceding example shows that the request to turn on group lifecycle events is
- * `IN_PROGRESS`. You can call the GetAccountSettings
- * operation to check for completion by looking for `GroupLifecycleEventsStatus`
- * to change to `ACTIVE`.
- */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsInput,
-    output: UpdateAccountSettingsOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
  * Updates the description for an existing group. You cannot update the name of a
  * resource group.
  *
@@ -1086,6 +1248,31 @@ export const updateGroupQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Attaches a service configuration to the specified group. This occurs asynchronously,
+ * and can take time to complete. You can use GetGroupConfiguration to
+ * check the status of the update.
+ *
+ * **Minimum permissions**
+ *
+ * To run this command, you must have the following permissions:
+ *
+ * - `resource-groups:PutGroupConfiguration`
+ */
+export const putGroupConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutGroupConfigurationInput,
+    output: PutGroupConfigurationOutput,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
  * Cancels the specified tag-sync task.
  *
  * **Minimum permissions**
@@ -1109,121 +1296,24 @@ export const cancelTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves the current status of optional features in Resource Groups.
- */
-export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountSettingsRequest,
-  output: GetAccountSettingsOutput,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Returns information about a specified resource group.
+ * Returns a list of Amazon resource names (ARNs) of the resources that are members of a specified resource
+ * group.
  *
  * **Minimum permissions**
  *
  * To run this command, you must have the following permissions:
  *
- * - `resource-groups:GetGroup`
+ * - `resource-groups:ListGroupResources`
+ *
+ * - `cloudformation:DescribeStacks`
+ *
+ * - `cloudformation:ListStackResources`
+ *
+ * - `tag:GetResources`
  */
-export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetGroupInput,
-  output: GetGroupOutput,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves the service configuration associated with the specified resource group. For
- * details about the service configuration syntax, see Service configurations for Resource Groups.
- *
- * **Minimum permissions**
- *
- * To run this command, you must have the following permissions:
- *
- * - `resource-groups:GetGroupConfiguration`
- */
-export const getGroupConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetGroupConfigurationInput,
-    output: GetGroupConfigurationOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves the resource query associated with the specified resource group. For more
- * information about resource queries, see Create
- * a tag-based group in Resource Groups.
- *
- * **Minimum permissions**
- *
- * To run this command, you must have the following permissions:
- *
- * - `resource-groups:GetGroupQuery`
- */
-export const getGroupQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetGroupQueryInput,
-  output: GetGroupQueryOutput,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Returns a list of tags that are associated with a resource group, specified by an
- * Amazon resource name (ARN).
- *
- * **Minimum permissions**
- *
- * To run this command, you must have the following permissions:
- *
- * - `resource-groups:GetTags`
- */
-export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTagsInput,
-  output: GetTagsOutput,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Returns information about a specified tag-sync task.
- *
- * **Minimum permissions**
- *
- * To run this command, you must have the following permissions:
- *
- * - `resource-groups:GetTagSyncTask` on the application group
- */
-export const getTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTagSyncTaskInput,
-  output: GetTagSyncTaskOutput,
+export const listGroupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupResourcesInput,
+  output: ListGroupResourcesOutput,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1235,35 +1325,25 @@ export const getTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Adds the specified resources to the specified group.
- *
- * You can only use this operation with the following groups:
- *
- * - `AWS::EC2::HostManagement`
- *
- * - `AWS::EC2::CapacityReservationPool`
- *
- * - `AWS::ResourceGroups::ApplicationGroup`
- *
- * Other resource group types and resource types are not currently supported by this
- * operation.
+ * Returns a list of tag-sync tasks.
  *
  * **Minimum permissions**
  *
  * To run this command, you must have the following permissions:
  *
- * - `resource-groups:GroupResources`
+ * - `resource-groups:ListTagSyncTasks` with the group passed in the filters as the resource
+ * or * if using no filters
  */
-export const groupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GroupResourcesInput,
-  output: GroupResourcesOutput,
+export const listTagSyncTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagSyncTasksInput,
+  output: ListTagSyncTasksOutput,
   errors: [
     BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     MethodNotAllowedException,
-    NotFoundException,
     TooManyRequestsException,
+    UnauthorizedException,
   ],
 }));
 /**
@@ -1296,42 +1376,17 @@ export const searchResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a resource group with the specified name and description. You can optionally
- * include either a resource query or a service configuration. For more information about
- * constructing a resource query, see Build queries and groups in
- * Resource Groups in the *Resource Groups User Guide*. For more information
- * about service-linked groups and service configurations, see Service configurations for Resource Groups.
+ * Returns information about a specified tag-sync task.
  *
  * **Minimum permissions**
  *
  * To run this command, you must have the following permissions:
  *
- * - `resource-groups:CreateGroup`
+ * - `resource-groups:GetTagSyncTask` on the application group
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGroupInput,
-  output: CreateGroupOutput,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes the specified resource group. Deleting a resource group does not delete any
- * resources that are members of the group; it only deletes the group structure.
- *
- * **Minimum permissions**
- *
- * To run this command, you must have the following permissions:
- *
- * - `resource-groups:DeleteGroup`
- */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGroupInput,
-  output: DeleteGroupOutput,
+export const getTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTagSyncTaskInput,
+  output: GetTagSyncTaskOutput,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1339,86 +1394,31 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     MethodNotAllowedException,
     NotFoundException,
     TooManyRequestsException,
-  ],
-}));
-/**
- * Returns the status of the last grouping or ungrouping action for
- * each resource in the specified application group.
- */
-export const listGroupingStatuses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListGroupingStatusesInput,
-    output: ListGroupingStatusesOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Returns a list of existing Resource Groups in your account.
- *
- * **Minimum permissions**
- *
- * To run this command, you must have the following permissions:
- *
- * - `resource-groups:ListGroups`
- */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGroupsInput,
-  output: ListGroupsOutput,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Returns a list of tag-sync tasks.
- *
- * **Minimum permissions**
- *
- * To run this command, you must have the following permissions:
- *
- * - `resource-groups:ListTagSyncTasks` with the group passed in the filters as the resource
- * or * if using no filters
- */
-export const listTagSyncTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagSyncTasksInput,
-  output: ListTagSyncTasksOutput,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
 /**
- * Returns a list of Amazon resource names (ARNs) of the resources that are members of a specified resource
- * group.
+ * Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an
+ * application. To start a tag-sync task, you need a resource tagging role.
+ * The resource tagging role grants permissions to tag and untag applications resources and must include a
+ * trust policy that allows Resource Groups to assume the role and perform resource tagging tasks on your behalf.
+ *
+ * For instructions on creating a tag-sync task, see Create a tag-sync
+ * using the Resource Groups API in the *Amazon Web Services Service Catalog AppRegistry Administrator Guide*.
  *
  * **Minimum permissions**
  *
  * To run this command, you must have the following permissions:
  *
- * - `resource-groups:ListGroupResources`
+ * - `resource-groups:StartTagSyncTask` on the application group
  *
- * - `cloudformation:DescribeStacks`
+ * - `resource-groups:CreateGroup`
  *
- * - `cloudformation:ListStackResources`
- *
- * - `tag:GetResources`
+ * - `iam:PassRole` on the role provided in the request
  */
-export const listGroupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGroupResourcesInput,
-  output: ListGroupResourcesOutput,
+export const startTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTagSyncTaskInput,
+  output: StartTagSyncTaskOutput,
   errors: [
     BadRequestException,
     ForbiddenException,

@@ -599,10 +599,6 @@ export class ConsumableDetails extends S.Class<ConsumableDetails>(
 export class AccessDetails extends S.Class<AccessDetails>("AccessDetails")({
   Description: S.optional(S.String),
 }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String, Code: S.optional(S.String) }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class CreditCode extends S.Class<CreditCode>("CreditCode")({
   AwsAccountId: S.String,
   Value: MonetaryValue,
@@ -674,71 +670,51 @@ export class ListBenefitApplicationsOutput extends S.Class<ListBenefitApplicatio
   BenefitApplicationSummaries: S.optional(BenefitApplicationSummaries),
   NextToken: S.optional(S.String),
 }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, Message: S.String, Code: S.optional(S.String) }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    Message: S.String,
+    ResourceId: S.String,
+    ResourceType: S.String,
+    QuotaCode: S.String,
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.String,
+    Reason: S.String,
+    FieldList: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
-/**
- * Cancels a benefit application that is currently in progress, preventing further processing.
- */
-export const cancelBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelBenefitApplicationInput,
-    output: CancelBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Removes the association between an AWS resource and a benefit application.
- */
-export const disassociateBenefitApplicationResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateBenefitApplicationResourceInput,
-    output: DisassociateBenefitApplicationResourceOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Retrieves detailed information about a specific benefit available in the partner catalog.
  */
@@ -754,29 +730,14 @@ export const getBenefit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves all tags associated with a specific resource.
+ * Retrieves detailed information about a specific benefit allocation that has been granted to a partner.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Recalls a submitted benefit application, returning it to draft status for further modifications.
- */
-export const recallBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getBenefitAllocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: RecallBenefitApplicationInput,
-    output: RecallBenefitApplicationOutput,
+    input: GetBenefitAllocationInput,
+    output: GetBenefitAllocationOutput,
     errors: [
       AccessDeniedException,
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -785,15 +746,14 @@ export const recallBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Submits a benefit application for review and processing by AWS.
+ * Retrieves a paginated list of benefit applications based on specified filter criteria.
  */
-export const submitBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listBenefitApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: SubmitBenefitApplicationInput,
-    output: SubmitBenefitApplicationOutput,
+    input: ListBenefitApplicationsInput,
+    output: ListBenefitApplicationsOutput,
     errors: [
       AccessDeniedException,
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -817,73 +777,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Removes specified tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing benefit application with new information while maintaining revision control.
- */
-export const updateBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBenefitApplicationInput,
-    output: UpdateBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control.
- */
-export const amendBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AmendBenefitApplicationInput,
-    output: AmendBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a new benefit application for a partner to request access to AWS benefits and programs.
- */
-export const createBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBenefitApplicationInput,
-    output: CreateBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Retrieves detailed information about a specific benefit application.
  */
@@ -932,6 +825,90 @@ export const listBenefits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Removes the association between an AWS resource and a benefit application.
+ */
+export const disassociateBenefitApplicationResource =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateBenefitApplicationResourceInput,
+    output: DisassociateBenefitApplicationResourceOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates an existing benefit application with new information while maintaining revision control.
+ */
+export const updateBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateBenefitApplicationInput,
+    output: UpdateBenefitApplicationOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Recalls a submitted benefit application, returning it to draft status for further modifications.
+ */
+export const recallBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RecallBenefitApplicationInput,
+    output: RecallBenefitApplicationOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Submits a benefit application for review and processing by AWS.
+ */
+export const submitBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SubmitBenefitApplicationInput,
+    output: SubmitBenefitApplicationOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control.
+ */
+export const amendBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AmendBenefitApplicationInput,
+    output: AmendBenefitApplicationOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Links an AWS resource to an existing benefit application for tracking and management purposes.
  */
 export const associateBenefitApplicationResource =
@@ -948,14 +925,29 @@ export const associateBenefitApplicationResource =
     ],
   }));
 /**
- * Retrieves detailed information about a specific benefit allocation that has been granted to a partner.
+ * Retrieves all tags associated with a specific resource.
  */
-export const getBenefitAllocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels a benefit application that is currently in progress, preventing further processing.
+ */
+export const cancelBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetBenefitAllocationInput,
-    output: GetBenefitAllocationOutput,
+    input: CancelBenefitApplicationInput,
+    output: CancelBenefitApplicationOutput,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -964,14 +956,15 @@ export const getBenefitAllocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves a paginated list of benefit applications based on specified filter criteria.
+ * Creates a new benefit application for a partner to request access to AWS benefits and programs.
  */
-export const listBenefitApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListBenefitApplicationsInput,
-    output: ListBenefitApplicationsOutput,
+    input: CreateBenefitApplicationInput,
+    output: CreateBenefitApplicationOutput,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -979,3 +972,19 @@ export const listBenefitApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Removes specified tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

@@ -2137,39 +2137,39 @@ export class BaseException extends S.TaggedError<BaseException>()(
 ) {}
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
   "DisabledOperationException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
   "InvalidPaginationTokenException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidTypeException extends S.TaggedError<InvalidTypeException>()(
   "InvalidTypeException",
@@ -2177,6 +2177,14 @@ export class InvalidTypeException extends S.TaggedError<InvalidTypeException>()(
 ) {}
 
 //# Operations
+/**
+ * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
+ */
+export const listVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVpcEndpointsRequest,
+  output: ListVpcEndpointsResponse,
+  errors: [BaseException, DisabledOperationException, InternalException],
+}));
 /**
  * Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in *VPC Endpoints for Amazon Elasticsearch Service Domains*.
  */
@@ -2201,349 +2209,6 @@ export const describeElasticsearchDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
- */
-export const describeElasticsearchDomains =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeElasticsearchDomainsRequest,
-    output: DescribeElasticsearchDomainsResponse,
-    errors: [BaseException, InternalException, ValidationException],
-  }));
-/**
- * Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
- */
-export const getUpgradeStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUpgradeStatusRequest,
-  output: GetUpgradeStatusResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all Amazon ES domains associated with the package.
- */
-export const listDomainsForPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDomainsForPackageRequest,
-    output: ListDomainsForPackageResponse,
-    errors: [
-      AccessDeniedException,
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * List all Elasticsearch instance types that are supported for given ElasticsearchVersion
- */
-export const listElasticsearchInstanceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListElasticsearchInstanceTypesRequest,
-    output: ListElasticsearchInstanceTypesResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * List all supported Elasticsearch versions
- */
-export const listElasticsearchVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListElasticsearchVersionsRequest,
-    output: ListElasticsearchVersionsResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists all packages associated with the Amazon ES domain.
- */
-export const listPackagesForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPackagesForDomainRequest,
-    output: ListPackagesForDomainResponse,
-    errors: [
-      AccessDeniedException,
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns all tags for the given Elasticsearch domain.
- */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about each principal that is allowed to access a
- * given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
- */
-export const listVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVpcEndpointAccessRequest,
-    output: ListVpcEndpointAccessResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
- */
-export const listVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListVpcEndpointsRequest,
-  output: ListVpcEndpointsResponse,
-  errors: [BaseException, DisabledOperationException, InternalException],
-}));
-/**
- * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
- */
-export const listVpcEndpointsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVpcEndpointsForDomainRequest,
-    output: ListVpcEndpointsForDomainResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Allows the destination domain owner to reject an inbound cross-cluster search connection request.
- */
-export const rejectInboundCrossClusterSearchConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectInboundCrossClusterSearchConnectionRequest,
-    output: RejectInboundCrossClusterSearchConnectionResponse,
-    errors: [DisabledOperationException, ResourceNotFoundException],
-  }));
-/**
- * Removes the specified set of tags from the specified Elasticsearch domain.
- */
-export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTagsRequest,
-  output: RemoveTagsResponse,
-  errors: [BaseException, InternalException, ValidationException],
-}));
-/**
- * Revokes access to an Amazon OpenSearch Service domain that was provided through an interface
- * VPC endpoint.
- */
-export const revokeVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeVpcEndpointAccessRequest,
-    output: RevokeVpcEndpointAccessResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Schedules a service software update for an Amazon ES domain.
- */
-export const startElasticsearchServiceSoftwareUpdate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartElasticsearchServiceSoftwareUpdateRequest,
-    output: StartElasticsearchServiceSoftwareUpdateResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates a package for use with Amazon ES domains.
- */
-export const updatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePackageRequest,
-  output: UpdatePackageResponse,
-  errors: [
-    AccessDeniedException,
-    BaseException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See
- * Tagging Amazon Elasticsearch Service Domains for more information.
- */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsRequest,
-  output: AddTagsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    LimitExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
- */
-export const authorizeVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AuthorizeVpcEndpointAccessRequest,
-    output: AuthorizeVpcEndpointAccessResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
- */
-export const cancelDomainConfigChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelDomainConfigChangeRequest,
-    output: CancelDomainConfigChangeResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the `AutomatedUpdateDate` and when the `UpdateStatus` is in the `PENDING_UPDATE` state.
- */
-export const cancelElasticsearchServiceSoftwareUpdate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelElasticsearchServiceSoftwareUpdateRequest,
-    output: CancelElasticsearchServiceSoftwareUpdateResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a new cross-cluster search connection from a source domain to a destination domain.
- */
-export const createOutboundCrossClusterSearchConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateOutboundCrossClusterSearchConnectionRequest,
-    output: CreateOutboundCrossClusterSearchConnectionResponse,
-    errors: [
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-    ],
-  }));
-/**
- * Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
- */
-export const deleteInboundCrossClusterSearchConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteInboundCrossClusterSearchConnectionRequest,
-    output: DeleteInboundCrossClusterSearchConnectionResponse,
-    errors: [DisabledOperationException, ResourceNotFoundException],
-  }));
-/**
- * Delete the package.
- */
-export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePackageRequest,
-  output: DeletePackageResponse,
-  errors: [
-    AccessDeniedException,
-    BaseException,
-    ConflictException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
- */
-export const deleteVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVpcEndpointRequest,
-  output: DeleteVpcEndpointResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Lists all the inbound cross-cluster search connections for a destination domain.
- */
-export const describeInboundCrossClusterSearchConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeInboundCrossClusterSearchConnectionsRequest,
-    output: DescribeInboundCrossClusterSearchConnectionsResponse,
-    errors: [DisabledOperationException, InvalidPaginationTokenException],
-  }));
-/**
- * Lists all the outbound cross-cluster search connections for a source domain.
- */
-export const describeOutboundCrossClusterSearchConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOutboundCrossClusterSearchConnectionsRequest,
-    output: DescribeOutboundCrossClusterSearchConnectionsResponse,
-    errors: [DisabledOperationException, InvalidPaginationTokenException],
-  }));
-/**
- * Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
- */
-export const describePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribePackagesRequest,
-  output: DescribePackagesResponse,
-  errors: [
-    AccessDeniedException,
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Returns information about reserved Elasticsearch instances for this account.
  */
@@ -2573,21 +2238,6 @@ export const describeVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Dissociates a package from the Amazon ES domain.
- */
-export const dissociatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DissociatePackageRequest,
-  output: DissociatePackageResponse,
-  errors: [
-    AccessDeniedException,
-    BaseException,
-    ConflictException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Returns a list of upgrade compatible Elastisearch versions.
  * You can optionally pass a
@@ -2633,22 +2283,6 @@ export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [BaseException, ValidationException],
 }));
 /**
- * Allows you to purchase reserved Elasticsearch instances.
- */
-export const purchaseReservedElasticsearchInstanceOffering =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseReservedElasticsearchInstanceOfferingRequest,
-    output: PurchaseReservedElasticsearchInstanceOfferingResponse,
-    errors: [
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const updateVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2664,22 +2298,341 @@ export const updateVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
+ * Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See
+ * Tagging Amazon Elasticsearch Service Domains for more information.
  */
-export const upgradeElasticsearchDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpgradeElasticsearchDomainRequest,
-    output: UpgradeElasticsearchDomainResponse,
+export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsRequest,
+  output: AddTagsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    LimitExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
+ */
+export const describeElasticsearchDomains =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeElasticsearchDomainsRequest,
+    output: DescribeElasticsearchDomainsResponse,
+    errors: [BaseException, InternalException, ValidationException],
+  }));
+/**
+ * Removes the specified set of tags from the specified Elasticsearch domain.
+ */
+export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsRequest,
+  output: RemoveTagsResponse,
+  errors: [BaseException, InternalException, ValidationException],
+}));
+/**
+ * List all Elasticsearch instance types that are supported for given ElasticsearchVersion
+ */
+export const listElasticsearchInstanceTypes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListElasticsearchInstanceTypesRequest,
+    output: ListElasticsearchInstanceTypesResponse,
     errors: [
       BaseException,
-      DisabledOperationException,
       InternalException,
-      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * List all supported Elasticsearch versions
+ */
+export const listElasticsearchVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListElasticsearchVersionsRequest,
+    output: ListElasticsearchVersionsResponse,
+    errors: [
+      BaseException,
+      InternalException,
       ResourceNotFoundException,
       ValidationException,
     ],
   }),
 );
+/**
+ * Returns all tags for the given Elasticsearch domain.
+ */
+export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsRequest,
+  output: ListTagsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Revokes access to an Amazon OpenSearch Service domain that was provided through an interface
+ * VPC endpoint.
+ */
+export const revokeVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RevokeVpcEndpointAccessRequest,
+    output: RevokeVpcEndpointAccessResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Schedules a service software update for an Amazon ES domain.
+ */
+export const startElasticsearchServiceSoftwareUpdate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartElasticsearchServiceSoftwareUpdateRequest,
+    output: StartElasticsearchServiceSoftwareUpdateResponse,
+    errors: [
+      BaseException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
+ */
+export const deleteInboundCrossClusterSearchConnection =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteInboundCrossClusterSearchConnectionRequest,
+    output: DeleteInboundCrossClusterSearchConnectionResponse,
+    errors: [DisabledOperationException, ResourceNotFoundException],
+  }));
+/**
+ * Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
+ */
+export const getUpgradeStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUpgradeStatusRequest,
+  output: GetUpgradeStatusResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about each principal that is allowed to access a
+ * given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+ */
+export const listVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListVpcEndpointAccessRequest,
+    output: ListVpcEndpointAccessResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
+ */
+export const listVpcEndpointsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListVpcEndpointsForDomainRequest,
+    output: ListVpcEndpointsForDomainResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Allows the destination domain owner to reject an inbound cross-cluster search connection request.
+ */
+export const rejectInboundCrossClusterSearchConnection =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RejectInboundCrossClusterSearchConnectionRequest,
+    output: RejectInboundCrossClusterSearchConnectionResponse,
+    errors: [DisabledOperationException, ResourceNotFoundException],
+  }));
+/**
+ * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
+ */
+export const cancelDomainConfigChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelDomainConfigChangeRequest,
+    output: CancelDomainConfigChangeResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the `AutomatedUpdateDate` and when the `UpdateStatus` is in the `PENDING_UPDATE` state.
+ */
+export const cancelElasticsearchServiceSoftwareUpdate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CancelElasticsearchServiceSoftwareUpdateRequest,
+    output: CancelElasticsearchServiceSoftwareUpdateResponse,
+    errors: [
+      BaseException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+ */
+export const deleteVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcEndpointRequest,
+  output: DeleteVpcEndpointResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Lists all Amazon ES domains associated with the package.
+ */
+export const listDomainsForPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDomainsForPackageRequest,
+    output: ListDomainsForPackageResponse,
+    errors: [
+      AccessDeniedException,
+      BaseException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all packages associated with the Amazon ES domain.
+ */
+export const listPackagesForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPackagesForDomainRequest,
+    output: ListPackagesForDomainResponse,
+    errors: [
+      AccessDeniedException,
+      BaseException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a package for use with Amazon ES domains.
+ */
+export const updatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePackageRequest,
+  output: UpdatePackageResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete the package.
+ */
+export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePackageRequest,
+  output: DeletePackageResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    ConflictException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
+ */
+export const describePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePackagesRequest,
+  output: DescribePackagesResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all the outbound cross-cluster search connections for a source domain.
+ */
+export const describeOutboundCrossClusterSearchConnections =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeOutboundCrossClusterSearchConnectionsRequest,
+    output: DescribeOutboundCrossClusterSearchConnectionsResponse,
+    errors: [DisabledOperationException, InvalidPaginationTokenException],
+  }));
+/**
+ * Dissociates a package from the Amazon ES domain.
+ */
+export const dissociatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DissociatePackageRequest,
+  output: DissociatePackageResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    ConflictException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+ */
+export const authorizeVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AuthorizeVpcEndpointAccessRequest,
+    output: AuthorizeVpcEndpointAccessResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all the inbound cross-cluster search connections for a destination domain.
+ */
+export const describeInboundCrossClusterSearchConnections =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeInboundCrossClusterSearchConnectionsRequest,
+    output: DescribeInboundCrossClusterSearchConnectionsResponse,
+    errors: [DisabledOperationException, InvalidPaginationTokenException],
+  }));
 /**
  * Allows the destination domain owner to accept an inbound cross-cluster search connection request.
  */
@@ -2705,22 +2658,6 @@ export const associatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConflictException,
     InternalException,
     ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Create a package for use with Amazon ES domains.
- */
-export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePackageRequest,
-  output: CreatePackageResponse,
-  errors: [
-    AccessDeniedException,
-    BaseException,
-    InternalException,
-    InvalidTypeException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
     ValidationException,
   ],
 }));
@@ -2791,6 +2728,69 @@ export const getUpgradeHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
+ */
+export const upgradeElasticsearchDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpgradeElasticsearchDomainRequest,
+    output: UpgradeElasticsearchDomainResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Create a package for use with Amazon ES domains.
+ */
+export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePackageRequest,
+  output: CreatePackageResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    InternalException,
+    InvalidTypeException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Allows you to purchase reserved Elasticsearch instances.
+ */
+export const purchaseReservedElasticsearchInstanceOffering =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PurchaseReservedElasticsearchInstanceOfferingRequest,
+    output: PurchaseReservedElasticsearchInstanceOfferingResponse,
+    errors: [
+      DisabledOperationException,
+      InternalException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a new cross-cluster search connection from a source domain to a destination domain.
+ */
+export const createOutboundCrossClusterSearchConnection =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateOutboundCrossClusterSearchConnectionRequest,
+    output: CreateOutboundCrossClusterSearchConnectionResponse,
+    errors: [
+      DisabledOperationException,
+      InternalException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+    ],
+  }));
 /**
  * Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
  */

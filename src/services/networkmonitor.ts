@@ -326,7 +326,145 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
 export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
   "UntagResourceOutput",
 )({}) {}
+export class GetMonitorInput extends S.Class<GetMonitorInput>(
+  "GetMonitorInput",
+)(
+  { monitorName: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "GET", uri: "/monitors/{monitorName}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateMonitorInput extends S.Class<UpdateMonitorInput>(
+  "UpdateMonitorInput",
+)(
+  { monitorName: S.String.pipe(T.HttpLabel()), aggregationPeriod: S.Number },
+  T.all(
+    T.Http({ method: "PATCH", uri: "/monitors/{monitorName}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteMonitorInput extends S.Class<DeleteMonitorInput>(
+  "DeleteMonitorInput",
+)(
+  { monitorName: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "DELETE", uri: "/monitors/{monitorName}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteMonitorOutput extends S.Class<DeleteMonitorOutput>(
+  "DeleteMonitorOutput",
+)({}) {}
+export class ListMonitorsInput extends S.Class<ListMonitorsInput>(
+  "ListMonitorsInput",
+)(
+  {
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    state: S.optional(S.String).pipe(T.HttpQuery("state")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/monitors" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetProbeInput extends S.Class<GetProbeInput>("GetProbeInput")(
+  {
+    monitorName: S.String.pipe(T.HttpLabel()),
+    probeId: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/monitors/{monitorName}/probes/{probeId}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateProbeInput extends S.Class<UpdateProbeInput>(
+  "UpdateProbeInput",
+)(
+  {
+    monitorName: S.String.pipe(T.HttpLabel()),
+    probeId: S.String.pipe(T.HttpLabel()),
+    state: S.optional(S.String),
+    destination: S.optional(S.String),
+    destinationPort: S.optional(S.Number),
+    protocol: S.optional(S.String),
+    packetSize: S.optional(S.Number),
+  },
+  T.all(
+    T.Http({
+      method: "PATCH",
+      uri: "/monitors/{monitorName}/probes/{probeId}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteProbeInput extends S.Class<DeleteProbeInput>(
+  "DeleteProbeInput",
+)(
+  {
+    monitorName: S.String.pipe(T.HttpLabel()),
+    probeId: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/monitors/{monitorName}/probes/{probeId}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteProbeOutput extends S.Class<DeleteProbeOutput>(
+  "DeleteProbeOutput",
+)({}) {}
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export class CreateMonitorProbeInput extends S.Class<CreateMonitorProbeInput>(
+  "CreateMonitorProbeInput",
+)({
+  sourceArn: S.String,
+  destination: S.String,
+  destinationPort: S.optional(S.Number),
+  protocol: S.String,
+  packetSize: S.optional(S.Number),
+  probeTags: S.optional(TagMap),
+}) {}
+export const CreateMonitorProbeInputList = S.Array(CreateMonitorProbeInput);
+export class ProbeInput extends S.Class<ProbeInput>("ProbeInput")({
+  sourceArn: S.String,
+  destination: S.String,
+  destinationPort: S.optional(S.Number),
+  protocol: S.String,
+  packetSize: S.optional(S.Number),
+  tags: S.optional(TagMap),
+}) {}
 export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
   "ListTagsForResourceOutput",
 )({ tags: S.optional(TagMap) }) {}
@@ -346,45 +484,244 @@ export class TagResourceInput extends S.Class<TagResourceInput>(
 export class TagResourceOutput extends S.Class<TagResourceOutput>(
   "TagResourceOutput",
 )({}) {}
+export class CreateMonitorInput extends S.Class<CreateMonitorInput>(
+  "CreateMonitorInput",
+)(
+  {
+    monitorName: S.String,
+    probes: S.optional(CreateMonitorProbeInputList),
+    aggregationPeriod: S.optional(S.Number),
+    clientToken: S.optional(S.String),
+    tags: S.optional(TagMap),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/monitors" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateMonitorOutput extends S.Class<UpdateMonitorOutput>(
+  "UpdateMonitorOutput",
+)({
+  monitorArn: S.String,
+  monitorName: S.String,
+  state: S.String,
+  aggregationPeriod: S.optional(S.Number),
+  tags: S.optional(TagMap),
+}) {}
+export class CreateProbeInput extends S.Class<CreateProbeInput>(
+  "CreateProbeInput",
+)(
+  {
+    monitorName: S.String.pipe(T.HttpLabel()),
+    probe: ProbeInput,
+    clientToken: S.optional(S.String),
+    tags: S.optional(TagMap),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/monitors/{monitorName}/probes" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetProbeOutput extends S.Class<GetProbeOutput>("GetProbeOutput")({
+  probeId: S.optional(S.String),
+  probeArn: S.optional(S.String),
+  sourceArn: S.String,
+  destination: S.String,
+  destinationPort: S.optional(S.Number),
+  protocol: S.String,
+  packetSize: S.optional(S.Number),
+  addressFamily: S.optional(S.String),
+  vpcId: S.optional(S.String),
+  state: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  tags: S.optional(TagMap),
+}) {}
+export class UpdateProbeOutput extends S.Class<UpdateProbeOutput>(
+  "UpdateProbeOutput",
+)({
+  probeId: S.optional(S.String),
+  probeArn: S.optional(S.String),
+  sourceArn: S.String,
+  destination: S.String,
+  destinationPort: S.optional(S.Number),
+  protocol: S.String,
+  packetSize: S.optional(S.Number),
+  addressFamily: S.optional(S.String),
+  vpcId: S.optional(S.String),
+  state: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  tags: S.optional(TagMap),
+}) {}
+export class Probe extends S.Class<Probe>("Probe")({
+  probeId: S.optional(S.String),
+  probeArn: S.optional(S.String),
+  sourceArn: S.String,
+  destination: S.String,
+  destinationPort: S.optional(S.Number),
+  protocol: S.String,
+  packetSize: S.optional(S.Number),
+  addressFamily: S.optional(S.String),
+  vpcId: S.optional(S.String),
+  state: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  tags: S.optional(TagMap),
+}) {}
+export const ProbeList = S.Array(Probe);
+export class MonitorSummary extends S.Class<MonitorSummary>("MonitorSummary")({
+  monitorArn: S.String,
+  monitorName: S.String,
+  state: S.String,
+  aggregationPeriod: S.optional(S.Number),
+  tags: S.optional(TagMap),
+}) {}
+export const MonitorList = S.Array(MonitorSummary);
+export class CreateMonitorOutput extends S.Class<CreateMonitorOutput>(
+  "CreateMonitorOutput",
+)({
+  monitorArn: S.String,
+  monitorName: S.String,
+  state: S.String,
+  aggregationPeriod: S.optional(S.Number),
+  tags: S.optional(TagMap),
+}) {}
+export class GetMonitorOutput extends S.Class<GetMonitorOutput>(
+  "GetMonitorOutput",
+)({
+  monitorArn: S.String,
+  monitorName: S.String,
+  state: S.String,
+  aggregationPeriod: S.Number,
+  tags: S.optional(TagMap),
+  probes: S.optional(ProbeList),
+  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+}) {}
+export class ListMonitorsOutput extends S.Class<ListMonitorsOutput>(
+  "ListMonitorsOutput",
+)({ monitors: MonitorList, nextToken: S.optional(S.String) }) {}
+export class CreateProbeOutput extends S.Class<CreateProbeOutput>(
+  "CreateProbeOutput",
+)({
+  probeId: S.optional(S.String),
+  probeArn: S.optional(S.String),
+  sourceArn: S.String,
+  destination: S.String,
+  destinationPort: S.optional(S.Number),
+  protocol: S.String,
+  packetSize: S.optional(S.Number),
+  addressFamily: S.optional(S.String),
+  vpcId: S.optional(S.String),
+  state: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  tags: S.optional(TagMap),
+}) {}
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Removes a key-value pair from a monitor or probe.
+ * Returns a list of all of your monitors.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
+export const listMonitors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMonitorsInput,
+  output: ListMonitorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a monitor between a source subnet and destination IP address. Within a monitor you'll create one or more probes that monitor network traffic between your source Amazon Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends metrics to Amazon CloudWatch.
+ *
+ * You can also create a monitor with probes using this command. For each probe, you
+ * define the following:
+ *
+ * - `source`—The subnet IDs where the probes will be created.
+ *
+ * - `destination`— The target destination IP address for the
+ * probe.
+ *
+ * - `destinationPort`—Required only if the protocol is
+ * `TCP`.
+ *
+ * - `protocol`—The communication protocol between the source and
+ * destination. This will be either `TCP` or `ICMP`.
+ *
+ * - `packetSize`—The size of the packets. This must be a number between
+ * `56` and `8500`.
+ *
+ * - (Optional) `tags` —Key-value pairs created and assigned to the
+ * probe.
+ */
+export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMonitorInput,
+  output: CreateMonitorOutput,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Create a probe within a monitor. Once you create a probe, and it begins monitoring your
+ * network traffic, you'll incur billing charges for that probe. This action requires the
+ * `monitorName` parameter. Run `ListMonitors` to get a list of
+ * monitor names. Note the name of the `monitorName` you want to create the
+ * probe for.
+ */
+export const createProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProbeInput,
+  output: CreateProbeOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -415,6 +752,146 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the details about a probe. This action requires both the
+ * `monitorName` and `probeId` parameters. Run
+ * `ListMonitors` to get a list of monitor names. Run
+ * `GetMonitor` to get a list of probes and probe IDs.
+ */
+export const getProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProbeInput,
+  output: GetProbeOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a monitor probe. This action requires both the `monitorName` and `probeId` parameters. Run `ListMonitors` to get a list of monitor names. Run `GetMonitor` to get a list of probes and probe IDs.
+ *
+ * You can update the following para create a monitor with probes using this command. For
+ * each probe, you define the following:
+ *
+ * - `state`—The state of the probe.
+ *
+ * - `destination`— The target destination IP address for the
+ * probe.
+ *
+ * - `destinationPort`—Required only if the protocol is
+ * `TCP`.
+ *
+ * - `protocol`—The communication protocol between the source and
+ * destination. This will be either `TCP` or `ICMP`.
+ *
+ * - `packetSize`—The size of the packets. This must be a number between
+ * `56` and `8500`.
+ *
+ * - (Optional) `tags` —Key-value pairs created and assigned to the
+ * probe.
+ */
+export const updateProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProbeInput,
+  output: UpdateProbeOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a specified monitor.
+ *
+ * This action requires the `monitorName` parameter. Run
+ * `ListMonitors` to get a list of monitor names.
+ */
+export const deleteMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMonitorInput,
+  output: DeleteMonitorOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing
+ * fees for that probe.
+ *
+ * This action requires both the `monitorName` and `probeId`
+ * parameters. Run `ListMonitors` to get a list of monitor names. Run
+ * `GetMonitor` to get a list of probes and probe IDs. You can only delete a
+ * single probe at a time using this action.
+ */
+export const deleteProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProbeInput,
+  output: DeleteProbeOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a key-value pair from a monitor or probe.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns details about a specific monitor.
+ *
+ * This action requires the `monitorName` parameter. Run
+ * `ListMonitors` to get a list of monitor names.
+ */
+export const getMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMonitorInput,
+  output: GetMonitorOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the `aggregationPeriod` for a monitor. Monitors support an
+ * `aggregationPeriod` of either `30` or `60` seconds.
+ * This action requires the `monitorName` and `probeId` parameter.
+ * Run `ListMonitors` to get a list of monitor names.
+ */
+export const updateMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMonitorInput,
+  output: UpdateMonitorOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],

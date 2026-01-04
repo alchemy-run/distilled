@@ -709,10 +709,6 @@ export class SpaceData extends S.Class<SpaceData>("SpaceData")({
   supportedEmailDomains: S.optional(SupportedEmailDomainsStatus),
 }) {}
 export const SpacesList = S.Array(SpaceData);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class BatchAddChannelRoleToAccessorsOutput extends S.Class<BatchAddChannelRoleToAccessorsOutput>(
   "BatchAddChannelRoleToAccessorsOutput",
 )({ addedAccessorIds: AccessorIdList, errors: BatchErrorList }) {}
@@ -763,31 +759,39 @@ export class ListChannelsOutput extends S.Class<ListChannelsOutput>(
 export class ListSpacesOutput extends S.Class<ListSpacesOutput>(
   "ListSpacesOutput",
 )({ spaces: SpacesList, nextToken: S.optional(S.String) }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.String,
+    serviceCode: S.optional(S.String),
+    quotaCode: S.optional(S.String),
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -799,14 +803,35 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
     quotaCode: S.String,
   },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
+) {}
 
 //# Operations
 /**
- * Removes the association of the tag with the AWS re:Post Private resource.
+ * Returns the list of channel within a private re:Post with some information about each channel.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListChannelsInput,
+  output: ListChannelsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Displays information about a channel in a private re:Post.
+ */
+export const getChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChannelInput,
+  output: GetChannelOutput,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -816,14 +841,112 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Modifies an existing AWS re:Post Private private re:Post.
+ * Displays information about the AWS re:Post Private private re:Post.
  */
-export const updateSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSpaceInput,
-  output: UpdateSpaceResponse,
+export const getSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSpaceInput,
+  output: GetSpaceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Modifies an existing channel.
+ */
+export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChannelInput,
+  output: UpdateChannelOutput,
   errors: [
     AccessDeniedException,
     ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the user or group from the list of administrators of the private re:Post.
+ */
+export const deregisterAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterAdminInput,
+  output: DeregisterAdminResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a user or group to the list of administrators of the private re:Post.
+ */
+export const registerAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterAdminInput,
+  output: RegisterAdminResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Sends an invitation email to selected users and groups.
+ */
+export const sendInvites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendInvitesInput,
+  output: SendInvitesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the association of the tag with the AWS re:Post Private resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -874,91 +997,6 @@ export const batchRemoveRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes an AWS re:Post Private private re:Post.
- */
-export const deleteSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSpaceInput,
-  output: DeleteSpaceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the user or group from the list of administrators of the private re:Post.
- */
-export const deregisterAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeregisterAdminInput,
-  output: DeregisterAdminResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a user or group to the list of administrators of the private re:Post.
- */
-export const registerAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterAdminInput,
-  output: RegisterAdminResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Sends an invitation email to selected users and groups.
- */
-export const sendInvites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendInvitesInput,
-  output: SendInvitesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Modifies an existing channel.
- */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateChannelInput,
-  output: UpdateChannelOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Add role to multiple users or groups in a private re:Post channel.
  */
 export const batchAddChannelRoleToAccessors =
@@ -973,6 +1011,48 @@ export const batchAddChannelRoleToAccessors =
       ValidationException,
     ],
   }));
+/**
+ * Modifies an existing AWS re:Post Private private re:Post.
+ */
+export const updateSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSpaceInput,
+  output: UpdateSpaceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post.
+ */
+export const listSpaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSpacesInput,
+  output: ListSpacesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an AWS re:Post Private private re:Post.
+ */
+export const deleteSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSpaceInput,
+  output: DeleteSpaceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a channel in an AWS re:Post Private private re:Post.
  */
@@ -1001,74 +1081,6 @@ export const createSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Displays information about a channel in a private re:Post.
- */
-export const getChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetChannelInput,
-  output: GetChannelOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Displays information about the AWS re:Post Private private re:Post.
- */
-export const getSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSpaceInput,
-  output: GetSpaceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the list of channel within a private re:Post with some information about each channel.
- */
-export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListChannelsInput,
-  output: ListChannelsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post.
- */
-export const listSpaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSpacesInput,
-  output: ListSpacesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

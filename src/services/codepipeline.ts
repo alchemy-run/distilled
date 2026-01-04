@@ -1613,11 +1613,11 @@ export class CreatePipelineOutput extends S.Class<CreatePipelineOutput>(
 //# Errors
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class WebhookNotFoundException extends S.TaggedError<WebhookNotFoundException>()(
   "WebhookNotFoundException",
@@ -1625,71 +1625,75 @@ export class WebhookNotFoundException extends S.TaggedError<WebhookNotFoundExcep
 ) {}
 export class PipelineNotFoundException extends S.TaggedError<PipelineNotFoundException>()(
   "PipelineNotFoundException",
-  {},
-) {}
-export class InvalidClientTokenException extends S.TaggedError<InvalidClientTokenException>()(
-  "InvalidClientTokenException",
-  {},
-) {}
-export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
-  "InvalidArnException",
-  {},
-) {}
-export class InvalidNonceException extends S.TaggedError<InvalidNonceException>()(
-  "InvalidNonceException",
-  {},
-) {}
-export class StageNotFoundException extends S.TaggedError<StageNotFoundException>()(
-  "StageNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConcurrentPipelineExecutionsLimitExceededException extends S.TaggedError<ConcurrentPipelineExecutionsLimitExceededException>()(
   "ConcurrentPipelineExecutionsLimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidJobStateException extends S.TaggedError<InvalidJobStateException>()(
-  "InvalidJobStateException",
-  {},
+export class InvalidClientTokenException extends S.TaggedError<InvalidClientTokenException>()(
+  "InvalidClientTokenException",
+  { message: S.optional(S.String) },
 ) {}
-export class JobNotFoundException extends S.TaggedError<JobNotFoundException>()(
-  "JobNotFoundException",
-  {},
+export class InvalidNonceException extends S.TaggedError<InvalidNonceException>()(
+  "InvalidNonceException",
+  { message: S.optional(S.String) },
 ) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class InvalidTagsException extends S.TaggedError<InvalidTagsException>()(
-  "InvalidTagsException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+export class StageNotFoundException extends S.TaggedError<StageNotFoundException>()(
+  "StageNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class ActionTypeNotFoundException extends S.TaggedError<ActionTypeNotFoundException>()(
   "ActionTypeNotFoundException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
+export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
+  "InvalidArnException",
+  { message: S.optional(S.String) },
 ) {}
 export class ConditionNotOverridableException extends S.TaggedError<ConditionNotOverridableException>()(
   "ConditionNotOverridableException",
   { message: S.optional(S.String) },
 ) {}
+export class InvalidJobStateException extends S.TaggedError<InvalidJobStateException>()(
+  "InvalidJobStateException",
+  { message: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidActionDeclarationException extends S.TaggedError<InvalidActionDeclarationException>()(
+  "InvalidActionDeclarationException",
+  { message: S.optional(S.String) },
+) {}
+export class JobNotFoundException extends S.TaggedError<JobNotFoundException>()(
+  "JobNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTagsException extends S.TaggedError<InvalidTagsException>()(
+  "InvalidTagsException",
+  { message: S.optional(S.String) },
+) {}
+export class PipelineVersionNotFoundException extends S.TaggedError<PipelineVersionNotFoundException>()(
+  "PipelineVersionNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { message: S.optional(S.String) },
+) {}
 export class ActionNotFoundException extends S.TaggedError<ActionNotFoundException>()(
   "ActionNotFoundException",
-  {},
-) {}
-export class OutputVariablesSizeExceededException extends S.TaggedError<OutputVariablesSizeExceededException>()(
-  "OutputVariablesSizeExceededException",
   { message: S.optional(S.String) },
 ) {}
 export class NotLatestPipelineExecutionException extends S.TaggedError<NotLatestPipelineExecutionException>()(
   "NotLatestPipelineExecutionException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class InvalidBlockerDeclarationException extends S.TaggedError<InvalidBlockerDeclarationException>()(
+  "InvalidBlockerDeclarationException",
+  { message: S.optional(S.String) },
 ) {}
 export class PipelineExecutionNotFoundException extends S.TaggedError<PipelineExecutionNotFoundException>()(
   "PipelineExecutionNotFoundException",
@@ -1699,28 +1703,36 @@ export class DuplicatedStopRequestException extends S.TaggedError<DuplicatedStop
   "DuplicatedStopRequestException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidActionDeclarationException extends S.TaggedError<InvalidActionDeclarationException>()(
-  "InvalidActionDeclarationException",
-  { message: S.optional(S.String) },
-) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  {},
-) {}
-export class PipelineVersionNotFoundException extends S.TaggedError<PipelineVersionNotFoundException>()(
-  "PipelineVersionNotFoundException",
+export class InvalidJobException extends S.TaggedError<InvalidJobException>()(
+  "InvalidJobException",
   { message: S.optional(S.String) },
 ) {}
-export class ApprovalAlreadyCompletedException extends S.TaggedError<ApprovalAlreadyCompletedException>()(
-  "ApprovalAlreadyCompletedException",
+export class InvalidWebhookAuthenticationParametersException extends S.TaggedError<InvalidWebhookAuthenticationParametersException>()(
+  "InvalidWebhookAuthenticationParametersException",
   { message: S.optional(S.String) },
 ) {}
 export class StageNotRetryableException extends S.TaggedError<StageNotRetryableException>()(
   "StageNotRetryableException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidStageDeclarationException extends S.TaggedError<InvalidStageDeclarationException>()(
+  "InvalidStageDeclarationException",
+  { message: S.optional(S.String) },
+) {}
+export class OutputVariablesSizeExceededException extends S.TaggedError<OutputVariablesSizeExceededException>()(
+  "OutputVariablesSizeExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ApprovalAlreadyCompletedException extends S.TaggedError<ApprovalAlreadyCompletedException>()(
+  "ApprovalAlreadyCompletedException",
   { message: S.optional(S.String) },
 ) {}
 export class PipelineExecutionOutdatedException extends S.TaggedError<PipelineExecutionOutdatedException>()(
@@ -1731,28 +1743,8 @@ export class PipelineExecutionNotStoppableException extends S.TaggedError<Pipeli
   "PipelineExecutionNotStoppableException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidBlockerDeclarationException extends S.TaggedError<InvalidBlockerDeclarationException>()(
-  "InvalidBlockerDeclarationException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidJobException extends S.TaggedError<InvalidJobException>()(
-  "InvalidJobException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidApprovalTokenException extends S.TaggedError<InvalidApprovalTokenException>()(
-  "InvalidApprovalTokenException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidWebhookAuthenticationParametersException extends S.TaggedError<InvalidWebhookAuthenticationParametersException>()(
-  "InvalidWebhookAuthenticationParametersException",
-  { message: S.optional(S.String) },
-) {}
-export class UnableToRollbackStageException extends S.TaggedError<UnableToRollbackStageException>()(
-  "UnableToRollbackStageException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidStageDeclarationException extends S.TaggedError<InvalidStageDeclarationException>()(
-  "InvalidStageDeclarationException",
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidWebhookFilterPatternException extends S.TaggedError<InvalidWebhookFilterPatternException>()(
@@ -1767,6 +1759,14 @@ export class InvalidStructureException extends S.TaggedError<InvalidStructureExc
   "InvalidStructureException",
   { message: S.optional(S.String) },
 ) {}
+export class InvalidApprovalTokenException extends S.TaggedError<InvalidApprovalTokenException>()(
+  "InvalidApprovalTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class UnableToRollbackStageException extends S.TaggedError<UnableToRollbackStageException>()(
+  "UnableToRollbackStageException",
+  { message: S.optional(S.String) },
+) {}
 export class ActionExecutionNotFoundException extends S.TaggedError<ActionExecutionNotFoundException>()(
   "ActionExecutionNotFoundException",
   { message: S.optional(S.String) },
@@ -1778,17 +1778,6 @@ export class PipelineNameInUseException extends S.TaggedError<PipelineNameInUseE
 
 //# Operations
 /**
- * Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API
- * returns successfully when trying to delete a webhook that is already deleted. If a
- * deleted webhook is re-created by calling PutWebhook with the same name, it will have a
- * different URL.
- */
-export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWebhookInput,
-  output: DeleteWebhookOutput,
-  errors: [ConcurrentModificationException, ValidationException],
-}));
-/**
  * Removes the connection between the webhook that was created by CodePipeline
  * and the external tool with events to be detected. Currently supported only for webhooks
  * that target an action type of GitHub.
@@ -1799,6 +1788,25 @@ export const deregisterWebhookWithThirdParty =
     output: DeregisterWebhookWithThirdPartyOutput,
     errors: [ValidationException, WebhookNotFoundException],
   }));
+/**
+ * Deletes the specified pipeline.
+ */
+export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePipelineInput,
+  output: DeletePipelineResponse,
+  errors: [ConcurrentModificationException, ValidationException],
+}));
+/**
+ * Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API
+ * returns successfully when trying to delete a webhook that is already deleted. If a
+ * deleted webhook is re-created by calling PutWebhook with the same name, it will have a
+ * different URL.
+ */
+export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWebhookInput,
+  output: DeleteWebhookOutput,
+  errors: [ConcurrentModificationException, ValidationException],
+}));
 /**
  * Configures a connection between the webhook that was created and the external tool
  * with events to be detected.
@@ -1827,14 +1835,6 @@ export const deleteCustomActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the specified pipeline.
- */
-export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePipelineInput,
-  output: DeletePipelineResponse,
-  errors: [ConcurrentModificationException, ValidationException],
-}));
-/**
  * Prevents artifacts in a pipeline from transitioning to the next stage in the
  * pipeline.
  */
@@ -1845,6 +1845,47 @@ export const disableStageTransition = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [
       PipelineNotFoundException,
       StageNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns information about an action type created for an external provider, where the
+ * action is to be used by customers of the external provider. The action can be created
+ * with any supported integration model.
+ */
+export const getActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetActionTypeInput,
+  output: GetActionTypeOutput,
+  errors: [ActionTypeNotFoundException, ValidationException],
+}));
+/**
+ * Determines whether there are any third party jobs for a job worker to act on. Used
+ * for partner actions only.
+ *
+ * When this API is called, CodePipeline returns temporary credentials for
+ * the S3 bucket used to store artifacts for the pipeline, if the action requires
+ * access to that S3 bucket for input or output artifacts.
+ */
+export const pollForThirdPartyJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PollForThirdPartyJobsInput,
+    output: PollForThirdPartyJobsOutput,
+    errors: [ActionTypeNotFoundException, ValidationException],
+  }),
+);
+/**
+ * Starts the specified pipeline. Specifically, it begins processing the latest commit
+ * to the source location specified as part of the pipeline.
+ */
+export const startPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartPipelineExecutionInput,
+    output: StartPipelineExecutionOutput,
+    errors: [
+      ConcurrentPipelineExecutionsLimitExceededException,
+      ConflictException,
+      PipelineNotFoundException,
       ValidationException,
     ],
   }),
@@ -1864,59 +1905,6 @@ export const enableStageTransition = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Represents the failure of a job as returned to the pipeline by a job worker. Used
- * for custom actions only.
- */
-export const putJobFailureResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutJobFailureResultInput,
-  output: PutJobFailureResultResponse,
-  errors: [InvalidJobStateException, JobNotFoundException, ValidationException],
-}));
-/**
- * Represents the failure of a third party job as returned to the pipeline by a job
- * worker. Used for partner actions only.
- */
-export const putThirdPartyJobFailureResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutThirdPartyJobFailureResultInput,
-    output: PutThirdPartyJobFailureResultResponse,
-    errors: [
-      InvalidClientTokenException,
-      InvalidJobStateException,
-      JobNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Represents the success of a third party job as returned to the pipeline by a job
- * worker. Used for partner actions only.
- */
-export const putThirdPartyJobSuccessResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutThirdPartyJobSuccessResultInput,
-    output: PutThirdPartyJobSuccessResultResponse,
-    errors: [
-      InvalidClientTokenException,
-      InvalidJobStateException,
-      JobNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Removes tags from an Amazon Web Services resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [
-    ConcurrentModificationException,
-    InvalidArnException,
-    InvalidTagsException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Returns information about a specified job and whether that job has been received by
  * the job worker. Used for custom actions only.
  */
@@ -1925,137 +1913,6 @@ export const acknowledgeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: AcknowledgeJobOutput,
   errors: [InvalidNonceException, JobNotFoundException, ValidationException],
 }));
-/**
- * Confirms a job worker has received the specified job. Used for partner actions
- * only.
- */
-export const acknowledgeThirdPartyJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcknowledgeThirdPartyJobInput,
-    output: AcknowledgeThirdPartyJobOutput,
-    errors: [
-      InvalidClientTokenException,
-      InvalidNonceException,
-      JobNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns information about an action type created for an external provider, where the
- * action is to be used by customers of the external provider. The action can be created
- * with any supported integration model.
- */
-export const getActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetActionTypeInput,
-  output: GetActionTypeOutput,
-  errors: [ActionTypeNotFoundException, ValidationException],
-}));
-/**
- * Gets a summary of all CodePipeline action types associated with your
- * account.
- */
-export const listActionTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListActionTypesInput,
-  output: ListActionTypesOutput,
-  errors: [InvalidNextTokenException, ValidationException],
-}));
-/**
- * Gets a summary of all of the pipelines associated with your account.
- */
-export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPipelinesInput,
-  output: ListPipelinesOutput,
-  errors: [InvalidNextTokenException, ValidationException],
-}));
-/**
- * Gets the set of key-value pairs (metadata) that are used to manage the
- * resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    InvalidArnException,
-    InvalidNextTokenException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets a listing of all the webhooks in this Amazon Web Services Region for this
- * account. The output lists all webhooks and includes the webhook URL and ARN and the
- * configuration for each webhook.
- *
- * If a secret token was provided, it will be redacted in the response.
- */
-export const listWebhooks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListWebhooksInput,
-  output: ListWebhooksOutput,
-  errors: [InvalidNextTokenException, ValidationException],
-}));
-/**
- * Determines whether there are any third party jobs for a job worker to act on. Used
- * for partner actions only.
- *
- * When this API is called, CodePipeline returns temporary credentials for
- * the S3 bucket used to store artifacts for the pipeline, if the action requires
- * access to that S3 bucket for input or output artifacts.
- */
-export const pollForThirdPartyJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PollForThirdPartyJobsInput,
-    output: PollForThirdPartyJobsOutput,
-    errors: [ActionTypeNotFoundException, ValidationException],
-  }),
-);
-/**
- * Represents the success of a job as returned to the pipeline by a job worker. Used
- * for custom actions only.
- */
-export const putJobSuccessResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutJobSuccessResultInput,
-  output: PutJobSuccessResultResponse,
-  errors: [
-    InvalidJobStateException,
-    JobNotFoundException,
-    OutputVariablesSizeExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts the specified pipeline. Specifically, it begins processing the latest commit
- * to the source location specified as part of the pipeline.
- */
-export const startPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartPipelineExecutionInput,
-    output: StartPipelineExecutionOutput,
-    errors: [
-      ConcurrentPipelineExecutionsLimitExceededException,
-      ConflictException,
-      PipelineNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a new custom action that can be used in all pipelines associated with the
- * Amazon Web Services account. Only used for custom actions.
- */
-export const createCustomActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomActionTypeInput,
-    output: CreateCustomActionTypeOutput,
-    errors: [
-      ConcurrentModificationException,
-      InvalidTagsException,
-      LimitExceededException,
-      TooManyTagsException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Returns the metadata, structure, stages, and actions of a pipeline. Can be used to
  * return the entire structure of a pipeline in JSON format, which can then be modified and
@@ -2071,21 +1928,14 @@ export const getPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about an execution of a pipeline, including details about
- * artifacts, the pipeline execution ID, and the name, version, and status of the
- * pipeline.
+ * Gets a summary of all CodePipeline action types associated with your
+ * account.
  */
-export const getPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPipelineExecutionInput,
-    output: GetPipelineExecutionOutput,
-    errors: [
-      PipelineExecutionNotFoundException,
-      PipelineNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const listActionTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListActionTypesInput,
+  output: ListActionTypesOutput,
+  errors: [InvalidNextTokenException, ValidationException],
+}));
 /**
  * Lists the rules for the condition. For more information about conditions, see Stage
  * conditions and How do
@@ -2096,26 +1946,6 @@ export const listRuleTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: ListRuleTypesOutput,
   errors: [InvalidNextTokenException, ValidationException],
 }));
-/**
- * Used to override a stage condition. For more information about conditions, see Stage
- * conditions and How do
- * stage conditions work?.
- */
-export const overrideStageCondition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: OverrideStageConditionInput,
-    output: OverrideStageConditionResponse,
-    errors: [
-      ConcurrentPipelineExecutionsLimitExceededException,
-      ConditionNotOverridableException,
-      ConflictException,
-      NotLatestPipelineExecutionException,
-      PipelineNotFoundException,
-      StageNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Returns information about any jobs for CodePipeline to act on.
  * `PollForJobs` is valid only for action types with "Custom" in the owner
@@ -2148,6 +1978,138 @@ export const putActionRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Represents the failure of a job as returned to the pipeline by a job worker. Used
+ * for custom actions only.
+ */
+export const putJobFailureResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutJobFailureResultInput,
+  output: PutJobFailureResultResponse,
+  errors: [InvalidJobStateException, JobNotFoundException, ValidationException],
+}));
+/**
+ * Confirms a job worker has received the specified job. Used for partner actions
+ * only.
+ */
+export const acknowledgeThirdPartyJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AcknowledgeThirdPartyJobInput,
+    output: AcknowledgeThirdPartyJobOutput,
+    errors: [
+      InvalidClientTokenException,
+      InvalidNonceException,
+      JobNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Represents the failure of a third party job as returned to the pipeline by a job
+ * worker. Used for partner actions only.
+ */
+export const putThirdPartyJobFailureResult =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutThirdPartyJobFailureResultInput,
+    output: PutThirdPartyJobFailureResultResponse,
+    errors: [
+      InvalidClientTokenException,
+      InvalidJobStateException,
+      JobNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Represents the success of a third party job as returned to the pipeline by a job
+ * worker. Used for partner actions only.
+ */
+export const putThirdPartyJobSuccessResult =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutThirdPartyJobSuccessResultInput,
+    output: PutThirdPartyJobSuccessResultResponse,
+    errors: [
+      InvalidClientTokenException,
+      InvalidJobStateException,
+      JobNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets a summary of all of the pipelines associated with your account.
+ */
+export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPipelinesInput,
+  output: ListPipelinesOutput,
+  errors: [InvalidNextTokenException, ValidationException],
+}));
+/**
+ * Gets a listing of all the webhooks in this Amazon Web Services Region for this
+ * account. The output lists all webhooks and includes the webhook URL and ARN and the
+ * configuration for each webhook.
+ *
+ * If a secret token was provided, it will be redacted in the response.
+ */
+export const listWebhooks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWebhooksInput,
+  output: ListWebhooksOutput,
+  errors: [InvalidNextTokenException, ValidationException],
+}));
+/**
+ * Used to override a stage condition. For more information about conditions, see Stage
+ * conditions and How do
+ * stage conditions work?.
+ */
+export const overrideStageCondition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: OverrideStageConditionInput,
+    output: OverrideStageConditionResponse,
+    errors: [
+      ConcurrentPipelineExecutionsLimitExceededException,
+      ConditionNotOverridableException,
+      ConflictException,
+      NotLatestPipelineExecutionException,
+      PipelineNotFoundException,
+      StageNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns information about an execution of a pipeline, including details about
+ * artifacts, the pipeline execution ID, and the name, version, and status of the
+ * pipeline.
+ */
+export const getPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPipelineExecutionInput,
+    output: GetPipelineExecutionOutput,
+    errors: [
+      PipelineExecutionNotFoundException,
+      PipelineNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Requests the details of a job for a third party action. Used for partner actions
+ * only.
+ *
+ * When this API is called, CodePipeline returns temporary credentials for
+ * the S3 bucket used to store artifacts for the pipeline, if the action requires
+ * access to that S3 bucket for input or output artifacts. This API also returns any
+ * secret values defined for the action.
+ */
+export const getThirdPartyJobDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetThirdPartyJobDetailsInput,
+    output: GetThirdPartyJobDetailsOutput,
+    errors: [
+      InvalidClientTokenException,
+      InvalidJobException,
+      JobNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * You can retry a stage that has failed without having to run a pipeline again from
  * the beginning. You do this by either retrying the failed actions in a stage or by
  * retrying all actions in the stage starting from the first action in the stage. When you
@@ -2167,6 +2129,20 @@ export const retryStageExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     PipelineNotFoundException,
     StageNotFoundException,
     StageNotRetryableException,
+    ValidationException,
+  ],
+}));
+/**
+ * Represents the success of a job as returned to the pipeline by a job worker. Used
+ * for custom actions only.
+ */
+export const putJobSuccessResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutJobSuccessResultInput,
+  output: PutJobSuccessResultResponse,
+  errors: [
+    InvalidJobStateException,
+    JobNotFoundException,
+    OutputVariablesSizeExceededException,
     ValidationException,
   ],
 }));
@@ -2192,74 +2168,50 @@ export const stopPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Adds to or modifies the tags of the given resource. Tags are metadata that can be used
- * to manage a resource.
+ * Removes tags from an Amazon Web Services resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
   errors: [
     ConcurrentModificationException,
     InvalidArnException,
     InvalidTagsException,
     ResourceNotFoundException,
-    TooManyTagsException,
     ValidationException,
   ],
 }));
 /**
- * Requests the details of a job for a third party action. Used for partner actions
- * only.
- *
- * When this API is called, CodePipeline returns temporary credentials for
- * the S3 bucket used to store artifacts for the pipeline, if the action requires
- * access to that S3 bucket for input or output artifacts. This API also returns any
- * secret values defined for the action.
+ * Gets the set of key-value pairs (metadata) that are used to manage the
+ * resource.
  */
-export const getThirdPartyJobDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    InvalidArnException,
+    InvalidNextTokenException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new custom action that can be used in all pipelines associated with the
+ * Amazon Web Services account. Only used for custom actions.
+ */
+export const createCustomActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetThirdPartyJobDetailsInput,
-    output: GetThirdPartyJobDetailsOutput,
+    input: CreateCustomActionTypeInput,
+    output: CreateCustomActionTypeOutput,
     errors: [
-      InvalidClientTokenException,
-      InvalidJobException,
-      JobNotFoundException,
+      ConcurrentModificationException,
+      InvalidTagsException,
+      LimitExceededException,
+      TooManyTagsException,
       ValidationException,
     ],
   }),
 );
-/**
- * Provides the response to a manual approval request to CodePipeline. Valid
- * responses include Approved and Rejected.
- */
-export const putApprovalResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutApprovalResultInput,
-  output: PutApprovalResultOutput,
-  errors: [
-    ActionNotFoundException,
-    ApprovalAlreadyCompletedException,
-    InvalidApprovalTokenException,
-    PipelineNotFoundException,
-    StageNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Rolls back a stage execution.
- */
-export const rollbackStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RollbackStageInput,
-  output: RollbackStageOutput,
-  errors: [
-    ConflictException,
-    PipelineExecutionNotFoundException,
-    PipelineExecutionOutdatedException,
-    PipelineNotFoundException,
-    StageNotFoundException,
-    UnableToRollbackStageException,
-    ValidationException,
-  ],
-}));
 /**
  * Gets a summary of the most recent executions for a pipeline.
  *
@@ -2342,6 +2294,54 @@ export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidStageDeclarationException,
     InvalidStructureException,
     LimitExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds to or modifies the tags of the given resource. Tags are metadata that can be used
+ * to manage a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArnException,
+    InvalidTagsException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Provides the response to a manual approval request to CodePipeline. Valid
+ * responses include Approved and Rejected.
+ */
+export const putApprovalResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutApprovalResultInput,
+  output: PutApprovalResultOutput,
+  errors: [
+    ActionNotFoundException,
+    ApprovalAlreadyCompletedException,
+    InvalidApprovalTokenException,
+    PipelineNotFoundException,
+    StageNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Rolls back a stage execution.
+ */
+export const rollbackStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RollbackStageInput,
+  output: RollbackStageOutput,
+  errors: [
+    ConflictException,
+    PipelineExecutionNotFoundException,
+    PipelineExecutionOutdatedException,
+    PipelineNotFoundException,
+    StageNotFoundException,
+    UnableToRollbackStageException,
     ValidationException,
   ],
 }));

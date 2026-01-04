@@ -3505,27 +3505,35 @@ export class SendDataToWirelessDeviceResponse extends S.Class<SendDataToWireless
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  {
+    Message: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  {
+    Message: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
@@ -3534,839 +3542,18 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 
 //# Operations
 /**
- * Cancels an existing multicast group session.
+ * Get the event configuration based on resource types.
  */
-export const cancelMulticastGroupSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMulticastGroupSessionRequest,
-    output: CancelMulticastGroupSessionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a destination.
- */
-export const deleteDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDestinationRequest,
-  output: DeleteDestinationResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a device profile.
- */
-export const deleteDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDeviceProfileRequest,
-  output: DeleteDeviceProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a FUOTA task.
- */
-export const deleteFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFuotaTaskRequest,
-  output: DeleteFuotaTaskResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a multicast group if it is not in use by a FUOTA task.
- */
-export const deleteMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMulticastGroupRequest,
-    output: DeleteMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a network analyzer configuration.
- */
-export const deleteNetworkAnalyzerConfiguration =
+export const getEventConfigurationByResourceTypes =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNetworkAnalyzerConfigurationRequest,
-    output: DeleteNetworkAnalyzerConfigurationResponse,
+    input: GetEventConfigurationByResourceTypesRequest,
+    output: GetEventConfigurationByResourceTypesResponse,
     errors: [
       AccessDeniedException,
-      ConflictException,
       InternalServerException,
-      ResourceNotFoundException,
       ThrottlingException,
-      ValidationException,
     ],
   }));
-/**
- * Remove queued messages from the downlink queue.
- */
-export const deleteQueuedMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteQueuedMessagesRequest,
-    output: DeleteQueuedMessagesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a service profile.
- */
-export const deleteServiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceProfileRequest,
-    output: DeleteServiceProfileResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a wireless device.
- */
-export const deleteWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWirelessDeviceRequest,
-    output: DeleteWirelessDeviceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Delete an import task.
- */
-export const deleteWirelessDeviceImportTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteWirelessDeviceImportTaskRequest,
-    output: DeleteWirelessDeviceImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes a wireless gateway.
- *
- * When deleting a wireless gateway, you might run into duplication errors for the
- * following reasons.
- *
- * - If you specify a `GatewayEui` value that already exists.
- *
- * - If you used a `ClientRequestToken` with the same parameters
- * within the last 10 minutes.
- *
- * To avoid this error, make sure that you use unique identifiers and parameters for
- * each request within the specified time period.
- */
-export const deleteWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWirelessGatewayRequest,
-    output: DeleteWirelessGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a wireless gateway task.
- */
-export const deleteWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWirelessGatewayTaskRequest,
-    output: DeleteWirelessGatewayTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a wireless gateway task definition. Deleting this task definition does not
- * affect tasks that are currently in progress.
- */
-export const deleteWirelessGatewayTaskDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteWirelessGatewayTaskDefinitionRequest,
-    output: DeleteWirelessGatewayTaskDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deregister a wireless device from AWS IoT Wireless.
- */
-export const deregisterWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterWirelessDeviceRequest,
-    output: DeregisterWirelessDeviceResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Disassociates your AWS account from a partner account. If
- * `PartnerAccountId` and `PartnerType` are `null`,
- * disassociates your AWS account from all partner accounts.
- */
-export const disassociateAwsAccountFromPartnerAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAwsAccountFromPartnerAccountRequest,
-    output: DisassociateAwsAccountFromPartnerAccountResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a multicast group from a FUOTA task.
- */
-export const disassociateMulticastGroupFromFuotaTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateMulticastGroupFromFuotaTaskRequest,
-    output: DisassociateMulticastGroupFromFuotaTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a wireless device from a FUOTA task.
- */
-export const disassociateWirelessDeviceFromFuotaTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessDeviceFromFuotaTaskRequest,
-    output: DisassociateWirelessDeviceFromFuotaTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a wireless device from a multicast group.
- */
-export const disassociateWirelessDeviceFromMulticastGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessDeviceFromMulticastGroupRequest,
-    output: DisassociateWirelessDeviceFromMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a wireless device from its currently associated thing.
- */
-export const disassociateWirelessDeviceFromThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessDeviceFromThingRequest,
-    output: DisassociateWirelessDeviceFromThingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a wireless gateway from its currently associated certificate.
- */
-export const disassociateWirelessGatewayFromCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessGatewayFromCertificateRequest,
-    output: DisassociateWirelessGatewayFromCertificateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a wireless gateway from its currently associated thing.
- */
-export const disassociateWirelessGatewayFromThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessGatewayFromThingRequest,
-    output: DisassociateWirelessGatewayFromThingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Sets the log-level override for a resource ID and resource type. A limit of 200 log
- * level override can be set per account.
- */
-export const putResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourceLogLevelRequest,
-  output: PutResourceLogLevelResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the log-level overrides for all resources; wireless devices, wireless
- * gateways, and FUOTA tasks.
- */
-export const resetAllResourceLogLevels = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetAllResourceLogLevelsRequest,
-    output: ResetAllResourceLogLevelsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Removes the log-level override, if any, for a specific resource ID and resource type.
- * It can be used for a wireless device, a wireless gateway, or a FUOTA task.
- */
-export const resetResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetResourceLogLevelRequest,
-    output: ResetResourceLogLevelResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Starts a bulk association of all qualifying wireless devices with a multicast
- * group.
- */
-export const startBulkAssociateWirelessDeviceWithMulticastGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest,
-    output: StartBulkAssociateWirelessDeviceWithMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Starts a bulk disassociatin of all qualifying wireless devices from a multicast
- * group.
- */
-export const startBulkDisassociateWirelessDeviceFromMulticastGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest,
-    output: StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Removes one or more tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates properties of a destination.
- */
-export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDestinationRequest,
-  output: UpdateDestinationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update the event configuration based on resource types.
- */
-export const updateEventConfigurationByResourceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEventConfigurationByResourceTypesRequest,
-    output: UpdateEventConfigurationByResourceTypesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates properties of a FUOTA task.
- */
-export const updateFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFuotaTaskRequest,
-  output: UpdateFuotaTaskResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Set default log level, or log levels by resource types. This can be for wireless
- * device, wireless gateway, or FUOTA task log options, and is used to control the log
- * messages that'll be displayed in CloudWatch.
- */
-export const updateLogLevelsByResourceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateLogLevelsByResourceTypesRequest,
-    output: UpdateLogLevelsByResourceTypesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Update the summary metric configuration.
- */
-export const updateMetricConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMetricConfigurationRequest,
-    output: UpdateMetricConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates properties of a multicast group session.
- */
-export const updateMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMulticastGroupRequest,
-    output: UpdateMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Update network analyzer configuration.
- */
-export const updateNetworkAnalyzerConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateNetworkAnalyzerConfigurationRequest,
-    output: UpdateNetworkAnalyzerConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Update the position information of a resource.
- *
- * This action is no longer supported. Calls to update the position information
- * should use the UpdateResourcePosition API operation instead.
- */
-export const updatePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePositionRequest,
-  output: UpdatePositionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update the position information of a given wireless device or a wireless gateway
- * resource. The position coordinates are based on the World Geodetic System
- * (WGS84).
- */
-export const updateResourcePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourcePositionRequest,
-    output: UpdateResourcePositionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates properties of a wireless gateway.
- */
-export const updateWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWirelessGatewayRequest,
-    output: UpdateWirelessGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Associate a multicast group with a FUOTA task.
- */
-export const associateMulticastGroupWithFuotaTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateMulticastGroupWithFuotaTaskRequest,
-    output: AssociateMulticastGroupWithFuotaTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Associate a wireless device with a FUOTA task.
- */
-export const associateWirelessDeviceWithFuotaTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessDeviceWithFuotaTaskRequest,
-    output: AssociateWirelessDeviceWithFuotaTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Associates a wireless device with a multicast group.
- */
-export const associateWirelessDeviceWithMulticastGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessDeviceWithMulticastGroupRequest,
-    output: AssociateWirelessDeviceWithMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Associates a wireless device with a thing.
- */
-export const associateWirelessDeviceWithThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessDeviceWithThingRequest,
-    output: AssociateWirelessDeviceWithThingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Associates a wireless gateway with a certificate.
- */
-export const associateWirelessGatewayWithCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessGatewayWithCertificateRequest,
-    output: AssociateWirelessGatewayWithCertificateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Associates a wireless gateway with a thing.
- */
-export const associateWirelessGatewayWithThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessGatewayWithThingRequest,
-    output: AssociateWirelessGatewayWithThingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a new destination that maps a device message to an AWS IoT rule.
- */
-export const createDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDestinationRequest,
-  output: CreateDestinationResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a task for a wireless gateway.
- */
-export const createWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWirelessGatewayTaskRequest,
-    output: CreateWirelessGatewayTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about a destination.
- */
-export const getDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDestinationRequest,
-  output: GetDestinationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get the metric configuration status for this AWS account.
- */
-export const getMetricConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMetricConfigurationRequest,
-    output: GetMetricConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about a multicast group session.
- */
-export const getMulticastGroupSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMulticastGroupSessionRequest,
-    output: GetMulticastGroupSessionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Get network analyzer configuration.
- */
-export const getNetworkAnalyzerConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetNetworkAnalyzerConfigurationRequest,
-    output: GetNetworkAnalyzerConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Get the event configuration for a particular resource identifier.
- */
-export const getResourceEventConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetResourceEventConfigurationRequest,
-    output: GetResourceEventConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Fetches the log-level override, if any, for a given resource ID and resource
- * type..
- */
-export const getResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourceLogLevelRequest,
-  output: GetResourceLogLevelResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get the position information for a given wireless device or a wireless gateway
- * resource. The position information uses the World Geodetic System
- * (WGS84).
- */
-export const getResourcePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePositionRequest,
-  output: GetResourcePositionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol
  * or LoRaWAN Network Server (LNS) connections.
@@ -4382,11 +3569,11 @@ export const getServiceEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets information about a wireless gateway.
+ * Gets information about a wireless device.
  */
-export const getWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWirelessGatewayRequest,
-  output: GetWirelessGatewayResponse,
+export const getWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWirelessDeviceRequest,
+  output: GetWirelessDeviceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4396,43 +3583,12 @@ export const getWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets the ID of the certificate that is currently associated with a wireless
- * gateway.
+ * Gets operating information about a wireless device.
  */
-export const getWirelessGatewayCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWirelessGatewayCertificateRequest,
-    output: GetWirelessGatewayCertificateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets operating information about a wireless gateway.
- */
-export const getWirelessGatewayStatistics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWirelessGatewayStatisticsRequest,
-    output: GetWirelessGatewayStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets information about a wireless gateway task.
- */
-export const getWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getWirelessDeviceStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetWirelessGatewayTaskRequest,
-    output: GetWirelessGatewayTaskResponse,
+    input: GetWirelessDeviceStatisticsRequest,
+    output: GetWirelessDeviceStatisticsResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -4443,14 +3599,15 @@ export const getWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets information about a wireless gateway task definition.
+ * List the Sidewalk devices in an import task and their onboarding status.
  */
-export const getWirelessGatewayTaskDefinition =
+export const listDevicesForWirelessDeviceImportTask =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWirelessGatewayTaskDefinitionRequest,
-    output: GetWirelessGatewayTaskDefinitionResponse,
+    input: ListDevicesForWirelessDeviceImportTaskRequest,
+    output: ListDevicesForWirelessDeviceImportTaskResponse,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -4458,54 +3615,54 @@ export const getWirelessGatewayTaskDefinition =
     ],
   }));
 /**
- * Lists the partner accounts associated with your AWS account.
+ * List event configurations where at least one event topic has been enabled.
  */
-export const listPartnerAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPartnerAccountsRequest,
-  output: ListPartnerAccountsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const listEventConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListEventConfigurationsRequest,
+    output: ListEventConfigurationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
- * Lists the tags (metadata) you have assigned to the resource.
+ * Lists the wireless devices registered to your AWS account.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a FUOTA task.
- */
-export const startFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartFuotaTaskRequest,
-  output: StartFuotaTaskResponse,
+export const listWirelessDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWirelessDevicesRequest,
+  output: ListWirelessDevicesResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Starts a multicast group session.
+ * List the wireless gateway tasks definitions registered to your AWS account.
  */
-export const startMulticastGroupSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listWirelessGatewayTaskDefinitions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListWirelessGatewayTaskDefinitionsRequest,
+    output: ListWirelessGatewayTaskDefinitionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Sends the specified data to a multicast group.
+ */
+export const sendDataToMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartMulticastGroupSessionRequest,
-    output: StartMulticastGroupSessionResponse,
+    input: SendDataToMulticastGroupRequest,
+    output: SendDataToMulticastGroupResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -4528,218 +3685,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
     ThrottlingException,
     TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Simulates a provisioned device by sending an uplink data payload of
- * `Hello`.
- */
-export const testWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestWirelessDeviceRequest,
-  output: TestWirelessDeviceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates properties of a partner account.
- */
-export const updatePartnerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePartnerAccountRequest,
-    output: UpdatePartnerAccountResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Update an import task to add more devices to the task.
- */
-export const updateWirelessDeviceImportTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateWirelessDeviceImportTaskRequest,
-    output: UpdateWirelessDeviceImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Associates a partner account with your AWS account.
- */
-export const associateAwsAccountWithPartnerAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateAwsAccountWithPartnerAccountRequest,
-    output: AssociateAwsAccountWithPartnerAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a new device profile.
- */
-export const createDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDeviceProfileRequest,
-  output: CreateDeviceProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a FUOTA task.
- */
-export const createFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFuotaTaskRequest,
-  output: CreateFuotaTaskResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new network analyzer configuration.
- */
-export const createNetworkAnalyzerConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateNetworkAnalyzerConfigurationRequest,
-    output: CreateNetworkAnalyzerConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a new service profile.
- */
-export const createServiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceProfileRequest,
-    output: CreateServiceProfileResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Get the event configuration based on resource types.
- */
-export const getEventConfigurationByResourceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEventConfigurationByResourceTypesRequest,
-    output: GetEventConfigurationByResourceTypesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Gets information about a FUOTA task.
- */
-export const getFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFuotaTaskRequest,
-  output: GetFuotaTaskResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns current default log levels or log levels by resource types. Based on the
- * resource type, log levels can be returned for wireless device, wireless gateway, or
- * FUOTA task log options.
- */
-export const getLogLevelsByResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLogLevelsByResourceTypesRequest,
-    output: GetLogLevelsByResourceTypesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about a multicast group.
- */
-export const getMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMulticastGroupRequest,
-  output: GetMulticastGroupResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about a partner account. If `PartnerAccountId` and
- * `PartnerType` are `null`, returns all partner accounts.
- */
-export const getPartnerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPartnerAccountRequest,
-  output: GetPartnerAccountResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get the position information for a given resource.
- *
- * This action is no longer supported. Calls to retrieve the position information
- * should use the GetResourcePosition API operation instead.
- */
-export const getPosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPositionRequest,
-  output: GetPositionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -5033,6 +3978,1174 @@ export const updateWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Gets information about a destination.
+ */
+export const getDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDestinationRequest,
+  output: GetDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about a multicast group session.
+ */
+export const getMulticastGroupSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMulticastGroupSessionRequest,
+    output: GetMulticastGroupSessionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Get network analyzer configuration.
+ */
+export const getNetworkAnalyzerConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetNetworkAnalyzerConfigurationRequest,
+    output: GetNetworkAnalyzerConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Get the event configuration for a particular resource identifier.
+ */
+export const getResourceEventConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetResourceEventConfigurationRequest,
+    output: GetResourceEventConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Fetches the log-level override, if any, for a given resource ID and resource
+ * type..
+ */
+export const getResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceLogLevelRequest,
+  output: GetResourceLogLevelResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get the position information for a given wireless device or a wireless gateway
+ * resource. The position information uses the World Geodetic System
+ * (WGS84).
+ */
+export const getResourcePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePositionRequest,
+  output: GetResourcePositionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about a wireless gateway.
+ */
+export const getWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWirelessGatewayRequest,
+  output: GetWirelessGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the ID of the certificate that is currently associated with a wireless
+ * gateway.
+ */
+export const getWirelessGatewayCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetWirelessGatewayCertificateRequest,
+    output: GetWirelessGatewayCertificateResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets operating information about a wireless gateway.
+ */
+export const getWirelessGatewayStatistics =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetWirelessGatewayStatisticsRequest,
+    output: GetWirelessGatewayStatisticsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets information about a wireless gateway task.
+ */
+export const getWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetWirelessGatewayTaskRequest,
+    output: GetWirelessGatewayTaskResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets information about a wireless gateway task definition.
+ */
+export const getWirelessGatewayTaskDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetWirelessGatewayTaskDefinitionRequest,
+    output: GetWirelessGatewayTaskDefinitionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the partner accounts associated with your AWS account.
+ */
+export const listPartnerAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPartnerAccountsRequest,
+  output: ListPartnerAccountsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Simulates a provisioned device by sending an uplink data payload of
+ * `Hello`.
+ */
+export const testWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestWirelessDeviceRequest,
+  output: TestWirelessDeviceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates properties of a partner account.
+ */
+export const updatePartnerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePartnerAccountRequest,
+    output: UpdatePartnerAccountResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Update an import task to add more devices to the task.
+ */
+export const updateWirelessDeviceImportTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateWirelessDeviceImportTaskRequest,
+    output: UpdateWirelessDeviceImportTaskResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates your AWS account from a partner account. If
+ * `PartnerAccountId` and `PartnerType` are `null`,
+ * disassociates your AWS account from all partner accounts.
+ */
+export const disassociateAwsAccountFromPartnerAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateAwsAccountFromPartnerAccountRequest,
+    output: DisassociateAwsAccountFromPartnerAccountResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Removes the log-level overrides for all resources; wireless devices, wireless
+ * gateways, and FUOTA tasks.
+ */
+export const resetAllResourceLogLevels = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResetAllResourceLogLevelsRequest,
+    output: ResetAllResourceLogLevelsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Removes the log-level override, if any, for a specific resource ID and resource type.
+ * It can be used for a wireless device, a wireless gateway, or a FUOTA task.
+ */
+export const resetResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResetResourceLogLevelRequest,
+    output: ResetResourceLogLevelResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Starts a bulk association of all qualifying wireless devices with a multicast
+ * group.
+ */
+export const startBulkAssociateWirelessDeviceWithMulticastGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest,
+    output: StartBulkAssociateWirelessDeviceWithMulticastGroupResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Starts a bulk disassociatin of all qualifying wireless devices from a multicast
+ * group.
+ */
+export const startBulkDisassociateWirelessDeviceFromMulticastGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest,
+    output: StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates properties of a destination.
+ */
+export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDestinationRequest,
+  output: UpdateDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update network analyzer configuration.
+ */
+export const updateNetworkAnalyzerConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateNetworkAnalyzerConfigurationRequest,
+    output: UpdateNetworkAnalyzerConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Update the position information of a resource.
+ *
+ * This action is no longer supported. Calls to update the position information
+ * should use the UpdateResourcePosition API operation instead.
+ */
+export const updatePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePositionRequest,
+  output: UpdatePositionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update the position information of a given wireless device or a wireless gateway
+ * resource. The position coordinates are based on the World Geodetic System
+ * (WGS84).
+ */
+export const updateResourcePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateResourcePositionRequest,
+    output: UpdateResourcePositionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates properties of a wireless gateway.
+ */
+export const updateWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateWirelessGatewayRequest,
+    output: UpdateWirelessGatewayResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a FUOTA task.
+ */
+export const deleteFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFuotaTaskRequest,
+  output: DeleteFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Remove queued messages from the downlink queue.
+ */
+export const deleteQueuedMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteQueuedMessagesRequest,
+    output: DeleteQueuedMessagesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a wireless device.
+ */
+export const deleteWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteWirelessDeviceRequest,
+    output: DeleteWirelessDeviceResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a wireless gateway.
+ *
+ * When deleting a wireless gateway, you might run into duplication errors for the
+ * following reasons.
+ *
+ * - If you specify a `GatewayEui` value that already exists.
+ *
+ * - If you used a `ClientRequestToken` with the same parameters
+ * within the last 10 minutes.
+ *
+ * To avoid this error, make sure that you use unique identifiers and parameters for
+ * each request within the specified time period.
+ */
+export const deleteWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteWirelessGatewayRequest,
+    output: DeleteWirelessGatewayResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a wireless gateway task.
+ */
+export const deleteWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteWirelessGatewayTaskRequest,
+    output: DeleteWirelessGatewayTaskResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a wireless gateway task definition. Deleting this task definition does not
+ * affect tasks that are currently in progress.
+ */
+export const deleteWirelessGatewayTaskDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteWirelessGatewayTaskDefinitionRequest,
+    output: DeleteWirelessGatewayTaskDefinitionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates a wireless device from a multicast group.
+ */
+export const disassociateWirelessDeviceFromMulticastGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateWirelessDeviceFromMulticastGroupRequest,
+    output: DisassociateWirelessDeviceFromMulticastGroupResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates a wireless gateway from its currently associated certificate.
+ */
+export const disassociateWirelessGatewayFromCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateWirelessGatewayFromCertificateRequest,
+    output: DisassociateWirelessGatewayFromCertificateResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Sets the log-level override for a resource ID and resource type. A limit of 200 log
+ * level override can be set per account.
+ */
+export const putResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourceLogLevelRequest,
+  output: PutResourceLogLevelResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes one or more tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates properties of a FUOTA task.
+ */
+export const updateFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFuotaTaskRequest,
+  output: UpdateFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Set default log level, or log levels by resource types. This can be for wireless
+ * device, wireless gateway, or FUOTA task log options, and is used to control the log
+ * messages that'll be displayed in CloudWatch.
+ */
+export const updateLogLevelsByResourceTypes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateLogLevelsByResourceTypesRequest,
+    output: UpdateLogLevelsByResourceTypesResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Update the summary metric configuration.
+ */
+export const updateMetricConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateMetricConfigurationRequest,
+    output: UpdateMetricConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates properties of a multicast group session.
+ */
+export const updateMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateMulticastGroupRequest,
+    output: UpdateMulticastGroupResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Associate a multicast group with a FUOTA task.
+ */
+export const associateMulticastGroupWithFuotaTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateMulticastGroupWithFuotaTaskRequest,
+    output: AssociateMulticastGroupWithFuotaTaskResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Associate a wireless device with a FUOTA task.
+ */
+export const associateWirelessDeviceWithFuotaTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateWirelessDeviceWithFuotaTaskRequest,
+    output: AssociateWirelessDeviceWithFuotaTaskResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Associates a wireless device with a multicast group.
+ */
+export const associateWirelessDeviceWithMulticastGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateWirelessDeviceWithMulticastGroupRequest,
+    output: AssociateWirelessDeviceWithMulticastGroupResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Associates a wireless device with a thing.
+ */
+export const associateWirelessDeviceWithThing =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateWirelessDeviceWithThingRequest,
+    output: AssociateWirelessDeviceWithThingResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Associates a wireless gateway with a thing.
+ */
+export const associateWirelessGatewayWithThing =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateWirelessGatewayWithThingRequest,
+    output: AssociateWirelessGatewayWithThingResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Cancels an existing multicast group session.
+ */
+export const cancelMulticastGroupSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelMulticastGroupSessionRequest,
+    output: CancelMulticastGroupSessionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a destination.
+ */
+export const deleteDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDestinationRequest,
+  output: DeleteDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a device profile.
+ */
+export const deleteDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeviceProfileRequest,
+  output: DeleteDeviceProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a multicast group if it is not in use by a FUOTA task.
+ */
+export const deleteMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMulticastGroupRequest,
+    output: DeleteMulticastGroupResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a network analyzer configuration.
+ */
+export const deleteNetworkAnalyzerConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteNetworkAnalyzerConfigurationRequest,
+    output: DeleteNetworkAnalyzerConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes a service profile.
+ */
+export const deleteServiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteServiceProfileRequest,
+    output: DeleteServiceProfileResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Delete an import task.
+ */
+export const deleteWirelessDeviceImportTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteWirelessDeviceImportTaskRequest,
+    output: DeleteWirelessDeviceImportTaskResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates a multicast group from a FUOTA task.
+ */
+export const disassociateMulticastGroupFromFuotaTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateMulticastGroupFromFuotaTaskRequest,
+    output: DisassociateMulticastGroupFromFuotaTaskResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates a wireless device from a FUOTA task.
+ */
+export const disassociateWirelessDeviceFromFuotaTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateWirelessDeviceFromFuotaTaskRequest,
+    output: DisassociateWirelessDeviceFromFuotaTaskResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates a wireless device from its currently associated thing.
+ */
+export const disassociateWirelessDeviceFromThing =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateWirelessDeviceFromThingRequest,
+    output: DisassociateWirelessDeviceFromThingResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates a wireless gateway from its currently associated thing.
+ */
+export const disassociateWirelessGatewayFromThing =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateWirelessGatewayFromThingRequest,
+    output: DisassociateWirelessGatewayFromThingResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Associates a wireless gateway with a certificate.
+ */
+export const associateWirelessGatewayWithCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateWirelessGatewayWithCertificateRequest,
+    output: AssociateWirelessGatewayWithCertificateResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a new destination that maps a device message to an AWS IoT rule.
+ */
+export const createDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDestinationRequest,
+  output: CreateDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a task for a wireless gateway.
+ */
+export const createWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateWirelessGatewayTaskRequest,
+    output: CreateWirelessGatewayTaskResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Get the metric configuration status for this AWS account.
+ */
+export const getMetricConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMetricConfigurationRequest,
+    output: GetMetricConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the tags (metadata) you have assigned to the resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts a FUOTA task.
+ */
+export const startFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartFuotaTaskRequest,
+  output: StartFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts a multicast group session.
+ */
+export const startMulticastGroupSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartMulticastGroupSessionRequest,
+    output: StartMulticastGroupSessionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Associates a partner account with your AWS account.
+ */
+export const associateAwsAccountWithPartnerAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateAwsAccountWithPartnerAccountRequest,
+    output: AssociateAwsAccountWithPartnerAccountResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a FUOTA task.
+ */
+export const createFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFuotaTaskRequest,
+  output: CreateFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new network analyzer configuration.
+ */
+export const createNetworkAnalyzerConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateNetworkAnalyzerConfigurationRequest,
+    output: CreateNetworkAnalyzerConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Update the event configuration based on resource types.
+ */
+export const updateEventConfigurationByResourceTypes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateEventConfigurationByResourceTypesRequest,
+    output: UpdateEventConfigurationByResourceTypesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a new device profile.
+ */
+export const createDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeviceProfileRequest,
+  output: CreateDeviceProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new service profile.
+ */
+export const createServiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateServiceProfileRequest,
+    output: CreateServiceProfileResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deregister a wireless device from AWS IoT Wireless.
+ */
+export const deregisterWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeregisterWirelessDeviceRequest,
+    output: DeregisterWirelessDeviceResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets information about a FUOTA task.
+ */
+export const getFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFuotaTaskRequest,
+  output: GetFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns current default log levels or log levels by resource types. Based on the
+ * resource type, log levels can be returned for wireless device, wireless gateway, or
+ * FUOTA task log options.
+ */
+export const getLogLevelsByResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetLogLevelsByResourceTypesRequest,
+    output: GetLogLevelsByResourceTypesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets information about a multicast group.
+ */
+export const getMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMulticastGroupRequest,
+  output: GetMulticastGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about a partner account. If `PartnerAccountId` and
+ * `PartnerType` are `null`, returns all partner accounts.
+ */
+export const getPartnerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPartnerAccountRequest,
+  output: GetPartnerAccountResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get the position information for a given resource.
+ *
+ * This action is no longer supported. Calls to retrieve the position information
+ * should use the GetResourcePosition API operation instead.
+ */
+export const getPosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPositionRequest,
+  output: GetPositionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Creates a multicast group.
  */
 export const createMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -5102,111 +5215,6 @@ export const getPositionConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
     output: GetPositionConfigurationResponse,
     errors: [
       AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about a wireless device.
- */
-export const getWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWirelessDeviceRequest,
-  output: GetWirelessDeviceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets operating information about a wireless device.
- */
-export const getWirelessDeviceStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWirelessDeviceStatisticsRequest,
-    output: GetWirelessDeviceStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * List the Sidewalk devices in an import task and their onboarding status.
- */
-export const listDevicesForWirelessDeviceImportTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDevicesForWirelessDeviceImportTaskRequest,
-    output: ListDevicesForWirelessDeviceImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * List event configurations where at least one event topic has been enabled.
- */
-export const listEventConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEventConfigurationsRequest,
-    output: ListEventConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists the wireless devices registered to your AWS account.
- */
-export const listWirelessDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListWirelessDevicesRequest,
-  output: ListWirelessDevicesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List the wireless gateway tasks definitions registered to your AWS account.
- */
-export const listWirelessGatewayTaskDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListWirelessGatewayTaskDefinitionsRequest,
-    output: ListWirelessGatewayTaskDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Sends the specified data to a multicast group.
- */
-export const sendDataToMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendDataToMulticastGroupRequest,
-    output: SendDataToMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,

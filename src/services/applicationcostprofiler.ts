@@ -386,35 +386,52 @@ export class PutReportDefinitionResult extends S.Class<PutReportDefinitionResult
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
 /**
- * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
+ * Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being
+ * generated.
  */
-export const getReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetReportDefinitionRequest,
-  output: GetReportDefinitionResult,
+export const deleteReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteReportDefinitionRequest,
+    output: DeleteReportDefinitionResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates the report definition for a report in Application Cost Profiler.
+ */
+export const putReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutReportDefinitionRequest,
+  output: PutReportDefinitionResult,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -456,6 +473,19 @@ export const listReportDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
+ */
+export const getReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReportDefinitionRequest,
+  output: GetReportDefinitionResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Updates existing report in AWS Application Cost Profiler.
  */
 export const updateReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -470,33 +500,3 @@ export const updateReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being
- * generated.
- */
-export const deleteReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReportDefinitionRequest,
-    output: DeleteReportDefinitionResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates the report definition for a report in Application Cost Profiler.
- */
-export const putReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutReportDefinitionRequest,
-  output: PutReportDefinitionResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));

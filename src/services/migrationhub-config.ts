@@ -303,30 +303,49 @@ export class DescribeHomeRegionControlsResult extends S.Class<DescribeHomeRegion
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
-  {},
-) {}
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
-  "InvalidInputException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DryRunOperation extends S.TaggedError<DryRunOperation>()(
   "DryRunOperation",
   { Message: S.optional(S.String) },
 ) {}
+export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+  "InvalidInputException",
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { Message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    Message: S.String,
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
 
 //# Operations
+/**
+ * This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
+ */
+export const deleteHomeRegionControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteHomeRegionControlRequest,
+    output: DeleteHomeRegionControlResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerError,
+      InvalidInputException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * This API permits filtering on the `ControlId` and `HomeRegion`
  * fields.
@@ -372,22 +391,6 @@ export const createHomeRegionControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [
       AccessDeniedException,
       DryRunOperation,
-      InternalServerError,
-      InvalidInputException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
- */
-export const deleteHomeRegionControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteHomeRegionControlRequest,
-    output: DeleteHomeRegionControlResult,
-    errors: [
-      AccessDeniedException,
       InternalServerError,
       InvalidInputException,
       ServiceUnavailableException,

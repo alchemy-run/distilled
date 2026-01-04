@@ -835,23 +835,7 @@ export class DescribeJobResult extends S.Class<DescribeJobResult>(
 //# Errors
 export class InvalidJobStateException extends S.TaggedError<InvalidJobStateException>()(
   "InvalidJobStateException",
-  {},
-) {}
-export class InvalidResourceException extends S.TaggedError<InvalidResourceException>()(
-  "InvalidResourceException",
-  {},
-) {}
-export class KMSRequestFailedException extends S.TaggedError<KMSRequestFailedException>()(
-  "KMSRequestFailedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class Ec2RequestFailedException extends S.TaggedError<Ec2RequestFailedException>()(
   "Ec2RequestFailedException",
@@ -861,9 +845,25 @@ export class ClusterLimitExceededException extends S.TaggedError<ClusterLimitExc
   "ClusterLimitExceededException",
   { Message: S.optional(S.String) },
 ) {}
+export class InvalidResourceException extends S.TaggedError<InvalidResourceException>()(
+  "InvalidResourceException",
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { ConflictResource: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { Message: S.optional(S.String) },
+) {}
 export class InvalidInputCombinationException extends S.TaggedError<InvalidInputCombinationException>()(
   "InvalidInputCombinationException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class KMSRequestFailedException extends S.TaggedError<KMSRequestFailedException>()(
+  "KMSRequestFailedException",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidAddressException extends S.TaggedError<InvalidAddressException>()(
   "InvalidAddressException",
@@ -892,16 +892,6 @@ export const getSnowballUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Updates the state when a shipment state changes to a different state.
- */
-export const updateJobShipmentState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateJobShipmentStateRequest,
-    output: UpdateJobShipmentStateResult,
-    errors: [InvalidJobStateException, InvalidResourceException],
-  }),
-);
-/**
  * Updates the long-term pricing type.
  */
 export const updateLongTermPricing = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -912,20 +902,15 @@ export const updateLongTermPricing = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Cancels the specified job. You can only cancel a job before its `JobState`
- * value changes to `PreparingAppliance`. Requesting the `ListJobs` or
- * `DescribeJob` action returns a job's `JobState` as part of the
- * response element data returned.
+ * Updates the state when a shipment state changes to a different state.
  */
-export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelJobRequest,
-  output: CancelJobResult,
-  errors: [
-    InvalidJobStateException,
-    InvalidResourceException,
-    KMSRequestFailedException,
-  ],
-}));
+export const updateJobShipmentState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateJobShipmentStateRequest,
+    output: UpdateJobShipmentStateResult,
+    errors: [InvalidJobStateException, InvalidResourceException],
+  }),
+);
 /**
  * Creates a job with the long-term usage option for a device. The long-term usage is a
  * 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing.
@@ -946,20 +931,6 @@ export const describeAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DescribeAddressResult,
   errors: [InvalidResourceException],
 }));
-/**
- * Information on the shipping label of a Snow device that is being returned to Amazon Web Services.
- */
-export const describeReturnShippingLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReturnShippingLabelRequest,
-    output: DescribeReturnShippingLabelResult,
-    errors: [
-      ConflictException,
-      InvalidJobStateException,
-      InvalidResourceException,
-    ],
-  }),
-);
 /**
  * Returns a link to an Amazon S3 presigned URL for the manifest file associated with the
  * specified `JobId` value. You can access the manifest file for up to 60 minutes
@@ -1018,55 +989,12 @@ export const getSoftwareUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidJobStateException, InvalidResourceException],
 }));
 /**
- * Returns an array of `JobListEntry` objects of the specified length. Each
- * `JobListEntry` object contains a job's state, a job's ID, and a value that
- * indicates whether the job is a job part, in the case of export jobs. Calling this API action
- * in one of the US regions will return jobs from the list of all jobs associated with this
- * account in all US regions.
- */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListJobsRequest,
-  output: ListJobsResult,
-  errors: [InvalidNextTokenException],
-}));
-/**
  * A list of locations from which the customer can choose to pickup a device.
  */
 export const listPickupLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPickupLocationsRequest,
   output: ListPickupLocationsResult,
   errors: [InvalidResourceException],
-}));
-/**
- * While a job's `JobState` value is `New`, you can update some of
- * the information associated with a job. Once the job changes to a different job state, usually
- * within 60 minutes of the job being created, this action is no longer available.
- */
-export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateJobRequest,
-  output: UpdateJobResult,
-  errors: [
-    ClusterLimitExceededException,
-    Ec2RequestFailedException,
-    InvalidInputCombinationException,
-    InvalidJobStateException,
-    InvalidResourceException,
-    KMSRequestFailedException,
-  ],
-}));
-/**
- * Cancels a cluster job. You can only cancel a cluster job while it's in the
- * `AwaitingQuorum` status. You'll have at least an hour after creating a cluster
- * job to cancel it.
- */
-export const cancelCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelClusterRequest,
-  output: CancelClusterResult,
-  errors: [
-    InvalidJobStateException,
-    InvalidResourceException,
-    KMSRequestFailedException,
-  ],
 }));
 /**
  * Returns a specified number of `ADDRESS` objects. Calling this API in one of
@@ -1129,6 +1057,78 @@ export const listLongTermPricing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidNextTokenException, InvalidResourceException],
 }));
 /**
+ * Cancels the specified job. You can only cancel a job before its `JobState`
+ * value changes to `PreparingAppliance`. Requesting the `ListJobs` or
+ * `DescribeJob` action returns a job's `JobState` as part of the
+ * response element data returned.
+ */
+export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelJobRequest,
+  output: CancelJobResult,
+  errors: [
+    InvalidJobStateException,
+    InvalidResourceException,
+    KMSRequestFailedException,
+  ],
+}));
+/**
+ * Information on the shipping label of a Snow device that is being returned to Amazon Web Services.
+ */
+export const describeReturnShippingLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeReturnShippingLabelRequest,
+    output: DescribeReturnShippingLabelResult,
+    errors: [
+      ConflictException,
+      InvalidJobStateException,
+      InvalidResourceException,
+    ],
+  }),
+);
+/**
+ * Returns an array of `JobListEntry` objects of the specified length. Each
+ * `JobListEntry` object contains a job's state, a job's ID, and a value that
+ * indicates whether the job is a job part, in the case of export jobs. Calling this API action
+ * in one of the US regions will return jobs from the list of all jobs associated with this
+ * account in all US regions.
+ */
+export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListJobsRequest,
+  output: ListJobsResult,
+  errors: [InvalidNextTokenException],
+}));
+/**
+ * While a job's `JobState` value is `New`, you can update some of
+ * the information associated with a job. Once the job changes to a different job state, usually
+ * within 60 minutes of the job being created, this action is no longer available.
+ */
+export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateJobRequest,
+  output: UpdateJobResult,
+  errors: [
+    ClusterLimitExceededException,
+    Ec2RequestFailedException,
+    InvalidInputCombinationException,
+    InvalidJobStateException,
+    InvalidResourceException,
+    KMSRequestFailedException,
+  ],
+}));
+/**
+ * Cancels a cluster job. You can only cancel a cluster job while it's in the
+ * `AwaitingQuorum` status. You'll have at least an hour after creating a cluster
+ * job to cancel it.
+ */
+export const cancelCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelClusterRequest,
+  output: CancelClusterResult,
+  errors: [
+    InvalidJobStateException,
+    InvalidResourceException,
+    KMSRequestFailedException,
+  ],
+}));
+/**
  * While a cluster's `ClusterState` value is in the `AwaitingQuorum`
  * state, you can update some of the information associated with a cluster. Once the cluster
  * changes to a different job state, usually 60 minutes after the cluster being created, this
@@ -1146,6 +1146,15 @@ export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Lists all supported versions for Snow on-device services. Returns an
+ * array of `ServiceVersion` object containing the supported versions for a particular service.
+ */
+export const listServiceVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListServiceVersionsRequest,
+  output: ListServiceVersionsResult,
+  errors: [InvalidNextTokenException, InvalidResourceException],
+}));
+/**
  * Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
  */
 export const createReturnShippingLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1161,15 +1170,6 @@ export const createReturnShippingLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists all supported versions for Snow on-device services. Returns an
- * array of `ServiceVersion` object containing the supported versions for a particular service.
- */
-export const listServiceVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListServiceVersionsRequest,
-  output: ListServiceVersionsResult,
-  errors: [InvalidNextTokenException, InvalidResourceException],
-}));
 /**
  * Creates an address for a Snow device to be shipped to. In most regions,
  * addresses are validated at the time of creation. The address you provide must be located

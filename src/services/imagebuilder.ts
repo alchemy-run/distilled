@@ -3035,79 +3035,79 @@ export class ListImageScanFindingsResponse extends S.Class<ListImageScanFindings
 //# Errors
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class CallRateLimitExceededException extends S.TaggedError<CallRateLimitExceededException>()(
   "CallRateLimitExceededException",
-  {},
-) {}
-export class ClientException extends S.TaggedError<ClientException>()(
-  "ClientException",
-  {},
-) {}
-export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
-  "ForbiddenException",
-  {},
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
-  {},
-) {}
-export class ResourceDependencyException extends S.TaggedError<ResourceDependencyException>()(
-  "ResourceDependencyException",
-  {},
-) {}
-export class ServiceException extends S.TaggedError<ServiceException>()(
-  "ServiceException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
-  "InvalidPaginationTokenException",
-  {},
-) {}
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
-  "InvalidParameterValueException",
-  {},
-) {}
-export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
-  "IdempotentParameterMismatchException",
-  {},
-) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
-) {}
-export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
-  "InvalidParameterCombinationException",
-  {},
-) {}
-export class DryRunOperationException extends S.TaggedError<DryRunOperationException>()(
-  "DryRunOperationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ) {}
+export class ClientException extends S.TaggedError<ClientException>()(
+  "ClientException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceException extends S.TaggedError<ServiceException>()(
+  "ServiceException",
+  { message: S.optional(S.String) },
+) {}
+export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
+  "ForbiddenException",
+  { message: S.optional(S.String) },
+) {}
+export class DryRunOperationException extends S.TaggedError<DryRunOperationException>()(
+  "DryRunOperationException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
+  "InvalidPaginationTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
+  "IdempotentParameterMismatchException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
+  "InvalidParameterValueException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
+  "InvalidParameterCombinationException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceDependencyException extends S.TaggedError<ResourceDependencyException>()(
+  "ResourceDependencyException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { message: S.optional(S.String) },
+) {}
 export class InvalidVersionNumberException extends S.TaggedError<InvalidVersionNumberException>()(
   "InvalidVersionNumberException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
@@ -3116,191 +3116,41 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
 
 //# Operations
 /**
- * Deletes an image recipe.
+ * Adds a tag to a resource.
  */
-export const deleteImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImageRecipeRequest,
-  output: DeleteImageRecipeResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    InvalidRequestException,
-    ResourceDependencyException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Deletes an infrastructure configuration.
- */
-export const deleteInfrastructureConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteInfrastructureConfigurationRequest,
-    output: DeleteInfrastructureConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceDependencyException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Delete the specified lifecycle policy resource.
- */
-export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLifecyclePolicyRequest,
-    output: DeleteLifecyclePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceDependencyException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Deletes a specific workflow resource.
- */
-export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWorkflowRequest,
-  output: DeleteWorkflowResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    InvalidRequestException,
-    ResourceDependencyException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Gets a component policy.
- */
-export const getComponentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetComponentPolicyRequest,
-  output: GetComponentPolicyResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ForbiddenException,
-    InvalidRequestException,
+    InvalidParameterException,
     ResourceNotFoundException,
     ServiceException,
-    ServiceUnavailableException,
   ],
 }));
 /**
- * Retrieves the policy for a container recipe.
+ * Removes a tag from a resource.
  */
-export const getContainerRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContainerRecipePolicyRequest,
-    output: GetContainerRecipePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Gets an image policy.
- */
-export const getImagePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetImagePolicyRequest,
-  output: GetImagePolicyResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
-    CallRateLimitExceededException,
-    ForbiddenException,
-    InvalidRequestException,
+    InvalidParameterException,
     ResourceNotFoundException,
     ServiceException,
-    ServiceUnavailableException,
   ],
 }));
 /**
- * Gets an image recipe policy.
+ * Returns the list of tags for the specified resource.
  */
-export const getImageRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetImageRecipePolicyRequest,
-    output: GetImageRecipePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Verify the subscription and perform resource dependency checks on the requested
- * Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the
- * components and their artifacts.
- */
-export const getMarketplaceResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMarketplaceResourceRequest,
-    output: GetMarketplaceResourceResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Get the runtime information that was logged for a specific runtime instance
- * of the workflow.
- */
-export const getWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWorkflowExecutionRequest,
-    output: GetWorkflowExecutionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Get the runtime information that was logged for a specific runtime instance of
- * the workflow step.
- */
-export const getWorkflowStepExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWorkflowStepExecutionRequest,
-    output: GetWorkflowStepExecutionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceException,
+  ],
+}));
 /**
  * Import a Windows operating system image from a verified Microsoft ISO disk
  * file. The following disk images are supported:
@@ -3328,85 +3178,13 @@ export const importVmImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ClientException, ServiceException, ServiceUnavailableException],
 }));
 /**
- * Returns a list of image pipelines.
- */
-export const listImagePipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListImagePipelinesRequest,
-  output: ListImagePipelinesResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    InvalidPaginationTokenException,
-    InvalidRequestException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Get the lifecycle runtime history for the specified resource.
- */
-export const listLifecycleExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLifecycleExecutionsRequest,
-    output: ListLifecycleExecutionsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Returns the list of tags for the specified resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServiceException,
-  ],
-}));
-/**
- * Applies a policy to a container image. We recommend that you call the RAM API
- * CreateResourceShare
- * (https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share
- * resources. If you call the Image Builder API `PutContainerImagePolicy`, you must also
- * call the RAM API PromoteResourceShareCreatedFromPolicy
- * (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
- * in order for the resource to be visible to all principals with whom the resource is
- * shared.
- */
-export const putContainerRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutContainerRecipePolicyRequest,
-    output: PutContainerRecipePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
- * `PutImagePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
+ * Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
+ * `PutComponentPolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
  * visible to all principals with whom the resource is shared.
  */
-export const putImagePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutImagePolicyRequest,
-  output: PutImagePolicyResponse,
+export const putComponentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutComponentPolicyRequest,
+  output: PutComponentPolicyResponse,
   errors: [
     CallRateLimitExceededException,
     ClientException,
@@ -3419,409 +3197,38 @@ export const putImagePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
- * `PutImageRecipePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
- * visible to all principals with whom the resource is shared.
- */
-export const putImageRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutImageRecipePolicyRequest,
-    output: PutImageRecipePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Pauses or resumes image creation when the associated workflow runs a
- * `WaitForAction` step.
- */
-export const sendWorkflowStepAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendWorkflowStepActionRequest,
-    output: SendWorkflowStepActionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Manually triggers a pipeline to create an image.
- */
-export const startImagePipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartImagePipelineExecutionRequest,
-    output: StartImagePipelineExecutionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Adds a tag to a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServiceException,
-  ],
-}));
-/**
- * Removes a tag from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServiceException,
-  ],
-}));
-/**
- * Updates an image pipeline. Image pipelines enable you to automate the creation and
- * distribution of images. You must specify exactly one recipe for your image, using either
- * a `containerRecipeArn` or an `imageRecipeArn`.
+ * Returns the list of components that can be filtered by name, or by using the listed
+ * `filters` to streamline results. Newly created components can take up to
+ * two minutes to appear in the ListComponents API Results.
  *
- * UpdateImagePipeline does not support selective updates for the pipeline. You must
- * specify all of the required properties in the update request, not just the
- * properties that have changed.
- */
-export const updateImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateImagePipelineRequest,
-  output: UpdateImagePipelineResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    IdempotentParameterMismatchException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Updates a new infrastructure configuration. An infrastructure configuration defines
- * the environment in which your image will be built and tested.
- */
-export const updateInfrastructureConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateInfrastructureConfigurationRequest,
-    output: UpdateInfrastructureConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Update the specified lifecycle policy.
- */
-export const updateLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLifecyclePolicyRequest,
-    output: UpdateLifecyclePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidParameterCombinationException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * CancelImageCreation cancels the creation of Image. This operation can only be used on
- * images in a non-terminal state.
- */
-export const cancelImageCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelImageCreationRequest,
-  output: CancelImageCreationResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    IdempotentParameterMismatchException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Cancel a specific image lifecycle policy runtime instance.
- */
-export const cancelLifecycleExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelLifecycleExecutionRequest,
-    output: CancelLifecycleExecutionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Deletes a component build version.
- */
-export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteComponentRequest,
-  output: DeleteComponentResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    InvalidRequestException,
-    ResourceDependencyException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Deletes a container recipe.
- */
-export const deleteContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContainerRecipeRequest,
-    output: DeleteContainerRecipeResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceDependencyException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Deletes a distribution configuration.
- */
-export const deleteDistributionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDistributionConfigurationRequest,
-    output: DeleteDistributionConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceDependencyException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container
- * images that are created during the image build process. You must clean those up
- * separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI
- * commands.
+ * The semantic version has four nodes: ../.
+ * You can assign values for the first three, and can filter on all of them.
  *
- * - To deregister an EC2 Linux AMI, see Deregister your
- * Linux AMI in the
- * *Amazon EC2 User Guide*
- * .
- *
- * - To deregister an EC2 Windows AMI, see Deregister your
- * Windows AMI in the
- * *Amazon EC2 Windows Guide*
- * .
- *
- * - To delete a container image from Amazon ECR, see Deleting
- * an image in the *Amazon ECR User Guide*.
+ * **Filtering:** With semantic versioning, you have the flexibility to use wildcards (x)
+ * to specify the most recent versions or nodes when selecting the base image or components for your
+ * recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
+ * wildcards.
  */
-export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImageRequest,
-  output: DeleteImageResponse,
+export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListComponentsRequest,
+  output: ListComponentsResponse,
   errors: [
     CallRateLimitExceededException,
     ClientException,
     ForbiddenException,
-    InvalidRequestException,
-    ResourceDependencyException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Deletes an image pipeline.
- */
-export const deleteImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImagePipelineRequest,
-  output: DeleteImagePipelineResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    InvalidRequestException,
-    ResourceDependencyException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Retrieves a container recipe.
- */
-export const getContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetContainerRecipeRequest,
-  output: GetContainerRecipeResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
+    InvalidPaginationTokenException,
     InvalidRequestException,
     ServiceException,
     ServiceUnavailableException,
   ],
 }));
 /**
- * Gets a distribution configuration.
+ * List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
  */
-export const getDistributionConfiguration =
+export const listLifecycleExecutionResources =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDistributionConfigurationRequest,
-    output: GetDistributionConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Gets an image pipeline.
- */
-export const getImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetImagePipelineRequest,
-  output: GetImagePipelineResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    InvalidRequestException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Gets an image recipe.
- */
-export const getImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetImageRecipeRequest,
-  output: GetImageRecipeResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    InvalidRequestException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Gets an infrastructure configuration.
- */
-export const getInfrastructureConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetInfrastructureConfigurationRequest,
-    output: GetInfrastructureConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Get details for the specified image lifecycle policy.
- */
-export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLifecyclePolicyRequest,
-  output: GetLifecyclePolicyResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    InvalidRequestException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Imports a component and transforms its data into a component document.
- */
-export const importComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportComponentRequest,
-  output: ImportComponentResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    IdempotentParameterMismatchException,
-    InvalidParameterCombinationException,
-    InvalidRequestException,
-    InvalidVersionNumberException,
-    ResourceInUseException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Returns the list of component build versions for the specified component
- * version Amazon Resource Name (ARN).
- */
-export const listComponentBuildVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListComponentBuildVersionsRequest,
-    output: ListComponentBuildVersionsResponse,
+    input: ListLifecycleExecutionResourcesRequest,
+    output: ListLifecycleExecutionResourcesResponse,
     errors: [
       CallRateLimitExceededException,
       ClientException,
@@ -3831,8 +3238,7 @@ export const listComponentBuildVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ServiceException,
       ServiceUnavailableException,
     ],
-  }),
-);
+  }));
 /**
  * Returns a list of container recipes.
  */
@@ -3904,25 +3310,6 @@ export const listImagePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceUnavailableException,
   ],
 }));
-/**
- * Returns a list of images created by the specified pipeline.
- */
-export const listImagePipelineImages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListImagePipelineImagesRequest,
-    output: ListImagePipelineImagesResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
 /**
  * Returns a list of image recipes.
  */
@@ -4083,18 +3470,67 @@ export const listWorkflowStepExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
- * `PutComponentPolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
- * visible to all principals with whom the resource is shared.
+ * Returns a list of images created by the specified pipeline.
  */
-export const putComponentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutComponentPolicyRequest,
-  output: PutComponentPolicyResponse,
+export const listImagePipelineImages = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListImagePipelineImagesRequest,
+    output: ListImagePipelineImagesResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidPaginationTokenException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Returns a list of image pipelines.
+ */
+export const listImagePipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListImagePipelinesRequest,
+  output: ListImagePipelinesResponse,
   errors: [
     CallRateLimitExceededException,
     ClientException,
     ForbiddenException,
-    InvalidParameterValueException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Get the lifecycle runtime history for the specified resource.
+ */
+export const listLifecycleExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListLifecycleExecutionsRequest,
+    output: ListLifecycleExecutionsResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidPaginationTokenException,
+      InvalidRequestException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Gets a component policy.
+ */
+export const getComponentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetComponentPolicyRequest,
+  output: GetComponentPolicyResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ForbiddenException,
     InvalidRequestException,
     ResourceNotFoundException,
     ServiceException,
@@ -4102,171 +3538,198 @@ export const putComponentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * RetryImage retries an image distribution without rebuilding the image.
+ * Retrieves the policy for a container recipe.
  */
-export const retryImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RetryImageRequest,
-  output: RetryImageResponse,
+export const getContainerRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetContainerRecipePolicyRequest,
+    output: GetContainerRecipePolicyResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ForbiddenException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Gets an image policy.
+ */
+export const getImagePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImagePolicyRequest,
+  output: GetImagePolicyResponse,
   errors: [
     CallRateLimitExceededException,
-    ClientException,
     ForbiddenException,
-    IdempotentParameterMismatchException,
     InvalidRequestException,
-    ResourceInUseException,
+    ResourceNotFoundException,
     ServiceException,
     ServiceUnavailableException,
   ],
 }));
 /**
- * Updates a new distribution configuration. Distribution configurations define and
- * configure the outputs of your pipeline.
+ * Gets an image recipe policy.
  */
-export const updateDistributionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDistributionConfigurationRequest,
-    output: UpdateDistributionConfigurationResponse,
+export const getImageRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetImageRecipePolicyRequest,
+    output: GetImageRecipePolicyResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ForbiddenException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Verify the subscription and perform resource dependency checks on the requested
+ * Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the
+ * components and their artifacts.
+ */
+export const getMarketplaceResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMarketplaceResourceRequest,
+    output: GetMarketplaceResourceResponse,
     errors: [
       CallRateLimitExceededException,
       ClientException,
       ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidParameterCombinationException,
       InvalidRequestException,
-      ResourceInUseException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Get the runtime information that was logged for a specific runtime instance
+ * of the workflow.
+ */
+export const getWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetWorkflowExecutionRequest,
+    output: GetWorkflowExecutionResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidRequestException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Get the runtime information that was logged for a specific runtime instance of
+ * the workflow step.
+ */
+export const getWorkflowStepExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetWorkflowStepExecutionRequest,
+    output: GetWorkflowStepExecutionResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidRequestException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Retrieves a container recipe.
+ */
+export const getContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContainerRecipeRequest,
+  output: GetContainerRecipeResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Gets a distribution configuration.
+ */
+export const getDistributionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetDistributionConfigurationRequest,
+    output: GetDistributionConfigurationResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidRequestException,
       ServiceException,
       ServiceUnavailableException,
     ],
   }));
 /**
- * Creates a new component that can be used to build, validate, test, and assess your
- * image. The component is based on a YAML document that you specify using exactly one of
- * the following methods:
- *
- * - Inline, using the `data` property in the request body.
- *
- * - A URL that points to a YAML document file stored in Amazon S3, using the
- * `uri` property in the request body.
+ * Gets an image pipeline.
  */
-export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateComponentRequest,
-  output: CreateComponentResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    DryRunOperationException,
-    ForbiddenException,
-    IdempotentParameterMismatchException,
-    InvalidParameterCombinationException,
-    InvalidRequestException,
-    InvalidVersionNumberException,
-    ResourceInUseException,
-    ServiceException,
-    ServiceQuotaExceededException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Creates a new image. This request will create a new image along with all of the
- * configured output resources defined in the distribution configuration. You must specify
- * exactly one recipe for your image, using either a ContainerRecipeArn or an
- * ImageRecipeArn.
- */
-export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateImageRequest,
-  output: CreateImageResponse,
+export const getImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImagePipelineRequest,
+  output: GetImagePipelineResponse,
   errors: [
     CallRateLimitExceededException,
     ClientException,
     ForbiddenException,
-    IdempotentParameterMismatchException,
     InvalidRequestException,
-    ResourceInUseException,
     ServiceException,
-    ServiceQuotaExceededException,
     ServiceUnavailableException,
   ],
 }));
 /**
- * Creates a new image pipeline. Image pipelines enable you to automate the creation and
- * distribution of images.
+ * Gets an image recipe.
  */
-export const createImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateImagePipelineRequest,
-  output: CreateImagePipelineResponse,
+export const getImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImageRecipeRequest,
+  output: GetImageRecipeResponse,
   errors: [
     CallRateLimitExceededException,
     ClientException,
     ForbiddenException,
-    IdempotentParameterMismatchException,
     InvalidRequestException,
-    ResourceAlreadyExistsException,
-    ResourceInUseException,
     ServiceException,
-    ServiceQuotaExceededException,
     ServiceUnavailableException,
   ],
 }));
 /**
- * Creates a new image recipe. Image recipes define how images are configured, tested,
- * and assessed.
+ * Gets an infrastructure configuration.
  */
-export const createImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateImageRecipeRequest,
-  output: CreateImageRecipeResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    IdempotentParameterMismatchException,
-    InvalidRequestException,
-    InvalidVersionNumberException,
-    ResourceAlreadyExistsException,
-    ResourceInUseException,
-    ServiceException,
-    ServiceQuotaExceededException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Creates a new infrastructure configuration. An infrastructure configuration defines
- * the environment in which your image will be built and tested.
- */
-export const createInfrastructureConfiguration =
+export const getInfrastructureConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateInfrastructureConfigurationRequest,
-    output: CreateInfrastructureConfigurationResponse,
+    input: GetInfrastructureConfigurationRequest,
+    output: GetInfrastructureConfigurationResponse,
     errors: [
       CallRateLimitExceededException,
       ClientException,
       ForbiddenException,
-      IdempotentParameterMismatchException,
       InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
       ServiceException,
-      ServiceQuotaExceededException,
       ServiceUnavailableException,
     ],
   }));
 /**
- * Create a new workflow or a new version of an existing workflow.
+ * Get details for the specified image lifecycle policy.
  */
-export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateWorkflowRequest,
-  output: CreateWorkflowResponse,
+export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLifecyclePolicyRequest,
+  output: GetLifecyclePolicyResponse,
   errors: [
     CallRateLimitExceededException,
     ClientException,
-    DryRunOperationException,
     ForbiddenException,
-    IdempotentParameterMismatchException,
-    InvalidParameterCombinationException,
     InvalidRequestException,
-    InvalidVersionNumberException,
-    ResourceInUseException,
     ServiceException,
-    ServiceQuotaExceededException,
     ServiceUnavailableException,
   ],
 }));
@@ -4318,136 +3781,6 @@ export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns the list of components that can be filtered by name, or by using the listed
- * `filters` to streamline results. Newly created components can take up to
- * two minutes to appear in the ListComponents API Results.
- *
- * The semantic version has four nodes: ../.
- * You can assign values for the first three, and can filter on all of them.
- *
- * **Filtering:** With semantic versioning, you have the flexibility to use wildcards (x)
- * to specify the most recent versions or nodes when selecting the base image or components for your
- * recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
- * wildcards.
- */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListComponentsRequest,
-  output: ListComponentsResponse,
-  errors: [
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    InvalidPaginationTokenException,
-    InvalidRequestException,
-    ServiceException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
- */
-export const listLifecycleExecutionResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListLifecycleExecutionResourcesRequest,
-    output: ListLifecycleExecutionResourcesResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Creates a new container recipe. Container recipes define how images are configured,
- * tested, and assessed.
- */
-export const createContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContainerRecipeRequest,
-    output: CreateContainerRecipeResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      InvalidVersionNumberException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Creates a new distribution configuration. Distribution configurations define and
- * configure the outputs of your pipeline.
- */
-export const createDistributionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDistributionConfigurationRequest,
-    output: CreateDistributionConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidParameterCombinationException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Create a lifecycle policy resource.
- */
-export const createLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLifecyclePolicyRequest,
-    output: CreateLifecyclePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
- */
-export const distributeImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DistributeImageRequest,
-  output: DistributeImageResponse,
-  errors: [
-    AccessDeniedException,
-    CallRateLimitExceededException,
-    ClientException,
-    ForbiddenException,
-    IdempotentParameterMismatchException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServiceException,
-    ServiceQuotaExceededException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Gets an image.
  */
 export const getImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -4462,6 +3795,25 @@ export const getImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceUnavailableException,
   ],
 }));
+/**
+ * Returns the list of component build versions for the specified component
+ * version Amazon Resource Name (ARN).
+ */
+export const listComponentBuildVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListComponentBuildVersionsRequest,
+    output: ListComponentBuildVersionsResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidPaginationTokenException,
+      InvalidRequestException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
 /**
  * Returns a list of image scan aggregations for your account. You can filter by the type
  * of key that Image Builder uses to group results. For example, if you want to get a list of
@@ -4493,6 +3845,435 @@ export const listImageScanFindingAggregations =
       ServiceUnavailableException,
     ],
   }));
+/**
+ * Applies a policy to a container image. We recommend that you call the RAM API
+ * CreateResourceShare
+ * (https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share
+ * resources. If you call the Image Builder API `PutContainerImagePolicy`, you must also
+ * call the RAM API PromoteResourceShareCreatedFromPolicy
+ * (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
+ * in order for the resource to be visible to all principals with whom the resource is
+ * shared.
+ */
+export const putContainerRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutContainerRecipePolicyRequest,
+    output: PutContainerRecipePolicyResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidParameterValueException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
+ * `PutImagePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
+ * visible to all principals with whom the resource is shared.
+ */
+export const putImagePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutImagePolicyRequest,
+  output: PutImagePolicyResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidParameterValueException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
+ * `PutImageRecipePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
+ * visible to all principals with whom the resource is shared.
+ */
+export const putImageRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutImageRecipePolicyRequest,
+    output: PutImageRecipePolicyResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidParameterValueException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Deletes a component build version.
+ */
+export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteComponentRequest,
+  output: DeleteComponentResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceDependencyException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Cancel a specific image lifecycle policy runtime instance.
+ */
+export const cancelLifecycleExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelLifecycleExecutionRequest,
+    output: CancelLifecycleExecutionResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Imports a component and transforms its data into a component document.
+ */
+export const importComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportComponentRequest,
+  output: ImportComponentResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidParameterCombinationException,
+    InvalidRequestException,
+    InvalidVersionNumberException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Updates a new distribution configuration. Distribution configurations define and
+ * configure the outputs of your pipeline.
+ */
+export const updateDistributionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateDistributionConfigurationRequest,
+    output: UpdateDistributionConfigurationResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidParameterCombinationException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Update the specified lifecycle policy.
+ */
+export const updateLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateLifecyclePolicyRequest,
+    output: UpdateLifecyclePolicyResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidParameterCombinationException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Deletes a container recipe.
+ */
+export const deleteContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteContainerRecipeRequest,
+    output: DeleteContainerRecipeResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidRequestException,
+      ResourceDependencyException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Deletes a distribution configuration.
+ */
+export const deleteDistributionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteDistributionConfigurationRequest,
+    output: DeleteDistributionConfigurationResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidRequestException,
+      ResourceDependencyException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container
+ * images that are created during the image build process. You must clean those up
+ * separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI
+ * commands.
+ *
+ * - To deregister an EC2 Linux AMI, see Deregister your
+ * Linux AMI in the
+ * *Amazon EC2 User Guide*
+ * .
+ *
+ * - To deregister an EC2 Windows AMI, see Deregister your
+ * Windows AMI in the
+ * *Amazon EC2 Windows Guide*
+ * .
+ *
+ * - To delete a container image from Amazon ECR, see Deleting
+ * an image in the *Amazon ECR User Guide*.
+ */
+export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImageRequest,
+  output: DeleteImageResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceDependencyException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes an image pipeline.
+ */
+export const deleteImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImagePipelineRequest,
+  output: DeleteImagePipelineResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceDependencyException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes an image recipe.
+ */
+export const deleteImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImageRecipeRequest,
+  output: DeleteImageRecipeResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceDependencyException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes an infrastructure configuration.
+ */
+export const deleteInfrastructureConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteInfrastructureConfigurationRequest,
+    output: DeleteInfrastructureConfigurationResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidRequestException,
+      ResourceDependencyException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Delete the specified lifecycle policy resource.
+ */
+export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteLifecyclePolicyRequest,
+    output: DeleteLifecyclePolicyResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      InvalidRequestException,
+      ResourceDependencyException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Deletes a specific workflow resource.
+ */
+export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkflowRequest,
+  output: DeleteWorkflowResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceDependencyException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * RetryImage retries an image distribution without rebuilding the image.
+ */
+export const retryImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetryImageRequest,
+  output: RetryImageResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Pauses or resumes image creation when the associated workflow runs a
+ * `WaitForAction` step.
+ */
+export const sendWorkflowStepAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SendWorkflowStepActionRequest,
+    output: SendWorkflowStepActionResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidParameterValueException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Manually triggers a pipeline to create an image.
+ */
+export const startImagePipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartImagePipelineExecutionRequest,
+    output: StartImagePipelineExecutionResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Updates an image pipeline. Image pipelines enable you to automate the creation and
+ * distribution of images. You must specify exactly one recipe for your image, using either
+ * a `containerRecipeArn` or an `imageRecipeArn`.
+ *
+ * UpdateImagePipeline does not support selective updates for the pipeline. You must
+ * specify all of the required properties in the update request, not just the
+ * properties that have changed.
+ */
+export const updateImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateImagePipelineRequest,
+  output: UpdateImagePipelineResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Updates a new infrastructure configuration. An infrastructure configuration defines
+ * the environment in which your image will be built and tested.
+ */
+export const updateInfrastructureConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateInfrastructureConfigurationRequest,
+    output: UpdateInfrastructureConfigurationResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ServiceException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * CancelImageCreation cancels the creation of Image. This operation can only be used on
+ * images in a non-terminal state.
+ */
+export const cancelImageCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelImageCreationRequest,
+  output: CancelImageCreationResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Begin asynchronous resource state update for lifecycle changes to the
  * specified image resources.
@@ -4532,3 +4313,222 @@ export const listImageScanFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Creates a new image pipeline. Image pipelines enable you to automate the creation and
+ * distribution of images.
+ */
+export const createImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateImagePipelineRequest,
+  output: CreateImagePipelineResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Create a new workflow or a new version of an existing workflow.
+ */
+export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkflowRequest,
+  output: CreateWorkflowResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    DryRunOperationException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidParameterCombinationException,
+    InvalidRequestException,
+    InvalidVersionNumberException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates a new distribution configuration. Distribution configurations define and
+ * configure the outputs of your pipeline.
+ */
+export const createDistributionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateDistributionConfigurationRequest,
+    output: CreateDistributionConfigurationResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidParameterCombinationException,
+      InvalidRequestException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ServiceException,
+      ServiceQuotaExceededException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Creates a new image. This request will create a new image along with all of the
+ * configured output resources defined in the distribution configuration. You must specify
+ * exactly one recipe for your image, using either a ContainerRecipeArn or an
+ * ImageRecipeArn.
+ */
+export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateImageRequest,
+  output: CreateImageResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates a new image recipe. Image recipes define how images are configured, tested,
+ * and assessed.
+ */
+export const createImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateImageRecipeRequest,
+  output: CreateImageRecipeResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    InvalidVersionNumberException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates a new component that can be used to build, validate, test, and assess your
+ * image. The component is based on a YAML document that you specify using exactly one of
+ * the following methods:
+ *
+ * - Inline, using the `data` property in the request body.
+ *
+ * - A URL that points to a YAML document file stored in Amazon S3, using the
+ * `uri` property in the request body.
+ */
+export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateComponentRequest,
+  output: CreateComponentResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    DryRunOperationException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidParameterCombinationException,
+    InvalidRequestException,
+    InvalidVersionNumberException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates a new infrastructure configuration. An infrastructure configuration defines
+ * the environment in which your image will be built and tested.
+ */
+export const createInfrastructureConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateInfrastructureConfigurationRequest,
+    output: CreateInfrastructureConfigurationResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidRequestException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ServiceException,
+      ServiceQuotaExceededException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Create a lifecycle policy resource.
+ */
+export const createLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateLifecyclePolicyRequest,
+    output: CreateLifecyclePolicyResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidRequestException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ServiceException,
+      ServiceQuotaExceededException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Creates a new container recipe. Container recipes define how images are configured,
+ * tested, and assessed.
+ */
+export const createContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateContainerRecipeRequest,
+    output: CreateContainerRecipeResponse,
+    errors: [
+      CallRateLimitExceededException,
+      ClientException,
+      ForbiddenException,
+      IdempotentParameterMismatchException,
+      InvalidRequestException,
+      InvalidVersionNumberException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ServiceException,
+      ServiceQuotaExceededException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
+ */
+export const distributeImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DistributeImageRequest,
+  output: DistributeImageResponse,
+  errors: [
+    AccessDeniedException,
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));

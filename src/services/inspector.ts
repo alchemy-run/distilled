@@ -508,7 +508,6 @@ export class ResourceGroupTag extends S.Class<ResourceGroupTag>(
   "ResourceGroupTag",
 )({ key: S.String, value: S.optional(S.String) }) {}
 export const ResourceGroupTags = S.Array(ResourceGroupTag);
-export const AssessmentRunInProgressArnList = S.Array(S.String);
 export class AgentFilter extends S.Class<AgentFilter>("AgentFilter")({
   agentHealths: AgentHealthList,
   agentHealthCodes: AgentHealthCodeList,
@@ -649,6 +648,7 @@ export class StartAssessmentRunResponse extends S.Class<StartAssessmentRunRespon
   "StartAssessmentRunResponse",
 )({ assessmentRunArn: S.String }) {}
 export const AssessmentRulesPackageArnList = S.Array(S.String);
+export const AssessmentRunInProgressArnList = S.Array(S.String);
 export class AssessmentTarget extends S.Class<AssessmentTarget>(
   "AssessmentTarget",
 )({
@@ -961,43 +961,32 @@ export class DescribeFindingsResponse extends S.Class<DescribeFindingsResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class AssessmentRunInProgressException extends S.TaggedError<AssessmentRunInProgressException>()(
-  "AssessmentRunInProgressException",
-  {},
+  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
 ) {}
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
-  {},
+  { message: S.String, canRetry: S.Boolean },
+) {}
+export class AssessmentRunInProgressException extends S.TaggedError<AssessmentRunInProgressException>()(
+  "AssessmentRunInProgressException",
+  {
+    message: S.String,
+    assessmentRunArns: AssessmentRunInProgressArnList,
+    assessmentRunArnsTruncated: S.Boolean,
+    canRetry: S.Boolean,
+  },
 ) {}
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
-) {}
-export class NoSuchEntityException extends S.TaggedError<NoSuchEntityException>()(
-  "NoSuchEntityException",
-  {},
+  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
 ) {}
 export class InvalidCrossAccountRoleException extends S.TaggedError<InvalidCrossAccountRoleException>()(
   "InvalidCrossAccountRoleException",
-  {},
+  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
 ) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class ServiceTemporarilyUnavailableException extends S.TaggedError<ServiceTemporarilyUnavailableException>()(
-  "ServiceTemporarilyUnavailableException",
-  {},
-) {}
-export class PreviewGenerationInProgressException extends S.TaggedError<PreviewGenerationInProgressException>()(
-  "PreviewGenerationInProgressException",
-  { message: S.String },
-) {}
-export class UnsupportedFeatureException extends S.TaggedError<UnsupportedFeatureException>()(
-  "UnsupportedFeatureException",
-  { message: S.String, canRetry: S.Boolean },
+export class NoSuchEntityException extends S.TaggedError<NoSuchEntityException>()(
+  "NoSuchEntityException",
+  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
 ) {}
 export class AgentsAlreadyRunningAssessmentException extends S.TaggedError<AgentsAlreadyRunningAssessmentException>()(
   "AgentsAlreadyRunningAssessmentException",
@@ -1007,6 +996,22 @@ export class AgentsAlreadyRunningAssessmentException extends S.TaggedError<Agent
     agentsTruncated: S.Boolean,
     canRetry: S.Boolean,
   },
+) {}
+export class ServiceTemporarilyUnavailableException extends S.TaggedError<ServiceTemporarilyUnavailableException>()(
+  "ServiceTemporarilyUnavailableException",
+  { message: S.String, canRetry: S.Boolean },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
+) {}
+export class UnsupportedFeatureException extends S.TaggedError<UnsupportedFeatureException>()(
+  "UnsupportedFeatureException",
+  { message: S.String, canRetry: S.Boolean },
+) {}
+export class PreviewGenerationInProgressException extends S.TaggedError<PreviewGenerationInProgressException>()(
+  "PreviewGenerationInProgressException",
+  { message: S.String },
 ) {}
 
 //# Operations
@@ -1021,64 +1026,145 @@ export const describeCrossAccountAccessRole =
     errors: [InternalException],
   }));
 /**
- * Creates a new assessment target using the ARN of the resource group that is generated
- * by CreateResourceGroup. If resourceGroupArn is not specified, all EC2
- * instances in the current AWS account and region are included in the assessment target. If
- * the service-linked role isn’t already registered, this action also creates and
- * registers a service-linked role to grant Amazon Inspector access to AWS Services needed to
- * perform security assessments. You can create up to 50 assessment targets per AWS account.
- * You can run up to 500 concurrent agents per AWS account. For more information, see
- * Amazon Inspector Assessment Targets.
+ * Lists all available Amazon Inspector rules packages.
  */
-export const createAssessmentTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listRulesPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRulesPackagesRequest,
+  output: ListRulesPackagesResponse,
+  errors: [AccessDeniedException, InternalException, InvalidInputException],
+}));
+/**
+ * Describes the assessment targets that are specified by the ARNs of the assessment
+ * targets.
+ */
+export const describeAssessmentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateAssessmentTargetRequest,
-    output: CreateAssessmentTargetResponse,
+    input: DescribeAssessmentTargetsRequest,
+    output: DescribeAssessmentTargetsResponse,
+    errors: [InternalException, InvalidInputException],
+  }),
+);
+/**
+ * Describes the assessment templates that are specified by the ARNs of the assessment
+ * templates.
+ */
+export const describeAssessmentTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAssessmentTemplatesRequest,
+    output: DescribeAssessmentTemplatesResponse,
+    errors: [InternalException, InvalidInputException],
+  }),
+);
+/**
+ * Describes the resource groups that are specified by the ARNs of the resource
+ * groups.
+ */
+export const describeResourceGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeResourceGroupsRequest,
+    output: DescribeResourceGroupsResponse,
+    errors: [InternalException, InvalidInputException],
+  }),
+);
+/**
+ * Describes the rules packages that are specified by the ARNs of the rules
+ * packages.
+ */
+export const describeRulesPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeRulesPackagesRequest,
+    output: DescribeRulesPackagesResponse,
+    errors: [InternalException, InvalidInputException],
+  }),
+);
+/**
+ * Lists the ARNs of the assessment targets within this AWS account. For more
+ * information about assessment targets, see Amazon Inspector Assessment
+ * Targets.
+ */
+export const listAssessmentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAssessmentTargetsRequest,
+    output: ListAssessmentTargetsResponse,
+    errors: [AccessDeniedException, InternalException, InvalidInputException],
+  }),
+);
+/**
+ * Describes the assessment runs that are specified by the ARNs of the assessment
+ * runs.
+ */
+export const describeAssessmentRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAssessmentRunsRequest,
+    output: DescribeAssessmentRunsResponse,
+    errors: [InternalException, InvalidInputException],
+  }),
+);
+/**
+ * Describes the exclusions that are specified by the exclusions' ARNs.
+ */
+export const describeExclusions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeExclusionsRequest,
+  output: DescribeExclusionsResponse,
+  errors: [InternalException, InvalidInputException],
+}));
+/**
+ * List exclusions that are generated by the assessment run.
+ */
+export const listExclusions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListExclusionsRequest,
+  output: ListExclusionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+}));
+/**
+ * Registers the IAM role that grants Amazon Inspector access to AWS Services needed to
+ * perform security assessments.
+ */
+export const registerCrossAccountAccessRole =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RegisterCrossAccountAccessRoleRequest,
+    output: RegisterCrossAccountAccessRoleResponse,
     errors: [
       AccessDeniedException,
       InternalException,
       InvalidCrossAccountRoleException,
       InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
       ServiceTemporarilyUnavailableException,
     ],
-  }),
-);
+  }));
 /**
- * Creates an assessment template for the assessment target that is specified by the ARN
- * of the assessment target. If the service-linked role isn’t already registered, this action also creates and
- * registers a service-linked role to grant Amazon Inspector access to AWS Services needed to
- * perform security assessments.
+ * Enables the process of sending Amazon Simple Notification Service (SNS) notifications
+ * about a specified event to a specified SNS topic.
  */
-export const createAssessmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAssessmentTemplateRequest,
-    output: CreateAssessmentTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
-/**
- * Deletes the assessment run that is specified by the ARN of the assessment
- * run.
- */
-export const deleteAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAssessmentRunRequest,
-  output: DeleteAssessmentRunResponse,
+export const subscribeToEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubscribeToEventRequest,
+  output: SubscribeToEventResponse,
   errors: [
     AccessDeniedException,
-    AssessmentRunInProgressException,
+    InternalException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
+/**
+ * Lists findings that are generated by the assessment runs that are specified by the
+ * ARNs of the assessment runs.
+ */
+export const listFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFindingsRequest,
+  output: ListFindingsResponse,
+  errors: [
+    AccessDeniedException,
     InternalException,
     InvalidInputException,
     NoSuchEntityException,
-    ServiceTemporarilyUnavailableException,
   ],
 }));
 /**
@@ -1118,27 +1204,6 @@ export const deleteAssessmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * List exclusions that are generated by the assessment run.
- */
-export const listExclusions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListExclusionsRequest,
-  output: ListExclusionsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
-}));
-/**
- * Lists all available Amazon Inspector rules packages.
- */
-export const listRulesPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRulesPackagesRequest,
-  output: ListRulesPackagesResponse,
-  errors: [AccessDeniedException, InternalException, InvalidInputException],
-}));
-/**
  * Lists all tags associated with an assessment template.
  */
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1151,22 +1216,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     NoSuchEntityException,
   ],
 }));
-/**
- * Registers the IAM role that grants Amazon Inspector access to AWS Services needed to
- * perform security assessments.
- */
-export const registerCrossAccountAccessRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterCrossAccountAccessRoleRequest,
-    output: RegisterCrossAccountAccessRoleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidCrossAccountRoleException,
-      InvalidInputException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }));
 /**
  * Removes entire attributes (key and value pairs) from the findings that are specified
  * by the ARNs of the findings where an attribute with the specified key exists.
@@ -1209,22 +1258,6 @@ export const stopAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalException,
     InvalidInputException,
-    NoSuchEntityException,
-    ServiceTemporarilyUnavailableException,
-  ],
-}));
-/**
- * Enables the process of sending Amazon Simple Notification Service (SNS) notifications
- * about a specified event to a specified SNS topic.
- */
-export const subscribeToEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SubscribeToEventRequest,
-  output: SubscribeToEventResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    LimitExceededException,
     NoSuchEntityException,
     ServiceTemporarilyUnavailableException,
   ],
@@ -1284,92 +1317,12 @@ export const addAttributesToFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Starts the generation of an exclusions preview for the specified assessment template.
- * The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can
- * detect before it runs the assessment.
+ * Deletes the assessment run that is specified by the ARN of the assessment
+ * run.
  */
-export const createExclusionsPreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateExclusionsPreviewRequest,
-    output: CreateExclusionsPreviewResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-      PreviewGenerationInProgressException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
-/**
- * Creates a resource group using the specified set of tags (key and value pairs) that
- * are used to select the EC2 instances to be included in an Amazon Inspector assessment
- * target. The created resource group is then used to create an Amazon Inspector assessment
- * target. For more information, see CreateAssessmentTarget.
- */
-export const createResourceGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateResourceGroupRequest,
-  output: CreateResourceGroupResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    LimitExceededException,
-    ServiceTemporarilyUnavailableException,
-  ],
-}));
-/**
- * Describes the assessment targets that are specified by the ARNs of the assessment
- * targets.
- */
-export const describeAssessmentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAssessmentTargetsRequest,
-    output: DescribeAssessmentTargetsResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
-/**
- * Describes the assessment templates that are specified by the ARNs of the assessment
- * templates.
- */
-export const describeAssessmentTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAssessmentTemplatesRequest,
-    output: DescribeAssessmentTemplatesResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
-/**
- * Describes the resource groups that are specified by the ARNs of the resource
- * groups.
- */
-export const describeResourceGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourceGroupsRequest,
-    output: DescribeResourceGroupsResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
-/**
- * Describes the rules packages that are specified by the ARNs of the rules
- * packages.
- */
-export const describeRulesPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRulesPackagesRequest,
-    output: DescribeRulesPackagesResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
-/**
- * Produces an assessment report that includes detailed and comprehensive results of a
- * specified assessment run.
- */
-export const getAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAssessmentReportRequest,
-  output: GetAssessmentReportResponse,
+export const deleteAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssessmentRunRequest,
+  output: DeleteAssessmentRunResponse,
   errors: [
     AccessDeniedException,
     AssessmentRunInProgressException,
@@ -1377,7 +1330,6 @@ export const getAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidInputException,
     NoSuchEntityException,
     ServiceTemporarilyUnavailableException,
-    UnsupportedFeatureException,
   ],
 }));
 /**
@@ -1397,18 +1349,6 @@ export const getTelemetryMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists the ARNs of the assessment targets within this AWS account. For more
- * information about assessment targets, see Amazon Inspector Assessment
- * Targets.
- */
-export const listAssessmentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAssessmentTargetsRequest,
-    output: ListAssessmentTargetsResponse,
-    errors: [AccessDeniedException, InternalException, InvalidInputException],
-  }),
-);
-/**
  * Lists the assessment templates that correspond to the assessment targets that are
  * specified by the ARNs of the assessment targets.
  */
@@ -1425,20 +1365,6 @@ export const listAssessmentTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists findings that are generated by the assessment runs that are specified by the
- * ARNs of the assessment runs.
- */
-export const listFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFindingsRequest,
-  output: ListFindingsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
-}));
-/**
  * Previews the agents installed on the EC2 instances that are part of the specified
  * assessment target.
  */
@@ -1452,25 +1378,6 @@ export const previewAgents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidInputException,
     NoSuchEntityException,
   ],
-}));
-/**
- * Describes the assessment runs that are specified by the ARNs of the assessment
- * runs.
- */
-export const describeAssessmentRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAssessmentRunsRequest,
-    output: DescribeAssessmentRunsResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
-/**
- * Describes the exclusions that are specified by the exclusions' ARNs.
- */
-export const describeExclusions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeExclusionsRequest,
-  output: DescribeExclusionsResponse,
-  errors: [InternalException, InvalidInputException],
 }));
 /**
  * Retrieves the exclusions preview (a list of ExclusionPreview objects) specified by
@@ -1536,6 +1443,68 @@ export const listEventSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Creates an assessment template for the assessment target that is specified by the ARN
+ * of the assessment target. If the service-linked role isn’t already registered, this action also creates and
+ * registers a service-linked role to grant Amazon Inspector access to AWS Services needed to
+ * perform security assessments.
+ */
+export const createAssessmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAssessmentTemplateRequest,
+    output: CreateAssessmentTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      InternalException,
+      InvalidInputException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceTemporarilyUnavailableException,
+    ],
+  }),
+);
+/**
+ * Creates a resource group using the specified set of tags (key and value pairs) that
+ * are used to select the EC2 instances to be included in an Amazon Inspector assessment
+ * target. The created resource group is then used to create an Amazon Inspector assessment
+ * target. For more information, see CreateAssessmentTarget.
+ */
+export const createResourceGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceGroupRequest,
+  output: CreateResourceGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    LimitExceededException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
+/**
+ * Creates a new assessment target using the ARN of the resource group that is generated
+ * by CreateResourceGroup. If resourceGroupArn is not specified, all EC2
+ * instances in the current AWS account and region are included in the assessment target. If
+ * the service-linked role isn’t already registered, this action also creates and
+ * registers a service-linked role to grant Amazon Inspector access to AWS Services needed to
+ * perform security assessments. You can create up to 50 assessment targets per AWS account.
+ * You can run up to 500 concurrent agents per AWS account. For more information, see
+ * Amazon Inspector Assessment Targets.
+ */
+export const createAssessmentTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAssessmentTargetRequest,
+    output: CreateAssessmentTargetResponse,
+    errors: [
+      AccessDeniedException,
+      InternalException,
+      InvalidCrossAccountRoleException,
+      InvalidInputException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceTemporarilyUnavailableException,
+    ],
+  }),
+);
+/**
  * Starts the assessment run specified by the ARN of the assessment template. For this
  * API to function properly, you must not exceed the limit of running up to 500 concurrent
  * agents per AWS account.
@@ -1554,6 +1523,42 @@ export const startAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceTemporarilyUnavailableException,
   ],
 }));
+/**
+ * Produces an assessment report that includes detailed and comprehensive results of a
+ * specified assessment run.
+ */
+export const getAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssessmentReportRequest,
+  output: GetAssessmentReportResponse,
+  errors: [
+    AccessDeniedException,
+    AssessmentRunInProgressException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+    UnsupportedFeatureException,
+  ],
+}));
+/**
+ * Starts the generation of an exclusions preview for the specified assessment template.
+ * The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can
+ * detect before it runs the assessment.
+ */
+export const createExclusionsPreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateExclusionsPreviewRequest,
+    output: CreateExclusionsPreviewResponse,
+    errors: [
+      AccessDeniedException,
+      InternalException,
+      InvalidInputException,
+      NoSuchEntityException,
+      PreviewGenerationInProgressException,
+      ServiceTemporarilyUnavailableException,
+    ],
+  }),
+);
 /**
  * Describes the findings that are specified by the ARNs of the findings.
  */

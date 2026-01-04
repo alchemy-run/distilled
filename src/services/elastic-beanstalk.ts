@@ -1439,7 +1439,7 @@ export class DescribeInstancesHealthResult extends S.Class<DescribeInstancesHeal
 //# Errors
 export class InsufficientPrivilegesException extends S.TaggedError<InsufficientPrivilegesException>()(
   "InsufficientPrivilegesException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "InsufficientPrivilegesException",
     httpResponseCode: 403,
@@ -1447,24 +1447,41 @@ export class InsufficientPrivilegesException extends S.TaggedError<InsufficientP
 ) {}
 export class OperationInProgressException extends S.TaggedError<OperationInProgressException>()(
   "OperationInProgressException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "OperationInProgressFailure",
     httpResponseCode: 400,
   }),
 ) {}
-export class TooManyBucketsException extends S.TaggedError<TooManyBucketsException>()(
-  "TooManyBucketsException",
-  {},
-  T.AwsQueryError({ code: "TooManyBucketsException", httpResponseCode: 400 }),
+export class ElasticBeanstalkServiceException extends S.TaggedError<ElasticBeanstalkServiceException>()(
+  "ElasticBeanstalkServiceException",
+  { message: S.optional(S.String) },
 ) {}
 export class TooManyEnvironmentsException extends S.TaggedError<TooManyEnvironmentsException>()(
   "TooManyEnvironmentsException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "TooManyEnvironmentsException",
     httpResponseCode: 400,
   }),
+) {}
+export class CodeBuildNotInServiceRegionException extends S.TaggedError<CodeBuildNotInServiceRegionException>()(
+  "CodeBuildNotInServiceRegionException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CodeBuildNotInServiceRegionException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class TooManyBucketsException extends S.TaggedError<TooManyBucketsException>()(
+  "TooManyBucketsException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyBucketsException", httpResponseCode: 400 }),
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 400 }),
 ) {}
 export class S3SubscriptionRequiredException extends S.TaggedError<S3SubscriptionRequiredException>()(
   "S3SubscriptionRequiredException",
@@ -1482,28 +1499,11 @@ export class S3LocationNotInServiceRegionException extends S.TaggedError<S3Locat
     httpResponseCode: 400,
   }),
 ) {}
-export class ElasticBeanstalkServiceException extends S.TaggedError<ElasticBeanstalkServiceException>()(
-  "ElasticBeanstalkServiceException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 400 }),
-) {}
-export class ResourceTypeNotSupportedException extends S.TaggedError<ResourceTypeNotSupportedException>()(
-  "ResourceTypeNotSupportedException",
-  {},
-  T.AwsQueryError({
-    code: "ResourceTypeNotSupportedException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class CodeBuildNotInServiceRegionException extends S.TaggedError<CodeBuildNotInServiceRegionException>()(
-  "CodeBuildNotInServiceRegionException",
+export class ManagedActionInvalidStateException extends S.TaggedError<ManagedActionInvalidStateException>()(
+  "ManagedActionInvalidStateException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "CodeBuildNotInServiceRegionException",
+    code: "ManagedActionInvalidStateException",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1512,6 +1512,19 @@ export class TooManyConfigurationTemplatesException extends S.TaggedError<TooMan
   { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "TooManyConfigurationTemplatesException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class TooManyPlatformsException extends S.TaggedError<TooManyPlatformsException>()(
+  "TooManyPlatformsException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyPlatformsException", httpResponseCode: 400 }),
+) {}
+export class ResourceTypeNotSupportedException extends S.TaggedError<ResourceTypeNotSupportedException>()(
+  "ResourceTypeNotSupportedException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ResourceTypeNotSupportedException",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1531,69 +1544,30 @@ export class PlatformVersionStillReferencedException extends S.TaggedError<Platf
     httpResponseCode: 400,
   }),
 ) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TooManyTagsException", httpResponseCode: 400 }),
-) {}
-export class ManagedActionInvalidStateException extends S.TaggedError<ManagedActionInvalidStateException>()(
-  "ManagedActionInvalidStateException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ManagedActionInvalidStateException",
-    httpResponseCode: 400,
-  }),
-) {}
 export class TooManyApplicationsException extends S.TaggedError<TooManyApplicationsException>()(
   "TooManyApplicationsException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "TooManyApplicationsException",
     httpResponseCode: 400,
   }),
-) {}
-export class TooManyPlatformsException extends S.TaggedError<TooManyPlatformsException>()(
-  "TooManyPlatformsException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TooManyPlatformsException", httpResponseCode: 400 }),
-) {}
-export class TooManyApplicationVersionsException extends S.TaggedError<TooManyApplicationVersionsException>()(
-  "TooManyApplicationVersionsException",
-  { message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidRequestException", httpResponseCode: 400 }),
 ) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyTagsException", httpResponseCode: 400 }),
+) {}
+export class TooManyApplicationVersionsException extends S.TaggedError<TooManyApplicationVersionsException>()(
+  "TooManyApplicationVersionsException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk
- * uses the associated operations role for permissions to downstream services during subsequent
- * calls acting on this environment. For more information, see Operations roles in the
- * *AWS Elastic Beanstalk Developer Guide*.
- */
-export const associateEnvironmentOperationsRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateEnvironmentOperationsRoleMessage,
-    output: AssociateEnvironmentOperationsRoleResponse,
-    errors: [InsufficientPrivilegesException],
-  }));
-/**
- * Deletes the specified configuration template.
- *
- * When you launch an environment using a configuration template, the environment gets a
- * copy of the template. You can delete or modify the environment's copy of the template
- * without affecting the running environment.
- */
-export const deleteConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationTemplateMessage,
-    output: DeleteConfigurationTemplateResponse,
-    errors: [OperationInProgressException],
-  }),
-);
 /**
  * Deletes the draft configuration associated with the running environment.
  *
@@ -1619,27 +1593,6 @@ export const describeEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [],
   }),
 );
-/**
- * Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses
- * the caller's permissions for permissions to downstream services during subsequent calls acting
- * on this environment. For more information, see Operations roles in the
- * *AWS Elastic Beanstalk Developer Guide*.
- */
-export const disassociateEnvironmentOperationsRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateEnvironmentOperationsRoleMessage,
-    output: DisassociateEnvironmentOperationsRoleResponse,
-    errors: [InsufficientPrivilegesException],
-  }));
-/**
- * Deletes and recreates all of the AWS resources (for example: the Auto Scaling group,
- * load balancer, etc.) for a specified environment and forces a restart.
- */
-export const rebuildEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RebuildEnvironmentMessage,
-  output: RebuildEnvironmentResponse,
-  errors: [InsufficientPrivilegesException],
-}));
 /**
  * Initiates a request to compile the specified type of information of the deployed
  * environment.
@@ -1705,33 +1658,6 @@ export const checkDNSAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Launches an AWS Elastic Beanstalk environment for the specified application using the specified
- * configuration.
- */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEnvironmentMessage,
-  output: EnvironmentDescription,
-  errors: [InsufficientPrivilegesException, TooManyEnvironmentsException],
-}));
-/**
- * Creates a bucket in Amazon S3 to store application versions, logs, and other files used
- * by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the
- * first time you create an environment in a region. If the storage location already exists,
- * `CreateStorageLocation` still returns the bucket name but does not create a new
- * bucket.
- */
-export const createStorageLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStorageLocationRequest,
-    output: CreateStorageLocationResultMessage,
-    errors: [
-      InsufficientPrivilegesException,
-      S3SubscriptionRequiredException,
-      TooManyBucketsException,
-    ],
-  }),
-);
-/**
  * Deletes the specified application along with all associated versions and
  * configurations. The application versions will not be deleted from your Amazon S3
  * bucket.
@@ -1743,26 +1669,6 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DeleteApplicationResponse,
   errors: [OperationInProgressException],
 }));
-/**
- * Returns a description of the settings for the specified configuration set, that is,
- * either a configuration template or the configuration set associated with a running
- * environment.
- *
- * When describing the settings for the configuration set associated with a running
- * environment, it is possible to receive two sets of setting descriptions. One is the deployed
- * configuration set, and the other is a draft configuration of an environment that is either in
- * the process of deployment or that failed to deploy.
- *
- * Related Topics
- *
- * - DeleteEnvironmentConfiguration
- */
-export const describeConfigurationSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationSettingsMessage,
-    output: ConfigurationSettingsDescriptions,
-    errors: [TooManyBucketsException],
-  }));
 /**
  * Returns a list of the available solution stack names, with the public version first and
  * then in reverse chronological order.
@@ -1808,41 +1714,52 @@ export const updateApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the specified configuration template to have the specified properties or
- * configuration option values.
- *
- * If a property (for example, `ApplicationName`) is not provided, its value
- * remains unchanged. To clear such properties, specify an empty string.
- *
- * Related Topics
- *
- * - DescribeConfigurationOptions
+ * Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk
+ * uses the associated operations role for permissions to downstream services during subsequent
+ * calls acting on this environment. For more information, see Operations roles in the
+ * *AWS Elastic Beanstalk Developer Guide*.
  */
-export const updateConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const associateEnvironmentOperationsRole =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateEnvironmentOperationsRoleMessage,
+    output: AssociateEnvironmentOperationsRoleResponse,
+    errors: [InsufficientPrivilegesException],
+  }));
+/**
+ * Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses
+ * the caller's permissions for permissions to downstream services during subsequent calls acting
+ * on this environment. For more information, see Operations roles in the
+ * *AWS Elastic Beanstalk Developer Guide*.
+ */
+export const disassociateEnvironmentOperationsRole =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateEnvironmentOperationsRoleMessage,
+    output: DisassociateEnvironmentOperationsRoleResponse,
+    errors: [InsufficientPrivilegesException],
+  }));
+/**
+ * Deletes and recreates all of the AWS resources (for example: the Auto Scaling group,
+ * load balancer, etc.) for a specified environment and forces a restart.
+ */
+export const rebuildEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RebuildEnvironmentMessage,
+  output: RebuildEnvironmentResponse,
+  errors: [InsufficientPrivilegesException],
+}));
+/**
+ * Deletes the specified configuration template.
+ *
+ * When you launch an environment using a configuration template, the environment gets a
+ * copy of the template. You can delete or modify the environment's copy of the template
+ * without affecting the running environment.
+ */
+export const deleteConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateConfigurationTemplateMessage,
-    output: ConfigurationSettingsDescription,
-    errors: [InsufficientPrivilegesException, TooManyBucketsException],
+    input: DeleteConfigurationTemplateMessage,
+    output: DeleteConfigurationTemplateResponse,
+    errors: [OperationInProgressException],
   }),
 );
-/**
- * Updates the environment description, deploys a new application version, updates the
- * configuration settings to an entirely new configuration template, or updates select
- * configuration option values in the running environment.
- *
- * Attempting to update both the release and configuration is not allowed and AWS Elastic
- * Beanstalk returns an `InvalidParameterCombination` error.
- *
- * When updating the configuration settings to a new template or individual settings, a
- * draft configuration is created and DescribeConfigurationSettings for this
- * environment returns two setting descriptions with different `DeploymentStatus`
- * values.
- */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentMessage,
-  output: EnvironmentDescription,
-  errors: [InsufficientPrivilegesException, TooManyBucketsException],
-}));
 /**
  * Create or update a group of environments that each run a separate component of a single
  * application. Takes a list of version labels that specify application source bundles for each
@@ -1856,67 +1773,6 @@ export const composeEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: EnvironmentDescriptionsMessage,
   errors: [InsufficientPrivilegesException, TooManyEnvironmentsException],
 }));
-/**
- * Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk
- * application. You define application configuration settings in a configuration template. You
- * can then use the configuration template to deploy different versions of the application with
- * the same configuration settings.
- *
- * Templates aren't associated with any environment. The `EnvironmentName`
- * response element is always `null`.
- *
- * Related Topics
- *
- * - DescribeConfigurationOptions
- *
- * - DescribeConfigurationSettings
- *
- * - ListAvailableSolutionStacks
- */
-export const createConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfigurationTemplateMessage,
-    output: ConfigurationSettingsDescription,
-    errors: [
-      InsufficientPrivilegesException,
-      TooManyBucketsException,
-      TooManyConfigurationTemplatesException,
-    ],
-  }),
-);
-/**
- * Deletes the specified version from the specified application.
- *
- * You cannot delete an application version that is associated with a running
- * environment.
- */
-export const deleteApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApplicationVersionMessage,
-    output: DeleteApplicationVersionResponse,
-    errors: [
-      InsufficientPrivilegesException,
-      OperationInProgressException,
-      S3LocationNotInServiceRegionException,
-      SourceBundleDeletionException,
-    ],
-  }),
-);
-/**
- * Deletes the specified version of a custom platform.
- */
-export const deletePlatformVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePlatformVersionRequest,
-    output: DeletePlatformVersionResult,
-    errors: [
-      ElasticBeanstalkServiceException,
-      InsufficientPrivilegesException,
-      OperationInProgressException,
-      PlatformVersionStillReferencedException,
-    ],
-  }),
-);
 /**
  * Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS
  * account.
@@ -1995,22 +1851,6 @@ export const listPlatformVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs.
- *
- * Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see
- * Tagging Application
- * Resources.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceMessage,
-  output: ResourceTagsDescriptionMessage,
-  errors: [
-    InsufficientPrivilegesException,
-    ResourceNotFoundException,
-    ResourceTypeNotSupportedException,
-  ],
-}));
-/**
  * Retrieves the compiled information from a RequestEnvironmentInfo
  * request.
  *
@@ -2023,42 +1863,6 @@ export const retrieveEnvironmentInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: RetrieveEnvironmentInfoMessage,
     output: RetrieveEnvironmentInfoResultMessage,
     errors: [],
-  }),
-);
-/**
- * Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: `TagsToAdd`
- * for tags to add or update, and `TagsToRemove`.
- *
- * Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see
- * Tagging Application
- * Resources.
- *
- * If you create a custom IAM user policy to control permission to this operation, specify
- * one of the following two virtual actions (or both) instead of the API operation name:
- *
- * ### elasticbeanstalk:AddTags
- *
- * Controls permission to call `UpdateTagsForResource` and pass a list of tags to add in the `TagsToAdd`
- * parameter.
- *
- * ### elasticbeanstalk:RemoveTags
- *
- * Controls permission to call `UpdateTagsForResource` and pass a list of tag keys to remove in the `TagsToRemove`
- * parameter.
- *
- * For details about creating a custom user policy, see Creating a Custom User Policy.
- */
-export const updateTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTagsForResourceMessage,
-    output: UpdateTagsForResourceResponse,
-    errors: [
-      InsufficientPrivilegesException,
-      OperationInProgressException,
-      ResourceNotFoundException,
-      ResourceTypeNotSupportedException,
-      TooManyTagsException,
-    ],
   }),
 );
 /**
@@ -2075,6 +1879,89 @@ export const validateConfigurationSettings =
     errors: [InsufficientPrivilegesException, TooManyBucketsException],
   }));
 /**
+ * Creates a bucket in Amazon S3 to store application versions, logs, and other files used
+ * by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the
+ * first time you create an environment in a region. If the storage location already exists,
+ * `CreateStorageLocation` still returns the bucket name but does not create a new
+ * bucket.
+ */
+export const createStorageLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateStorageLocationRequest,
+    output: CreateStorageLocationResultMessage,
+    errors: [
+      InsufficientPrivilegesException,
+      S3SubscriptionRequiredException,
+      TooManyBucketsException,
+    ],
+  }),
+);
+/**
+ * Launches an AWS Elastic Beanstalk environment for the specified application using the specified
+ * configuration.
+ */
+export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEnvironmentMessage,
+  output: EnvironmentDescription,
+  errors: [InsufficientPrivilegesException, TooManyEnvironmentsException],
+}));
+/**
+ * Returns a description of the settings for the specified configuration set, that is,
+ * either a configuration template or the configuration set associated with a running
+ * environment.
+ *
+ * When describing the settings for the configuration set associated with a running
+ * environment, it is possible to receive two sets of setting descriptions. One is the deployed
+ * configuration set, and the other is a draft configuration of an environment that is either in
+ * the process of deployment or that failed to deploy.
+ *
+ * Related Topics
+ *
+ * - DeleteEnvironmentConfiguration
+ */
+export const describeConfigurationSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeConfigurationSettingsMessage,
+    output: ConfigurationSettingsDescriptions,
+    errors: [TooManyBucketsException],
+  }));
+/**
+ * Updates the specified configuration template to have the specified properties or
+ * configuration option values.
+ *
+ * If a property (for example, `ApplicationName`) is not provided, its value
+ * remains unchanged. To clear such properties, specify an empty string.
+ *
+ * Related Topics
+ *
+ * - DescribeConfigurationOptions
+ */
+export const updateConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConfigurationTemplateMessage,
+    output: ConfigurationSettingsDescription,
+    errors: [InsufficientPrivilegesException, TooManyBucketsException],
+  }),
+);
+/**
+ * Updates the environment description, deploys a new application version, updates the
+ * configuration settings to an entirely new configuration template, or updates select
+ * configuration option values in the running environment.
+ *
+ * Attempting to update both the release and configuration is not allowed and AWS Elastic
+ * Beanstalk returns an `InvalidParameterCombination` error.
+ *
+ * When updating the configuration settings to a new template or individual settings, a
+ * draft configuration is created and DescribeConfigurationSettings for this
+ * environment returns two setting descriptions with different `DeploymentStatus`
+ * values.
+ */
+export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnvironmentMessage,
+  output: EnvironmentDescription,
+  errors: [InsufficientPrivilegesException, TooManyBucketsException],
+}));
+/**
  * Applies a scheduled managed action immediately. A managed action can be applied only if
  * its status is `Scheduled`. Get the status and action ID of a managed action with
  * DescribeEnvironmentManagedActions.
@@ -2089,14 +1976,33 @@ export const applyEnvironmentManagedAction =
     ],
   }));
 /**
- * Creates an application that has one configuration template named `default`
- * and no application versions.
+ * Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk
+ * application. You define application configuration settings in a configuration template. You
+ * can then use the configuration template to deploy different versions of the application with
+ * the same configuration settings.
+ *
+ * Templates aren't associated with any environment. The `EnvironmentName`
+ * response element is always `null`.
+ *
+ * Related Topics
+ *
+ * - DescribeConfigurationOptions
+ *
+ * - DescribeConfigurationSettings
+ *
+ * - ListAvailableSolutionStacks
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApplicationMessage,
-  output: ApplicationDescriptionMessage,
-  errors: [TooManyApplicationsException],
-}));
+export const createConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateConfigurationTemplateMessage,
+    output: ConfigurationSettingsDescription,
+    errors: [
+      InsufficientPrivilegesException,
+      TooManyBucketsException,
+      TooManyConfigurationTemplatesException,
+    ],
+  }),
+);
 /**
  * Create a new version of your custom platform.
  */
@@ -2161,39 +2067,63 @@ export const listPlatformBranches = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates an application version for the specified application. You can create an
- * application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the
- * output of an AWS CodeBuild build as follows:
+ * Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs.
  *
- * Specify a commit in an AWS CodeCommit repository with
- * `SourceBuildInformation`.
- *
- * Specify a build in an AWS CodeBuild with `SourceBuildInformation` and
- * `BuildConfiguration`.
- *
- * Specify a source bundle in S3 with `SourceBundle`
- *
- * Omit both `SourceBuildInformation` and `SourceBundle` to use the
- * default sample application.
- *
- * After you create an application version with a specified Amazon S3 bucket and key
- * location, you can't change that Amazon S3 location. If you change the Amazon S3 location,
- * you receive an exception when you attempt to launch an environment from the application
- * version.
+ * Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see
+ * Tagging Application
+ * Resources.
  */
-export const createApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceMessage,
+  output: ResourceTagsDescriptionMessage,
+  errors: [
+    InsufficientPrivilegesException,
+    ResourceNotFoundException,
+    ResourceTypeNotSupportedException,
+  ],
+}));
+/**
+ * Deletes the specified version from the specified application.
+ *
+ * You cannot delete an application version that is associated with a running
+ * environment.
+ */
+export const deleteApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateApplicationVersionMessage,
-    output: ApplicationVersionDescriptionMessage,
+    input: DeleteApplicationVersionMessage,
+    output: DeleteApplicationVersionResponse,
     errors: [
-      CodeBuildNotInServiceRegionException,
       InsufficientPrivilegesException,
+      OperationInProgressException,
       S3LocationNotInServiceRegionException,
-      TooManyApplicationsException,
-      TooManyApplicationVersionsException,
+      SourceBundleDeletionException,
     ],
   }),
 );
+/**
+ * Deletes the specified version of a custom platform.
+ */
+export const deletePlatformVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePlatformVersionRequest,
+    output: DeletePlatformVersionResult,
+    errors: [
+      ElasticBeanstalkServiceException,
+      InsufficientPrivilegesException,
+      OperationInProgressException,
+      PlatformVersionStillReferencedException,
+    ],
+  }),
+);
+/**
+ * Creates an application that has one configuration template named `default`
+ * and no application versions.
+ */
+export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationMessage,
+  output: ApplicationDescriptionMessage,
+  errors: [TooManyApplicationsException],
+}));
 /**
  * Returns information about the overall health of the specified environment. The
  * **DescribeEnvironmentHealth** operation is only available with
@@ -2226,5 +2156,75 @@ export const terminateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: TerminateEnvironmentMessage,
     output: EnvironmentDescription,
     errors: [InsufficientPrivilegesException],
+  }),
+);
+/**
+ * Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: `TagsToAdd`
+ * for tags to add or update, and `TagsToRemove`.
+ *
+ * Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see
+ * Tagging Application
+ * Resources.
+ *
+ * If you create a custom IAM user policy to control permission to this operation, specify
+ * one of the following two virtual actions (or both) instead of the API operation name:
+ *
+ * ### elasticbeanstalk:AddTags
+ *
+ * Controls permission to call `UpdateTagsForResource` and pass a list of tags to add in the `TagsToAdd`
+ * parameter.
+ *
+ * ### elasticbeanstalk:RemoveTags
+ *
+ * Controls permission to call `UpdateTagsForResource` and pass a list of tag keys to remove in the `TagsToRemove`
+ * parameter.
+ *
+ * For details about creating a custom user policy, see Creating a Custom User Policy.
+ */
+export const updateTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTagsForResourceMessage,
+    output: UpdateTagsForResourceResponse,
+    errors: [
+      InsufficientPrivilegesException,
+      OperationInProgressException,
+      ResourceNotFoundException,
+      ResourceTypeNotSupportedException,
+      TooManyTagsException,
+    ],
+  }),
+);
+/**
+ * Creates an application version for the specified application. You can create an
+ * application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the
+ * output of an AWS CodeBuild build as follows:
+ *
+ * Specify a commit in an AWS CodeCommit repository with
+ * `SourceBuildInformation`.
+ *
+ * Specify a build in an AWS CodeBuild with `SourceBuildInformation` and
+ * `BuildConfiguration`.
+ *
+ * Specify a source bundle in S3 with `SourceBundle`
+ *
+ * Omit both `SourceBuildInformation` and `SourceBundle` to use the
+ * default sample application.
+ *
+ * After you create an application version with a specified Amazon S3 bucket and key
+ * location, you can't change that Amazon S3 location. If you change the Amazon S3 location,
+ * you receive an exception when you attempt to launch an environment from the application
+ * version.
+ */
+export const createApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateApplicationVersionMessage,
+    output: ApplicationVersionDescriptionMessage,
+    errors: [
+      CodeBuildNotInServiceRegionException,
+      InsufficientPrivilegesException,
+      S3LocationNotInServiceRegionException,
+      TooManyApplicationsException,
+      TooManyApplicationVersionsException,
+    ],
   }),
 );

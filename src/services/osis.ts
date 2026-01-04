@@ -934,34 +934,34 @@ export class GetPipelineChangeProgressResponse extends S.Class<GetPipelineChange
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
-  "DisabledOperationException",
-  {},
-) {}
-export class InternalException extends S.TaggedError<InternalException>()(
-  "InternalException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
+  "DisabledOperationException",
+  { message: S.optional(S.String) },
+) {}
+export class InternalException extends S.TaggedError<InternalException>()(
+  "InternalException",
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
   "InvalidPaginationTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
@@ -971,83 +971,20 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
 
 //# Operations
 /**
- * Deletes a resource-based policy from an OpenSearch Ingestion resource.
+ * Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For
+ * more information, see Creating Amazon OpenSearch
+ * Ingestion pipelines.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
+export const validatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidatePipelineRequest,
+  output: ValidatePipelineResponse,
   errors: [
     AccessDeniedException,
     DisabledOperationException,
     InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
     ValidationException,
   ],
 }));
-/**
- * Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information,
- * see Tagging Amazon OpenSearch Ingestion pipelines.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based
- * policies grant permissions to principals to perform actions on the resource.
- */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Revokes pipeline endpoints from specified endpoint IDs.
- */
-export const revokePipelineEndpointConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RevokePipelineEndpointConnectionsRequest,
-    output: RevokePipelineEndpointConnectionsResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ValidationException,
-    ],
-  }));
 /**
  * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
  */
@@ -1063,155 +1000,6 @@ export const startPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Stops an OpenSearch Ingestion pipeline. For more information, see Stopping
- * an OpenSearch Ingestion pipeline.
- */
-export const stopPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopPipelineRequest,
-  output: StopPipelineResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Tags an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch
- * Ingestion pipelines.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see Tagging
- * Amazon OpenSearch Ingestion pipelines.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an OpenSearch Ingestion pipeline. For more information, see Updating Amazon OpenSearch
- * Ingestion pipelines.
- */
-export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePipelineRequest,
-  output: UpdatePipelineResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to
- * ingest data from your VPC into pipelines that you have access to.
- */
-export const createPipelineEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePipelineEndpointRequest,
-    output: CreatePipelineEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon OpenSearch
- * Ingestion pipelines.
- */
-export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePipelineRequest,
-  output: DeletePipelineResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
- */
-export const deletePipelineEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePipelineEndpointRequest,
-    output: DeletePipelineEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are
- * templates for the configuration needed for a `CreatePipeline` request. For more
- * information, see Using
- * blueprints to create a pipeline.
- */
-export const getPipelineBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPipelineBlueprintRequest,
-    output: GetPipelineBlueprintResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves a list of all available blueprints for Data Prepper. For more information, see
- * Using
- * blueprints to create a pipeline.
- */
-export const listPipelineBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPipelineBlueprintsRequest,
-    output: ListPipelineBlueprintsResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      InvalidPaginationTokenException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Lists the pipeline endpoints connected to pipelines in your account.
  */
@@ -1244,6 +1032,121 @@ export const listPipelineEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based
+ * policies grant permissions to principals to perform actions on the resource.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Revokes pipeline endpoints from specified endpoint IDs.
+ */
+export const revokePipelineEndpointConnections =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RevokePipelineEndpointConnectionsRequest,
+    output: RevokePipelineEndpointConnectionsResponse,
+    errors: [
+      AccessDeniedException,
+      DisabledOperationException,
+      InternalException,
+      LimitExceededException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes a resource-based policy from an OpenSearch Ingestion resource.
+ */
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyRequest,
+    output: DeleteResourcePolicyResponse,
+    errors: [
+      AccessDeniedException,
+      DisabledOperationException,
+      InternalException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Tags an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch
+ * Ingestion pipelines.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to
+ * ingest data from your VPC into pipelines that you have access to.
+ */
+export const createPipelineEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePipelineEndpointRequest,
+    output: CreatePipelineEndpointResponse,
+    errors: [
+      AccessDeniedException,
+      DisabledOperationException,
+      InternalException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves a list of all available blueprints for Data Prepper. For more information, see
+ * Using
+ * blueprints to create a pipeline.
+ */
+export const listPipelineBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPipelineBlueprintsRequest,
+    output: ListPipelineBlueprintsResponse,
+    errors: [
+      AccessDeniedException,
+      DisabledOperationException,
+      InternalException,
+      InvalidPaginationTokenException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
+ */
+export const deletePipelineEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePipelineEndpointRequest,
+    output: DeletePipelineEndpointResponse,
+    errors: [
+      AccessDeniedException,
+      DisabledOperationException,
+      InternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region.
  * For more information, see Viewing Amazon OpenSearch
  * Ingestion pipelines.
@@ -1260,20 +1163,102 @@ export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For
- * more information, see Creating Amazon OpenSearch
+ * Stops an OpenSearch Ingestion pipeline. For more information, see Stopping
+ * an OpenSearch Ingestion pipeline.
+ */
+export const stopPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopPipelineRequest,
+  output: StopPipelineResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an OpenSearch Ingestion pipeline. For more information, see Updating Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const validatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ValidatePipelineRequest,
-  output: ValidatePipelineResponse,
+export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePipelineRequest,
+  output: UpdatePipelineResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information,
+ * see Tagging Amazon OpenSearch Ingestion pipelines.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
     AccessDeniedException,
     DisabledOperationException,
     InternalException,
+    ResourceNotFoundException,
     ValidationException,
   ],
 }));
+/**
+ * Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see Tagging
+ * Amazon OpenSearch Ingestion pipelines.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon OpenSearch
+ * Ingestion pipelines.
+ */
+export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePipelineRequest,
+  output: DeletePipelineResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are
+ * templates for the configuration needed for a `CreatePipeline` request. For more
+ * information, see Using
+ * blueprints to create a pipeline.
+ */
+export const getPipelineBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPipelineBlueprintRequest,
+    output: GetPipelineBlueprintResponse,
+    errors: [
+      AccessDeniedException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Retrieves information about an OpenSearch Ingestion pipeline.
  */
@@ -1308,6 +1293,21 @@ export const getPipelineChangeProgress = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
+ */
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon OpenSearch
  * Ingestion pipelines.

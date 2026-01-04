@@ -3820,51 +3820,51 @@ export class InvokeAssistantResponse extends S.Class<InvokeAssistantResponse>(
 //# Errors
 export class ConflictingOperationException extends S.TaggedError<ConflictingOperationException>()(
   "ConflictingOperationException",
-  {},
+  { message: S.String, resourceId: S.String, resourceArn: S.String },
 ) {}
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
+  { message: S.String },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { message: S.String },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { message: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.String },
+) {}
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.optional(S.String) },
 ) {}
 export class PreconditionFailedException extends S.TaggedError<PreconditionFailedException>()(
   "PreconditionFailedException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
+  { message: S.String, resourceId: S.String, resourceArn: S.String },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
-  {},
+  { message: S.String, resourceId: S.String, resourceArn: S.String },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.String },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { message: S.optional(S.String), resourceName: S.optional(S.String) },
 ) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { message: S.optional(S.String) },
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.String },
 ) {}
 export class QueryTimeoutException extends S.TaggedError<QueryTimeoutException>()(
   "QueryTimeoutException",
@@ -3877,187 +3877,96 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 
 //# Operations
 /**
- * Deletes a project from IoT SiteWise Monitor.
+ * Retrieves information about the storage configuration for IoT SiteWise.
  */
-export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProjectRequest,
-  output: DeleteProjectResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a time series (data stream). If you delete a time series that's associated with an
- * asset property, the asset property still exists, but the time series will no longer be
- * associated with this asset property.
- *
- * To identify a time series, do one of the following:
- *
- * - If the time series isn't associated with an asset property,
- * specify the `alias` of the time series.
- *
- * - If the time series is associated with an asset property,
- * specify one of the following:
- *
- * - The `alias` of the time series.
- *
- * - The `assetId` and `propertyId` that identifies the asset property.
- */
-export const deleteTimeSeries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTimeSeriesRequest,
-  output: DeleteTimeSeriesResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Disassociates a child asset from the given parent asset through a hierarchy defined in the
- * parent asset's model.
- */
-export const disassociateAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateAssetsRequest,
-  output: DisassociateAssetsResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Disassociates a time series (data stream) from an asset property.
- */
-export const disassociateTimeSeriesFromAssetProperty =
+export const describeStorageConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateTimeSeriesFromAssetPropertyRequest,
-    output: DisassociateTimeSeriesFromAssetPropertyResponse,
+    input: DescribeStorageConfigurationRequest,
+    output: DescribeStorageConfigurationResponse,
     errors: [
       ConflictingOperationException,
       InternalFailureException,
       InvalidRequestException,
+      LimitExceededException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
   }));
 /**
- * Sets logging options for IoT SiteWise.
+ * Executes an action on a target resource.
  */
-export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutLoggingOptionsRequest,
-  output: PutLoggingOptionsResponse,
+export const executeAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteActionRequest,
+  output: ExecuteActionResponse,
   errors: [
     ConflictingOperationException,
     InternalFailureException,
     InvalidRequestException,
+    LimitExceededException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
 }));
 /**
- * Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor
- * portal or project resource.
+ * Sets the default encryption configuration for the Amazon Web Services account. For more information, see
+ * Key management in
+ * the *IoT SiteWise User Guide*.
  */
-export const updateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccessPolicyRequest,
-  output: UpdateAccessPolicyResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates an asset property's alias and notification state.
- *
- * This operation overwrites the property's existing alias and notification state. To keep
- * your existing property's alias or notification state, you must include the existing values
- * in the UpdateAssetProperty request. For more information, see DescribeAssetProperty.
- */
-export const updateAssetProperty = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAssetPropertyRequest,
-  output: UpdateAssetPropertyResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates an IoT SiteWise Monitor dashboard.
- */
-export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDashboardRequest,
-  output: UpdateDashboardResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates a gateway's name.
- */
-export const updateGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateGatewayRequest,
-  output: UpdateGatewayResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates an IoT SiteWise Monitor project.
- */
-export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProjectRequest,
-  output: UpdateProjectResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Associates a time series (data stream) with an asset property.
- */
-export const associateTimeSeriesToAssetProperty =
+export const putDefaultEncryptionConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateTimeSeriesToAssetPropertyRequest,
-    output: AssociateTimeSeriesToAssetPropertyResponse,
+    input: PutDefaultEncryptionConfigurationRequest,
+    output: PutDefaultEncryptionConfigurationResponse,
     errors: [
       ConflictingOperationException,
       InternalFailureException,
       InvalidRequestException,
-      ResourceNotFoundException,
+      LimitExceededException,
       ThrottlingException,
     ],
   }));
 /**
- * Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
+ * Updates a dataset.
  */
-export const batchDisassociateProjectAssets =
+export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDatasetRequest,
+  output: UpdateDatasetResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway.
+ *
+ * Important workflow notes:
+ *
+ * Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability.
+ *
+ * . The namespace follows the format `service:capability:version`, where:
+ *
+ * - `service` - The service providing the capability, or `iotsitewise`.
+ *
+ * - `capability` - The specific capability type. Options include: `opcuacollector` for the OPC UA data source collector, or `publisher` for data publisher capability.
+ *
+ * - `version` - The version number of the capability. Option include `2` for Classic streams, V2 gateways, and `3` for MQTT-enabled, V3 gateways.
+ *
+ * After updating a capability configuration, the sync status becomes `OUT_OF_SYNC` until the gateway processes the configuration.Use `DescribeGatewayCapabilityConfiguration` to check the sync status and verify the configuration was applied.
+ *
+ * A gateway can have multiple capability configurations with different namespaces.
+ */
+export const updateGatewayCapabilityConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateProjectAssetsRequest,
-    output: BatchDisassociateProjectAssetsResponse,
+    input: UpdateGatewayCapabilityConfigurationRequest,
+    output: UpdateGatewayCapabilityConfigurationResponse,
     errors: [
+      ConflictingOperationException,
       InternalFailureException,
       InvalidRequestException,
+      LimitExceededException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
@@ -4094,6 +4003,22 @@ export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Associates a group (batch) of assets with an IoT SiteWise Monitor project.
+ */
+export const batchAssociateProjectAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchAssociateProjectAssetsRequest,
+    output: BatchAssociateProjectAssetsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
  * Deletes an access policy that grants the specified identity access to the specified
  * IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor
  * resource.
@@ -4102,6 +4027,331 @@ export const deleteAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPolicyRequest,
   output: DeleteAccessPolicyResponse,
   errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a computation model. This action can't be undone.
+ */
+export const deleteComputationModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteComputationModelRequest,
+    output: DeleteComputationModelResponse,
+    errors: [
+      ConflictingOperationException,
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a dataset. This cannot be undone.
+ */
+export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetRequest,
+  output: DeleteDatasetResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves information about an asset composite model (also known as an asset component).
+ * An `AssetCompositeModel` is an instance of an
+ * `AssetModelCompositeModel`. If you want to see information about the model this is
+ * based on, call DescribeAssetModelCompositeModel.
+ */
+export const describeAssetCompositeModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAssetCompositeModelRequest,
+    output: DescribeAssetCompositeModelResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about an asset model. This includes details about the asset model's
+ * properties, hierarchies, composite models, and any interface relationships if the asset model
+ * implements interfaces.
+ */
+export const describeAssetModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAssetModelRequest,
+  output: DescribeAssetModelResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves information about an interface relationship between an asset model and an
+ * interface asset model.
+ */
+export const describeAssetModelInterfaceRelationship =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAssetModelInterfaceRelationshipRequest,
+    output: DescribeAssetModelInterfaceRelationshipResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Retrieves information about an asset property.
+ *
+ * When you call this operation for an attribute property, this response includes the
+ * default attribute value that you define in the asset model. If you update the default value
+ * in the model, this operation's response includes the new default value.
+ *
+ * This operation doesn't return the value of the asset property. To get the value of an
+ * asset property, use GetAssetPropertyValue.
+ */
+export const describeAssetProperty = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAssetPropertyRequest,
+    output: DescribeAssetPropertyResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about the execution summary of a computation model.
+ */
+export const describeComputationModelExecutionSummary =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeComputationModelExecutionSummaryRequest,
+    output: DescribeComputationModelExecutionSummaryResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Retrieves information about the execution.
+ */
+export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeExecutionRequest,
+  output: DescribeExecutionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves information about a gateway.
+ */
+export const describeGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGatewayRequest,
+  output: DescribeGatewayResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves information about a portal.
+ */
+export const describePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePortalRequest,
+  output: DescribePortalResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves a paginated list of actions for a specific target resource.
+ */
+export const listActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListActionsRequest,
+  output: ListActionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves a paginated list of properties associated with an asset.
+ * If you update properties associated with the model before you finish listing all the properties,
+ * you need to start all over again.
+ */
+export const listAssetProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAssetPropertiesRequest,
+  output: ListAssetPropertiesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves a paginated list of asset summaries.
+ *
+ * You can use this operation to do the following:
+ *
+ * - List assets based on a specific asset model.
+ *
+ * - List top-level assets.
+ *
+ * You can't use this operation to list all assets. To retrieve summaries for all of your
+ * assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all
+ * assets for each asset model.
+ */
+export const listAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAssetsRequest,
+  output: ListAssetsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves a paginated list of associated assets.
+ *
+ * You can use this operation to do the following:
+ *
+ * - `CHILD` - List all child assets associated to the asset.
+ *
+ * - `PARENT` - List the asset's parent asset.
+ */
+export const listAssociatedAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAssociatedAssetsRequest,
+    output: ListAssociatedAssetsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves a paginated list of bulk import job requests. For more information, see List bulk
+ * import jobs (CLI) in the *IoT SiteWise User Guide*.
+ */
+export const listBulkImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBulkImportJobsRequest,
+  output: ListBulkImportJobsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves a paginated list of composition relationships for an asset model of type
+ * `COMPONENT_MODEL`.
+ */
+export const listCompositionRelationships =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCompositionRelationshipsRequest,
+    output: ListCompositionRelationshipsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists all distinct resources that are resolved from the executed actions of the
+ * computation model.
+ */
+export const listComputationModelResolveToResources =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListComputationModelResolveToResourcesRequest,
+    output: ListComputationModelResolveToResourcesResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Retrieves a paginated list of summaries of all executions.
+ */
+export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListExecutionsRequest,
+  output: ListExecutionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves a paginated list of asset models that have a specific interface asset model
+ * applied to them.
+ */
+export const listInterfaceRelationships = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListInterfaceRelationshipsRequest,
+    output: ListInterfaceRelationshipsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves a paginated list of time series (data streams).
+ */
+export const listTimeSeries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTimeSeriesRequest,
+  output: ListTimeSeriesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates an IoT SiteWise Monitor portal.
+ */
+export const updatePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePortalRequest,
+  output: UpdatePortalResponse,
+  errors: [
+    ConflictingOperationException,
     InternalFailureException,
     InvalidRequestException,
     ResourceNotFoundException,
@@ -4127,26 +4377,6 @@ export const deleteAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a composite model. This action can't be undone. You must delete all assets created
- * from a composite model before you can delete the model. Also, you can't delete a composite
- * model if a parent asset model exists that contains a property formula expression that depends
- * on the asset model that you want to delete. For more information, see Deleting assets and
- * models in the *IoT SiteWise User Guide*.
- */
-export const deleteAssetModelCompositeModel =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAssetModelCompositeModelRequest,
-    output: DeleteAssetModelCompositeModelResponse,
-    errors: [
-      ConflictingOperationException,
-      InternalFailureException,
-      InvalidRequestException,
-      PreconditionFailedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
  * Deletes an interface relationship between an asset model and an interface asset
  * model.
  */
@@ -4162,34 +4392,6 @@ export const deleteAssetModelInterfaceRelationship =
       ThrottlingException,
     ],
   }));
-/**
- * Deletes a dashboard from IoT SiteWise Monitor.
- */
-export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDashboardRequest,
-  output: DeleteDashboardResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain
- * in your gateway's file system.
- */
-export const deleteGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGatewayRequest,
-  output: DeleteGatewayResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
 /**
  * Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or
  * project.
@@ -4356,29 +4558,6 @@ export const describeTimeSeries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets the history of an asset property's values. For more information, see Querying
- * historical values in the *IoT SiteWise User Guide*.
- *
- * To identify an asset property, you must specify one of the following:
- *
- * - The `assetId` and `propertyId` of an asset property.
- *
- * - A `propertyAlias`, which is a data stream alias (for example,
- * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
- */
-export const getAssetPropertyValueHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAssetPropertyValueHistoryRequest,
-    output: GetAssetPropertyValueHistoryResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
  * Retrieves a paginated list of composite models associated with the asset model
  */
 export const listAssetModelCompositeModels =
@@ -4393,362 +4572,14 @@ export const listAssetModelCompositeModels =
     ],
   }));
 /**
- * Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project.
+ * Associates a time series (data stream) with an asset property.
  */
-export const listProjectAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListProjectAssetsRequest,
-  output: ListProjectAssetsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves the list of tags for an IoT SiteWise resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Sets the default encryption configuration for the Amazon Web Services account. For more information, see
- * Key management in
- * the *IoT SiteWise User Guide*.
- */
-export const putDefaultEncryptionConfiguration =
+export const associateTimeSeriesToAssetProperty =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDefaultEncryptionConfigurationRequest,
-    output: PutDefaultEncryptionConfigurationResponse,
+    input: AssociateTimeSeriesToAssetPropertyRequest,
+    output: AssociateTimeSeriesToAssetPropertyResponse,
     errors: [
       ConflictingOperationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Configures storage settings for IoT SiteWise.
- */
-export const putStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutStorageConfigurationRequest,
-    output: PutStorageConfigurationResponse,
-    errors: [
-      ConflictingOperationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Removes a tag from an IoT SiteWise resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates an asset's name. For more information, see Updating assets and models in the
- * *IoT SiteWise User Guide*.
- */
-export const updateAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAssetRequest,
-  output: UpdateAssetResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates a composite model and all of the assets that were created from the model. Each
- * asset created from the model inherits the updated asset model's property and hierarchy
- * definitions. For more information, see Updating assets and models in the
- * *IoT SiteWise User Guide*.
- *
- * If you remove a property from a composite asset model, IoT SiteWise deletes all previous data
- * for that property. You can’t change the type or data type of an existing property.
- *
- * To replace an existing composite asset model property with a new one with the same
- * `name`, do the following:
- *
- * - Submit an `UpdateAssetModelCompositeModel` request with the entire
- * existing property removed.
- *
- * - Submit a second `UpdateAssetModelCompositeModel` request that includes
- * the new property. The new asset property will have the same `name` as the
- * previous one and IoT SiteWise will generate a new unique `id`.
- */
-export const updateAssetModelCompositeModel =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAssetModelCompositeModelRequest,
-    output: UpdateAssetModelCompositeModelResponse,
-    errors: [
-      ConflictingOperationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      PreconditionFailedException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates the computation model.
- */
-export const updateComputationModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateComputationModelRequest,
-    output: UpdateComputationModelResponse,
-    errors: [
-      ConflictingOperationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates a dataset.
- */
-export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDatasetRequest,
-  output: UpdateDatasetResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway.
- *
- * Important workflow notes:
- *
- * Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability.
- *
- * . The namespace follows the format `service:capability:version`, where:
- *
- * - `service` - The service providing the capability, or `iotsitewise`.
- *
- * - `capability` - The specific capability type. Options include: `opcuacollector` for the OPC UA data source collector, or `publisher` for data publisher capability.
- *
- * - `version` - The version number of the capability. Option include `2` for Classic streams, V2 gateways, and `3` for MQTT-enabled, V3 gateways.
- *
- * After updating a capability configuration, the sync status becomes `OUT_OF_SYNC` until the gateway processes the configuration.Use `DescribeGatewayCapabilityConfiguration` to check the sync status and verify the configuration was applied.
- *
- * A gateway can have multiple capability configurations with different namespaces.
- */
-export const updateGatewayCapabilityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateGatewayCapabilityConfigurationRequest,
-    output: UpdateGatewayCapabilityConfigurationResponse,
-    errors: [
-      ConflictingOperationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Associates a child asset with the given parent asset through a hierarchy defined in the
- * parent asset's model. For more information, see Associating assets in the
- * *IoT SiteWise User Guide*.
- */
-export const associateAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateAssetsRequest,
-  output: AssociateAssetsResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Associates a group (batch) of assets with an IoT SiteWise Monitor project.
- */
-export const batchAssociateProjectAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAssociateProjectAssetsRequest,
-    output: BatchAssociateProjectAssetsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates a custom composite model from specified property and hierarchy definitions. There
- * are two types of custom composite models, `inline` and
- * `component-model-based`.
- *
- * Use component-model-based custom composite models to define standard, reusable components.
- * A component-model-based custom composite model consists of a name, a description, and the ID
- * of the component model it references. A component-model-based custom composite model has no
- * properties of its own; its referenced component model provides its associated properties to
- * any created assets. For more information, see Custom composite models (Components)
- * in the *IoT SiteWise User Guide*.
- *
- * Use inline custom composite models to organize the properties of an asset model. The
- * properties of inline custom composite models are local to the asset model where they are
- * included and can't be used to create multiple assets.
- *
- * To create a component-model-based model, specify the `composedAssetModelId` of
- * an existing asset model with `assetModelType` of
- * `COMPONENT_MODEL`.
- *
- * To create an inline model, specify the `assetModelCompositeModelProperties` and
- * don't include an `composedAssetModelId`.
- */
-export const createAssetModelCompositeModel =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAssetModelCompositeModelRequest,
-    output: CreateAssetModelCompositeModelResponse,
-    errors: [
-      ConflictingOperationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      PreconditionFailedException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Deletes an asset model. This action can't be undone. You must delete all assets created
- * from an asset model before you can delete the model. Also, you can't delete an asset model if
- * a parent asset model exists that contains a property formula expression that depends on the
- * asset model that you want to delete. For more information, see Deleting assets and models in the
- * *IoT SiteWise User Guide*.
- */
-export const deleteAssetModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAssetModelRequest,
-  output: DeleteAssetModelResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    PreconditionFailedException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a computation model. This action can't be undone.
- */
-export const deleteComputationModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteComputationModelRequest,
-    output: DeleteComputationModelResponse,
-    errors: [
-      ConflictingOperationException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a dataset. This cannot be undone.
- */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatasetRequest,
-  output: DeleteDatasetResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves information about an asset composite model (also known as an asset component).
- * An `AssetCompositeModel` is an instance of an
- * `AssetModelCompositeModel`. If you want to see information about the model this is
- * based on, call DescribeAssetModelCompositeModel.
- */
-export const describeAssetCompositeModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAssetCompositeModelRequest,
-    output: DescribeAssetCompositeModelResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Retrieves information about an asset model. This includes details about the asset model's
- * properties, hierarchies, composite models, and any interface relationships if the asset model
- * implements interfaces.
- */
-export const describeAssetModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAssetModelRequest,
-  output: DescribeAssetModelResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves information about an interface relationship between an asset model and an
- * interface asset model.
- */
-export const describeAssetModelInterfaceRelationship =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAssetModelInterfaceRelationshipRequest,
-    output: DescribeAssetModelInterfaceRelationshipResponse,
-    errors: [
       InternalFailureException,
       InvalidRequestException,
       ResourceNotFoundException,
@@ -4756,34 +4587,197 @@ export const describeAssetModelInterfaceRelationship =
     ],
   }));
 /**
- * Retrieves information about an asset property.
- *
- * When you call this operation for an attribute property, this response includes the
- * default attribute value that you define in the asset model. If you update the default value
- * in the model, this operation's response includes the new default value.
- *
- * This operation doesn't return the value of the asset property. To get the value of an
- * asset property, use GetAssetPropertyValue.
+ * Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain
+ * in your gateway's file system.
  */
-export const describeAssetProperty = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAssetPropertyRequest,
-    output: DescribeAssetPropertyResponse,
+export const deleteGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGatewayRequest,
+  output: DeleteGatewayResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a time series (data stream). If you delete a time series that's associated with an
+ * asset property, the asset property still exists, but the time series will no longer be
+ * associated with this asset property.
+ *
+ * To identify a time series, do one of the following:
+ *
+ * - If the time series isn't associated with an asset property,
+ * specify the `alias` of the time series.
+ *
+ * - If the time series is associated with an asset property,
+ * specify one of the following:
+ *
+ * - The `alias` of the time series.
+ *
+ * - The `assetId` and `propertyId` that identifies the asset property.
+ */
+export const deleteTimeSeries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTimeSeriesRequest,
+  output: DeleteTimeSeriesResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Disassociates a child asset from the given parent asset through a hierarchy defined in the
+ * parent asset's model.
+ */
+export const disassociateAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAssetsRequest,
+  output: DisassociateAssetsResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Disassociates a time series (data stream) from an asset property.
+ */
+export const disassociateTimeSeriesFromAssetProperty =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateTimeSeriesFromAssetPropertyRequest,
+    output: DisassociateTimeSeriesFromAssetPropertyResponse,
     errors: [
+      ConflictingOperationException,
       InternalFailureException,
       InvalidRequestException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
-  }),
-);
+  }));
 /**
- * Retrieves information about the execution summary of a computation model.
+ * Sets logging options for IoT SiteWise.
  */
-export const describeComputationModelExecutionSummary =
+export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutLoggingOptionsRequest,
+  output: PutLoggingOptionsResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates an asset property's alias and notification state.
+ *
+ * This operation overwrites the property's existing alias and notification state. To keep
+ * your existing property's alias or notification state, you must include the existing values
+ * in the UpdateAssetProperty request. For more information, see DescribeAssetProperty.
+ */
+export const updateAssetProperty = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssetPropertyRequest,
+  output: UpdateAssetPropertyResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a gateway's name.
+ */
+export const updateGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGatewayRequest,
+  output: UpdateGatewayResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a dashboard from IoT SiteWise Monitor.
+ */
+export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDashboardRequest,
+  output: DeleteDashboardResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a project from IoT SiteWise Monitor.
+ */
+export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectRequest,
+  output: DeleteProjectResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor
+ * portal or project resource.
+ */
+export const updateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccessPolicyRequest,
+  output: UpdateAccessPolicyResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates an IoT SiteWise Monitor dashboard.
+ */
+export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDashboardRequest,
+  output: UpdateDashboardResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates an IoT SiteWise Monitor project.
+ */
+export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProjectRequest,
+  output: UpdateProjectResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
+ */
+export const batchDisassociateProjectAssets =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeComputationModelExecutionSummaryRequest,
-    output: DescribeComputationModelExecutionSummaryResponse,
+    input: BatchDisassociateProjectAssetsRequest,
+    output: BatchDisassociateProjectAssetsResponse,
     errors: [
       InternalFailureException,
       InvalidRequestException,
@@ -4807,127 +4801,6 @@ export const describeDefaultEncryptionConfiguration =
     ],
   }));
 /**
- * Retrieves information about the execution.
- */
-export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeExecutionRequest,
-  output: DescribeExecutionResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves information about a gateway.
- */
-export const describeGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeGatewayRequest,
-  output: DescribeGatewayResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves information about a portal.
- */
-export const describePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribePortalRequest,
-  output: DescribePortalResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves information about the storage configuration for IoT SiteWise.
- */
-export const describeStorageConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeStorageConfigurationRequest,
-    output: DescribeStorageConfigurationResponse,
-    errors: [
-      ConflictingOperationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Executes an action on a target resource.
- */
-export const executeAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExecuteActionRequest,
-  output: ExecuteActionResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Gets an asset property's current value. For more information, see Querying
- * current values in the *IoT SiteWise User Guide*.
- *
- * To identify an asset property, you must specify one of the following:
- *
- * - The `assetId` and `propertyId` of an asset property.
- *
- * - A `propertyAlias`, which is a data stream alias (for example,
- * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
- */
-export const getAssetPropertyValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssetPropertyValueRequest,
-    output: GetAssetPropertyValueResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Get interpolated values for an asset property for a specified time interval, during a
- * period of time. If your time series is missing data points during the specified time interval,
- * you can use interpolation to estimate the missing data.
- *
- * For example, you can use this operation to return the interpolated temperature values for
- * a wind turbine every 24 hours over a duration of 7 days.
- *
- * To identify an asset property, you must specify one of the following:
- *
- * - The `assetId` and `propertyId` of an asset property.
- *
- * - A `propertyAlias`, which is a data stream alias (for example,
- * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
- */
-export const getInterpolatedAssetPropertyValues =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetInterpolatedAssetPropertyValuesRequest,
-    output: GetInterpolatedAssetPropertyValuesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
-/**
  * Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center
  * group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
  */
@@ -4937,19 +4810,6 @@ export const listAccessPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     InternalFailureException,
     InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves a paginated list of actions for a specific target resource.
- */
-export const listActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListActionsRequest,
-  output: ListActionsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
     ThrottlingException,
   ],
 }));
@@ -4965,109 +4825,6 @@ export const listAssetModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves a paginated list of properties associated with an asset.
- * If you update properties associated with the model before you finish listing all the properties,
- * you need to start all over again.
- */
-export const listAssetProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAssetPropertiesRequest,
-  output: ListAssetPropertiesResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves a paginated list of asset summaries.
- *
- * You can use this operation to do the following:
- *
- * - List assets based on a specific asset model.
- *
- * - List top-level assets.
- *
- * You can't use this operation to list all assets. To retrieve summaries for all of your
- * assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all
- * assets for each asset model.
- */
-export const listAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAssetsRequest,
-  output: ListAssetsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves a paginated list of associated assets.
- *
- * You can use this operation to do the following:
- *
- * - `CHILD` - List all child assets associated to the asset.
- *
- * - `PARENT` - List the asset's parent asset.
- */
-export const listAssociatedAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAssociatedAssetsRequest,
-    output: ListAssociatedAssetsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Retrieves a paginated list of bulk import job requests. For more information, see List bulk
- * import jobs (CLI) in the *IoT SiteWise User Guide*.
- */
-export const listBulkImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBulkImportJobsRequest,
-  output: ListBulkImportJobsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves a paginated list of composition relationships for an asset model of type
- * `COMPONENT_MODEL`.
- */
-export const listCompositionRelationships =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCompositionRelationshipsRequest,
-    output: ListCompositionRelationshipsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Lists all distinct resources that are resolved from the executed actions of the
- * computation model.
- */
-export const listComputationModelResolveToResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListComputationModelResolveToResourcesRequest,
-    output: ListComputationModelResolveToResourcesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
 /**
  * Retrieves a paginated list of summaries of all computation models.
  */
@@ -5107,19 +4864,6 @@ export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves a paginated list of summaries of all executions.
- */
-export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListExecutionsRequest,
-  output: ListExecutionsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Retrieves a paginated list of gateways.
  */
 export const listGateways = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5131,22 +4875,6 @@ export const listGateways = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves a paginated list of asset models that have a specific interface asset model
- * applied to them.
- */
-export const listInterfaceRelationships = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListInterfaceRelationshipsRequest,
-    output: ListInterfaceRelationshipsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Retrieves a paginated list of IoT SiteWise Monitor portals.
  */
@@ -5172,47 +4900,14 @@ export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves a paginated list of time series (data streams).
+ * Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project.
  */
-export const listTimeSeries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTimeSeriesRequest,
-  output: ListTimeSeriesResponse,
+export const listProjectAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProjectAssetsRequest,
+  output: ListProjectAssetsResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation
- * updates the tag's value.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    TooManyTagsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates an IoT SiteWise Monitor portal.
- */
-export const updatePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePortalRequest,
-  output: UpdatePortalResponse,
-  errors: [
-    ConflictingOperationException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
     ThrottlingException,
   ],
 }));
@@ -5230,22 +4925,6 @@ export const createAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     LimitExceededException,
     ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a gateway, which is a virtual or edge device that delivers industrial data streams
- * from local servers to IoT SiteWise. For more information, see Ingesting data using a gateway in the
- * *IoT SiteWise User Guide*.
- */
-export const createGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGatewayRequest,
-  output: CreateGatewayResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
     ThrottlingException,
   ],
 }));
@@ -5312,30 +4991,6 @@ export const describeAssetModelCompositeModel =
     ],
   }));
 /**
- * Gets aggregated values for an asset property. For more information, see Querying
- * aggregates in the *IoT SiteWise User Guide*.
- *
- * To identify an asset property, you must specify one of the following:
- *
- * - The `assetId` and `propertyId` of an asset property.
- *
- * - A `propertyAlias`, which is a data stream alias (for example,
- * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
- */
-export const getAssetPropertyAggregates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssetPropertyAggregatesRequest,
-    output: GetAssetPropertyAggregatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Retrieves a paginated list of properties associated with an asset model.
  * If you update properties associated with the model before you finish listing all the properties,
  * you need to start all over again.
@@ -5387,6 +5042,133 @@ export const putAssetModelInterfaceRelationship =
     ],
   }));
 /**
+ * Deletes an asset model. This action can't be undone. You must delete all assets created
+ * from an asset model before you can delete the model. Also, you can't delete an asset model if
+ * a parent asset model exists that contains a property formula expression that depends on the
+ * asset model that you want to delete. For more information, see Deleting assets and models in the
+ * *IoT SiteWise User Guide*.
+ */
+export const deleteAssetModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssetModelRequest,
+  output: DeleteAssetModelResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    PreconditionFailedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates an asset's name. For more information, see Updating assets and models in the
+ * *IoT SiteWise User Guide*.
+ */
+export const updateAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssetRequest,
+  output: UpdateAssetResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a composite model. This action can't be undone. You must delete all assets created
+ * from a composite model before you can delete the model. Also, you can't delete a composite
+ * model if a parent asset model exists that contains a property formula expression that depends
+ * on the asset model that you want to delete. For more information, see Deleting assets and
+ * models in the *IoT SiteWise User Guide*.
+ */
+export const deleteAssetModelCompositeModel =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteAssetModelCompositeModelRequest,
+    output: DeleteAssetModelCompositeModelResponse,
+    errors: [
+      ConflictingOperationException,
+      InternalFailureException,
+      InvalidRequestException,
+      PreconditionFailedException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates a composite model and all of the assets that were created from the model. Each
+ * asset created from the model inherits the updated asset model's property and hierarchy
+ * definitions. For more information, see Updating assets and models in the
+ * *IoT SiteWise User Guide*.
+ *
+ * If you remove a property from a composite asset model, IoT SiteWise deletes all previous data
+ * for that property. You can’t change the type or data type of an existing property.
+ *
+ * To replace an existing composite asset model property with a new one with the same
+ * `name`, do the following:
+ *
+ * - Submit an `UpdateAssetModelCompositeModel` request with the entire
+ * existing property removed.
+ *
+ * - Submit a second `UpdateAssetModelCompositeModel` request that includes
+ * the new property. The new asset property will have the same `name` as the
+ * previous one and IoT SiteWise will generate a new unique `id`.
+ */
+export const updateAssetModelCompositeModel =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateAssetModelCompositeModelRequest,
+    output: UpdateAssetModelCompositeModelResponse,
+    errors: [
+      ConflictingOperationException,
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      PreconditionFailedException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Creates a custom composite model from specified property and hierarchy definitions. There
+ * are two types of custom composite models, `inline` and
+ * `component-model-based`.
+ *
+ * Use component-model-based custom composite models to define standard, reusable components.
+ * A component-model-based custom composite model consists of a name, a description, and the ID
+ * of the component model it references. A component-model-based custom composite model has no
+ * properties of its own; its referenced component model provides its associated properties to
+ * any created assets. For more information, see Custom composite models (Components)
+ * in the *IoT SiteWise User Guide*.
+ *
+ * Use inline custom composite models to organize the properties of an asset model. The
+ * properties of inline custom composite models are local to the asset model where they are
+ * included and can't be used to create multiple assets.
+ *
+ * To create a component-model-based model, specify the `composedAssetModelId` of
+ * an existing asset model with `assetModelType` of
+ * `COMPONENT_MODEL`.
+ *
+ * To create an inline model, specify the `assetModelCompositeModelProperties` and
+ * don't include an `composedAssetModelId`.
+ */
+export const createAssetModelCompositeModel =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateAssetModelCompositeModelRequest,
+    output: CreateAssetModelCompositeModelResponse,
+    errors: [
+      ConflictingOperationException,
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      PreconditionFailedException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
  * Updates an asset model and all of the assets that were created from the model. Each asset
  * created from the model inherits the updated asset model's property and hierarchy definitions.
  * For more information, see Updating assets and models in the
@@ -5419,6 +5201,224 @@ export const updateAssetModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
+/**
+ * Configures storage settings for IoT SiteWise.
+ */
+export const putStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutStorageConfigurationRequest,
+    output: PutStorageConfigurationResponse,
+    errors: [
+      ConflictingOperationException,
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the computation model.
+ */
+export const updateComputationModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateComputationModelRequest,
+    output: UpdateComputationModelResponse,
+    errors: [
+      ConflictingOperationException,
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Associates a child asset with the given parent asset through a hierarchy defined in the
+ * parent asset's model. For more information, see Associating assets in the
+ * *IoT SiteWise User Guide*.
+ */
+export const associateAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAssetsRequest,
+  output: AssociateAssetsResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a gateway, which is a virtual or edge device that delivers industrial data streams
+ * from local servers to IoT SiteWise. For more information, see Ingesting data using a gateway in the
+ * *IoT SiteWise User Guide*.
+ */
+export const createGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGatewayRequest,
+  output: CreateGatewayResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves the list of tags for an IoT SiteWise resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation
+ * updates the tag's value.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    TooManyTagsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Get interpolated values for an asset property for a specified time interval, during a
+ * period of time. If your time series is missing data points during the specified time interval,
+ * you can use interpolation to estimate the missing data.
+ *
+ * For example, you can use this operation to return the interpolated temperature values for
+ * a wind turbine every 24 hours over a duration of 7 days.
+ *
+ * To identify an asset property, you must specify one of the following:
+ *
+ * - The `assetId` and `propertyId` of an asset property.
+ *
+ * - A `propertyAlias`, which is a data stream alias (for example,
+ * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
+ */
+export const getInterpolatedAssetPropertyValues =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetInterpolatedAssetPropertyValuesRequest,
+    output: GetInterpolatedAssetPropertyValuesResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Removes a tag from an IoT SiteWise resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets an asset property's current value. For more information, see Querying
+ * current values in the *IoT SiteWise User Guide*.
+ *
+ * To identify an asset property, you must specify one of the following:
+ *
+ * - The `assetId` and `propertyId` of an asset property.
+ *
+ * - A `propertyAlias`, which is a data stream alias (for example,
+ * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
+ */
+export const getAssetPropertyValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAssetPropertyValueRequest,
+    output: GetAssetPropertyValueResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Gets the history of an asset property's values. For more information, see Querying
+ * historical values in the *IoT SiteWise User Guide*.
+ *
+ * To identify an asset property, you must specify one of the following:
+ *
+ * - The `assetId` and `propertyId` of an asset property.
+ *
+ * - A `propertyAlias`, which is a data stream alias (for example,
+ * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
+ */
+export const getAssetPropertyValueHistory =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetAssetPropertyValueHistoryRequest,
+    output: GetAssetPropertyValueHistoryResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Gets aggregated values for an asset property. For more information, see Querying
+ * aggregates in the *IoT SiteWise User Guide*.
+ *
+ * To identify an asset property, you must specify one of the following:
+ *
+ * - The `assetId` and `propertyId` of an asset property.
+ *
+ * - A `propertyAlias`, which is a data stream alias (for example,
+ * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
+ */
+export const getAssetPropertyAggregates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAssetPropertyAggregatesRequest,
+    output: GetAssetPropertyAggregatesResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Gets aggregated values (for example, average, minimum, and maximum) for one or more asset
  * properties. For more information, see Querying aggregates in the

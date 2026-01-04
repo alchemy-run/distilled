@@ -1618,7 +1618,6 @@ export class DocumentRequires extends S.Class<DocumentRequires>(
   VersionName: S.optional(S.String),
 }) {}
 export const DocumentRequiresList = S.Array(DocumentRequires);
-export const OpsItemParameterNamesList = S.Array(S.String);
 export class DescribeActivationsFilter extends S.Class<DescribeActivationsFilter>(
   "DescribeActivationsFilter",
 )({ FilterKey: S.optional(S.String), FilterValues: S.optional(StringList) }) {}
@@ -3243,6 +3242,7 @@ export class DocumentDefaultVersionDescription extends S.Class<DocumentDefaultVe
 export class DocumentReviews extends S.Class<DocumentReviews>(
   "DocumentReviews",
 )({ Action: S.String, Comment: S.optional(DocumentReviewCommentList) }) {}
+export const OpsItemParameterNamesList = S.Array(S.String);
 export const ValidNextStepList = S.Array(S.String);
 export const TargetParameterList = S.Array(S.String);
 export const RegionList = S.Array(S.String);
@@ -3842,7 +3842,6 @@ export class FailedCreateAssociation extends S.Class<FailedCreateAssociation>(
 export const FailedCreateAssociationList = S.Array(
   FailedCreateAssociation.pipe(T.XmlName("FailedCreateAssociationEntry")),
 );
-export const ResourcePolicyParameterNamesList = S.Array(S.String);
 export class Activation extends S.Class<Activation>("Activation")({
   ActivationId: S.optional(S.String),
   Description: S.optional(S.String),
@@ -4522,6 +4521,7 @@ export class AutomationExecution extends S.Class<AutomationExecution>(
 export const ExecutionPreview = S.Union(
   S.Struct({ Automation: AutomationExecutionPreview }),
 );
+export const ResourcePolicyParameterNamesList = S.Array(S.String);
 export class CommandInvocation extends S.Class<CommandInvocation>(
   "CommandInvocation",
 )({
@@ -4754,73 +4754,91 @@ export class DuplicateInstanceId extends S.TaggedError<DuplicateInstanceId>()(
   {},
   T.AwsQueryError({ code: "DuplicateInstanceId", httpResponseCode: 404 }),
 ) {}
-export class InternalServerError extends S.TaggedError<InternalServerError>()(
-  "InternalServerError",
-  {},
-  T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
-) {}
 export class AssociatedInstances extends S.TaggedError<AssociatedInstances>()(
   "AssociatedInstances",
   {},
   T.AwsQueryError({ code: "AssociatedInstances", httpResponseCode: 400 }),
 ) {}
-export class InvalidResourceId extends S.TaggedError<InvalidResourceId>()(
-  "InvalidResourceId",
-  {},
-  T.AwsQueryError({ code: "InvalidResourceId", httpResponseCode: 400 }),
-) {}
-export class InvalidResourceType extends S.TaggedError<InvalidResourceType>()(
-  "InvalidResourceType",
-  {},
-  T.AwsQueryError({ code: "InvalidResourceType", httpResponseCode: 400 }),
-) {}
-export class AssociationDoesNotExist extends S.TaggedError<AssociationDoesNotExist>()(
-  "AssociationDoesNotExist",
-  {},
-  T.AwsQueryError({ code: "AssociationDoesNotExist", httpResponseCode: 404 }),
-) {}
-export class InvalidInstanceId extends S.TaggedError<InvalidInstanceId>()(
-  "InvalidInstanceId",
-  {},
-  T.AwsQueryError({ code: "InvalidInstanceId", httpResponseCode: 404 }),
-) {}
-export class TooManyTagsError extends S.TaggedError<TooManyTagsError>()(
-  "TooManyTagsError",
-  {},
-  T.AwsQueryError({ code: "TooManyTagsError", httpResponseCode: 400 }),
-) {}
-export class TooManyUpdates extends S.TaggedError<TooManyUpdates>()(
-  "TooManyUpdates",
-  {},
-  T.AwsQueryError({ code: "TooManyUpdates", httpResponseCode: 429 }),
-) {}
-export class OpsItemConflictException extends S.TaggedError<OpsItemConflictException>()(
-  "OpsItemConflictException",
-  {},
-  T.AwsQueryError({ code: "OpsItemConflictException", httpResponseCode: 409 }),
-) {}
-export class OpsItemInvalidParameterException extends S.TaggedError<OpsItemInvalidParameterException>()(
-  "OpsItemInvalidParameterException",
-  {},
-  T.AwsQueryError({
-    code: "OpsItemInvalidParameterException",
-    httpResponseCode: 400,
-  }),
+export class InternalServerError extends S.TaggedError<InternalServerError>()(
+  "InternalServerError",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
 ) {}
 export class InvalidCommandId extends S.TaggedError<InvalidCommandId>()(
   "InvalidCommandId",
   {},
   T.AwsQueryError({ code: "InvalidCommandId", httpResponseCode: 404 }),
 ) {}
-export class InvalidActivation extends S.TaggedError<InvalidActivation>()(
-  "InvalidActivation",
+export class AssociationDoesNotExist extends S.TaggedError<AssociationDoesNotExist>()(
+  "AssociationDoesNotExist",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidActivation", httpResponseCode: 404 }),
+  T.AwsQueryError({ code: "AssociationDoesNotExist", httpResponseCode: 404 }),
+) {}
+export class InvalidResourceId extends S.TaggedError<InvalidResourceId>()(
+  "InvalidResourceId",
+  {},
+  T.AwsQueryError({ code: "InvalidResourceId", httpResponseCode: 400 }),
+) {}
+export class InvalidFilterKey extends S.TaggedError<InvalidFilterKey>()(
+  "InvalidFilterKey",
+  {},
+  T.AwsQueryError({ code: "InvalidFilterKey", httpResponseCode: 400 }),
+) {}
+export class InvalidResourceType extends S.TaggedError<InvalidResourceType>()(
+  "InvalidResourceType",
+  {},
+  T.AwsQueryError({ code: "InvalidResourceType", httpResponseCode: 400 }),
+) {}
+export class DocumentLimitExceeded extends S.TaggedError<DocumentLimitExceeded>()(
+  "DocumentLimitExceeded",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DocumentLimitExceeded", httpResponseCode: 400 }),
+) {}
+export class AutomationExecutionNotFoundException extends S.TaggedError<AutomationExecutionNotFoundException>()(
+  "AutomationExecutionNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "AutomationExecutionNotFound",
+    httpResponseCode: 404,
+  }),
+) {}
+export class TooManyTagsError extends S.TaggedError<TooManyTagsError>()(
+  "TooManyTagsError",
+  {},
+  T.AwsQueryError({ code: "TooManyTagsError", httpResponseCode: 400 }),
+) {}
+export class InvalidInstanceId extends S.TaggedError<InvalidInstanceId>()(
+  "InvalidInstanceId",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidInstanceId", httpResponseCode: 404 }),
+) {}
+export class DoesNotExistException extends S.TaggedError<DoesNotExistException>()(
+  "DoesNotExistException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DoesNotExistException", httpResponseCode: 404 }),
+) {}
+export class IdempotentParameterMismatch extends S.TaggedError<IdempotentParameterMismatch>()(
+  "IdempotentParameterMismatch",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "IdempotentParameterMismatch",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class InvalidDocument extends S.TaggedError<InvalidDocument>()(
   "InvalidDocument",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidDocument", httpResponseCode: 404 }),
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceInUseException", httpResponseCode: 400 }),
+) {}
+export class InvalidNextToken extends S.TaggedError<InvalidNextToken>()(
+  "InvalidNextToken",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
 ) {}
 export class OpsMetadataInvalidArgumentException extends S.TaggedError<OpsMetadataInvalidArgumentException>()(
   "OpsMetadataInvalidArgumentException",
@@ -4830,16 +4848,36 @@ export class OpsMetadataInvalidArgumentException extends S.TaggedError<OpsMetada
     httpResponseCode: 400,
   }),
 ) {}
+export class InvalidKeyId extends S.TaggedError<InvalidKeyId>()(
+  "InvalidKeyId",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidKeyId", httpResponseCode: 400 }),
+) {}
+export class InvalidFilterOption extends S.TaggedError<InvalidFilterOption>()(
+  "InvalidFilterOption",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidFilterOption", httpResponseCode: 400 }),
+) {}
 export class ParameterNotFound extends S.TaggedError<ParameterNotFound>()(
   "ParameterNotFound",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ParameterNotFound", httpResponseCode: 404 }),
 ) {}
-export class ResourceDataSyncInvalidConfigurationException extends S.TaggedError<ResourceDataSyncInvalidConfigurationException>()(
-  "ResourceDataSyncInvalidConfigurationException",
+export class InvalidFilter extends S.TaggedError<InvalidFilter>()(
+  "InvalidFilter",
   { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidFilter", httpResponseCode: 441 }),
+) {}
+export class DocumentPermissionLimit extends S.TaggedError<DocumentPermissionLimit>()(
+  "DocumentPermissionLimit",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DocumentPermissionLimit", httpResponseCode: 400 }),
+) {}
+export class HierarchyLevelLimitExceededException extends S.TaggedError<HierarchyLevelLimitExceededException>()(
+  "HierarchyLevelLimitExceededException",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "ResourceDataSyncInvalidConfiguration",
+    code: "HierarchyLevelLimitExceededException",
     httpResponseCode: 400,
   }),
 ) {}
@@ -4851,235 +4889,19 @@ export class MalformedResourcePolicyDocumentException extends S.TaggedError<Malf
     httpResponseCode: 400,
   }),
 ) {}
-export class DoesNotExistException extends S.TaggedError<DoesNotExistException>()(
-  "DoesNotExistException",
-  {},
-  T.AwsQueryError({ code: "DoesNotExistException", httpResponseCode: 404 }),
-) {}
-export class InvalidPluginName extends S.TaggedError<InvalidPluginName>()(
-  "InvalidPluginName",
-  {},
-  T.AwsQueryError({ code: "InvalidPluginName", httpResponseCode: 404 }),
-) {}
-export class InvocationDoesNotExist extends S.TaggedError<InvocationDoesNotExist>()(
-  "InvocationDoesNotExist",
-  {},
-  T.AwsQueryError({ code: "InvocationDoesNotExist", httpResponseCode: 400 }),
-) {}
-export class OpsMetadataNotFoundException extends S.TaggedError<OpsMetadataNotFoundException>()(
-  "OpsMetadataNotFoundException",
-  {},
-  T.AwsQueryError({
-    code: "OpsMetadataNotFoundException",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidFilterKey extends S.TaggedError<InvalidFilterKey>()(
-  "InvalidFilterKey",
-  {},
-  T.AwsQueryError({ code: "InvalidFilterKey", httpResponseCode: 400 }),
-) {}
-export class DocumentLimitExceeded extends S.TaggedError<DocumentLimitExceeded>()(
-  "DocumentLimitExceeded",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DocumentLimitExceeded", httpResponseCode: 400 }),
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
-) {}
-export class IdempotentParameterMismatch extends S.TaggedError<IdempotentParameterMismatch>()(
-  "IdempotentParameterMismatch",
-  {},
-  T.AwsQueryError({
-    code: "IdempotentParameterMismatch",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ServiceSettingNotFound extends S.TaggedError<ServiceSettingNotFound>()(
-  "ServiceSettingNotFound",
-  {},
-  T.AwsQueryError({ code: "ServiceSettingNotFound", httpResponseCode: 400 }),
-) {}
-export class AutomationExecutionNotFoundException extends S.TaggedError<AutomationExecutionNotFoundException>()(
-  "AutomationExecutionNotFoundException",
-  {},
-  T.AwsQueryError({
-    code: "AutomationExecutionNotFound",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidAssociation extends S.TaggedError<InvalidAssociation>()(
-  "InvalidAssociation",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidAssociation", httpResponseCode: 400 }),
-) {}
-export class OpsItemAccessDeniedException extends S.TaggedError<OpsItemAccessDeniedException>()(
-  "OpsItemAccessDeniedException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "OpsItemAccessDeniedException",
-    httpResponseCode: 403,
-  }),
-) {}
-export class ResourceDataSyncConflictException extends S.TaggedError<ResourceDataSyncConflictException>()(
-  "ResourceDataSyncConflictException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ResourceDataSyncConflictException",
-    httpResponseCode: 409,
-  }),
-) {}
-export class ResourceDataSyncNotFoundException extends S.TaggedError<ResourceDataSyncNotFoundException>()(
-  "ResourceDataSyncNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourceDataSyncNotFound", httpResponseCode: 404 }),
-) {}
-export class OpsItemLimitExceededException extends S.TaggedError<OpsItemLimitExceededException>()(
-  "OpsItemLimitExceededException",
-  {
-    ResourceTypes: S.optional(OpsItemParameterNamesList),
-    Limit: S.optional(S.Number),
-    LimitType: S.optional(S.String),
-    Message: S.optional(S.String),
-  },
-  T.AwsQueryError({
-    code: "OpsItemLimitExceededException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class OpsItemNotFoundException extends S.TaggedError<OpsItemNotFoundException>()(
-  "OpsItemNotFoundException",
-  {},
-  T.AwsQueryError({ code: "OpsItemNotFoundException", httpResponseCode: 400 }),
-) {}
-export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
-  "ResourceLimitExceededException",
-  {},
-  T.AwsQueryError({
-    code: "ResourceLimitExceededException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidActivationId extends S.TaggedError<InvalidActivationId>()(
-  "InvalidActivationId",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidActivationId", httpResponseCode: 404 }),
-) {}
-export class InvalidDocumentOperation extends S.TaggedError<InvalidDocumentOperation>()(
-  "InvalidDocumentOperation",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidDocumentOperation", httpResponseCode: 403 }),
-) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ResourceInUseException", httpResponseCode: 400 }),
-) {}
-export class ResourcePolicyConflictException extends S.TaggedError<ResourcePolicyConflictException>()(
-  "ResourcePolicyConflictException",
-  {},
-  T.AwsQueryError({
-    code: "ResourcePolicyConflictException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class TargetInUseException extends S.TaggedError<TargetInUseException>()(
-  "TargetInUseException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TargetInUseException", httpResponseCode: 400 }),
-) {}
-export class InvalidNextToken extends S.TaggedError<InvalidNextToken>()(
-  "InvalidNextToken",
-  {},
-  T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
-) {}
-export class InvalidFilter extends S.TaggedError<InvalidFilter>()(
-  "InvalidFilter",
-  {},
-  T.AwsQueryError({ code: "InvalidFilter", httpResponseCode: 441 }),
-) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  {},
-) {}
-export class InvalidDocumentType extends S.TaggedError<InvalidDocumentType>()(
-  "InvalidDocumentType",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidDocumentType", httpResponseCode: 400 }),
-) {}
-export class InvalidKeyId extends S.TaggedError<InvalidKeyId>()(
-  "InvalidKeyId",
-  {},
-  T.AwsQueryError({ code: "InvalidKeyId", httpResponseCode: 400 }),
-) {}
-export class ParameterVersionNotFound extends S.TaggedError<ParameterVersionNotFound>()(
-  "ParameterVersionNotFound",
-  {},
-  T.AwsQueryError({ code: "ParameterVersionNotFound", httpResponseCode: 400 }),
-) {}
-export class InvalidFilterOption extends S.TaggedError<InvalidFilterOption>()(
-  "InvalidFilterOption",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidFilterOption", httpResponseCode: 400 }),
-) {}
-export class InvalidFilterValue extends S.TaggedError<InvalidFilterValue>()(
-  "InvalidFilterValue",
-  {},
-  T.AwsQueryError({ code: "InvalidFilterValue", httpResponseCode: 400 }),
-) {}
-export class ResourcePolicyInvalidParameterException extends S.TaggedError<ResourcePolicyInvalidParameterException>()(
-  "ResourcePolicyInvalidParameterException",
-  {},
-  T.AwsQueryError({
-    code: "ResourcePolicyInvalidParameterException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ParameterVersionLabelLimitExceeded extends S.TaggedError<ParameterVersionLabelLimitExceeded>()(
-  "ParameterVersionLabelLimitExceeded",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ParameterVersionLabelLimitExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class DocumentPermissionLimit extends S.TaggedError<DocumentPermissionLimit>()(
-  "DocumentPermissionLimit",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DocumentPermissionLimit", httpResponseCode: 400 }),
-) {}
-export class InvalidPermissionType extends S.TaggedError<InvalidPermissionType>()(
-  "InvalidPermissionType",
-  {},
-  T.AwsQueryError({ code: "InvalidPermissionType", httpResponseCode: 400 }),
-) {}
-export class HierarchyLevelLimitExceededException extends S.TaggedError<HierarchyLevelLimitExceededException>()(
-  "HierarchyLevelLimitExceededException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "HierarchyLevelLimitExceededException",
-    httpResponseCode: 400,
-  }),
-) {}
 export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
   "AlreadyExistsException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "AlreadyExistsException", httpResponseCode: 400 }),
 ) {}
-export class AutomationStepNotFoundException extends S.TaggedError<AutomationStepNotFoundException>()(
-  "AutomationStepNotFoundException",
+export class ServiceSettingNotFound extends S.TaggedError<ServiceSettingNotFound>()(
+  "ServiceSettingNotFound",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "AutomationStepNotFoundException",
-    httpResponseCode: 404,
-  }),
+  T.AwsQueryError({ code: "ServiceSettingNotFound", httpResponseCode: 400 }),
 ) {}
-export class InvalidDocumentVersion extends S.TaggedError<InvalidDocumentVersion>()(
-  "InvalidDocumentVersion",
-  {},
-  T.AwsQueryError({ code: "InvalidDocumentVersion", httpResponseCode: 400 }),
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.String },
 ) {}
 export class AutomationDefinitionNotFoundException extends S.TaggedError<AutomationDefinitionNotFoundException>()(
   "AutomationDefinitionNotFoundException",
@@ -5118,32 +4940,77 @@ export class DocumentVersionLimitExceeded extends S.TaggedError<DocumentVersionL
     httpResponseCode: 400,
   }),
 ) {}
-export class OpsItemAlreadyExistsException extends S.TaggedError<OpsItemAlreadyExistsException>()(
-  "OpsItemAlreadyExistsException",
-  { Message: S.optional(S.String), OpsItemId: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "OpsItemAlreadyExistsException",
-    httpResponseCode: 400,
-  }),
+export class InvalidActivation extends S.TaggedError<InvalidActivation>()(
+  "InvalidActivation",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidActivation", httpResponseCode: 404 }),
 ) {}
-export class OpsMetadataKeyLimitExceededException extends S.TaggedError<OpsMetadataKeyLimitExceededException>()(
-  "OpsMetadataKeyLimitExceededException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "OpsMetadataKeyLimitExceededException",
-    httpResponseCode: 429,
-  }),
-) {}
-export class OpsItemRelatedItemAlreadyExistsException extends S.TaggedError<OpsItemRelatedItemAlreadyExistsException>()(
-  "OpsItemRelatedItemAlreadyExistsException",
+export class OpsItemInvalidParameterException extends S.TaggedError<OpsItemInvalidParameterException>()(
+  "OpsItemInvalidParameterException",
   {
+    ParameterNames: S.optional(OpsItemParameterNamesList),
     Message: S.optional(S.String),
-    ResourceUri: S.optional(S.String),
-    OpsItemId: S.optional(S.String),
   },
   T.AwsQueryError({
-    code: "OpsItemRelatedItemAlreadyExistsException",
+    code: "OpsItemInvalidParameterException",
     httpResponseCode: 400,
+  }),
+) {}
+export class ResourceDataSyncInvalidConfigurationException extends S.TaggedError<ResourceDataSyncInvalidConfigurationException>()(
+  "ResourceDataSyncInvalidConfigurationException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ResourceDataSyncInvalidConfiguration",
+    httpResponseCode: 400,
+  }),
+) {}
+export class OpsItemConflictException extends S.TaggedError<OpsItemConflictException>()(
+  "OpsItemConflictException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "OpsItemConflictException", httpResponseCode: 409 }),
+) {}
+export class TooManyUpdates extends S.TaggedError<TooManyUpdates>()(
+  "TooManyUpdates",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyUpdates", httpResponseCode: 429 }),
+) {}
+export class OpsItemAccessDeniedException extends S.TaggedError<OpsItemAccessDeniedException>()(
+  "OpsItemAccessDeniedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "OpsItemAccessDeniedException",
+    httpResponseCode: 403,
+  }),
+) {}
+export class ResourceDataSyncConflictException extends S.TaggedError<ResourceDataSyncConflictException>()(
+  "ResourceDataSyncConflictException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ResourceDataSyncConflictException",
+    httpResponseCode: 409,
+  }),
+) {}
+export class InvalidPluginName extends S.TaggedError<InvalidPluginName>()(
+  "InvalidPluginName",
+  {},
+  T.AwsQueryError({ code: "InvalidPluginName", httpResponseCode: 404 }),
+) {}
+export class InvocationDoesNotExist extends S.TaggedError<InvocationDoesNotExist>()(
+  "InvocationDoesNotExist",
+  {},
+  T.AwsQueryError({ code: "InvocationDoesNotExist", httpResponseCode: 400 }),
+) {}
+export class InvalidAssociation extends S.TaggedError<InvalidAssociation>()(
+  "InvalidAssociation",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidAssociation", httpResponseCode: 400 }),
+) {}
+export class AutomationStepNotFoundException extends S.TaggedError<AutomationStepNotFoundException>()(
+  "AutomationStepNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "AutomationStepNotFoundException",
+    httpResponseCode: 404,
   }),
 ) {}
 export class InvalidParameters extends S.TaggedError<InvalidParameters>()(
@@ -5161,49 +5028,33 @@ export class AssociationLimitExceeded extends S.TaggedError<AssociationLimitExce
   {},
   T.AwsQueryError({ code: "AssociationLimitExceeded", httpResponseCode: 400 }),
 ) {}
-export class InvalidOutputLocation extends S.TaggedError<InvalidOutputLocation>()(
-  "InvalidOutputLocation",
-  {},
-  T.AwsQueryError({ code: "InvalidOutputLocation", httpResponseCode: 400 }),
-) {}
-export class InvalidSchedule extends S.TaggedError<InvalidSchedule>()(
-  "InvalidSchedule",
-  {},
-  T.AwsQueryError({ code: "InvalidSchedule", httpResponseCode: 400 }),
-) {}
 export class DocumentAlreadyExists extends S.TaggedError<DocumentAlreadyExists>()(
   "DocumentAlreadyExists",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "DocumentAlreadyExists", httpResponseCode: 400 }),
 ) {}
+export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
+  "ResourceLimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ResourceLimitExceededException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidFilterValue extends S.TaggedError<InvalidFilterValue>()(
+  "InvalidFilterValue",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidFilterValue", httpResponseCode: 400 }),
+) {}
+export class InvalidDocumentOperation extends S.TaggedError<InvalidDocumentOperation>()(
+  "InvalidDocumentOperation",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidDocumentOperation", httpResponseCode: 403 }),
+) {}
 export class InvalidDeletionIdException extends S.TaggedError<InvalidDeletionIdException>()(
   "InvalidDeletionIdException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidDeletionId", httpResponseCode: 400 }),
-) {}
-export class OpsItemRelatedItemAssociationNotFoundException extends S.TaggedError<OpsItemRelatedItemAssociationNotFoundException>()(
-  "OpsItemRelatedItemAssociationNotFoundException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "OpsItemRelatedItemAssociationNotFoundException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {
-    Message: S.String,
-    QuotaCode: S.optional(S.String),
-    ServiceCode: S.optional(S.String),
-  },
-) {}
-export class UnsupportedCalendarException extends S.TaggedError<UnsupportedCalendarException>()(
-  "UnsupportedCalendarException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "UnsupportedCalendarException",
-    httpResponseCode: 400,
-  }),
 ) {}
 export class UnsupportedFeatureRequiredException extends S.TaggedError<UnsupportedFeatureRequiredException>()(
   "UnsupportedFeatureRequiredException",
@@ -5213,18 +5064,41 @@ export class UnsupportedFeatureRequiredException extends S.TaggedError<Unsupport
     httpResponseCode: 400,
   }),
 ) {}
-export class UnsupportedOperatingSystem extends S.TaggedError<UnsupportedOperatingSystem>()(
-  "UnsupportedOperatingSystem",
-  {},
+export class InvalidDocumentVersion extends S.TaggedError<InvalidDocumentVersion>()(
+  "InvalidDocumentVersion",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidDocumentVersion", httpResponseCode: 400 }),
+) {}
+export class OpsMetadataNotFoundException extends S.TaggedError<OpsMetadataNotFoundException>()(
+  "OpsMetadataNotFoundException",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "UnsupportedOperatingSystem",
+    code: "OpsMetadataNotFoundException",
+    httpResponseCode: 404,
+  }),
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
+) {}
+export class ParameterVersionLabelLimitExceeded extends S.TaggedError<ParameterVersionLabelLimitExceeded>()(
+  "ParameterVersionLabelLimitExceeded",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ParameterVersionLabelLimitExceeded",
     httpResponseCode: 400,
   }),
 ) {}
 export class InvalidTypeNameException extends S.TaggedError<InvalidTypeNameException>()(
   "InvalidTypeNameException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidTypeName", httpResponseCode: 400 }),
+) {}
+export class InvalidPermissionType extends S.TaggedError<InvalidPermissionType>()(
+  "InvalidPermissionType",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidPermissionType", httpResponseCode: 400 }),
 ) {}
 export class ComplianceTypeCountLimitExceededException extends S.TaggedError<ComplianceTypeCountLimitExceededException>()(
   "ComplianceTypeCountLimitExceededException",
@@ -5242,59 +5116,6 @@ export class HierarchyTypeMismatchException extends S.TaggedError<HierarchyTypeM
     httpResponseCode: 400,
   }),
 ) {}
-export class ResourcePolicyLimitExceededException extends S.TaggedError<ResourcePolicyLimitExceededException>()(
-  "ResourcePolicyLimitExceededException",
-  {
-    Limit: S.optional(S.Number),
-    LimitType: S.optional(S.String),
-    Message: S.optional(S.String),
-  },
-  T.AwsQueryError({
-    code: "ResourcePolicyLimitExceededException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ResourcePolicyNotFoundException extends S.TaggedError<ResourcePolicyNotFoundException>()(
-  "ResourcePolicyNotFoundException",
-  {},
-  T.AwsQueryError({
-    code: "ResourcePolicyNotFoundException",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidAutomationSignalException extends S.TaggedError<InvalidAutomationSignalException>()(
-  "InvalidAutomationSignalException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "InvalidAutomationSignalException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidNotificationConfig extends S.TaggedError<InvalidNotificationConfig>()(
-  "InvalidNotificationConfig",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidNotificationConfig", httpResponseCode: 400 }),
-) {}
-export class InvalidOutputFolder extends S.TaggedError<InvalidOutputFolder>()(
-  "InvalidOutputFolder",
-  {},
-  T.AwsQueryError({ code: "InvalidOutputFolder", httpResponseCode: 400 }),
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {
-    Message: S.String,
-    ResourceId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    QuotaCode: S.String,
-    ServiceCode: S.String,
-  },
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
-) {}
 export class AutomationDefinitionVersionNotFoundException extends S.TaggedError<AutomationDefinitionVersionNotFoundException>()(
   "AutomationDefinitionVersionNotFoundException",
   { Message: S.optional(S.String) },
@@ -5311,14 +5132,6 @@ export class AutomationDefinitionNotApprovedException extends S.TaggedError<Auto
     httpResponseCode: 400,
   }),
 ) {}
-export class AutomationExecutionLimitExceededException extends S.TaggedError<AutomationExecutionLimitExceededException>()(
-  "AutomationExecutionLimitExceededException",
-  {},
-  T.AwsQueryError({
-    code: "AutomationExecutionLimitExceeded",
-    httpResponseCode: 429,
-  }),
-) {}
 export class TargetNotConnected extends S.TaggedError<TargetNotConnected>()(
   "TargetNotConnected",
   { Message: S.optional(S.String) },
@@ -5329,10 +5142,10 @@ export class InvalidAssociationVersion extends S.TaggedError<InvalidAssociationV
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidAssociationVersion", httpResponseCode: 400 }),
 ) {}
-export class InvalidTarget extends S.TaggedError<InvalidTarget>()(
-  "InvalidTarget",
+export class InvalidOutputLocation extends S.TaggedError<InvalidOutputLocation>()(
+  "InvalidOutputLocation",
   {},
-  T.AwsQueryError({ code: "InvalidTarget", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidOutputLocation", httpResponseCode: 400 }),
 ) {}
 export class DuplicateDocumentContent extends S.TaggedError<DuplicateDocumentContent>()(
   "DuplicateDocumentContent",
@@ -5347,18 +5160,76 @@ export class InvalidDocumentSchemaVersion extends S.TaggedError<InvalidDocumentS
     httpResponseCode: 400,
   }),
 ) {}
-export class OpsMetadataTooManyUpdatesException extends S.TaggedError<OpsMetadataTooManyUpdatesException>()(
-  "OpsMetadataTooManyUpdatesException",
+export class InvalidActivationId extends S.TaggedError<InvalidActivationId>()(
+  "InvalidActivationId",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidActivationId", httpResponseCode: 404 }),
+) {}
+export class ResourceDataSyncNotFoundException extends S.TaggedError<ResourceDataSyncNotFoundException>()(
+  "ResourceDataSyncNotFoundException",
+  {
+    SyncName: S.optional(S.String),
+    SyncType: S.optional(S.String),
+    Message: S.optional(S.String),
+  },
+  T.AwsQueryError({ code: "ResourceDataSyncNotFound", httpResponseCode: 404 }),
+) {}
+export class OpsItemNotFoundException extends S.TaggedError<OpsItemNotFoundException>()(
+  "OpsItemNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "OpsItemNotFoundException", httpResponseCode: 400 }),
+) {}
+export class OpsItemAlreadyExistsException extends S.TaggedError<OpsItemAlreadyExistsException>()(
+  "OpsItemAlreadyExistsException",
+  { Message: S.optional(S.String), OpsItemId: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "OpsItemAlreadyExistsException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class TargetInUseException extends S.TaggedError<TargetInUseException>()(
+  "TargetInUseException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TargetInUseException", httpResponseCode: 400 }),
+) {}
+export class InvalidDocumentType extends S.TaggedError<InvalidDocumentType>()(
+  "InvalidDocumentType",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidDocumentType", httpResponseCode: 400 }),
+) {}
+export class OpsMetadataKeyLimitExceededException extends S.TaggedError<OpsMetadataKeyLimitExceededException>()(
+  "OpsMetadataKeyLimitExceededException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "OpsMetadataTooManyUpdatesException",
+    code: "OpsMetadataKeyLimitExceededException",
     httpResponseCode: 429,
   }),
 ) {}
-export class InvalidTargetMaps extends S.TaggedError<InvalidTargetMaps>()(
-  "InvalidTargetMaps",
-  {},
-  T.AwsQueryError({ code: "InvalidTargetMaps", httpResponseCode: 400 }),
+export class ParameterVersionNotFound extends S.TaggedError<ParameterVersionNotFound>()(
+  "ParameterVersionNotFound",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ParameterVersionNotFound", httpResponseCode: 400 }),
+) {}
+export class InvalidAutomationSignalException extends S.TaggedError<InvalidAutomationSignalException>()(
+  "InvalidAutomationSignalException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidAutomationSignalException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class OpsItemLimitExceededException extends S.TaggedError<OpsItemLimitExceededException>()(
+  "OpsItemLimitExceededException",
+  {
+    ResourceTypes: S.optional(OpsItemParameterNamesList),
+    Limit: S.optional(S.Number),
+    LimitType: S.optional(S.String),
+    Message: S.optional(S.String),
+  },
+  T.AwsQueryError({
+    code: "OpsItemLimitExceededException",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class InvalidDocumentContent extends S.TaggedError<InvalidDocumentContent>()(
   "InvalidDocumentContent",
@@ -5389,11 +5260,22 @@ export class InvalidDeleteInventoryParametersException extends S.TaggedError<Inv
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidInstancePropertyFilterValue extends S.TaggedError<InvalidInstancePropertyFilterValue>()(
-  "InvalidInstancePropertyFilterValue",
-  { message: S.optional(S.String) },
+export class UnsupportedOperatingSystem extends S.TaggedError<UnsupportedOperatingSystem>()(
+  "UnsupportedOperatingSystem",
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InvalidInstancePropertyFilterValue",
+    code: "UnsupportedOperatingSystem",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ResourcePolicyInvalidParameterException extends S.TaggedError<ResourcePolicyInvalidParameterException>()(
+  "ResourcePolicyInvalidParameterException",
+  {
+    ParameterNames: S.optional(ResourcePolicyParameterNamesList),
+    Message: S.optional(S.String),
+  },
+  T.AwsQueryError({
+    code: "ResourcePolicyInvalidParameterException",
     httpResponseCode: 400,
   }),
 ) {}
@@ -5431,28 +5313,23 @@ export class FeatureNotAvailableException extends S.TaggedError<FeatureNotAvaila
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidRole extends S.TaggedError<InvalidRole>()(
-  "InvalidRole",
+export class AutomationExecutionLimitExceededException extends S.TaggedError<AutomationExecutionLimitExceededException>()(
+  "AutomationExecutionLimitExceededException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidRole", httpResponseCode: 400 }),
-) {}
-export class MaxDocumentSizeExceeded extends S.TaggedError<MaxDocumentSizeExceeded>()(
-  "MaxDocumentSizeExceeded",
-  {},
-  T.AwsQueryError({ code: "MaxDocumentSizeExceeded", httpResponseCode: 400 }),
-) {}
-export class UnsupportedPlatformType extends S.TaggedError<UnsupportedPlatformType>()(
-  "UnsupportedPlatformType",
-  {},
-  T.AwsQueryError({ code: "UnsupportedPlatformType", httpResponseCode: 400 }),
-) {}
-export class InvalidAutomationExecutionParametersException extends S.TaggedError<InvalidAutomationExecutionParametersException>()(
-  "InvalidAutomationExecutionParametersException",
-  {},
   T.AwsQueryError({
-    code: "InvalidAutomationExecutionParameters",
-    httpResponseCode: 400,
+    code: "AutomationExecutionLimitExceeded",
+    httpResponseCode: 429,
   }),
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String), ReasonCode: S.optional(S.String) },
+  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
+) {}
+export class InvalidSchedule extends S.TaggedError<InvalidSchedule>()(
+  "InvalidSchedule",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidSchedule", httpResponseCode: 400 }),
 ) {}
 export class DuplicateDocumentVersionName extends S.TaggedError<DuplicateDocumentVersionName>()(
   "DuplicateDocumentVersionName",
@@ -5462,15 +5339,90 @@ export class DuplicateDocumentVersionName extends S.TaggedError<DuplicateDocumen
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidTag extends S.TaggedError<InvalidTag>()(
-  "InvalidTag",
+export class OpsItemRelatedItemAssociationNotFoundException extends S.TaggedError<OpsItemRelatedItemAssociationNotFoundException>()(
+  "OpsItemRelatedItemAssociationNotFoundException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidTag", httpResponseCode: 400 }),
+  T.AwsQueryError({
+    code: "OpsItemRelatedItemAssociationNotFoundException",
+    httpResponseCode: 400,
+  }),
 ) {}
-export class NoLongerSupportedException extends S.TaggedError<NoLongerSupportedException>()(
-  "NoLongerSupportedException",
+export class UnsupportedCalendarException extends S.TaggedError<UnsupportedCalendarException>()(
+  "UnsupportedCalendarException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "UnsupportedCalendarException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidNotificationConfig extends S.TaggedError<InvalidNotificationConfig>()(
+  "InvalidNotificationConfig",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidNotificationConfig", httpResponseCode: 400 }),
+) {}
+export class InvalidOutputFolder extends S.TaggedError<InvalidOutputFolder>()(
+  "InvalidOutputFolder",
   {},
-  T.AwsQueryError({ code: "NoLongerSupported", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidOutputFolder", httpResponseCode: 400 }),
+) {}
+export class OpsMetadataTooManyUpdatesException extends S.TaggedError<OpsMetadataTooManyUpdatesException>()(
+  "OpsMetadataTooManyUpdatesException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "OpsMetadataTooManyUpdatesException",
+    httpResponseCode: 429,
+  }),
+) {}
+export class ResourcePolicyConflictException extends S.TaggedError<ResourcePolicyConflictException>()(
+  "ResourcePolicyConflictException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ResourcePolicyConflictException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  {
+    Message: S.String,
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    QuotaCode: S.String,
+    ServiceCode: S.String,
+  },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    Message: S.String,
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+  },
+) {}
+export class InvalidInstancePropertyFilterValue extends S.TaggedError<InvalidInstancePropertyFilterValue>()(
+  "InvalidInstancePropertyFilterValue",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidInstancePropertyFilterValue",
+    httpResponseCode: 400,
+  }),
+) {}
+export class OpsItemRelatedItemAlreadyExistsException extends S.TaggedError<OpsItemRelatedItemAlreadyExistsException>()(
+  "OpsItemRelatedItemAlreadyExistsException",
+  {
+    Message: S.optional(S.String),
+    ResourceUri: S.optional(S.String),
+    OpsItemId: S.optional(S.String),
+  },
+  T.AwsQueryError({
+    code: "OpsItemRelatedItemAlreadyExistsException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class MaxDocumentSizeExceeded extends S.TaggedError<MaxDocumentSizeExceeded>()(
+  "MaxDocumentSizeExceeded",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "MaxDocumentSizeExceeded", httpResponseCode: 400 }),
 ) {}
 export class OpsMetadataLimitExceededException extends S.TaggedError<OpsMetadataLimitExceededException>()(
   "OpsMetadataLimitExceededException",
@@ -5503,7 +5455,7 @@ export class AssociationExecutionDoesNotExist extends S.TaggedError<AssociationE
 ) {}
 export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
   "UnsupportedOperationException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
 ) {}
 export class ItemSizeLimitExceededException extends S.TaggedError<ItemSizeLimitExceededException>()(
@@ -5527,10 +5479,53 @@ export class InvalidAllowedPatternException extends S.TaggedError<InvalidAllowed
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidUpdate extends S.TaggedError<InvalidUpdate>()(
-  "InvalidUpdate",
+export class InvalidAutomationExecutionParametersException extends S.TaggedError<InvalidAutomationExecutionParametersException>()(
+  "InvalidAutomationExecutionParametersException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidUpdate", httpResponseCode: 400 }),
+  T.AwsQueryError({
+    code: "InvalidAutomationExecutionParameters",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidTarget extends S.TaggedError<InvalidTarget>()(
+  "InvalidTarget",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidTarget", httpResponseCode: 400 }),
+) {}
+export class InvalidRole extends S.TaggedError<InvalidRole>()(
+  "InvalidRole",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidRole", httpResponseCode: 400 }),
+) {}
+export class ResourcePolicyLimitExceededException extends S.TaggedError<ResourcePolicyLimitExceededException>()(
+  "ResourcePolicyLimitExceededException",
+  {
+    Limit: S.optional(S.Number),
+    LimitType: S.optional(S.String),
+    Message: S.optional(S.String),
+  },
+  T.AwsQueryError({
+    code: "ResourcePolicyLimitExceededException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidTag extends S.TaggedError<InvalidTag>()(
+  "InvalidTag",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidTag", httpResponseCode: 400 }),
+) {}
+export class ResourcePolicyNotFoundException extends S.TaggedError<ResourcePolicyNotFoundException>()(
+  "ResourcePolicyNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ResourcePolicyNotFoundException",
+    httpResponseCode: 404,
+  }),
+) {}
+export class NoLongerSupportedException extends S.TaggedError<NoLongerSupportedException>()(
+  "NoLongerSupportedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NoLongerSupported", httpResponseCode: 400 }),
 ) {}
 export class InvalidOptionException extends S.TaggedError<InvalidOptionException>()(
   "InvalidOptionException",
@@ -5563,6 +5558,16 @@ export class InvalidPolicyAttributeException extends S.TaggedError<InvalidPolicy
     httpResponseCode: 400,
   }),
 ) {}
+export class InvalidTargetMaps extends S.TaggedError<InvalidTargetMaps>()(
+  "InvalidTargetMaps",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidTargetMaps", httpResponseCode: 400 }),
+) {}
+export class UnsupportedPlatformType extends S.TaggedError<UnsupportedPlatformType>()(
+  "UnsupportedPlatformType",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UnsupportedPlatformType", httpResponseCode: 400 }),
+) {}
 export class InvalidInventoryGroupException extends S.TaggedError<InvalidInventoryGroupException>()(
   "InvalidInventoryGroupException",
   { Message: S.optional(S.String) },
@@ -5580,6 +5585,11 @@ export class InvalidPolicyTypeException extends S.TaggedError<InvalidPolicyTypeE
     code: "InvalidPolicyTypeException",
     httpResponseCode: 400,
   }),
+) {}
+export class InvalidUpdate extends S.TaggedError<InvalidUpdate>()(
+  "InvalidUpdate",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidUpdate", httpResponseCode: 400 }),
 ) {}
 export class InvalidResultAttributeException extends S.TaggedError<InvalidResultAttributeException>()(
   "InvalidResultAttributeException",
@@ -5644,96 +5654,6 @@ export class UnsupportedParameterType extends S.TaggedError<UnsupportedParameter
 
 //# Operations
 /**
- * Changes the Identity and Access Management (IAM) role that is assigned to the
- * on-premises server, edge device, or virtual machines (VM). IAM roles are first
- * assigned to these hybrid nodes during the activation process. For more information, see CreateActivation.
- */
-export const updateManagedInstanceRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateManagedInstanceRoleRequest,
-    output: UpdateManagedInstanceRoleResult,
-    errors: [InternalServerError, InvalidInstanceId],
-  }),
-);
-/**
- * Adds or overwrites one or more tags for the specified resource. *Tags*
- * are metadata that you can assign to your automations, documents, managed nodes, maintenance
- * windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your
- * resources in different ways, for example, by purpose, owner, or environment. Each tag consists of
- * a key and an optional value, both of which you define. For example, you could define a set of
- * tags for your account's managed nodes that helps you track each node's owner and stack level. For
- * example:
- *
- * - `Key=Owner,Value=DbAdmin`
- *
- * - `Key=Owner,Value=SysAdmin`
- *
- * - `Key=Owner,Value=Dev`
- *
- * - `Key=Stack,Value=Production`
- *
- * - `Key=Stack,Value=Pre-Production`
- *
- * - `Key=Stack,Value=Test`
- *
- * Most resources can have a maximum of 50 tags. Automations can have a maximum of 5
- * tags.
- *
- * We recommend that you devise a set of tag keys that meets your needs for each resource type.
- * Using a consistent set of tag keys makes it easier for you to manage your resources. You can
- * search and filter the resources based on the tags you add. Tags don't have any semantic meaning
- * to and are interpreted strictly as a string of characters.
- *
- * For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see Tag your Amazon EC2
- * resources in the *Amazon EC2 User Guide*.
- */
-export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsToResourceRequest,
-  output: AddTagsToResourceResult,
-  errors: [
-    InternalServerError,
-    InvalidResourceId,
-    InvalidResourceType,
-    TooManyTagsError,
-    TooManyUpdates,
-  ],
-}));
-/**
- * Attempts to cancel the command specified by the Command ID. There is no guarantee that the
- * command will be terminated and the underlying process stopped.
- */
-export const cancelCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelCommandRequest,
-  output: CancelCommandResult,
-  errors: [
-    DuplicateInstanceId,
-    InternalServerError,
-    InvalidCommandId,
-    InvalidInstanceId,
-  ],
-}));
-/**
- * Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified managed
- * node. If you created the association by using the `Targets` parameter, then you must
- * delete the association by using the association ID.
- *
- * When you disassociate a document from a managed node, it doesn't change the configuration of
- * the node. To change the configuration state of a managed node after you disassociate a document,
- * you must create a new document with the desired configuration and associate it with the
- * node.
- */
-export const deleteAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAssociationRequest,
-  output: DeleteAssociationResult,
-  errors: [
-    AssociationDoesNotExist,
-    InternalServerError,
-    InvalidDocument,
-    InvalidInstanceId,
-    TooManyUpdates,
-  ],
-}));
-/**
  * Deletes a maintenance window.
  */
 export const deleteMaintenanceWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -5744,43 +5664,6 @@ export const deleteMaintenanceWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to
- * delete an OpsItem.
- *
- * Note the following important information about this operation.
- *
- * - Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem.
- *
- * - This operation uses an *eventual consistency model*, which means the
- * system can take a few minutes to complete this operation. If you delete an OpsItem and
- * immediately call, for example, GetOpsItem, the deleted OpsItem might still
- * appear in the response.
- *
- * - This operation is idempotent. The system doesn't throw an exception if you repeatedly
- * call this operation for the same OpsItem. If the first call is successful, all additional calls
- * return the same successful response as the first call.
- *
- * - This operation doesn't support cross-account calls. A delegated administrator or
- * management account can't delete OpsItems in other accounts, even if OpsCenter has been set up for
- * cross-account administration. For more information about cross-account administration, see
- * Setting up
- * OpsCenter to centrally manage OpsItems across accounts in the *Systems Manager User Guide*.
- */
-export const deleteOpsItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteOpsItemRequest,
-  output: DeleteOpsItemResponse,
-  errors: [InternalServerError, OpsItemInvalidParameterException],
-}));
-/**
- * Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds
- * to create a parameter with the same name.
- */
-export const deleteParameter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteParameterRequest,
-  output: DeleteParameterResult,
-  errors: [InternalServerError, ParameterNotFound],
-}));
-/**
  * Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to
  * create a parameter with the same name.
  */
@@ -5790,23 +5673,6 @@ export const deleteParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerError],
 }));
 /**
- * Removes the server or virtual machine from the list of registered servers.
- *
- * If you want to reregister an on-premises server, edge device, or VM, you must use a
- * different Activation Code and Activation ID than used to register the machine previously. The
- * Activation Code and Activation ID must not have already been used on the maximum number of
- * activations specified when they were created. For more information, see Deregistering
- * managed nodes in a hybrid and multicloud environment in the
- * *Amazon Web Services Systems Manager User Guide*.
- */
-export const deregisterManagedInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterManagedInstanceRequest,
-    output: DeregisterManagedInstanceResult,
-    errors: [InternalServerError, InvalidInstanceId],
-  }),
-);
-/**
  * Removes a patch group from a patch baseline.
  */
 export const deregisterPatchBaselineForPatchGroup =
@@ -5815,40 +5681,6 @@ export const deregisterPatchBaselineForPatchGroup =
     output: DeregisterPatchBaselineForPatchGroupResult,
     errors: [InternalServerError, InvalidResourceId],
   }));
-/**
- * Removes a task from a maintenance window.
- */
-export const deregisterTaskFromMaintenanceWindow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterTaskFromMaintenanceWindowRequest,
-    output: DeregisterTaskFromMaintenanceWindowResult,
-    errors: [DoesNotExistException, InternalServerError],
-  }));
-/**
- * Returns detailed information about command execution for an invocation or plugin. The Run
- * Command API follows an eventual consistency model, due to the distributed nature of the system
- * supporting the API. This means that the result of an API command you run that affects your
- * resources might not be immediately visible to all subsequent commands you run. You should keep
- * this in mind when you carry out an API command that immediately follows a previous API
- * command.
- *
- * `GetCommandInvocation` only gives the execution status of a plugin in a document.
- * To get the command execution status on a specific managed node, use ListCommandInvocations. To get the command execution status across managed nodes,
- * use ListCommands.
- */
-export const getCommandInvocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCommandInvocationRequest,
-    output: GetCommandInvocationResult,
-    errors: [
-      InternalServerError,
-      InvalidCommandId,
-      InvalidInstanceId,
-      InvalidPluginName,
-      InvocationDoesNotExist,
-    ],
-  }),
-);
 /**
  * Retrieves the Session Manager connection status for a managed node to determine whether it is running
  * and ready to receive Session Manager connections.
@@ -5873,71 +5705,6 @@ export const getDefaultPatchBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves a maintenance window.
- */
-export const getMaintenanceWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMaintenanceWindowRequest,
-    output: GetMaintenanceWindowResult,
-    errors: [DoesNotExistException, InternalServerError],
-  }),
-);
-/**
- * Retrieves details about a specific a maintenance window execution.
- */
-export const getMaintenanceWindowExecution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetMaintenanceWindowExecutionRequest,
-    output: GetMaintenanceWindowExecutionResult,
-    errors: [DoesNotExistException, InternalServerError],
-  }));
-/**
- * Retrieves information about a specific task running on a specific target.
- */
-export const getMaintenanceWindowExecutionTaskInvocation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetMaintenanceWindowExecutionTaskInvocationRequest,
-    output: GetMaintenanceWindowExecutionTaskInvocationResult,
-    errors: [DoesNotExistException, InternalServerError],
-  }));
-/**
- * Retrieves the details of a maintenance window task.
- *
- * For maintenance window tasks without a specified target, you can't supply values for
- * `--max-errors` and `--max-concurrency`. Instead, the system inserts a
- * placeholder value of `1`, which may be reported in the response to this command.
- * These values don't affect the running of your task and can be ignored.
- *
- * To retrieve a list of tasks in a maintenance window, instead use the DescribeMaintenanceWindowTasks command.
- */
-export const getMaintenanceWindowTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMaintenanceWindowTaskRequest,
-    output: GetMaintenanceWindowTaskResult,
-    errors: [DoesNotExistException, InternalServerError],
-  }),
-);
-/**
- * View operational metadata related to an application in Application Manager.
- */
-export const getOpsMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetOpsMetadataRequest,
-  output: GetOpsMetadataResult,
-  errors: [
-    InternalServerError,
-    OpsMetadataInvalidArgumentException,
-    OpsMetadataNotFoundException,
-  ],
-}));
-/**
- * Retrieves information about a patch baseline.
- */
-export const getPatchBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPatchBaselineRequest,
-  output: GetPatchBaselineResult,
-  errors: [DoesNotExistException, InternalServerError, InvalidResourceId],
-}));
-/**
  * Retrieves the patch baseline that should be used for the specified patch group.
  */
 export const getPatchBaselineForPatchGroup =
@@ -5957,81 +5724,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerError, InvalidResourceId, InvalidResourceType],
 }));
 /**
- * Defines the default patch baseline for the relevant operating system.
- *
- * To reset the Amazon Web Services-predefined patch baseline as the default, specify the full patch baseline
- * Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify
- * `arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed` instead of
- * `pb-0574b43a65ea646ed`.
- */
-export const registerDefaultPatchBaseline =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterDefaultPatchBaselineRequest,
-    output: RegisterDefaultPatchBaselineResult,
-    errors: [DoesNotExistException, InternalServerError, InvalidResourceId],
-  }));
-/**
- * Removes tag keys from the specified resource.
- */
-export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTagsFromResourceRequest,
-    output: RemoveTagsFromResourceResult,
-    errors: [
-      InternalServerError,
-      InvalidResourceId,
-      InvalidResourceType,
-      TooManyUpdates,
-    ],
-  }),
-);
-/**
- * `ServiceSetting` is an account-level setting for an Amazon Web Services service. This setting
- * defines how a user interacts with or uses a service or a feature of a service. For example, if an
- * Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services
- * service team might create a default setting of "false". This means the user can't use this
- * feature unless they change the setting to "true" and intentionally opt in for a paid
- * feature.
- *
- * Services map a `SettingId` object to a setting value. Amazon Web Services services teams define
- * the default value for a `SettingId`. You can't create a new `SettingId`,
- * but you can overwrite the default value if you have the `ssm:UpdateServiceSetting`
- * permission for the setting. Use the GetServiceSetting API operation to view the
- * current value. Use the UpdateServiceSetting API operation to change the default
- * setting.
- *
- * Reset the service setting for the account to the default value as provisioned by the Amazon Web Services
- * service team.
- */
-export const resetServiceSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResetServiceSettingRequest,
-  output: ResetServiceSettingResult,
-  errors: [InternalServerError, ServiceSettingNotFound, TooManyUpdates],
-}));
-/**
- * Reconnects a session to a managed node after it has been disconnected. Connections can be
- * resumed for disconnected sessions, but not terminated sessions.
- *
- * This command is primarily for use by client machines to automatically reconnect during
- * intermittent network issues. It isn't intended for any other use.
- */
-export const resumeSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResumeSessionRequest,
-  output: ResumeSessionResponse,
-  errors: [DoesNotExistException, InternalServerError],
-}));
-/**
- * Runs an association immediately and only one time. This operation can be helpful when
- * troubleshooting associations.
- */
-export const startAssociationsOnce = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAssociationsOnceRequest,
-    output: StartAssociationsOnceResult,
-    errors: [AssociationDoesNotExist, InvalidAssociation],
-  }),
-);
-/**
  * Permanently ends a session and closes the data connection between the Session Manager client and
  * SSM Agent on the managed node. A terminated session can't be resumed.
  */
@@ -6041,151 +5733,19 @@ export const terminateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerError],
 }));
 /**
- * Updates an existing maintenance window. Only specified parameters are modified.
- *
- * The value you specify for `Duration` determines the specific end time for the
- * maintenance window based on the time it begins. No maintenance window tasks are permitted to
- * start after the resulting endtime minus the number of hours you specify for `Cutoff`.
- * For example, if the maintenance window starts at 3 PM, the duration is three hours, and the
- * value you specify for `Cutoff` is one hour, no maintenance window tasks can start
- * after 5 PM.
+ * Attempts to cancel the command specified by the Command ID. There is no guarantee that the
+ * command will be terminated and the underlying process stopped.
  */
-export const updateMaintenanceWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMaintenanceWindowRequest,
-    output: UpdateMaintenanceWindowResult,
-    errors: [DoesNotExistException, InternalServerError],
-  }),
-);
-/**
- * Modifies the target of an existing maintenance window. You
- * can change the following:
- *
- * - Name
- *
- * - Description
- *
- * - Owner
- *
- * - IDs for an ID target
- *
- * - Tags for a Tag target
- *
- * - From any supported tag type to another. The three supported tag types are ID target, Tag
- * target, and resource group. For more information, see Target.
- *
- * If a parameter is null, then the corresponding field isn't modified.
- */
-export const updateMaintenanceWindowTarget =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateMaintenanceWindowTargetRequest,
-    output: UpdateMaintenanceWindowTargetResult,
-    errors: [DoesNotExistException, InternalServerError],
-  }));
-/**
- * Modifies a task assigned to a maintenance window. You can't change the task type, but you
- * can change the following values:
- *
- * - `TaskARN`. For example, you can change a `RUN_COMMAND` task from
- * `AWS-RunPowerShellScript` to `AWS-RunShellScript`.
- *
- * - `ServiceRoleArn`
- *
- * - `TaskInvocationParameters`
- *
- * - `Priority`
- *
- * - `MaxConcurrency`
- *
- * - `MaxErrors`
- *
- * One or more targets must be specified for maintenance window Run Command-type tasks.
- * Depending on the task, targets are optional for other maintenance window task types (Automation,
- * Lambda, and Step Functions). For more information about running tasks
- * that don't specify targets, see Registering
- * maintenance window tasks without targets in the
- * *Amazon Web Services Systems Manager User Guide*.
- *
- * If the value for a parameter in `UpdateMaintenanceWindowTask` is null, then the
- * corresponding field isn't modified. If you set `Replace` to true, then all fields
- * required by the RegisterTaskWithMaintenanceWindow operation are required for
- * this request. Optional fields that aren't specified are set to null.
- *
- * When you update a maintenance window task that has options specified in
- * `TaskInvocationParameters`, you must provide again all the
- * `TaskInvocationParameters` values that you want to retain. The values you don't
- * specify again are removed. For example, suppose that when you registered a Run Command task, you
- * specified `TaskInvocationParameters` values for `Comment`,
- * `NotificationConfig`, and `OutputS3BucketName`. If you update the
- * maintenance window task and specify only a different `OutputS3BucketName` value, the
- * values for `Comment` and `NotificationConfig` are removed.
- */
-export const updateMaintenanceWindowTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMaintenanceWindowTaskRequest,
-    output: UpdateMaintenanceWindowTaskResult,
-    errors: [DoesNotExistException, InternalServerError],
-  }),
-);
-/**
- * Modifies an existing patch baseline. Fields not specified in the request are left
- * unchanged.
- *
- * For information about valid key-value pairs in `PatchFilters` for each supported
- * operating system type, see PatchFilter.
- */
-export const updatePatchBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePatchBaselineRequest,
-  output: UpdatePatchBaselineResult,
-  errors: [DoesNotExistException, InternalServerError],
+export const cancelCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelCommandRequest,
+  output: CancelCommandResult,
+  errors: [
+    DuplicateInstanceId,
+    InternalServerError,
+    InvalidCommandId,
+    InvalidInstanceId,
+  ],
 }));
-/**
- * Update a resource data sync. After you create a resource data sync for a Region, you can't
- * change the account options for that sync. For example, if you create a sync in the us-east-2
- * (Ohio) Region and you choose the `Include only the current account` option, you can't
- * edit that sync later and choose the Include all accounts from my Organizations
- * configuration option. Instead, you must delete the first resource data sync, and create a
- * new one.
- *
- * This API operation only supports a resource data sync that was created with a
- * SyncFromSource `SyncType`.
- */
-export const updateResourceDataSync = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourceDataSyncRequest,
-    output: UpdateResourceDataSyncResult,
-    errors: [
-      InternalServerError,
-      ResourceDataSyncConflictException,
-      ResourceDataSyncInvalidConfigurationException,
-      ResourceDataSyncNotFoundException,
-    ],
-  }),
-);
-/**
- * `ServiceSetting` is an account-level setting for an Amazon Web Services service. This setting
- * defines how a user interacts with or uses a service or a feature of a service. For example, if an
- * Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services
- * service team might create a default setting of "false". This means the user can't use this
- * feature unless they change the setting to "true" and intentionally opt in for a paid
- * feature.
- *
- * Services map a `SettingId` object to a setting value. Amazon Web Services services teams define
- * the default value for a `SettingId`. You can't create a new `SettingId`,
- * but you can overwrite the default value if you have the `ssm:UpdateServiceSetting`
- * permission for the setting. Use the GetServiceSetting API operation to view the
- * current value. Or, use the ResetServiceSetting to change the value back to the
- * original value defined by the Amazon Web Services service team.
- *
- * Update the service setting for the account.
- */
-export const updateServiceSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceSettingRequest,
-    output: UpdateServiceSettingResult,
-    errors: [InternalServerError, ServiceSettingNotFound, TooManyUpdates],
-  }),
-);
 /**
  * Stops a maintenance window execution that is already in progress and cancels any tasks in
  * the window that haven't already starting running. Tasks already in progress will continue to
@@ -6198,71 +5758,6 @@ export const cancelMaintenanceWindowExecution =
     errors: [DoesNotExistException, InternalServerError],
   }));
 /**
- * Creates a new maintenance window.
- *
- * The value you specify for `Duration` determines the specific end time for the
- * maintenance window based on the time it begins. No maintenance window tasks are permitted to
- * start after the resulting endtime minus the number of hours you specify for `Cutoff`.
- * For example, if the maintenance window starts at 3 PM, the duration is three hours, and the
- * value you specify for `Cutoff` is one hour, no maintenance window tasks can start
- * after 5 PM.
- */
-export const createMaintenanceWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMaintenanceWindowRequest,
-    output: CreateMaintenanceWindowResult,
-    errors: [
-      IdempotentParameterMismatch,
-      InternalServerError,
-      ResourceLimitExceededException,
-    ],
-  }),
-);
-/**
- * Deletes an activation. You aren't required to delete an activation. If you delete an
- * activation, you can no longer use it to register additional managed nodes. Deleting an activation
- * doesn't de-register managed nodes. You must manually de-register managed nodes.
- */
-export const deleteActivation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteActivationRequest,
-  output: DeleteActivationResult,
-  errors: [
-    InternalServerError,
-    InvalidActivation,
-    InvalidActivationId,
-    TooManyUpdates,
-  ],
-}));
-/**
- * Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the
- * document.
- *
- * Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document.
- */
-export const deleteDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDocumentRequest,
-  output: DeleteDocumentResult,
-  errors: [
-    AssociatedInstances,
-    InternalServerError,
-    InvalidDocument,
-    InvalidDocumentOperation,
-    TooManyUpdates,
-  ],
-}));
-/**
- * Delete OpsMetadata related to an application.
- */
-export const deleteOpsMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteOpsMetadataRequest,
-  output: DeleteOpsMetadataResult,
-  errors: [
-    InternalServerError,
-    OpsMetadataInvalidArgumentException,
-    OpsMetadataNotFoundException,
-  ],
-}));
-/**
  * Deletes a patch baseline.
  */
 export const deletePatchBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -6270,31 +5765,6 @@ export const deletePatchBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DeletePatchBaselineResult,
   errors: [InternalServerError, ResourceInUseException],
 }));
-/**
- * Deletes a resource data sync configuration. After the configuration is deleted, changes to
- * data on managed nodes are no longer synced to or from the target. Deleting a sync configuration
- * doesn't delete data.
- */
-export const deleteResourceDataSync = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourceDataSyncRequest,
-    output: DeleteResourceDataSyncResult,
-    errors: [
-      InternalServerError,
-      ResourceDataSyncInvalidConfigurationException,
-      ResourceDataSyncNotFoundException,
-    ],
-  }),
-);
-/**
- * Removes a target from a maintenance window.
- */
-export const deregisterTargetFromMaintenanceWindow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterTargetFromMaintenanceWindowRequest,
-    output: DeregisterTargetFromMaintenanceWindowResult,
-    errors: [DoesNotExistException, InternalServerError, TargetInUseException],
-  }));
 /**
  * Lists all patches eligible to be included in a patch baseline.
  *
@@ -6308,51 +5778,6 @@ export const describeAvailablePatches = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InternalServerError],
   }),
 );
-/**
- * All associations for the managed nodes.
- */
-export const describeEffectiveInstanceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEffectiveInstanceAssociationsRequest,
-    output: DescribeEffectiveInstanceAssociationsResult,
-    errors: [InternalServerError, InvalidInstanceId, InvalidNextToken],
-  }));
-/**
- * Retrieves information about the patches on the specified managed node and their state
- * relative to the patch baseline being used for the node.
- */
-export const describeInstancePatches = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInstancePatchesRequest,
-    output: DescribeInstancePatchesResult,
-    errors: [
-      InternalServerError,
-      InvalidFilter,
-      InvalidInstanceId,
-      InvalidNextToken,
-    ],
-  }),
-);
-/**
- * Retrieves the high-level patch state of one or more managed nodes.
- */
-export const describeInstancePatchStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInstancePatchStatesRequest,
-    output: DescribeInstancePatchStatesResult,
-    errors: [InternalServerError, InvalidNextToken],
-  }),
-);
-/**
- * Retrieves the high-level patch state for the managed nodes in the specified patch
- * group.
- */
-export const describeInstancePatchStatesForPatchGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeInstancePatchStatesForPatchGroupRequest,
-    output: DescribeInstancePatchStatesForPatchGroupResult,
-    errors: [InternalServerError, InvalidFilter, InvalidNextToken],
-  }));
 /**
  * Retrieves the individual task executions (one per target) for a particular task run as part
  * of a maintenance window execution.
@@ -6530,44 +5955,6 @@ export const getMaintenanceWindowExecutionTask =
     errors: [DoesNotExistException, InternalServerError],
   }));
 /**
- * Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information,
- * see Set
- * up OpsCenter in the *Amazon Web Services Systems Manager User Guide*.
- *
- * Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and
- * remediate operational issues impacting the performance and health of their Amazon Web Services resources. For
- * more information, see Amazon Web Services Systems Manager OpsCenter in the
- * *Amazon Web Services Systems Manager User Guide*.
- */
-export const getOpsItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetOpsItemRequest,
-  output: GetOpsItemResponse,
-  errors: [
-    InternalServerError,
-    OpsItemAccessDeniedException,
-    OpsItemNotFoundException,
-  ],
-}));
-/**
- * Get information about a single parameter by specifying the parameter name.
- *
- * Parameter names can't contain spaces. The service removes any spaces specified for the
- * beginning or end of a parameter name. If the specified name for a parameter contains spaces
- * between characters, the request fails with a `ValidationException` error.
- *
- * To get information about more than one parameter at a time, use the GetParameters operation.
- */
-export const getParameter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetParameterRequest,
-  output: GetParameterResult,
-  errors: [
-    InternalServerError,
-    InvalidKeyId,
-    ParameterNotFound,
-    ParameterVersionNotFound,
-  ],
-}));
-/**
  * Get information about one or more parameters by specifying multiple parameter names.
  *
  * To get information about a single parameter, you can use the GetParameter
@@ -6582,113 +5969,6 @@ export const getParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetParametersResult,
   errors: [InternalServerError, InvalidKeyId],
 }));
-/**
- * Retrieve information about one or more parameters under a specified level in a hierarchy.
- *
- * Request results are returned on a best-effort basis. If you specify `MaxResults`
- * in the request, the response includes information up to the limit specified. The number of items
- * returned, however, can be between zero and the value of `MaxResults`. If the service
- * reaches an internal limit while processing the results, it stops the operation and returns the
- * matching values up to that point and a `NextToken`. You can specify the
- * `NextToken` in a subsequent call to get the next set of results.
- *
- * Parameter names can't contain spaces. The service removes any spaces specified for the
- * beginning or end of a parameter name. If the specified name for a parameter contains spaces
- * between characters, the request fails with a `ValidationException` error.
- */
-export const getParametersByPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetParametersByPathRequest,
-  output: GetParametersByPathResult,
-  errors: [
-    InternalServerError,
-    InvalidFilterKey,
-    InvalidFilterOption,
-    InvalidFilterValue,
-    InvalidKeyId,
-    InvalidNextToken,
-  ],
-}));
-/**
- * Returns an array of the `Policy` object.
- */
-export const getResourcePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePoliciesRequest,
-  output: GetResourcePoliciesResponse,
-  errors: [
-    InternalServerError,
-    ResourceNotFoundException,
-    ResourcePolicyInvalidParameterException,
-  ],
-}));
-/**
- * `ServiceSetting` is an account-level setting for an Amazon Web Services service. This setting
- * defines how a user interacts with or uses a service or a feature of a service. For example, if an
- * Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services
- * service team might create a default setting of `false`. This means the user can't use
- * this feature unless they change the setting to `true` and intentionally opt in for a
- * paid feature.
- *
- * Services map a `SettingId` object to a setting value. Amazon Web Services services teams define
- * the default value for a `SettingId`. You can't create a new `SettingId`,
- * but you can overwrite the default value if you have the `ssm:UpdateServiceSetting`
- * permission for the setting. Use the UpdateServiceSetting API operation to
- * change the default setting. Or use the ResetServiceSetting to change the value
- * back to the original value defined by the Amazon Web Services service team.
- *
- * Query the current service setting for the Amazon Web Services account.
- */
-export const getServiceSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetServiceSettingRequest,
-  output: GetServiceSettingResult,
-  errors: [InternalServerError, ServiceSettingNotFound],
-}));
-/**
- * A parameter label is a user-defined alias to help you manage different versions of a
- * parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and
- * increments the version number by one. A label can help you remember the purpose of a parameter
- * when there are multiple versions.
- *
- * Parameter labels have the following requirements and restrictions.
- *
- * - A version of a parameter can have a maximum of 10 labels.
- *
- * - You can't attach the same label to different versions of the same parameter. For example,
- * if version 1 has the label Production, then you can't attach Production to version 2.
- *
- * - You can move a label from one version of a parameter to another.
- *
- * - You can't create a label when you create a new parameter. You must attach a label to a
- * specific version of a parameter.
- *
- * - If you no longer want to use a parameter label, then you can either delete it or move it
- * to a different version of a parameter.
- *
- * - A label can have a maximum of 100 characters.
- *
- * - Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or
- * underscores (_).
- *
- * - Labels can't begin with a number, "`aws`" or "`ssm`" (not case
- * sensitive). If a label fails to meet these requirements, then the label isn't associated with a
- * parameter and the system displays it in the list of InvalidLabels.
- *
- * - Parameter names can't contain spaces. The service removes any spaces specified for
- * the beginning or end of a parameter name. If the specified name for a parameter contains spaces
- * between characters, the request fails with a `ValidationException` error.
- */
-export const labelParameterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: LabelParameterVersionRequest,
-    output: LabelParameterVersionResult,
-    errors: [
-      InternalServerError,
-      ParameterNotFound,
-      ParameterVersionLabelLimitExceeded,
-      ParameterVersionNotFound,
-      TooManyUpdates,
-    ],
-  }),
-);
 /**
  * Retrieves all versions of an association for a specific association ID.
  */
@@ -6735,54 +6015,6 @@ export const listResourceComplianceSummaries =
     errors: [InternalServerError, InvalidFilter, InvalidNextToken],
   }));
 /**
- * Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately. If you share a document
- * privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If
- * you share a document publicly, you must specify *All* as the account
- * ID.
- */
-export const modifyDocumentPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyDocumentPermissionRequest,
-    output: ModifyDocumentPermissionResponse,
-    errors: [
-      DocumentLimitExceeded,
-      DocumentPermissionLimit,
-      InternalServerError,
-      InvalidDocument,
-      InvalidPermissionType,
-    ],
-  }),
-);
-/**
- * Registers a patch baseline for a patch group.
- */
-export const registerPatchBaselineForPatchGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterPatchBaselineForPatchGroupRequest,
-    output: RegisterPatchBaselineForPatchGroupResult,
-    errors: [
-      AlreadyExistsException,
-      DoesNotExistException,
-      InternalServerError,
-      InvalidResourceId,
-      ResourceLimitExceededException,
-    ],
-  }));
-/**
- * Registers a target with a maintenance window.
- */
-export const registerTargetWithMaintenanceWindow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterTargetWithMaintenanceWindowRequest,
-    output: RegisterTargetWithMaintenanceWindowResult,
-    errors: [
-      DoesNotExistException,
-      IdempotentParameterMismatch,
-      InternalServerError,
-      ResourceLimitExceededException,
-    ],
-  }));
-/**
  * Stop an Automation that is currently running.
  */
 export const stopAutomationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -6797,24 +6029,487 @@ export const stopAutomationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Remove a label or labels from a parameter.
+ * Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to
+ * delete an OpsItem.
  *
- * Parameter names can't contain spaces. The service removes any spaces specified for the
- * beginning or end of a parameter name. If the specified name for a parameter contains spaces
- * between characters, the request fails with a `ValidationException` error.
+ * Note the following important information about this operation.
+ *
+ * - Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem.
+ *
+ * - This operation uses an *eventual consistency model*, which means the
+ * system can take a few minutes to complete this operation. If you delete an OpsItem and
+ * immediately call, for example, GetOpsItem, the deleted OpsItem might still
+ * appear in the response.
+ *
+ * - This operation is idempotent. The system doesn't throw an exception if you repeatedly
+ * call this operation for the same OpsItem. If the first call is successful, all additional calls
+ * return the same successful response as the first call.
+ *
+ * - This operation doesn't support cross-account calls. A delegated administrator or
+ * management account can't delete OpsItems in other accounts, even if OpsCenter has been set up for
+ * cross-account administration. For more information about cross-account administration, see
+ * Setting up
+ * OpsCenter to centrally manage OpsItems across accounts in the *Systems Manager User Guide*.
  */
-export const unlabelParameterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteOpsItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOpsItemRequest,
+  output: DeleteOpsItemResponse,
+  errors: [InternalServerError, OpsItemInvalidParameterException],
+}));
+/**
+ * Removes tag keys from the specified resource.
+ */
+export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UnlabelParameterVersionRequest,
-    output: UnlabelParameterVersionResult,
+    input: RemoveTagsFromResourceRequest,
+    output: RemoveTagsFromResourceResult,
     errors: [
       InternalServerError,
-      ParameterNotFound,
-      ParameterVersionNotFound,
+      InvalidResourceId,
+      InvalidResourceType,
       TooManyUpdates,
     ],
   }),
 );
+/**
+ * Returns detailed information about command execution for an invocation or plugin. The Run
+ * Command API follows an eventual consistency model, due to the distributed nature of the system
+ * supporting the API. This means that the result of an API command you run that affects your
+ * resources might not be immediately visible to all subsequent commands you run. You should keep
+ * this in mind when you carry out an API command that immediately follows a previous API
+ * command.
+ *
+ * `GetCommandInvocation` only gives the execution status of a plugin in a document.
+ * To get the command execution status on a specific managed node, use ListCommandInvocations. To get the command execution status across managed nodes,
+ * use ListCommands.
+ */
+export const getCommandInvocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCommandInvocationRequest,
+    output: GetCommandInvocationResult,
+    errors: [
+      InternalServerError,
+      InvalidCommandId,
+      InvalidInstanceId,
+      InvalidPluginName,
+      InvocationDoesNotExist,
+    ],
+  }),
+);
+/**
+ * Removes the server or virtual machine from the list of registered servers.
+ *
+ * If you want to reregister an on-premises server, edge device, or VM, you must use a
+ * different Activation Code and Activation ID than used to register the machine previously. The
+ * Activation Code and Activation ID must not have already been used on the maximum number of
+ * activations specified when they were created. For more information, see Deregistering
+ * managed nodes in a hybrid and multicloud environment in the
+ * *Amazon Web Services Systems Manager User Guide*.
+ */
+export const deregisterManagedInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeregisterManagedInstanceRequest,
+    output: DeregisterManagedInstanceResult,
+    errors: [InternalServerError, InvalidInstanceId],
+  }),
+);
+/**
+ * Changes the Identity and Access Management (IAM) role that is assigned to the
+ * on-premises server, edge device, or virtual machines (VM). IAM roles are first
+ * assigned to these hybrid nodes during the activation process. For more information, see CreateActivation.
+ */
+export const updateManagedInstanceRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateManagedInstanceRoleRequest,
+    output: UpdateManagedInstanceRoleResult,
+    errors: [InternalServerError, InvalidInstanceId],
+  }),
+);
+/**
+ * Removes a task from a maintenance window.
+ */
+export const deregisterTaskFromMaintenanceWindow =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeregisterTaskFromMaintenanceWindowRequest,
+    output: DeregisterTaskFromMaintenanceWindowResult,
+    errors: [DoesNotExistException, InternalServerError],
+  }));
+/**
+ * Retrieves a maintenance window.
+ */
+export const getMaintenanceWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMaintenanceWindowRequest,
+    output: GetMaintenanceWindowResult,
+    errors: [DoesNotExistException, InternalServerError],
+  }),
+);
+/**
+ * Retrieves details about a specific a maintenance window execution.
+ */
+export const getMaintenanceWindowExecution =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetMaintenanceWindowExecutionRequest,
+    output: GetMaintenanceWindowExecutionResult,
+    errors: [DoesNotExistException, InternalServerError],
+  }));
+/**
+ * Retrieves information about a specific task running on a specific target.
+ */
+export const getMaintenanceWindowExecutionTaskInvocation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetMaintenanceWindowExecutionTaskInvocationRequest,
+    output: GetMaintenanceWindowExecutionTaskInvocationResult,
+    errors: [DoesNotExistException, InternalServerError],
+  }));
+/**
+ * Retrieves the details of a maintenance window task.
+ *
+ * For maintenance window tasks without a specified target, you can't supply values for
+ * `--max-errors` and `--max-concurrency`. Instead, the system inserts a
+ * placeholder value of `1`, which may be reported in the response to this command.
+ * These values don't affect the running of your task and can be ignored.
+ *
+ * To retrieve a list of tasks in a maintenance window, instead use the DescribeMaintenanceWindowTasks command.
+ */
+export const getMaintenanceWindowTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMaintenanceWindowTaskRequest,
+    output: GetMaintenanceWindowTaskResult,
+    errors: [DoesNotExistException, InternalServerError],
+  }),
+);
+/**
+ * Retrieves information about a patch baseline.
+ */
+export const getPatchBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPatchBaselineRequest,
+  output: GetPatchBaselineResult,
+  errors: [DoesNotExistException, InternalServerError, InvalidResourceId],
+}));
+/**
+ * Defines the default patch baseline for the relevant operating system.
+ *
+ * To reset the Amazon Web Services-predefined patch baseline as the default, specify the full patch baseline
+ * Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify
+ * `arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed` instead of
+ * `pb-0574b43a65ea646ed`.
+ */
+export const registerDefaultPatchBaseline =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RegisterDefaultPatchBaselineRequest,
+    output: RegisterDefaultPatchBaselineResult,
+    errors: [DoesNotExistException, InternalServerError, InvalidResourceId],
+  }));
+/**
+ * Reconnects a session to a managed node after it has been disconnected. Connections can be
+ * resumed for disconnected sessions, but not terminated sessions.
+ *
+ * This command is primarily for use by client machines to automatically reconnect during
+ * intermittent network issues. It isn't intended for any other use.
+ */
+export const resumeSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResumeSessionRequest,
+  output: ResumeSessionResponse,
+  errors: [DoesNotExistException, InternalServerError],
+}));
+/**
+ * Updates an existing maintenance window. Only specified parameters are modified.
+ *
+ * The value you specify for `Duration` determines the specific end time for the
+ * maintenance window based on the time it begins. No maintenance window tasks are permitted to
+ * start after the resulting endtime minus the number of hours you specify for `Cutoff`.
+ * For example, if the maintenance window starts at 3 PM, the duration is three hours, and the
+ * value you specify for `Cutoff` is one hour, no maintenance window tasks can start
+ * after 5 PM.
+ */
+export const updateMaintenanceWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateMaintenanceWindowRequest,
+    output: UpdateMaintenanceWindowResult,
+    errors: [DoesNotExistException, InternalServerError],
+  }),
+);
+/**
+ * Modifies the target of an existing maintenance window. You
+ * can change the following:
+ *
+ * - Name
+ *
+ * - Description
+ *
+ * - Owner
+ *
+ * - IDs for an ID target
+ *
+ * - Tags for a Tag target
+ *
+ * - From any supported tag type to another. The three supported tag types are ID target, Tag
+ * target, and resource group. For more information, see Target.
+ *
+ * If a parameter is null, then the corresponding field isn't modified.
+ */
+export const updateMaintenanceWindowTarget =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateMaintenanceWindowTargetRequest,
+    output: UpdateMaintenanceWindowTargetResult,
+    errors: [DoesNotExistException, InternalServerError],
+  }));
+/**
+ * Modifies a task assigned to a maintenance window. You can't change the task type, but you
+ * can change the following values:
+ *
+ * - `TaskARN`. For example, you can change a `RUN_COMMAND` task from
+ * `AWS-RunPowerShellScript` to `AWS-RunShellScript`.
+ *
+ * - `ServiceRoleArn`
+ *
+ * - `TaskInvocationParameters`
+ *
+ * - `Priority`
+ *
+ * - `MaxConcurrency`
+ *
+ * - `MaxErrors`
+ *
+ * One or more targets must be specified for maintenance window Run Command-type tasks.
+ * Depending on the task, targets are optional for other maintenance window task types (Automation,
+ * Lambda, and Step Functions). For more information about running tasks
+ * that don't specify targets, see Registering
+ * maintenance window tasks without targets in the
+ * *Amazon Web Services Systems Manager User Guide*.
+ *
+ * If the value for a parameter in `UpdateMaintenanceWindowTask` is null, then the
+ * corresponding field isn't modified. If you set `Replace` to true, then all fields
+ * required by the RegisterTaskWithMaintenanceWindow operation are required for
+ * this request. Optional fields that aren't specified are set to null.
+ *
+ * When you update a maintenance window task that has options specified in
+ * `TaskInvocationParameters`, you must provide again all the
+ * `TaskInvocationParameters` values that you want to retain. The values you don't
+ * specify again are removed. For example, suppose that when you registered a Run Command task, you
+ * specified `TaskInvocationParameters` values for `Comment`,
+ * `NotificationConfig`, and `OutputS3BucketName`. If you update the
+ * maintenance window task and specify only a different `OutputS3BucketName` value, the
+ * values for `Comment` and `NotificationConfig` are removed.
+ */
+export const updateMaintenanceWindowTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateMaintenanceWindowTaskRequest,
+    output: UpdateMaintenanceWindowTaskResult,
+    errors: [DoesNotExistException, InternalServerError],
+  }),
+);
+/**
+ * Modifies an existing patch baseline. Fields not specified in the request are left
+ * unchanged.
+ *
+ * For information about valid key-value pairs in `PatchFilters` for each supported
+ * operating system type, see PatchFilter.
+ */
+export const updatePatchBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePatchBaselineRequest,
+  output: UpdatePatchBaselineResult,
+  errors: [DoesNotExistException, InternalServerError],
+}));
+/**
+ * Runs an association immediately and only one time. This operation can be helpful when
+ * troubleshooting associations.
+ */
+export const startAssociationsOnce = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartAssociationsOnceRequest,
+    output: StartAssociationsOnceResult,
+    errors: [AssociationDoesNotExist, InvalidAssociation],
+  }),
+);
+/**
+ * All associations for the managed nodes.
+ */
+export const describeEffectiveInstanceAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeEffectiveInstanceAssociationsRequest,
+    output: DescribeEffectiveInstanceAssociationsResult,
+    errors: [InternalServerError, InvalidInstanceId, InvalidNextToken],
+  }));
+/**
+ * Retrieves the high-level patch state of one or more managed nodes.
+ */
+export const describeInstancePatchStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeInstancePatchStatesRequest,
+    output: DescribeInstancePatchStatesResult,
+    errors: [InternalServerError, InvalidNextToken],
+  }),
+);
+/**
+ * Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds
+ * to create a parameter with the same name.
+ */
+export const deleteParameter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteParameterRequest,
+  output: DeleteParameterResult,
+  errors: [InternalServerError, ParameterNotFound],
+}));
+/**
+ * Retrieves information about the patches on the specified managed node and their state
+ * relative to the patch baseline being used for the node.
+ */
+export const describeInstancePatches = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeInstancePatchesRequest,
+    output: DescribeInstancePatchesResult,
+    errors: [
+      InternalServerError,
+      InvalidFilter,
+      InvalidInstanceId,
+      InvalidNextToken,
+    ],
+  }),
+);
+/**
+ * Retrieves the high-level patch state for the managed nodes in the specified patch
+ * group.
+ */
+export const describeInstancePatchStatesForPatchGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeInstancePatchStatesForPatchGroupRequest,
+    output: DescribeInstancePatchStatesForPatchGroupResult,
+    errors: [InternalServerError, InvalidFilter, InvalidNextToken],
+  }));
+/**
+ * `ServiceSetting` is an account-level setting for an Amazon Web Services service. This setting
+ * defines how a user interacts with or uses a service or a feature of a service. For example, if an
+ * Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services
+ * service team might create a default setting of "false". This means the user can't use this
+ * feature unless they change the setting to "true" and intentionally opt in for a paid
+ * feature.
+ *
+ * Services map a `SettingId` object to a setting value. Amazon Web Services services teams define
+ * the default value for a `SettingId`. You can't create a new `SettingId`,
+ * but you can overwrite the default value if you have the `ssm:UpdateServiceSetting`
+ * permission for the setting. Use the GetServiceSetting API operation to view the
+ * current value. Or, use the ResetServiceSetting to change the value back to the
+ * original value defined by the Amazon Web Services service team.
+ *
+ * Update the service setting for the account.
+ */
+export const updateServiceSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateServiceSettingRequest,
+    output: UpdateServiceSettingResult,
+    errors: [InternalServerError, ServiceSettingNotFound, TooManyUpdates],
+  }),
+);
+/**
+ * `ServiceSetting` is an account-level setting for an Amazon Web Services service. This setting
+ * defines how a user interacts with or uses a service or a feature of a service. For example, if an
+ * Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services
+ * service team might create a default setting of `false`. This means the user can't use
+ * this feature unless they change the setting to `true` and intentionally opt in for a
+ * paid feature.
+ *
+ * Services map a `SettingId` object to a setting value. Amazon Web Services services teams define
+ * the default value for a `SettingId`. You can't create a new `SettingId`,
+ * but you can overwrite the default value if you have the `ssm:UpdateServiceSetting`
+ * permission for the setting. Use the UpdateServiceSetting API operation to
+ * change the default setting. Or use the ResetServiceSetting to change the value
+ * back to the original value defined by the Amazon Web Services service team.
+ *
+ * Query the current service setting for the Amazon Web Services account.
+ */
+export const getServiceSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceSettingRequest,
+  output: GetServiceSettingResult,
+  errors: [InternalServerError, ServiceSettingNotFound],
+}));
+/**
+ * Adds or overwrites one or more tags for the specified resource. *Tags*
+ * are metadata that you can assign to your automations, documents, managed nodes, maintenance
+ * windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your
+ * resources in different ways, for example, by purpose, owner, or environment. Each tag consists of
+ * a key and an optional value, both of which you define. For example, you could define a set of
+ * tags for your account's managed nodes that helps you track each node's owner and stack level. For
+ * example:
+ *
+ * - `Key=Owner,Value=DbAdmin`
+ *
+ * - `Key=Owner,Value=SysAdmin`
+ *
+ * - `Key=Owner,Value=Dev`
+ *
+ * - `Key=Stack,Value=Production`
+ *
+ * - `Key=Stack,Value=Pre-Production`
+ *
+ * - `Key=Stack,Value=Test`
+ *
+ * Most resources can have a maximum of 50 tags. Automations can have a maximum of 5
+ * tags.
+ *
+ * We recommend that you devise a set of tag keys that meets your needs for each resource type.
+ * Using a consistent set of tag keys makes it easier for you to manage your resources. You can
+ * search and filter the resources based on the tags you add. Tags don't have any semantic meaning
+ * to and are interpreted strictly as a string of characters.
+ *
+ * For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see Tag your Amazon EC2
+ * resources in the *Amazon EC2 User Guide*.
+ */
+export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsToResourceRequest,
+  output: AddTagsToResourceResult,
+  errors: [
+    InternalServerError,
+    InvalidResourceId,
+    InvalidResourceType,
+    TooManyTagsError,
+    TooManyUpdates,
+  ],
+}));
+/**
+ * Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified managed
+ * node. If you created the association by using the `Targets` parameter, then you must
+ * delete the association by using the association ID.
+ *
+ * When you disassociate a document from a managed node, it doesn't change the configuration of
+ * the node. To change the configuration state of a managed node after you disassociate a document,
+ * you must create a new document with the desired configuration and associate it with the
+ * node.
+ */
+export const deleteAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssociationRequest,
+  output: DeleteAssociationResult,
+  errors: [
+    AssociationDoesNotExist,
+    InternalServerError,
+    InvalidDocument,
+    InvalidInstanceId,
+    TooManyUpdates,
+  ],
+}));
+/**
+ * `ServiceSetting` is an account-level setting for an Amazon Web Services service. This setting
+ * defines how a user interacts with or uses a service or a feature of a service. For example, if an
+ * Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services
+ * service team might create a default setting of "false". This means the user can't use this
+ * feature unless they change the setting to "true" and intentionally opt in for a paid
+ * feature.
+ *
+ * Services map a `SettingId` object to a setting value. Amazon Web Services services teams define
+ * the default value for a `SettingId`. You can't create a new `SettingId`,
+ * but you can overwrite the default value if you have the `ssm:UpdateServiceSetting`
+ * permission for the setting. Use the GetServiceSetting API operation to view the
+ * current value. Use the UpdateServiceSetting API operation to change the default
+ * setting.
+ *
+ * Reset the service setting for the account to the default value as provisioned by the Amazon Web Services
+ * service team.
+ */
+export const resetServiceSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetServiceSettingRequest,
+  output: ResetServiceSettingResult,
+  errors: [InternalServerError, ServiceSettingNotFound, TooManyUpdates],
+}));
 /**
  * Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified
  * managed node.
@@ -6838,69 +6533,6 @@ export const updateAssociationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Amazon Web Services Systems Manager Change Manager will no longer be open to new
- * customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can
- * continue to use the service as normal. For more information, see
- * Amazon Web Services Systems Manager Change Manager availability change.
- *
- * Updates information related to approval reviews for a specific version of a change template
- * in Change Manager.
- */
-export const updateDocumentMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDocumentMetadataRequest,
-    output: UpdateDocumentMetadataResponse,
-    errors: [
-      InternalServerError,
-      InvalidDocument,
-      InvalidDocumentOperation,
-      InvalidDocumentVersion,
-      TooManyUpdates,
-    ],
-  }),
-);
-/**
- * Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see Set up OpsCenter in the
- * *Amazon Web Services Systems Manager User Guide*.
- *
- * Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and
- * remediate operational issues impacting the performance and health of their Amazon Web Services resources. For
- * more information, see Amazon Web Services Systems Manager OpsCenter in the
- * *Amazon Web Services Systems Manager User Guide*.
- */
-export const updateOpsItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateOpsItemRequest,
-  output: UpdateOpsItemResponse,
-  errors: [
-    InternalServerError,
-    OpsItemAccessDeniedException,
-    OpsItemAlreadyExistsException,
-    OpsItemConflictException,
-    OpsItemInvalidParameterException,
-    OpsItemLimitExceededException,
-    OpsItemNotFoundException,
-  ],
-}));
-/**
- * Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can associate an
- * Incident Manager incident or analysis with an OpsItem. Incident Manager and OpsCenter are tools in
- * Amazon Web Services Systems Manager.
- */
-export const associateOpsItemRelatedItem = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateOpsItemRelatedItemRequest,
-    output: AssociateOpsItemRelatedItemResponse,
-    errors: [
-      InternalServerError,
-      OpsItemConflictException,
-      OpsItemInvalidParameterException,
-      OpsItemLimitExceededException,
-      OpsItemNotFoundException,
-      OpsItemRelatedItemAlreadyExistsException,
-    ],
-  }),
-);
-/**
  * Generates an activation code and activation ID you can use to register your on-premises
  * servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with
  * Systems Manager makes it possible to manage them using Systems Manager tools. You use the activation code and ID when
@@ -6917,25 +6549,26 @@ export const createActivation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerError, InvalidParameters],
 }));
 /**
- * Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the
- * *Amazon Web Services Systems Manager User Guide*.
+ * Creates a new maintenance window.
  *
- * Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and
- * remediate operational issues impacting the performance and health of their Amazon Web Services resources. For
- * more information, see Amazon Web Services Systems Manager OpsCenter in the
- * *Amazon Web Services Systems Manager User Guide*.
+ * The value you specify for `Duration` determines the specific end time for the
+ * maintenance window based on the time it begins. No maintenance window tasks are permitted to
+ * start after the resulting endtime minus the number of hours you specify for `Cutoff`.
+ * For example, if the maintenance window starts at 3 PM, the duration is three hours, and the
+ * value you specify for `Cutoff` is one hour, no maintenance window tasks can start
+ * after 5 PM.
  */
-export const createOpsItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateOpsItemRequest,
-  output: CreateOpsItemResponse,
-  errors: [
-    InternalServerError,
-    OpsItemAccessDeniedException,
-    OpsItemAlreadyExistsException,
-    OpsItemInvalidParameterException,
-    OpsItemLimitExceededException,
-  ],
-}));
+export const createMaintenanceWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateMaintenanceWindowRequest,
+    output: CreateMaintenanceWindowResult,
+    errors: [
+      IdempotentParameterMismatch,
+      InternalServerError,
+      ResourceLimitExceededException,
+    ],
+  }),
+);
 /**
  * Creates a patch baseline.
  *
@@ -6972,20 +6605,6 @@ export const describeAssociationExecutions =
     errors: [AssociationDoesNotExist, InternalServerError, InvalidNextToken],
   }));
 /**
- * Provides details about all active and terminated Automation executions.
- */
-export const describeAutomationExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAutomationExecutionsRequest,
-    output: DescribeAutomationExecutionsResult,
-    errors: [
-      InternalServerError,
-      InvalidFilterKey,
-      InvalidFilterValue,
-      InvalidNextToken,
-    ],
-  }));
-/**
  * Information about all active and terminated step executions in an Automation
  * workflow.
  */
@@ -7001,32 +6620,6 @@ export const describeAutomationStepExecutions =
       InvalidNextToken,
     ],
   }));
-/**
- * Describes the specified Amazon Web Services Systems Manager document (SSM document).
- */
-export const describeDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDocumentRequest,
-  output: DescribeDocumentResult,
-  errors: [InternalServerError, InvalidDocument, InvalidDocumentVersion],
-}));
-/**
- * Describes the permissions for a Amazon Web Services Systems Manager document (SSM document). If you created the
- * document, you are the owner. If a document is shared, it can either be shared privately (by
- * specifying a user's Amazon Web Services account ID) or publicly (*All*).
- */
-export const describeDocumentPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDocumentPermissionRequest,
-    output: DescribeDocumentPermissionResponse,
-    errors: [
-      InternalServerError,
-      InvalidDocument,
-      InvalidDocumentOperation,
-      InvalidNextToken,
-      InvalidPermissionType,
-    ],
-  }),
-);
 /**
  * Describes a specific delete inventory operation.
  */
@@ -7094,66 +6687,6 @@ export const describeParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes the association between an OpsItem and a related item. For example, this API
- * operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in
- * Amazon Web Services Systems Manager.
- */
-export const disassociateOpsItemRelatedItem =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateOpsItemRelatedItemRequest,
-    output: DisassociateOpsItemRelatedItemResponse,
-    errors: [
-      InternalServerError,
-      OpsItemConflictException,
-      OpsItemInvalidParameterException,
-      OpsItemNotFoundException,
-      OpsItemRelatedItemAssociationNotFoundException,
-    ],
-  }));
-/**
- * Gets the state of a Amazon Web Services Systems Manager change calendar at the current time or a specified time. If
- * you specify a time, `GetCalendarState` returns the state of the calendar at that
- * specific time, and returns the next time that the change calendar state will transition. If you
- * don't specify a time, `GetCalendarState` uses the current time. Change Calendar
- * entries have two possible states: `OPEN` or `CLOSED`.
- *
- * If you specify more than one calendar in a request, the command returns the status of
- * `OPEN` only if all calendars in the request are open. If one or more calendars in the
- * request are closed, the status returned is `CLOSED`.
- *
- * For more information about Change Calendar, a tool in Amazon Web Services Systems Manager, see Amazon Web Services Systems Manager Change Calendar in the *Amazon Web Services Systems Manager User Guide*.
- */
-export const getCalendarState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCalendarStateRequest,
-  output: GetCalendarStateResponse,
-  errors: [
-    InternalServerError,
-    InvalidDocument,
-    InvalidDocumentType,
-    UnsupportedCalendarException,
-  ],
-}));
-/**
- * Retrieves the current snapshot for the patch baseline the managed node uses. This API is
- * primarily used by the `AWS-RunPatchBaseline` Systems Manager document (SSM document).
- *
- * If you run the command locally, such as with the Command Line Interface (CLI), the system attempts to use your local Amazon Web Services credentials and the operation fails. To avoid
- * this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a tool in Amazon Web Services Systems Manager,
- * with an SSM document that enables you to target a managed node with a script or command. For
- * example, run the command using the `AWS-RunShellScript` document or the
- * `AWS-RunPowerShellScript` document.
- */
-export const getDeployablePatchSnapshotForInstance =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDeployablePatchSnapshotForInstanceRequest,
-    output: GetDeployablePatchSnapshotForInstanceResult,
-    errors: [
-      InternalServerError,
-      UnsupportedFeatureRequiredException,
-      UnsupportedOperatingSystem,
-    ],
-  }));
-/**
  * Gets the contents of the specified Amazon Web Services Systems Manager document (SSM document).
  */
 export const getDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -7162,13 +6695,16 @@ export const getDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerError, InvalidDocument, InvalidDocumentVersion],
 }));
 /**
- * Return a list of inventory type names for the account, or return a list of attribute names
- * for a specific Inventory item type.
+ * View operational metadata related to an application in Application Manager.
  */
-export const getInventorySchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInventorySchemaRequest,
-  output: GetInventorySchemaResult,
-  errors: [InternalServerError, InvalidNextToken, InvalidTypeNameException],
+export const getOpsMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOpsMetadataRequest,
+  output: GetOpsMetadataResult,
+  errors: [
+    InternalServerError,
+    OpsMetadataInvalidArgumentException,
+    OpsMetadataNotFoundException,
+  ],
 }));
 /**
  * Retrieves the history of all changes to a parameter.
@@ -7307,87 +6843,22 @@ export const listResourceDataSync = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates or updates a Systems Manager resource policy. A resource policy helps you to define the
- * IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources.
- * The following resources support Systems Manager resource policies.
- *
- * - `OpsItemGroup` - The resource policy for `OpsItemGroup` enables
- * Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
- *
- * - `Parameter` - The resource policy is used to share a parameter with other
- * accounts using Resource Access Manager (RAM).
- *
- * To share a parameter, it must be in the advanced parameter tier. For information about
- * parameter tiers, see Managing
- * parameter tiers. For information about changing an existing standard parameter to an
- * advanced parameter, see Changing a standard parameter to an advanced parameter.
- *
- * To share a `SecureString` parameter, it must be encrypted with a customer managed key, and you must share the key separately through Key Management Service. Amazon Web Services managed keys cannot be shared. Parameters encrypted with the default Amazon Web Services managed key can be updated to use a customer managed key instead. For KMS key definitions, see KMS concepts in the
- * *Key Management Service Developer Guide*.
- *
- * While you can share a parameter using the Systems Manager `PutResourcePolicy` operation,
- * we recommend using Resource Access Manager (RAM) instead. This is because using
- * `PutResourcePolicy` requires the extra step of promoting the parameter to a
- * standard RAM Resource Share using the RAM
- * PromoteResourceShareCreatedFromPolicy API operation. Otherwise, the parameter won't
- * be returned by the Systems Manager DescribeParameters API operation using the `--shared` option.
- *
- * For more information, see Sharing a
- * parameter in the *Amazon Web Services Systems Manager User Guide*
+ * Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately. If you share a document
+ * privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If
+ * you share a document publicly, you must specify *All* as the account
+ * ID.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
-  errors: [
-    InternalServerError,
-    MalformedResourcePolicyDocumentException,
-    ResourceNotFoundException,
-    ResourcePolicyConflictException,
-    ResourcePolicyInvalidParameterException,
-    ResourcePolicyLimitExceededException,
-    ResourcePolicyNotFoundException,
-  ],
-}));
-/**
- * Sends a signal to an Automation execution to change the current behavior or status of the
- * execution.
- */
-export const sendAutomationSignal = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const modifyDocumentPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: SendAutomationSignalRequest,
-    output: SendAutomationSignalResult,
+    input: ModifyDocumentPermissionRequest,
+    output: ModifyDocumentPermissionResponse,
     errors: [
-      AutomationExecutionNotFoundException,
-      AutomationStepNotFoundException,
+      DocumentLimitExceeded,
+      DocumentPermissionLimit,
       InternalServerError,
-      InvalidAutomationSignalException,
+      InvalidDocument,
+      InvalidPermissionType,
     ],
-  }),
-);
-/**
- * Starts the workflow for just-in-time node access sessions.
- */
-export const startAccessRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartAccessRequestRequest,
-  output: StartAccessRequestResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerError,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Initiates the process of creating a preview showing the effects that running a specified
- * Automation runbook would have on the targeted resources.
- */
-export const startExecutionPreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartExecutionPreviewRequest,
-    output: StartExecutionPreviewResponse,
-    errors: [InternalServerError, ValidationException],
   }),
 );
 /**
@@ -7426,45 +6897,385 @@ export const updateDocumentDefaultVersion =
     ],
   }));
 /**
- * Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in Application Manager.
+ * Deletes an activation. You aren't required to delete an activation. If you delete an
+ * activation, you can no longer use it to register additional managed nodes. Deleting an activation
+ * doesn't de-register managed nodes. You must manually de-register managed nodes.
  */
-export const updateOpsMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateOpsMetadataRequest,
-  output: UpdateOpsMetadataResult,
+export const deleteActivation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteActivationRequest,
+  output: DeleteActivationResult,
   errors: [
     InternalServerError,
-    OpsMetadataInvalidArgumentException,
-    OpsMetadataKeyLimitExceededException,
-    OpsMetadataNotFoundException,
-    OpsMetadataTooManyUpdatesException,
+    InvalidActivation,
+    InvalidActivationId,
+    TooManyUpdates,
   ],
 }));
 /**
- * Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following
- * resources support Systems Manager resource policies.
- *
- * - `OpsItemGroup` - The resource policy for `OpsItemGroup` enables
- * Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
- *
- * - `Parameter` - The resource policy is used to share a parameter with other
- * accounts using Resource Access Manager (RAM). For more information about
- * cross-account sharing of parameters, see Working with
- * shared parameters in the *Amazon Web Services Systems Manager User Guide*.
+ * Deletes a resource data sync configuration. After the configuration is deleted, changes to
+ * data on managed nodes are no longer synced to or from the target. Deleting a sync configuration
+ * doesn't delete data.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteResourceDataSync = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
+    input: DeleteResourceDataSyncRequest,
+    output: DeleteResourceDataSyncResult,
     errors: [
       InternalServerError,
-      MalformedResourcePolicyDocumentException,
-      ResourceNotFoundException,
-      ResourcePolicyConflictException,
-      ResourcePolicyInvalidParameterException,
-      ResourcePolicyNotFoundException,
+      ResourceDataSyncInvalidConfigurationException,
+      ResourceDataSyncNotFoundException,
     ],
   }),
 );
+/**
+ * Removes a target from a maintenance window.
+ */
+export const deregisterTargetFromMaintenanceWindow =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeregisterTargetFromMaintenanceWindowRequest,
+    output: DeregisterTargetFromMaintenanceWindowResult,
+    errors: [DoesNotExistException, InternalServerError, TargetInUseException],
+  }));
+/**
+ * Registers a patch baseline for a patch group.
+ */
+export const registerPatchBaselineForPatchGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RegisterPatchBaselineForPatchGroupRequest,
+    output: RegisterPatchBaselineForPatchGroupResult,
+    errors: [
+      AlreadyExistsException,
+      DoesNotExistException,
+      InternalServerError,
+      InvalidResourceId,
+      ResourceLimitExceededException,
+    ],
+  }));
+/**
+ * Registers a target with a maintenance window.
+ */
+export const registerTargetWithMaintenanceWindow =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RegisterTargetWithMaintenanceWindowRequest,
+    output: RegisterTargetWithMaintenanceWindowResult,
+    errors: [
+      DoesNotExistException,
+      IdempotentParameterMismatch,
+      InternalServerError,
+      ResourceLimitExceededException,
+    ],
+  }));
+/**
+ * Retrieve information about one or more parameters under a specified level in a hierarchy.
+ *
+ * Request results are returned on a best-effort basis. If you specify `MaxResults`
+ * in the request, the response includes information up to the limit specified. The number of items
+ * returned, however, can be between zero and the value of `MaxResults`. If the service
+ * reaches an internal limit while processing the results, it stops the operation and returns the
+ * matching values up to that point and a `NextToken`. You can specify the
+ * `NextToken` in a subsequent call to get the next set of results.
+ *
+ * Parameter names can't contain spaces. The service removes any spaces specified for the
+ * beginning or end of a parameter name. If the specified name for a parameter contains spaces
+ * between characters, the request fails with a `ValidationException` error.
+ */
+export const getParametersByPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetParametersByPathRequest,
+  output: GetParametersByPathResult,
+  errors: [
+    InternalServerError,
+    InvalidFilterKey,
+    InvalidFilterOption,
+    InvalidFilterValue,
+    InvalidKeyId,
+    InvalidNextToken,
+  ],
+}));
+/**
+ * Provides details about all active and terminated Automation executions.
+ */
+export const describeAutomationExecutions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAutomationExecutionsRequest,
+    output: DescribeAutomationExecutionsResult,
+    errors: [
+      InternalServerError,
+      InvalidFilterKey,
+      InvalidFilterValue,
+      InvalidNextToken,
+    ],
+  }));
+/**
+ * Amazon Web Services Systems Manager Change Manager will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * Amazon Web Services Systems Manager Change Manager availability change.
+ *
+ * Updates information related to approval reviews for a specific version of a change template
+ * in Change Manager.
+ */
+export const updateDocumentMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDocumentMetadataRequest,
+    output: UpdateDocumentMetadataResponse,
+    errors: [
+      InternalServerError,
+      InvalidDocument,
+      InvalidDocumentOperation,
+      InvalidDocumentVersion,
+      TooManyUpdates,
+    ],
+  }),
+);
+/**
+ * Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the
+ * document.
+ *
+ * Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document.
+ */
+export const deleteDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDocumentRequest,
+  output: DeleteDocumentResult,
+  errors: [
+    AssociatedInstances,
+    InternalServerError,
+    InvalidDocument,
+    InvalidDocumentOperation,
+    TooManyUpdates,
+  ],
+}));
+/**
+ * Describes the specified Amazon Web Services Systems Manager document (SSM document).
+ */
+export const describeDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDocumentRequest,
+  output: DescribeDocumentResult,
+  errors: [InternalServerError, InvalidDocument, InvalidDocumentVersion],
+}));
+/**
+ * Delete OpsMetadata related to an application.
+ */
+export const deleteOpsMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOpsMetadataRequest,
+  output: DeleteOpsMetadataResult,
+  errors: [
+    InternalServerError,
+    OpsMetadataInvalidArgumentException,
+    OpsMetadataNotFoundException,
+  ],
+}));
+/**
+ * Get information about a single parameter by specifying the parameter name.
+ *
+ * Parameter names can't contain spaces. The service removes any spaces specified for the
+ * beginning or end of a parameter name. If the specified name for a parameter contains spaces
+ * between characters, the request fails with a `ValidationException` error.
+ *
+ * To get information about more than one parameter at a time, use the GetParameters operation.
+ */
+export const getParameter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetParameterRequest,
+  output: GetParameterResult,
+  errors: [
+    InternalServerError,
+    InvalidKeyId,
+    ParameterNotFound,
+    ParameterVersionNotFound,
+  ],
+}));
+/**
+ * Return a list of inventory type names for the account, or return a list of attribute names
+ * for a specific Inventory item type.
+ */
+export const getInventorySchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInventorySchemaRequest,
+  output: GetInventorySchemaResult,
+  errors: [InternalServerError, InvalidNextToken, InvalidTypeNameException],
+}));
+/**
+ * Describes the permissions for a Amazon Web Services Systems Manager document (SSM document). If you created the
+ * document, you are the owner. If a document is shared, it can either be shared privately (by
+ * specifying a user's Amazon Web Services account ID) or publicly (*All*).
+ */
+export const describeDocumentPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeDocumentPermissionRequest,
+    output: DescribeDocumentPermissionResponse,
+    errors: [
+      InternalServerError,
+      InvalidDocument,
+      InvalidDocumentOperation,
+      InvalidNextToken,
+      InvalidPermissionType,
+    ],
+  }),
+);
+/**
+ * Sends a signal to an Automation execution to change the current behavior or status of the
+ * execution.
+ */
+export const sendAutomationSignal = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SendAutomationSignalRequest,
+    output: SendAutomationSignalResult,
+    errors: [
+      AutomationExecutionNotFoundException,
+      AutomationStepNotFoundException,
+      InternalServerError,
+      InvalidAutomationSignalException,
+    ],
+  }),
+);
+/**
+ * Update a resource data sync. After you create a resource data sync for a Region, you can't
+ * change the account options for that sync. For example, if you create a sync in the us-east-2
+ * (Ohio) Region and you choose the `Include only the current account` option, you can't
+ * edit that sync later and choose the Include all accounts from my Organizations
+ * configuration option. Instead, you must delete the first resource data sync, and create a
+ * new one.
+ *
+ * This API operation only supports a resource data sync that was created with a
+ * SyncFromSource `SyncType`.
+ */
+export const updateResourceDataSync = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateResourceDataSyncRequest,
+    output: UpdateResourceDataSyncResult,
+    errors: [
+      InternalServerError,
+      ResourceDataSyncConflictException,
+      ResourceDataSyncInvalidConfigurationException,
+      ResourceDataSyncNotFoundException,
+    ],
+  }),
+);
+/**
+ * Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information,
+ * see Set
+ * up OpsCenter in the *Amazon Web Services Systems Manager User Guide*.
+ *
+ * Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and
+ * remediate operational issues impacting the performance and health of their Amazon Web Services resources. For
+ * more information, see Amazon Web Services Systems Manager OpsCenter in the
+ * *Amazon Web Services Systems Manager User Guide*.
+ */
+export const getOpsItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOpsItemRequest,
+  output: GetOpsItemResponse,
+  errors: [
+    InternalServerError,
+    OpsItemAccessDeniedException,
+    OpsItemNotFoundException,
+  ],
+}));
+/**
+ * Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the
+ * *Amazon Web Services Systems Manager User Guide*.
+ *
+ * Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and
+ * remediate operational issues impacting the performance and health of their Amazon Web Services resources. For
+ * more information, see Amazon Web Services Systems Manager OpsCenter in the
+ * *Amazon Web Services Systems Manager User Guide*.
+ */
+export const createOpsItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOpsItemRequest,
+  output: CreateOpsItemResponse,
+  errors: [
+    InternalServerError,
+    OpsItemAccessDeniedException,
+    OpsItemAlreadyExistsException,
+    OpsItemInvalidParameterException,
+    OpsItemLimitExceededException,
+  ],
+}));
+/**
+ * Remove a label or labels from a parameter.
+ *
+ * Parameter names can't contain spaces. The service removes any spaces specified for the
+ * beginning or end of a parameter name. If the specified name for a parameter contains spaces
+ * between characters, the request fails with a `ValidationException` error.
+ */
+export const unlabelParameterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UnlabelParameterVersionRequest,
+    output: UnlabelParameterVersionResult,
+    errors: [
+      InternalServerError,
+      ParameterNotFound,
+      ParameterVersionNotFound,
+      TooManyUpdates,
+    ],
+  }),
+);
+/**
+ * A parameter label is a user-defined alias to help you manage different versions of a
+ * parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and
+ * increments the version number by one. A label can help you remember the purpose of a parameter
+ * when there are multiple versions.
+ *
+ * Parameter labels have the following requirements and restrictions.
+ *
+ * - A version of a parameter can have a maximum of 10 labels.
+ *
+ * - You can't attach the same label to different versions of the same parameter. For example,
+ * if version 1 has the label Production, then you can't attach Production to version 2.
+ *
+ * - You can move a label from one version of a parameter to another.
+ *
+ * - You can't create a label when you create a new parameter. You must attach a label to a
+ * specific version of a parameter.
+ *
+ * - If you no longer want to use a parameter label, then you can either delete it or move it
+ * to a different version of a parameter.
+ *
+ * - A label can have a maximum of 100 characters.
+ *
+ * - Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or
+ * underscores (_).
+ *
+ * - Labels can't begin with a number, "`aws`" or "`ssm`" (not case
+ * sensitive). If a label fails to meet these requirements, then the label isn't associated with a
+ * parameter and the system displays it in the list of InvalidLabels.
+ *
+ * - Parameter names can't contain spaces. The service removes any spaces specified for
+ * the beginning or end of a parameter name. If the specified name for a parameter contains spaces
+ * between characters, the request fails with a `ValidationException` error.
+ */
+export const labelParameterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: LabelParameterVersionRequest,
+    output: LabelParameterVersionResult,
+    errors: [
+      InternalServerError,
+      ParameterNotFound,
+      ParameterVersionLabelLimitExceeded,
+      ParameterVersionNotFound,
+      TooManyUpdates,
+    ],
+  }),
+);
+/**
+ * Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see Set up OpsCenter in the
+ * *Amazon Web Services Systems Manager User Guide*.
+ *
+ * Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and
+ * remediate operational issues impacting the performance and health of their Amazon Web Services resources. For
+ * more information, see Amazon Web Services Systems Manager OpsCenter in the
+ * *Amazon Web Services Systems Manager User Guide*.
+ */
+export const updateOpsItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOpsItemRequest,
+  output: UpdateOpsItemResponse,
+  errors: [
+    InternalServerError,
+    OpsItemAccessDeniedException,
+    OpsItemAlreadyExistsException,
+    OpsItemConflictException,
+    OpsItemInvalidParameterException,
+    OpsItemLimitExceededException,
+    OpsItemNotFoundException,
+  ],
+}));
 /**
  * Describes the association for the specified target or managed node. If you created the
  * association by using the `Targets` parameter, then you must retrieve the association
@@ -7506,25 +7317,6 @@ export const describeInstanceAssociationsStatus =
     errors: [InternalServerError, InvalidInstanceId, InvalidNextToken],
   }));
 /**
- * An API operation used by the Systems Manager console to display information about Systems Manager managed
- * nodes.
- */
-export const describeInstanceProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInstancePropertiesRequest,
-    output: DescribeInstancePropertiesResult,
-    errors: [
-      InternalServerError,
-      InvalidActivationId,
-      InvalidDocument,
-      InvalidFilterKey,
-      InvalidInstanceId,
-      InvalidInstancePropertyFilterValue,
-      InvalidNextToken,
-    ],
-  }),
-);
-/**
  * Retrieves a list of all active sessions (both connected and disconnected) or terminated
  * sessions from the past 30 days.
  */
@@ -7532,20 +7324,6 @@ export const describeSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSessionsRequest,
   output: DescribeSessionsResponse,
   errors: [InternalServerError, InvalidFilterKey, InvalidNextToken],
-}));
-/**
- * Returns a credentials set to be used with just-in-time node access.
- */
-export const getAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccessTokenRequest,
-  output: GetAccessTokenResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerError,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
 }));
 /**
  * Get detailed information about a particular Automation execution.
@@ -7565,6 +7343,18 @@ export const getExecutionPreview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExecutionPreviewRequest,
   output: GetExecutionPreviewResponse,
   errors: [InternalServerError, ResourceNotFoundException],
+}));
+/**
+ * Returns an array of the `Policy` object.
+ */
+export const getResourcePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePoliciesRequest,
+  output: GetResourcePoliciesResponse,
+  errors: [
+    InternalServerError,
+    ResourceNotFoundException,
+    ResourcePolicyInvalidParameterException,
+  ],
 }));
 /**
  * An invocation is copy of a command sent to a specific managed node. A command can apply to
@@ -7628,142 +7418,155 @@ export const registerTaskWithMaintenanceWindow =
     ],
   }));
 /**
- * Runs commands on one or more managed nodes.
+ * Initiates the process of creating a preview showing the effects that running a specified
+ * Automation runbook would have on the targeted resources.
  */
-export const sendCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendCommandRequest,
-  output: SendCommandResult,
-  errors: [
-    DuplicateInstanceId,
-    InternalServerError,
-    InvalidDocument,
-    InvalidDocumentVersion,
-    InvalidInstanceId,
-    InvalidNotificationConfig,
-    InvalidOutputFolder,
-    InvalidParameters,
-    InvalidRole,
-    MaxDocumentSizeExceeded,
-    UnsupportedPlatformType,
-  ],
-}));
-/**
- * Initiates execution of an Automation runbook.
- */
-export const startAutomationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const startExecutionPreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartAutomationExecutionRequest,
-    output: StartAutomationExecutionResult,
-    errors: [
-      AutomationDefinitionNotFoundException,
-      AutomationDefinitionVersionNotFoundException,
-      AutomationExecutionLimitExceededException,
-      IdempotentParameterMismatch,
-      InternalServerError,
-      InvalidAutomationExecutionParametersException,
-      InvalidTarget,
-    ],
+    input: StartExecutionPreviewRequest,
+    output: StartExecutionPreviewResponse,
+    errors: [InternalServerError, ValidationException],
   }),
 );
 /**
- * Updates one or more values for an SSM document.
+ * Deletes the association between an OpsItem and a related item. For example, this API
+ * operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in
+ * Amazon Web Services Systems Manager.
  */
-export const updateDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDocumentRequest,
-  output: UpdateDocumentResult,
-  errors: [
-    DocumentVersionLimitExceeded,
-    DuplicateDocumentContent,
-    DuplicateDocumentVersionName,
-    InternalServerError,
-    InvalidDocument,
-    InvalidDocumentContent,
-    InvalidDocumentOperation,
-    InvalidDocumentSchemaVersion,
-    InvalidDocumentVersion,
-    MaxDocumentSizeExceeded,
-  ],
-}));
-/**
- * A State Manager association defines the state that you want to maintain on your managed
- * nodes. For example, an association can specify that anti-virus software must be installed and
- * running on your managed nodes, or that certain ports must be closed. For static targets, the
- * association specifies a schedule for when the configuration is reapplied. For dynamic targets,
- * such as an Amazon Web Services resource group or an Amazon Web Services autoscaling group, State Manager, a tool in Amazon Web Services Systems Manager
- * applies the configuration when new managed nodes are added to the group. The association also
- * specifies actions to take when applying the configuration. For example, an association for
- * anti-virus software might run once a day. If the software isn't installed, then State Manager
- * installs it. If the software is installed, but the service isn't running, then the association
- * might instruct State Manager to start the service.
- */
-export const createAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAssociationRequest,
-  output: CreateAssociationResult,
-  errors: [
-    AssociationAlreadyExists,
-    AssociationLimitExceeded,
-    InternalServerError,
-    InvalidDocument,
-    InvalidDocumentVersion,
-    InvalidInstanceId,
-    InvalidOutputLocation,
-    InvalidParameters,
-    InvalidSchedule,
-    InvalidTag,
-    InvalidTarget,
-    InvalidTargetMaps,
-    UnsupportedPlatformType,
-  ],
-}));
-/**
- * Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified managed nodes
- * or targets.
- *
- * When you associate a document with one or more managed nodes using IDs or tags, Amazon Web Services Systems Manager
- * Agent (SSM Agent) running on the managed node processes the document and configures the node as
- * specified.
- *
- * If you associate a document with a managed node that already has an associated document, the
- * system returns the AssociationAlreadyExists exception.
- */
-export const createAssociationBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAssociationBatchRequest,
-    output: CreateAssociationBatchResult,
+export const disassociateOpsItemRelatedItem =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateOpsItemRelatedItemRequest,
+    output: DisassociateOpsItemRelatedItemResponse,
     errors: [
-      AssociationLimitExceeded,
-      DuplicateInstanceId,
       InternalServerError,
+      OpsItemConflictException,
+      OpsItemInvalidParameterException,
+      OpsItemNotFoundException,
+      OpsItemRelatedItemAssociationNotFoundException,
+    ],
+  }));
+/**
+ * Gets the state of a Amazon Web Services Systems Manager change calendar at the current time or a specified time. If
+ * you specify a time, `GetCalendarState` returns the state of the calendar at that
+ * specific time, and returns the next time that the change calendar state will transition. If you
+ * don't specify a time, `GetCalendarState` uses the current time. Change Calendar
+ * entries have two possible states: `OPEN` or `CLOSED`.
+ *
+ * If you specify more than one calendar in a request, the command returns the status of
+ * `OPEN` only if all calendars in the request are open. If one or more calendars in the
+ * request are closed, the status returned is `CLOSED`.
+ *
+ * For more information about Change Calendar, a tool in Amazon Web Services Systems Manager, see Amazon Web Services Systems Manager Change Calendar in the *Amazon Web Services Systems Manager User Guide*.
+ */
+export const getCalendarState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCalendarStateRequest,
+  output: GetCalendarStateResponse,
+  errors: [
+    InternalServerError,
+    InvalidDocument,
+    InvalidDocumentType,
+    UnsupportedCalendarException,
+  ],
+}));
+/**
+ * Retrieves the current snapshot for the patch baseline the managed node uses. This API is
+ * primarily used by the `AWS-RunPatchBaseline` Systems Manager document (SSM document).
+ *
+ * If you run the command locally, such as with the Command Line Interface (CLI), the system attempts to use your local Amazon Web Services credentials and the operation fails. To avoid
+ * this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a tool in Amazon Web Services Systems Manager,
+ * with an SSM document that enables you to target a managed node with a script or command. For
+ * example, run the command using the `AWS-RunShellScript` document or the
+ * `AWS-RunPowerShellScript` document.
+ */
+export const getDeployablePatchSnapshotForInstance =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetDeployablePatchSnapshotForInstanceRequest,
+    output: GetDeployablePatchSnapshotForInstanceResult,
+    errors: [
+      InternalServerError,
+      UnsupportedFeatureRequiredException,
+      UnsupportedOperatingSystem,
+    ],
+  }));
+/**
+ * Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in Application Manager.
+ */
+export const updateOpsMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOpsMetadataRequest,
+  output: UpdateOpsMetadataResult,
+  errors: [
+    InternalServerError,
+    OpsMetadataInvalidArgumentException,
+    OpsMetadataKeyLimitExceededException,
+    OpsMetadataNotFoundException,
+    OpsMetadataTooManyUpdatesException,
+  ],
+}));
+/**
+ * Returns a credentials set to be used with just-in-time node access.
+ */
+export const getAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccessTokenRequest,
+  output: GetAccessTokenResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * An API operation used by the Systems Manager console to display information about Systems Manager managed
+ * nodes.
+ */
+export const describeInstanceProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeInstancePropertiesRequest,
+    output: DescribeInstancePropertiesResult,
+    errors: [
+      InternalServerError,
+      InvalidActivationId,
       InvalidDocument,
-      InvalidDocumentVersion,
+      InvalidFilterKey,
       InvalidInstanceId,
-      InvalidOutputLocation,
-      InvalidParameters,
-      InvalidSchedule,
-      InvalidTarget,
-      InvalidTargetMaps,
-      UnsupportedPlatformType,
+      InvalidInstancePropertyFilterValue,
+      InvalidNextToken,
     ],
   }),
 );
 /**
- * Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs
- * on your managed nodes. For more information about SSM documents, including information about
- * supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the
- * *Amazon Web Services Systems Manager User Guide*.
+ * Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can associate an
+ * Incident Manager incident or analysis with an OpsItem. Incident Manager and OpsCenter are tools in
+ * Amazon Web Services Systems Manager.
  */
-export const createDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDocumentRequest,
-  output: CreateDocumentResult,
+export const associateOpsItemRelatedItem = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateOpsItemRelatedItemRequest,
+    output: AssociateOpsItemRelatedItemResponse,
+    errors: [
+      InternalServerError,
+      OpsItemConflictException,
+      OpsItemInvalidParameterException,
+      OpsItemLimitExceededException,
+      OpsItemNotFoundException,
+      OpsItemRelatedItemAlreadyExistsException,
+    ],
+  }),
+);
+/**
+ * Starts the workflow for just-in-time node access sessions.
+ */
+export const startAccessRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAccessRequestRequest,
+  output: StartAccessRequestResponse,
   errors: [
-    DocumentAlreadyExists,
-    DocumentLimitExceeded,
+    AccessDeniedException,
     InternalServerError,
-    InvalidDocumentContent,
-    InvalidDocumentSchemaVersion,
-    MaxDocumentSizeExceeded,
-    NoLongerSupportedException,
-    TooManyUpdates,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
   ],
 }));
 /**
@@ -7833,20 +7636,6 @@ export const describeAssociationExecutionTargets =
     ],
   }));
 /**
- * Takes in filters and returns a list of managed nodes matching the filter criteria.
- */
-export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListNodesRequest,
-  output: ListNodesResult,
-  errors: [
-    InternalServerError,
-    InvalidFilter,
-    InvalidNextToken,
-    ResourceDataSyncNotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
  * Generates a summary of managed instance/node metadata based on the filters and aggregators
  * you specify. Results are grouped by the input aggregator you specify.
  */
@@ -7863,67 +7652,141 @@ export const listNodesSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Amazon Web Services Systems Manager Change Manager will no longer be open to new
- * customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can
- * continue to use the service as normal. For more information, see
- * Amazon Web Services Systems Manager Change Manager availability change.
- *
- * Creates a change request for Change Manager. The Automation runbooks specified in the
- * change request run only after all required approvals for the change request have been
- * received.
+ * Updates one or more values for an SSM document.
  */
-export const startChangeRequestExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDocumentRequest,
+  output: UpdateDocumentResult,
+  errors: [
+    DocumentVersionLimitExceeded,
+    DuplicateDocumentContent,
+    DuplicateDocumentVersionName,
+    InternalServerError,
+    InvalidDocument,
+    InvalidDocumentContent,
+    InvalidDocumentOperation,
+    InvalidDocumentSchemaVersion,
+    InvalidDocumentVersion,
+    MaxDocumentSizeExceeded,
+  ],
+}));
+/**
+ * Takes in filters and returns a list of managed nodes matching the filter criteria.
+ */
+export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListNodesRequest,
+  output: ListNodesResult,
+  errors: [
+    InternalServerError,
+    InvalidFilter,
+    InvalidNextToken,
+    ResourceDataSyncNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Initiates execution of an Automation runbook.
+ */
+export const startAutomationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartChangeRequestExecutionRequest,
-    output: StartChangeRequestExecutionResult,
+    input: StartAutomationExecutionRequest,
+    output: StartAutomationExecutionResult,
     errors: [
-      AutomationDefinitionNotApprovedException,
       AutomationDefinitionNotFoundException,
       AutomationDefinitionVersionNotFoundException,
       AutomationExecutionLimitExceededException,
       IdempotentParameterMismatch,
       InternalServerError,
       InvalidAutomationExecutionParametersException,
-      NoLongerSupportedException,
+      InvalidTarget,
     ],
   }),
 );
 /**
- * Updates an association. You can update the association name and version, the document
- * version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you
- * call `UpdateAssociation`, the system removes all optional parameters from the request
- * and overwrites the association with null values for those parameters. This is by design. You must
- * specify all optional parameters in the call, even if you are not changing the parameters. This
- * includes the `Name` parameter. Before calling this API action, we recommend that you
- * call the DescribeAssociation API operation and make a note of all optional
- * parameters required for your `UpdateAssociation` call.
+ * Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following
+ * resources support Systems Manager resource policies.
  *
- * In order to call this API operation, a user, group, or role must be granted permission to
- * call the DescribeAssociation API operation. If you don't have permission to
- * call `DescribeAssociation`, then you receive the following error: An error
- * occurred (AccessDeniedException) when calling the UpdateAssociation operation: User:
- * isn't authorized to perform: ssm:DescribeAssociation on resource:
+ * - `OpsItemGroup` - The resource policy for `OpsItemGroup` enables
+ * Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
  *
- * When you update an association, the association immediately runs against the specified
- * targets. You can add the `ApplyOnlyAtCronInterval` parameter to run the association
- * during the next schedule run.
+ * - `Parameter` - The resource policy is used to share a parameter with other
+ * accounts using Resource Access Manager (RAM). For more information about
+ * cross-account sharing of parameters, see Working with
+ * shared parameters in the *Amazon Web Services Systems Manager User Guide*.
  */
-export const updateAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAssociationRequest,
-  output: UpdateAssociationResult,
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyRequest,
+    output: DeleteResourcePolicyResponse,
+    errors: [
+      InternalServerError,
+      MalformedResourcePolicyDocumentException,
+      ResourceNotFoundException,
+      ResourcePolicyConflictException,
+      ResourcePolicyInvalidParameterException,
+      ResourcePolicyNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates or updates a Systems Manager resource policy. A resource policy helps you to define the
+ * IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources.
+ * The following resources support Systems Manager resource policies.
+ *
+ * - `OpsItemGroup` - The resource policy for `OpsItemGroup` enables
+ * Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
+ *
+ * - `Parameter` - The resource policy is used to share a parameter with other
+ * accounts using Resource Access Manager (RAM).
+ *
+ * To share a parameter, it must be in the advanced parameter tier. For information about
+ * parameter tiers, see Managing
+ * parameter tiers. For information about changing an existing standard parameter to an
+ * advanced parameter, see Changing a standard parameter to an advanced parameter.
+ *
+ * To share a `SecureString` parameter, it must be encrypted with a customer managed key, and you must share the key separately through Key Management Service. Amazon Web Services managed keys cannot be shared. Parameters encrypted with the default Amazon Web Services managed key can be updated to use a customer managed key instead. For KMS key definitions, see KMS concepts in the
+ * *Key Management Service Developer Guide*.
+ *
+ * While you can share a parameter using the Systems Manager `PutResourcePolicy` operation,
+ * we recommend using Resource Access Manager (RAM) instead. This is because using
+ * `PutResourcePolicy` requires the extra step of promoting the parameter to a
+ * standard RAM Resource Share using the RAM
+ * PromoteResourceShareCreatedFromPolicy API operation. Otherwise, the parameter won't
+ * be returned by the Systems Manager DescribeParameters API operation using the `--shared` option.
+ *
+ * For more information, see Sharing a
+ * parameter in the *Amazon Web Services Systems Manager User Guide*
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
   errors: [
-    AssociationDoesNotExist,
-    AssociationVersionLimitExceeded,
     InternalServerError,
-    InvalidAssociationVersion,
-    InvalidDocument,
-    InvalidDocumentVersion,
-    InvalidOutputLocation,
-    InvalidParameters,
-    InvalidSchedule,
-    InvalidTarget,
-    InvalidTargetMaps,
-    InvalidUpdate,
+    MalformedResourcePolicyDocumentException,
+    ResourceNotFoundException,
+    ResourcePolicyConflictException,
+    ResourcePolicyInvalidParameterException,
+    ResourcePolicyLimitExceededException,
+    ResourcePolicyNotFoundException,
+  ],
+}));
+/**
+ * Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs
+ * on your managed nodes. For more information about SSM documents, including information about
+ * supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the
+ * *Amazon Web Services Systems Manager User Guide*.
+ */
+export const createDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDocumentRequest,
+  output: CreateDocumentResult,
+  errors: [
+    DocumentAlreadyExists,
+    DocumentLimitExceeded,
+    InternalServerError,
+    InvalidDocumentContent,
+    InvalidDocumentSchemaVersion,
+    MaxDocumentSizeExceeded,
+    NoLongerSupportedException,
     TooManyUpdates,
   ],
 }));
@@ -8031,6 +7894,114 @@ export const putComplianceItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Amazon Web Services Systems Manager Change Manager will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * Amazon Web Services Systems Manager Change Manager availability change.
+ *
+ * Creates a change request for Change Manager. The Automation runbooks specified in the
+ * change request run only after all required approvals for the change request have been
+ * received.
+ */
+export const startChangeRequestExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartChangeRequestExecutionRequest,
+    output: StartChangeRequestExecutionResult,
+    errors: [
+      AutomationDefinitionNotApprovedException,
+      AutomationDefinitionNotFoundException,
+      AutomationDefinitionVersionNotFoundException,
+      AutomationExecutionLimitExceededException,
+      IdempotentParameterMismatch,
+      InternalServerError,
+      InvalidAutomationExecutionParametersException,
+      NoLongerSupportedException,
+    ],
+  }),
+);
+/**
+ * Runs commands on one or more managed nodes.
+ */
+export const sendCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendCommandRequest,
+  output: SendCommandResult,
+  errors: [
+    DuplicateInstanceId,
+    InternalServerError,
+    InvalidDocument,
+    InvalidDocumentVersion,
+    InvalidInstanceId,
+    InvalidNotificationConfig,
+    InvalidOutputFolder,
+    InvalidParameters,
+    InvalidRole,
+    MaxDocumentSizeExceeded,
+    UnsupportedPlatformType,
+  ],
+}));
+/**
+ * A State Manager association defines the state that you want to maintain on your managed
+ * nodes. For example, an association can specify that anti-virus software must be installed and
+ * running on your managed nodes, or that certain ports must be closed. For static targets, the
+ * association specifies a schedule for when the configuration is reapplied. For dynamic targets,
+ * such as an Amazon Web Services resource group or an Amazon Web Services autoscaling group, State Manager, a tool in Amazon Web Services Systems Manager
+ * applies the configuration when new managed nodes are added to the group. The association also
+ * specifies actions to take when applying the configuration. For example, an association for
+ * anti-virus software might run once a day. If the software isn't installed, then State Manager
+ * installs it. If the software is installed, but the service isn't running, then the association
+ * might instruct State Manager to start the service.
+ */
+export const createAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssociationRequest,
+  output: CreateAssociationResult,
+  errors: [
+    AssociationAlreadyExists,
+    AssociationLimitExceeded,
+    InternalServerError,
+    InvalidDocument,
+    InvalidDocumentVersion,
+    InvalidInstanceId,
+    InvalidOutputLocation,
+    InvalidParameters,
+    InvalidSchedule,
+    InvalidTag,
+    InvalidTarget,
+    InvalidTargetMaps,
+    UnsupportedPlatformType,
+  ],
+}));
+/**
+ * Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified managed nodes
+ * or targets.
+ *
+ * When you associate a document with one or more managed nodes using IDs or tags, Amazon Web Services Systems Manager
+ * Agent (SSM Agent) running on the managed node processes the document and configures the node as
+ * specified.
+ *
+ * If you associate a document with a managed node that already has an associated document, the
+ * system returns the AssociationAlreadyExists exception.
+ */
+export const createAssociationBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAssociationBatchRequest,
+    output: CreateAssociationBatchResult,
+    errors: [
+      AssociationLimitExceeded,
+      DuplicateInstanceId,
+      InternalServerError,
+      InvalidDocument,
+      InvalidDocumentVersion,
+      InvalidInstanceId,
+      InvalidOutputLocation,
+      InvalidParameters,
+      InvalidSchedule,
+      InvalidTarget,
+      InvalidTargetMaps,
+      UnsupportedPlatformType,
+    ],
+  }),
+);
+/**
  * View a summary of operations metadata (OpsData) based on specified filters and aggregators.
  * OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as
  * well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager
@@ -8046,6 +8017,45 @@ export const getOpsSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidNextToken,
     InvalidTypeNameException,
     ResourceDataSyncNotFoundException,
+  ],
+}));
+/**
+ * Updates an association. You can update the association name and version, the document
+ * version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you
+ * call `UpdateAssociation`, the system removes all optional parameters from the request
+ * and overwrites the association with null values for those parameters. This is by design. You must
+ * specify all optional parameters in the call, even if you are not changing the parameters. This
+ * includes the `Name` parameter. Before calling this API action, we recommend that you
+ * call the DescribeAssociation API operation and make a note of all optional
+ * parameters required for your `UpdateAssociation` call.
+ *
+ * In order to call this API operation, a user, group, or role must be granted permission to
+ * call the DescribeAssociation API operation. If you don't have permission to
+ * call `DescribeAssociation`, then you receive the following error: An error
+ * occurred (AccessDeniedException) when calling the UpdateAssociation operation: User:
+ * isn't authorized to perform: ssm:DescribeAssociation on resource:
+ *
+ * When you update an association, the association immediately runs against the specified
+ * targets. You can add the `ApplyOnlyAtCronInterval` parameter to run the association
+ * during the next schedule run.
+ */
+export const updateAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssociationRequest,
+  output: UpdateAssociationResult,
+  errors: [
+    AssociationDoesNotExist,
+    AssociationVersionLimitExceeded,
+    InternalServerError,
+    InvalidAssociationVersion,
+    InvalidDocument,
+    InvalidDocumentVersion,
+    InvalidOutputLocation,
+    InvalidParameters,
+    InvalidSchedule,
+    InvalidTarget,
+    InvalidTargetMaps,
+    InvalidUpdate,
+    TooManyUpdates,
   ],
 }));
 /**

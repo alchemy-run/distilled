@@ -2534,63 +2534,63 @@ export class SubscribeToShardOutput extends S.Class<SubscribeToShardOutput>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
   "InvalidArgumentException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class KMSAccessDeniedException extends S.TaggedError<KMSAccessDeniedException>()(
   "KMSAccessDeniedException",
-  {},
-) {}
-export class KMSDisabledException extends S.TaggedError<KMSDisabledException>()(
-  "KMSDisabledException",
-  {},
-) {}
-export class ExpiredNextTokenException extends S.TaggedError<ExpiredNextTokenException>()(
-  "ExpiredNextTokenException",
-  {},
-) {}
-export class KMSInvalidStateException extends S.TaggedError<KMSInvalidStateException>()(
-  "KMSInvalidStateException",
-  {},
-) {}
-export class KMSNotFoundException extends S.TaggedError<KMSNotFoundException>()(
-  "KMSNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ProvisionedThroughputExceededException extends S.TaggedError<ProvisionedThroughputExceededException>()(
   "ProvisionedThroughputExceededException",
   { message: S.optional(S.String) },
 ) {}
+export class ExpiredNextTokenException extends S.TaggedError<ExpiredNextTokenException>()(
+  "ExpiredNextTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
+) {}
+export class KMSDisabledException extends S.TaggedError<KMSDisabledException>()(
+  "KMSDisabledException",
+  { message: S.optional(S.String) },
+) {}
+export class KMSInvalidStateException extends S.TaggedError<KMSInvalidStateException>()(
+  "KMSInvalidStateException",
+  { message: S.optional(S.String) },
+) {}
+export class KMSNotFoundException extends S.TaggedError<KMSNotFoundException>()(
+  "KMSNotFoundException",
+  { message: S.optional(S.String) },
+) {}
 export class KMSOptInRequired extends S.TaggedError<KMSOptInRequired>()(
   "KMSOptInRequired",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class KMSThrottlingException extends S.TaggedError<KMSThrottlingException>()(
   "KMSThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ExpiredIteratorException extends S.TaggedError<ExpiredIteratorException>()(
   "ExpiredIteratorException",
@@ -2611,6 +2611,166 @@ export const describeLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DescribeLimitsOutput,
   errors: [LimitExceededException],
 }));
+/**
+ * Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations.
+ *
+ * This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
+ */
+export const describeAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAccountSettingsInput,
+    output: DescribeAccountSettingsOutput,
+    errors: [LimitExceededException],
+  }),
+);
+/**
+ * Lists the tags for the specified Kinesis data stream. This operation has a limit of
+ * five transactions per second per account.
+ *
+ * When invoking this API, you must use either the `StreamARN` or the
+ * `StreamName` parameter, or both. It is recommended that you use the
+ * `StreamARN` input parameter when you invoke this API.
+ */
+export const listTagsForStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForStreamInput,
+  output: ListTagsForStreamOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns a policy attached to the specified data stream or consumer. Request patterns can be one of the following:
+ *
+ * - Data stream pattern: `arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+`
+ *
+ * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
+ */
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyInput,
+  output: GetResourcePolicyOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Registers a consumer with a Kinesis data stream. When you use this operation, the
+ * consumer you register can then call SubscribeToShard to receive data
+ * from the stream using enhanced fan-out, at a rate of up to 2 MiB per second for every
+ * shard you subscribe to. This rate is unaffected by the total number of consumers that
+ * read from the same stream.
+ *
+ * You can add tags to the registered consumer when making a `RegisterStreamConsumer` request by setting the `Tags` parameter. If you pass the `Tags` parameter, in addition to having the `kinesis:RegisterStreamConsumer` permission, you must also have the `kinesis:TagResource` permission for the consumer that will be registered. Tags will take effect from the `CREATING` status of the consumer.
+ *
+ * With On-demand Advantage streams, you can register up to 50 consumers per stream to use Enhanced Fan-out. With On-demand Standard and Provisioned streams, you can register up to 20 consumers per stream to use Enhanced Fan-out. A given consumer can only be
+ * registered with one stream at a time.
+ *
+ * For an example of how to use this operation, see Enhanced Fan-Out
+ * Using the Kinesis Data Streams API.
+ *
+ * The use of this operation has a limit of five transactions per second per account.
+ * Also, only 5 consumers can be created simultaneously. In other words, you cannot have
+ * more than 5 consumers in a `CREATING` status at the same time. Registering a
+ * 6th consumer while there are 5 in a `CREATING` status results in a
+ * `LimitExceededException`.
+ */
+export const registerStreamConsumer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RegisterStreamConsumerInput,
+    output: RegisterStreamConsumerOutput,
+    errors: [
+      InvalidArgumentException,
+      LimitExceededException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Delete a policy for the specified data stream or consumer. Request patterns can be one of the following:
+ *
+ * - Data stream pattern: `arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+`
+ *
+ * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
+ */
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyInput,
+    output: DeleteResourcePolicyResponse,
+    errors: [
+      AccessDeniedException,
+      InvalidArgumentException,
+      LimitExceededException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes a Kinesis data stream and all its shards and data. You must shut down any
+ * applications that are operating on the stream before you delete the stream. If an
+ * application attempts to operate on a deleted stream, it receives the exception
+ * `ResourceNotFoundException`.
+ *
+ * When invoking this API, you must use either the `StreamARN` or the
+ * `StreamName` parameter, or both. It is recommended that you use the
+ * `StreamARN` input parameter when you invoke this API.
+ *
+ * If the stream is in the `ACTIVE` state, you can delete it. After a
+ * `DeleteStream` request, the specified stream is in the
+ * `DELETING` state until Kinesis Data Streams completes the
+ * deletion.
+ *
+ * **Note:** Kinesis Data Streams might continue to accept
+ * data read and write operations, such as PutRecord, PutRecords, and GetRecords, on a stream in the
+ * `DELETING` state until the stream deletion is complete.
+ *
+ * When you delete a stream, any shards in that stream are also deleted, and any tags are
+ * dissociated from the stream.
+ *
+ * You can use the DescribeStreamSummary operation to check the state
+ * of the stream, which is returned in `StreamStatus`.
+ *
+ * DeleteStream has a limit of five transactions per second per
+ * account.
+ */
+export const deleteStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStreamInput,
+  output: DeleteStreamResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Enables enhanced Kinesis data stream monitoring for shard-level metrics.
+ *
+ * When invoking this API, you must use either the `StreamARN` or the
+ * `StreamName` parameter, or both. It is recommended that you use the
+ * `StreamARN` input parameter when you invoke this API.
+ */
+export const enableEnhancedMonitoring = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: EnableEnhancedMonitoringInput,
+    output: EnhancedMonitoringOutput,
+    errors: [
+      AccessDeniedException,
+      InvalidArgumentException,
+      LimitExceededException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Increases the Kinesis data stream's retention period, which is the length of time data
  * records are accessible after they are added to the stream. The maximum value of a
@@ -2692,71 +2852,6 @@ export const removeTagsFromStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Splits a shard into two new shards in the Kinesis data stream, to increase the
- * stream's capacity to ingest and transport data. `SplitShard` is called when
- * there is a need to increase the overall capacity of a stream because of an expected
- * increase in the volume of data records being ingested. This API is only supported for
- * the data streams with the provisioned capacity mode.
- *
- * When invoking this API, you must use either the `StreamARN` or the
- * `StreamName` parameter, or both. It is recommended that you use the
- * `StreamARN` input parameter when you invoke this API.
- *
- * You can also use `SplitShard` when a shard appears to be approaching its
- * maximum utilization; for example, the producers sending data into the specific shard are
- * suddenly sending more than previously anticipated. You can also call
- * `SplitShard` to increase stream capacity, so that more Kinesis Data
- * Streams applications can simultaneously read data from the stream for real-time
- * processing.
- *
- * You must specify the shard to be split and the new hash key, which is the position in
- * the shard where the shard gets split in two. In many cases, the new hash key might be
- * the average of the beginning and ending hash key, but it can be any hash key value in
- * the range being mapped into the shard. For more information, see Split a
- * Shard in the Amazon Kinesis Data Streams Developer
- * Guide.
- *
- * You can use DescribeStreamSummary and the ListShards APIs to determine the shard ID and hash key values for the `ShardToSplit`
- * and `NewStartingHashKey` parameters that are specified in the
- * `SplitShard` request.
- *
- * `SplitShard` is an asynchronous operation. Upon receiving a
- * `SplitShard` request, Kinesis Data Streams immediately returns a response
- * and sets the stream status to `UPDATING`. After the operation is completed,
- * Kinesis Data Streams sets the stream status to `ACTIVE`. Read and write
- * operations continue to work while the stream is in the `UPDATING` state.
- *
- * You can use DescribeStreamSummary to check the status of the stream,
- * which is returned in `StreamStatus`. If the stream is in the
- * `ACTIVE` state, you can call `SplitShard`.
- *
- * If the specified stream does not exist, DescribeStreamSummary
- * returns a `ResourceNotFoundException`. If you try to create more shards than
- * are authorized for your account, you receive a `LimitExceededException`.
- *
- * For the default shard limit for an Amazon Web Services account, see Kinesis
- * Data Streams Limits in the Amazon Kinesis Data Streams Developer
- * Guide. To increase this limit, contact Amazon Web Services
- * Support.
- *
- * If you try to operate on too many streams simultaneously using CreateStream, DeleteStream, MergeShards, and/or SplitShard, you receive a
- * `LimitExceededException`.
- *
- * `SplitShard` has a limit of five transactions per second per account.
- */
-export const splitShard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SplitShardInput,
-  output: SplitShardResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Disables server-side encryption for a specified stream.
  *
  * When invoking this API, you must use either the `StreamARN` or the
@@ -2822,39 +2917,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This allows you to update the `MaxRecordSize` of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
- */
-export const updateMaxRecordSize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateMaxRecordSizeInput,
-  output: UpdateMaxRecordSizeResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you
- * can choose between an **on-demand** capacity mode and a
- * **provisioned** capacity mode for your data stream.
- *
- * If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling `MinimumThroughputBillingCommitment` for your account. Once your account has `MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
- */
-export const updateStreamMode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateStreamModeInput,
-  output: UpdateStreamModeResponse,
-  errors: [
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Adds or updates tags for the specified Kinesis data stream. You can assign up to 50
  * tags to a data stream.
  *
@@ -2877,57 +2939,6 @@ export const addTagsToStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates a Kinesis data stream. A stream captures and transports data records that are
- * continuously emitted from different data sources or *producers*.
- * Scale-out within a stream is explicitly supported by means of shards, which are uniquely
- * identified groups of data records in a stream.
- *
- * You can create your data stream using either on-demand or provisioned capacity mode. Data streams with an on-demand mode require no capacity planning and automatically scale to handle gigabytes of write and read throughput per minute. With the on-demand mode, Kinesis Data Streams automatically manages the shards in order to provide the necessary throughput.
- *
- * If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling `MinimumThroughputBillingCommitment` for your account. Once your account has `MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
- *
- * For the data streams with a provisioned mode, you must specify the number of shards for the data stream. Each shard can support reads up to five transactions per second, up to a maximum data read total of 2 MiB per second. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 1 MiB per second. If the amount of data input increases or decreases, you can add or remove shards.
- *
- * The stream name identifies the stream. The name is scoped to the Amazon Web Services
- * account used by the application. It is also scoped by Amazon Web Services Region. That
- * is, two streams in two different accounts can have the same name, and two streams in the
- * same account, but in two different Regions, can have the same name.
- *
- * `CreateStream` is an asynchronous operation. Upon receiving a
- * `CreateStream` request, Kinesis Data Streams immediately returns and sets
- * the stream status to `CREATING`. After the stream is created, Kinesis Data
- * Streams sets the stream status to `ACTIVE`. You should perform read and write
- * operations only on an `ACTIVE` stream.
- *
- * You receive a `LimitExceededException` when making a
- * `CreateStream` request when you try to do one of the following:
- *
- * - Have more than five streams in the `CREATING` state at any point in
- * time.
- *
- * - Create more shards than are authorized for your account.
- *
- * For the default shard or on-demand throughput limits for an Amazon Web Services account, see Amazon Kinesis Data Streams Limits in the *Amazon Kinesis Data Streams Developer Guide*. To increase this limit, contact Amazon Web Services Support.
- *
- * You can use DescribeStreamSummary to check the stream status, which
- * is returned in `StreamStatus`.
- *
- * CreateStream has a limit of five transactions per second per
- * account.
- *
- * You can add tags to the stream when making a `CreateStream` request by setting the `Tags` parameter. If you pass the `Tags` parameter, in addition to having the `kinesis:CreateStream` permission, you must also have the `kinesis:AddTagsToStream` permission for the stream that will be created. The `kinesis:TagResource` permission won’t work to tag streams on creation. Tags will take effect from the `CREATING` status of the stream, but you can't make any updates to the tags until the stream is in `ACTIVE` state.
- */
-export const createStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStreamInput,
-  output: CreateStreamResponse,
-  errors: [
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ValidationException,
   ],
 }));
 /**
@@ -2956,65 +2967,6 @@ export const decreaseStreamRetentionPeriod =
     ],
   }));
 /**
- * Delete a policy for the specified data stream or consumer. Request patterns can be one of the following:
- *
- * - Data stream pattern: `arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+`
- *
- * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
- */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyInput,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InvalidArgumentException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes a Kinesis data stream and all its shards and data. You must shut down any
- * applications that are operating on the stream before you delete the stream. If an
- * application attempts to operate on a deleted stream, it receives the exception
- * `ResourceNotFoundException`.
- *
- * When invoking this API, you must use either the `StreamARN` or the
- * `StreamName` parameter, or both. It is recommended that you use the
- * `StreamARN` input parameter when you invoke this API.
- *
- * If the stream is in the `ACTIVE` state, you can delete it. After a
- * `DeleteStream` request, the specified stream is in the
- * `DELETING` state until Kinesis Data Streams completes the
- * deletion.
- *
- * **Note:** Kinesis Data Streams might continue to accept
- * data read and write operations, such as PutRecord, PutRecords, and GetRecords, on a stream in the
- * `DELETING` state until the stream deletion is complete.
- *
- * When you delete a stream, any shards in that stream are also deleted, and any tags are
- * dissociated from the stream.
- *
- * You can use the DescribeStreamSummary operation to check the state
- * of the stream, which is returned in `StreamStatus`.
- *
- * DeleteStream has a limit of five transactions per second per
- * account.
- */
-export const deleteStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStreamInput,
-  output: DeleteStreamResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
  * To deregister a consumer, provide its ARN. Alternatively, you can provide the ARN of
  * the data stream and the name you gave the consumer when you registered it. You may also
  * provide all three parameters, as long as they don't conflict with each other. If you
@@ -3036,247 +2988,6 @@ export const deregisterStreamConsumer = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations.
- *
- * This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
- */
-export const describeAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountSettingsInput,
-    output: DescribeAccountSettingsOutput,
-    errors: [LimitExceededException],
-  }),
-);
-/**
- * Disables enhanced monitoring.
- *
- * When invoking this API, you must use either the `StreamARN` or the
- * `StreamName` parameter, or both. It is recommended that you use the
- * `StreamARN` input parameter when you invoke this API.
- */
-export const disableEnhancedMonitoring = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableEnhancedMonitoringInput,
-    output: EnhancedMonitoringOutput,
-    errors: [
-      AccessDeniedException,
-      InvalidArgumentException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Enables enhanced Kinesis data stream monitoring for shard-level metrics.
- *
- * When invoking this API, you must use either the `StreamARN` or the
- * `StreamName` parameter, or both. It is recommended that you use the
- * `StreamARN` input parameter when you invoke this API.
- */
-export const enableEnhancedMonitoring = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableEnhancedMonitoringInput,
-    output: EnhancedMonitoringOutput,
-    errors: [
-      AccessDeniedException,
-      InvalidArgumentException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Returns a policy attached to the specified data stream or consumer. Request patterns can be one of the following:
- *
- * - Data stream pattern: `arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+`
- *
- * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyInput,
-  output: GetResourcePolicyOutput,
-  errors: [
-    AccessDeniedException,
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Lists the tags for the specified Kinesis data stream. This operation has a limit of
- * five transactions per second per account.
- *
- * When invoking this API, you must use either the `StreamARN` or the
- * `StreamName` parameter, or both. It is recommended that you use the
- * `StreamARN` input parameter when you invoke this API.
- */
-export const listTagsForStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForStreamInput,
-  output: ListTagsForStreamOutput,
-  errors: [
-    AccessDeniedException,
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Merges two adjacent shards in a Kinesis data stream and combines them into a single
- * shard to reduce the stream's capacity to ingest and transport data. This API is only
- * supported for the data streams with the provisioned capacity mode. Two shards are
- * considered adjacent if the union of the hash key ranges for the two shards form a
- * contiguous set with no gaps. For example, if you have two shards, one with a hash key
- * range of 276...381 and the other with a hash key range of 382...454, then you could
- * merge these two shards into a single shard that would have a hash key range of
- * 276...454. After the merge, the single child shard receives data for all hash key values
- * covered by the two parent shards.
- *
- * When invoking this API, you must use either the `StreamARN` or the
- * `StreamName` parameter, or both. It is recommended that you use the
- * `StreamARN` input parameter when you invoke this API.
- *
- * `MergeShards` is called when there is a need to reduce the overall capacity
- * of a stream because of excess capacity that is not being used. You must specify the
- * shard to be merged and the adjacent shard for a stream. For more information about
- * merging shards, see Merge Two
- * Shards in the Amazon Kinesis Data Streams Developer
- * Guide.
- *
- * If the stream is in the `ACTIVE` state, you can call
- * `MergeShards`. If a stream is in the `CREATING`,
- * `UPDATING`, or `DELETING` state, `MergeShards`
- * returns a `ResourceInUseException`. If the specified stream does not exist,
- * `MergeShards` returns a `ResourceNotFoundException`.
- *
- * You can use DescribeStreamSummary to check the state of the stream,
- * which is returned in `StreamStatus`.
- *
- * `MergeShards` is an asynchronous operation. Upon receiving a
- * `MergeShards` request, Amazon Kinesis Data Streams immediately returns a
- * response and sets the `StreamStatus` to `UPDATING`. After the
- * operation is completed, Kinesis Data Streams sets the `StreamStatus` to
- * `ACTIVE`. Read and write operations continue to work while the stream is
- * in the `UPDATING` state.
- *
- * You use DescribeStreamSummary and the ListShards
- * APIs to determine the shard IDs that are specified in the `MergeShards`
- * request.
- *
- * If you try to operate on too many streams in parallel using CreateStream, DeleteStream, `MergeShards`,
- * or SplitShard, you receive a `LimitExceededException`.
- *
- * `MergeShards` has a limit of five transactions per second per account.
- */
-export const mergeShards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: MergeShardsInput,
-  output: MergeShardsResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Registers a consumer with a Kinesis data stream. When you use this operation, the
- * consumer you register can then call SubscribeToShard to receive data
- * from the stream using enhanced fan-out, at a rate of up to 2 MiB per second for every
- * shard you subscribe to. This rate is unaffected by the total number of consumers that
- * read from the same stream.
- *
- * You can add tags to the registered consumer when making a `RegisterStreamConsumer` request by setting the `Tags` parameter. If you pass the `Tags` parameter, in addition to having the `kinesis:RegisterStreamConsumer` permission, you must also have the `kinesis:TagResource` permission for the consumer that will be registered. Tags will take effect from the `CREATING` status of the consumer.
- *
- * With On-demand Advantage streams, you can register up to 50 consumers per stream to use Enhanced Fan-out. With On-demand Standard and Provisioned streams, you can register up to 20 consumers per stream to use Enhanced Fan-out. A given consumer can only be
- * registered with one stream at a time.
- *
- * For an example of how to use this operation, see Enhanced Fan-Out
- * Using the Kinesis Data Streams API.
- *
- * The use of this operation has a limit of five transactions per second per account.
- * Also, only 5 consumers can be created simultaneously. In other words, you cannot have
- * more than 5 consumers in a `CREATING` status at the same time. Registering a
- * 6th consumer while there are 5 in a `CREATING` status results in a
- * `LimitExceededException`.
- */
-export const registerStreamConsumer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterStreamConsumerInput,
-    output: RegisterStreamConsumerOutput,
-    errors: [
-      InvalidArgumentException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Updates the shard count of the specified stream to the specified number of shards.
- * This API is only supported for the data streams with the provisioned capacity
- * mode.
- *
- * When invoking this API, you must use either the `StreamARN` or the
- * `StreamName` parameter, or both. It is recommended that you use the
- * `StreamARN` input parameter when you invoke this API.
- *
- * Updating the shard count is an asynchronous operation. Upon receiving the request,
- * Kinesis Data Streams returns immediately and sets the status of the stream to
- * `UPDATING`. After the update is complete, Kinesis Data Streams sets the
- * status of the stream back to `ACTIVE`. Depending on the size of the stream,
- * the scaling action could take a few minutes to complete. You can continue to read and
- * write data to your stream while its status is `UPDATING`.
- *
- * To update the shard count, Kinesis Data Streams performs splits or merges on
- * individual shards. This can cause short-lived shards to be created, in addition to the
- * final shards. These short-lived shards count towards your total shard limit for your
- * account in the Region.
- *
- * When using this operation, we recommend that you specify a target shard count that is
- * a multiple of 25% (25%, 50%, 75%, 100%). You can specify any target value within your
- * shard limit. However, if you specify a target that isn't a multiple of 25%, the scaling
- * action might take longer to complete.
- *
- * This operation has the following default limits. By default, you cannot do the
- * following:
- *
- * - Scale more than ten times per rolling 24-hour period per stream
- *
- * - Scale up to more than double your current shard count for a stream
- *
- * - Scale down below half your current shard count for a stream
- *
- * - Scale up to more than 10000 shards in a stream
- *
- * - Scale a stream with more than 10000 shards down unless the result is less than
- * 10000 shards
- *
- * - Scale up to more than the shard limit for your account
- *
- * - Make over 10 TPS. TPS over 10 will trigger the LimitExceededException
- *
- * For the default limits for an Amazon Web Services account, see Streams
- * Limits in the Amazon Kinesis Data Streams Developer
- * Guide. To request an increase in the call rate limit, the shard limit for
- * this API, or your overall shard limit, use the limits form.
- */
-export const updateShardCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateShardCountInput,
-  output: UpdateShardCountOutput,
-  errors: [
-    AccessDeniedException,
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * To get the description of a registered consumer, provide the ARN of the consumer.
  * Alternatively, you can provide the ARN of the data stream and the name you gave the
@@ -3329,51 +3040,25 @@ export const describeStreamSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists the consumers registered to receive data from a stream using enhanced fan-out,
- * and provides information about each consumer.
+ * Disables enhanced monitoring.
  *
- * This operation has a limit of 5 transactions per second per stream.
+ * When invoking this API, you must use either the `StreamARN` or the
+ * `StreamName` parameter, or both. It is recommended that you use the
+ * `StreamARN` input parameter when you invoke this API.
  */
-export const listStreamConsumers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStreamConsumersInput,
-  output: ListStreamConsumersOutput,
-  errors: [
-    ExpiredNextTokenException,
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Lists your Kinesis data streams.
- *
- * The number of streams may be too large to return from a single call to
- * `ListStreams`. You can limit the number of returned streams using the
- * `Limit` parameter. If you do not specify a value for the
- * `Limit` parameter, Kinesis Data Streams uses the default limit, which is
- * currently 100.
- *
- * You can detect if there are more streams available to list by using the
- * `HasMoreStreams` flag from the returned output. If there are more streams
- * available, you can request more streams by using the name of the last stream returned by
- * the `ListStreams` request in the `ExclusiveStartStreamName`
- * parameter in a subsequent request to `ListStreams`. The group of stream names
- * returned by the subsequent request is then added to the list. You can continue this
- * process until all the stream names have been collected in the list.
- *
- * ListStreams has a limit of five transactions per second per
- * account.
- */
-export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStreamsInput,
-  output: ListStreamsOutput,
-  errors: [
-    ExpiredNextTokenException,
-    InvalidArgumentException,
-    LimitExceededException,
-  ],
-}));
+export const disableEnhancedMonitoring = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisableEnhancedMonitoringInput,
+    output: EnhancedMonitoringOutput,
+    errors: [
+      AccessDeniedException,
+      InvalidArgumentException,
+      LimitExceededException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * List all tags added to the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  *
@@ -3390,60 +3075,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
   ],
 }));
-/**
- * Updates the account-level settings for Amazon Kinesis Data Streams.
- *
- * Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your account’s updated settings.
- *
- * **API limits**
- *
- * - Certain account configurations have minimum commitment windows. Attempting to update your settings prior to the end of the minimum commitment window might have certain restrictions.
- *
- * - This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
- */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsInput,
-    output: UpdateAccountSettingsOutput,
-    errors: [
-      InvalidArgumentException,
-      LimitExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. This operation allows you to proactively scale your on-demand data stream to a specified throughput level, enabling better performance for sudden traffic spikes.
- *
- * When invoking this API, you must use either the `StreamARN` or the `StreamName` parameter, or both. It is recommended that you use the `StreamARN` input parameter when you invoke this API.
- *
- * Updating the warm throughput is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to `UPDATING`. After the update is complete, Kinesis Data Streams sets the status of the stream back to `ACTIVE`. Depending on the size of the stream, the scaling action could take a few minutes to complete. You can continue to read and write data to your stream while its status is `UPDATING`.
- *
- * This operation is only supported for data streams with the on-demand capacity mode in accounts that have `MinimumThroughputBillingCommitment` enabled. Provisioned capacity mode streams do not support warm throughput configuration.
- *
- * This operation has the following default limits. By default, you cannot do the following:
- *
- * - Scale to more than 10 GiBps for an on-demand stream.
- *
- * - This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
- *
- * For the default limits for an Amazon Web Services account, see Streams Limits in the Amazon Kinesis Data Streams Developer
- * Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the limits form.
- */
-export const updateStreamWarmThroughput = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStreamWarmThroughputInput,
-    output: UpdateStreamWarmThroughputOutput,
-    errors: [
-      AccessDeniedException,
-      InvalidArgumentException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after it is
  * returned to the requester.
@@ -3527,6 +3158,375 @@ export const listShards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates the account-level settings for Amazon Kinesis Data Streams.
+ *
+ * Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your account’s updated settings.
+ *
+ * **API limits**
+ *
+ * - Certain account configurations have minimum commitment windows. Attempting to update your settings prior to the end of the minimum commitment window might have certain restrictions.
+ *
+ * - This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
+ */
+export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountSettingsInput,
+    output: UpdateAccountSettingsOutput,
+    errors: [
+      InvalidArgumentException,
+      LimitExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the consumers registered to receive data from a stream using enhanced fan-out,
+ * and provides information about each consumer.
+ *
+ * This operation has a limit of 5 transactions per second per stream.
+ */
+export const listStreamConsumers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStreamConsumersInput,
+  output: ListStreamConsumersOutput,
+  errors: [
+    ExpiredNextTokenException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Lists your Kinesis data streams.
+ *
+ * The number of streams may be too large to return from a single call to
+ * `ListStreams`. You can limit the number of returned streams using the
+ * `Limit` parameter. If you do not specify a value for the
+ * `Limit` parameter, Kinesis Data Streams uses the default limit, which is
+ * currently 100.
+ *
+ * You can detect if there are more streams available to list by using the
+ * `HasMoreStreams` flag from the returned output. If there are more streams
+ * available, you can request more streams by using the name of the last stream returned by
+ * the `ListStreams` request in the `ExclusiveStartStreamName`
+ * parameter in a subsequent request to `ListStreams`. The group of stream names
+ * returned by the subsequent request is then added to the list. You can continue this
+ * process until all the stream names have been collected in the list.
+ *
+ * ListStreams has a limit of five transactions per second per
+ * account.
+ */
+export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStreamsInput,
+  output: ListStreamsOutput,
+  errors: [
+    ExpiredNextTokenException,
+    InvalidArgumentException,
+    LimitExceededException,
+  ],
+}));
+/**
+ * Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. This operation allows you to proactively scale your on-demand data stream to a specified throughput level, enabling better performance for sudden traffic spikes.
+ *
+ * When invoking this API, you must use either the `StreamARN` or the `StreamName` parameter, or both. It is recommended that you use the `StreamARN` input parameter when you invoke this API.
+ *
+ * Updating the warm throughput is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to `UPDATING`. After the update is complete, Kinesis Data Streams sets the status of the stream back to `ACTIVE`. Depending on the size of the stream, the scaling action could take a few minutes to complete. You can continue to read and write data to your stream while its status is `UPDATING`.
+ *
+ * This operation is only supported for data streams with the on-demand capacity mode in accounts that have `MinimumThroughputBillingCommitment` enabled. Provisioned capacity mode streams do not support warm throughput configuration.
+ *
+ * This operation has the following default limits. By default, you cannot do the following:
+ *
+ * - Scale to more than 10 GiBps for an on-demand stream.
+ *
+ * - This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
+ *
+ * For the default limits for an Amazon Web Services account, see Streams Limits in the Amazon Kinesis Data Streams Developer
+ * Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the limits form.
+ */
+export const updateStreamWarmThroughput = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateStreamWarmThroughputInput,
+    output: UpdateStreamWarmThroughputOutput,
+    errors: [
+      AccessDeniedException,
+      InvalidArgumentException,
+      LimitExceededException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the shard count of the specified stream to the specified number of shards.
+ * This API is only supported for the data streams with the provisioned capacity
+ * mode.
+ *
+ * When invoking this API, you must use either the `StreamARN` or the
+ * `StreamName` parameter, or both. It is recommended that you use the
+ * `StreamARN` input parameter when you invoke this API.
+ *
+ * Updating the shard count is an asynchronous operation. Upon receiving the request,
+ * Kinesis Data Streams returns immediately and sets the status of the stream to
+ * `UPDATING`. After the update is complete, Kinesis Data Streams sets the
+ * status of the stream back to `ACTIVE`. Depending on the size of the stream,
+ * the scaling action could take a few minutes to complete. You can continue to read and
+ * write data to your stream while its status is `UPDATING`.
+ *
+ * To update the shard count, Kinesis Data Streams performs splits or merges on
+ * individual shards. This can cause short-lived shards to be created, in addition to the
+ * final shards. These short-lived shards count towards your total shard limit for your
+ * account in the Region.
+ *
+ * When using this operation, we recommend that you specify a target shard count that is
+ * a multiple of 25% (25%, 50%, 75%, 100%). You can specify any target value within your
+ * shard limit. However, if you specify a target that isn't a multiple of 25%, the scaling
+ * action might take longer to complete.
+ *
+ * This operation has the following default limits. By default, you cannot do the
+ * following:
+ *
+ * - Scale more than ten times per rolling 24-hour period per stream
+ *
+ * - Scale up to more than double your current shard count for a stream
+ *
+ * - Scale down below half your current shard count for a stream
+ *
+ * - Scale up to more than 10000 shards in a stream
+ *
+ * - Scale a stream with more than 10000 shards down unless the result is less than
+ * 10000 shards
+ *
+ * - Scale up to more than the shard limit for your account
+ *
+ * - Make over 10 TPS. TPS over 10 will trigger the LimitExceededException
+ *
+ * For the default limits for an Amazon Web Services account, see Streams
+ * Limits in the Amazon Kinesis Data Streams Developer
+ * Guide. To request an increase in the call rate limit, the shard limit for
+ * this API, or your overall shard limit, use the limits form.
+ */
+export const updateShardCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateShardCountInput,
+  output: UpdateShardCountOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Merges two adjacent shards in a Kinesis data stream and combines them into a single
+ * shard to reduce the stream's capacity to ingest and transport data. This API is only
+ * supported for the data streams with the provisioned capacity mode. Two shards are
+ * considered adjacent if the union of the hash key ranges for the two shards form a
+ * contiguous set with no gaps. For example, if you have two shards, one with a hash key
+ * range of 276...381 and the other with a hash key range of 382...454, then you could
+ * merge these two shards into a single shard that would have a hash key range of
+ * 276...454. After the merge, the single child shard receives data for all hash key values
+ * covered by the two parent shards.
+ *
+ * When invoking this API, you must use either the `StreamARN` or the
+ * `StreamName` parameter, or both. It is recommended that you use the
+ * `StreamARN` input parameter when you invoke this API.
+ *
+ * `MergeShards` is called when there is a need to reduce the overall capacity
+ * of a stream because of excess capacity that is not being used. You must specify the
+ * shard to be merged and the adjacent shard for a stream. For more information about
+ * merging shards, see Merge Two
+ * Shards in the Amazon Kinesis Data Streams Developer
+ * Guide.
+ *
+ * If the stream is in the `ACTIVE` state, you can call
+ * `MergeShards`. If a stream is in the `CREATING`,
+ * `UPDATING`, or `DELETING` state, `MergeShards`
+ * returns a `ResourceInUseException`. If the specified stream does not exist,
+ * `MergeShards` returns a `ResourceNotFoundException`.
+ *
+ * You can use DescribeStreamSummary to check the state of the stream,
+ * which is returned in `StreamStatus`.
+ *
+ * `MergeShards` is an asynchronous operation. Upon receiving a
+ * `MergeShards` request, Amazon Kinesis Data Streams immediately returns a
+ * response and sets the `StreamStatus` to `UPDATING`. After the
+ * operation is completed, Kinesis Data Streams sets the `StreamStatus` to
+ * `ACTIVE`. Read and write operations continue to work while the stream is
+ * in the `UPDATING` state.
+ *
+ * You use DescribeStreamSummary and the ListShards
+ * APIs to determine the shard IDs that are specified in the `MergeShards`
+ * request.
+ *
+ * If you try to operate on too many streams in parallel using CreateStream, DeleteStream, `MergeShards`,
+ * or SplitShard, you receive a `LimitExceededException`.
+ *
+ * `MergeShards` has a limit of five transactions per second per account.
+ */
+export const mergeShards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MergeShardsInput,
+  output: MergeShardsResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Splits a shard into two new shards in the Kinesis data stream, to increase the
+ * stream's capacity to ingest and transport data. `SplitShard` is called when
+ * there is a need to increase the overall capacity of a stream because of an expected
+ * increase in the volume of data records being ingested. This API is only supported for
+ * the data streams with the provisioned capacity mode.
+ *
+ * When invoking this API, you must use either the `StreamARN` or the
+ * `StreamName` parameter, or both. It is recommended that you use the
+ * `StreamARN` input parameter when you invoke this API.
+ *
+ * You can also use `SplitShard` when a shard appears to be approaching its
+ * maximum utilization; for example, the producers sending data into the specific shard are
+ * suddenly sending more than previously anticipated. You can also call
+ * `SplitShard` to increase stream capacity, so that more Kinesis Data
+ * Streams applications can simultaneously read data from the stream for real-time
+ * processing.
+ *
+ * You must specify the shard to be split and the new hash key, which is the position in
+ * the shard where the shard gets split in two. In many cases, the new hash key might be
+ * the average of the beginning and ending hash key, but it can be any hash key value in
+ * the range being mapped into the shard. For more information, see Split a
+ * Shard in the Amazon Kinesis Data Streams Developer
+ * Guide.
+ *
+ * You can use DescribeStreamSummary and the ListShards APIs to determine the shard ID and hash key values for the `ShardToSplit`
+ * and `NewStartingHashKey` parameters that are specified in the
+ * `SplitShard` request.
+ *
+ * `SplitShard` is an asynchronous operation. Upon receiving a
+ * `SplitShard` request, Kinesis Data Streams immediately returns a response
+ * and sets the stream status to `UPDATING`. After the operation is completed,
+ * Kinesis Data Streams sets the stream status to `ACTIVE`. Read and write
+ * operations continue to work while the stream is in the `UPDATING` state.
+ *
+ * You can use DescribeStreamSummary to check the status of the stream,
+ * which is returned in `StreamStatus`. If the stream is in the
+ * `ACTIVE` state, you can call `SplitShard`.
+ *
+ * If the specified stream does not exist, DescribeStreamSummary
+ * returns a `ResourceNotFoundException`. If you try to create more shards than
+ * are authorized for your account, you receive a `LimitExceededException`.
+ *
+ * For the default shard limit for an Amazon Web Services account, see Kinesis
+ * Data Streams Limits in the Amazon Kinesis Data Streams Developer
+ * Guide. To increase this limit, contact Amazon Web Services
+ * Support.
+ *
+ * If you try to operate on too many streams simultaneously using CreateStream, DeleteStream, MergeShards, and/or SplitShard, you receive a
+ * `LimitExceededException`.
+ *
+ * `SplitShard` has a limit of five transactions per second per account.
+ */
+export const splitShard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SplitShardInput,
+  output: SplitShardResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * This allows you to update the `MaxRecordSize` of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
+ */
+export const updateMaxRecordSize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMaxRecordSizeInput,
+  output: UpdateMaxRecordSizeResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you
+ * can choose between an **on-demand** capacity mode and a
+ * **provisioned** capacity mode for your data stream.
+ *
+ * If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling `MinimumThroughputBillingCommitment` for your account. Once your account has `MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
+ */
+export const updateStreamMode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStreamModeInput,
+  output: UpdateStreamModeResponse,
+  errors: [
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a Kinesis data stream. A stream captures and transports data records that are
+ * continuously emitted from different data sources or *producers*.
+ * Scale-out within a stream is explicitly supported by means of shards, which are uniquely
+ * identified groups of data records in a stream.
+ *
+ * You can create your data stream using either on-demand or provisioned capacity mode. Data streams with an on-demand mode require no capacity planning and automatically scale to handle gigabytes of write and read throughput per minute. With the on-demand mode, Kinesis Data Streams automatically manages the shards in order to provide the necessary throughput.
+ *
+ * If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling `MinimumThroughputBillingCommitment` for your account. Once your account has `MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
+ *
+ * For the data streams with a provisioned mode, you must specify the number of shards for the data stream. Each shard can support reads up to five transactions per second, up to a maximum data read total of 2 MiB per second. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 1 MiB per second. If the amount of data input increases or decreases, you can add or remove shards.
+ *
+ * The stream name identifies the stream. The name is scoped to the Amazon Web Services
+ * account used by the application. It is also scoped by Amazon Web Services Region. That
+ * is, two streams in two different accounts can have the same name, and two streams in the
+ * same account, but in two different Regions, can have the same name.
+ *
+ * `CreateStream` is an asynchronous operation. Upon receiving a
+ * `CreateStream` request, Kinesis Data Streams immediately returns and sets
+ * the stream status to `CREATING`. After the stream is created, Kinesis Data
+ * Streams sets the stream status to `ACTIVE`. You should perform read and write
+ * operations only on an `ACTIVE` stream.
+ *
+ * You receive a `LimitExceededException` when making a
+ * `CreateStream` request when you try to do one of the following:
+ *
+ * - Have more than five streams in the `CREATING` state at any point in
+ * time.
+ *
+ * - Create more shards than are authorized for your account.
+ *
+ * For the default shard or on-demand throughput limits for an Amazon Web Services account, see Amazon Kinesis Data Streams Limits in the *Amazon Kinesis Data Streams Developer Guide*. To increase this limit, contact Amazon Web Services Support.
+ *
+ * You can use DescribeStreamSummary to check the stream status, which
+ * is returned in `StreamStatus`.
+ *
+ * CreateStream has a limit of five transactions per second per
+ * account.
+ *
+ * You can add tags to the stream when making a `CreateStream` request by setting the `Tags` parameter. If you pass the `Tags` parameter, in addition to having the `kinesis:CreateStream` permission, you must also have the `kinesis:AddTagsToStream` permission for the stream that will be created. The `kinesis:TagResource` permission won’t work to tag streams on creation. Tags will take effect from the `CREATING` status of the stream, but you can't make any updates to the tags until the stream is in `ACTIVE` state.
+ */
+export const createStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStreamInput,
+  output: CreateStreamResponse,
+  errors: [
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ValidationException,
   ],
 }));
 /**

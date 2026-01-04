@@ -555,11 +555,11 @@ export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { requestId: S.optional(S.String), message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { requestId: S.optional(S.String), message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
@@ -572,38 +572,19 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { requestId: S.optional(S.String), message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  {
+    requestId: S.optional(S.String),
+    message: S.optional(S.String),
+    reason: S.optional(S.String),
+    fields: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
-/**
- * Obtains details about the terms in an agreement that you participated in as proposer or acceptor.
- *
- * The details include:
- *
- * - `TermType` – The type of term, such as `LegalTerm`, `RenewalTerm`, or `ConfigurableUpfrontPricingTerm`.
- *
- * - `TermID` – The ID of the particular term, which is common between offer and agreement.
- *
- * - `TermPayload` – The key information contained in the term, such as the EULA for `LegalTerm` or pricing and dimensions for various pricing terms, such as `ConfigurableUpfrontPricingTerm` or `UsageBasedPricingTerm`.
- *
- * - `Configuration` – The buyer/acceptor's selection at the time of agreement creation, such as the number of units purchased for a dimension or setting the `EnableAutoRenew` flag.
- */
-export const getAgreementTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAgreementTermsInput,
-  output: GetAgreementTermsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Searches across all agreements that a proposer has in AWS Marketplace. The search returns a list of agreements with basic agreement information.
  *
@@ -689,6 +670,30 @@ export const searchAgreements = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Obtains details about the terms in an agreement that you participated in as proposer or acceptor.
+ *
+ * The details include:
+ *
+ * - `TermType` – The type of term, such as `LegalTerm`, `RenewalTerm`, or `ConfigurableUpfrontPricingTerm`.
+ *
+ * - `TermID` – The ID of the particular term, which is common between offer and agreement.
+ *
+ * - `TermPayload` – The key information contained in the term, such as the EULA for `LegalTerm` or pricing and dimensions for various pricing terms, such as `ConfigurableUpfrontPricingTerm` or `UsageBasedPricingTerm`.
+ *
+ * - `Configuration` – The buyer/acceptor's selection at the time of agreement creation, such as the number of units purchased for a dimension or setting the `EnableAutoRenew` flag.
+ */
+export const getAgreementTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAgreementTermsInput,
+  output: GetAgreementTermsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

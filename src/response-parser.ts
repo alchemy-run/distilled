@@ -18,7 +18,7 @@ import type { Operation } from "./operation.ts";
 import type { Protocol, ProtocolHandler } from "./protocol.ts";
 import type { Response } from "./response.ts";
 import { makeStreamParser } from "./stream-parser.ts";
-import { getProtocol } from "./traits.ts";
+import { getAwsQueryError, getProtocol } from "./traits.ts";
 import { getIdentifier } from "./util/ast.ts";
 
 export interface ResponseParserOptions {
@@ -62,15 +62,35 @@ export const makeResponseParser = <A, I, R>(
   // Create stream parser if output has event stream member (done once)
   const streamParser = makeStreamParser(outputAst);
 
-  // Build error schema map: _tag -> Schema (done once)
+  // Build error schema map: errorCode -> Schema (done once)
+  // We register errors by multiple keys to handle AWS wire format variations:
+  // 1. Schema identifier (e.g., "EntityAlreadyExistsException")
+  // 2. awsQueryError code if present (e.g., "EntityAlreadyExists")
+  // 3. Short form without Exception/Error suffix (for services that return short codes)
   const errorSchemas = new Map<string, Schema.Schema.AnyNoContext>();
-  for (const err of operation.errors ?? []) {
+
+  const registerError = (err: Schema.Schema.AnyNoContext) => {
     const tag = getIdentifier(err.ast);
-    if (tag) errorSchemas.set(tag, err);
+    if (tag) {
+      errorSchemas.set(tag, err);
+      // Also register short form (strip Exception/Error suffix)
+      for (const suffix of ["Exception", "Error"]) {
+        if (tag.endsWith(suffix)) {
+          errorSchemas.set(tag.slice(0, -suffix.length), err);
+          break;
+        }
+      }
+    }
+    // Also register by awsQueryError code if present (for aws-query/ec2-query protocols)
+    const queryError = getAwsQueryError(err.ast);
+    if (queryError?.code) errorSchemas.set(queryError.code, err);
+  };
+
+  for (const err of operation.errors ?? []) {
+    registerError(err);
   }
   for (const err of COMMON_ERRORS) {
-    const tag = getIdentifier(err.ast);
-    if (tag) errorSchemas.set(tag, err);
+    registerError(err);
   }
 
   // Return a function that parses responses
@@ -81,13 +101,18 @@ export const makeResponseParser = <A, I, R>(
         | Record<string, unknown>
         | undefined;
 
+      // Convert null values to undefined (AWS returns null, schemas expect undefined)
+      const normalized = nullToUndefined(deserialized) as
+        | Record<string, unknown>
+        | undefined;
+
       // If the output has an event stream member, parse and decode it
-      const stream = streamParser?.(deserialized);
+      const stream = streamParser?.(normalized);
       if (stream) {
         return stream as A;
       }
 
-      return yield* decode(deserialized);
+      return yield* decode(normalized);
     }
 
     // Error path
@@ -95,8 +120,11 @@ export const makeResponseParser = <A, I, R>(
     const errorSchema = errorSchemas.get(errorCode);
 
     if (errorSchema) {
+      // Get the schema identifier to use as _tag (may differ from wire errorCode)
+      // e.g., wire code "EntityAlreadyExists" maps to schema tag "EntityAlreadyExistsException"
+      const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
       // Add _tag to data for TaggedError decoding
-      const dataWithTag = { _tag: errorCode, ...data };
+      const dataWithTag = { _tag: schemaTag, ...data };
       const decoded = yield* Schema.decodeUnknown(errorSchema)(
         dataWithTag,
       ).pipe(Effect.catchAll(() => Effect.succeed(dataWithTag)));
@@ -107,4 +135,30 @@ export const makeResponseParser = <A, I, R>(
       new UnknownAwsError({ errorTag: errorCode, errorData: data }),
     );
   });
+};
+
+/**
+ * Recursively convert null values to undefined.
+ * AWS APIs often return null for optional fields, but our schemas expect undefined.
+ */
+const nullToUndefined = (value: unknown): unknown => {
+  if (value === null) {
+    return undefined;
+  }
+  if (Array.isArray(value)) {
+    return value.map(nullToUndefined);
+  }
+  if (typeof value === "object" && value !== null) {
+    // Skip special objects like streams (check for channel property)
+    const obj = value as Record<string, unknown>;
+    if ("channel" in obj || Symbol.iterator in obj) {
+      return value;
+    }
+    const result: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(obj)) {
+      result[k] = nullToUndefined(v);
+    }
+    return result;
+  }
+  return value;
 };

@@ -1068,38 +1068,54 @@ export class UpdateConnectorResponse extends S.Class<UpdateConnectorResponse>(
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
-  "ForbiddenException",
-  {},
-) {}
-export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
-  "InternalServerErrorException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
+  "ForbiddenException",
+  { message: S.optional(S.String) },
+) {}
+export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
+  "InternalServerErrorException",
+  { message: S.optional(S.String) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { message: S.optional(S.String) },
 ) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Removes tags from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a worker configuration using the specified properties.
  */
@@ -1169,6 +1185,22 @@ export const deleteWorkerConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Lists all the tags attached to the specified resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns information about the specified connector's operations.
  */
@@ -1256,22 +1288,6 @@ export const listCustomPlugins = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all the tags attached to the specified resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Returns a list of all of the worker configurations in this account and Region.
  */
 export const listWorkerConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1298,22 +1314,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     BadRequestException,
     ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Removes tags from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     NotFoundException,

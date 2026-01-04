@@ -1032,38 +1032,38 @@ export class SearchSchemasResponse extends S.Class<SearchSchemasResponse>(
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Code: S.String, Message: S.String },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
-) {}
-export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
-  "InternalServerErrorException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  { Code: S.String, Message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Code: S.String, Message: S.String },
+) {}
+export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
+  "InternalServerErrorException",
+  { Code: S.String, Message: S.String },
 ) {}
 export class GoneException extends S.TaggedError<GoneException>()(
   "GoneException",
+  { Code: S.String, Message: S.String },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { Code: S.String, Message: S.String },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { Code: S.String, Message: S.String },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { Code: S.String, Message: S.String },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
   { Code: S.String, Message: S.String },
 ) {}
 export class PreconditionFailedException extends S.TaggedError<PreconditionFailedException>()(
@@ -1072,6 +1072,35 @@ export class PreconditionFailedException extends S.TaggedError<PreconditionFaile
 ) {}
 
 //# Operations
+/**
+ * Get tags for resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Updates the schema definition
+ *
+ * Inactive schemas will be deleted after two years.
+ */
+export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSchemaRequest,
+  output: UpdateSchemaResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Add tags to a resource.
  */
@@ -1111,6 +1140,187 @@ export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ForbiddenException,
     InternalServerErrorException,
     ServiceUnavailableException,
+  ],
+}));
+/**
+ * Search the schemas
+ */
+export const searchSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchSchemasRequest,
+  output: SearchSchemasResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Put code binding URI
+ */
+export const putCodeBinding = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutCodeBindingRequest,
+  output: PutCodeBindingResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    GoneException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * The name of the policy.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    PreconditionFailedException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Provides a list of the schema versions and related information.
+ */
+export const listSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSchemaVersionsRequest,
+  output: ListSchemaVersionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Describes the discoverer.
+ */
+export const describeDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDiscovererRequest,
+  output: DescribeDiscovererResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Describes the registry.
+ */
+export const describeRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRegistryRequest,
+  output: DescribeRegistryResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Retrieve the schema definition.
+ */
+export const describeSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSchemaRequest,
+  output: DescribeSchemaResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Retrieves the resource-based policy attached to a given registry.
+ */
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Starts the discoverer
+ */
+export const startDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDiscovererRequest,
+  output: StartDiscovererResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Stops the discoverer
+ */
+export const stopDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDiscovererRequest,
+  output: StopDiscovererResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates the discoverer
+ */
+export const updateDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDiscovererRequest,
+  output: UpdateDiscovererResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates a registry.
+ */
+export const updateRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRegistryRequest,
+  output: UpdateRegistryResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
   ],
 }));
 /**
@@ -1176,262 +1386,6 @@ export const deleteSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Describes the discoverer.
- */
-export const describeDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDiscovererRequest,
-  output: DescribeDiscovererResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describes the registry.
- */
-export const describeRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeRegistryRequest,
-  output: DescribeRegistryResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Retrieve the schema definition.
- */
-export const describeSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSchemaRequest,
-  output: DescribeSchemaResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- *
- */
-export const exportSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExportSchemaRequest,
-  output: ExportSchemaResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Get the code binding source URI.
- */
-export const getCodeBindingSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCodeBindingSourceRequest,
-    output: GetCodeBindingSourceResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Get the discovered schema that was generated based on sampled events.
- */
-export const getDiscoveredSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDiscoveredSchemaRequest,
-  output: GetDiscoveredSchemaResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Retrieves the resource-based policy attached to a given registry.
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Get tags for resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-  ],
-}));
-/**
- * Starts the discoverer
- */
-export const startDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartDiscovererRequest,
-  output: StartDiscovererResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Stops the discoverer
- */
-export const stopDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopDiscovererRequest,
-  output: StopDiscovererResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates the discoverer
- */
-export const updateDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDiscovererRequest,
-  output: UpdateDiscovererResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates a registry.
- */
-export const updateRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRegistryRequest,
-  output: UpdateRegistryResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates the schema definition
- *
- * Inactive schemas will be deleted after two years.
- */
-export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSchemaRequest,
-  output: UpdateSchemaResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Creates a discoverer.
- */
-export const createDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDiscovererRequest,
-  output: CreateDiscovererResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Creates a registry.
- */
-export const createRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRegistryRequest,
-  output: CreateRegistryResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a discoverer.
- */
-export const deleteDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDiscovererRequest,
-  output: DeleteDiscovererResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describe the code binding URI.
- */
-export const describeCodeBinding = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeCodeBindingRequest,
-  output: DescribeCodeBindingResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * List the discoverers.
  */
 export const listDiscoverers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1474,11 +1428,55 @@ export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Provides a list of the schema versions and related information.
+ * Creates a registry.
  */
-export const listSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSchemaVersionsRequest,
-  output: ListSchemaVersionsResponse,
+export const createRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRegistryRequest,
+  output: CreateRegistryResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Get the discovered schema that was generated based on sampled events.
+ */
+export const getDiscoveredSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDiscoveredSchemaRequest,
+  output: GetDiscoveredSchemaResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a discoverer.
+ */
+export const createDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDiscovererRequest,
+  output: CreateDiscovererResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a discoverer.
+ */
+export const deleteDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDiscovererRequest,
+  output: DeleteDiscovererResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1489,15 +1487,14 @@ export const listSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Put code binding URI
+ * Describe the code binding URI.
  */
-export const putCodeBinding = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutCodeBindingRequest,
-  output: PutCodeBindingResponse,
+export const describeCodeBinding = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCodeBindingRequest,
+  output: DescribeCodeBindingResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
-    GoneException,
     InternalServerErrorException,
     NotFoundException,
     TooManyRequestsException,
@@ -1505,32 +1502,35 @@ export const putCodeBinding = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * The name of the policy.
+ *
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
+export const exportSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportSchemaRequest,
+  output: ExportSchemaResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     NotFoundException,
-    PreconditionFailedException,
     ServiceUnavailableException,
+    TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
 /**
- * Search the schemas
+ * Get the code binding source URI.
  */
-export const searchSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchSchemasRequest,
-  output: SearchSchemasResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
+export const getCodeBindingSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCodeBindingSourceRequest,
+    output: GetCodeBindingSourceResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);

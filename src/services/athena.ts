@@ -1713,23 +1713,23 @@ export class StartSessionResponse extends S.Class<StartSessionResponse>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { AthenaErrorCode: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
 ) {}
 export class MetadataException extends S.TaggedError<MetadataException>()(
   "MetadataException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class SessionAlreadyExistsException extends S.TaggedError<SessionAlreadyExistsException>()(
   "SessionAlreadyExistsException",
@@ -1737,149 +1737,6 @@ export class SessionAlreadyExistsException extends S.TaggedError<SessionAlreadyE
 ) {}
 
 //# Operations
-/**
- * Deletes a cancelled capacity reservation. A reservation must be cancelled before it
- * can be deleted. A deleted reservation is immediately removed from your account and can
- * no longer be referenced, including by its ARN. A deleted reservation cannot be called by
- * `GetCapacityReservation`, and deleted reservations do not appear in the
- * output of `ListCapacityReservations`.
- */
-export const deleteCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCapacityReservationInput,
-    output: DeleteCapacityReservationOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }),
-);
-/**
- * Deletes the named query if you have access to the workgroup in which the query was
- * saved.
- */
-export const deleteNamedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteNamedQueryInput,
-  output: DeleteNamedQueryOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Deletes the workgroup with the specified name. The primary workgroup cannot be
- * deleted.
- */
-export const deleteWorkGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWorkGroupInput,
-  output: DeleteWorkGroupOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Stops a query execution. Requires you to have access to the workgroup in which the
- * query ran.
- */
-export const stopQueryExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopQueryExecutionInput,
-  output: StopQueryExecutionOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Adds one or more tags to an Athena resource. A tag is a label that you
- * assign to a resource. Each tag consists of a key and an optional value, both of which
- * you define. For example, you can use tags to categorize Athena workgroups,
- * data catalogs, or capacity reservations by purpose, owner, or environment. Use a
- * consistent set of tag keys to make it easier to search and filter the resources in your
- * account. For best practices, see Tagging
- * Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and
- * tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and
- * numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys
- * and values are case-sensitive. Tag keys must be unique per resource. If you specify more
- * than one tag, separate them by commas.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Removes one or more tags from an Athena resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates the number of requested data processing units for the capacity reservation
- * with the specified name.
- */
-export const updateCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCapacityReservationInput,
-    output: UpdateCapacityReservationOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }),
-);
-/**
- * Updates the data catalog that has the specified name.
- */
-export const updateDataCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataCatalogInput,
-  output: UpdateDataCatalogOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Updates a NamedQuery object. The database or workgroup cannot be
- * updated.
- */
-export const updateNamedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateNamedQueryInput,
-  output: UpdateNamedQueryOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Updates the contents of a Spark notebook.
- */
-export const updateNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateNotebookInput,
-  output: UpdateNotebookOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the metadata for a notebook.
- */
-export const updateNotebookMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNotebookMetadataInput,
-    output: UpdateNotebookMetadataOutput,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Updates a prepared statement.
- */
-export const updatePreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePreparedStatementInput,
-    output: UpdatePreparedStatementOutput,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Cancels the capacity reservation with the specified name. Cancelled reservations
  * remain in your account and will be deleted 45 days after cancellation. During the 45
@@ -1893,6 +1750,94 @@ export const cancelCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InternalServerException, InvalidRequestException],
   }),
 );
+/**
+ * Creates (registers) a data catalog with the specified name and properties. Catalogs
+ * created are visible to all users of the same Amazon Web Services account.
+ *
+ * For a `FEDERATED` catalog, this API operation creates the following
+ * resources.
+ *
+ * - CFN Stack Name with a maximum length of 128 characters and prefix
+ * `athenafederatedcatalog-CATALOG_NAME_SANITIZED` with length 23
+ * characters.
+ *
+ * - Lambda Function Name with a maximum length of 64 characters and prefix
+ * `athenafederatedcatalog_CATALOG_NAME_SANITIZED` with length 23
+ * characters.
+ *
+ * - Glue Connection Name with a maximum length of 255 characters and a prefix
+ * `athenafederatedcatalog_CATALOG_NAME_SANITIZED` with length 23
+ * characters.
+ */
+export const createDataCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataCatalogInput,
+  output: CreateDataCatalogOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Deletes a data catalog.
+ */
+export const deleteDataCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataCatalogInput,
+  output: DeleteDataCatalogOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Gets the capacity assignment configuration for a capacity reservation, if one
+ * exists.
+ */
+export const getCapacityAssignmentConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetCapacityAssignmentConfigurationInput,
+    output: GetCapacityAssignmentConfigurationOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }));
+/**
+ * Returns information about the workgroup with the specified name.
+ */
+export const getWorkGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkGroupInput,
+  output: GetWorkGroupOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Lists the data catalogs in the current Amazon Web Services account.
+ *
+ * In the Athena console, data catalogs are listed as "data sources" on
+ * the **Data sources** page under the **Data source name** column.
+ */
+export const listDataCatalogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDataCatalogsInput,
+  output: ListDataCatalogsOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Lists the prepared statements in the specified workgroup.
+ */
+export const listPreparedStatements = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPreparedStatementsInput,
+    output: ListPreparedStatementsOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }),
+);
+/**
+ * Lists available workgroups for the account.
+ */
+export const listWorkGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWorkGroupsInput,
+  output: ListWorkGroupsOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Updates the workgroup with the specified name. The workgroup's name cannot be changed.
+ * Only `ConfigurationUpdates` can be specified.
+ */
+export const updateWorkGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkGroupInput,
+  output: UpdateWorkGroupOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
 /**
  * Creates a capacity reservation with the specified name and number of requested data
  * processing units.
@@ -1914,102 +1859,6 @@ export const createNamedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerException, InvalidRequestException],
 }));
 /**
- * Creates an empty `ipynb` file in the specified Apache Spark enabled
- * workgroup. Throws an error if a file in the workgroup with the same name already
- * exists.
- */
-export const createNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateNotebookInput,
-  output: CreateNotebookOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a prepared statement for use with SQL queries in Athena.
- */
-export const createPreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePreparedStatementInput,
-    output: CreatePreparedStatementOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }),
-);
-/**
- * Gets an authentication token and the URL at which the notebook can be accessed. During
- * programmatic access, `CreatePresignedNotebookUrl` must be called every 10
- * minutes to refresh the authentication token. For information about granting programmatic
- * access, see Grant
- * programmatic access.
- */
-export const createPresignedNotebookUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePresignedNotebookUrlRequest,
-    output: CreatePresignedNotebookUrlResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the specified notebook.
- */
-export const deleteNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteNotebookInput,
-  output: DeleteNotebookOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes the prepared statement with the specified name from the specified
- * workgroup.
- */
-export const deletePreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePreparedStatementInput,
-    output: DeletePreparedStatementOutput,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Retrieves the unencrypted code that was executed for the calculation.
- */
-export const getCalculationExecutionCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCalculationExecutionCodeRequest,
-    output: GetCalculationExecutionCodeResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Gets the status of a current calculation.
- */
-export const getCalculationExecutionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCalculationExecutionStatusRequest,
-    output: GetCalculationExecutionStatusResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
  * Returns the specified data catalog.
  */
 export const getDataCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2027,33 +1876,6 @@ export const getNamedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerException, InvalidRequestException],
 }));
 /**
- * Retrieves notebook metadata for the specified notebook ID.
- */
-export const getNotebookMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetNotebookMetadataInput,
-  output: GetNotebookMetadataOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves the prepared statement with the specified name from the specified
- * workgroup.
- */
-export const getPreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPreparedStatementInput,
-    output: GetPreparedStatementOutput,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
  * Returns information about a single execution of a query if you have access to the
  * workgroup in which the query ran. Each time a query executes, information about the
  * query execution is saved with a unique ID.
@@ -2062,61 +1884,6 @@ export const getQueryExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryExecutionInput,
   output: GetQueryExecutionOutput,
   errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Gets the Live UI/Persistence UI for a session.
- */
-export const getResourceDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourceDashboardRequest,
-    output: GetResourceDashboardResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Gets a connection endpoint and authentication token for a given session Id.
- */
-export const getSessionEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSessionEndpointRequest,
-  output: GetSessionEndpointResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Gets the current status of a session.
- */
-export const getSessionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSessionStatusRequest,
-  output: GetSessionStatusResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Imports a single `ipynb` file to a Spark enabled workgroup. To import the
- * notebook, the request must specify a value for either `Payload` or
- * `NoteBookS3LocationUri`. If neither is specified or both are specified,
- * an `InvalidRequestException` occurs. The maximum file size that can be
- * imported is 10 megabytes. If an `ipynb` file with the same name already
- * exists in the workgroup, throws an error.
- */
-export const importNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportNotebookInput,
-  output: ImportNotebookOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
 }));
 /**
  * Lists the capacity reservations for the current account.
@@ -2159,12 +1926,504 @@ export const listQueryExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerException, InvalidRequestException],
 }));
 /**
- * Lists the metadata for the tables in the specified data catalog database.
+ * Puts a new capacity assignment configuration for a specified capacity reservation. If
+ * a capacity assignment configuration already exists for the capacity reservation,
+ * replaces the existing capacity assignment configuration.
  */
-export const listTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTableMetadataInput,
-  output: ListTableMetadataOutput,
+export const putCapacityAssignmentConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutCapacityAssignmentConfigurationInput,
+    output: PutCapacityAssignmentConfigurationOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }));
+/**
+ * Creates a prepared statement for use with SQL queries in Athena.
+ */
+export const createPreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePreparedStatementInput,
+    output: CreatePreparedStatementOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }),
+);
+/**
+ * Deletes a cancelled capacity reservation. A reservation must be cancelled before it
+ * can be deleted. A deleted reservation is immediately removed from your account and can
+ * no longer be referenced, including by its ARN. A deleted reservation cannot be called by
+ * `GetCapacityReservation`, and deleted reservations do not appear in the
+ * output of `ListCapacityReservations`.
+ */
+export const deleteCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCapacityReservationInput,
+    output: DeleteCapacityReservationOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }),
+);
+/**
+ * Deletes the named query if you have access to the workgroup in which the query was
+ * saved.
+ */
+export const deleteNamedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNamedQueryInput,
+  output: DeleteNamedQueryOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Deletes the workgroup with the specified name. The primary workgroup cannot be
+ * deleted.
+ */
+export const deleteWorkGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkGroupInput,
+  output: DeleteWorkGroupOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Stops a query execution. Requires you to have access to the workgroup in which the
+ * query ran.
+ */
+export const stopQueryExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopQueryExecutionInput,
+  output: StopQueryExecutionOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Updates the number of requested data processing units for the capacity reservation
+ * with the specified name.
+ */
+export const updateCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateCapacityReservationInput,
+    output: UpdateCapacityReservationOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }),
+);
+/**
+ * Updates the data catalog that has the specified name.
+ */
+export const updateDataCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataCatalogInput,
+  output: UpdateDataCatalogOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Updates a NamedQuery object. The database or workgroup cannot be
+ * updated.
+ */
+export const updateNamedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNamedQueryInput,
+  output: UpdateNamedQueryOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Returns the details of a single named query or a list of up to 50 queries, which you
+ * provide as an array of query ID strings. Requires you to have access to the workgroup in
+ * which the queries were saved. Use ListNamedQueriesInput to get the
+ * list of named query IDs in the specified workgroup. If information could not be
+ * retrieved for a submitted query ID, information about the query ID submitted is listed
+ * under UnprocessedNamedQueryId. Named queries differ from executed
+ * queries. Use BatchGetQueryExecutionInput to get details about each
+ * unique query execution, and ListQueryExecutionsInput to get a list of
+ * query execution IDs.
+ */
+export const batchGetNamedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetNamedQueryInput,
+  output: BatchGetNamedQueryOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Returns the details of a single prepared statement or a list of up to 256 prepared
+ * statements for the array of prepared statement names that you provide. Requires you to
+ * have access to the workgroup to which the prepared statements belong. If a prepared
+ * statement cannot be retrieved for the name specified, the statement is listed in
+ * `UnprocessedPreparedStatementNames`.
+ */
+export const batchGetPreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchGetPreparedStatementInput,
+    output: BatchGetPreparedStatementOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }),
+);
+/**
+ * Creates a workgroup with the specified name. A workgroup can be an Apache Spark
+ * enabled workgroup or an Athena SQL workgroup.
+ */
+export const createWorkGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkGroupInput,
+  output: CreateWorkGroupOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Exports the specified notebook and its metadata.
+ */
+export const exportNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportNotebookInput,
+  output: ExportNotebookOutput,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Describes a previously submitted calculation execution.
+ */
+export const getCalculationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCalculationExecutionRequest,
+    output: GetCalculationExecutionResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Returns information about the capacity reservation with the specified name.
+ */
+export const getCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCapacityReservationInput,
+    output: GetCapacityReservationOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }),
+);
+/**
+ * Returns a database object for the specified database and data catalog.
+ */
+export const getDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDatabaseInput,
+  output: GetDatabaseOutput,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
+}));
+/**
+ * Returns table metadata for the specified catalog, database, and table.
+ */
+export const getTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableMetadataInput,
+  output: GetTableMetadataOutput,
+  errors: [InternalServerException, InvalidRequestException, MetadataException],
+}));
+/**
+ * Runs the SQL query statements contained in the `Query`. Requires you to
+ * have access to the workgroup in which the query ran. Running queries against an external
+ * catalog requires GetDataCatalog permission to the catalog. For code
+ * samples using the Amazon Web Services SDK for Java, see Examples and
+ * Code Samples in the Amazon Athena User
+ * Guide.
+ */
+export const startQueryExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartQueryExecutionInput,
+  output: StartQueryExecutionOutput,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Returns the supported DPU sizes for the supported application runtimes (for example,
+ * `Athena notebook version 1`).
+ */
+export const listApplicationDPUSizes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListApplicationDPUSizesInput,
+    output: ListApplicationDPUSizesOutput,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Displays the notebook files for the specified workgroup in paginated format.
+ */
+export const listNotebookMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListNotebookMetadataInput,
+    output: ListNotebookMetadataOutput,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Creates an empty `ipynb` file in the specified Apache Spark enabled
+ * workgroup. Throws an error if a file in the workgroup with the same name already
+ * exists.
+ */
+export const createNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNotebookInput,
+  output: CreateNotebookOutput,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves notebook metadata for the specified notebook ID.
+ */
+export const getNotebookMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNotebookMetadataInput,
+  output: GetNotebookMetadataOutput,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Imports a single `ipynb` file to a Spark enabled workgroup. To import the
+ * notebook, the request must specify a value for either `Payload` or
+ * `NoteBookS3LocationUri`. If neither is specified or both are specified,
+ * an `InvalidRequestException` occurs. The maximum file size that can be
+ * imported is 10 megabytes. If an `ipynb` file with the same name already
+ * exists in the workgroup, throws an error.
+ */
+export const importNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportNotebookInput,
+  output: ImportNotebookOutput,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes the specified notebook.
+ */
+export const deleteNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNotebookInput,
+  output: DeleteNotebookOutput,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the contents of a Spark notebook.
+ */
+export const updateNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNotebookInput,
+  output: UpdateNotebookOutput,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the metadata for a notebook.
+ */
+export const updateNotebookMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateNotebookMetadataInput,
+    output: UpdateNotebookMetadataOutput,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Gets the full details of a previously created session, including the session status
+ * and configuration.
+ */
+export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSessionRequest,
+  output: GetSessionResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Lists the calculations that have been submitted to a session in descending order.
+ * Newer calculations are listed first; older calculations are listed later.
+ */
+export const listCalculationExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListCalculationExecutionsRequest,
+    output: ListCalculationExecutionsResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Lists, in descending order, the executors that joined a session. Newer executors are
+ * listed first; older executors are listed later. The result can be optionally filtered by
+ * state.
+ */
+export const listExecutors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListExecutorsRequest,
+  output: ListExecutorsResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Lists, in descending order, the sessions that have been created in a notebook that are
+ * in an active state like `CREATING`, `CREATED`, `IDLE`
+ * or `BUSY`. Newer sessions are listed first; older sessions are listed
+ * later.
+ */
+export const listNotebookSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListNotebookSessionsRequest,
+    output: ListNotebookSessionsResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Lists the sessions in a workgroup that are in an active state like
+ * `CREATING`, `CREATED`, `IDLE`, or
+ * `BUSY`. Newer sessions are listed first; older sessions are listed
+ * later.
+ */
+export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSessionsRequest,
+  output: ListSessionsResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Submits calculations for execution within a session. You can supply the code to run as
+ * an inline code block within the request.
+ *
+ * The request syntax requires the StartCalculationExecutionRequest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because
+ * CalculationConfiguration$CodeBlock is deprecated, use the
+ * StartCalculationExecutionRequest$CodeBlock parameter
+ * instead.
+ */
+export const startCalculationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartCalculationExecutionRequest,
+    output: StartCalculationExecutionResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Gets an authentication token and the URL at which the notebook can be accessed. During
+ * programmatic access, `CreatePresignedNotebookUrl` must be called every 10
+ * minutes to refresh the authentication token. For information about granting programmatic
+ * access, see Grant
+ * programmatic access.
+ */
+export const createPresignedNotebookUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePresignedNotebookUrlRequest,
+    output: CreatePresignedNotebookUrlResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Retrieves the unencrypted code that was executed for the calculation.
+ */
+export const getCalculationExecutionCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCalculationExecutionCodeRequest,
+    output: GetCalculationExecutionCodeResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Gets the status of a current calculation.
+ */
+export const getCalculationExecutionStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetCalculationExecutionStatusRequest,
+    output: GetCalculationExecutionStatusResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Retrieves the prepared statement with the specified name from the specified
+ * workgroup.
+ */
+export const getPreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPreparedStatementInput,
+    output: GetPreparedStatementOutput,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Gets the Live UI/Persistence UI for a session.
+ */
+export const getResourceDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetResourceDashboardRequest,
+    output: GetResourceDashboardResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Gets a connection endpoint and authentication token for a given session Id.
+ */
+export const getSessionEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSessionEndpointRequest,
+  output: GetSessionEndpointResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Gets the current status of a session.
+ */
+export const getSessionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSessionStatusRequest,
+  output: GetSessionStatusResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
 }));
 /**
  * Lists the tags associated with an Athena resource.
@@ -2178,17 +2437,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
   ],
 }));
-/**
- * Puts a new capacity assignment configuration for a specified capacity reservation. If
- * a capacity assignment configuration already exists for the capacity reservation,
- * replaces the existing capacity assignment configuration.
- */
-export const putCapacityAssignmentConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutCapacityAssignmentConfigurationInput,
-    output: PutCapacityAssignmentConfigurationOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }));
 /**
  * Requests the cancellation of a calculation. A `StopCalculationExecution`
  * call on a calculation that is already in a terminal state (for example,
@@ -2228,86 +2476,13 @@ export const terminateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns the details of a single named query or a list of up to 50 queries, which you
- * provide as an array of query ID strings. Requires you to have access to the workgroup in
- * which the queries were saved. Use ListNamedQueriesInput to get the
- * list of named query IDs in the specified workgroup. If information could not be
- * retrieved for a submitted query ID, information about the query ID submitted is listed
- * under UnprocessedNamedQueryId. Named queries differ from executed
- * queries. Use BatchGetQueryExecutionInput to get details about each
- * unique query execution, and ListQueryExecutionsInput to get a list of
- * query execution IDs.
+ * Deletes the prepared statement with the specified name from the specified
+ * workgroup.
  */
-export const batchGetNamedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGetNamedQueryInput,
-  output: BatchGetNamedQueryOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Returns the details of a single prepared statement or a list of up to 256 prepared
- * statements for the array of prepared statement names that you provide. Requires you to
- * have access to the workgroup to which the prepared statements belong. If a prepared
- * statement cannot be retrieved for the name specified, the statement is listed in
- * `UnprocessedPreparedStatementNames`.
- */
-export const batchGetPreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deletePreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: BatchGetPreparedStatementInput,
-    output: BatchGetPreparedStatementOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }),
-);
-/**
- * Creates (registers) a data catalog with the specified name and properties. Catalogs
- * created are visible to all users of the same Amazon Web Services account.
- *
- * For a `FEDERATED` catalog, this API operation creates the following
- * resources.
- *
- * - CFN Stack Name with a maximum length of 128 characters and prefix
- * `athenafederatedcatalog-CATALOG_NAME_SANITIZED` with length 23
- * characters.
- *
- * - Lambda Function Name with a maximum length of 64 characters and prefix
- * `athenafederatedcatalog_CATALOG_NAME_SANITIZED` with length 23
- * characters.
- *
- * - Glue Connection Name with a maximum length of 255 characters and a prefix
- * `athenafederatedcatalog_CATALOG_NAME_SANITIZED` with length 23
- * characters.
- */
-export const createDataCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDataCatalogInput,
-  output: CreateDataCatalogOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Deletes a data catalog.
- */
-export const deleteDataCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDataCatalogInput,
-  output: DeleteDataCatalogOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Exports the specified notebook and its metadata.
- */
-export const exportNotebook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExportNotebookInput,
-  output: ExportNotebookOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Describes a previously submitted calculation execution.
- */
-export const getCalculationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCalculationExecutionRequest,
-    output: GetCalculationExecutionResponse,
+    input: DeletePreparedStatementInput,
+    output: DeletePreparedStatementOutput,
     errors: [
       InternalServerException,
       InvalidRequestException,
@@ -2316,30 +2491,21 @@ export const getCalculationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets the capacity assignment configuration for a capacity reservation, if one
- * exists.
+ * Adds one or more tags to an Athena resource. A tag is a label that you
+ * assign to a resource. Each tag consists of a key and an optional value, both of which
+ * you define. For example, you can use tags to categorize Athena workgroups,
+ * data catalogs, or capacity reservations by purpose, owner, or environment. Use a
+ * consistent set of tag keys to make it easier to search and filter the resources in your
+ * account. For best practices, see Tagging
+ * Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and
+ * tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and
+ * numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys
+ * and values are case-sensitive. Tag keys must be unique per resource. If you specify more
+ * than one tag, separate them by commas.
  */
-export const getCapacityAssignmentConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCapacityAssignmentConfigurationInput,
-    output: GetCapacityAssignmentConfigurationOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }));
-/**
- * Returns a database object for the specified database and data catalog.
- */
-export const getDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDatabaseInput,
-  output: GetDatabaseOutput,
-  errors: [InternalServerException, InvalidRequestException, MetadataException],
-}));
-/**
- * Gets the full details of a previously created session, including the session status
- * and configuration.
- */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSessionRequest,
-  output: GetSessionResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
   errors: [
     InternalServerException,
     InvalidRequestException,
@@ -2347,36 +2513,24 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about the workgroup with the specified name.
+ * Removes one or more tags from an Athena resource.
  */
-export const getWorkGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWorkGroupInput,
-  output: GetWorkGroupOutput,
-  errors: [InternalServerException, InvalidRequestException],
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
 }));
 /**
- * Returns the supported DPU sizes for the supported application runtimes (for example,
- * `Athena notebook version 1`).
+ * Updates a prepared statement.
  */
-export const listApplicationDPUSizes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updatePreparedStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListApplicationDPUSizesInput,
-    output: ListApplicationDPUSizesOutput,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Lists the calculations that have been submitted to a session in descending order.
- * Newer calculations are listed first; older calculations are listed later.
- */
-export const listCalculationExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCalculationExecutionsRequest,
-    output: ListCalculationExecutionsResponse,
+    input: UpdatePreparedStatementInput,
+    output: UpdatePreparedStatementOutput,
     errors: [
       InternalServerException,
       InvalidRequestException,
@@ -2393,166 +2547,12 @@ export const listDatabases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerException, InvalidRequestException, MetadataException],
 }));
 /**
- * Lists the data catalogs in the current Amazon Web Services account.
- *
- * In the Athena console, data catalogs are listed as "data sources" on
- * the **Data sources** page under the **Data source name** column.
+ * Lists the metadata for the tables in the specified data catalog database.
  */
-export const listDataCatalogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDataCatalogsInput,
-  output: ListDataCatalogsOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Lists, in descending order, the executors that joined a session. Newer executors are
- * listed first; older executors are listed later. The result can be optionally filtered by
- * state.
- */
-export const listExecutors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListExecutorsRequest,
-  output: ListExecutorsResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Displays the notebook files for the specified workgroup in paginated format.
- */
-export const listNotebookMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListNotebookMetadataInput,
-    output: ListNotebookMetadataOutput,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Lists, in descending order, the sessions that have been created in a notebook that are
- * in an active state like `CREATING`, `CREATED`, `IDLE`
- * or `BUSY`. Newer sessions are listed first; older sessions are listed
- * later.
- */
-export const listNotebookSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListNotebookSessionsRequest,
-    output: ListNotebookSessionsResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Lists the prepared statements in the specified workgroup.
- */
-export const listPreparedStatements = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPreparedStatementsInput,
-    output: ListPreparedStatementsOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }),
-);
-/**
- * Lists the sessions in a workgroup that are in an active state like
- * `CREATING`, `CREATED`, `IDLE`, or
- * `BUSY`. Newer sessions are listed first; older sessions are listed
- * later.
- */
-export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSessionsRequest,
-  output: ListSessionsResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Lists available workgroups for the account.
- */
-export const listWorkGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListWorkGroupsInput,
-  output: ListWorkGroupsOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Submits calculations for execution within a session. You can supply the code to run as
- * an inline code block within the request.
- *
- * The request syntax requires the StartCalculationExecutionRequest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because
- * CalculationConfiguration$CodeBlock is deprecated, use the
- * StartCalculationExecutionRequest$CodeBlock parameter
- * instead.
- */
-export const startCalculationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCalculationExecutionRequest,
-    output: StartCalculationExecutionResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Updates the workgroup with the specified name. The workgroup's name cannot be changed.
- * Only `ConfigurationUpdates` can be specified.
- */
-export const updateWorkGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWorkGroupInput,
-  output: UpdateWorkGroupOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Creates a workgroup with the specified name. A workgroup can be an Apache Spark
- * enabled workgroup or an Athena SQL workgroup.
- */
-export const createWorkGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateWorkGroupInput,
-  output: CreateWorkGroupOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Returns information about the capacity reservation with the specified name.
- */
-export const getCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCapacityReservationInput,
-    output: GetCapacityReservationOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }),
-);
-/**
- * Returns table metadata for the specified catalog, database, and table.
- */
-export const getTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTableMetadataInput,
-  output: GetTableMetadataOutput,
+export const listTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTableMetadataInput,
+  output: ListTableMetadataOutput,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
-}));
-/**
- * Runs the SQL query statements contained in the `Query`. Requires you to
- * have access to the workgroup in which the query ran. Running queries against an external
- * catalog requires GetDataCatalog permission to the catalog. For code
- * samples using the Amazon Web Services SDK for Java, see Examples and
- * Code Samples in the Amazon Athena User
- * Guide.
- */
-export const startQueryExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartQueryExecutionInput,
-  output: StartQueryExecutionOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
 }));
 /**
  * Returns the details of a single query execution or a list of up to 50 query

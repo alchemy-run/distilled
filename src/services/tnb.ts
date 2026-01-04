@@ -1298,46 +1298,30 @@ export class GetSolFunctionPackageOutput extends S.Class<GetSolFunctionPackageOu
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.String },
 ) {}
 
 //# Operations
-/**
- * Untags an AWS TNB resource.
- *
- * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Cancels a network operation.
  *
@@ -1357,44 +1341,15 @@ export const cancelSolNetworkOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a network package.
+ * Gets the details of a network function instance, including the instantiation state and
+ * metadata from the function package descriptor in the network function package.
  *
- * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see Network instances in the
- * *Amazon Web Services Telco Network Builder User Guide*.
- *
- * A network package consists of a network service descriptor (NSD) file (required) and any
- * additional files (optional), such as scripts specific to your needs. For example, if you
- * have multiple function packages in your network package, you can use the NSD to define
- * which network functions should run in certain VPCs, subnets, or EKS clusters.
- *
- * This request creates an empty network package container with an ID. Once you create a
- * network package, you can upload the network package content using PutSolNetworkPackageContent.
+ * A network function instance is a function in a function package .
  */
-export const createSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getSolFunctionInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateSolNetworkPackageInput,
-    output: CreateSolNetworkPackageOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a function package.
- *
- * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
- *
- * To delete a function package, the package must be in a disabled state. To disable a
- * function package, see UpdateSolFunctionPackage.
- */
-export const deleteSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSolFunctionPackageInput,
-    output: DeleteSolFunctionPackageResponse,
+    input: GetSolFunctionInstanceInput,
+    output: GetSolFunctionInstanceOutput,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -1405,219 +1360,15 @@ export const deleteSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a network instance.
+ * Gets the details of an individual function package, such as the operational state and
+ * whether the package is in use.
  *
- * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
- *
- * To delete a network instance, the instance must be in a stopped or terminated state. To
- * terminate a network instance, see TerminateSolNetworkInstance.
+ * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network..
  */
-export const deleteSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteSolNetworkInstanceInput,
-    output: DeleteSolNetworkInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes network package.
- *
- * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
- *
- * To delete a network package, the package must be in a disable state. To disable a
- * network package, see UpdateSolNetworkPackage.
- */
-export const deleteSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSolNetworkPackageInput,
-    output: DeleteSolNetworkPackageResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets the contents of a function package.
- *
- * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
- */
-export const getSolFunctionPackageContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSolFunctionPackageContentInput,
-    output: GetSolFunctionPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets a function package descriptor in a function package.
- *
- * A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network.
- *
- * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
- */
-export const getSolFunctionPackageDescriptor =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSolFunctionPackageDescriptorInput,
-    output: GetSolFunctionPackageDescriptorOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets the contents of a network package.
- *
- * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
- */
-export const getSolNetworkPackageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSolNetworkPackageContentInput,
-    output: GetSolNetworkPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets the content of the network service descriptor.
- *
- * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
- */
-export const getSolNetworkPackageDescriptor =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSolNetworkPackageDescriptorInput,
-    output: GetSolNetworkPackageDescriptorOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Instantiates a network instance.
- *
- * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
- *
- * Before you can instantiate a network instance, you have to create a network instance.
- * For more information, see CreateSolNetworkInstance.
- */
-export const instantiateSolNetworkInstance =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: InstantiateSolNetworkInstanceInput,
-    output: InstantiateSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists tags for AWS TNB resources.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Tags an AWS TNB resource.
- *
- * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Terminates a network instance.
- *
- * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
- *
- * You must terminate a network instance before you can delete it.
- */
-export const terminateSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TerminateSolNetworkInstanceInput,
-    output: TerminateSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the operational state of function package.
- *
- * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
- */
-export const updateSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSolFunctionPackageInput,
-    output: UpdateSolFunctionPackageOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the operational state of a network package.
- *
- * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
- *
- * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
- */
-export const updateSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSolNetworkPackageInput,
-    output: UpdateSolNetworkPackageOutput,
+    input: GetSolFunctionPackageInput,
+    output: GetSolFunctionPackageOutput,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -1650,140 +1401,6 @@ export const createSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates a network instance.
- *
- * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network
- * package. For more information about network instances, Network instances in the
- * *Amazon Web Services Telco Network Builder User Guide*.
- *
- * Once you create a network instance, you can instantiate it. To instantiate a network,
- * see InstantiateSolNetworkInstance.
- */
-export const createSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSolNetworkInstanceInput,
-    output: CreateSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets the details of the network instance.
- *
- * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
- */
-export const getSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSolNetworkInstanceInput,
-    output: GetSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Uploads the contents of a function package.
- *
- * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
- */
-export const putSolFunctionPackageContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutSolFunctionPackageContentInput,
-    output: PutSolFunctionPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Uploads the contents of a network package.
- *
- * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
- */
-export const putSolNetworkPackageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutSolNetworkPackageContentInput,
-    output: PutSolNetworkPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Update a network instance.
- *
- * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
- *
- * Choose the *updateType* parameter to target the necessary update of the network instance.
- */
-export const updateSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSolNetworkInstanceInput,
-    output: UpdateSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Validates function package content. This can be used as a dry run before uploading
- * function package content with PutSolFunctionPackageContent.
- *
- * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
- */
-export const validateSolFunctionPackageContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateSolFunctionPackageContentInput,
-    output: ValidateSolFunctionPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Validates network package content. This can be used as a dry run before uploading
- * network package content with PutSolNetworkPackageContent.
- *
- * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
- */
-export const validateSolNetworkPackageContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateSolNetworkPackageContentInput,
-    output: ValidateSolNetworkPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Gets the details of a network operation, including the tasks involved in the network
  * operation and the status of the tasks.
@@ -1908,15 +1525,14 @@ export const listSolNetworkPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets the details of a network function instance, including the instantiation state and
- * metadata from the function package descriptor in the network function package.
+ * Gets the details of the network instance.
  *
- * A network function instance is a function in a function package .
+ * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
  */
-export const getSolFunctionInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetSolFunctionInstanceInput,
-    output: GetSolFunctionInstanceOutput,
+    input: GetSolNetworkInstanceInput,
+    output: GetSolNetworkInstanceOutput,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -1927,19 +1543,403 @@ export const getSolFunctionInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets the details of an individual function package, such as the operational state and
- * whether the package is in use.
+ * Uploads the contents of a function package.
  *
- * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network..
+ * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const getSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSolFunctionPackageInput,
-    output: GetSolFunctionPackageOutput,
+export const putSolFunctionPackageContent =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutSolFunctionPackageContentInput,
+    output: PutSolFunctionPackageContentOutput,
     errors: [
       AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Uploads the contents of a network package.
+ *
+ * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+ */
+export const putSolNetworkPackageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutSolNetworkPackageContentInput,
+    output: PutSolNetworkPackageContentOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Update a network instance.
+ *
+ * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
+ *
+ * Choose the *updateType* parameter to target the necessary update of the network instance.
+ */
+export const updateSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSolNetworkInstanceInput,
+    output: UpdateSolNetworkInstanceOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Validates function package content. This can be used as a dry run before uploading
+ * function package content with PutSolFunctionPackageContent.
+ *
+ * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+ */
+export const validateSolFunctionPackageContent =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ValidateSolFunctionPackageContentInput,
+    output: ValidateSolFunctionPackageContentOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Validates network package content. This can be used as a dry run before uploading
+ * network package content with PutSolNetworkPackageContent.
+ *
+ * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+ */
+export const validateSolNetworkPackageContent =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ValidateSolNetworkPackageContentInput,
+    output: ValidateSolNetworkPackageContentOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a network instance.
+ *
+ * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network
+ * package. For more information about network instances, Network instances in the
+ * *Amazon Web Services Telco Network Builder User Guide*.
+ *
+ * Once you create a network instance, you can instantiate it. To instantiate a network,
+ * see InstantiateSolNetworkInstance.
+ */
+export const createSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateSolNetworkInstanceInput,
+    output: CreateSolNetworkInstanceOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets the contents of a function package.
+ *
+ * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+ */
+export const getSolFunctionPackageContent =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetSolFunctionPackageContentInput,
+    output: GetSolFunctionPackageContentOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets a function package descriptor in a function package.
+ *
+ * A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network.
+ *
+ * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+ */
+export const getSolFunctionPackageDescriptor =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetSolFunctionPackageDescriptorInput,
+    output: GetSolFunctionPackageDescriptorOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets the contents of a network package.
+ *
+ * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+ */
+export const getSolNetworkPackageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetSolNetworkPackageContentInput,
+    output: GetSolNetworkPackageContentOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets the content of the network service descriptor.
+ *
+ * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
+ */
+export const getSolNetworkPackageDescriptor =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetSolNetworkPackageDescriptorInput,
+    output: GetSolNetworkPackageDescriptorOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Instantiates a network instance.
+ *
+ * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
+ *
+ * Before you can instantiate a network instance, you have to create a network instance.
+ * For more information, see CreateSolNetworkInstance.
+ */
+export const instantiateSolNetworkInstance =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: InstantiateSolNetworkInstanceInput,
+    output: InstantiateSolNetworkInstanceOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists tags for AWS TNB resources.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Terminates a network instance.
+ *
+ * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
+ *
+ * You must terminate a network instance before you can delete it.
+ */
+export const terminateSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: TerminateSolNetworkInstanceInput,
+    output: TerminateSolNetworkInstanceOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the operational state of function package.
+ *
+ * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+ */
+export const updateSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSolFunctionPackageInput,
+    output: UpdateSolFunctionPackageOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the operational state of a network package.
+ *
+ * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+ *
+ * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
+ */
+export const updateSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSolNetworkPackageInput,
+    output: UpdateSolNetworkPackageOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a function package.
+ *
+ * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+ *
+ * To delete a function package, the package must be in a disabled state. To disable a
+ * function package, see UpdateSolFunctionPackage.
+ */
+export const deleteSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSolFunctionPackageInput,
+    output: DeleteSolFunctionPackageResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a network instance.
+ *
+ * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
+ *
+ * To delete a network instance, the instance must be in a stopped or terminated state. To
+ * terminate a network instance, see TerminateSolNetworkInstance.
+ */
+export const deleteSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSolNetworkInstanceInput,
+    output: DeleteSolNetworkInstanceResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes network package.
+ *
+ * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+ *
+ * To delete a network package, the package must be in a disable state. To disable a
+ * network package, see UpdateSolNetworkPackage.
+ */
+export const deleteSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSolNetworkPackageInput,
+    output: DeleteSolNetworkPackageResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Tags an AWS TNB resource.
+ *
+ * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Untags an AWS TNB resource.
+ *
+ * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a network package.
+ *
+ * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see Network instances in the
+ * *Amazon Web Services Telco Network Builder User Guide*.
+ *
+ * A network package consists of a network service descriptor (NSD) file (required) and any
+ * additional files (optional), such as scripts specific to your needs. For example, if you
+ * have multiple function packages in your network package, you can use the NSD to define
+ * which network functions should run in certain VPCs, subnets, or EKS clusters.
+ *
+ * This request creates an empty network package container with an ID. Once you create a
+ * network package, you can upload the network package content using PutSolNetworkPackageContent.
+ */
+export const createSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateSolNetworkPackageInput,
+    output: CreateSolNetworkPackageOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],

@@ -2230,42 +2230,30 @@ export class GetRightsizingRecommendationResponse extends S.Class<GetRightsizing
 //# Errors
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class UnknownSubscriptionException extends S.TaggedError<UnknownSubscriptionException>()(
-  "UnknownSubscriptionException",
   { Message: S.optional(S.String) },
-) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
-) {}
-export class BillExpirationException extends S.TaggedError<BillExpirationException>()(
-  "BillExpirationException",
-  {},
-) {}
-export class BillingViewHealthStatusException extends S.TaggedError<BillingViewHealthStatusException>()(
-  "BillingViewHealthStatusException",
-  {},
 ) {}
 export class DataUnavailableException extends S.TaggedError<DataUnavailableException>()(
   "DataUnavailableException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class UnknownMonitorException extends S.TaggedError<UnknownMonitorException>()(
   "UnknownMonitorException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class RequestChangedException extends S.TaggedError<RequestChangedException>()(
-  "RequestChangedException",
-  {},
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
 ) {}
-export class UnresolvableUsageUnitException extends S.TaggedError<UnresolvableUsageUnitException>()(
-  "UnresolvableUsageUnitException",
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { Message: S.optional(S.String) },
+) {}
+export class BillExpirationException extends S.TaggedError<BillExpirationException>()(
+  "BillExpirationException",
+  { Message: S.optional(S.String) },
+) {}
+export class BillingViewHealthStatusException extends S.TaggedError<BillingViewHealthStatusException>()(
+  "BillingViewHealthStatusException",
   { Message: S.optional(S.String) },
 ) {}
 export class BackfillLimitExceededException extends S.TaggedError<BackfillLimitExceededException>()(
@@ -2276,13 +2264,25 @@ export class GenerationExistsException extends S.TaggedError<GenerationExistsExc
   "GenerationExistsException",
   { Message: S.optional(S.String) },
 ) {}
+export class UnknownSubscriptionException extends S.TaggedError<UnknownSubscriptionException>()(
+  "UnknownSubscriptionException",
+  { Message: S.optional(S.String) },
+) {}
+export class UnresolvableUsageUnitException extends S.TaggedError<UnresolvableUsageUnitException>()(
+  "UnresolvableUsageUnitException",
+  { Message: S.optional(S.String) },
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
+) {}
+export class RequestChangedException extends S.TaggedError<RequestChangedException>()(
+  "RequestChangedException",
+  { Message: S.optional(S.String) },
 ) {}
 export class AnalysisNotFoundException extends S.TaggedError<AnalysisNotFoundException>()(
   "AnalysisNotFoundException",
@@ -2291,59 +2291,6 @@ export class AnalysisNotFoundException extends S.TaggedError<AnalysisNotFoundExc
 
 //# Operations
 /**
- * Removes one or more tags from a resource. Specify only tag keys in your request. Don't
- * specify the value.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [LimitExceededException, ResourceNotFoundException],
-}));
-/**
- * Deletes a cost anomaly subscription.
- */
-export const deleteAnomalySubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAnomalySubscriptionRequest,
-    output: DeleteAnomalySubscriptionResponse,
-    errors: [LimitExceededException, UnknownSubscriptionException],
-  }),
-);
-/**
- * Deletes a cost category. Expenses from this month going forward will no longer be
- * categorized with this cost category.
- */
-export const deleteCostCategoryDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCostCategoryDefinitionRequest,
-    output: DeleteCostCategoryDefinitionResponse,
-    errors: [LimitExceededException, ResourceNotFoundException],
-  }));
-/**
- * Retrieves the cost anomaly subscription objects for your account. You can filter using a
- * list of cost anomaly monitor Amazon Resource Names (ARNs).
- */
-export const getAnomalySubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAnomalySubscriptionsRequest,
-    output: GetAnomalySubscriptionsResponse,
-    errors: [
-      InvalidNextTokenException,
-      LimitExceededException,
-      UnknownSubscriptionException,
-    ],
-  }),
-);
-/**
- * Returns a list of resource tags associated with the resource specified by the Amazon
- * Resource Name (ARN).
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [LimitExceededException, ResourceNotFoundException],
-}));
-/**
  * Modifies the feedback property of a given cost anomaly.
  */
 export const provideAnomalyFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2351,17 +2298,6 @@ export const provideAnomalyFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: ProvideAnomalyFeedbackRequest,
     output: ProvideAnomalyFeedbackResponse,
     errors: [LimitExceededException],
-  }),
-);
-/**
- * Updates an existing cost anomaly monitor. The changes made are applied going forward, and
- * doesn't change anomalies detected in the past.
- */
-export const updateAnomalyMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAnomalyMonitorRequest,
-    output: UpdateAnomalyMonitorResponse,
-    errors: [LimitExceededException, UnknownMonitorException],
   }),
 );
 /**
@@ -2376,18 +2312,6 @@ export const createAnomalyMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Adds an alert subscription to a cost anomaly detection monitor. You can use each
- * subscription to define subscribers with email or SNS notifications. Email subscribers can set
- * an absolute or percentage threshold and a time frequency for receiving notifications.
- */
-export const createAnomalySubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAnomalySubscriptionRequest,
-    output: CreateAnomalySubscriptionResponse,
-    errors: [LimitExceededException, UnknownMonitorException],
-  }),
-);
-/**
  * Deletes a cost anomaly monitor.
  */
 export const deleteAnomalyMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2397,6 +2321,16 @@ export const deleteAnomalyMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [LimitExceededException, UnknownMonitorException],
   }),
 );
+/**
+ * Deletes a cost category. Expenses from this month going forward will no longer be
+ * categorized with this cost category.
+ */
+export const deleteCostCategoryDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteCostCategoryDefinitionRequest,
+    output: DeleteCostCategoryDefinitionResponse,
+    errors: [LimitExceededException, ResourceNotFoundException],
+  }));
 /**
  * Retrieves the cost anomaly monitor definitions for your account. You can filter using a
  * list of cost anomaly monitor Amazon Resource Names (ARNs).
@@ -2422,37 +2356,6 @@ export const getApproximateUsageRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves a forecast for how much Amazon Web Services predicts that you will spend over
- * the forecast time period that you select, based on your past costs.
- */
-export const getCostForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCostForecastRequest,
-  output: GetCostForecastResponse,
-  errors: [
-    BillingViewHealthStatusException,
-    DataUnavailableException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Retrieves all available filter values for a specified filter over a period of time. You
- * can search the dimension values for an arbitrary string.
- */
-export const getDimensionValues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDimensionValuesRequest,
-  output: GetDimensionValuesResponse,
-  errors: [
-    BillExpirationException,
-    BillingViewHealthStatusException,
-    DataUnavailableException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    RequestChangedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
  * Retrieves attribute data along with aggregate utilization and savings data for a given
  * time period. This doesn't support granular or grouped data (daily/monthly) in response. You
  * can't retrieve data by dates in a single response similar to
@@ -2474,38 +2377,6 @@ export const getSavingsPlansUtilizationDetails =
       LimitExceededException,
     ],
   }));
-/**
- * Queries for available tag keys and tag values for a specified period. You can search
- * the tag values for an arbitrary string.
- */
-export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTagsRequest,
-  output: GetTagsResponse,
-  errors: [
-    BillExpirationException,
-    BillingViewHealthStatusException,
-    DataUnavailableException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    RequestChangedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Retrieves a forecast for how much Amazon Web Services predicts that you will use
- * over the forecast time period that you select, based on your past usage.
- */
-export const getUsageForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUsageForecastRequest,
-  output: GetUsageForecastResponse,
-  errors: [
-    BillingViewHealthStatusException,
-    DataUnavailableException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    UnresolvableUsageUnitException,
-  ],
-}));
 /**
  * Lists the commitment purchase analyses for your account.
  */
@@ -2590,43 +2461,83 @@ export const startCostAllocationTagBackfill =
     errors: [BackfillLimitExceededException, LimitExceededException],
   }));
 /**
- * Requests a Savings Plans recommendation generation. This enables you to calculate a fresh
- * set of Savings Plans recommendations that takes your latest usage data and current Savings
- * Plans inventory into account. You can refresh Savings Plans recommendations up to three times
- * daily for a consolidated billing family.
- *
- * `StartSavingsPlansPurchaseRecommendationGeneration` has no request syntax
- * because no input parameters are needed to support this operation.
+ * Deletes a cost anomaly subscription.
  */
-export const startSavingsPlansPurchaseRecommendationGeneration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartSavingsPlansPurchaseRecommendationGenerationRequest,
-    output: StartSavingsPlansPurchaseRecommendationGenerationResponse,
-    errors: [
-      DataUnavailableException,
-      GenerationExistsException,
-      LimitExceededException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const deleteAnomalySubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAnomalySubscriptionRequest,
+    output: DeleteAnomalySubscriptionResponse,
+    errors: [LimitExceededException, UnknownSubscriptionException],
+  }),
+);
 /**
- * An API operation for adding one or more tags (key-value pairs) to a resource.
- *
- * You can use the `TagResource` operation with a resource that already has tags.
- * If you specify a new tag key for the resource, this tag is appended to the list of tags
- * associated with the resource. If you specify a tag key that is already associated with the
- * resource, the new tag value you specify replaces the previous value for that tag.
- *
- * Although the maximum number of array members is 200, user-tag maximum is 50. The remaining
- * are reserved for Amazon Web Services use.
+ * Updates an existing cost anomaly monitor. The changes made are applied going forward, and
+ * doesn't change anomalies detected in the past.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const updateAnomalyMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAnomalyMonitorRequest,
+    output: UpdateAnomalyMonitorResponse,
+    errors: [LimitExceededException, UnknownMonitorException],
+  }),
+);
+/**
+ * Adds an alert subscription to a cost anomaly detection monitor. You can use each
+ * subscription to define subscribers with email or SNS notifications. Email subscribers can set
+ * an absolute or percentage threshold and a time frequency for receiving notifications.
+ */
+export const createAnomalySubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAnomalySubscriptionRequest,
+    output: CreateAnomalySubscriptionResponse,
+    errors: [LimitExceededException, UnknownMonitorException],
+  }),
+);
+/**
+ * Returns a list of resource tags associated with the resource specified by the Amazon
+ * Resource Name (ARN).
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [LimitExceededException, ResourceNotFoundException],
+}));
+/**
+ * Removes one or more tags from a resource. Specify only tag keys in your request. Don't
+ * specify the value.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [LimitExceededException, ResourceNotFoundException],
+}));
+/**
+ * Retrieves the cost anomaly subscription objects for your account. You can filter using a
+ * list of cost anomaly monitor Amazon Resource Names (ARNs).
+ */
+export const getAnomalySubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAnomalySubscriptionsRequest,
+    output: GetAnomalySubscriptionsResponse,
+    errors: [
+      InvalidNextTokenException,
+      LimitExceededException,
+      UnknownSubscriptionException,
+    ],
+  }),
+);
+/**
+ * Retrieves a forecast for how much Amazon Web Services predicts that you will spend over
+ * the forecast time period that you select, based on your past costs.
+ */
+export const getCostForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCostForecastRequest,
+  output: GetCostForecastResponse,
   errors: [
+    BillingViewHealthStatusException,
+    DataUnavailableException,
     LimitExceededException,
     ResourceNotFoundException,
-    TooManyTagsException,
   ],
 }));
 /**
@@ -2648,30 +2559,6 @@ export const updateAnomalySubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates an existing cost category. Changes made to the cost category rules will be used to
- * categorize the current month’s expenses and future expenses. This won’t change categorization
- * for the previous months.
- */
-export const updateCostCategoryDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCostCategoryDefinitionRequest,
-    output: UpdateCostCategoryDefinitionResponse,
-    errors: [
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
-/**
- * Creates a new cost category with the requested name and rules.
- */
-export const createCostCategoryDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCostCategoryDefinitionRequest,
-    output: CreateCostCategoryDefinitionResponse,
-    errors: [LimitExceededException, ServiceQuotaExceededException],
-  }));
-/**
  * Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a
  * cost category that's defined in the account.
  *
@@ -2686,29 +2573,6 @@ export const describeCostCategoryDefinition =
     output: DescribeCostCategoryDefinitionResponse,
     errors: [LimitExceededException, ResourceNotFoundException],
   }));
-/**
- * Retrieves cost and usage metrics for your account. You can specify which cost and
- * usage-related metric that you want the request to return. For example, you can specify
- * `BlendedCosts` or `UsageQuantity`. You can also filter and group your
- * data by various dimensions, such as `SERVICE` or `AZ`, in a specific
- * time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts.
- *
- * For information about filter limitations, see Quotas and restrictions
- * in the *Billing and Cost Management User Guide*.
- */
-export const getCostAndUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCostAndUsageRequest,
-  output: GetCostAndUsageResponse,
-  errors: [
-    BillExpirationException,
-    BillingViewHealthStatusException,
-    DataUnavailableException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    RequestChangedException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Retrieves cost and usage comparisons for your account between two periods within the last
  * 13 months. If you have enabled multi-year data at monthly granularity, you can go back up to
@@ -2727,55 +2591,6 @@ export const getCostAndUsageComparisons = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Retrieves cost and usage metrics with resources for your account. You can specify which
- * cost and usage-related metric, such as `BlendedCosts` or
- * `UsageQuantity`, that you want the request to return. You can also filter and group
- * your data by various dimensions, such as `SERVICE` or `AZ`, in a
- * specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts.
- *
- * Hourly granularity is only available for EC2-Instances (Elastic Compute Cloud)
- * resource-level data. All other resource-level data is available at daily
- * granularity.
- *
- * This is an opt-in only feature. You can enable this feature from the Cost Explorer
- * Settings page. For information about how to access the Settings page, see Controlling
- * Access for Cost Explorer in the Billing and Cost Management User
- * Guide.
- */
-export const getCostAndUsageWithResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCostAndUsageWithResourcesRequest,
-    output: GetCostAndUsageWithResourcesResponse,
-    errors: [
-      BillExpirationException,
-      BillingViewHealthStatusException,
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      RequestChangedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Retrieves an array of cost category names and values incurred cost.
- *
- * If some cost category names and values are not associated with any cost, they will not
- * be returned by this API.
- */
-export const getCostCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCostCategoriesRequest,
-  output: GetCostCategoriesResponse,
-  errors: [
-    BillExpirationException,
-    BillingViewHealthStatusException,
-    DataUnavailableException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    RequestChangedException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Retrieves key factors driving cost changes between two time periods within the last 13
  * months, such as usage changes, discount changes, and commitment-based savings. If you have
@@ -2913,6 +2728,41 @@ export const getSavingsPlansUtilization = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Retrieves a forecast for how much Amazon Web Services predicts that you will use
+ * over the forecast time period that you select, based on your past usage.
+ */
+export const getUsageForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUsageForecastRequest,
+  output: GetUsageForecastResponse,
+  errors: [
+    BillingViewHealthStatusException,
+    DataUnavailableException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    UnresolvableUsageUnitException,
+  ],
+}));
+/**
+ * Requests a Savings Plans recommendation generation. This enables you to calculate a fresh
+ * set of Savings Plans recommendations that takes your latest usage data and current Savings
+ * Plans inventory into account. You can refresh Savings Plans recommendations up to three times
+ * daily for a consolidated billing family.
+ *
+ * `StartSavingsPlansPurchaseRecommendationGeneration` has no request syntax
+ * because no input parameters are needed to support this operation.
+ */
+export const startSavingsPlansPurchaseRecommendationGeneration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartSavingsPlansPurchaseRecommendationGenerationRequest,
+    output: StartSavingsPlansPurchaseRecommendationGenerationResponse,
+    errors: [
+      DataUnavailableException,
+      GenerationExistsException,
+      LimitExceededException,
+      ServiceQuotaExceededException,
+    ],
+  }));
+/**
  * Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag
  * status that's updated is the same as the existing tag status, the request doesn't fail.
  * Instead, it doesn't have any effect on the tag status (for example, activating the active
@@ -2923,6 +2773,156 @@ export const updateCostAllocationTagsStatus =
     input: UpdateCostAllocationTagsStatusRequest,
     output: UpdateCostAllocationTagsStatusResponse,
     errors: [LimitExceededException],
+  }));
+/**
+ * An API operation for adding one or more tags (key-value pairs) to a resource.
+ *
+ * You can use the `TagResource` operation with a resource that already has tags.
+ * If you specify a new tag key for the resource, this tag is appended to the list of tags
+ * associated with the resource. If you specify a tag key that is already associated with the
+ * resource, the new tag value you specify replaces the previous value for that tag.
+ *
+ * Although the maximum number of array members is 200, user-tag maximum is 50. The remaining
+ * are reserved for Amazon Web Services use.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    LimitExceededException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Queries for available tag keys and tag values for a specified period. You can search
+ * the tag values for an arbitrary string.
+ */
+export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTagsRequest,
+  output: GetTagsResponse,
+  errors: [
+    BillExpirationException,
+    BillingViewHealthStatusException,
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    RequestChangedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates an existing cost category. Changes made to the cost category rules will be used to
+ * categorize the current month’s expenses and future expenses. This won’t change categorization
+ * for the previous months.
+ */
+export const updateCostCategoryDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateCostCategoryDefinitionRequest,
+    output: UpdateCostCategoryDefinitionResponse,
+    errors: [
+      LimitExceededException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+    ],
+  }));
+/**
+ * Creates a new cost category with the requested name and rules.
+ */
+export const createCostCategoryDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateCostCategoryDefinitionRequest,
+    output: CreateCostCategoryDefinitionResponse,
+    errors: [LimitExceededException, ServiceQuotaExceededException],
+  }));
+/**
+ * Retrieves an array of cost category names and values incurred cost.
+ *
+ * If some cost category names and values are not associated with any cost, they will not
+ * be returned by this API.
+ */
+export const getCostCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCostCategoriesRequest,
+  output: GetCostCategoriesResponse,
+  errors: [
+    BillExpirationException,
+    BillingViewHealthStatusException,
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    RequestChangedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves all available filter values for a specified filter over a period of time. You
+ * can search the dimension values for an arbitrary string.
+ */
+export const getDimensionValues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDimensionValuesRequest,
+  output: GetDimensionValuesResponse,
+  errors: [
+    BillExpirationException,
+    BillingViewHealthStatusException,
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    RequestChangedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves cost and usage metrics for your account. You can specify which cost and
+ * usage-related metric that you want the request to return. For example, you can specify
+ * `BlendedCosts` or `UsageQuantity`. You can also filter and group your
+ * data by various dimensions, such as `SERVICE` or `AZ`, in a specific
+ * time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts.
+ *
+ * For information about filter limitations, see Quotas and restrictions
+ * in the *Billing and Cost Management User Guide*.
+ */
+export const getCostAndUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCostAndUsageRequest,
+  output: GetCostAndUsageResponse,
+  errors: [
+    BillExpirationException,
+    BillingViewHealthStatusException,
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    RequestChangedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves cost and usage metrics with resources for your account. You can specify which
+ * cost and usage-related metric, such as `BlendedCosts` or
+ * `UsageQuantity`, that you want the request to return. You can also filter and group
+ * your data by various dimensions, such as `SERVICE` or `AZ`, in a
+ * specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts.
+ *
+ * Hourly granularity is only available for EC2-Instances (Elastic Compute Cloud)
+ * resource-level data. All other resource-level data is available at daily
+ * granularity.
+ *
+ * This is an opt-in only feature. You can enable this feature from the Cost Explorer
+ * Settings page. For information about how to access the Settings page, see Controlling
+ * Access for Cost Explorer in the Billing and Cost Management User
+ * Guide.
+ */
+export const getCostAndUsageWithResources =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetCostAndUsageWithResourcesRequest,
+    output: GetCostAndUsageWithResourcesResponse,
+    errors: [
+      BillExpirationException,
+      BillingViewHealthStatusException,
+      DataUnavailableException,
+      InvalidNextTokenException,
+      LimitExceededException,
+      RequestChangedException,
+      ResourceNotFoundException,
+    ],
   }));
 /**
  * Retrieves a commitment purchase analysis result based on the

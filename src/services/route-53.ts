@@ -2805,18 +2805,6 @@ export class ListResourceRecordSetsResponse extends S.Class<ListResourceRecordSe
 ) {}
 
 //# Errors
-export class ConcurrentModification extends S.TaggedError<ConcurrentModification>()(
-  "ConcurrentModification",
-  {},
-) {}
-export class InvalidInput extends S.TaggedError<InvalidInput>()(
-  "InvalidInput",
-  {},
-) {}
-export class InvalidVPCId extends S.TaggedError<InvalidVPCId>()(
-  "InvalidVPCId",
-  {},
-) {}
 export class CidrCollectionInUseException extends S.TaggedError<CidrCollectionInUseException>()(
   "CidrCollectionInUseException",
   { Message: S.optional(S.String) },
@@ -2825,125 +2813,93 @@ export class HealthCheckInUse extends S.TaggedError<HealthCheckInUse>()(
   "HealthCheckInUse",
   { message: S.optional(S.String) },
 ) {}
-export class NoSuchHealthCheck extends S.TaggedError<NoSuchHealthCheck>()(
-  "NoSuchHealthCheck",
-  {},
-) {}
-export class InvalidKeySigningKeyStatus extends S.TaggedError<InvalidKeySigningKeyStatus>()(
-  "InvalidKeySigningKeyStatus",
-  {},
+export class ConcurrentModification extends S.TaggedError<ConcurrentModification>()(
+  "ConcurrentModification",
+  { message: S.optional(S.String) },
 ) {}
 export class DelegationSetInUse extends S.TaggedError<DelegationSetInUse>()(
   "DelegationSetInUse",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidInput extends S.TaggedError<InvalidInput>()(
+  "InvalidInput",
+  { message: S.optional(S.String) },
+) {}
+export class HostedZoneNotEmpty extends S.TaggedError<HostedZoneNotEmpty>()(
+  "HostedZoneNotEmpty",
+  { message: S.optional(S.String) },
+) {}
+export class DelegationSetNotReusable extends S.TaggedError<DelegationSetNotReusable>()(
+  "DelegationSetNotReusable",
   { message: S.optional(S.String) },
 ) {}
 export class NoSuchTrafficPolicyInstance extends S.TaggedError<NoSuchTrafficPolicyInstance>()(
   "NoSuchTrafficPolicyInstance",
   { message: S.optional(S.String) },
 ) {}
-export class NoSuchHostedZone extends S.TaggedError<NoSuchHostedZone>()(
-  "NoSuchHostedZone",
-  {},
-) {}
 export class DNSSECNotFound extends S.TaggedError<DNSSECNotFound>()(
   "DNSSECNotFound",
-  {},
-) {}
-export class NoSuchQueryLoggingConfig extends S.TaggedError<NoSuchQueryLoggingConfig>()(
-  "NoSuchQueryLoggingConfig",
-  {},
-) {}
-export class DelegationSetNotReusable extends S.TaggedError<DelegationSetNotReusable>()(
-  "DelegationSetNotReusable",
-  {},
-) {}
-export class NoSuchTrafficPolicy extends S.TaggedError<NoSuchTrafficPolicy>()(
-  "NoSuchTrafficPolicy",
-  {},
-) {}
-export class NoSuchDelegationSet extends S.TaggedError<NoSuchDelegationSet>()(
-  "NoSuchDelegationSet",
-  {},
-) {}
-export class PriorRequestNotComplete extends S.TaggedError<PriorRequestNotComplete>()(
-  "PriorRequestNotComplete",
-  {},
-) {}
-export class InvalidPaginationToken extends S.TaggedError<InvalidPaginationToken>()(
-  "InvalidPaginationToken",
-  {},
-) {}
-export class LimitsExceeded extends S.TaggedError<LimitsExceeded>()(
-  "LimitsExceeded",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidKMSArn extends S.TaggedError<InvalidKMSArn>()(
-  "InvalidKMSArn",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ConflictingDomainExists extends S.TaggedError<ConflictingDomainExists>()(
-  "ConflictingDomainExists",
-  {},
-) {}
-export class InvalidTrafficPolicyDocument extends S.TaggedError<InvalidTrafficPolicyDocument>()(
-  "InvalidTrafficPolicyDocument",
-  {},
-) {}
-export class InvalidSigningStatus extends S.TaggedError<InvalidSigningStatus>()(
-  "InvalidSigningStatus",
-  {},
-) {}
-export class NoSuchCidrCollectionException extends S.TaggedError<NoSuchCidrCollectionException>()(
-  "NoSuchCidrCollectionException",
-  { Message: S.optional(S.String) },
-) {}
-export class HostedZoneNotEmpty extends S.TaggedError<HostedZoneNotEmpty>()(
-  "HostedZoneNotEmpty",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidDomainName extends S.TaggedError<InvalidDomainName>()(
-  "InvalidDomainName",
-  {},
-) {}
-export class VPCAssociationAuthorizationNotFound extends S.TaggedError<VPCAssociationAuthorizationNotFound>()(
-  "VPCAssociationAuthorizationNotFound",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidArgument extends S.TaggedError<InvalidArgument>()(
-  "InvalidArgument",
-  {},
-) {}
-export class KeySigningKeyInParentDSRecord extends S.TaggedError<KeySigningKeyInParentDSRecord>()(
-  "KeySigningKeyInParentDSRecord",
-  {},
-) {}
-export class LastVPCAssociation extends S.TaggedError<LastVPCAssociation>()(
-  "LastVPCAssociation",
-  { message: S.optional(S.String) },
-) {}
-export class HostedZonePartiallyDelegated extends S.TaggedError<HostedZonePartiallyDelegated>()(
-  "HostedZonePartiallyDelegated",
+export class InvalidVPCId extends S.TaggedError<InvalidVPCId>()(
+  "InvalidVPCId",
   { message: S.optional(S.String) },
 ) {}
 export class NoSuchChange extends S.TaggedError<NoSuchChange>()(
   "NoSuchChange",
   { message: S.optional(S.String) },
 ) {}
+export class NoSuchHealthCheck extends S.TaggedError<NoSuchHealthCheck>()(
+  "NoSuchHealthCheck",
+  { message: S.optional(S.String) },
+) {}
+export class NoSuchQueryLoggingConfig extends S.TaggedError<NoSuchQueryLoggingConfig>()(
+  "NoSuchQueryLoggingConfig",
+  { message: S.optional(S.String) },
+) {}
+export class NoSuchTrafficPolicy extends S.TaggedError<NoSuchTrafficPolicy>()(
+  "NoSuchTrafficPolicy",
+  { message: S.optional(S.String) },
+) {}
 export class IncompatibleVersion extends S.TaggedError<IncompatibleVersion>()(
   "IncompatibleVersion",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidDomainName extends S.TaggedError<InvalidDomainName>()(
+  "InvalidDomainName",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidPaginationToken extends S.TaggedError<InvalidPaginationToken>()(
+  "InvalidPaginationToken",
+  { message: S.optional(S.String) },
+) {}
+export class NoSuchHostedZone extends S.TaggedError<NoSuchHostedZone>()(
+  "NoSuchHostedZone",
   { message: S.optional(S.String) },
 ) {}
 export class ConflictingTypes extends S.TaggedError<ConflictingTypes>()(
   "ConflictingTypes",
   { message: S.optional(S.String) },
 ) {}
-export class NoSuchKeySigningKey extends S.TaggedError<NoSuchKeySigningKey>()(
-  "NoSuchKeySigningKey",
-  {},
+export class InvalidTrafficPolicyDocument extends S.TaggedError<InvalidTrafficPolicyDocument>()(
+  "InvalidTrafficPolicyDocument",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidKeySigningKeyStatus extends S.TaggedError<InvalidKeySigningKeyStatus>()(
+  "InvalidKeySigningKeyStatus",
+  { message: S.optional(S.String) },
+) {}
+export class NoSuchCidrCollectionException extends S.TaggedError<NoSuchCidrCollectionException>()(
+  "NoSuchCidrCollectionException",
+  { Message: S.optional(S.String) },
+) {}
+export class LimitsExceeded extends S.TaggedError<LimitsExceeded>()(
+  "LimitsExceeded",
+  { message: S.optional(S.String) },
+) {}
+export class ConflictingDomainExists extends S.TaggedError<ConflictingDomainExists>()(
+  "ConflictingDomainExists",
+  { message: S.optional(S.String) },
 ) {}
 export class CidrBlockInUseException extends S.TaggedError<CidrBlockInUseException>()(
   "CidrBlockInUseException",
@@ -2957,8 +2913,8 @@ export class HealthCheckAlreadyExists extends S.TaggedError<HealthCheckAlreadyEx
   "HealthCheckAlreadyExists",
   { message: S.optional(S.String) },
 ) {}
-export class DelegationSetNotAvailable extends S.TaggedError<DelegationSetNotAvailable>()(
-  "DelegationSetNotAvailable",
+export class InvalidArgument extends S.TaggedError<InvalidArgument>()(
+  "InvalidArgument",
   { message: S.optional(S.String) },
 ) {}
 export class InsufficientCloudWatchLogsResourcePolicy extends S.TaggedError<InsufficientCloudWatchLogsResourcePolicy>()(
@@ -2969,32 +2925,16 @@ export class DelegationSetAlreadyCreated extends S.TaggedError<DelegationSetAlre
   "DelegationSetAlreadyCreated",
   { message: S.optional(S.String) },
 ) {}
-export class TooManyTrafficPolicies extends S.TaggedError<TooManyTrafficPolicies>()(
-  "TooManyTrafficPolicies",
+export class NoSuchDelegationSet extends S.TaggedError<NoSuchDelegationSet>()(
+  "NoSuchDelegationSet",
   { message: S.optional(S.String) },
 ) {}
-export class TooManyTrafficPolicyInstances extends S.TaggedError<TooManyTrafficPolicyInstances>()(
-  "TooManyTrafficPolicyInstances",
+export class PriorRequestNotComplete extends S.TaggedError<PriorRequestNotComplete>()(
+  "PriorRequestNotComplete",
   { message: S.optional(S.String) },
 ) {}
-export class TooManyTrafficPolicyVersionsForCurrentPolicy extends S.TaggedError<TooManyTrafficPolicyVersionsForCurrentPolicy>()(
-  "TooManyTrafficPolicyVersionsForCurrentPolicy",
-  { message: S.optional(S.String) },
-) {}
-export class TooManyVPCAssociationAuthorizations extends S.TaggedError<TooManyVPCAssociationAuthorizations>()(
-  "TooManyVPCAssociationAuthorizations",
-  { message: S.optional(S.String) },
-) {}
-export class TrafficPolicyInUse extends S.TaggedError<TrafficPolicyInUse>()(
-  "TrafficPolicyInUse",
-  { message: S.optional(S.String) },
-) {}
-export class VPCAssociationNotFound extends S.TaggedError<VPCAssociationNotFound>()(
-  "VPCAssociationNotFound",
-  { message: S.optional(S.String) },
-) {}
-export class KeySigningKeyWithActiveStatusNotFound extends S.TaggedError<KeySigningKeyWithActiveStatusNotFound>()(
-  "KeySigningKeyWithActiveStatusNotFound",
+export class LastVPCAssociation extends S.TaggedError<LastVPCAssociation>()(
+  "LastVPCAssociation",
   { message: S.optional(S.String) },
 ) {}
 export class NoSuchGeoLocation extends S.TaggedError<NoSuchGeoLocation>()(
@@ -3005,13 +2945,49 @@ export class HostedZoneNotPrivate extends S.TaggedError<HostedZoneNotPrivate>()(
   "HostedZoneNotPrivate",
   { message: S.optional(S.String) },
 ) {}
-export class NoSuchCidrLocationException extends S.TaggedError<NoSuchCidrLocationException>()(
-  "NoSuchCidrLocationException",
-  { Message: S.optional(S.String) },
-) {}
 export class HealthCheckVersionMismatch extends S.TaggedError<HealthCheckVersionMismatch>()(
   "HealthCheckVersionMismatch",
   { message: S.optional(S.String) },
+) {}
+export class TooManyTrafficPolicyVersionsForCurrentPolicy extends S.TaggedError<TooManyTrafficPolicyVersionsForCurrentPolicy>()(
+  "TooManyTrafficPolicyVersionsForCurrentPolicy",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidSigningStatus extends S.TaggedError<InvalidSigningStatus>()(
+  "InvalidSigningStatus",
+  { message: S.optional(S.String) },
+) {}
+export class HostedZonePartiallyDelegated extends S.TaggedError<HostedZonePartiallyDelegated>()(
+  "HostedZonePartiallyDelegated",
+  { message: S.optional(S.String) },
+) {}
+export class VPCAssociationAuthorizationNotFound extends S.TaggedError<VPCAssociationAuthorizationNotFound>()(
+  "VPCAssociationAuthorizationNotFound",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyVPCAssociationAuthorizations extends S.TaggedError<TooManyVPCAssociationAuthorizations>()(
+  "TooManyVPCAssociationAuthorizations",
+  { message: S.optional(S.String) },
+) {}
+export class TrafficPolicyInUse extends S.TaggedError<TrafficPolicyInUse>()(
+  "TrafficPolicyInUse",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyTrafficPolicyInstances extends S.TaggedError<TooManyTrafficPolicyInstances>()(
+  "TooManyTrafficPolicyInstances",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyTrafficPolicies extends S.TaggedError<TooManyTrafficPolicies>()(
+  "TooManyTrafficPolicies",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidKMSArn extends S.TaggedError<InvalidKMSArn>()(
+  "InvalidKMSArn",
+  { message: S.optional(S.String) },
+) {}
+export class NoSuchCidrLocationException extends S.TaggedError<NoSuchCidrLocationException>()(
+  "NoSuchCidrLocationException",
+  { Message: S.optional(S.String) },
 ) {}
 export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
   "NotAuthorizedException",
@@ -3029,10 +3005,6 @@ export class TooManyHealthChecks extends S.TaggedError<TooManyHealthChecks>()(
   "TooManyHealthChecks",
   { message: S.optional(S.String) },
 ) {}
-export class HostedZoneAlreadyExists extends S.TaggedError<HostedZoneAlreadyExists>()(
-  "HostedZoneAlreadyExists",
-  { message: S.optional(S.String) },
-) {}
 export class InvalidKeySigningKeyName extends S.TaggedError<InvalidKeySigningKeyName>()(
   "InvalidKeySigningKeyName",
   { message: S.optional(S.String) },
@@ -3045,24 +3017,40 @@ export class DelegationSetAlreadyReusable extends S.TaggedError<DelegationSetAlr
   "DelegationSetAlreadyReusable",
   { message: S.optional(S.String) },
 ) {}
-export class TrafficPolicyAlreadyExists extends S.TaggedError<TrafficPolicyAlreadyExists>()(
-  "TrafficPolicyAlreadyExists",
+export class VPCAssociationNotFound extends S.TaggedError<VPCAssociationNotFound>()(
+  "VPCAssociationNotFound",
+  { message: S.optional(S.String) },
+) {}
+export class DelegationSetNotAvailable extends S.TaggedError<DelegationSetNotAvailable>()(
+  "DelegationSetNotAvailable",
+  { message: S.optional(S.String) },
+) {}
+export class KeySigningKeyInParentDSRecord extends S.TaggedError<KeySigningKeyInParentDSRecord>()(
+  "KeySigningKeyInParentDSRecord",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
   { message: S.optional(S.String) },
 ) {}
 export class TrafficPolicyInstanceAlreadyExists extends S.TaggedError<TrafficPolicyInstanceAlreadyExists>()(
   "TrafficPolicyInstanceAlreadyExists",
   { message: S.optional(S.String) },
 ) {}
-export class KeySigningKeyInUse extends S.TaggedError<KeySigningKeyInUse>()(
-  "KeySigningKeyInUse",
+export class TrafficPolicyAlreadyExists extends S.TaggedError<TrafficPolicyAlreadyExists>()(
+  "TrafficPolicyAlreadyExists",
+  { message: S.optional(S.String) },
+) {}
+export class NoSuchKeySigningKey extends S.TaggedError<NoSuchKeySigningKey>()(
+  "NoSuchKeySigningKey",
+  { message: S.optional(S.String) },
+) {}
+export class KeySigningKeyWithActiveStatusNotFound extends S.TaggedError<KeySigningKeyWithActiveStatusNotFound>()(
+  "KeySigningKeyWithActiveStatusNotFound",
   { message: S.optional(S.String) },
 ) {}
 export class PublicZoneVPCAssociation extends S.TaggedError<PublicZoneVPCAssociation>()(
   "PublicZoneVPCAssociation",
-  { message: S.optional(S.String) },
-) {}
-export class TooManyHostedZones extends S.TaggedError<TooManyHostedZones>()(
-  "TooManyHostedZones",
   { message: S.optional(S.String) },
 ) {}
 export class KeySigningKeyAlreadyExists extends S.TaggedError<KeySigningKeyAlreadyExists>()(
@@ -3073,12 +3061,24 @@ export class QueryLoggingConfigAlreadyExists extends S.TaggedError<QueryLoggingC
   "QueryLoggingConfigAlreadyExists",
   { message: S.optional(S.String) },
 ) {}
+export class HostedZoneAlreadyExists extends S.TaggedError<HostedZoneAlreadyExists>()(
+  "HostedZoneAlreadyExists",
+  { message: S.optional(S.String) },
+) {}
+export class KeySigningKeyInUse extends S.TaggedError<KeySigningKeyInUse>()(
+  "KeySigningKeyInUse",
+  { message: S.optional(S.String) },
+) {}
 export class HostedZoneNotFound extends S.TaggedError<HostedZoneNotFound>()(
   "HostedZoneNotFound",
   { message: S.optional(S.String) },
 ) {}
 export class TooManyKeySigningKeys extends S.TaggedError<TooManyKeySigningKeys>()(
   "TooManyKeySigningKeys",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyHostedZones extends S.TaggedError<TooManyHostedZones>()(
+  "TooManyHostedZones",
   { message: S.optional(S.String) },
 ) {}
 
@@ -3107,14 +3107,6 @@ export const getHealthCheckCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
- */
-export const getHostedZoneCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetHostedZoneCountRequest,
-  output: GetHostedZoneCountResponse,
-  errors: [InvalidInput],
-}));
-/**
  * Gets the number of traffic policy instances that are associated with the current
  * Amazon Web Services account.
  */
@@ -3125,26 +3117,74 @@ export const getTrafficPolicyInstanceCount =
     errors: [],
   }));
 /**
- * Deletes a health check.
+ * Retrieves a list of supported geographic locations.
  *
- * Amazon Route 53 does not prevent you from deleting a health check even if the
- * health check is associated with one or more resource record sets. If you delete a
- * health check and you don't update the associated resource record sets, the future
- * status of the health check can't be predicted and may change. This will affect the
- * routing of DNS queries for your DNS failover configuration. For more information,
- * see Replacing and Deleting Health Checks in the Amazon Route 53
- * Developer Guide.
+ * Countries are listed first, and continents are listed last. If Amazon Route 53
+ * supports subdivisions for a country (for example, states or provinces), the subdivisions
+ * for that country are listed in alphabetical order immediately after the corresponding
+ * country.
  *
- * If you're using Cloud Map and you configured Cloud Map to create a Route 53
- * health check when you register an instance, you can't use the Route 53
- * `DeleteHealthCheck` command to delete the health check. The health check
- * is deleted automatically when you deregister the instance; there can be a delay of
- * several hours before the health check is deleted from Route 53.
+ * Route 53 does not perform authorization for this API because it retrieves information
+ * that is already available to the public.
+ *
+ * For a list of supported geolocation codes, see the GeoLocation data
+ * type.
  */
-export const deleteHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteHealthCheckRequest,
-  output: DeleteHealthCheckResponse,
-  errors: [HealthCheckInUse, InvalidInput, NoSuchHealthCheck],
+export const listGeoLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGeoLocationsRequest,
+  output: ListGeoLocationsResponse,
+  errors: [InvalidInput],
+}));
+/**
+ * Retrieves a list of the reusable delegation sets that are associated with the current
+ * Amazon Web Services account.
+ */
+export const listReusableDelegationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListReusableDelegationSetsRequest,
+    output: ListReusableDelegationSetsResponse,
+    errors: [InvalidInput],
+  }),
+);
+/**
+ * Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
+ */
+export const getHostedZoneCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetHostedZoneCountRequest,
+  output: GetHostedZoneCountResponse,
+  errors: [InvalidInput],
+}));
+/**
+ * Gets the specified limit for the current account, for example, the maximum number of
+ * health checks that you can create using the account.
+ *
+ * For the default limit, see Limits in the
+ * *Amazon Route 53 Developer Guide*. To request a higher limit,
+ * open a case.
+ *
+ * You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to
+ * the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/. Then choose **Service limits** in the navigation pane.
+ */
+export const getAccountLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountLimitRequest,
+  output: GetAccountLimitResponse,
+  errors: [InvalidInput],
+}));
+/**
+ * Returns the current status of a change batch request. The status is one of the
+ * following values:
+ *
+ * - `PENDING` indicates that the changes in this request have not
+ * propagated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all
+ * change batch requests.
+ *
+ * - `INSYNC` indicates that the changes have propagated to all Route 53
+ * DNS servers managing the hosted zone.
+ */
+export const getChange = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChangeRequest,
+  output: GetChangeResponse,
+  errors: [InvalidInput, NoSuchChange],
 }));
 /**
  * Gets status of a specified health check.
@@ -3185,464 +3225,6 @@ export const getTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidInput, NoSuchTrafficPolicy],
 }));
 /**
- * Gets information about a specified traffic policy instance.
- *
- * Use `GetTrafficPolicyInstance` with the `id` of new traffic policy instance to confirm that the
- * `CreateTrafficPolicyInstance` or an `UpdateTrafficPolicyInstance` request completed successfully.
- * For more information, see the `State` response
- * element.
- *
- * In the Route 53 console, traffic policy instances are known as policy
- * records.
- */
-export const getTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTrafficPolicyInstanceRequest,
-    output: GetTrafficPolicyInstanceResponse,
-    errors: [InvalidInput, NoSuchTrafficPolicyInstance],
-  }),
-);
-/**
- * Retrieves a list of supported geographic locations.
- *
- * Countries are listed first, and continents are listed last. If Amazon Route 53
- * supports subdivisions for a country (for example, states or provinces), the subdivisions
- * for that country are listed in alphabetical order immediately after the corresponding
- * country.
- *
- * Route 53 does not perform authorization for this API because it retrieves information
- * that is already available to the public.
- *
- * For a list of supported geolocation codes, see the GeoLocation data
- * type.
- */
-export const listGeoLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGeoLocationsRequest,
-  output: ListGeoLocationsResponse,
-  errors: [InvalidInput],
-}));
-/**
- * Retrieves a list of the public and private hosted zones that are associated with the
- * current Amazon Web Services account. The response includes a `HostedZones`
- * child element for each hosted zone.
- *
- * Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of
- * hosted zones, you can use the `maxitems` parameter to list them in groups of
- * up to 100.
- */
-export const listHostedZones = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListHostedZonesRequest,
-  output: ListHostedZonesResponse,
-  errors: [DelegationSetNotReusable, InvalidInput, NoSuchDelegationSet],
-}));
-/**
- * Retrieves a list of the reusable delegation sets that are associated with the current
- * Amazon Web Services account.
- */
-export const listReusableDelegationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListReusableDelegationSetsRequest,
-    output: ListReusableDelegationSetsResponse,
-    errors: [InvalidInput],
-  }),
-);
-/**
- * Gets information about the traffic policy instances that you created by using the
- * current Amazon Web Services account.
- *
- * After you submit an `UpdateTrafficPolicyInstance` request, there's a
- * brief delay while Amazon Route 53 creates the resource record sets that are
- * specified in the traffic policy definition. For more information, see the
- * `State` response element.
- *
- * Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
- * policy instances, you can use the `MaxItems` parameter to list them in groups
- * of up to 100.
- */
-export const listTrafficPolicyInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTrafficPolicyInstancesRequest,
-    output: ListTrafficPolicyInstancesResponse,
-    errors: [InvalidInput, NoSuchTrafficPolicyInstance],
-  }),
-);
-/**
- * Gets information about the traffic policy instances that you created in a specified
- * hosted zone.
- *
- * After you submit a `CreateTrafficPolicyInstance` or an
- * `UpdateTrafficPolicyInstance` request, there's a brief delay while
- * Amazon Route 53 creates the resource record sets that are specified in the traffic
- * policy definition. For more information, see the `State` response
- * element.
- *
- * Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
- * policy instances, you can use the `MaxItems` parameter to list them in groups
- * of up to 100.
- */
-export const listTrafficPolicyInstancesByHostedZone =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListTrafficPolicyInstancesByHostedZoneRequest,
-    output: ListTrafficPolicyInstancesByHostedZoneResponse,
-    errors: [InvalidInput, NoSuchHostedZone, NoSuchTrafficPolicyInstance],
-  }));
-/**
- * Gets information about the traffic policy instances that you created by using a
- * specify traffic policy version.
- *
- * After you submit a `CreateTrafficPolicyInstance` or an
- * `UpdateTrafficPolicyInstance` request, there's a brief delay while
- * Amazon Route 53 creates the resource record sets that are specified in the traffic
- * policy definition. For more information, see the `State` response
- * element.
- *
- * Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
- * policy instances, you can use the `MaxItems` parameter to list them in groups
- * of up to 100.
- */
-export const listTrafficPolicyInstancesByPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListTrafficPolicyInstancesByPolicyRequest,
-    output: ListTrafficPolicyInstancesByPolicyResponse,
-    errors: [InvalidInput, NoSuchTrafficPolicy, NoSuchTrafficPolicyInstance],
-  }));
-/**
- * Gets information about all of the versions for a specified traffic policy.
- *
- * Traffic policy versions are listed in numerical order by
- * `VersionNumber`.
- */
-export const listTrafficPolicyVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTrafficPolicyVersionsRequest,
-    output: ListTrafficPolicyVersionsResponse,
-    errors: [InvalidInput, NoSuchTrafficPolicy],
-  }),
-);
-/**
- * Gets a list of the VPCs that were created by other accounts and that can be associated
- * with a specified hosted zone because you've submitted one or more
- * `CreateVPCAssociationAuthorization` requests.
- *
- * The response includes a `VPCs` element with a `VPC` child
- * element for each VPC that can be associated with the hosted zone.
- */
-export const listVPCAssociationAuthorizations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListVPCAssociationAuthorizationsRequest,
-    output: ListVPCAssociationAuthorizationsResponse,
-    errors: [InvalidInput, InvalidPaginationToken, NoSuchHostedZone],
-  }));
-/**
- * Gets the value that Amazon Route 53 returns in response to a DNS request for a
- * specified record name and type. You can optionally specify the IP address of a DNS
- * resolver, an EDNS0 client subnet IP address, and a subnet mask.
- *
- * This call only supports querying public hosted zones.
- *
- * The `TestDnsAnswer ` returns information similar to what you would expect from the answer
- * section of the `dig` command. Therefore, if you query for the name
- * servers of a subdomain that point to the parent name servers, those will not be
- * returned.
- */
-export const testDNSAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestDNSAnswerRequest,
-  output: TestDNSAnswerResponse,
-  errors: [InvalidInput, NoSuchHostedZone],
-}));
-/**
- * Updates the comment for a specified hosted zone.
- */
-export const updateHostedZoneComment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateHostedZoneCommentRequest,
-    output: UpdateHostedZoneCommentResponse,
-    errors: [InvalidInput, NoSuchHostedZone, PriorRequestNotComplete],
-  }),
-);
-/**
- * Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery.
- *
- * Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
- */
-export const updateHostedZoneFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateHostedZoneFeaturesRequest,
-    output: UpdateHostedZoneFeaturesResponse,
-    errors: [
-      InvalidInput,
-      LimitsExceeded,
-      NoSuchHostedZone,
-      PriorRequestNotComplete,
-    ],
-  }),
-);
-/**
- * Updates the comment for a specified traffic policy version.
- */
-export const updateTrafficPolicyComment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTrafficPolicyCommentRequest,
-    output: UpdateTrafficPolicyCommentResponse,
-    errors: [ConcurrentModification, InvalidInput, NoSuchTrafficPolicy],
-  }),
-);
-/**
- * Adds, edits, or deletes tags for a health check or a hosted zone.
- *
- * For information about using tags for cost allocation, see Using Cost Allocation
- * Tags in the *Billing and Cost Management User Guide*.
- */
-export const changeTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ChangeTagsForResourceRequest,
-    output: ChangeTagsForResourceResponse,
-    errors: [
-      InvalidInput,
-      NoSuchHealthCheck,
-      NoSuchHostedZone,
-      PriorRequestNotComplete,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a CIDR collection in the current Amazon Web Services account. The collection
- * must be empty before it can be deleted.
- */
-export const deleteCidrCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCidrCollectionRequest,
-    output: DeleteCidrCollectionResponse,
-    errors: [
-      CidrCollectionInUseException,
-      ConcurrentModification,
-      InvalidInput,
-      NoSuchCidrCollectionException,
-    ],
-  }),
-);
-/**
- * Deletes a hosted zone.
- *
- * If the hosted zone was created by another service, such as Cloud Map, see
- * Deleting Public Hosted Zones That Were Created by Another Service in the
- * *Amazon Route 53 Developer Guide* for information
- * about how to delete it. (The process is the same for public and private hosted zones
- * that were created by another service.)
- *
- * If you want to keep your domain registration but you want to stop routing internet
- * traffic to your website or web application, we recommend that you delete resource record
- * sets in the hosted zone instead of deleting the hosted zone.
- *
- * If you delete a hosted zone, you can't undelete it. You must create a new hosted
- * zone and update the name servers for your domain registration, which can require up
- * to 48 hours to take effect. (If you delegated responsibility for a subdomain to a
- * hosted zone and you delete the child hosted zone, you must update the name servers
- * in the parent hosted zone.) In addition, if you delete a hosted zone, someone could
- * hijack the domain and route traffic to their own resources using your domain
- * name.
- *
- * If you want to avoid the monthly charge for the hosted zone, you can transfer DNS
- * service for the domain to a free DNS service. When you transfer DNS service, you have to
- * update the name servers for the domain registration. If the domain is registered with
- * Route 53, see UpdateDomainNameservers for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is
- * registered with another registrar, use the method provided by the registrar to update
- * name servers for the domain registration. For more information, perform an internet
- * search on "free DNS service."
- *
- * You can delete a hosted zone only if it contains only the default SOA and NS records
- * and has DNSSEC signing disabled. If the hosted zone contains other records or has DNSSEC
- * enabled, you must delete the records and disable DNSSEC before deletion. Attempting to
- * delete a hosted zone with additional records or DNSSEC enabled returns a
- * `HostedZoneNotEmpty` error. For information about deleting records, see
- * ChangeResourceRecordSets.
- *
- * To verify that the hosted zone has been deleted, do one of the following:
- *
- * - Use the `GetHostedZone` action to request information about the
- * hosted zone.
- *
- * - Use the `ListHostedZones` action to get a list of the hosted zones
- * associated with the current Amazon Web Services account.
- */
-export const deleteHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteHostedZoneRequest,
-  output: DeleteHostedZoneResponse,
-  errors: [
-    HostedZoneNotEmpty,
-    InvalidDomainName,
-    InvalidInput,
-    NoSuchHostedZone,
-    PriorRequestNotComplete,
-  ],
-}));
-/**
- * Deletes a configuration for DNS query logging. If you delete a configuration, Amazon
- * Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any logs
- * that are already in CloudWatch Logs.
- *
- * For more information about DNS query logs, see CreateQueryLoggingConfig.
- */
-export const deleteQueryLoggingConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteQueryLoggingConfigRequest,
-    output: DeleteQueryLoggingConfigResponse,
-    errors: [ConcurrentModification, InvalidInput, NoSuchQueryLoggingConfig],
-  }),
-);
-/**
- * Deletes a reusable delegation set.
- *
- * You can delete a reusable delegation set only if it isn't associated with any
- * hosted zones.
- *
- * To verify that the reusable delegation set is not associated with any hosted zones,
- * submit a GetReusableDelegationSet request and specify the ID of the reusable
- * delegation set that you want to delete.
- */
-export const deleteReusableDelegationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReusableDelegationSetRequest,
-    output: DeleteReusableDelegationSetResponse,
-    errors: [
-      DelegationSetInUse,
-      DelegationSetNotReusable,
-      InvalidInput,
-      NoSuchDelegationSet,
-    ],
-  }),
-);
-/**
- * Deletes a traffic policy instance and all of the resource record sets that Amazon
- * Route 53 created when you created the instance.
- *
- * In the Route 53 console, traffic policy instances are known as policy
- * records.
- */
-export const deleteTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTrafficPolicyInstanceRequest,
-    output: DeleteTrafficPolicyInstanceResponse,
-    errors: [
-      InvalidInput,
-      NoSuchTrafficPolicyInstance,
-      PriorRequestNotComplete,
-    ],
-  }),
-);
-/**
- * Removes authorization to submit an `AssociateVPCWithHostedZone` request to
- * associate a specified VPC with a hosted zone that was created by a different account.
- * You must use the account that created the hosted zone to submit a
- * `DeleteVPCAssociationAuthorization` request.
- *
- * Sending this request only prevents the Amazon Web Services account that created the
- * VPC from associating the VPC with the Amazon Route 53 hosted zone in the future. If
- * the VPC is already associated with the hosted zone,
- * `DeleteVPCAssociationAuthorization` won't disassociate the VPC from
- * the hosted zone. If you want to delete an existing association, use
- * `DisassociateVPCFromHostedZone`.
- */
-export const deleteVPCAssociationAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVPCAssociationAuthorizationRequest,
-    output: DeleteVPCAssociationAuthorizationResponse,
-    errors: [
-      ConcurrentModification,
-      InvalidInput,
-      InvalidVPCId,
-      NoSuchHostedZone,
-      VPCAssociationAuthorizationNotFound,
-    ],
-  }));
-/**
- * Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any
- * key-signing keys (KSKs) that are active in the hosted zone.
- */
-export const disableHostedZoneDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableHostedZoneDNSSECRequest,
-    output: DisableHostedZoneDNSSECResponse,
-    errors: [
-      ConcurrentModification,
-      DNSSECNotFound,
-      InvalidArgument,
-      InvalidInput,
-      InvalidKeySigningKeyStatus,
-      InvalidKMSArn,
-      KeySigningKeyInParentDSRecord,
-      NoSuchHostedZone,
-    ],
-  }),
-);
-/**
- * Gets the specified limit for the current account, for example, the maximum number of
- * health checks that you can create using the account.
- *
- * For the default limit, see Limits in the
- * *Amazon Route 53 Developer Guide*. To request a higher limit,
- * open a case.
- *
- * You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to
- * the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/. Then choose **Service limits** in the navigation pane.
- */
-export const getAccountLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountLimitRequest,
-  output: GetAccountLimitResponse,
-  errors: [InvalidInput],
-}));
-/**
- * Returns the current status of a change batch request. The status is one of the
- * following values:
- *
- * - `PENDING` indicates that the changes in this request have not
- * propagated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all
- * change batch requests.
- *
- * - `INSYNC` indicates that the changes have propagated to all Route 53
- * DNS servers managing the hosted zone.
- */
-export const getChange = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetChangeRequest,
-  output: GetChangeResponse,
-  errors: [InvalidInput, NoSuchChange],
-}));
-/**
- * Returns information about DNSSEC for a specific hosted zone, including the key-signing
- * keys (KSKs) in the hosted zone.
- */
-export const getDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDNSSECRequest,
-  output: GetDNSSECResponse,
-  errors: [InvalidArgument, InvalidInput, NoSuchHostedZone],
-}));
-/**
- * Retrieves information about a specified reusable delegation set, including the four
- * name servers that are assigned to the delegation set.
- */
-export const getReusableDelegationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReusableDelegationSetRequest,
-    output: GetReusableDelegationSetResponse,
-    errors: [DelegationSetNotReusable, InvalidInput, NoSuchDelegationSet],
-  }),
-);
-/**
- * Gets the maximum number of hosted zones that you can associate with the specified
- * reusable delegation set.
- *
- * For the default limit, see Limits in the
- * *Amazon Route 53 Developer Guide*. To request a higher limit,
- * open a case.
- */
-export const getReusableDelegationSetLimit =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetReusableDelegationSetLimitRequest,
-    output: GetReusableDelegationSetLimitResponse,
-    errors: [InvalidInput, NoSuchDelegationSet],
-  }));
-/**
  * Returns a paginated list of CIDR collections in the Amazon Web Services account
  * (metadata only).
  */
@@ -3650,15 +3232,6 @@ export const listCidrCollections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCidrCollectionsRequest,
   output: ListCidrCollectionsResponse,
   errors: [InvalidInput],
-}));
-/**
- * Returns a paginated list of CIDR locations for the given collection (metadata only,
- * does not include CIDR blocks).
- */
-export const listCidrLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCidrLocationsRequest,
-  output: ListCidrLocationsResponse,
-  errors: [InvalidInput, NoSuchCidrCollectionException],
 }));
 /**
  * Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
@@ -3731,6 +3304,203 @@ export const listHostedZonesByName = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Gets information about the latest version for every traffic policy that is associated
+ * with the current Amazon Web Services account. Policies are listed in the order that they
+ * were created in.
+ *
+ * For information about how of deleting a traffic policy affects the response from
+ * `ListTrafficPolicies`, see DeleteTrafficPolicy.
+ */
+export const listTrafficPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTrafficPoliciesRequest,
+  output: ListTrafficPoliciesResponse,
+  errors: [InvalidInput],
+}));
+/**
+ * Gets information about the traffic policy instances that you created in a specified
+ * hosted zone.
+ *
+ * After you submit a `CreateTrafficPolicyInstance` or an
+ * `UpdateTrafficPolicyInstance` request, there's a brief delay while
+ * Amazon Route 53 creates the resource record sets that are specified in the traffic
+ * policy definition. For more information, see the `State` response
+ * element.
+ *
+ * Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
+ * policy instances, you can use the `MaxItems` parameter to list them in groups
+ * of up to 100.
+ */
+export const listTrafficPolicyInstancesByHostedZone =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListTrafficPolicyInstancesByHostedZoneRequest,
+    output: ListTrafficPolicyInstancesByHostedZoneResponse,
+    errors: [InvalidInput, NoSuchHostedZone, NoSuchTrafficPolicyInstance],
+  }));
+/**
+ * Deletes a CIDR collection in the current Amazon Web Services account. The collection
+ * must be empty before it can be deleted.
+ */
+export const deleteCidrCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCidrCollectionRequest,
+    output: DeleteCidrCollectionResponse,
+    errors: [
+      CidrCollectionInUseException,
+      ConcurrentModification,
+      InvalidInput,
+      NoSuchCidrCollectionException,
+    ],
+  }),
+);
+/**
+ * Gets information about a specified traffic policy instance.
+ *
+ * Use `GetTrafficPolicyInstance` with the `id` of new traffic policy instance to confirm that the
+ * `CreateTrafficPolicyInstance` or an `UpdateTrafficPolicyInstance` request completed successfully.
+ * For more information, see the `State` response
+ * element.
+ *
+ * In the Route 53 console, traffic policy instances are known as policy
+ * records.
+ */
+export const getTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetTrafficPolicyInstanceRequest,
+    output: GetTrafficPolicyInstanceResponse,
+    errors: [InvalidInput, NoSuchTrafficPolicyInstance],
+  }),
+);
+/**
+ * Gets information about the traffic policy instances that you created by using the
+ * current Amazon Web Services account.
+ *
+ * After you submit an `UpdateTrafficPolicyInstance` request, there's a
+ * brief delay while Amazon Route 53 creates the resource record sets that are
+ * specified in the traffic policy definition. For more information, see the
+ * `State` response element.
+ *
+ * Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
+ * policy instances, you can use the `MaxItems` parameter to list them in groups
+ * of up to 100.
+ */
+export const listTrafficPolicyInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTrafficPolicyInstancesRequest,
+    output: ListTrafficPolicyInstancesResponse,
+    errors: [InvalidInput, NoSuchTrafficPolicyInstance],
+  }),
+);
+/**
+ * Deletes a health check.
+ *
+ * Amazon Route 53 does not prevent you from deleting a health check even if the
+ * health check is associated with one or more resource record sets. If you delete a
+ * health check and you don't update the associated resource record sets, the future
+ * status of the health check can't be predicted and may change. This will affect the
+ * routing of DNS queries for your DNS failover configuration. For more information,
+ * see Replacing and Deleting Health Checks in the Amazon Route 53
+ * Developer Guide.
+ *
+ * If you're using Cloud Map and you configured Cloud Map to create a Route 53
+ * health check when you register an instance, you can't use the Route 53
+ * `DeleteHealthCheck` command to delete the health check. The health check
+ * is deleted automatically when you deregister the instance; there can be a delay of
+ * several hours before the health check is deleted from Route 53.
+ */
+export const deleteHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHealthCheckRequest,
+  output: DeleteHealthCheckResponse,
+  errors: [HealthCheckInUse, InvalidInput, NoSuchHealthCheck],
+}));
+/**
+ * Deletes a configuration for DNS query logging. If you delete a configuration, Amazon
+ * Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any logs
+ * that are already in CloudWatch Logs.
+ *
+ * For more information about DNS query logs, see CreateQueryLoggingConfig.
+ */
+export const deleteQueryLoggingConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteQueryLoggingConfigRequest,
+    output: DeleteQueryLoggingConfigResponse,
+    errors: [ConcurrentModification, InvalidInput, NoSuchQueryLoggingConfig],
+  }),
+);
+/**
+ * Gets information about the traffic policy instances that you created by using a
+ * specify traffic policy version.
+ *
+ * After you submit a `CreateTrafficPolicyInstance` or an
+ * `UpdateTrafficPolicyInstance` request, there's a brief delay while
+ * Amazon Route 53 creates the resource record sets that are specified in the traffic
+ * policy definition. For more information, see the `State` response
+ * element.
+ *
+ * Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
+ * policy instances, you can use the `MaxItems` parameter to list them in groups
+ * of up to 100.
+ */
+export const listTrafficPolicyInstancesByPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListTrafficPolicyInstancesByPolicyRequest,
+    output: ListTrafficPolicyInstancesByPolicyResponse,
+    errors: [InvalidInput, NoSuchTrafficPolicy, NoSuchTrafficPolicyInstance],
+  }));
+/**
+ * Gets information about all of the versions for a specified traffic policy.
+ *
+ * Traffic policy versions are listed in numerical order by
+ * `VersionNumber`.
+ */
+export const listTrafficPolicyVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTrafficPolicyVersionsRequest,
+    output: ListTrafficPolicyVersionsResponse,
+    errors: [InvalidInput, NoSuchTrafficPolicy],
+  }),
+);
+/**
+ * Updates the comment for a specified traffic policy version.
+ */
+export const updateTrafficPolicyComment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTrafficPolicyCommentRequest,
+    output: UpdateTrafficPolicyCommentResponse,
+    errors: [ConcurrentModification, InvalidInput, NoSuchTrafficPolicy],
+  }),
+);
+/**
+ * Gets a list of the VPCs that were created by other accounts and that can be associated
+ * with a specified hosted zone because you've submitted one or more
+ * `CreateVPCAssociationAuthorization` requests.
+ *
+ * The response includes a `VPCs` element with a `VPC` child
+ * element for each VPC that can be associated with the hosted zone.
+ */
+export const listVPCAssociationAuthorizations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListVPCAssociationAuthorizationsRequest,
+    output: ListVPCAssociationAuthorizationsResponse,
+    errors: [InvalidInput, InvalidPaginationToken, NoSuchHostedZone],
+  }));
+/**
+ * Gets the value that Amazon Route 53 returns in response to a DNS request for a
+ * specified record name and type. You can optionally specify the IP address of a DNS
+ * resolver, an EDNS0 client subnet IP address, and a subnet mask.
+ *
+ * This call only supports querying public hosted zones.
+ *
+ * The `TestDnsAnswer ` returns information similar to what you would expect from the answer
+ * section of the `dig` command. Therefore, if you query for the name
+ * servers of a subdomain that point to the parent name servers, those will not be
+ * returned.
+ */
+export const testDNSAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestDNSAnswerRequest,
+  output: TestDNSAnswerResponse,
+  errors: [InvalidInput, NoSuchHostedZone],
+}));
+/**
  * Lists the configurations for DNS query logging that are associated with the current
  * Amazon Web Services account or the configuration that is associated with a specified
  * hosted zone.
@@ -3747,110 +3517,14 @@ export const listQueryLoggingConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists tags for one health check or hosted zone.
- *
- * For information about using tags for cost allocation, see Using Cost Allocation
- * Tags in the *Billing and Cost Management User Guide*.
+ * Returns a paginated list of CIDR locations for the given collection (metadata only,
+ * does not include CIDR blocks).
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InvalidInput,
-    NoSuchHealthCheck,
-    NoSuchHostedZone,
-    PriorRequestNotComplete,
-    ThrottlingException,
-  ],
+export const listCidrLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCidrLocationsRequest,
+  output: ListCidrLocationsResponse,
+  errors: [InvalidInput, NoSuchCidrCollectionException],
 }));
-/**
- * Lists tags for up to 10 health checks or hosted zones.
- *
- * For information about using tags for cost allocation, see Using Cost Allocation
- * Tags in the *Billing and Cost Management User Guide*.
- */
-export const listTagsForResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTagsForResourcesRequest,
-    output: ListTagsForResourcesResponse,
-    errors: [
-      InvalidInput,
-      NoSuchHealthCheck,
-      NoSuchHostedZone,
-      PriorRequestNotComplete,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Gets information about the latest version for every traffic policy that is associated
- * with the current Amazon Web Services account. Policies are listed in the order that they
- * were created in.
- *
- * For information about how of deleting a traffic policy affects the response from
- * `ListTrafficPolicies`, see DeleteTrafficPolicy.
- */
-export const listTrafficPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTrafficPoliciesRequest,
-  output: ListTrafficPoliciesResponse,
-  errors: [InvalidInput],
-}));
-/**
- * After you submit a `UpdateTrafficPolicyInstance` request, there's a brief delay while Route 53 creates the resource record sets
- * that are specified in the traffic policy definition. Use `GetTrafficPolicyInstance` with the `id` of updated traffic policy instance confirm
- * that the
- * `UpdateTrafficPolicyInstance` request completed successfully. For more information, see the `State` response element.
- *
- * Updates the resource record sets in a specified hosted zone that were created based on
- * the settings in a specified traffic policy version.
- *
- * When you update a traffic policy instance, Amazon Route 53 continues to respond to DNS
- * queries for the root resource record set name (such as example.com) while it replaces
- * one group of resource record sets with another. Route 53 performs the following
- * operations:
- *
- * - Route 53 creates a new group of resource record sets based on the specified
- * traffic policy. This is true regardless of how significant the differences are
- * between the existing resource record sets and the new resource record sets.
- *
- * - When all of the new resource record sets have been created, Route 53 starts to
- * respond to DNS queries for the root resource record set name (such as
- * example.com) by using the new resource record sets.
- *
- * - Route 53 deletes the old group of resource record sets that are associated
- * with the root resource record set name.
- */
-export const updateTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTrafficPolicyInstanceRequest,
-    output: UpdateTrafficPolicyInstanceResponse,
-    errors: [
-      ConflictingTypes,
-      InvalidInput,
-      NoSuchTrafficPolicy,
-      NoSuchTrafficPolicyInstance,
-      PriorRequestNotComplete,
-    ],
-  }),
-);
-/**
- * Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This
- * operation changes the KSK status to `ACTIVE`.
- */
-export const activateKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ActivateKeySigningKeyRequest,
-    output: ActivateKeySigningKeyResponse,
-    errors: [
-      ConcurrentModification,
-      InvalidInput,
-      InvalidKeySigningKeyStatus,
-      InvalidKMSArn,
-      InvalidSigningStatus,
-      NoSuchKeySigningKey,
-    ],
-  }),
-);
 /**
  * Creates a CIDR collection in the current Amazon Web Services account.
  */
@@ -3867,165 +3541,42 @@ export const createCidrCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a new version of an existing traffic policy. When you create a new version of
- * a traffic policy, you specify the ID of the traffic policy that you want to update and a
- * JSON-formatted document that describes the new version. You use traffic policies to
- * create multiple DNS resource record sets for one domain name (such as example.com) or
- * one subdomain name (such as www.example.com). You can create a maximum of 1000 versions
- * of a traffic policy. If you reach the limit and need to create another version, you'll
- * need to start a new traffic policy.
+ * Deletes a reusable delegation set.
+ *
+ * You can delete a reusable delegation set only if it isn't associated with any
+ * hosted zones.
+ *
+ * To verify that the reusable delegation set is not associated with any hosted zones,
+ * submit a GetReusableDelegationSet request and specify the ID of the reusable
+ * delegation set that you want to delete.
  */
-export const createTrafficPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteReusableDelegationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateTrafficPolicyVersionRequest,
-    output: CreateTrafficPolicyVersionResponse,
+    input: DeleteReusableDelegationSetRequest,
+    output: DeleteReusableDelegationSetResponse,
     errors: [
-      ConcurrentModification,
+      DelegationSetInUse,
+      DelegationSetNotReusable,
       InvalidInput,
-      InvalidTrafficPolicyDocument,
-      NoSuchTrafficPolicy,
-      TooManyTrafficPolicyVersionsForCurrentPolicy,
+      NoSuchDelegationSet,
     ],
   }),
 );
 /**
- * Authorizes the Amazon Web Services account that created a specified VPC to submit an
- * `AssociateVPCWithHostedZone` request to associate the VPC with a
- * specified hosted zone that was created by a different account. To submit a
- * `CreateVPCAssociationAuthorization` request, you must use the account
- * that created the hosted zone. After you authorize the association, use the account that
- * created the VPC to submit an `AssociateVPCWithHostedZone` request.
+ * Deletes a traffic policy instance and all of the resource record sets that Amazon
+ * Route 53 created when you created the instance.
  *
- * If you want to associate multiple VPCs that you created by using one account with
- * a hosted zone that you created by using a different account, you must submit one
- * authorization request for each VPC.
+ * In the Route 53 console, traffic policy instances are known as policy
+ * records.
  */
-export const createVPCAssociationAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVPCAssociationAuthorizationRequest,
-    output: CreateVPCAssociationAuthorizationResponse,
-    errors: [
-      ConcurrentModification,
-      InvalidInput,
-      InvalidVPCId,
-      NoSuchHostedZone,
-      TooManyVPCAssociationAuthorizations,
-    ],
-  }));
-/**
- * Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it.
- * The KSK must be deactivated before you can delete it regardless of whether the hosted
- * zone is enabled for DNSSEC signing.
- *
- * You can use DeactivateKeySigningKey to deactivate the key before you delete it.
- *
- * Use GetDNSSEC to verify that the KSK is in an `INACTIVE`
- * status.
- */
-export const deleteKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteKeySigningKeyRequest,
-  output: DeleteKeySigningKeyResponse,
-  errors: [
-    ConcurrentModification,
-    InvalidInput,
-    InvalidKeySigningKeyStatus,
-    InvalidKMSArn,
-    InvalidSigningStatus,
-    NoSuchKeySigningKey,
-  ],
-}));
-/**
- * Deletes a traffic policy.
- *
- * When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that
- * it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the
- * following:
- *
- * - Deleted traffic policies aren't listed if you run ListTrafficPolicies.
- *
- * - There's no way to get a list of deleted policies.
- *
- * - If you retain the ID of the policy, you can get information about the policy,
- * including the traffic policy document, by running GetTrafficPolicy.
- */
-export const deleteTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTrafficPolicyRequest,
-  output: DeleteTrafficPolicyResponse,
-  errors: [
-    ConcurrentModification,
-    InvalidInput,
-    NoSuchTrafficPolicy,
-    TrafficPolicyInUse,
-  ],
-}));
-/**
- * Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53
- * private hosted zone. Note the following:
- *
- * - You can't disassociate the last Amazon VPC from a private hosted zone.
- *
- * - You can't convert a private hosted zone into a public hosted zone.
- *
- * - You can submit a `DisassociateVPCFromHostedZone` request using
- * either the account that created the hosted zone or the account that created the
- * Amazon VPC.
- *
- * - Some services, such as Cloud Map and Amazon Elastic File System
- * (Amazon EFS) automatically create hosted zones and associate VPCs with the
- * hosted zones. A service can create a hosted zone using your account or using its
- * own account. You can disassociate a VPC from a hosted zone only if the service
- * created the hosted zone using your account.
- *
- * When you run DisassociateVPCFromHostedZone, if the hosted zone has a value for
- * `OwningAccount`, you can use
- * `DisassociateVPCFromHostedZone`. If the hosted zone has a value
- * for `OwningService`, you can't use
- * `DisassociateVPCFromHostedZone`.
- *
- * When revoking access, the hosted zone and the Amazon VPC must belong to
- * the same partition. A partition is a group of Amazon Web Services Regions. Each
- * Amazon Web Services account is scoped to one partition.
- *
- * The following are the supported partitions:
- *
- * - `aws` - Amazon Web Services Regions
- *
- * - `aws-cn` - China Regions
- *
- * - `aws-us-gov` - Amazon Web Services GovCloud (US) Region
- *
- * For more information, see Access Management
- * in the *Amazon Web Services General Reference*.
- */
-export const disassociateVPCFromHostedZone =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateVPCFromHostedZoneRequest,
-    output: DisassociateVPCFromHostedZoneResponse,
-    errors: [
-      InvalidInput,
-      InvalidVPCId,
-      LastVPCAssociation,
-      NoSuchHostedZone,
-      VPCAssociationNotFound,
-    ],
-  }));
-/**
- * Enables DNSSEC signing in a specific hosted zone.
- */
-export const enableHostedZoneDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: EnableHostedZoneDNSSECRequest,
-    output: EnableHostedZoneDNSSECResponse,
+    input: DeleteTrafficPolicyInstanceRequest,
+    output: DeleteTrafficPolicyInstanceResponse,
     errors: [
-      ConcurrentModification,
-      DNSSECNotFound,
-      HostedZonePartiallyDelegated,
-      InvalidArgument,
       InvalidInput,
-      InvalidKeySigningKeyStatus,
-      InvalidKMSArn,
-      KeySigningKeyWithActiveStatusNotFound,
-      NoSuchHostedZone,
+      NoSuchTrafficPolicyInstance,
+      PriorRequestNotComplete,
     ],
   }),
 );
@@ -4083,18 +3634,6 @@ export const getHostedZoneLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [HostedZoneNotPrivate, InvalidInput, NoSuchHostedZone],
 }));
 /**
- * Returns a paginated list of location objects and their CIDR blocks.
- */
-export const listCidrBlocks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCidrBlocksRequest,
-  output: ListCidrBlocksResponse,
-  errors: [
-    InvalidInput,
-    NoSuchCidrCollectionException,
-    NoSuchCidrLocationException,
-  ],
-}));
-/**
  * Lists all the private hosted zones that a specified VPC is associated with, regardless
  * of which Amazon Web Services account or Amazon Web Services service owns the hosted zones.
  * The `HostedZoneOwner` structure in the response contains one of the following
@@ -4146,6 +3685,281 @@ export const updateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHealthCheckRequest,
   output: UpdateHealthCheckResponse,
   errors: [HealthCheckVersionMismatch, InvalidInput, NoSuchHealthCheck],
+}));
+/**
+ * Returns information about DNSSEC for a specific hosted zone, including the key-signing
+ * keys (KSKs) in the hosted zone.
+ */
+export const getDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDNSSECRequest,
+  output: GetDNSSECResponse,
+  errors: [InvalidArgument, InvalidInput, NoSuchHostedZone],
+}));
+/**
+ * Creates a new version of an existing traffic policy. When you create a new version of
+ * a traffic policy, you specify the ID of the traffic policy that you want to update and a
+ * JSON-formatted document that describes the new version. You use traffic policies to
+ * create multiple DNS resource record sets for one domain name (such as example.com) or
+ * one subdomain name (such as www.example.com). You can create a maximum of 1000 versions
+ * of a traffic policy. If you reach the limit and need to create another version, you'll
+ * need to start a new traffic policy.
+ */
+export const createTrafficPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateTrafficPolicyVersionRequest,
+    output: CreateTrafficPolicyVersionResponse,
+    errors: [
+      ConcurrentModification,
+      InvalidInput,
+      InvalidTrafficPolicyDocument,
+      NoSuchTrafficPolicy,
+      TooManyTrafficPolicyVersionsForCurrentPolicy,
+    ],
+  }),
+);
+/**
+ * Gets the maximum number of hosted zones that you can associate with the specified
+ * reusable delegation set.
+ *
+ * For the default limit, see Limits in the
+ * *Amazon Route 53 Developer Guide*. To request a higher limit,
+ * open a case.
+ */
+export const getReusableDelegationSetLimit =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetReusableDelegationSetLimitRequest,
+    output: GetReusableDelegationSetLimitResponse,
+    errors: [InvalidInput, NoSuchDelegationSet],
+  }));
+/**
+ * Retrieves information about a specified reusable delegation set, including the four
+ * name servers that are assigned to the delegation set.
+ */
+export const getReusableDelegationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetReusableDelegationSetRequest,
+    output: GetReusableDelegationSetResponse,
+    errors: [DelegationSetNotReusable, InvalidInput, NoSuchDelegationSet],
+  }),
+);
+/**
+ * Retrieves a list of the public and private hosted zones that are associated with the
+ * current Amazon Web Services account. The response includes a `HostedZones`
+ * child element for each hosted zone.
+ *
+ * Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of
+ * hosted zones, you can use the `maxitems` parameter to list them in groups of
+ * up to 100.
+ */
+export const listHostedZones = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListHostedZonesRequest,
+  output: ListHostedZonesResponse,
+  errors: [DelegationSetNotReusable, InvalidInput, NoSuchDelegationSet],
+}));
+/**
+ * After you submit a `UpdateTrafficPolicyInstance` request, there's a brief delay while Route 53 creates the resource record sets
+ * that are specified in the traffic policy definition. Use `GetTrafficPolicyInstance` with the `id` of updated traffic policy instance confirm
+ * that the
+ * `UpdateTrafficPolicyInstance` request completed successfully. For more information, see the `State` response element.
+ *
+ * Updates the resource record sets in a specified hosted zone that were created based on
+ * the settings in a specified traffic policy version.
+ *
+ * When you update a traffic policy instance, Amazon Route 53 continues to respond to DNS
+ * queries for the root resource record set name (such as example.com) while it replaces
+ * one group of resource record sets with another. Route 53 performs the following
+ * operations:
+ *
+ * - Route 53 creates a new group of resource record sets based on the specified
+ * traffic policy. This is true regardless of how significant the differences are
+ * between the existing resource record sets and the new resource record sets.
+ *
+ * - When all of the new resource record sets have been created, Route 53 starts to
+ * respond to DNS queries for the root resource record set name (such as
+ * example.com) by using the new resource record sets.
+ *
+ * - Route 53 deletes the old group of resource record sets that are associated
+ * with the root resource record set name.
+ */
+export const updateTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTrafficPolicyInstanceRequest,
+    output: UpdateTrafficPolicyInstanceResponse,
+    errors: [
+      ConflictingTypes,
+      InvalidInput,
+      NoSuchTrafficPolicy,
+      NoSuchTrafficPolicyInstance,
+      PriorRequestNotComplete,
+    ],
+  }),
+);
+/**
+ * Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery.
+ *
+ * Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
+ */
+export const updateHostedZoneFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateHostedZoneFeaturesRequest,
+    output: UpdateHostedZoneFeaturesResponse,
+    errors: [
+      InvalidInput,
+      LimitsExceeded,
+      NoSuchHostedZone,
+      PriorRequestNotComplete,
+    ],
+  }),
+);
+/**
+ * Deletes a hosted zone.
+ *
+ * If the hosted zone was created by another service, such as Cloud Map, see
+ * Deleting Public Hosted Zones That Were Created by Another Service in the
+ * *Amazon Route 53 Developer Guide* for information
+ * about how to delete it. (The process is the same for public and private hosted zones
+ * that were created by another service.)
+ *
+ * If you want to keep your domain registration but you want to stop routing internet
+ * traffic to your website or web application, we recommend that you delete resource record
+ * sets in the hosted zone instead of deleting the hosted zone.
+ *
+ * If you delete a hosted zone, you can't undelete it. You must create a new hosted
+ * zone and update the name servers for your domain registration, which can require up
+ * to 48 hours to take effect. (If you delegated responsibility for a subdomain to a
+ * hosted zone and you delete the child hosted zone, you must update the name servers
+ * in the parent hosted zone.) In addition, if you delete a hosted zone, someone could
+ * hijack the domain and route traffic to their own resources using your domain
+ * name.
+ *
+ * If you want to avoid the monthly charge for the hosted zone, you can transfer DNS
+ * service for the domain to a free DNS service. When you transfer DNS service, you have to
+ * update the name servers for the domain registration. If the domain is registered with
+ * Route 53, see UpdateDomainNameservers for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is
+ * registered with another registrar, use the method provided by the registrar to update
+ * name servers for the domain registration. For more information, perform an internet
+ * search on "free DNS service."
+ *
+ * You can delete a hosted zone only if it contains only the default SOA and NS records
+ * and has DNSSEC signing disabled. If the hosted zone contains other records or has DNSSEC
+ * enabled, you must delete the records and disable DNSSEC before deletion. Attempting to
+ * delete a hosted zone with additional records or DNSSEC enabled returns a
+ * `HostedZoneNotEmpty` error. For information about deleting records, see
+ * ChangeResourceRecordSets.
+ *
+ * To verify that the hosted zone has been deleted, do one of the following:
+ *
+ * - Use the `GetHostedZone` action to request information about the
+ * hosted zone.
+ *
+ * - Use the `ListHostedZones` action to get a list of the hosted zones
+ * associated with the current Amazon Web Services account.
+ */
+export const deleteHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHostedZoneRequest,
+  output: DeleteHostedZoneResponse,
+  errors: [
+    HostedZoneNotEmpty,
+    InvalidDomainName,
+    InvalidInput,
+    NoSuchHostedZone,
+    PriorRequestNotComplete,
+  ],
+}));
+/**
+ * Updates the comment for a specified hosted zone.
+ */
+export const updateHostedZoneComment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateHostedZoneCommentRequest,
+    output: UpdateHostedZoneCommentResponse,
+    errors: [InvalidInput, NoSuchHostedZone, PriorRequestNotComplete],
+  }),
+);
+/**
+ * Removes authorization to submit an `AssociateVPCWithHostedZone` request to
+ * associate a specified VPC with a hosted zone that was created by a different account.
+ * You must use the account that created the hosted zone to submit a
+ * `DeleteVPCAssociationAuthorization` request.
+ *
+ * Sending this request only prevents the Amazon Web Services account that created the
+ * VPC from associating the VPC with the Amazon Route 53 hosted zone in the future. If
+ * the VPC is already associated with the hosted zone,
+ * `DeleteVPCAssociationAuthorization` won't disassociate the VPC from
+ * the hosted zone. If you want to delete an existing association, use
+ * `DisassociateVPCFromHostedZone`.
+ */
+export const deleteVPCAssociationAuthorization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteVPCAssociationAuthorizationRequest,
+    output: DeleteVPCAssociationAuthorizationResponse,
+    errors: [
+      ConcurrentModification,
+      InvalidInput,
+      InvalidVPCId,
+      NoSuchHostedZone,
+      VPCAssociationAuthorizationNotFound,
+    ],
+  }));
+/**
+ * Authorizes the Amazon Web Services account that created a specified VPC to submit an
+ * `AssociateVPCWithHostedZone` request to associate the VPC with a
+ * specified hosted zone that was created by a different account. To submit a
+ * `CreateVPCAssociationAuthorization` request, you must use the account
+ * that created the hosted zone. After you authorize the association, use the account that
+ * created the VPC to submit an `AssociateVPCWithHostedZone` request.
+ *
+ * If you want to associate multiple VPCs that you created by using one account with
+ * a hosted zone that you created by using a different account, you must submit one
+ * authorization request for each VPC.
+ */
+export const createVPCAssociationAuthorization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateVPCAssociationAuthorizationRequest,
+    output: CreateVPCAssociationAuthorizationResponse,
+    errors: [
+      ConcurrentModification,
+      InvalidInput,
+      InvalidVPCId,
+      NoSuchHostedZone,
+      TooManyVPCAssociationAuthorizations,
+    ],
+  }));
+/**
+ * Deletes a traffic policy.
+ *
+ * When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that
+ * it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the
+ * following:
+ *
+ * - Deleted traffic policies aren't listed if you run ListTrafficPolicies.
+ *
+ * - There's no way to get a list of deleted policies.
+ *
+ * - If you retain the ID of the policy, you can get information about the policy,
+ * including the traffic policy document, by running GetTrafficPolicy.
+ */
+export const deleteTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrafficPolicyRequest,
+  output: DeleteTrafficPolicyResponse,
+  errors: [
+    ConcurrentModification,
+    InvalidInput,
+    NoSuchTrafficPolicy,
+    TrafficPolicyInUse,
+  ],
+}));
+/**
+ * Returns a paginated list of location objects and their CIDR blocks.
+ */
+export const listCidrBlocks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCidrBlocksRequest,
+  output: ListCidrBlocksResponse,
+  errors: [
+    InvalidInput,
+    NoSuchCidrCollectionException,
+    NoSuchCidrLocationException,
+  ],
 }));
 /**
  * Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative
@@ -4321,67 +4135,56 @@ export const createHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [HealthCheckAlreadyExists, InvalidInput, TooManyHealthChecks],
 }));
 /**
- * Creates a traffic policy, which you use to create multiple DNS resource record sets
- * for one domain name (such as example.com) or one subdomain name (such as
- * www.example.com).
- */
-export const createTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTrafficPolicyRequest,
-  output: CreateTrafficPolicyResponse,
-  errors: [
-    InvalidInput,
-    InvalidTrafficPolicyDocument,
-    TooManyTrafficPolicies,
-    TrafficPolicyAlreadyExists,
-  ],
-}));
-/**
- * Creates resource record sets in a specified hosted zone based on the settings in a
- * specified traffic policy version. In addition, `CreateTrafficPolicyInstance`
- * associates the resource record sets with a specified domain name (such as example.com)
- * or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for
- * the domain or subdomain name by using the resource record sets that
- * `CreateTrafficPolicyInstance` created.
+ * Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53
+ * private hosted zone. Note the following:
  *
- * After you submit an `CreateTrafficPolicyInstance` request, there's a
- * brief delay while Amazon Route 53 creates the resource record sets that are
- * specified in the traffic policy definition.
- * Use `GetTrafficPolicyInstance` with the `id` of new traffic policy instance to confirm that the `CreateTrafficPolicyInstance`
- * request completed successfully. For more information, see the
- * `State` response element.
+ * - You can't disassociate the last Amazon VPC from a private hosted zone.
+ *
+ * - You can't convert a private hosted zone into a public hosted zone.
+ *
+ * - You can submit a `DisassociateVPCFromHostedZone` request using
+ * either the account that created the hosted zone or the account that created the
+ * Amazon VPC.
+ *
+ * - Some services, such as Cloud Map and Amazon Elastic File System
+ * (Amazon EFS) automatically create hosted zones and associate VPCs with the
+ * hosted zones. A service can create a hosted zone using your account or using its
+ * own account. You can disassociate a VPC from a hosted zone only if the service
+ * created the hosted zone using your account.
+ *
+ * When you run DisassociateVPCFromHostedZone, if the hosted zone has a value for
+ * `OwningAccount`, you can use
+ * `DisassociateVPCFromHostedZone`. If the hosted zone has a value
+ * for `OwningService`, you can't use
+ * `DisassociateVPCFromHostedZone`.
+ *
+ * When revoking access, the hosted zone and the Amazon VPC must belong to
+ * the same partition. A partition is a group of Amazon Web Services Regions. Each
+ * Amazon Web Services account is scoped to one partition.
+ *
+ * The following are the supported partitions:
+ *
+ * - `aws` - Amazon Web Services Regions
+ *
+ * - `aws-cn` - China Regions
+ *
+ * - `aws-us-gov` - Amazon Web Services GovCloud (US) Region
+ *
+ * For more information, see Access Management
+ * in the *Amazon Web Services General Reference*.
  */
-export const createTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTrafficPolicyInstanceRequest,
-    output: CreateTrafficPolicyInstanceResponse,
+export const disassociateVPCFromHostedZone =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateVPCFromHostedZoneRequest,
+    output: DisassociateVPCFromHostedZoneResponse,
     errors: [
       InvalidInput,
+      InvalidVPCId,
+      LastVPCAssociation,
       NoSuchHostedZone,
-      NoSuchTrafficPolicy,
-      TooManyTrafficPolicyInstances,
-      TrafficPolicyInstanceAlreadyExists,
+      VPCAssociationNotFound,
     ],
-  }),
-);
-/**
- * Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC.
- * This operation changes the KSK status to `INACTIVE`.
- */
-export const deactivateKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeactivateKeySigningKeyRequest,
-    output: DeactivateKeySigningKeyResponse,
-    errors: [
-      ConcurrentModification,
-      InvalidInput,
-      InvalidKeySigningKeyStatus,
-      InvalidSigningStatus,
-      KeySigningKeyInParentDSRecord,
-      KeySigningKeyInUse,
-      NoSuchKeySigningKey,
-    ],
-  }),
-);
+  }));
 /**
  * Gets information about a specified health check.
  */
@@ -4482,6 +4285,184 @@ export const listResourceRecordSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Lists tags for up to 10 health checks or hosted zones.
+ *
+ * For information about using tags for cost allocation, see Using Cost Allocation
+ * Tags in the *Billing and Cost Management User Guide*.
+ */
+export const listTagsForResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTagsForResourcesRequest,
+    output: ListTagsForResourcesResponse,
+    errors: [
+      InvalidInput,
+      NoSuchHealthCheck,
+      NoSuchHostedZone,
+      PriorRequestNotComplete,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates resource record sets in a specified hosted zone based on the settings in a
+ * specified traffic policy version. In addition, `CreateTrafficPolicyInstance`
+ * associates the resource record sets with a specified domain name (such as example.com)
+ * or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for
+ * the domain or subdomain name by using the resource record sets that
+ * `CreateTrafficPolicyInstance` created.
+ *
+ * After you submit an `CreateTrafficPolicyInstance` request, there's a
+ * brief delay while Amazon Route 53 creates the resource record sets that are
+ * specified in the traffic policy definition.
+ * Use `GetTrafficPolicyInstance` with the `id` of new traffic policy instance to confirm that the `CreateTrafficPolicyInstance`
+ * request completed successfully. For more information, see the
+ * `State` response element.
+ */
+export const createTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateTrafficPolicyInstanceRequest,
+    output: CreateTrafficPolicyInstanceResponse,
+    errors: [
+      InvalidInput,
+      NoSuchHostedZone,
+      NoSuchTrafficPolicy,
+      TooManyTrafficPolicyInstances,
+      TrafficPolicyInstanceAlreadyExists,
+    ],
+  }),
+);
+/**
+ * Creates a traffic policy, which you use to create multiple DNS resource record sets
+ * for one domain name (such as example.com) or one subdomain name (such as
+ * www.example.com).
+ */
+export const createTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrafficPolicyRequest,
+  output: CreateTrafficPolicyResponse,
+  errors: [
+    InvalidInput,
+    InvalidTrafficPolicyDocument,
+    TooManyTrafficPolicies,
+    TrafficPolicyAlreadyExists,
+  ],
+}));
+/**
+ * Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it.
+ * The KSK must be deactivated before you can delete it regardless of whether the hosted
+ * zone is enabled for DNSSEC signing.
+ *
+ * You can use DeactivateKeySigningKey to deactivate the key before you delete it.
+ *
+ * Use GetDNSSEC to verify that the KSK is in an `INACTIVE`
+ * status.
+ */
+export const deleteKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteKeySigningKeyRequest,
+  output: DeleteKeySigningKeyResponse,
+  errors: [
+    ConcurrentModification,
+    InvalidInput,
+    InvalidKeySigningKeyStatus,
+    InvalidKMSArn,
+    InvalidSigningStatus,
+    NoSuchKeySigningKey,
+  ],
+}));
+/**
+ * Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any
+ * key-signing keys (KSKs) that are active in the hosted zone.
+ */
+export const disableHostedZoneDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisableHostedZoneDNSSECRequest,
+    output: DisableHostedZoneDNSSECResponse,
+    errors: [
+      ConcurrentModification,
+      DNSSECNotFound,
+      InvalidArgument,
+      InvalidInput,
+      InvalidKeySigningKeyStatus,
+      InvalidKMSArn,
+      KeySigningKeyInParentDSRecord,
+      NoSuchHostedZone,
+    ],
+  }),
+);
+/**
+ * Adds, edits, or deletes tags for a health check or a hosted zone.
+ *
+ * For information about using tags for cost allocation, see Using Cost Allocation
+ * Tags in the *Billing and Cost Management User Guide*.
+ */
+export const changeTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ChangeTagsForResourceRequest,
+    output: ChangeTagsForResourceResponse,
+    errors: [
+      InvalidInput,
+      NoSuchHealthCheck,
+      NoSuchHostedZone,
+      PriorRequestNotComplete,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists tags for one health check or hosted zone.
+ *
+ * For information about using tags for cost allocation, see Using Cost Allocation
+ * Tags in the *Billing and Cost Management User Guide*.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidInput,
+    NoSuchHealthCheck,
+    NoSuchHostedZone,
+    PriorRequestNotComplete,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Enables DNSSEC signing in a specific hosted zone.
+ */
+export const enableHostedZoneDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: EnableHostedZoneDNSSECRequest,
+    output: EnableHostedZoneDNSSECResponse,
+    errors: [
+      ConcurrentModification,
+      DNSSECNotFound,
+      HostedZonePartiallyDelegated,
+      InvalidArgument,
+      InvalidInput,
+      InvalidKeySigningKeyStatus,
+      InvalidKMSArn,
+      KeySigningKeyWithActiveStatusNotFound,
+      NoSuchHostedZone,
+    ],
+  }),
+);
+/**
+ * Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This
+ * operation changes the KSK status to `ACTIVE`.
+ */
+export const activateKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ActivateKeySigningKeyRequest,
+    output: ActivateKeySigningKeyResponse,
+    errors: [
+      ConcurrentModification,
+      InvalidInput,
+      InvalidKeySigningKeyStatus,
+      InvalidKMSArn,
+      InvalidSigningStatus,
+      NoSuchKeySigningKey,
+    ],
+  }),
+);
+/**
  * Associates an Amazon VPC with a private hosted zone.
  *
  * To perform the association, the VPC and the private hosted zone must already
@@ -4524,78 +4505,6 @@ export const associateVPCWithHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates a new public or private hosted zone. You create records in a public hosted
- * zone to define how you want to route traffic on the internet for a domain, such as
- * example.com, and its subdomains (apex.example.com, acme.example.com). You create records
- * in a private hosted zone to define how you want to route traffic for a domain and its
- * subdomains within one or more Amazon Virtual Private Clouds (Amazon VPCs).
- *
- * You can't convert a public hosted zone to a private hosted zone or vice versa.
- * Instead, you must create a new hosted zone with the same name and create new
- * resource record sets.
- *
- * For more information about charges for hosted zones, see Amazon Route 53 Pricing.
- *
- * Note the following:
- *
- * - You can't create a hosted zone for a top-level domain (TLD) such as
- * .com.
- *
- * - For public hosted zones, Route 53 automatically creates a default SOA record
- * and four NS records for the zone. For more information about SOA and NS records,
- * see NS and SOA Records
- * that Route 53 Creates for a Hosted Zone in the
- * *Amazon Route 53 Developer Guide*.
- *
- * If you want to use the same name servers for multiple public hosted zones, you
- * can optionally associate a reusable delegation set with the hosted zone. See the
- * `DelegationSetId` element.
- *
- * - If your domain is registered with a registrar other than Route 53,
- * you must update the name servers with your registrar to make Route 53 the DNS
- * service for the domain. For more information, see Migrating DNS Service
- * for an Existing Domain to Amazon Route 53 in the
- * *Amazon Route 53 Developer Guide*.
- *
- * When you submit a `CreateHostedZone` request, the initial status of the
- * hosted zone is `PENDING`. For public hosted zones, this means that the NS and
- * SOA records are not yet available on all Route 53 DNS servers. When the NS and
- * SOA records are available, the status of the zone changes to `INSYNC`.
- *
- * The `CreateHostedZone` request requires the caller to have an
- * `ec2:DescribeVpcs` permission.
- *
- * When creating private hosted zones, the Amazon VPC must belong to the same
- * partition where the hosted zone is created. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one
- * partition.
- *
- * The following are the supported partitions:
- *
- * - `aws` - Amazon Web Services Regions
- *
- * - `aws-cn` - China Regions
- *
- * - `aws-us-gov` - Amazon Web Services GovCloud (US) Region
- *
- * For more information, see Access Management
- * in the *Amazon Web Services General Reference*.
- */
-export const createHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateHostedZoneRequest,
-  output: CreateHostedZoneResponse,
-  errors: [
-    ConflictingDomainExists,
-    DelegationSetNotAvailable,
-    DelegationSetNotReusable,
-    HostedZoneAlreadyExists,
-    InvalidDomainName,
-    InvalidInput,
-    InvalidVPCId,
-    NoSuchDelegationSet,
-    TooManyHostedZones,
-  ],
-}));
 /**
  * Creates a configuration for DNS query logging. After you create a query logging
  * configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs
@@ -4754,6 +4663,25 @@ export const createQueryLoggingConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC.
+ * This operation changes the KSK status to `INACTIVE`.
+ */
+export const deactivateKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeactivateKeySigningKeyRequest,
+    output: DeactivateKeySigningKeyResponse,
+    errors: [
+      ConcurrentModification,
+      InvalidInput,
+      InvalidKeySigningKeyStatus,
+      InvalidSigningStatus,
+      KeySigningKeyInParentDSRecord,
+      KeySigningKeyInUse,
+      NoSuchKeySigningKey,
+    ],
+  }),
+);
+/**
  * Creates a delegation set (a group of four name servers) that can be reused by multiple
  * hosted zones that were created by the same Amazon Web Services account.
  *
@@ -4836,5 +4764,77 @@ export const createKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     KeySigningKeyAlreadyExists,
     NoSuchHostedZone,
     TooManyKeySigningKeys,
+  ],
+}));
+/**
+ * Creates a new public or private hosted zone. You create records in a public hosted
+ * zone to define how you want to route traffic on the internet for a domain, such as
+ * example.com, and its subdomains (apex.example.com, acme.example.com). You create records
+ * in a private hosted zone to define how you want to route traffic for a domain and its
+ * subdomains within one or more Amazon Virtual Private Clouds (Amazon VPCs).
+ *
+ * You can't convert a public hosted zone to a private hosted zone or vice versa.
+ * Instead, you must create a new hosted zone with the same name and create new
+ * resource record sets.
+ *
+ * For more information about charges for hosted zones, see Amazon Route 53 Pricing.
+ *
+ * Note the following:
+ *
+ * - You can't create a hosted zone for a top-level domain (TLD) such as
+ * .com.
+ *
+ * - For public hosted zones, Route 53 automatically creates a default SOA record
+ * and four NS records for the zone. For more information about SOA and NS records,
+ * see NS and SOA Records
+ * that Route 53 Creates for a Hosted Zone in the
+ * *Amazon Route 53 Developer Guide*.
+ *
+ * If you want to use the same name servers for multiple public hosted zones, you
+ * can optionally associate a reusable delegation set with the hosted zone. See the
+ * `DelegationSetId` element.
+ *
+ * - If your domain is registered with a registrar other than Route 53,
+ * you must update the name servers with your registrar to make Route 53 the DNS
+ * service for the domain. For more information, see Migrating DNS Service
+ * for an Existing Domain to Amazon Route 53 in the
+ * *Amazon Route 53 Developer Guide*.
+ *
+ * When you submit a `CreateHostedZone` request, the initial status of the
+ * hosted zone is `PENDING`. For public hosted zones, this means that the NS and
+ * SOA records are not yet available on all Route 53 DNS servers. When the NS and
+ * SOA records are available, the status of the zone changes to `INSYNC`.
+ *
+ * The `CreateHostedZone` request requires the caller to have an
+ * `ec2:DescribeVpcs` permission.
+ *
+ * When creating private hosted zones, the Amazon VPC must belong to the same
+ * partition where the hosted zone is created. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one
+ * partition.
+ *
+ * The following are the supported partitions:
+ *
+ * - `aws` - Amazon Web Services Regions
+ *
+ * - `aws-cn` - China Regions
+ *
+ * - `aws-us-gov` - Amazon Web Services GovCloud (US) Region
+ *
+ * For more information, see Access Management
+ * in the *Amazon Web Services General Reference*.
+ */
+export const createHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHostedZoneRequest,
+  output: CreateHostedZoneResponse,
+  errors: [
+    ConflictingDomainExists,
+    DelegationSetNotAvailable,
+    DelegationSetNotReusable,
+    HostedZoneAlreadyExists,
+    InvalidDomainName,
+    InvalidInput,
+    InvalidVPCId,
+    NoSuchDelegationSet,
+    TooManyHostedZones,
   ],
 }));

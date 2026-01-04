@@ -41,8 +41,9 @@ const waitForStreamActive = (streamName: string) =>
     }),
     Effect.retry({
       while: (err) => err instanceof NotReady && err.status !== "DELETING",
-      schedule: Schedule.spaced("2 seconds").pipe(
-        Schedule.intersect(Schedule.recurs(30)),
+      schedule: Schedule.exponential("1 second", 1.5).pipe(
+        Schedule.union(Schedule.spaced("10 seconds")),
+        Schedule.intersect(Schedule.recurs(60)),
       ),
     }),
     Effect.mapError(() => new StreamNotActive()),
@@ -52,14 +53,21 @@ const waitForStreamActive = (streamName: string) =>
 const waitForStreamDeleted = (streamName: string) =>
   describeStream({ StreamName: streamName }).pipe(
     // If stream exists, fail with StillExists to trigger retry
-    Effect.flatMap(() => Effect.fail(new StillExists())),
-    Effect.tapError(Effect.logDebug),
+    Effect.flatMap((result) => {
+      const status = result.StreamDescription?.StreamStatus;
+      // Log status for debugging intermittent failures
+      return Effect.logDebug(`Stream still exists with status: ${status}`).pipe(
+        Effect.flatMap(() => Effect.fail(new StillExists())),
+      );
+    }),
     // Stream doesn't exist = deleted successfully
     Effect.catchTag("ResourceNotFoundException", () => Effect.void),
     Effect.retry({
       while: (err) => err instanceof StillExists,
-      schedule: Schedule.spaced("2 seconds").pipe(
-        Schedule.intersect(Schedule.recurs(30)),
+      // Use exponential backoff capped at 10 seconds, with more retries
+      schedule: Schedule.exponential("1 second", 1.5).pipe(
+        Schedule.union(Schedule.spaced("10 seconds")),
+        Schedule.intersect(Schedule.recurs(60)),
       ),
     }),
     Effect.mapError(() => new StreamNotDeleted()),
@@ -88,7 +96,8 @@ const waitForConsumerActive = (consumerArn: string) =>
   }).pipe(
     Effect.retry({
       while: (err) => err instanceof NotReady,
-      schedule: Schedule.spaced("2 seconds").pipe(
+      schedule: Schedule.exponential("1 second", 1.5).pipe(
+        Schedule.union(Schedule.spaced("10 seconds")),
         Schedule.intersect(Schedule.recurs(60)),
       ),
     }),
@@ -172,7 +181,7 @@ test(
   { timeout: 300_000 },
   withStream("itty-aws-kinesis-putget-test", (streamName) =>
     Effect.gen(function* () {
-      // Put a record
+      // Put a record with retry in case of transient failures
       const testData = new TextEncoder().encode(
         JSON.stringify({ test: "hello" }),
       );
@@ -180,14 +189,28 @@ test(
         StreamName: streamName,
         Data: testData,
         PartitionKey: "test-partition",
-      });
+      }).pipe(
+        Effect.retry({
+          while: (err) => err._tag === "ResourceNotFoundException",
+          schedule: Schedule.spaced("2 seconds").pipe(
+            Schedule.intersect(Schedule.recurs(10)),
+          ),
+        }),
+      );
 
       if (!putResult.ShardId) {
         return yield* Effect.fail(new Error("No ShardId in put result"));
       }
 
-      // List shards to get the shard ID
-      const shardsResult = yield* listShards({ StreamName: streamName });
+      // List shards to get the shard ID (with retry for eventual consistency)
+      const shardsResult = yield* listShards({ StreamName: streamName }).pipe(
+        Effect.retry({
+          while: (err) => err._tag === "ResourceNotFoundException",
+          schedule: Schedule.spaced("2 seconds").pipe(
+            Schedule.intersect(Schedule.recurs(10)),
+          ),
+        }),
+      );
       const shardId = shardsResult.Shards?.[0]?.ShardId;
       if (!shardId) {
         return yield* Effect.fail(new Error("No shards found"));
@@ -204,18 +227,25 @@ test(
         return yield* Effect.fail(new Error("No shard iterator returned"));
       }
 
-      // Get records
-      const recordsResult = yield* getRecords({
-        ShardIterator: iteratorResult.ShardIterator,
-      });
-
-      // Should have at least one record
-      if (!recordsResult.Records?.length) {
-        return yield* Effect.fail(new Error("No records returned"));
-      }
+      // Get records (may need retry for record to appear)
+      const recordsResult = yield* Effect.gen(function* () {
+        const result = yield* getRecords({
+          ShardIterator: iteratorResult.ShardIterator!,
+        });
+        if (!result.Records?.length) {
+          return yield* Effect.fail(new Error("No records returned yet"));
+        }
+        return result;
+      }).pipe(
+        Effect.retry({
+          schedule: Schedule.spaced("1 second").pipe(
+            Schedule.intersect(Schedule.recurs(30)),
+          ),
+        }),
+      );
 
       // Verify data matches
-      const record = recordsResult.Records[0];
+      const record = recordsResult.Records![0];
       if (!record.Data) {
         return yield* Effect.fail(new Error("Record has no data"));
       }

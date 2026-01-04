@@ -660,27 +660,27 @@ export class ListConfigurationManagersOutput extends S.Class<ListConfigurationMa
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { Message: S.String },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -711,6 +711,83 @@ export const listQuickSetupTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Returns details about the specified configuration.
+ */
+export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationInput,
+  output: GetConfigurationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a configuration manager.
+ */
+export const getConfigurationManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetConfigurationManagerInput,
+    output: GetConfigurationManagerOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
+ */
+export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConfigurationsInput,
+  output: ListConfigurationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns tags assigned to the resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a Quick Setup configuration definition.
+ */
+export const updateConfigurationDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateConfigurationDefinitionInput,
+    output: UpdateConfigurationDefinitionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
  * Assigns key-value pairs of metadata to Amazon Web Services resources.
  */
 export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -740,22 +817,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Updates a Quick Setup configuration definition.
- */
-export const updateConfigurationDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationDefinitionInput,
-    output: UpdateConfigurationDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Updates a Quick Setup configuration manager.
  */
@@ -824,67 +885,6 @@ export const deleteConfigurationManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Returns a configuration manager.
- */
-export const getConfigurationManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConfigurationManagerInput,
-    output: GetConfigurationManagerOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
- */
-export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListConfigurationsInput,
-  output: ListConfigurationsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns tags assigned to the resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns details about the specified configuration.
- */
-export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConfigurationInput,
-  output: GetConfigurationOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Returns Quick Setup configuration managers.
  */

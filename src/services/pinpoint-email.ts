@@ -1368,29 +1368,29 @@ export class CreateDeliverabilityTestReportResponse extends S.Class<CreateDelive
 )({ ReportId: S.String, DeliverabilityTestStatus: S.String }) {}
 
 //# Errors
+export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
+  "AlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
-  "AlreadyExistsException",
-  {},
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccountSuspendedException extends S.TaggedError<AccountSuspendedException>()(
   "AccountSuspendedException",
@@ -1398,18 +1398,291 @@ export class AccountSuspendedException extends S.TaggedError<AccountSuspendedExc
 ) {}
 export class MailFromDomainNotVerifiedException extends S.TaggedError<MailFromDomainNotVerifiedException>()(
   "MailFromDomainNotVerifiedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class MessageRejected extends S.TaggedError<MessageRejected>()(
   "MessageRejected",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class SendingPausedException extends S.TaggedError<SendingPausedException>()(
   "SendingPausedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Obtain information about the email-sending status and capabilities of your Amazon Pinpoint
+ * account in the current AWS Region.
+ */
+export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountRequest,
+  output: GetAccountResponse,
+  errors: [BadRequestException, TooManyRequestsException],
+}));
+/**
+ * Get information about an existing configuration set, including the dedicated IP pool
+ * that it's associated with, whether or not it's enabled for sending email, and
+ * more.
+ *
+ * In Amazon Pinpoint, *configuration sets* are groups of rules that you can
+ * apply to the emails you send. You apply a configuration set to an email by including a
+ * reference to the configuration set in the headers of the email. When you apply a
+ * configuration set to an email, all of the rules in that configuration set are applied to
+ * the email.
+ */
+export const getConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationSetRequest,
+  output: GetConfigurationSetResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Retrieve a list of event destinations that are associated with a configuration
+ * set.
+ *
+ * In Amazon Pinpoint, *events* include message sends, deliveries, opens,
+ * clicks, bounces, and complaints. *Event destinations* are places that
+ * you can send information about these events to. For example, you can send event data to
+ * Amazon SNS to receive notifications when you receive bounces or complaints, or you can use
+ * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+ */
+export const getConfigurationSetEventDestinations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetConfigurationSetEventDestinationsRequest,
+    output: GetConfigurationSetEventDestinationsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Get information about a dedicated IP address, including the name of the dedicated IP
+ * pool that it's associated with, as well information about the automatic warm-up process
+ * for the address.
+ */
+export const getDedicatedIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDedicatedIpRequest,
+  output: GetDedicatedIpResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Retrieve the results of a predictive inbox placement test.
+ */
+export const getDeliverabilityTestReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDeliverabilityTestReportRequest,
+    output: GetDeliverabilityTestReportResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Retrieve all the deliverability data for a specific campaign. This data is available
+ * for a campaign only if the campaign sent email by using a domain that the
+ * Deliverability dashboard is enabled for (`PutDeliverabilityDashboardOption`
+ * operation).
+ */
+export const getDomainDeliverabilityCampaign =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetDomainDeliverabilityCampaignRequest,
+    output: GetDomainDeliverabilityCampaignResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Provides information about a specific identity associated with your Amazon Pinpoint account,
+ * including the identity's verification status, its DKIM authentication status, and its
+ * custom Mail-From settings.
+ */
+export const getEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEmailIdentityRequest,
+  output: GetEmailIdentityResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Returns a list of all of the email identities that are associated with your Amazon Pinpoint
+ * account. An identity can be either an email address or a domain. This operation returns
+ * identities that are verified as well as those that aren't.
+ */
+export const listEmailIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEmailIdentitiesRequest,
+  output: ListEmailIdentitiesResponse,
+  errors: [BadRequestException, TooManyRequestsException],
+}));
+/**
+ * Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the
+ * Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for
+ * the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform
+ * predictive inbox placement tests.
+ *
+ * When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition
+ * to any other fees that you accrue by using Amazon Pinpoint. For more information about the
+ * features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
+ */
+export const putDeliverabilityDashboardOption =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutDeliverabilityDashboardOptionRequest,
+    output: PutDeliverabilityDashboardOptionResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Create a configuration set. *Configuration sets* are groups of
+ * rules that you can apply to the emails you send using Amazon Pinpoint. You apply a configuration
+ * set to an email by including a reference to the configuration set in the headers of the
+ * email. When you apply a configuration set to an email, all of the rules in that
+ * configuration set are applied to the email.
+ */
+export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateConfigurationSetRequest,
+    output: CreateConfigurationSetResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      ConcurrentModificationException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Delete a dedicated IP pool.
+ */
+export const deleteDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDedicatedIpPoolRequest,
+    output: DeleteDedicatedIpPoolResponse,
+    errors: [
+      BadRequestException,
+      ConcurrentModificationException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Deletes an email identity that you previously verified for use with Amazon Pinpoint. An identity
+ * can be either an email address or a domain name.
+ */
+export const deleteEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEmailIdentityRequest,
+  output: DeleteEmailIdentityResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Add one or more tags (keys and values) to a specified resource. A
+ * *tag* is a label that you optionally define and associate with a
+ * resource in Amazon Pinpoint. Tags can help you categorize and manage resources in different ways,
+ * such as by purpose, owner, environment, or other criteria. A resource can have as many
+ * as 50 tags.
+ *
+ * Each tag consists of a required *tag key* and an
+ * associated *tag value*, both of which you define. A tag key is a
+ * general label that acts as a category for more specific tag values. A tag value acts as
+ * a descriptor within a tag key.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Remove one or more tags (keys and values) from a specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a new pool of dedicated IP addresses. A pool can include one or more dedicated
+ * IP addresses that are associated with your Amazon Pinpoint account. You can associate a pool with
+ * a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint
+ * sends it using only the IP addresses in the associated pool.
+ */
+export const createDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDedicatedIpPoolRequest,
+    output: CreateDedicatedIpPoolResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      ConcurrentModificationException,
+      LimitExceededException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Verifies an email identity for use with Amazon Pinpoint. In Amazon Pinpoint, an identity is an email
+ * address or domain that you use when you send email. Before you can use an identity to
+ * send email with Amazon Pinpoint, you first have to verify it. By verifying an address, you
+ * demonstrate that you're the owner of the address, and that you've given Amazon Pinpoint permission
+ * to send email from the address.
+ *
+ * When you verify an email address, Amazon Pinpoint sends an email to the address. Your email
+ * address is verified as soon as you follow the link in the verification email.
+ *
+ * When you verify a domain, this operation provides a set of DKIM tokens, which you can
+ * convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your
+ * domain. Your domain is verified when Amazon Pinpoint detects these records in the DNS
+ * configuration for your domain. It usually takes around 72 hours to complete the domain
+ * verification process.
+ */
+export const createEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEmailIdentityRequest,
+  output: CreateEmailIdentityResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    LimitExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * List all of the configuration sets associated with your Amazon Pinpoint account in the current
+ * region.
+ *
+ * In Amazon Pinpoint, *configuration sets* are groups of rules that you can
+ * apply to the emails you send. You apply a configuration set to an email by including a
+ * reference to the configuration set in the headers of the email. When you apply a
+ * configuration set to an email, all of the rules in that configuration set are applied to
+ * the email.
+ */
+export const listConfigurationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListConfigurationSetsRequest,
+    output: ListConfigurationSetsResponse,
+    errors: [BadRequestException, TooManyRequestsException],
+  }),
+);
+/**
+ * List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current
+ * AWS Region.
+ */
+export const listDedicatedIpPools = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDedicatedIpPoolsRequest,
+    output: ListDedicatedIpPoolsResponse,
+    errors: [BadRequestException, TooManyRequestsException],
+  }),
+);
 /**
  * Enable or disable the automatic warm-up feature for dedicated IP addresses.
  */
@@ -1429,6 +1702,66 @@ export const putAccountSendingAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [BadRequestException, TooManyRequestsException],
   }),
 );
+/**
+ * List the dedicated IP addresses that are associated with your Amazon Pinpoint
+ * account.
+ */
+export const getDedicatedIps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDedicatedIpsRequest,
+  output: GetDedicatedIpsResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For
+ * predictive inbox placement tests that are complete, you can use the `GetDeliverabilityTestReport`
+ * operation to view the results.
+ */
+export const listDeliverabilityTestReports =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDeliverabilityTestReportsRequest,
+    output: ListDeliverabilityTestReportsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Retrieve deliverability data for all the campaigns that used a specific domain to send
+ * email during a specified time range. This data is available for a domain only if you
+ * enabled the Deliverability dashboard (`PutDeliverabilityDashboardOption` operation)
+ * for the domain.
+ */
+export const listDomainDeliverabilityCampaigns =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDomainDeliverabilityCampaignsRequest,
+    output: ListDomainDeliverabilityCampaignsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Retrieve a list of the tags (keys and values) that are associated with a specified
+ * resource. A *tag* is a label that you optionally define and associate
+ * with a resource in Amazon Pinpoint. Each tag consists of a required tag
+ * key and an optional associated *tag value*. A tag key
+ * is a general label that acts as a category for more specific tag values. A tag value
+ * acts as a descriptor within a tag key.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Delete an event destination.
+ *
+ * In Amazon Pinpoint, *events* include message sends, deliveries, opens,
+ * clicks, bounces, and complaints. *Event destinations* are places that
+ * you can send information about these events to. For example, you can send event data to
+ * Amazon SNS to receive notifications when you receive bounces or complaints, or you can use
+ * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+ */
+export const deleteConfigurationSetEventDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteConfigurationSetEventDestinationRequest,
+    output: DeleteConfigurationSetEventDestinationResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
 /**
  * Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools
  * to create groups of dedicated IP addresses for sending specific types of email.
@@ -1535,41 +1868,6 @@ export const putEmailIdentityMailFromAttributes =
     errors: [BadRequestException, NotFoundException, TooManyRequestsException],
   }));
 /**
- * Add one or more tags (keys and values) to a specified resource. A
- * *tag* is a label that you optionally define and associate with a
- * resource in Amazon Pinpoint. Tags can help you categorize and manage resources in different ways,
- * such as by purpose, owner, environment, or other criteria. A resource can have as many
- * as 50 tags.
- *
- * Each tag consists of a required *tag key* and an
- * associated *tag value*, both of which you define. A tag key is a
- * general label that acts as a category for more specific tag values. A tag value acts as
- * a descriptor within a tag key.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Remove one or more tags (keys and values) from a specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Update the configuration of an event destination for a configuration set.
  *
  * In Amazon Pinpoint, *events* include message sends, deliveries, opens,
@@ -1584,46 +1882,6 @@ export const updateConfigurationSetEventDestination =
     output: UpdateConfigurationSetEventDestinationResponse,
     errors: [BadRequestException, NotFoundException, TooManyRequestsException],
   }));
-/**
- * Create a configuration set. *Configuration sets* are groups of
- * rules that you can apply to the emails you send using Amazon Pinpoint. You apply a configuration
- * set to an email by including a reference to the configuration set in the headers of the
- * email. When you apply a configuration set to an email, all of the rules in that
- * configuration set are applied to the email.
- */
-export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfigurationSetRequest,
-    output: CreateConfigurationSetResponse,
-    errors: [
-      AlreadyExistsException,
-      BadRequestException,
-      ConcurrentModificationException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Create a new pool of dedicated IP addresses. A pool can include one or more dedicated
- * IP addresses that are associated with your Amazon Pinpoint account. You can associate a pool with
- * a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint
- * sends it using only the IP addresses in the associated pool.
- */
-export const createDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDedicatedIpPoolRequest,
-    output: CreateDedicatedIpPoolResponse,
-    errors: [
-      AlreadyExistsException,
-      BadRequestException,
-      ConcurrentModificationException,
-      LimitExceededException,
-      TooManyRequestsException,
-    ],
-  }),
-);
 /**
  * Delete an existing configuration set.
  *
@@ -1646,222 +1904,6 @@ export const deleteConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Delete an event destination.
- *
- * In Amazon Pinpoint, *events* include message sends, deliveries, opens,
- * clicks, bounces, and complaints. *Event destinations* are places that
- * you can send information about these events to. For example, you can send event data to
- * Amazon SNS to receive notifications when you receive bounces or complaints, or you can use
- * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
- */
-export const deleteConfigurationSetEventDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfigurationSetEventDestinationRequest,
-    output: DeleteConfigurationSetEventDestinationResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Delete a dedicated IP pool.
- */
-export const deleteDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDedicatedIpPoolRequest,
-    output: DeleteDedicatedIpPoolResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Deletes an email identity that you previously verified for use with Amazon Pinpoint. An identity
- * can be either an email address or a domain name.
- */
-export const deleteEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEmailIdentityRequest,
-  output: DeleteEmailIdentityResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Obtain information about the email-sending status and capabilities of your Amazon Pinpoint
- * account in the current AWS Region.
- */
-export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountRequest,
-  output: GetAccountResponse,
-  errors: [BadRequestException, TooManyRequestsException],
-}));
-/**
- * Get information about an existing configuration set, including the dedicated IP pool
- * that it's associated with, whether or not it's enabled for sending email, and
- * more.
- *
- * In Amazon Pinpoint, *configuration sets* are groups of rules that you can
- * apply to the emails you send. You apply a configuration set to an email by including a
- * reference to the configuration set in the headers of the email. When you apply a
- * configuration set to an email, all of the rules in that configuration set are applied to
- * the email.
- */
-export const getConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConfigurationSetRequest,
-  output: GetConfigurationSetResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * List the dedicated IP addresses that are associated with your Amazon Pinpoint
- * account.
- */
-export const getDedicatedIps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDedicatedIpsRequest,
-  output: GetDedicatedIpsResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * List all of the configuration sets associated with your Amazon Pinpoint account in the current
- * region.
- *
- * In Amazon Pinpoint, *configuration sets* are groups of rules that you can
- * apply to the emails you send. You apply a configuration set to an email by including a
- * reference to the configuration set in the headers of the email. When you apply a
- * configuration set to an email, all of the rules in that configuration set are applied to
- * the email.
- */
-export const listConfigurationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListConfigurationSetsRequest,
-    output: ListConfigurationSetsResponse,
-    errors: [BadRequestException, TooManyRequestsException],
-  }),
-);
-/**
- * List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current
- * AWS Region.
- */
-export const listDedicatedIpPools = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDedicatedIpPoolsRequest,
-    output: ListDedicatedIpPoolsResponse,
-    errors: [BadRequestException, TooManyRequestsException],
-  }),
-);
-/**
- * Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For
- * predictive inbox placement tests that are complete, you can use the `GetDeliverabilityTestReport`
- * operation to view the results.
- */
-export const listDeliverabilityTestReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDeliverabilityTestReportsRequest,
-    output: ListDeliverabilityTestReportsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Retrieve deliverability data for all the campaigns that used a specific domain to send
- * email during a specified time range. This data is available for a domain only if you
- * enabled the Deliverability dashboard (`PutDeliverabilityDashboardOption` operation)
- * for the domain.
- */
-export const listDomainDeliverabilityCampaigns =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDomainDeliverabilityCampaignsRequest,
-    output: ListDomainDeliverabilityCampaignsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Retrieve a list of the tags (keys and values) that are associated with a specified
- * resource. A *tag* is a label that you optionally define and associate
- * with a resource in Amazon Pinpoint. Each tag consists of a required tag
- * key and an optional associated *tag value*. A tag key
- * is a general label that acts as a category for more specific tag values. A tag value
- * acts as a descriptor within a tag key.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the
- * Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for
- * the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform
- * predictive inbox placement tests.
- *
- * When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition
- * to any other fees that you accrue by using Amazon Pinpoint. For more information about the
- * features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
- */
-export const putDeliverabilityDashboardOption =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDeliverabilityDashboardOptionRequest,
-    output: PutDeliverabilityDashboardOptionResponse,
-    errors: [
-      AlreadyExistsException,
-      BadRequestException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Verifies an email identity for use with Amazon Pinpoint. In Amazon Pinpoint, an identity is an email
- * address or domain that you use when you send email. Before you can use an identity to
- * send email with Amazon Pinpoint, you first have to verify it. By verifying an address, you
- * demonstrate that you're the owner of the address, and that you've given Amazon Pinpoint permission
- * to send email from the address.
- *
- * When you verify an email address, Amazon Pinpoint sends an email to the address. Your email
- * address is verified as soon as you follow the link in the verification email.
- *
- * When you verify a domain, this operation provides a set of DKIM tokens, which you can
- * convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your
- * domain. Your domain is verified when Amazon Pinpoint detects these records in the DNS
- * configuration for your domain. It usually takes around 72 hours to complete the domain
- * verification process.
- */
-export const createEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEmailIdentityRequest,
-  output: CreateEmailIdentityResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    LimitExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve a list of event destinations that are associated with a configuration
- * set.
- *
- * In Amazon Pinpoint, *events* include message sends, deliveries, opens,
- * clicks, bounces, and complaints. *Event destinations* are places that
- * you can send information about these events to. For example, you can send event data to
- * Amazon SNS to receive notifications when you receive bounces or complaints, or you can use
- * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
- */
-export const getConfigurationSetEventDestinations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConfigurationSetEventDestinationsRequest,
-    output: GetConfigurationSetEventDestinationsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Get information about a dedicated IP address, including the name of the dedicated IP
- * pool that it's associated with, as well information about the automatic warm-up process
- * for the address.
- */
-export const getDedicatedIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDedicatedIpRequest,
-  output: GetDedicatedIpResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
  * Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account.
  * When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and
  * other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the
@@ -1881,48 +1923,6 @@ export const getDeliverabilityDashboardOptions =
       TooManyRequestsException,
     ],
   }));
-/**
- * Retrieve the results of a predictive inbox placement test.
- */
-export const getDeliverabilityTestReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDeliverabilityTestReportRequest,
-    output: GetDeliverabilityTestReportResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Retrieve all the deliverability data for a specific campaign. This data is available
- * for a campaign only if the campaign sent email by using a domain that the
- * Deliverability dashboard is enabled for (`PutDeliverabilityDashboardOption`
- * operation).
- */
-export const getDomainDeliverabilityCampaign =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDomainDeliverabilityCampaignRequest,
-    output: GetDomainDeliverabilityCampaignResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Provides information about a specific identity associated with your Amazon Pinpoint account,
- * including the identity's verification status, its DKIM authentication status, and its
- * custom Mail-From settings.
- */
-export const getEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEmailIdentityRequest,
-  output: GetEmailIdentityResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Returns a list of all of the email identities that are associated with your Amazon Pinpoint
- * account. An identity can be either an email address or a domain. This operation returns
- * identities that are verified as well as those that aren't.
- */
-export const listEmailIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEmailIdentitiesRequest,
-  output: ListEmailIdentitiesResponse,
-  errors: [BadRequestException, TooManyRequestsException],
-}));
 /**
  * Create an event destination. In Amazon Pinpoint, *events* include message
  * sends, deliveries, opens, clicks, bounces, and complaints. Event
@@ -1965,31 +1965,6 @@ export const getDomainStatisticsReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled
- * by various email providers around the world. When you perform a predictive inbox placement test, you provide a
- * sample message that contains the content that you plan to send to your customers. Amazon Pinpoint
- * then sends that message to special email addresses spread across several major email
- * providers. After about 24 hours, the test is complete, and you can use the
- * `GetDeliverabilityTestReport` operation to view the results of the
- * test.
- */
-export const createDeliverabilityTestReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDeliverabilityTestReportRequest,
-    output: CreateDeliverabilityTestReportResponse,
-    errors: [
-      AccountSuspendedException,
-      BadRequestException,
-      ConcurrentModificationException,
-      LimitExceededException,
-      MailFromDomainNotVerifiedException,
-      MessageRejected,
-      NotFoundException,
-      SendingPausedException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
  * Sends an email message. You can use the Amazon Pinpoint Email API to send two types of
  * messages:
  *
@@ -2017,3 +1992,28 @@ export const sendEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
+/**
+ * Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled
+ * by various email providers around the world. When you perform a predictive inbox placement test, you provide a
+ * sample message that contains the content that you plan to send to your customers. Amazon Pinpoint
+ * then sends that message to special email addresses spread across several major email
+ * providers. After about 24 hours, the test is complete, and you can use the
+ * `GetDeliverabilityTestReport` operation to view the results of the
+ * test.
+ */
+export const createDeliverabilityTestReport =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateDeliverabilityTestReportRequest,
+    output: CreateDeliverabilityTestReportResponse,
+    errors: [
+      AccountSuspendedException,
+      BadRequestException,
+      ConcurrentModificationException,
+      LimitExceededException,
+      MailFromDomainNotVerifiedException,
+      MessageRejected,
+      NotFoundException,
+      SendingPausedException,
+      TooManyRequestsException,
+    ],
+  }));

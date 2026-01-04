@@ -940,70 +940,46 @@ export class GetLendingAnalysisResponse extends S.Class<GetLendingAnalysisRespon
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServerError extends S.TaggedError<InternalServerError>()(
-  "InternalServerError",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
-export class ProvisionedThroughputExceededException extends S.TaggedError<ProvisionedThroughputExceededException>()(
-  "ProvisionedThroughputExceededException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class InvalidJobIdException extends S.TaggedError<InvalidJobIdException>()(
-  "InvalidJobIdException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+export class InternalServerError extends S.TaggedError<InternalServerError>()(
+  "InternalServerError",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class BadDocumentException extends S.TaggedError<BadDocumentException>()(
   "BadDocumentException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class InvalidJobIdException extends S.TaggedError<InvalidJobIdException>()(
+  "InvalidJobIdException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class DocumentTooLargeException extends S.TaggedError<DocumentTooLargeException>()(
   "DocumentTooLargeException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
   "IdempotentParameterMismatchException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ProvisionedThroughputExceededException extends S.TaggedError<ProvisionedThroughputExceededException>()(
+  "ProvisionedThroughputExceededException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class InvalidKMSKeyException extends S.TaggedError<InvalidKMSKeyException>()(
   "InvalidKMSKeyException",
-  {},
-) {}
-export class InvalidS3ObjectException extends S.TaggedError<InvalidS3ObjectException>()(
-  "InvalidS3ObjectException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
-) {}
-export class UnsupportedDocumentException extends S.TaggedError<UnsupportedDocumentException>()(
-  "UnsupportedDocumentException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class HumanLoopQuotaExceededException extends S.TaggedError<HumanLoopQuotaExceededException>()(
@@ -1016,96 +992,32 @@ export class HumanLoopQuotaExceededException extends S.TaggedError<HumanLoopQuot
     Code: S.optional(S.String),
   },
 ) {}
+export class InvalidS3ObjectException extends S.TaggedError<InvalidS3ObjectException>()(
+  "InvalidS3ObjectException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class UnsupportedDocumentException extends S.TaggedError<UnsupportedDocumentException>()(
+  "UnsupportedDocumentException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Removes any tags with the specified keys from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerError,
-    InvalidParameterException,
-    ProvisionedThroughputExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update the configuration for an adapter. FeatureTypes configurations cannot be updated.
- * At least one new parameter must be specified as an argument.
- */
-export const updateAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAdapterRequest,
-  output: UpdateAdapterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerError,
-    InvalidParameterException,
-    ProvisionedThroughputExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
- */
-export const deleteAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAdapterRequest,
-  output: DeleteAdapterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerError,
-    InvalidParameterException,
-    ProvisionedThroughputExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a
- * AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
- */
-export const deleteAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAdapterVersionRequest,
-    output: DeleteAdapterVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description,
- * CreationTime, AutoUpdate status, and FeatureTypes.
- */
-export const getAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAdapterRequest,
-  output: GetAdapterResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerError,
-    InvalidParameterException,
-    ProvisionedThroughputExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Gets the results for an Amazon Textract asynchronous operation that analyzes text in a
  * document.
@@ -1179,6 +1091,38 @@ export const getDocumentAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
+/**
+ * Gets summarized results for the `StartLendingAnalysis` operation, which analyzes
+ * text in a lending document. The returned summary consists of information about documents grouped
+ * together by a common document type. Information like detected signatures, page numbers, and split
+ * documents is returned with respect to the type of grouped document.
+ *
+ * You start asynchronous text analysis by calling `StartLendingAnalysis`, which
+ * returns a job identifier (`JobId`). When the text analysis operation finishes, Amazon
+ * Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS)
+ * topic that's registered in the initial call to `StartLendingAnalysis`.
+ *
+ * To get the results of the text analysis operation, first check that the status value
+ * published to the Amazon SNS topic is SUCCEEDED. If so, call
+ * `GetLendingAnalysisSummary`, and pass the job identifier (`JobId`) from
+ * the initial call to `StartLendingAnalysis`.
+ */
+export const getLendingAnalysisSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetLendingAnalysisSummaryRequest,
+    output: GetLendingAnalysisSummaryResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerError,
+      InvalidJobIdException,
+      InvalidKMSKeyException,
+      InvalidParameterException,
+      InvalidS3ObjectException,
+      ProvisionedThroughputExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Gets the results for an Amazon Textract asynchronous operation that detects text in a document.
  * Amazon Textract can detect lines of text and the words that make up a line of text.
@@ -1262,6 +1206,35 @@ export const getExpenseAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Gets the results for an Amazon Textract asynchronous operation that analyzes text in a
+ * lending document.
+ *
+ * You start asynchronous text analysis by calling `StartLendingAnalysis`,
+ * which returns a job identifier (`JobId`). When the text analysis operation
+ * finishes, Amazon Textract publishes a completion status to the Amazon Simple
+ * Notification Service (Amazon SNS) topic that's registered in the initial call to
+ * `StartLendingAnalysis`.
+ *
+ * To get the results of the text analysis operation, first check that the status value
+ * published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysis, and pass
+ * the job identifier (`JobId`) from the initial call to
+ * `StartLendingAnalysis`.
+ */
+export const getLendingAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLendingAnalysisRequest,
+  output: GetLendingAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidJobIdException,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Lists all adapters that match the specified filtration criteria.
  */
 export const listAdapters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1272,6 +1245,53 @@ export const listAdapters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerError,
     InvalidParameterException,
     ProvisionedThroughputExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * `AnalyzeExpense` synchronously analyzes an input document for financially
+ * related relationships between text.
+ *
+ * Information is returned as `ExpenseDocuments` and seperated as
+ * follows:
+ *
+ * - `LineItemGroups`- A data set containing `LineItems` which
+ * store information about the lines of text, such as an item purchased and its price on
+ * a receipt.
+ *
+ * - `SummaryFields`- Contains all other information a receipt, such as
+ * header information or the vendors name.
+ */
+export const analyzeExpense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AnalyzeExpenseRequest,
+  output: AnalyzeExpenseResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
+/**
+ * Gets configuration information for the specified adapter version, including:
+ * AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig,
+ * KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
+ */
+export const getAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAdapterVersionRequest,
+  output: GetAdapterVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1293,6 +1313,44 @@ export const listAdapterVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Update the configuration for an adapter. FeatureTypes configurations cannot be updated.
+ * At least one new parameter must be specified as an argument.
+ */
+export const updateAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAdapterRequest,
+  output: UpdateAdapterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a
+ * AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
+ */
+export const deleteAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAdapterVersionRequest,
+    output: DeleteAdapterVersionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerError,
+      InvalidParameterException,
+      ProvisionedThroughputExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Lists all tags for an Amazon Textract resource.
  */
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1309,32 +1367,68 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts the asynchronous detection of text in a document. Amazon Textract can detect lines of
- * text and the words that make up a line of text.
- *
- * `StartDocumentTextDetection` can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The
- * documents are stored in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name
- * of the document.
- *
- * `StartDocumentTextDetection` returns a job identifier
- * (`JobId`) that you use to get the results of the operation. When text
- * detection is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS)
- * topic that you specify in `NotificationChannel`. To get the results of the text
- * detection operation, first check that the status value published to the Amazon SNS topic is
- * `SUCCEEDED`. If so, call GetDocumentTextDetection, and
- * pass the job identifier (`JobId`) from the initial call to
- * `StartDocumentTextDetection`.
- *
- * For more information, see Document Text Detection.
+ * Adds one or more tags to the specified resource.
  */
-export const startDocumentTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes any tags with the specified keys from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
+ */
+export const deleteAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAdapterRequest,
+  output: DeleteAdapterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new version of an adapter. Operates on a provided AdapterId and a specified
+ * dataset provided via the DatasetConfig argument. Requires that you
+ * specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId,
+ * an optional ClientRequestToken, and optional tags.
+ */
+export const createAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartDocumentTextDetectionRequest,
-    output: StartDocumentTextDetectionResponse,
+    input: CreateAdapterVersionRequest,
+    output: CreateAdapterVersionResponse,
     errors: [
       AccessDeniedException,
-      BadDocumentException,
-      DocumentTooLargeException,
+      ConflictException,
       IdempotentParameterMismatchException,
       InternalServerError,
       InvalidKMSKeyException,
@@ -1342,11 +1436,104 @@ export const startDocumentTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InvalidS3ObjectException,
       LimitExceededException,
       ProvisionedThroughputExceededException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
       ThrottlingException,
-      UnsupportedDocumentException,
+      ValidationException,
     ],
   }),
 );
+/**
+ * Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description,
+ * CreationTime, AutoUpdate status, and FeatureTypes.
+ */
+export const getAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAdapterRequest,
+  output: GetAdapterResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an adapter, which can be fine-tuned for enhanced performance on user provided
+ * documents. Takes an AdapterName and FeatureType. Currently the only supported feature type
+ * is `QUERIES`. You can also provide a Description, Tags, and a
+ * ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with
+ * the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
+ */
+export const createAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAdapterRequest,
+  output: CreateAdapterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Analyzes identity documents for relevant information. This information is extracted and
+ * returned as `IdentityDocumentFields`, which records both the normalized field
+ * and value of the extracted text. Unlike other Amazon Textract operations,
+ * `AnalyzeID` doesn't return any Geometry data.
+ */
+export const analyzeID = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AnalyzeIDRequest,
+  output: AnalyzeIDResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
+/**
+ * Detects text in the input document. Amazon Textract can detect lines of text and the
+ * words that make up a line of text. The input document must be in one of the following image
+ * formats: JPEG, PNG, PDF, or TIFF. `DetectDocumentText` returns the detected
+ * text in an array of Block objects.
+ *
+ * Each document page has as an associated `Block` of type PAGE. Each PAGE `Block` object
+ * is the parent of LINE `Block` objects that represent the lines of detected text on a page. A LINE `Block` object is
+ * a parent for each word that makes up the line. Words are represented by `Block` objects of type WORD.
+ *
+ * `DetectDocumentText` is a synchronous operation. To analyze documents
+ * asynchronously, use StartDocumentTextDetection.
+ *
+ * For more information, see Document Text Detection.
+ */
+export const detectDocumentText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectDocumentTextRequest,
+  output: DetectDocumentTextResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 /**
  * Starts the asynchronous analysis of invoices or receipts for data like contact information,
  * items purchased, and vendor names.
@@ -1435,91 +1622,6 @@ export const startLendingAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Adds one or more tags to the specified resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerError,
-    InvalidParameterException,
-    ProvisionedThroughputExceededException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an adapter, which can be fine-tuned for enhanced performance on user provided
- * documents. Takes an AdapterName and FeatureType. Currently the only supported feature type
- * is `QUERIES`. You can also provide a Description, Tags, and a
- * ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with
- * the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
- */
-export const createAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAdapterRequest,
-  output: CreateAdapterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    IdempotentParameterMismatchException,
-    InternalServerError,
-    InvalidParameterException,
-    LimitExceededException,
-    ProvisionedThroughputExceededException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new version of an adapter. Operates on a provided AdapterId and a specified
- * dataset provided via the DatasetConfig argument. Requires that you
- * specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId,
- * an optional ClientRequestToken, and optional tags.
- */
-export const createAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAdapterVersionRequest,
-    output: CreateAdapterVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidKMSKeyException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets configuration information for the specified adapter version, including:
- * AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig,
- * KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
- */
-export const getAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAdapterVersionRequest,
-  output: GetAdapterVersionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerError,
-    InvalidParameterException,
-    ProvisionedThroughputExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Starts the asynchronous analysis of an input document for relationships between detected
  * items such as key-value pairs, tables, and selection elements.
  *
@@ -1559,93 +1661,41 @@ export const startDocumentAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * `AnalyzeExpense` synchronously analyzes an input document for financially
- * related relationships between text.
+ * Starts the asynchronous detection of text in a document. Amazon Textract can detect lines of
+ * text and the words that make up a line of text.
  *
- * Information is returned as `ExpenseDocuments` and seperated as
- * follows:
+ * `StartDocumentTextDetection` can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The
+ * documents are stored in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name
+ * of the document.
  *
- * - `LineItemGroups`- A data set containing `LineItems` which
- * store information about the lines of text, such as an item purchased and its price on
- * a receipt.
- *
- * - `SummaryFields`- Contains all other information a receipt, such as
- * header information or the vendors name.
- */
-export const analyzeExpense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AnalyzeExpenseRequest,
-  output: AnalyzeExpenseResponse,
-  errors: [
-    AccessDeniedException,
-    BadDocumentException,
-    DocumentTooLargeException,
-    InternalServerError,
-    InvalidParameterException,
-    InvalidS3ObjectException,
-    ProvisionedThroughputExceededException,
-    ThrottlingException,
-    UnsupportedDocumentException,
-  ],
-}));
-/**
- * Detects text in the input document. Amazon Textract can detect lines of text and the
- * words that make up a line of text. The input document must be in one of the following image
- * formats: JPEG, PNG, PDF, or TIFF. `DetectDocumentText` returns the detected
- * text in an array of Block objects.
- *
- * Each document page has as an associated `Block` of type PAGE. Each PAGE `Block` object
- * is the parent of LINE `Block` objects that represent the lines of detected text on a page. A LINE `Block` object is
- * a parent for each word that makes up the line. Words are represented by `Block` objects of type WORD.
- *
- * `DetectDocumentText` is a synchronous operation. To analyze documents
- * asynchronously, use StartDocumentTextDetection.
+ * `StartDocumentTextDetection` returns a job identifier
+ * (`JobId`) that you use to get the results of the operation. When text
+ * detection is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS)
+ * topic that you specify in `NotificationChannel`. To get the results of the text
+ * detection operation, first check that the status value published to the Amazon SNS topic is
+ * `SUCCEEDED`. If so, call GetDocumentTextDetection, and
+ * pass the job identifier (`JobId`) from the initial call to
+ * `StartDocumentTextDetection`.
  *
  * For more information, see Document Text Detection.
  */
-export const detectDocumentText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectDocumentTextRequest,
-  output: DetectDocumentTextResponse,
-  errors: [
-    AccessDeniedException,
-    BadDocumentException,
-    DocumentTooLargeException,
-    InternalServerError,
-    InvalidParameterException,
-    InvalidS3ObjectException,
-    ProvisionedThroughputExceededException,
-    ThrottlingException,
-    UnsupportedDocumentException,
-  ],
-}));
-/**
- * Gets summarized results for the `StartLendingAnalysis` operation, which analyzes
- * text in a lending document. The returned summary consists of information about documents grouped
- * together by a common document type. Information like detected signatures, page numbers, and split
- * documents is returned with respect to the type of grouped document.
- *
- * You start asynchronous text analysis by calling `StartLendingAnalysis`, which
- * returns a job identifier (`JobId`). When the text analysis operation finishes, Amazon
- * Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS)
- * topic that's registered in the initial call to `StartLendingAnalysis`.
- *
- * To get the results of the text analysis operation, first check that the status value
- * published to the Amazon SNS topic is SUCCEEDED. If so, call
- * `GetLendingAnalysisSummary`, and pass the job identifier (`JobId`) from
- * the initial call to `StartLendingAnalysis`.
- */
-export const getLendingAnalysisSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const startDocumentTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetLendingAnalysisSummaryRequest,
-    output: GetLendingAnalysisSummaryResponse,
+    input: StartDocumentTextDetectionRequest,
+    output: StartDocumentTextDetectionResponse,
     errors: [
       AccessDeniedException,
+      BadDocumentException,
+      DocumentTooLargeException,
+      IdempotentParameterMismatchException,
       InternalServerError,
-      InvalidJobIdException,
       InvalidKMSKeyException,
       InvalidParameterException,
       InvalidS3ObjectException,
+      LimitExceededException,
       ProvisionedThroughputExceededException,
       ThrottlingException,
+      UnsupportedDocumentException,
     ],
   }),
 );
@@ -1709,55 +1759,5 @@ export const analyzeDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ProvisionedThroughputExceededException,
     ThrottlingException,
     UnsupportedDocumentException,
-  ],
-}));
-/**
- * Analyzes identity documents for relevant information. This information is extracted and
- * returned as `IdentityDocumentFields`, which records both the normalized field
- * and value of the extracted text. Unlike other Amazon Textract operations,
- * `AnalyzeID` doesn't return any Geometry data.
- */
-export const analyzeID = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AnalyzeIDRequest,
-  output: AnalyzeIDResponse,
-  errors: [
-    AccessDeniedException,
-    BadDocumentException,
-    DocumentTooLargeException,
-    InternalServerError,
-    InvalidParameterException,
-    InvalidS3ObjectException,
-    ProvisionedThroughputExceededException,
-    ThrottlingException,
-    UnsupportedDocumentException,
-  ],
-}));
-/**
- * Gets the results for an Amazon Textract asynchronous operation that analyzes text in a
- * lending document.
- *
- * You start asynchronous text analysis by calling `StartLendingAnalysis`,
- * which returns a job identifier (`JobId`). When the text analysis operation
- * finishes, Amazon Textract publishes a completion status to the Amazon Simple
- * Notification Service (Amazon SNS) topic that's registered in the initial call to
- * `StartLendingAnalysis`.
- *
- * To get the results of the text analysis operation, first check that the status value
- * published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysis, and pass
- * the job identifier (`JobId`) from the initial call to
- * `StartLendingAnalysis`.
- */
-export const getLendingAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLendingAnalysisRequest,
-  output: GetLendingAnalysisResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerError,
-    InvalidJobIdException,
-    InvalidKMSKeyException,
-    InvalidParameterException,
-    InvalidS3ObjectException,
-    ProvisionedThroughputExceededException,
-    ThrottlingException,
   ],
 }));

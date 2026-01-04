@@ -388,11 +388,11 @@ export class ContainerNotFoundException extends S.TaggedError<ContainerNotFoundE
 ) {}
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ObjectNotFoundException extends S.TaggedError<ObjectNotFoundException>()(
   "ObjectNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class RequestedRangeNotSatisfiableException extends S.TaggedError<RequestedRangeNotSatisfiableException>()(
   "RequestedRangeNotSatisfiableException",
@@ -400,6 +400,15 @@ export class RequestedRangeNotSatisfiableException extends S.TaggedError<Request
 ) {}
 
 //# Operations
+/**
+ * Provides a list of metadata entries about folders and objects in the specified
+ * folder.
+ */
+export const listItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListItemsRequest,
+  output: ListItemsResponse,
+  errors: [ContainerNotFoundException, InternalServerError],
+}));
 /**
  * Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
  */
@@ -444,13 +453,4 @@ export const getObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ObjectNotFoundException,
     RequestedRangeNotSatisfiableException,
   ],
-}));
-/**
- * Provides a list of metadata entries about folders and objects in the specified
- * folder.
- */
-export const listItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListItemsRequest,
-  output: ListItemsResponse,
-  errors: [ContainerNotFoundException, InternalServerError],
 }));

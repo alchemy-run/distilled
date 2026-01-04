@@ -571,10 +571,6 @@ export class BillingViewListElement extends S.Class<BillingViewListElement>(
   healthStatus: S.optional(BillingViewHealthStatus),
 }) {}
 export const BillingViewList = S.Array(BillingViewListElement);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class CreateBillingViewResponse extends S.Class<CreateBillingViewResponse>(
   "CreateBillingViewResponse",
 )({
@@ -587,52 +583,123 @@ export class GetBillingViewResponse extends S.Class<GetBillingViewResponse>(
 export class ListBillingViewsResponse extends S.Class<ListBillingViewsResponse>(
   "ListBillingViewsResponse",
 )({ billingViews: BillingViewList, nextToken: S.optional(S.String) }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "BillingAccessDenied", httpResponseCode: 403 }),
-) {}
-export class BillingViewHealthStatusException extends S.TaggedError<BillingViewHealthStatusException>()(
-  "BillingViewHealthStatusException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-  T.AwsQueryError({ code: "BillingConflict", httpResponseCode: 409 }),
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "BillingInternalServer", httpResponseCode: 500 }),
+) {}
+export class BillingViewHealthStatusException extends S.TaggedError<BillingViewHealthStatusException>()(
+  "BillingViewHealthStatusException",
+  { message: S.String },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+  T.AwsQueryError({ code: "BillingConflict", httpResponseCode: 409 }),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
   T.AwsQueryError({ code: "BillingResourceNotFound", httpResponseCode: 404 }),
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "BillingThrottling", httpResponseCode: 429 }),
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-  T.AwsQueryError({ code: "BillingValidation", httpResponseCode: 400 }),
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+    serviceCode: S.String,
+    quotaCode: S.String,
+  },
   T.AwsQueryError({
     code: "BillingServiceQuotaExceeded",
     httpResponseCode: 402,
   }),
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
+  T.AwsQueryError({ code: "BillingValidation", httpResponseCode: 400 }),
+) {}
 
 //# Operations
+/**
+ * Deletes the specified billing view.
+ */
+export const deleteBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBillingViewRequest,
+  output: DeleteBillingViewResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the resource-based policy document attached to the resource in `JSON` format.
+ */
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
+ */
+export const listSourceViewsForBillingView =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSourceViewsForBillingViewRequest,
+    output: ListSourceViewsForBillingViewResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * Lists tags associated with the billing view resource.
  */
@@ -648,11 +715,29 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * An API operation for adding one or more tags (key-value pairs) to a resource.
+ * Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const disassociateSourceViews = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateSourceViewsRequest,
+    output: DisassociateSourceViewsResponse,
+    errors: [
+      AccessDeniedException,
+      BillingViewHealthStatusException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns the metadata associated to the specified billing view ARN.
+ */
+export const getBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBillingViewRequest,
+  output: GetBillingViewResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -662,11 +747,26 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
+ * Lists the billing views available for a given time period.
+ *
+ * Every Amazon Web Services account has a unique `PRIMARY` billing view that represents the billing data available by default. Accounts that use Billing Conductor also have `BILLING_GROUP` billing views representing pro forma costs associated with each created billing group.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const listBillingViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBillingViewsRequest,
+  output: ListBillingViewsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * An API operation for adding one or more tags (key-value pairs) to a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -694,52 +794,6 @@ export const associateSourceViews = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Deletes the specified billing view.
- */
-export const deleteBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBillingViewRequest,
-  output: DeleteBillingViewResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
- */
-export const disassociateSourceViews = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateSourceViewsRequest,
-    output: DisassociateSourceViewsResponse,
-    errors: [
-      AccessDeniedException,
-      BillingViewHealthStatusException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns the resource-based policy document attached to the resource in `JSON` format.
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * An API to update the attributes of the billing view.
  */
@@ -774,47 +828,3 @@ export const createBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Returns the metadata associated to the specified billing view ARN.
- */
-export const getBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBillingViewRequest,
-  output: GetBillingViewResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the billing views available for a given time period.
- *
- * Every Amazon Web Services account has a unique `PRIMARY` billing view that represents the billing data available by default. Accounts that use Billing Conductor also have `BILLING_GROUP` billing views representing pro forma costs associated with each created billing group.
- */
-export const listBillingViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBillingViewsRequest,
-  output: ListBillingViewsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
- */
-export const listSourceViewsForBillingView =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSourceViewsForBillingViewRequest,
-    output: ListSourceViewsForBillingViewResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));

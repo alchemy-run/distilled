@@ -1014,42 +1014,215 @@ export class CreateAppInstanceBotResponse extends S.Class<CreateAppInstanceBotRe
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
-  "ThrottledClientException",
-  {},
-) {}
-export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
-  "UnauthorizedClientException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
+  "ThrottledClientException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
+  "UnauthorizedClientException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Returns the full details of an `AppInstance`.
+ */
+export const describeAppInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppInstanceRequest,
+  output: DescribeAppInstanceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * The `AppInstanceBot's` information.
+ */
+export const describeAppInstanceBot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAppInstanceBotRequest,
+    output: DescribeAppInstanceBotResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Returns the full details of an `AppInstanceUserEndpoint`.
+ */
+export const describeAppInstanceUserEndpoint =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAppInstanceUserEndpointRequest,
+    output: DescribeAppInstanceUserEndpointResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Sets the amount of time in days that a given `AppInstance` retains
+ * data.
+ */
+export const putAppInstanceRetentionSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutAppInstanceRetentionSettingsRequest,
+    output: PutAppInstanceRetentionSettingsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Returns a list of the administrators in the `AppInstance`.
+ */
+export const listAppInstanceAdmins = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAppInstanceAdminsRequest,
+    output: ListAppInstanceAdminsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Lists all `AppInstanceBots` created under a single `AppInstance`.
+ */
+export const listAppInstanceBots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAppInstanceBotsRequest,
+  output: ListAppInstanceBotsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Registers an endpoint under an Amazon Chime `AppInstanceUser`. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
+ */
+export const registerAppInstanceUserEndpoint =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RegisterAppInstanceUserEndpointRequest,
+    output: RegisterAppInstanceUserEndpointResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Applies the specified tags to the specified Amazon Chime SDK identity resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Updates the name and metadata of an `AppInstanceBot`.
+ */
+export const updateAppInstanceBot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAppInstanceBotRequest,
+    output: UpdateAppInstanceBotResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Updates the details of an `AppInstanceUser`. You can update names and
+ * metadata.
+ */
+export const updateAppInstanceUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAppInstanceUserRequest,
+    output: UpdateAppInstanceUserResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
 /**
  * Demotes an `AppInstanceAdmin` to an `AppInstanceUser` or
  * `AppInstanceBot`. This action
@@ -1109,179 +1282,6 @@ export const deleteAppInstanceUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Deregisters an `AppInstanceUserEndpoint`.
- */
-export const deregisterAppInstanceUserEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterAppInstanceUserEndpointRequest,
-    output: DeregisterAppInstanceUserEndpointResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Gets the retention settings for an `AppInstance`.
- */
-export const getAppInstanceRetentionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAppInstanceRetentionSettingsRequest,
-    output: GetAppInstanceRetentionSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Lists the tags applied to an Amazon Chime SDK identity resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Sets the number of days before the `AppInstanceUser` is automatically deleted.
- *
- * A background process deletes expired `AppInstanceUsers` within 6 hours of expiration.
- * Actual deletion times may vary.
- *
- * Expired `AppInstanceUsers` that have not yet been deleted appear as active, and you can update
- * their expiration settings. The system honors the new settings.
- */
-export const putAppInstanceUserExpirationSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutAppInstanceUserExpirationSettingsRequest,
-    output: PutAppInstanceUserExpirationSettingsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Applies the specified tags to the specified Amazon Chime SDK identity resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ResourceLimitExceededException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Removes the specified tags from the specified Amazon Chime SDK identity resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Updates `AppInstance` metadata.
- */
-export const updateAppInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAppInstanceRequest,
-  output: UpdateAppInstanceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Updates the name and metadata of an `AppInstanceBot`.
- */
-export const updateAppInstanceBot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAppInstanceBotRequest,
-    output: UpdateAppInstanceBotResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Updates the details of an `AppInstanceUser`. You can update names and
- * metadata.
- */
-export const updateAppInstanceUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAppInstanceUserRequest,
-    output: UpdateAppInstanceUserResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Updates the details of an `AppInstanceUserEndpoint`. You can update the name and `AllowMessage` values.
- */
-export const updateAppInstanceUserEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAppInstanceUserEndpointRequest,
-    output: UpdateAppInstanceUserEndpointResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
 /**
  * Creates an Amazon Chime SDK messaging `AppInstance` under an AWS account.
  * Only SDK messaging customers use this API. `CreateAppInstance` supports
@@ -1353,37 +1353,6 @@ export const createAppInstanceUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes an `AppInstance` and all associated data asynchronously.
- */
-export const deleteAppInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAppInstanceRequest,
-  output: DeleteAppInstanceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ResourceLimitExceededException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Returns the full details of an `AppInstance`.
- */
-export const describeAppInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAppInstanceRequest,
-  output: DescribeAppInstanceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
  * Returns the full details of an `AppInstanceAdmin`.
  */
 export const describeAppInstanceAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1417,40 +1386,6 @@ export const describeAppInstanceUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Returns a list of the administrators in the `AppInstance`.
- */
-export const listAppInstanceAdmins = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAppInstanceAdminsRequest,
-    output: ListAppInstanceAdminsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Lists all `AppInstanceBots` created under a single `AppInstance`.
- */
-export const listAppInstanceBots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAppInstanceBotsRequest,
-  output: ListAppInstanceBotsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ResourceLimitExceededException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
 /**
  * Lists all Amazon Chime `AppInstance`s created under a single AWS
  * account.
@@ -1502,17 +1437,22 @@ export const listAppInstanceUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Registers an endpoint under an Amazon Chime `AppInstanceUser`. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
+ * Sets the number of days before the `AppInstanceUser` is automatically deleted.
+ *
+ * A background process deletes expired `AppInstanceUsers` within 6 hours of expiration.
+ * Actual deletion times may vary.
+ *
+ * Expired `AppInstanceUsers` that have not yet been deleted appear as active, and you can update
+ * their expiration settings. The system honors the new settings.
  */
-export const registerAppInstanceUserEndpoint =
+export const putAppInstanceUserExpirationSettings =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterAppInstanceUserEndpointRequest,
-    output: RegisterAppInstanceUserEndpointResponse,
+    input: PutAppInstanceUserExpirationSettingsRequest,
+    output: PutAppInstanceUserExpirationSettingsResponse,
     errors: [
       BadRequestException,
       ConflictException,
       ForbiddenException,
-      ResourceLimitExceededException,
       ServiceFailureException,
       ServiceUnavailableException,
       ThrottledClientException,
@@ -1520,30 +1460,12 @@ export const registerAppInstanceUserEndpoint =
     ],
   }));
 /**
- * The `AppInstanceBot's` information.
+ * Gets the retention settings for an `AppInstance`.
  */
-export const describeAppInstanceBot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAppInstanceBotRequest,
-    output: DescribeAppInstanceBotResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Returns the full details of an `AppInstanceUserEndpoint`.
- */
-export const describeAppInstanceUserEndpoint =
+export const getAppInstanceRetentionSettings =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAppInstanceUserEndpointRequest,
-    output: DescribeAppInstanceUserEndpointResponse,
+    input: GetAppInstanceRetentionSettingsRequest,
+    output: GetAppInstanceRetentionSettingsResponse,
     errors: [
       BadRequestException,
       ForbiddenException,
@@ -1554,13 +1476,27 @@ export const describeAppInstanceUserEndpoint =
     ],
   }));
 /**
- * Sets the amount of time in days that a given `AppInstance` retains
- * data.
+ * Lists the tags applied to an Amazon Chime SDK identity resource.
  */
-export const putAppInstanceRetentionSettings =
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Deregisters an `AppInstanceUserEndpoint`.
+ */
+export const deregisterAppInstanceUserEndpoint =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutAppInstanceRetentionSettingsRequest,
-    output: PutAppInstanceRetentionSettingsResponse,
+    input: DeregisterAppInstanceUserEndpointRequest,
+    output: DeregisterAppInstanceUserEndpointResponse,
     errors: [
       BadRequestException,
       ForbiddenException,
@@ -1570,6 +1506,70 @@ export const putAppInstanceRetentionSettings =
       UnauthorizedClientException,
     ],
   }));
+/**
+ * Removes the specified tags from the specified Amazon Chime SDK identity resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Updates `AppInstance` metadata.
+ */
+export const updateAppInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAppInstanceRequest,
+  output: UpdateAppInstanceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Updates the details of an `AppInstanceUserEndpoint`. You can update the name and `AllowMessage` values.
+ */
+export const updateAppInstanceUserEndpoint =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateAppInstanceUserEndpointRequest,
+    output: UpdateAppInstanceUserEndpointResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Deletes an `AppInstance` and all associated data asynchronously.
+ */
+export const deleteAppInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppInstanceRequest,
+  output: DeleteAppInstanceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Creates a bot under an Amazon Chime `AppInstance`. The request consists of a
  * unique `Configuration` and `Name` for that bot.

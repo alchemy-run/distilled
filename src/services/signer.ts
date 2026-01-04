@@ -839,111 +839,46 @@ export class StartSigningJobResponse extends S.Class<StartSigningJobResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
-  "InternalServiceErrorException",
-  {},
+  { message: S.optional(S.String), code: S.optional(S.String) },
 ) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { message: S.optional(S.String), code: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
+export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
+  "InternalServiceErrorException",
+  { message: S.optional(S.String), code: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String), code: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String), code: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { message: S.optional(S.String), code: S.optional(S.String) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { message: S.optional(S.String), code: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
-) {}
-export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
-  "ServiceLimitExceededException",
   { message: S.optional(S.String), code: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String), code: S.optional(S.String) },
 ) {}
+export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
+  "ServiceLimitExceededException",
+  { message: S.optional(S.String), code: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Returns a list of the tags associated with a signing profile resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServiceErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Removes cross-account permissions from a signing profile.
- */
-export const removeProfilePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveProfilePermissionRequest,
-    output: RemoveProfilePermissionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Changes the state of a signing job to `REVOKED`. This indicates that the signature is no
- * longer valid.
- */
-export const revokeSignature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokeSignatureRequest,
-  output: RevokeSignatureResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * Changes the state of a signing profile to `REVOKED`. This indicates that signatures
- * generated using the signing profile after an effective start date are no longer
- * valid. A revoked profile is still viewable with the `ListSigningProfiles`
- * operation, but it cannot perform new signing jobs. See Data Retention
- * for more information on scheduled deletion of a revoked signing profile.
- */
-export const revokeSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeSigningProfileRequest,
-    output: RevokeSigningProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Adds one or more tags to a signing profile. Tags are labels that you can use to
  * identify and organize your AWS resources. Each tag consists of a key and an optional
@@ -961,51 +896,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes one or more tags from a signing profile. To remove the tags, specify a list of
- * tag keys.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServiceErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Changes the state of an `ACTIVE` signing profile to `CANCELED`.
- * A canceled profile is still viewable with the `ListSigningProfiles`
- * operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile.
- */
-export const cancelSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelSigningProfileRequest,
-    output: CancelSigningProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves the revocation status of one or more of the signing profile, signing job,
- * and signing certificate.
- */
-export const getRevocationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRevocationStatusRequest,
-  output: GetRevocationStatusResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
  * Returns information on a specific signing profile.
  */
 export const getSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1018,62 +908,6 @@ export const getSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
-/**
- * Lists the cross-account permissions associated with a signing profile.
- */
-export const listProfilePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProfilePermissionsRequest,
-    output: ListProfilePermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists all your signing jobs. You can use the `maxResults` parameter to limit the
- * number of signing jobs that are returned in the response. If additional jobs remain to
- * be listed, AWS Signer returns a `nextToken` value. Use this value in
- * subsequent calls to `ListSigningJobs` to fetch the remaining values. You can
- * continue calling `ListSigningJobs` with your `maxResults`
- * parameter and with new values that Signer returns in the `nextToken`
- * parameter until all of your signing jobs have been returned.
- */
-export const listSigningJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSigningJobsRequest,
-  output: ListSigningJobsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all signing platforms available in AWS Signer that match the request parameters. If
- * additional jobs remain to be listed, Signer returns a `nextToken` value.
- * Use this value in subsequent calls to `ListSigningJobs` to fetch the
- * remaining values. You can continue calling `ListSigningJobs` with your
- * `maxResults` parameter and with new values that Signer returns in the
- * `nextToken` parameter until all of your signing jobs have been
- * returned.
- */
-export const listSigningPlatforms = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSigningPlatformsRequest,
-    output: ListSigningPlatformsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Lists all available signing profiles in your AWS account. Returns only profiles with an
  * `ACTIVE` status unless the `includeCanceled` request field is
@@ -1094,34 +928,19 @@ export const listSigningProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Signs a binary payload and returns a signature envelope.
+ * Changes the state of an `ACTIVE` signing profile to `CANCELED`.
+ * A canceled profile is still viewable with the `ListSigningProfiles`
+ * operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile.
  */
-export const signPayload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SignPayloadRequest,
-  output: SignPayloadResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds cross-account permissions to a signing profile.
- */
-export const addProfilePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const cancelSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AddProfilePermissionRequest,
-    output: AddProfilePermissionResponse,
+    input: CancelSigningProfileRequest,
+    output: CancelSigningProfileResponse,
     errors: [
       AccessDeniedException,
-      ConflictException,
       InternalServiceErrorException,
       ResourceNotFoundException,
-      ServiceLimitExceededException,
       TooManyRequestsException,
-      ValidationException,
     ],
   }),
 );
@@ -1154,16 +973,47 @@ export const getSigningPlatform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a signing profile. A signing profile is a code-signing template that can be used to
- * carry out a pre-defined signing job.
+ * Removes one or more tags from a signing profile. To remove the tags, specify a list of
+ * tag keys.
  */
-export const putSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutSigningProfileRequest,
-  output: PutSigningProfileResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalServiceErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Returns a list of the tags associated with a signing profile resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalServiceErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Lists all your signing jobs. You can use the `maxResults` parameter to limit the
+ * number of signing jobs that are returned in the response. If additional jobs remain to
+ * be listed, AWS Signer returns a `nextToken` value. Use this value in
+ * subsequent calls to `ListSigningJobs` to fetch the remaining values. You can
+ * continue calling `ListSigningJobs` with your `maxResults`
+ * parameter and with new values that Signer returns in the `nextToken`
+ * parameter until all of your signing jobs have been returned.
+ */
+export const listSigningJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSigningJobsRequest,
+  output: ListSigningJobsResponse,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
-    ResourceNotFoundException,
     TooManyRequestsException,
     ValidationException,
   ],
@@ -1200,6 +1050,156 @@ export const startSigningJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServiceErrorException,
     ResourceNotFoundException,
     ThrottlingException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds cross-account permissions to a signing profile.
+ */
+export const addProfilePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AddProfilePermissionRequest,
+    output: AddProfilePermissionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      ServiceLimitExceededException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a signing profile. A signing profile is a code-signing template that can be used to
+ * carry out a pre-defined signing job.
+ */
+export const putSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSigningProfileRequest,
+  output: PutSigningProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the cross-account permissions associated with a signing profile.
+ */
+export const listProfilePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListProfilePermissionsRequest,
+    output: ListProfilePermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Removes cross-account permissions from a signing profile.
+ */
+export const removeProfilePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveProfilePermissionRequest,
+    output: RemoveProfilePermissionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Signs a binary payload and returns a signature envelope.
+ */
+export const signPayload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SignPayloadRequest,
+  output: SignPayloadResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Changes the state of a signing job to `REVOKED`. This indicates that the signature is no
+ * longer valid.
+ */
+export const revokeSignature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeSignatureRequest,
+  output: RevokeSignatureResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Changes the state of a signing profile to `REVOKED`. This indicates that signatures
+ * generated using the signing profile after an effective start date are no longer
+ * valid. A revoked profile is still viewable with the `ListSigningProfiles`
+ * operation, but it cannot perform new signing jobs. See Data Retention
+ * for more information on scheduled deletion of a revoked signing profile.
+ */
+export const revokeSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RevokeSigningProfileRequest,
+    output: RevokeSigningProfileResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all signing platforms available in AWS Signer that match the request parameters. If
+ * additional jobs remain to be listed, Signer returns a `nextToken` value.
+ * Use this value in subsequent calls to `ListSigningJobs` to fetch the
+ * remaining values. You can continue calling `ListSigningJobs` with your
+ * `maxResults` parameter and with new values that Signer returns in the
+ * `nextToken` parameter until all of your signing jobs have been
+ * returned.
+ */
+export const listSigningPlatforms = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSigningPlatformsRequest,
+    output: ListSigningPlatformsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves the revocation status of one or more of the signing profile, signing job,
+ * and signing certificate.
+ */
+export const getRevocationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRevocationStatusRequest,
+  output: GetRevocationStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
     TooManyRequestsException,
     ValidationException,
   ],

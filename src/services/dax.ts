@@ -639,52 +639,57 @@ export class DescribeDefaultParametersResponse extends S.Class<DescribeDefaultPa
 //# Errors
 export class ClusterNotFoundFault extends S.TaggedError<ClusterNotFoundFault>()(
   "ClusterNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ClusterNotFound", httpResponseCode: 404 }),
 ) {}
 export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
   "InvalidParameterCombinationException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "InvalidParameterCombination",
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
-  "InvalidParameterValueException",
-  {},
-  T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
-) {}
-export class ParameterGroupNotFoundFault extends S.TaggedError<ParameterGroupNotFoundFault>()(
-  "ParameterGroupNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "ParameterGroupNotFound", httpResponseCode: 404 }),
-) {}
 export class ServiceLinkedRoleNotFoundFault extends S.TaggedError<ServiceLinkedRoleNotFoundFault>()(
   "ServiceLinkedRoleNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ServiceLinkedRoleNotFoundFault",
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidARNFault extends S.TaggedError<InvalidARNFault>()(
-  "InvalidARNFault",
-  {},
-  T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }),
+export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
+  "InvalidSubnet",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
+) {}
+export class ClusterAlreadyExistsFault extends S.TaggedError<ClusterAlreadyExistsFault>()(
+  "ClusterAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ClusterAlreadyExists", httpResponseCode: 400 }),
 ) {}
 export class InvalidClusterStateFault extends S.TaggedError<InvalidClusterStateFault>()(
   "InvalidClusterStateFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidClusterState", httpResponseCode: 400 }),
 ) {}
 export class InvalidParameterGroupStateFault extends S.TaggedError<InvalidParameterGroupStateFault>()(
   "InvalidParameterGroupStateFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "InvalidParameterGroupState",
     httpResponseCode: 400,
   }),
+) {}
+export class SubnetGroupInUseFault extends S.TaggedError<SubnetGroupInUseFault>()(
+  "SubnetGroupInUseFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetGroupInUse", httpResponseCode: 400 }),
+) {}
+export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
+  "InvalidParameterValueException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
 ) {}
 export class SubnetGroupNotFoundFault extends S.TaggedError<SubnetGroupNotFoundFault>()(
   "SubnetGroupNotFoundFault",
@@ -696,6 +701,55 @@ export class InsufficientClusterCapacityFault extends S.TaggedError<Insufficient
   { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "InsufficientClusterCapacity",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidARNFault extends S.TaggedError<InvalidARNFault>()(
+  "InvalidARNFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }),
+) {}
+export class ClusterQuotaForCustomerExceededFault extends S.TaggedError<ClusterQuotaForCustomerExceededFault>()(
+  "ClusterQuotaForCustomerExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ClusterQuotaForCustomerExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class SubnetGroupAlreadyExistsFault extends S.TaggedError<SubnetGroupAlreadyExistsFault>()(
+  "SubnetGroupAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetGroupAlreadyExists", httpResponseCode: 400 }),
+) {}
+export class SubnetInUse extends S.TaggedError<SubnetInUse>()(
+  "SubnetInUse",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }),
+) {}
+export class InvalidVPCNetworkStateFault extends S.TaggedError<InvalidVPCNetworkStateFault>()(
+  "InvalidVPCNetworkStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidVPCNetworkStateFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class NodeNotFoundFault extends S.TaggedError<NodeNotFoundFault>()(
+  "NodeNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NodeNotFound", httpResponseCode: 404 }),
+) {}
+export class ParameterGroupNotFoundFault extends S.TaggedError<ParameterGroupNotFoundFault>()(
+  "ParameterGroupNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ParameterGroupNotFound", httpResponseCode: 404 }),
+) {}
+export class ParameterGroupAlreadyExistsFault extends S.TaggedError<ParameterGroupAlreadyExistsFault>()(
+  "ParameterGroupAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ParameterGroupAlreadyExists",
     httpResponseCode: 400,
   }),
 ) {}
@@ -712,58 +766,19 @@ export class TagNotFoundFault extends S.TaggedError<TagNotFoundFault>()(
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "TagNotFound", httpResponseCode: 404 }),
 ) {}
-export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
-  "InvalidSubnet",
+export class SubnetGroupQuotaExceededFault extends S.TaggedError<SubnetGroupQuotaExceededFault>()(
+  "SubnetGroupQuotaExceededFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "SubnetGroupQuotaExceeded", httpResponseCode: 400 }),
 ) {}
-export class ClusterAlreadyExistsFault extends S.TaggedError<ClusterAlreadyExistsFault>()(
-  "ClusterAlreadyExistsFault",
+export class SubnetNotAllowedFault extends S.TaggedError<SubnetNotAllowedFault>()(
+  "SubnetNotAllowedFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ClusterAlreadyExists", httpResponseCode: 400 }),
-) {}
-export class ParameterGroupAlreadyExistsFault extends S.TaggedError<ParameterGroupAlreadyExistsFault>()(
-  "ParameterGroupAlreadyExistsFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ParameterGroupAlreadyExists",
-    httpResponseCode: 400,
-  }),
-) {}
-export class NodeNotFoundFault extends S.TaggedError<NodeNotFoundFault>()(
-  "NodeNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "NodeNotFound", httpResponseCode: 404 }),
-) {}
-export class SubnetGroupInUseFault extends S.TaggedError<SubnetGroupInUseFault>()(
-  "SubnetGroupInUseFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetGroupInUse", httpResponseCode: 400 }),
-) {}
-export class InvalidVPCNetworkStateFault extends S.TaggedError<InvalidVPCNetworkStateFault>()(
-  "InvalidVPCNetworkStateFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "InvalidVPCNetworkStateFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class SubnetInUse extends S.TaggedError<SubnetInUse>()(
-  "SubnetInUse",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }),
-) {}
-export class ClusterQuotaForCustomerExceededFault extends S.TaggedError<ClusterQuotaForCustomerExceededFault>()(
-  "ClusterQuotaForCustomerExceededFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ClusterQuotaForCustomerExceeded",
-    httpResponseCode: 400,
-  }),
+  T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
 ) {}
 export class NodeQuotaForClusterExceededFault extends S.TaggedError<NodeQuotaForClusterExceededFault>()(
   "NodeQuotaForClusterExceededFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "NodeQuotaForClusterExceeded",
     httpResponseCode: 400,
@@ -777,89 +792,59 @@ export class ParameterGroupQuotaExceededFault extends S.TaggedError<ParameterGro
     httpResponseCode: 400,
   }),
 ) {}
-export class SubnetGroupAlreadyExistsFault extends S.TaggedError<SubnetGroupAlreadyExistsFault>()(
-  "SubnetGroupAlreadyExistsFault",
+export class SubnetQuotaExceededFault extends S.TaggedError<SubnetQuotaExceededFault>()(
+  "SubnetQuotaExceededFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetGroupAlreadyExists", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "SubnetQuotaExceededFault", httpResponseCode: 400 }),
 ) {}
 export class NodeQuotaForCustomerExceededFault extends S.TaggedError<NodeQuotaForCustomerExceededFault>()(
   "NodeQuotaForCustomerExceededFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "NodeQuotaForCustomerExceeded",
     httpResponseCode: 400,
   }),
-) {}
-export class SubnetNotAllowedFault extends S.TaggedError<SubnetNotAllowedFault>()(
-  "SubnetNotAllowedFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {},
   T.AwsQueryError({ code: "ServiceQuotaExceeded", httpResponseCode: 402 }),
 ) {}
-export class SubnetGroupQuotaExceededFault extends S.TaggedError<SubnetGroupQuotaExceededFault>()(
-  "SubnetGroupQuotaExceededFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetGroupQuotaExceeded", httpResponseCode: 400 }),
-) {}
-export class SubnetQuotaExceededFault extends S.TaggedError<SubnetQuotaExceededFault>()(
-  "SubnetQuotaExceededFault",
-  {},
-  T.AwsQueryError({ code: "SubnetQuotaExceededFault", httpResponseCode: 400 }),
-) {}
 
 //# Operations
 /**
- * Returns the detailed parameter list for a particular parameter group.
+ * Returns events related to DAX clusters and parameter groups. You can
+ * obtain events specific to a particular DAX cluster or parameter group by
+ * providing the name as a parameter.
+ *
+ * By default, only the events occurring within the last 24 hours are returned;
+ * however, you can retrieve up to 14 days' worth of events if necessary.
  */
-export const describeParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeParametersRequest,
-  output: DescribeParametersResponse,
+export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventsRequest,
+  output: DescribeEventsResponse,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
-    ParameterGroupNotFoundFault,
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
 /**
- * Deletes a previously provisioned DAX cluster.
- * *DeleteCluster* deletes all associated nodes, node endpoints and
- * the DAX cluster itself. When you receive a successful response from this
- * action, DAX immediately begins deleting the cluster; you cannot cancel or
- * revert this action.
+ * List all of the tags for a DAX cluster. You can call
+ * `ListTags` up to 10 times per second, per account.
  */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterRequest,
-  output: DeleteClusterResponse,
+export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsRequest,
+  output: ListTagsResponse,
   errors: [
     ClusterNotFoundFault,
+    InvalidARNFault,
     InvalidClusterStateFault,
     InvalidParameterCombinationException,
     InvalidParameterValueException,
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
-/**
- * Deletes the specified parameter group. You cannot delete a parameter group if it is
- * associated with any DAX clusters.
- */
-export const deleteParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteParameterGroupRequest,
-    output: DeleteParameterGroupResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterGroupStateFault,
-      InvalidParameterValueException,
-      ParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }),
-);
 /**
  * Returns information about all provisioned DAX clusters if no cluster identifier is
  * specified, or about a specific DAX cluster if a cluster identifier is
@@ -890,34 +875,34 @@ export const describeClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns events related to DAX clusters and parameter groups. You can
- * obtain events specific to a particular DAX cluster or parameter group by
- * providing the name as a parameter.
- *
- * By default, only the events occurring within the last 24 hours are returned;
- * however, you can retrieve up to 14 days' worth of events if necessary.
+ * Deletes a previously provisioned DAX cluster.
+ * *DeleteCluster* deletes all associated nodes, node endpoints and
+ * the DAX cluster itself. When you receive a successful response from this
+ * action, DAX immediately begins deleting the cluster; you cannot cancel or
+ * revert this action.
  */
-export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEventsRequest,
-  output: DescribeEventsResponse,
+export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterRequest,
+  output: DeleteClusterResponse,
   errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
     InvalidParameterCombinationException,
     InvalidParameterValueException,
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
 /**
- * Returns a list of parameter group descriptions. If a parameter group name is
- * specified, the list will contain only the descriptions for that group.
+ * Returns the default system parameter information for the DAX caching
+ * software.
  */
-export const describeParameterGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeDefaultParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeParameterGroupsRequest,
-    output: DescribeParameterGroupsResponse,
+    input: DescribeDefaultParametersRequest,
+    output: DescribeDefaultParametersResponse,
     errors: [
       InvalidParameterCombinationException,
       InvalidParameterValueException,
-      ParameterGroupNotFoundFault,
       ServiceLinkedRoleNotFoundFault,
     ],
   }),
@@ -934,18 +919,55 @@ export const describeSubnetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * List all of the tags for a DAX cluster. You can call
- * `ListTags` up to 10 times per second, per account.
+ * Deletes a subnet group.
+ *
+ * You cannot delete a subnet group if it is associated with any DAX
+ * clusters.
  */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
+export const deleteSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSubnetGroupRequest,
+  output: DeleteSubnetGroupResponse,
+  errors: [
+    ServiceLinkedRoleNotFoundFault,
+    SubnetGroupInUseFault,
+    SubnetGroupNotFoundFault,
+  ],
+}));
+/**
+ * Reboots a single node of a DAX cluster. The reboot action takes
+ * place as soon as possible. During the reboot, the node status is set to
+ * REBOOTING.
+ *
+ * `RebootNode` restarts the DAX engine process and does not remove the
+ * contents of the cache.
+ */
+export const rebootNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RebootNodeRequest,
+  output: RebootNodeResponse,
   errors: [
     ClusterNotFoundFault,
-    InvalidARNFault,
     InvalidClusterStateFault,
     InvalidParameterCombinationException,
     InvalidParameterValueException,
+    NodeNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+}));
+/**
+ * Modifies the settings for a DAX cluster. You can use this action to
+ * change one or more cluster configuration parameters by specifying the parameters and the
+ * new values.
+ */
+export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterRequest,
+  output: UpdateClusterResponse,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
+    InvalidParameterCombinationException,
+    InvalidParameterGroupStateFault,
+    InvalidParameterValueException,
+    ParameterGroupNotFoundFault,
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
@@ -985,41 +1007,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Modifies the settings for a DAX cluster. You can use this action to
- * change one or more cluster configuration parameters by specifying the parameters and the
- * new values.
- */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateClusterRequest,
-  output: UpdateClusterResponse,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    InvalidParameterCombinationException,
-    InvalidParameterGroupStateFault,
-    InvalidParameterValueException,
-    ParameterGroupNotFoundFault,
-    ServiceLinkedRoleNotFoundFault,
-  ],
-}));
-/**
- * Modifies the parameters of a parameter group. You can modify up to 20 parameters in
- * a single request by submitting a list parameter name and value pairs.
- */
-export const updateParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateParameterGroupRequest,
-    output: UpdateParameterGroupResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterGroupStateFault,
-      InvalidParameterValueException,
-      ParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }),
-);
-/**
  * Removes one or more nodes from a DAX cluster.
  *
  * You cannot use `DecreaseReplicationFactor` to remove the last node
@@ -1041,55 +1028,68 @@ export const decreaseReplicationFactor = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a subnet group.
- *
- * You cannot delete a subnet group if it is associated with any DAX
- * clusters.
+ * Modifies the parameters of a parameter group. You can modify up to 20 parameters in
+ * a single request by submitting a list parameter name and value pairs.
  */
-export const deleteSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSubnetGroupRequest,
-  output: DeleteSubnetGroupResponse,
-  errors: [
-    ServiceLinkedRoleNotFoundFault,
-    SubnetGroupInUseFault,
-    SubnetGroupNotFoundFault,
-  ],
-}));
-/**
- * Returns the default system parameter information for the DAX caching
- * software.
- */
-export const describeDefaultParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeDefaultParametersRequest,
-    output: DescribeDefaultParametersResponse,
+    input: UpdateParameterGroupRequest,
+    output: UpdateParameterGroupResponse,
     errors: [
       InvalidParameterCombinationException,
+      InvalidParameterGroupStateFault,
       InvalidParameterValueException,
+      ParameterGroupNotFoundFault,
       ServiceLinkedRoleNotFoundFault,
     ],
   }),
 );
 /**
- * Reboots a single node of a DAX cluster. The reboot action takes
- * place as soon as possible. During the reboot, the node status is set to
- * REBOOTING.
- *
- * `RebootNode` restarts the DAX engine process and does not remove the
- * contents of the cache.
+ * Returns a list of parameter group descriptions. If a parameter group name is
+ * specified, the list will contain only the descriptions for that group.
  */
-export const rebootNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RebootNodeRequest,
-  output: RebootNodeResponse,
+export const describeParameterGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeParameterGroupsRequest,
+    output: DescribeParameterGroupsResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      ParameterGroupNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Returns the detailed parameter list for a particular parameter group.
+ */
+export const describeParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeParametersRequest,
+  output: DescribeParametersResponse,
   errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
     InvalidParameterCombinationException,
     InvalidParameterValueException,
-    NodeNotFoundFault,
+    ParameterGroupNotFoundFault,
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+/**
+ * Deletes the specified parameter group. You cannot delete a parameter group if it is
+ * associated with any DAX clusters.
+ */
+export const deleteParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteParameterGroupRequest,
+    output: DeleteParameterGroupResponse,
+    errors: [
+      InvalidParameterCombinationException,
+      InvalidParameterGroupStateFault,
+      InvalidParameterValueException,
+      ParameterGroupNotFoundFault,
+      ServiceLinkedRoleNotFoundFault,
+    ],
+  }),
+);
 /**
  * Creates a new parameter group. A parameter group is a collection of parameters that
  * you apply to all of the nodes in a DAX cluster.
@@ -1108,6 +1108,21 @@ export const createParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Modifies an existing subnet group.
+ */
+export const updateSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSubnetGroupRequest,
+  output: UpdateSubnetGroupResponse,
+  errors: [
+    InvalidSubnet,
+    ServiceLinkedRoleNotFoundFault,
+    SubnetGroupNotFoundFault,
+    SubnetInUse,
+    SubnetNotAllowedFault,
+    SubnetQuotaExceededFault,
+  ],
+}));
 /**
  * Adds one or more nodes to a DAX cluster.
  */
@@ -1128,6 +1143,21 @@ export const increaseReplicationFactor = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Creates a new subnet group.
+ */
+export const createSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSubnetGroupRequest,
+  output: CreateSubnetGroupResponse,
+  errors: [
+    InvalidSubnet,
+    ServiceLinkedRoleNotFoundFault,
+    SubnetGroupAlreadyExistsFault,
+    SubnetGroupQuotaExceededFault,
+    SubnetNotAllowedFault,
+    SubnetQuotaExceededFault,
+  ],
+}));
 /**
  * Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
  */
@@ -1150,35 +1180,5 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceQuotaExceededException,
     SubnetGroupNotFoundFault,
     TagQuotaPerResourceExceeded,
-  ],
-}));
-/**
- * Creates a new subnet group.
- */
-export const createSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSubnetGroupRequest,
-  output: CreateSubnetGroupResponse,
-  errors: [
-    InvalidSubnet,
-    ServiceLinkedRoleNotFoundFault,
-    SubnetGroupAlreadyExistsFault,
-    SubnetGroupQuotaExceededFault,
-    SubnetNotAllowedFault,
-    SubnetQuotaExceededFault,
-  ],
-}));
-/**
- * Modifies an existing subnet group.
- */
-export const updateSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSubnetGroupRequest,
-  output: UpdateSubnetGroupResponse,
-  errors: [
-    InvalidSubnet,
-    ServiceLinkedRoleNotFoundFault,
-    SubnetGroupNotFoundFault,
-    SubnetInUse,
-    SubnetNotAllowedFault,
-    SubnetQuotaExceededFault,
   ],
 }));

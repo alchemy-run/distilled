@@ -3637,203 +3637,109 @@ export class DescribeRecommendationsResponse extends S.Class<DescribeRecommendat
 //# Errors
 export class AccessDeniedFault extends S.TaggedError<AccessDeniedFault>()(
   "AccessDeniedFault",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidResourceStateFault extends S.TaggedError<InvalidResourceStateFault>()(
   "InvalidResourceStateFault",
-  {},
-) {}
-export class ResourceNotFoundFault extends S.TaggedError<ResourceNotFoundFault>()(
-  "ResourceNotFoundFault",
-  {},
-) {}
-export class FailedDependencyFault extends S.TaggedError<FailedDependencyFault>()(
-  "FailedDependencyFault",
-  {},
-) {}
-export class KMSKeyNotAccessibleFault extends S.TaggedError<KMSKeyNotAccessibleFault>()(
-  "KMSKeyNotAccessibleFault",
-  {},
-) {}
-export class S3AccessDeniedFault extends S.TaggedError<S3AccessDeniedFault>()(
-  "S3AccessDeniedFault",
-  {},
-) {}
-export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
-  "InvalidSubnet",
-  {},
-) {}
-export class ResourceQuotaExceededFault extends S.TaggedError<ResourceQuotaExceededFault>()(
-  "ResourceQuotaExceededFault",
-  {},
-) {}
-export class InvalidOperationFault extends S.TaggedError<InvalidOperationFault>()(
-  "InvalidOperationFault",
-  {},
-) {}
-export class ResourceAlreadyExistsFault extends S.TaggedError<ResourceAlreadyExistsFault>()(
-  "ResourceAlreadyExistsFault",
-  {},
-) {}
-export class S3ResourceNotFoundFault extends S.TaggedError<S3ResourceNotFoundFault>()(
-  "S3ResourceNotFoundFault",
-  {},
-) {}
-export class KMSAccessDeniedFault extends S.TaggedError<KMSAccessDeniedFault>()(
-  "KMSAccessDeniedFault",
-  {},
-) {}
-export class KMSDisabledFault extends S.TaggedError<KMSDisabledFault>()(
-  "KMSDisabledFault",
-  {},
-) {}
-export class ReplicationSubnetGroupDoesNotCoverEnoughAZs extends S.TaggedError<ReplicationSubnetGroupDoesNotCoverEnoughAZs>()(
-  "ReplicationSubnetGroupDoesNotCoverEnoughAZs",
-  {},
-) {}
-export class InsufficientResourceCapacityFault extends S.TaggedError<InsufficientResourceCapacityFault>()(
-  "InsufficientResourceCapacityFault",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class CollectorNotFoundFault extends S.TaggedError<CollectorNotFoundFault>()(
   "CollectorNotFoundFault",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidOperationFault extends S.TaggedError<InvalidOperationFault>()(
+  "InvalidOperationFault",
+  { message: S.optional(S.String) },
+) {}
+export class FailedDependencyFault extends S.TaggedError<FailedDependencyFault>()(
+  "FailedDependencyFault",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundFault extends S.TaggedError<ResourceNotFoundFault>()(
+  "ResourceNotFoundFault",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidCertificateFault extends S.TaggedError<InvalidCertificateFault>()(
   "InvalidCertificateFault",
   { message: S.optional(S.String) },
 ) {}
+export class KMSAccessDeniedFault extends S.TaggedError<KMSAccessDeniedFault>()(
+  "KMSAccessDeniedFault",
+  { message: S.optional(S.String) },
+) {}
+export class InsufficientResourceCapacityFault extends S.TaggedError<InsufficientResourceCapacityFault>()(
+  "InsufficientResourceCapacityFault",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
+  "InvalidSubnet",
+  { message: S.optional(S.String) },
+) {}
+export class KMSKeyNotAccessibleFault extends S.TaggedError<KMSKeyNotAccessibleFault>()(
+  "KMSKeyNotAccessibleFault",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceQuotaExceededFault extends S.TaggedError<ResourceQuotaExceededFault>()(
+  "ResourceQuotaExceededFault",
+  { message: S.optional(S.String) },
+) {}
+export class KMSDisabledFault extends S.TaggedError<KMSDisabledFault>()(
+  "KMSDisabledFault",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistsFault extends S.TaggedError<ResourceAlreadyExistsFault>()(
+  "ResourceAlreadyExistsFault",
+  { message: S.optional(S.String), resourceArn: S.optional(S.String) },
+) {}
+export class ReplicationSubnetGroupDoesNotCoverEnoughAZs extends S.TaggedError<ReplicationSubnetGroupDoesNotCoverEnoughAZs>()(
+  "ReplicationSubnetGroupDoesNotCoverEnoughAZs",
+  { message: S.optional(S.String) },
+) {}
+export class S3AccessDeniedFault extends S.TaggedError<S3AccessDeniedFault>()(
+  "S3AccessDeniedFault",
+  { message: S.optional(S.String) },
+) {}
 export class KMSInvalidStateFault extends S.TaggedError<KMSInvalidStateFault>()(
   "KMSInvalidStateFault",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class StorageQuotaExceededFault extends S.TaggedError<StorageQuotaExceededFault>()(
   "StorageQuotaExceededFault",
-  {},
-) {}
-export class KMSNotFoundFault extends S.TaggedError<KMSNotFoundFault>()(
-  "KMSNotFoundFault",
-  {},
-) {}
-export class KMSThrottlingFault extends S.TaggedError<KMSThrottlingFault>()(
-  "KMSThrottlingFault",
-  {},
-) {}
-export class UpgradeDependencyFailureFault extends S.TaggedError<UpgradeDependencyFailureFault>()(
-  "UpgradeDependencyFailureFault",
   { message: S.optional(S.String) },
 ) {}
 export class SubnetAlreadyInUse extends S.TaggedError<SubnetAlreadyInUse>()(
   "SubnetAlreadyInUse",
   { message: S.optional(S.String) },
 ) {}
+export class S3ResourceNotFoundFault extends S.TaggedError<S3ResourceNotFoundFault>()(
+  "S3ResourceNotFoundFault",
+  { message: S.optional(S.String) },
+) {}
 export class KMSFault extends S.TaggedError<KMSFault>()("KMSFault", {
   message: S.optional(S.String),
 }) {}
+export class KMSNotFoundFault extends S.TaggedError<KMSNotFoundFault>()(
+  "KMSNotFoundFault",
+  { message: S.optional(S.String) },
+) {}
+export class UpgradeDependencyFailureFault extends S.TaggedError<UpgradeDependencyFailureFault>()(
+  "UpgradeDependencyFailureFault",
+  { message: S.optional(S.String) },
+) {}
+export class KMSThrottlingFault extends S.TaggedError<KMSThrottlingFault>()(
+  "KMSThrottlingFault",
+  { message: S.optional(S.String) },
+) {}
 export class SNSInvalidTopicFault extends S.TaggedError<SNSInvalidTopicFault>()(
   "SNSInvalidTopicFault",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class SNSNoAuthorizationFault extends S.TaggedError<SNSNoAuthorizationFault>()(
   "SNSNoAuthorizationFault",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
- *
- * Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
- */
-export const runFleetAdvisorLsaAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RunFleetAdvisorLsaAnalysisRequest,
-    output: RunFleetAdvisorLsaAnalysisResponse,
-    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-  }),
-);
-/**
- * Adds metadata tags to an DMS resource, including replication instance, endpoint,
- * subnet group, and migration task. These tags can also be used with cost allocation
- * reporting to track cost associated with DMS resources, or used in a Condition statement in
- * an IAM policy for DMS. For more information, see
- * `Tag`
- * data type
- * description.
- */
-export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsToResourceMessage,
-  output: AddTagsToResourceResponse,
-  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-}));
-/**
- * Cancels a single metadata model creation operation that was started with `StartMetadataModelCreation`.
- */
-export const cancelMetadataModelCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMetadataModelCreationMessage,
-    output: CancelMetadataModelCreationResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Deletes an DMS event subscription.
- */
-export const deleteEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventSubscriptionMessage,
-    output: DeleteEventSubscriptionResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Deletes a subnet group.
- */
-export const deleteReplicationSubnetGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteReplicationSubnetGroupMessage,
-    output: DeleteReplicationSubnetGroupResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }));
-/**
- * Deletes the specified replication task.
- */
-export const deleteReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReplicationTaskMessage,
-    output: DeleteReplicationTaskResponse,
-    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-  }),
-);
-/**
- * Deletes the record of a single premigration assessment run.
- *
- * This operation removes all metadata that DMS maintains about this assessment run.
- * However, the operation leaves untouched all information about this assessment run that is
- * stored in your Amazon S3 bucket.
- */
-export const deleteReplicationTaskAssessmentRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteReplicationTaskAssessmentRunMessage,
-    output: DeleteReplicationTaskAssessmentRunResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }));
 /**
  * Lists all of the DMS attributes for a customer account. These attributes include DMS
  * quotas for the account and a unique account identifier in a particular DMS region. DMS
@@ -3852,104 +3758,6 @@ export const describeAccountAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Provides a list of individual assessments that you can specify for a new premigration
- * assessment run, given one or more parameters.
- *
- * If you specify an existing migration task, this operation provides the default
- * individual assessments you can specify for that task. Otherwise, the specified parameters
- * model elements of a possible migration task on which to base a premigration assessment
- * run.
- *
- * To use these migration task modeling parameters, you must specify an existing
- * replication instance, a source database engine, a target database engine, and a migration
- * type. This combination of parameters potentially limits the default individual assessments
- * available for an assessment run created for a corresponding migration task.
- *
- * If you specify no parameters, this operation provides a list of all possible individual
- * assessments that you can specify for an assessment run. If you specify any one of the task
- * modeling parameters, you must specify all of them or the operation cannot provide a list of
- * individual assessments. The only parameter that you can specify alone is for an existing
- * migration task. The specified task definition then determines the default list of
- * individual assessments that you can specify in an assessment run for the task.
- */
-export const describeApplicableIndividualAssessments =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeApplicableIndividualAssessmentsMessage,
-    output: DescribeApplicableIndividualAssessmentsResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }));
-/**
- * Describes the status of the connections that have been made between the replication
- * instance and an endpoint. Connections are created when you test an endpoint.
- */
-export const describeConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeConnectionsMessage,
-  output: DescribeConnectionsResponse,
-  errors: [ResourceNotFoundFault],
-}));
-/**
- * Returns configuration parameters for a schema conversion project.
- */
-export const describeConversionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConversionConfigurationMessage,
-    output: DescribeConversionConfigurationResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Returns information about data migrations.
- */
-export const describeDataMigrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDataMigrationsMessage,
-    output: DescribeDataMigrationsResponse,
-    errors: [
-      FailedDependencyFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Returns a paginated list of data providers for your account in the current
- * region.
- */
-export const describeDataProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDataProvidersMessage,
-    output: DescribeDataProvidersResponse,
-    errors: [AccessDeniedFault, FailedDependencyFault, ResourceNotFoundFault],
-  }),
-);
-/**
- * Returns information about the endpoints for your account in the current region.
- */
-export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEndpointsMessage,
-  output: DescribeEndpointsResponse,
-  errors: [ResourceNotFoundFault],
-}));
-/**
- * Lists all the event subscriptions for a customer account. The description of a
- * subscription includes `SubscriptionName`, `SNSTopicARN`,
- * `CustomerID`, `SourceType`, `SourceID`,
- * `CreationTime`, and `Status`.
- *
- * If you specify `SubscriptionName`, this action lists the description for that
- * subscription.
- */
-export const describeEventSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventSubscriptionsMessage,
-    output: DescribeEventSubscriptionsResponse,
-    errors: [ResourceNotFoundFault],
-  }),
-);
-/**
  * Returns a paginated list of extension pack associations for the specified migration
  * project. An extension pack is an add-on module that emulates functions present in a source
  * database that are required when converting objects to the target database.
@@ -3960,563 +3768,6 @@ export const describeExtensionPackAssociations =
     output: DescribeExtensionPackAssociationsResponse,
     errors: [],
   }));
-/**
- * Returns a paginated list of instance profiles for your account in the current
- * region.
- */
-export const describeInstanceProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInstanceProfilesMessage,
-    output: DescribeInstanceProfilesResponse,
-    errors: [AccessDeniedFault, FailedDependencyFault, ResourceNotFoundFault],
-  }),
-);
-/**
- * Returns a paginated list of metadata model assessments for your account in the current
- * region.
- */
-export const describeMetadataModelAssessments =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMetadataModelAssessmentsMessage,
-    output: DescribeMetadataModelAssessmentsResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Gets a list of child metadata models for the specified metadata model in the database hierarchy.
- */
-export const describeMetadataModelChildren =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMetadataModelChildrenMessage,
-    output: DescribeMetadataModelChildrenResponse,
-    errors: [AccessDeniedFault, ResourceNotFoundFault],
-  }));
-/**
- * Returns a paginated list of metadata model conversions for a migration project.
- */
-export const describeMetadataModelConversions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMetadataModelConversionsMessage,
-    output: DescribeMetadataModelConversionsResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Returns a paginated list of metadata model creation requests for a migration project.
- */
-export const describeMetadataModelCreations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMetadataModelCreationsMessage,
-    output: DescribeMetadataModelCreationsResponse,
-    errors: [AccessDeniedFault, ResourceNotFoundFault],
-  }));
-/**
- * Returns a paginated list of metadata model exports.
- */
-export const describeMetadataModelExportsAsScript =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMetadataModelExportsAsScriptMessage,
-    output: DescribeMetadataModelExportsAsScriptResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Returns a paginated list of metadata model exports.
- */
-export const describeMetadataModelExportsToTarget =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMetadataModelExportsToTargetMessage,
-    output: DescribeMetadataModelExportsToTargetResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Returns a paginated list of metadata model imports.
- */
-export const describeMetadataModelImports =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMetadataModelImportsMessage,
-    output: DescribeMetadataModelImportsResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Returns a paginated list of migration projects for your account in the current
- * region.
- */
-export const describeMigrationProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMigrationProjectsMessage,
-    output: DescribeMigrationProjectsResponse,
-    errors: [AccessDeniedFault, FailedDependencyFault, ResourceNotFoundFault],
-  }),
-);
-/**
- * Returns a list of upcoming maintenance events for replication instances in your account
- * in the current Region.
- */
-export const describePendingMaintenanceActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePendingMaintenanceActionsMessage,
-    output: DescribePendingMaintenanceActionsResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Returns one or more existing DMS Serverless replication configurations as a list of
- * structures.
- */
-export const describeReplicationConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReplicationConfigsMessage,
-    output: DescribeReplicationConfigsResponse,
-    errors: [ResourceNotFoundFault],
-  }),
-);
-/**
- * Returns information about replication instances for your account in the current
- * region.
- */
-export const describeReplicationInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeReplicationInstancesMessage,
-    output: DescribeReplicationInstancesResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Returns information about the replication subnet groups.
- */
-export const describeReplicationSubnetGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeReplicationSubnetGroupsMessage,
-    output: DescribeReplicationSubnetGroupsResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Returns a paginated list of premigration assessment runs based on filter
- * settings.
- *
- * These filter settings can specify a combination of premigration assessment runs,
- * migration tasks, replication instances, and assessment run status values.
- *
- * This operation doesn't return information about individual assessments. For this
- * information, see the `DescribeReplicationTaskIndividualAssessments`
- * operation.
- */
-export const describeReplicationTaskAssessmentRuns =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeReplicationTaskAssessmentRunsMessage,
-    output: DescribeReplicationTaskAssessmentRunsResponse,
-    errors: [ResourceNotFoundFault],
-  }));
-/**
- * Returns information about replication tasks for your account in the current
- * region.
- */
-export const describeReplicationTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReplicationTasksMessage,
-    output: DescribeReplicationTasksResponse,
-    errors: [ResourceNotFoundFault],
-  }),
-);
-/**
- * Returns information about the schema for the specified endpoint.
- */
-export const describeSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSchemasMessage,
-  output: DescribeSchemasResponse,
-  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-}));
-/**
- * Returns table statistics on the database migration task, including table name, rows
- * inserted, rows updated, and rows deleted.
- *
- * Note that the "last updated" column the DMS console only indicates the time that DMS
- * last updated the table statistics record for a table. It does not indicate the time of the
- * last update to the table.
- */
-export const describeTableStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTableStatisticsMessage,
-    output: DescribeTableStatisticsResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Converts source selection rules into their target counterparts for schema conversion operations.
- */
-export const getTargetSelectionRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTargetSelectionRulesMessage,
-    output: GetTargetSelectionRulesResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Lists all metadata tags attached to an DMS resource, including replication instance,
- * endpoint, subnet group, and migration task. For more information, see
- * `Tag`
- *
- * data type description.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceMessage,
-  output: ListTagsForResourceResponse,
-  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-}));
-/**
- * Modifies the specified schema conversion configuration using the provided parameters.
- */
-export const modifyConversionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyConversionConfigurationMessage,
-    output: ModifyConversionConfigurationResponse,
-    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-  }));
-/**
- * Modifies an existing DMS data migration.
- */
-export const modifyDataMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyDataMigrationMessage,
-  output: ModifyDataMigrationResponse,
-  errors: [
-    FailedDependencyFault,
-    InvalidResourceStateFault,
-    ResourceNotFoundFault,
-  ],
-}));
-/**
- * Modifies the specified data provider using the provided settings.
- *
- * You must remove the data provider from all migration projects before you can modify
- * it.
- */
-export const modifyDataProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyDataProviderMessage,
-  output: ModifyDataProviderResponse,
-  errors: [
-    AccessDeniedFault,
-    FailedDependencyFault,
-    InvalidResourceStateFault,
-    ResourceNotFoundFault,
-  ],
-}));
-/**
- * Moves a replication task from its current replication instance to a different target
- * replication instance using the specified parameters. The target replication instance must
- * be created with the same or later DMS version as the current replication instance.
- */
-export const moveReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: MoveReplicationTaskMessage,
-  output: MoveReplicationTaskResponse,
-  errors: [
-    AccessDeniedFault,
-    InvalidResourceStateFault,
-    KMSKeyNotAccessibleFault,
-    ResourceNotFoundFault,
-    ResourceQuotaExceededFault,
-  ],
-}));
-/**
- * Reboots a replication instance. Rebooting results in a momentary outage, until the
- * replication instance becomes available again.
- */
-export const rebootReplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RebootReplicationInstanceMessage,
-    output: RebootReplicationInstanceResponse,
-    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-  }),
-);
-/**
- * Populates the schema for the specified endpoint. This is an asynchronous operation and
- * can take several minutes. You can check the status of this operation by calling the
- * DescribeRefreshSchemasStatus operation.
- */
-export const refreshSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RefreshSchemasMessage,
-  output: RefreshSchemasResponse,
-  errors: [
-    InvalidResourceStateFault,
-    KMSKeyNotAccessibleFault,
-    ResourceNotFoundFault,
-    ResourceQuotaExceededFault,
-  ],
-}));
-/**
- * Reloads the target database table with the source data.
- *
- * You can only use this operation with a task in the `RUNNING` state, otherwise
- * the service will throw an `InvalidResourceStateFault` exception.
- */
-export const reloadTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReloadTablesMessage,
-  output: ReloadTablesResponse,
-  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-}));
-/**
- * Removes metadata tags from an DMS resource, including replication instance, endpoint,
- * subnet group, and migration task. For more information, see
- * `Tag`
- * data type
- * description.
- */
-export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTagsFromResourceMessage,
-    output: RemoveTagsFromResourceResponse,
-    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-  }),
-);
-/**
- * Starts the specified data migration.
- */
-export const startDataMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartDataMigrationMessage,
-  output: StartDataMigrationResponse,
-  errors: [
-    FailedDependencyFault,
-    InvalidOperationFault,
-    InvalidResourceStateFault,
-    ResourceNotFoundFault,
-    ResourceQuotaExceededFault,
-  ],
-}));
-/**
- * Applies the extension pack to your target database. An extension pack is an add-on
- * module that emulates functions present in a source database that are required when
- * converting objects to the target database.
- */
-export const startExtensionPackAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartExtensionPackAssociationMessage,
-    output: StartExtensionPackAssociationResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }));
-/**
- * Creates a database migration assessment report by assessing the migration complexity for
- * your source database. A database migration assessment report summarizes all of the schema
- * conversion tasks. It also details the action items for database objects that can't be
- * converted to the database engine of your target database instance.
- */
-export const startMetadataModelAssessment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMetadataModelAssessmentMessage,
-    output: StartMetadataModelAssessmentResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }));
-/**
- * Converts your source database objects to a format compatible with the target database.
- */
-export const startMetadataModelConversion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMetadataModelConversionMessage,
-    output: StartMetadataModelConversionResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }));
-/**
- * Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3
- * bucket.
- */
-export const startMetadataModelExportAsScript =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMetadataModelExportAsScriptMessage,
-    output: StartMetadataModelExportAsScriptResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }));
-/**
- * Applies converted database objects to your target database.
- */
-export const startMetadataModelExportToTarget =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMetadataModelExportToTargetMessage,
-    output: StartMetadataModelExportToTargetResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }));
-/**
- * Loads the metadata for all the dependent database objects of the parent object.
- *
- * This operation uses your project's Amazon S3 bucket as a metadata cache to improve
- * performance.
- */
-export const startMetadataModelImport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMetadataModelImportMessage,
-    output: StartMetadataModelImportResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
- *
- * Starts the analysis of your source database to provide recommendations of target
- * engines.
- *
- * You can create recommendations for multiple source databases using BatchStartRecommendations.
- */
-export const startRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartRecommendationsRequest,
-    output: StartRecommendationsResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * For a given DMS Serverless replication configuration, DMS connects to the source
- * endpoint and collects the metadata to analyze the replication workload. Using this
- * metadata, DMS then computes and provisions the required capacity and starts replicating
- * to the target endpoint using the server resources that DMS has provisioned for the DMS
- * Serverless replication.
- */
-export const startReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartReplicationMessage,
-  output: StartReplicationResponse,
-  errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
-}));
-/**
- * Starts the replication task.
- *
- * For more information about DMS tasks, see Working with Migration Tasks in the
- * *Database Migration Service User Guide.*
- */
-export const startReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartReplicationTaskMessage,
-    output: StartReplicationTaskResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Starts the replication task assessment for unsupported data types in the source
- * database.
- *
- * You can only use this operation for a task if the following conditions are true:
- *
- * - The task must be in the `stopped` state.
- *
- * - The task must have successful connections to the source and target.
- *
- * If either of these conditions are not met, an `InvalidResourceStateFault`
- * error will result.
- *
- * For information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User
- * Guide.
- */
-export const startReplicationTaskAssessment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartReplicationTaskAssessmentMessage,
-    output: StartReplicationTaskAssessmentResponse,
-    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-  }));
-/**
- * Stops the specified data migration.
- */
-export const stopDataMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopDataMigrationMessage,
-  output: StopDataMigrationResponse,
-  errors: [
-    FailedDependencyFault,
-    InvalidResourceStateFault,
-    ResourceNotFoundFault,
-  ],
-}));
-/**
- * For a given DMS Serverless replication configuration, DMS stops any and all ongoing
- * DMS Serverless replications. This command doesn't deprovision the stopped
- * replications.
- */
-export const stopReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopReplicationMessage,
-  output: StopReplicationResponse,
-  errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
-}));
-/**
- * Stops the replication task.
- */
-export const stopReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopReplicationTaskMessage,
-  output: StopReplicationTaskResponse,
-  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-}));
-/**
- * Tests the connection between the replication instance and the endpoint.
- */
-export const testConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestConnectionMessage,
-  output: TestConnectionResponse,
-  errors: [
-    AccessDeniedFault,
-    InvalidResourceStateFault,
-    KMSKeyNotAccessibleFault,
-    ResourceNotFoundFault,
-    ResourceQuotaExceededFault,
-  ],
-}));
 /**
  * Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to
  * corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions
@@ -4538,155 +3789,6 @@ export const updateSubscriptionsToEventBridge =
     errors: [AccessDeniedFault, InvalidResourceStateFault],
   }));
 /**
- * Creates a data migration using the provided settings.
- */
-export const createDataMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDataMigrationMessage,
-  output: CreateDataMigrationResponse,
-  errors: [
-    FailedDependencyFault,
-    InvalidOperationFault,
-    ResourceAlreadyExistsFault,
-    ResourceNotFoundFault,
-    ResourceQuotaExceededFault,
-  ],
-}));
-/**
- * Creates an endpoint using the provided settings.
- *
- * For a MySQL source or target endpoint, don't explicitly specify the database using
- * the `DatabaseName` request parameter on the `CreateEndpoint` API
- * call. Specifying `DatabaseName` when you create a MySQL endpoint replicates
- * all the task tables to this single database. For MySQL endpoints, you specify the
- * database only when you specify the schema in the table-mapping rules of the DMS
- * task.
- */
-export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEndpointMessage,
-  output: CreateEndpointResponse,
-  errors: [
-    AccessDeniedFault,
-    InvalidResourceStateFault,
-    KMSKeyNotAccessibleFault,
-    ResourceAlreadyExistsFault,
-    ResourceNotFoundFault,
-    ResourceQuotaExceededFault,
-    S3AccessDeniedFault,
-  ],
-}));
-/**
- * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
- *
- * Creates a Fleet Advisor collector using the specified parameters.
- */
-export const createFleetAdvisorCollector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFleetAdvisorCollectorRequest,
-    output: CreateFleetAdvisorCollectorResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceQuotaExceededFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Creates the instance profile using the specified parameters.
- */
-export const createInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInstanceProfileMessage,
-    output: CreateInstanceProfileResponse,
-    errors: [
-      AccessDeniedFault,
-      FailedDependencyFault,
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Creates the migration project using the specified parameters.
- *
- * You can run this action only after you create an instance profile and data providers
- * using CreateInstanceProfile and CreateDataProvider.
- */
-export const createMigrationProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMigrationProjectMessage,
-    output: CreateMigrationProjectResponse,
-    errors: [
-      AccessDeniedFault,
-      FailedDependencyFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Creates a configuration that you can later provide to configure and start an DMS
- * Serverless replication. You can also provide options to validate the configuration inputs
- * before you start the replication.
- */
-export const createReplicationConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReplicationConfigMessage,
-    output: CreateReplicationConfigResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      InvalidSubnet,
-      KMSKeyNotAccessibleFault,
-      ReplicationSubnetGroupDoesNotCoverEnoughAZs,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-    ],
-  }),
-);
-/**
- * Deletes the specified certificate.
- */
-export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCertificateMessage,
-  output: DeleteCertificateResponse,
-  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
-}));
-/**
- * Deletes the connection between a replication instance and an endpoint.
- */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConnectionMessage,
-  output: DeleteConnectionResponse,
-  errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
-}));
-/**
- * Deletes the specified data provider.
- *
- * All migration projects associated with the data provider must be deleted or modified
- * before you can delete the data provider.
- */
-export const deleteDataProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDataProviderMessage,
-  output: DeleteDataProviderResponse,
-  errors: [
-    AccessDeniedFault,
-    FailedDependencyFault,
-    InvalidResourceStateFault,
-    ResourceNotFoundFault,
-  ],
-}));
-/**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
  * Deletes the specified Fleet Advisor collector.
@@ -4703,62 +3805,14 @@ export const deleteFleetAdvisorCollector = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
- *
- * Deletes the specified Fleet Advisor collector databases.
+ * Describes the status of the connections that have been made between the replication
+ * instance and an endpoint. Connections are created when you test an endpoint.
  */
-export const deleteFleetAdvisorDatabases = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFleetAdvisorDatabasesRequest,
-    output: DeleteFleetAdvisorDatabasesResponse,
-    errors: [AccessDeniedFault, InvalidOperationFault, ResourceNotFoundFault],
-  }),
-);
-/**
- * Deletes the specified instance profile.
- *
- * All migration projects associated with the instance profile must be deleted or
- * modified before you can delete the instance profile.
- */
-export const deleteInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInstanceProfileMessage,
-    output: DeleteInstanceProfileResponse,
-    errors: [
-      AccessDeniedFault,
-      FailedDependencyFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Deletes an DMS Serverless replication configuration. This effectively deprovisions any
- * and all replications that use this configuration. You can't delete the configuration for an
- * DMS Serverless replication that is ongoing. You can delete the configuration when the
- * replication is in a non-RUNNING and non-STARTING state.
- */
-export const deleteReplicationConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReplicationConfigMessage,
-    output: DeleteReplicationConfigResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Provides a description of the certificate.
- */
-export const describeCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCertificatesMessage,
-    output: DescribeCertificatesResponse,
-    errors: [ResourceNotFoundFault],
-  }),
-);
+export const describeConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConnectionsMessage,
+  output: DescribeConnectionsResponse,
+  errors: [ResourceNotFoundFault],
+}));
 /**
  * Returns information about the possible endpoint settings available when you create an
  * endpoint for a specific database engine.
@@ -4932,125 +3986,6 @@ export const exportMetadataModelAssessment =
     errors: [ResourceNotFoundFault],
   }));
 /**
- * Uploads the specified certificate.
- */
-export const importCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportCertificateMessage,
-  output: ImportCertificateResponse,
-  errors: [
-    InvalidCertificateFault,
-    KMSKeyNotAccessibleFault,
-    ResourceAlreadyExistsFault,
-    ResourceQuotaExceededFault,
-  ],
-}));
-/**
- * Modifies the specified endpoint.
- *
- * For a MySQL source or target endpoint, don't explicitly specify the database using
- * the `DatabaseName` request parameter on the `ModifyEndpoint` API
- * call. Specifying `DatabaseName` when you modify a MySQL endpoint replicates
- * all the task tables to this single database. For MySQL endpoints, you specify the
- * database only when you specify the schema in the table-mapping rules of the DMS
- * task.
- */
-export const modifyEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyEndpointMessage,
-  output: ModifyEndpointResponse,
-  errors: [
-    AccessDeniedFault,
-    InvalidResourceStateFault,
-    KMSKeyNotAccessibleFault,
-    ResourceAlreadyExistsFault,
-    ResourceNotFoundFault,
-  ],
-}));
-/**
- * Modifies the specified instance profile using the provided parameters.
- *
- * All migration projects associated with the instance profile must be deleted or
- * modified before you can modify the instance profile.
- */
-export const modifyInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyInstanceProfileMessage,
-    output: ModifyInstanceProfileResponse,
-    errors: [
-      AccessDeniedFault,
-      FailedDependencyFault,
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceNotFoundFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Modifies the specified migration project using the provided parameters.
- *
- * The migration project must be closed before you can modify it.
- */
-export const modifyMigrationProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyMigrationProjectMessage,
-    output: ModifyMigrationProjectResponse,
-    errors: [
-      AccessDeniedFault,
-      FailedDependencyFault,
-      InvalidResourceStateFault,
-      ResourceNotFoundFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Modifies an existing DMS Serverless replication configuration that you can use to
- * start a replication. This command includes input validation and logic to check the state of
- * any replication that uses this configuration. You can only modify a replication
- * configuration before any replication that uses it has started. As soon as you have
- * initially started a replication with a given configuiration, you can't modify that
- * configuration, even if you stop it.
- *
- * Other run statuses that allow you to run this command include FAILED and CREATED. A
- * provisioning state that allows you to run this command is FAILED_PROVISION.
- */
-export const modifyReplicationConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyReplicationConfigMessage,
-    output: ModifyReplicationConfigResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      InvalidSubnet,
-      KMSKeyNotAccessibleFault,
-      ReplicationSubnetGroupDoesNotCoverEnoughAZs,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
- * Modifies the specified replication task.
- *
- * You can't modify the task endpoints. The task must be stopped before you can modify it.
- *
- * For more information about DMS tasks, see Working with Migration Tasks in the
- * *Database Migration Service User Guide*.
- */
-export const modifyReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyReplicationTaskMessage,
-    output: ModifyReplicationTaskResponse,
-    errors: [
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-    ],
-  }),
-);
-/**
  * Reloads the target database table with the source data for a given DMS Serverless
  * replication configuration.
  *
@@ -5064,6 +3999,717 @@ export const reloadReplicationTables = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   }),
 );
+/**
+ * Returns information about data migrations.
+ */
+export const describeDataMigrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeDataMigrationsMessage,
+    output: DescribeDataMigrationsResponse,
+    errors: [
+      FailedDependencyFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Returns a paginated list of data providers for your account in the current
+ * region.
+ */
+export const describeDataProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeDataProvidersMessage,
+    output: DescribeDataProvidersResponse,
+    errors: [AccessDeniedFault, FailedDependencyFault, ResourceNotFoundFault],
+  }),
+);
+/**
+ * Returns a paginated list of instance profiles for your account in the current
+ * region.
+ */
+export const describeInstanceProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeInstanceProfilesMessage,
+    output: DescribeInstanceProfilesResponse,
+    errors: [AccessDeniedFault, FailedDependencyFault, ResourceNotFoundFault],
+  }),
+);
+/**
+ * Returns a paginated list of migration projects for your account in the current
+ * region.
+ */
+export const describeMigrationProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeMigrationProjectsMessage,
+    output: DescribeMigrationProjectsResponse,
+    errors: [AccessDeniedFault, FailedDependencyFault, ResourceNotFoundFault],
+  }),
+);
+/**
+ * Modifies an existing DMS data migration.
+ */
+export const modifyDataMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyDataMigrationMessage,
+  output: ModifyDataMigrationResponse,
+  errors: [
+    FailedDependencyFault,
+    InvalidResourceStateFault,
+    ResourceNotFoundFault,
+  ],
+}));
+/**
+ * Modifies the specified data provider using the provided settings.
+ *
+ * You must remove the data provider from all migration projects before you can modify
+ * it.
+ */
+export const modifyDataProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyDataProviderMessage,
+  output: ModifyDataProviderResponse,
+  errors: [
+    AccessDeniedFault,
+    FailedDependencyFault,
+    InvalidResourceStateFault,
+    ResourceNotFoundFault,
+  ],
+}));
+/**
+ * Starts the specified data migration.
+ */
+export const startDataMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataMigrationMessage,
+  output: StartDataMigrationResponse,
+  errors: [
+    FailedDependencyFault,
+    InvalidOperationFault,
+    InvalidResourceStateFault,
+    ResourceNotFoundFault,
+    ResourceQuotaExceededFault,
+  ],
+}));
+/**
+ * Stops the specified data migration.
+ */
+export const stopDataMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDataMigrationMessage,
+  output: StopDataMigrationResponse,
+  errors: [
+    FailedDependencyFault,
+    InvalidResourceStateFault,
+    ResourceNotFoundFault,
+  ],
+}));
+/**
+ * Deletes the specified data provider.
+ *
+ * All migration projects associated with the data provider must be deleted or modified
+ * before you can delete the data provider.
+ */
+export const deleteDataProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataProviderMessage,
+  output: DeleteDataProviderResponse,
+  errors: [
+    AccessDeniedFault,
+    FailedDependencyFault,
+    InvalidResourceStateFault,
+    ResourceNotFoundFault,
+  ],
+}));
+/**
+ * Returns configuration parameters for a schema conversion project.
+ */
+export const describeConversionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeConversionConfigurationMessage,
+    output: DescribeConversionConfigurationResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Returns information about the endpoints for your account in the current region.
+ */
+export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEndpointsMessage,
+  output: DescribeEndpointsResponse,
+  errors: [ResourceNotFoundFault],
+}));
+/**
+ * Lists all the event subscriptions for a customer account. The description of a
+ * subscription includes `SubscriptionName`, `SNSTopicARN`,
+ * `CustomerID`, `SourceType`, `SourceID`,
+ * `CreationTime`, and `Status`.
+ *
+ * If you specify `SubscriptionName`, this action lists the description for that
+ * subscription.
+ */
+export const describeEventSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEventSubscriptionsMessage,
+    output: DescribeEventSubscriptionsResponse,
+    errors: [ResourceNotFoundFault],
+  }),
+);
+/**
+ * Returns a paginated list of metadata model assessments for your account in the current
+ * region.
+ */
+export const describeMetadataModelAssessments =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeMetadataModelAssessmentsMessage,
+    output: DescribeMetadataModelAssessmentsResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Gets a list of child metadata models for the specified metadata model in the database hierarchy.
+ */
+export const describeMetadataModelChildren =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeMetadataModelChildrenMessage,
+    output: DescribeMetadataModelChildrenResponse,
+    errors: [AccessDeniedFault, ResourceNotFoundFault],
+  }));
+/**
+ * Returns a paginated list of metadata model conversions for a migration project.
+ */
+export const describeMetadataModelConversions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeMetadataModelConversionsMessage,
+    output: DescribeMetadataModelConversionsResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Returns a paginated list of metadata model creation requests for a migration project.
+ */
+export const describeMetadataModelCreations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeMetadataModelCreationsMessage,
+    output: DescribeMetadataModelCreationsResponse,
+    errors: [AccessDeniedFault, ResourceNotFoundFault],
+  }));
+/**
+ * Returns a paginated list of metadata model exports.
+ */
+export const describeMetadataModelExportsAsScript =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeMetadataModelExportsAsScriptMessage,
+    output: DescribeMetadataModelExportsAsScriptResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Returns a paginated list of metadata model exports.
+ */
+export const describeMetadataModelExportsToTarget =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeMetadataModelExportsToTargetMessage,
+    output: DescribeMetadataModelExportsToTargetResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Returns a paginated list of metadata model imports.
+ */
+export const describeMetadataModelImports =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeMetadataModelImportsMessage,
+    output: DescribeMetadataModelImportsResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Returns a list of upcoming maintenance events for replication instances in your account
+ * in the current Region.
+ */
+export const describePendingMaintenanceActions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribePendingMaintenanceActionsMessage,
+    output: DescribePendingMaintenanceActionsResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Returns one or more existing DMS Serverless replication configurations as a list of
+ * structures.
+ */
+export const describeReplicationConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeReplicationConfigsMessage,
+    output: DescribeReplicationConfigsResponse,
+    errors: [ResourceNotFoundFault],
+  }),
+);
+/**
+ * Returns information about replication instances for your account in the current
+ * region.
+ */
+export const describeReplicationInstances =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeReplicationInstancesMessage,
+    output: DescribeReplicationInstancesResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Returns information about the replication subnet groups.
+ */
+export const describeReplicationSubnetGroups =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeReplicationSubnetGroupsMessage,
+    output: DescribeReplicationSubnetGroupsResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Returns a paginated list of premigration assessment runs based on filter
+ * settings.
+ *
+ * These filter settings can specify a combination of premigration assessment runs,
+ * migration tasks, replication instances, and assessment run status values.
+ *
+ * This operation doesn't return information about individual assessments. For this
+ * information, see the `DescribeReplicationTaskIndividualAssessments`
+ * operation.
+ */
+export const describeReplicationTaskAssessmentRuns =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeReplicationTaskAssessmentRunsMessage,
+    output: DescribeReplicationTaskAssessmentRunsResponse,
+    errors: [ResourceNotFoundFault],
+  }));
+/**
+ * Returns information about replication tasks for your account in the current
+ * region.
+ */
+export const describeReplicationTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeReplicationTasksMessage,
+    output: DescribeReplicationTasksResponse,
+    errors: [ResourceNotFoundFault],
+  }),
+);
+/**
+ * Removes metadata tags from an DMS resource, including replication instance, endpoint,
+ * subnet group, and migration task. For more information, see
+ * `Tag`
+ * data type
+ * description.
+ */
+export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveTagsFromResourceMessage,
+    output: RemoveTagsFromResourceResponse,
+    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+  }),
+);
+/**
+ * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+ *
+ * Starts the analysis of your source database to provide recommendations of target
+ * engines.
+ *
+ * You can create recommendations for multiple source databases using BatchStartRecommendations.
+ */
+export const startRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartRecommendationsRequest,
+    output: StartRecommendationsResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * For a given DMS Serverless replication configuration, DMS connects to the source
+ * endpoint and collects the metadata to analyze the replication workload. Using this
+ * metadata, DMS then computes and provisions the required capacity and starts replicating
+ * to the target endpoint using the server resources that DMS has provisioned for the DMS
+ * Serverless replication.
+ */
+export const startReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartReplicationMessage,
+  output: StartReplicationResponse,
+  errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
+}));
+/**
+ * Starts the replication task.
+ *
+ * For more information about DMS tasks, see Working with Migration Tasks in the
+ * *Database Migration Service User Guide.*
+ */
+export const startReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartReplicationTaskMessage,
+    output: StartReplicationTaskResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Starts the replication task assessment for unsupported data types in the source
+ * database.
+ *
+ * You can only use this operation for a task if the following conditions are true:
+ *
+ * - The task must be in the `stopped` state.
+ *
+ * - The task must have successful connections to the source and target.
+ *
+ * If either of these conditions are not met, an `InvalidResourceStateFault`
+ * error will result.
+ *
+ * For information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User
+ * Guide.
+ */
+export const startReplicationTaskAssessment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartReplicationTaskAssessmentMessage,
+    output: StartReplicationTaskAssessmentResponse,
+    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+  }));
+/**
+ * For a given DMS Serverless replication configuration, DMS stops any and all ongoing
+ * DMS Serverless replications. This command doesn't deprovision the stopped
+ * replications.
+ */
+export const stopReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopReplicationMessage,
+  output: StopReplicationResponse,
+  errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
+}));
+/**
+ * Stops the replication task.
+ */
+export const stopReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopReplicationTaskMessage,
+  output: StopReplicationTaskResponse,
+  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+}));
+/**
+ * Deletes a subnet group.
+ */
+export const deleteReplicationSubnetGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteReplicationSubnetGroupMessage,
+    output: DeleteReplicationSubnetGroupResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }));
+/**
+ * Cancels a single metadata model creation operation that was started with `StartMetadataModelCreation`.
+ */
+export const cancelMetadataModelCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelMetadataModelCreationMessage,
+    output: CancelMetadataModelCreationResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Deletes an DMS event subscription.
+ */
+export const deleteEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEventSubscriptionMessage,
+    output: DeleteEventSubscriptionResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+ *
+ * Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
+ */
+export const runFleetAdvisorLsaAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RunFleetAdvisorLsaAnalysisRequest,
+    output: RunFleetAdvisorLsaAnalysisResponse,
+    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+  }),
+);
+/**
+ * Adds metadata tags to an DMS resource, including replication instance, endpoint,
+ * subnet group, and migration task. These tags can also be used with cost allocation
+ * reporting to track cost associated with DMS resources, or used in a Condition statement in
+ * an IAM policy for DMS. For more information, see
+ * `Tag`
+ * data type
+ * description.
+ */
+export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsToResourceMessage,
+  output: AddTagsToResourceResponse,
+  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+}));
+/**
+ * Deletes the specified replication task.
+ */
+export const deleteReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteReplicationTaskMessage,
+    output: DeleteReplicationTaskResponse,
+    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+  }),
+);
+/**
+ * Deletes the record of a single premigration assessment run.
+ *
+ * This operation removes all metadata that DMS maintains about this assessment run.
+ * However, the operation leaves untouched all information about this assessment run that is
+ * stored in your Amazon S3 bucket.
+ */
+export const deleteReplicationTaskAssessmentRun =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteReplicationTaskAssessmentRunMessage,
+    output: DeleteReplicationTaskAssessmentRunResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }));
+/**
+ * Provides a list of individual assessments that you can specify for a new premigration
+ * assessment run, given one or more parameters.
+ *
+ * If you specify an existing migration task, this operation provides the default
+ * individual assessments you can specify for that task. Otherwise, the specified parameters
+ * model elements of a possible migration task on which to base a premigration assessment
+ * run.
+ *
+ * To use these migration task modeling parameters, you must specify an existing
+ * replication instance, a source database engine, a target database engine, and a migration
+ * type. This combination of parameters potentially limits the default individual assessments
+ * available for an assessment run created for a corresponding migration task.
+ *
+ * If you specify no parameters, this operation provides a list of all possible individual
+ * assessments that you can specify for an assessment run. If you specify any one of the task
+ * modeling parameters, you must specify all of them or the operation cannot provide a list of
+ * individual assessments. The only parameter that you can specify alone is for an existing
+ * migration task. The specified task definition then determines the default list of
+ * individual assessments that you can specify in an assessment run for the task.
+ */
+export const describeApplicableIndividualAssessments =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeApplicableIndividualAssessmentsMessage,
+    output: DescribeApplicableIndividualAssessmentsResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }));
+/**
+ * Returns information about the schema for the specified endpoint.
+ */
+export const describeSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSchemasMessage,
+  output: DescribeSchemasResponse,
+  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+}));
+/**
+ * Returns table statistics on the database migration task, including table name, rows
+ * inserted, rows updated, and rows deleted.
+ *
+ * Note that the "last updated" column the DMS console only indicates the time that DMS
+ * last updated the table statistics record for a table. It does not indicate the time of the
+ * last update to the table.
+ */
+export const describeTableStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTableStatisticsMessage,
+    output: DescribeTableStatisticsResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Converts source selection rules into their target counterparts for schema conversion operations.
+ */
+export const getTargetSelectionRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetTargetSelectionRulesMessage,
+    output: GetTargetSelectionRulesResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Lists all metadata tags attached to an DMS resource, including replication instance,
+ * endpoint, subnet group, and migration task. For more information, see
+ * `Tag`
+ *
+ * data type description.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceMessage,
+  output: ListTagsForResourceResponse,
+  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+}));
+/**
+ * Modifies the specified schema conversion configuration using the provided parameters.
+ */
+export const modifyConversionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyConversionConfigurationMessage,
+    output: ModifyConversionConfigurationResponse,
+    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+  }));
+/**
+ * Reboots a replication instance. Rebooting results in a momentary outage, until the
+ * replication instance becomes available again.
+ */
+export const rebootReplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RebootReplicationInstanceMessage,
+    output: RebootReplicationInstanceResponse,
+    errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+  }),
+);
+/**
+ * Reloads the target database table with the source data.
+ *
+ * You can only use this operation with a task in the `RUNNING` state, otherwise
+ * the service will throw an `InvalidResourceStateFault` exception.
+ */
+export const reloadTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReloadTablesMessage,
+  output: ReloadTablesResponse,
+  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+}));
+/**
+ * Deletes the specified certificate.
+ */
+export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCertificateMessage,
+  output: DeleteCertificateResponse,
+  errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+}));
+/**
+ * Deletes the connection between a replication instance and an endpoint.
+ */
+export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionMessage,
+  output: DeleteConnectionResponse,
+  errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
+}));
+/**
+ * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+ *
+ * Deletes the specified Fleet Advisor collector databases.
+ */
+export const deleteFleetAdvisorDatabases = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteFleetAdvisorDatabasesRequest,
+    output: DeleteFleetAdvisorDatabasesResponse,
+    errors: [AccessDeniedFault, InvalidOperationFault, ResourceNotFoundFault],
+  }),
+);
+/**
+ * Deletes the specified instance profile.
+ *
+ * All migration projects associated with the instance profile must be deleted or
+ * modified before you can delete the instance profile.
+ */
+export const deleteInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteInstanceProfileMessage,
+    output: DeleteInstanceProfileResponse,
+    errors: [
+      AccessDeniedFault,
+      FailedDependencyFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Deletes an DMS Serverless replication configuration. This effectively deprovisions any
+ * and all replications that use this configuration. You can't delete the configuration for an
+ * DMS Serverless replication that is ongoing. You can delete the configuration when the
+ * replication is in a non-RUNNING and non-STARTING state.
+ */
+export const deleteReplicationConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteReplicationConfigMessage,
+    output: DeleteReplicationConfigResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Provides a description of the certificate.
+ */
+export const describeCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCertificatesMessage,
+    output: DescribeCertificatesResponse,
+    errors: [ResourceNotFoundFault],
+  }),
+);
+/**
+ * Tests the connection between the replication instance and the endpoint.
+ */
+export const testConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestConnectionMessage,
+  output: TestConnectionResponse,
+  errors: [
+    AccessDeniedFault,
+    InvalidResourceStateFault,
+    KMSKeyNotAccessibleFault,
+    ResourceNotFoundFault,
+    ResourceQuotaExceededFault,
+  ],
+}));
+/**
+ * Moves a replication task from its current replication instance to a different target
+ * replication instance using the specified parameters. The target replication instance must
+ * be created with the same or later DMS version as the current replication instance.
+ */
+export const moveReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MoveReplicationTaskMessage,
+  output: MoveReplicationTaskResponse,
+  errors: [
+    AccessDeniedFault,
+    InvalidResourceStateFault,
+    KMSKeyNotAccessibleFault,
+    ResourceNotFoundFault,
+    ResourceQuotaExceededFault,
+  ],
+}));
+/**
+ * Populates the schema for the specified endpoint. This is an asynchronous operation and
+ * can take several minutes. You can check the status of this operation by calling the
+ * DescribeRefreshSchemasStatus operation.
+ */
+export const refreshSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RefreshSchemasMessage,
+  output: RefreshSchemasResponse,
+  errors: [
+    InvalidResourceStateFault,
+    KMSKeyNotAccessibleFault,
+    ResourceNotFoundFault,
+    ResourceQuotaExceededFault,
+  ],
+}));
 /**
  * Applies a pending maintenance action to a resource (for example, to a replication
  * instance).
@@ -5113,67 +4759,6 @@ export const cancelReplicationTaskAssessmentRun =
       ResourceNotFoundFault,
     ],
   }));
-/**
- * Creates a data provider using the provided settings. A data provider stores a data store
- * type and location information about your database.
- */
-export const createDataProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDataProviderMessage,
-  output: CreateDataProviderResponse,
-  errors: [
-    AccessDeniedFault,
-    FailedDependencyFault,
-    ResourceAlreadyExistsFault,
-    ResourceQuotaExceededFault,
-  ],
-}));
-/**
- * Creates the replication instance using the specified parameters.
- *
- * DMS requires that your account have certain roles with appropriate permissions before
- * you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on
- * the required permissions, see IAM
- * Permissions Needed to Use DMS.
- *
- * If you don't specify a version when creating a replication instance, DMS will
- * create the instance using the default engine version. For information about the default
- * engine version, see Release Notes.
- */
-export const createReplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReplicationInstanceMessage,
-    output: CreateReplicationInstanceResponse,
-    errors: [
-      AccessDeniedFault,
-      InsufficientResourceCapacityFault,
-      InvalidResourceStateFault,
-      InvalidSubnet,
-      KMSKeyNotAccessibleFault,
-      ReplicationSubnetGroupDoesNotCoverEnoughAZs,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      StorageQuotaExceededFault,
-    ],
-  }),
-);
-/**
- * Creates a replication task using the specified parameters.
- */
-export const createReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReplicationTaskMessage,
-    output: CreateReplicationTaskResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidResourceStateFault,
-      KMSKeyNotAccessibleFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-    ],
-  }),
-);
 /**
  * Deletes the specified data migration.
  */
@@ -5273,43 +4858,6 @@ export const describeReplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Modifies the replication instance to apply new settings. You can change one or more
- * parameters by specifying these parameters and the new values in the request.
- *
- * Some settings are applied during the maintenance window.
- */
-export const modifyReplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyReplicationInstanceMessage,
-    output: ModifyReplicationInstanceResponse,
-    errors: [
-      AccessDeniedFault,
-      InsufficientResourceCapacityFault,
-      InvalidResourceStateFault,
-      ResourceAlreadyExistsFault,
-      ResourceNotFoundFault,
-      StorageQuotaExceededFault,
-      UpgradeDependencyFailureFault,
-    ],
-  }),
-);
-/**
- * Modifies the settings for the specified replication subnet group.
- */
-export const modifyReplicationSubnetGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyReplicationSubnetGroupMessage,
-    output: ModifyReplicationSubnetGroupResponse,
-    errors: [
-      AccessDeniedFault,
-      InvalidSubnet,
-      ReplicationSubnetGroupDoesNotCoverEnoughAZs,
-      ResourceNotFoundFault,
-      ResourceQuotaExceededFault,
-      SubnetAlreadyInUse,
-    ],
-  }));
-/**
  * Creates source metadata model of the given type with the specified properties for schema conversion operations.
  *
  * This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.
@@ -5327,34 +4875,173 @@ export const startMetadataModelCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Starts a new premigration assessment run for one or more individual assessments of a
- * migration task.
- *
- * The assessments that you can specify depend on the source and target database engine and
- * the migration type defined for the given task. To run this operation, your migration task
- * must already be created. After you run this operation, you can review the status of each
- * individual assessment. You can also run the migration task manually after the assessment
- * run and its individual assessments complete.
+ * Creates a data migration using the provided settings.
  */
-export const startReplicationTaskAssessmentRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartReplicationTaskAssessmentRunMessage,
-    output: StartReplicationTaskAssessmentRunResponse,
+export const createDataMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataMigrationMessage,
+  output: CreateDataMigrationResponse,
+  errors: [
+    FailedDependencyFault,
+    InvalidOperationFault,
+    ResourceAlreadyExistsFault,
+    ResourceNotFoundFault,
+    ResourceQuotaExceededFault,
+  ],
+}));
+/**
+ * Modifies the specified endpoint.
+ *
+ * For a MySQL source or target endpoint, don't explicitly specify the database using
+ * the `DatabaseName` request parameter on the `ModifyEndpoint` API
+ * call. Specifying `DatabaseName` when you modify a MySQL endpoint replicates
+ * all the task tables to this single database. For MySQL endpoints, you specify the
+ * database only when you specify the schema in the table-mapping rules of the DMS
+ * task.
+ */
+export const modifyEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyEndpointMessage,
+  output: ModifyEndpointResponse,
+  errors: [
+    AccessDeniedFault,
+    InvalidResourceStateFault,
+    KMSKeyNotAccessibleFault,
+    ResourceAlreadyExistsFault,
+    ResourceNotFoundFault,
+  ],
+}));
+/**
+ * Modifies the specified replication task.
+ *
+ * You can't modify the task endpoints. The task must be stopped before you can modify it.
+ *
+ * For more information about DMS tasks, see Working with Migration Tasks in the
+ * *Database Migration Service User Guide*.
+ */
+export const modifyReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyReplicationTaskMessage,
+    output: ModifyReplicationTaskResponse,
+    errors: [
+      InvalidResourceStateFault,
+      KMSKeyNotAccessibleFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Creates an endpoint using the provided settings.
+ *
+ * For a MySQL source or target endpoint, don't explicitly specify the database using
+ * the `DatabaseName` request parameter on the `CreateEndpoint` API
+ * call. Specifying `DatabaseName` when you create a MySQL endpoint replicates
+ * all the task tables to this single database. For MySQL endpoints, you specify the
+ * database only when you specify the schema in the table-mapping rules of the DMS
+ * task.
+ */
+export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEndpointMessage,
+  output: CreateEndpointResponse,
+  errors: [
+    AccessDeniedFault,
+    InvalidResourceStateFault,
+    KMSKeyNotAccessibleFault,
+    ResourceAlreadyExistsFault,
+    ResourceNotFoundFault,
+    ResourceQuotaExceededFault,
+    S3AccessDeniedFault,
+  ],
+}));
+/**
+ * Uploads the specified certificate.
+ */
+export const importCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportCertificateMessage,
+  output: ImportCertificateResponse,
+  errors: [
+    InvalidCertificateFault,
+    KMSKeyNotAccessibleFault,
+    ResourceAlreadyExistsFault,
+    ResourceQuotaExceededFault,
+  ],
+}));
+/**
+ * Creates a data provider using the provided settings. A data provider stores a data store
+ * type and location information about your database.
+ */
+export const createDataProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataProviderMessage,
+  output: CreateDataProviderResponse,
+  errors: [
+    AccessDeniedFault,
+    FailedDependencyFault,
+    ResourceAlreadyExistsFault,
+    ResourceQuotaExceededFault,
+  ],
+}));
+/**
+ * Creates a replication task using the specified parameters.
+ */
+export const createReplicationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateReplicationTaskMessage,
+    output: CreateReplicationTaskResponse,
     errors: [
       AccessDeniedFault,
       InvalidResourceStateFault,
-      KMSAccessDeniedFault,
-      KMSDisabledFault,
-      KMSFault,
-      KMSInvalidStateFault,
       KMSKeyNotAccessibleFault,
-      KMSNotFoundFault,
       ResourceAlreadyExistsFault,
       ResourceNotFoundFault,
-      S3AccessDeniedFault,
-      S3ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
     ],
-  }));
+  }),
+);
+/**
+ * Modifies an existing DMS Serverless replication configuration that you can use to
+ * start a replication. This command includes input validation and logic to check the state of
+ * any replication that uses this configuration. You can only modify a replication
+ * configuration before any replication that uses it has started. As soon as you have
+ * initially started a replication with a given configuiration, you can't modify that
+ * configuration, even if you stop it.
+ *
+ * Other run statuses that allow you to run this command include FAILED and CREATED. A
+ * provisioning state that allows you to run this command is FAILED_PROVISION.
+ */
+export const modifyReplicationConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyReplicationConfigMessage,
+    output: ModifyReplicationConfigResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      InvalidSubnet,
+      KMSKeyNotAccessibleFault,
+      ReplicationSubnetGroupDoesNotCoverEnoughAZs,
+      ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Creates a configuration that you can later provide to configure and start an DMS
+ * Serverless replication. You can also provide options to validate the configuration inputs
+ * before you start the replication.
+ */
+export const createReplicationConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateReplicationConfigMessage,
+    output: CreateReplicationConfigResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      InvalidSubnet,
+      KMSKeyNotAccessibleFault,
+      ReplicationSubnetGroupDoesNotCoverEnoughAZs,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+    ],
+  }),
+);
 /**
  * Cancels a single metadata model conversion operation that was started with `StartMetadataModelConversion`.
  */
@@ -5392,6 +5079,332 @@ export const createReplicationSubnetGroup =
       ResourceAlreadyExistsFault,
       ResourceNotFoundFault,
       ResourceQuotaExceededFault,
+    ],
+  }));
+/**
+ * Modifies the settings for the specified replication subnet group.
+ */
+export const modifyReplicationSubnetGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyReplicationSubnetGroupMessage,
+    output: ModifyReplicationSubnetGroupResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidSubnet,
+      ReplicationSubnetGroupDoesNotCoverEnoughAZs,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      SubnetAlreadyInUse,
+    ],
+  }));
+/**
+ * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+ *
+ * Creates a Fleet Advisor collector using the specified parameters.
+ */
+export const createFleetAdvisorCollector = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateFleetAdvisorCollectorRequest,
+    output: CreateFleetAdvisorCollectorResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      ResourceQuotaExceededFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Creates the replication instance using the specified parameters.
+ *
+ * DMS requires that your account have certain roles with appropriate permissions before
+ * you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on
+ * the required permissions, see IAM
+ * Permissions Needed to Use DMS.
+ *
+ * If you don't specify a version when creating a replication instance, DMS will
+ * create the instance using the default engine version. For information about the default
+ * engine version, see Release Notes.
+ */
+export const createReplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateReplicationInstanceMessage,
+    output: CreateReplicationInstanceResponse,
+    errors: [
+      AccessDeniedFault,
+      InsufficientResourceCapacityFault,
+      InvalidResourceStateFault,
+      InvalidSubnet,
+      KMSKeyNotAccessibleFault,
+      ReplicationSubnetGroupDoesNotCoverEnoughAZs,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      StorageQuotaExceededFault,
+    ],
+  }),
+);
+/**
+ * Applies the extension pack to your target database. An extension pack is an add-on
+ * module that emulates functions present in a source database that are required when
+ * converting objects to the target database.
+ */
+export const startExtensionPackAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartExtensionPackAssociationMessage,
+    output: StartExtensionPackAssociationResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      KMSKeyNotAccessibleFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }));
+/**
+ * Creates the instance profile using the specified parameters.
+ */
+export const createInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateInstanceProfileMessage,
+    output: CreateInstanceProfileResponse,
+    errors: [
+      AccessDeniedFault,
+      FailedDependencyFault,
+      InvalidResourceStateFault,
+      KMSKeyNotAccessibleFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Creates the migration project using the specified parameters.
+ *
+ * You can run this action only after you create an instance profile and data providers
+ * using CreateInstanceProfile and CreateDataProvider.
+ */
+export const createMigrationProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateMigrationProjectMessage,
+    output: CreateMigrationProjectResponse,
+    errors: [
+      AccessDeniedFault,
+      FailedDependencyFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Creates a database migration assessment report by assessing the migration complexity for
+ * your source database. A database migration assessment report summarizes all of the schema
+ * conversion tasks. It also details the action items for database objects that can't be
+ * converted to the database engine of your target database instance.
+ */
+export const startMetadataModelAssessment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartMetadataModelAssessmentMessage,
+    output: StartMetadataModelAssessmentResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      KMSKeyNotAccessibleFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }));
+/**
+ * Converts your source database objects to a format compatible with the target database.
+ */
+export const startMetadataModelConversion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartMetadataModelConversionMessage,
+    output: StartMetadataModelConversionResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      KMSKeyNotAccessibleFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }));
+/**
+ * Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3
+ * bucket.
+ */
+export const startMetadataModelExportAsScript =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartMetadataModelExportAsScriptMessage,
+    output: StartMetadataModelExportAsScriptResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      KMSKeyNotAccessibleFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }));
+/**
+ * Applies converted database objects to your target database.
+ */
+export const startMetadataModelExportToTarget =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartMetadataModelExportToTargetMessage,
+    output: StartMetadataModelExportToTargetResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      KMSKeyNotAccessibleFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }));
+/**
+ * Loads the metadata for all the dependent database objects of the parent object.
+ *
+ * This operation uses your project's Amazon S3 bucket as a metadata cache to improve
+ * performance.
+ */
+export const startMetadataModelImport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartMetadataModelImportMessage,
+    output: StartMetadataModelImportResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      KMSKeyNotAccessibleFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      ResourceQuotaExceededFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Modifies the specified instance profile using the provided parameters.
+ *
+ * All migration projects associated with the instance profile must be deleted or
+ * modified before you can modify the instance profile.
+ */
+export const modifyInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyInstanceProfileMessage,
+    output: ModifyInstanceProfileResponse,
+    errors: [
+      AccessDeniedFault,
+      FailedDependencyFault,
+      InvalidResourceStateFault,
+      KMSKeyNotAccessibleFault,
+      ResourceNotFoundFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Modifies the specified migration project using the provided parameters.
+ *
+ * The migration project must be closed before you can modify it.
+ */
+export const modifyMigrationProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyMigrationProjectMessage,
+    output: ModifyMigrationProjectResponse,
+    errors: [
+      AccessDeniedFault,
+      FailedDependencyFault,
+      InvalidResourceStateFault,
+      ResourceNotFoundFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
+    ],
+  }),
+);
+/**
+ * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+ *
+ * Returns a paginated list of target engine recommendations for your source
+ * databases.
+ */
+export const describeRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeRecommendationsRequest,
+    output: DescribeRecommendationsResponse,
+    errors: [AccessDeniedFault, InvalidResourceStateFault],
+  }),
+);
+/**
+ * Modifies the replication instance to apply new settings. You can change one or more
+ * parameters by specifying these parameters and the new values in the request.
+ *
+ * Some settings are applied during the maintenance window.
+ */
+export const modifyReplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyReplicationInstanceMessage,
+    output: ModifyReplicationInstanceResponse,
+    errors: [
+      AccessDeniedFault,
+      InsufficientResourceCapacityFault,
+      InvalidResourceStateFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      StorageQuotaExceededFault,
+      UpgradeDependencyFailureFault,
+    ],
+  }),
+);
+/**
+ * Starts a new premigration assessment run for one or more individual assessments of a
+ * migration task.
+ *
+ * The assessments that you can specify depend on the source and target database engine and
+ * the migration type defined for the given task. To run this operation, your migration task
+ * must already be created. After you run this operation, you can review the status of each
+ * individual assessment. You can also run the migration task manually after the assessment
+ * run and its individual assessments complete.
+ */
+export const startReplicationTaskAssessmentRun =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartReplicationTaskAssessmentRunMessage,
+    output: StartReplicationTaskAssessmentRunResponse,
+    errors: [
+      AccessDeniedFault,
+      InvalidResourceStateFault,
+      KMSAccessDeniedFault,
+      KMSDisabledFault,
+      KMSFault,
+      KMSInvalidStateFault,
+      KMSKeyNotAccessibleFault,
+      KMSNotFoundFault,
+      ResourceAlreadyExistsFault,
+      ResourceNotFoundFault,
+      S3AccessDeniedFault,
+      S3ResourceNotFoundFault,
     ],
   }));
 /**
@@ -5449,18 +5462,5 @@ export const createEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
       SNSInvalidTopicFault,
       SNSNoAuthorizationFault,
     ],
-  }),
-);
-/**
- * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
- *
- * Returns a paginated list of target engine recommendations for your source
- * databases.
- */
-export const describeRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRecommendationsRequest,
-    output: DescribeRecommendationsResponse,
-    errors: [AccessDeniedFault, InvalidResourceStateFault],
   }),
 );

@@ -895,64 +895,60 @@ export class ListAssociatedResourcesResponse extends S.Class<ListAssociatedResou
 )({ resources: S.optional(Resources), nextToken: S.optional(S.String) }) {}
 
 //# Errors
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.String, serviceCode: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Disassociates a resource from application.
- * Both the resource and the application can be specified either by ID or name.
- *
- * **Minimum permissions**
- *
- * You must have the following permissions to remove a resource that's been associated with an application using the `APPLY_APPLICATION_TAG` option for AssociateResource.
- *
- * - `tag:GetResources`
- *
- * - `tag:UntagResources`
- *
- * You must also have the following permissions if you don't use the `AWSServiceCatalogAppRegistryFullAccess` policy.
- * For more information, see AWSServiceCatalogAppRegistryFullAccess in the AppRegistry Administrator Guide.
- *
- * - `resource-groups:DisassociateResource`
- *
- * - `cloudformation:UpdateStack`
- *
- * - `cloudformation:DescribeStacks`
- *
- * In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource.
- * For more information, see UntagResources in the *Resource Groups Tagging API Reference*.
+ * Retrieves a `TagKey` configuration
+ * from an account.
  */
-export const disassociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationRequest,
+  output: GetConfigurationResponse,
+  errors: [InternalServerException],
+}));
+/**
+ * Retrieves a list of all of your applications. Results are paginated.
+ */
+export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Updates an existing attribute group with new details.
+ */
+export const updateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DisassociateResourceRequest,
-    output: DisassociateResourceResponse,
+    input: UpdateAttributeGroupRequest,
+    output: UpdateAttributeGroupResponse,
     errors: [
+      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
-      ThrottlingException,
       ValidationException,
     ],
   }),
@@ -974,88 +970,6 @@ export const getAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves a list of all of your applications. Results are paginated.
- */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Lists all attribute groups that are associated with specified application. Results are paginated.
- */
-export const listAssociatedAttributeGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAssociatedAttributeGroupsRequest,
-    output: ListAssociatedAttributeGroupsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists all attribute groups which you have access to. Results are paginated.
- */
-export const listAttributeGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAttributeGroupsRequest,
-  output: ListAttributeGroupsResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Lists all of the tags on the resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a `TagKey` configuration
- * to an account.
- */
-export const putConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutConfigurationRequest,
-  output: PutConfigurationResponse,
-  errors: [ConflictException, InternalServerException, ValidationException],
-}));
-/**
- * Syncs the resource with current AppRegistry records.
- *
- * Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
- */
-export const syncResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SyncResourceRequest,
-  output: SyncResourceResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Assigns one or more tags (key-value pairs) to the specified resource.
- *
- * Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
- *
- * This operation returns an empty response if the call was successful.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Removes tags from a resource.
  *
  * This operation returns an empty response if the call was successful.
@@ -1070,14 +984,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates an existing attribute group with new details.
+ * Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts `AssociateAttributeGroup`.
  */
-export const updateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const disassociateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateAttributeGroupRequest,
-    output: UpdateAttributeGroupResponse,
+    input: DisassociateAttributeGroupRequest,
+    output: DisassociateAttributeGroupResponse,
     errors: [
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ValidationException,
@@ -1085,92 +998,30 @@ export const updateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Associates an attribute group with an application to augment the application's metadata
- * with the group's attributes. This feature enables applications to be described with
- * user-defined details that are machine-readable, such as third-party integrations.
+ * Lists all attribute groups that are associated with specified application. Results are paginated.
  */
-export const associateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateAttributeGroupRequest,
-    output: AssociateAttributeGroupResponse,
+export const listAssociatedAttributeGroups =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAssociatedAttributeGroupsRequest,
+    output: ListAssociatedAttributeGroupsResponse,
     errors: [
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
-      ServiceQuotaExceededException,
       ValidationException,
     ],
-  }),
-);
+  }));
 /**
- * Associates a resource with an application.
- * The resource can be specified by its ARN or name.
- * The application can be specified by ARN, ID, or name.
- *
- * **Minimum permissions**
- *
- * You must have the following permissions to associate a resource using the `OPTIONS` parameter set to `APPLY_APPLICATION_TAG`.
- *
- * - `tag:GetResources`
- *
- * - `tag:TagResources`
- *
- * You must also have these additional permissions if you don't use the `AWSServiceCatalogAppRegistryFullAccess` policy.
- * For more information, see AWSServiceCatalogAppRegistryFullAccess in the AppRegistry Administrator Guide.
- *
- * - `resource-groups:AssociateResource`
- *
- * - `cloudformation:UpdateStack`
- *
- * - `cloudformation:DescribeStacks`
- *
- * In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource.
- * For more information, see TagResources in the *Resource Groups Tagging API Reference*.
+ * Lists all of the tags on the resource.
  */
-export const associateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateResourceRequest,
-  output: AssociateResourceResponse,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
   ],
 }));
-/**
- * Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
- */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new attribute group as a container for user-defined attributes. This feature
- * enables users to have full control over their cloud application's metadata in a rich
- * machine-readable format to facilitate integration with automated workflows and third-party
- * tools.
- */
-export const createAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAttributeGroupRequest,
-    output: CreateAttributeGroupResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
  */
@@ -1198,29 +1049,6 @@ export const deleteAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts `AssociateAttributeGroup`.
- */
-export const disassociateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateAttributeGroupRequest,
-    output: DisassociateAttributeGroupResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves a `TagKey` configuration
- * from an account.
- */
-export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConfigurationRequest,
-  output: GetConfigurationResponse,
-  errors: [InternalServerException],
-}));
-/**
  * Lists the details of all attribute groups associated with a specific application. The results display in pages.
  */
 export const listAttributeGroupsForApplication =
@@ -1234,16 +1062,35 @@ export const listAttributeGroupsForApplication =
     ],
   }));
 /**
- * Updates an existing application with new attributes.
+ * Lists all attribute groups which you have access to. Results are paginated.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
+export const listAttributeGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAttributeGroupsRequest,
+  output: ListAttributeGroupsResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Associates a `TagKey` configuration
+ * to an account.
+ */
+export const putConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutConfigurationRequest,
+  output: PutConfigurationResponse,
+  errors: [ConflictException, InternalServerException, ValidationException],
+}));
+/**
+ * Assigns one or more tags (key-value pairs) to the specified resource.
+ *
+ * Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
+ *
+ * This operation returns an empty response if the call was successful.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -1319,3 +1166,156 @@ export const listAssociatedResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Updates an existing application with new attributes.
+ */
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new attribute group as a container for user-defined attributes. This feature
+ * enables users to have full control over their cloud application's metadata in a rich
+ * machine-readable format to facilitate integration with automated workflows and third-party
+ * tools.
+ */
+export const createAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAttributeGroupRequest,
+    output: CreateAttributeGroupResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Associates an attribute group with an application to augment the application's metadata
+ * with the group's attributes. This feature enables applications to be described with
+ * user-defined details that are machine-readable, such as third-party integrations.
+ */
+export const associateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateAttributeGroupRequest,
+    output: AssociateAttributeGroupResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Associates a resource with an application.
+ * The resource can be specified by its ARN or name.
+ * The application can be specified by ARN, ID, or name.
+ *
+ * **Minimum permissions**
+ *
+ * You must have the following permissions to associate a resource using the `OPTIONS` parameter set to `APPLY_APPLICATION_TAG`.
+ *
+ * - `tag:GetResources`
+ *
+ * - `tag:TagResources`
+ *
+ * You must also have these additional permissions if you don't use the `AWSServiceCatalogAppRegistryFullAccess` policy.
+ * For more information, see AWSServiceCatalogAppRegistryFullAccess in the AppRegistry Administrator Guide.
+ *
+ * - `resource-groups:AssociateResource`
+ *
+ * - `cloudformation:UpdateStack`
+ *
+ * - `cloudformation:DescribeStacks`
+ *
+ * In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource.
+ * For more information, see TagResources in the *Resource Groups Tagging API Reference*.
+ */
+export const associateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateResourceRequest,
+  output: AssociateResourceResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Disassociates a resource from application.
+ * Both the resource and the application can be specified either by ID or name.
+ *
+ * **Minimum permissions**
+ *
+ * You must have the following permissions to remove a resource that's been associated with an application using the `APPLY_APPLICATION_TAG` option for AssociateResource.
+ *
+ * - `tag:GetResources`
+ *
+ * - `tag:UntagResources`
+ *
+ * You must also have the following permissions if you don't use the `AWSServiceCatalogAppRegistryFullAccess` policy.
+ * For more information, see AWSServiceCatalogAppRegistryFullAccess in the AppRegistry Administrator Guide.
+ *
+ * - `resource-groups:DisassociateResource`
+ *
+ * - `cloudformation:UpdateStack`
+ *
+ * - `cloudformation:DescribeStacks`
+ *
+ * In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource.
+ * For more information, see UntagResources in the *Resource Groups Tagging API Reference*.
+ */
+export const disassociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateResourceRequest,
+    output: DisassociateResourceResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Syncs the resource with current AppRegistry records.
+ *
+ * Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
+ */
+export const syncResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SyncResourceRequest,
+  output: SyncResourceResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
+ */
+export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationRequest,
+  output: CreateApplicationResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

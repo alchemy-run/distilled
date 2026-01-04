@@ -1702,30 +1702,93 @@ export class GetAccuracyMetricsResponse extends S.Class<GetAccuracyMetricsRespon
 //# Errors
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
-) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Describes an Amazon Forecast dataset created using the CreateDataset operation.
+ *
+ * In addition to listing the parameters specified in the `CreateDataset` request,
+ * this operation includes the following dataset properties:
+ *
+ * - `CreationTime`
+ *
+ * - `LastModificationTime`
+ *
+ * - `Status`
+ */
+export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDatasetRequest,
+  output: DescribeDatasetResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Resumes a stopped monitor resource.
+ */
+export const resumeResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResumeResourceRequest,
+  output: ResumeResourceResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes a dataset group created using the CreateDatasetGroup operation.
+ * You can only delete dataset groups that have a status of `ACTIVE`,
+ * `CREATE_FAILED`, or `UPDATE_FAILED`. To get the status, use the DescribeDatasetGroup operation.
+ *
+ * This operation deletes only the dataset group, not the datasets in the group.
+ */
+export const deleteDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetGroupRequest,
+  output: DeleteDatasetGroupResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes a dataset import job created using the CreateDatasetImportJob
+ * operation. You can delete only dataset import jobs that have a status of `ACTIVE`
+ * or `CREATE_FAILED`. To get the status, use the DescribeDatasetImportJob
+ * operation.
+ */
+export const deleteDatasetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDatasetImportJobRequest,
+    output: DeleteDatasetImportJobResponse,
+    errors: [
+      InvalidInputException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Deletes an Explainability resource.
  *
@@ -1910,62 +1973,6 @@ export const deleteWhatIfForecastExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Stops a resource.
- *
- * The resource undergoes the following states: `CREATE_STOPPING` and
- * `CREATE_STOPPED`. You cannot resume a resource once it has been
- * stopped.
- *
- * This operation can be applied to the following resources (and their corresponding child
- * resources):
- *
- * - Dataset Import Job
- *
- * - Predictor Job
- *
- * - Forecast Job
- *
- * - Forecast Export Job
- *
- * - Predictor Backtest Export Job
- *
- * - Explainability Job
- *
- * - Explainability Export Job
- */
-export const stopResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopResourceRequest,
-  output: StopResourceResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Associates the specified tags to a resource with the specified `resourceArn`.
- * If existing tags on a resource are not specified in the request parameters, they are not
- * changed. When a resource is deleted, the tags associated with that resource are also
- * deleted.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
  * Replaces the datasets in a dataset group with the specified datasets.
  *
  * The `Status` of the dataset group must be `ACTIVE` before you can
@@ -1980,218 +1987,6 @@ export const updateDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceInUseException,
     ResourceNotFoundException,
   ],
-}));
-/**
- * Exports a forecast created by the CreateForecast operation to your
- * Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions:
- *
- * __
- *
- * where the component is in Java SimpleDateFormat
- * (yyyy-MM-ddTHH-mm-ssZ).
- *
- * You must specify a DataDestination object that includes an Identity and Access Management
- * (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see
- * aws-forecast-iam-roles.
- *
- * For more information, see howitworks-forecast.
- *
- * To get a list of all your forecast export jobs, use the ListForecastExportJobs operation.
- *
- * The `Status` of the forecast export job must be `ACTIVE` before
- * you can access the forecast in your Amazon S3 bucket. To get the status, use the DescribeForecastExportJob operation.
- */
-export const createForecastExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateForecastExportJobRequest,
-    output: CreateForecastExportJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Creates a predictor monitor resource for an existing auto predictor. Predictor monitoring allows you to see how your predictor's performance changes over time.
- * For more information, see Predictor Monitoring.
- */
-export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateMonitorRequest,
-  output: CreateMonitorResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Exports backtest forecasts and accuracy metrics generated by the CreateAutoPredictor or CreatePredictor operations. Two
- * folders containing CSV or Parquet files are exported to your specified S3 bucket.
- *
- * The export file names will match the following conventions:
- *
- * `__.csv`
- *
- * The component is in Java SimpleDate format
- * (yyyy-MM-ddTHH-mm-ssZ).
- *
- * You must specify a DataDestination object that includes an Amazon S3
- * bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3
- * bucket. For more information, see aws-forecast-iam-roles.
- *
- * The `Status` of the export job must be `ACTIVE` before you
- * can access the export in your Amazon S3 bucket. To get the status, use the DescribePredictorBacktestExportJob operation.
- */
-export const createPredictorBacktestExportJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePredictorBacktestExportJobRequest,
-    output: CreatePredictorBacktestExportJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * What-if analysis is a scenario modeling technique where you make a hypothetical change to a time series and
- * compare the forecasts generated by these changes against the baseline, unchanged time series. It is important to
- * remember that the purpose of a what-if analysis is to understand how a forecast can change given different
- * modifications to the baseline time series.
- *
- * For example, imagine you are a clothing retailer who is considering an end of season sale
- * to clear space for new styles. After creating a baseline forecast, you can use a what-if
- * analysis to investigate how different sales tactics might affect your goals.
- *
- * You could create a scenario where everything is given a 25% markdown, and another where
- * everything is given a fixed dollar markdown. You could create a scenario where the sale lasts for one week and
- * another where the sale lasts for one month.
- * With a what-if analysis, you can compare many different scenarios against each other.
- *
- * Note that a what-if analysis is meant to display what the forecasting model has learned and how it will behave in the scenarios that you are evaluating. Do not blindly use the results of the what-if analysis to make business decisions. For instance, forecasts might not be accurate for novel scenarios where there is no reference available to determine whether a forecast is good.
- *
- * The TimeSeriesSelector object defines the items that you want in the what-if analysis.
- */
-export const createWhatIfAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWhatIfAnalysisRequest,
-    output: CreateWhatIfAnalysisResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Exports a forecast created by the CreateWhatIfForecast operation to your
- * Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions:
- *
- * `≈__`
- *
- * The component is in Java SimpleDateFormat
- * (yyyy-MM-ddTHH-mm-ssZ).
- *
- * You must specify a DataDestination object that includes an Identity and Access Management
- * (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see
- * aws-forecast-iam-roles.
- *
- * For more information, see howitworks-forecast.
- *
- * To get a list of all your what-if forecast export jobs, use the ListWhatIfForecastExports
- * operation.
- *
- * The `Status` of the forecast export job must be `ACTIVE` before
- * you can access the forecast in your Amazon S3 bucket. To get the status, use the DescribeWhatIfForecastExport operation.
- */
-export const createWhatIfForecastExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWhatIfForecastExportRequest,
-    output: CreateWhatIfForecastExportResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can
- * only delete datasets that have a status of `ACTIVE` or `CREATE_FAILED`.
- * To get the status use the DescribeDataset operation.
- *
- * Forecast does not automatically update any dataset groups that contain the deleted dataset.
- * In order to update the dataset group, use the UpdateDatasetGroup operation,
- * omitting the deleted dataset's ARN.
- */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatasetRequest,
-  output: DeleteDatasetResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes a dataset group created using the CreateDatasetGroup operation.
- * You can only delete dataset groups that have a status of `ACTIVE`,
- * `CREATE_FAILED`, or `UPDATE_FAILED`. To get the status, use the DescribeDatasetGroup operation.
- *
- * This operation deletes only the dataset group, not the datasets in the group.
- */
-export const deleteDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatasetGroupRequest,
-  output: DeleteDatasetGroupResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes a dataset import job created using the CreateDatasetImportJob
- * operation. You can delete only dataset import jobs that have a status of `ACTIVE`
- * or `CREATE_FAILED`. To get the status, use the DescribeDatasetImportJob
- * operation.
- */
-export const deleteDatasetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDatasetImportJobRequest,
-    output: DeleteDatasetImportJobResponse,
-    errors: [
-      InvalidInputException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Describes an Amazon Forecast dataset created using the CreateDataset operation.
- *
- * In addition to listing the parameters specified in the `CreateDataset` request,
- * this operation includes the following dataset properties:
- *
- * - `CreationTime`
- *
- * - `LastModificationTime`
- *
- * - `Status`
- */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDatasetRequest,
-  output: DescribeDatasetResponse,
-  errors: [InvalidInputException, ResourceNotFoundException],
 }));
 /**
  * Describes a dataset group created using the CreateDatasetGroup
@@ -2367,161 +2162,31 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
 /**
- * Resumes a stopped monitor resource.
+ * Deletes the specified tags from a resource.
  */
-export const resumeResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResumeResourceRequest,
-  output: ResumeResourceResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can
+ * only delete datasets that have a status of `ACTIVE` or `CREATE_FAILED`.
+ * To get the status use the DescribeDataset operation.
+ *
+ * Forecast does not automatically update any dataset groups that contain the deleted dataset.
+ * In order to update the dataset group, use the UpdateDatasetGroup operation,
+ * omitting the deleted dataset's ARN.
+ */
+export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetRequest,
+  output: DeleteDatasetResponse,
   errors: [
     InvalidInputException,
-    LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
   ],
 }));
-/**
- * Creates a dataset group, which holds a collection of related datasets. You can add
- * datasets to the dataset group when you create the dataset group, or later by using the UpdateDatasetGroup operation.
- *
- * After creating a dataset group and adding datasets, you use the dataset group when you
- * create a predictor. For more information, see Dataset groups.
- *
- * To get a list of all your datasets groups, use the ListDatasetGroups
- * operation.
- *
- * The `Status` of a dataset group must be `ACTIVE` before you can
- * use the dataset group to create a predictor. To get the status, use the DescribeDatasetGroup operation.
- */
-export const createDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDatasetGroupRequest,
-  output: CreateDatasetGroupResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Explainability is only available for Forecasts and Predictors generated from an
- * AutoPredictor (CreateAutoPredictor)
- *
- * Creates an Amazon Forecast Explainability.
- *
- * Explainability helps you better understand how the attributes in your datasets impact
- * forecast. Amazon Forecast uses a metric called Impact scores to quantify the relative
- * impact of each attribute and determine whether they increase or decrease forecast
- * values.
- *
- * To enable Forecast Explainability, your predictor must include at least one of the
- * following: related time series, item metadata, or additional datasets like Holidays and
- * the Weather Index.
- *
- * CreateExplainability accepts either a Predictor ARN or Forecast ARN. To receive
- * aggregated Impact scores for all time series and time points in your datasets, provide a
- * Predictor ARN. To receive Impact scores for specific time series and time points,
- * provide a Forecast ARN.
- *
- * **CreateExplainability with a Predictor ARN**
- *
- * You can only have one Explainability resource per predictor. If you already
- * enabled `ExplainPredictor` in CreateAutoPredictor, that
- * predictor already has an Explainability resource.
- *
- * The following parameters are required when providing a Predictor ARN:
- *
- * - `ExplainabilityName` - A unique name for the Explainability.
- *
- * - `ResourceArn` - The Arn of the predictor.
- *
- * - `TimePointGranularity` - Must be set to “ALL”.
- *
- * - `TimeSeriesGranularity` - Must be set to “ALL”.
- *
- * Do not specify a value for the following parameters:
- *
- * - `DataSource` - Only valid when TimeSeriesGranularity is
- * “SPECIFIC”.
- *
- * - `Schema` - Only valid when TimeSeriesGranularity is
- * “SPECIFIC”.
- *
- * - `StartDateTime` - Only valid when TimePointGranularity is
- * “SPECIFIC”.
- *
- * - `EndDateTime` - Only valid when TimePointGranularity is
- * “SPECIFIC”.
- *
- * **CreateExplainability with a Forecast ARN**
- *
- * You can specify a maximum of 50 time series and 500 time points.
- *
- * The following parameters are required when providing a Predictor ARN:
- *
- * - `ExplainabilityName` - A unique name for the Explainability.
- *
- * - `ResourceArn` - The Arn of the forecast.
- *
- * - `TimePointGranularity` - Either “ALL” or “SPECIFIC”.
- *
- * - `TimeSeriesGranularity` - Either “ALL” or “SPECIFIC”.
- *
- * If you set TimeSeriesGranularity to “SPECIFIC”, you must also provide the
- * following:
- *
- * - `DataSource` - The S3 location of the CSV file specifying your time
- * series.
- *
- * - `Schema` - The Schema defines the attributes and attribute types
- * listed in the Data Source.
- *
- * If you set TimePointGranularity to “SPECIFIC”, you must also provide the
- * following:
- *
- * - `StartDateTime` - The first timestamp in the range of time
- * points.
- *
- * - `EndDateTime` - The last timestamp in the range of time
- * points.
- */
-export const createExplainability = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateExplainabilityRequest,
-    output: CreateExplainabilityResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Exports an Explainability resource created by the CreateExplainability operation. Exported files are exported to an Amazon Simple Storage Service (Amazon
- * S3) bucket.
- *
- * You must specify a DataDestination object that includes an Amazon S3
- * bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3
- * bucket. For more information, see aws-forecast-iam-roles.
- *
- * The `Status` of the export job must be `ACTIVE` before you
- * can access the export in your Amazon S3 bucket. To get the status, use the DescribeExplainabilityExport operation.
- */
-export const createExplainabilityExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateExplainabilityExportRequest,
-    output: CreateExplainabilityExportResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Describes a predictor created using the CreateAutoPredictor operation.
  */
@@ -2530,6 +2195,124 @@ export const describeAutoPredictor = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: DescribeAutoPredictorRequest,
     output: DescribeAutoPredictorResponse,
     errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Stops a resource.
+ *
+ * The resource undergoes the following states: `CREATE_STOPPING` and
+ * `CREATE_STOPPED`. You cannot resume a resource once it has been
+ * stopped.
+ *
+ * This operation can be applied to the following resources (and their corresponding child
+ * resources):
+ *
+ * - Dataset Import Job
+ *
+ * - Predictor Job
+ *
+ * - Forecast Job
+ *
+ * - Forecast Export Job
+ *
+ * - Predictor Backtest Export Job
+ *
+ * - Explainability Job
+ *
+ * - Explainability Export Job
+ */
+export const stopResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopResourceRequest,
+  output: StopResourceResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Associates the specified tags to a resource with the specified `resourceArn`.
+ * If existing tags on a resource are not specified in the request parameters, they are not
+ * changed. When a resource is deleted, the tags associated with that resource are also
+ * deleted.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Describes a dataset import job created using the CreateDatasetImportJob
+ * operation.
+ *
+ * In addition to listing the parameters provided in the `CreateDatasetImportJob`
+ * request, this operation includes the following properties:
+ *
+ * - `CreationTime`
+ *
+ * - `LastModificationTime`
+ *
+ * - `DataSize`
+ *
+ * - `FieldStatistics`
+ *
+ * - `Status`
+ *
+ * - `Message` - If an error occurred, information about the error.
+ */
+export const describeDatasetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeDatasetImportJobRequest,
+    output: DescribeDatasetImportJobResponse,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Returns a list of dataset groups created using the CreateDatasetGroup operation.
+ * For each dataset group, this operation returns a summary of its properties, including its
+ * Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the
+ * dataset group ARN with the DescribeDatasetGroup
+ * operation.
+ */
+export const listDatasetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDatasetGroupsRequest,
+  output: ListDatasetGroupsResponse,
+  errors: [InvalidNextTokenException],
+}));
+/**
+ * Returns a list of dataset import jobs created using the CreateDatasetImportJob
+ * operation. For each import job, this operation returns a summary of its properties, including
+ * its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the
+ * ARN with the DescribeDatasetImportJob
+ * operation. You can filter the list by providing an array of Filter objects.
+ */
+export const listDatasetImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDatasetImportJobsRequest,
+    output: ListDatasetImportJobsResponse,
+    errors: [InvalidInputException, InvalidNextTokenException],
+  }),
+);
+/**
+ * Returns a list of the monitoring evaluation results and predictor events collected by
+ * the monitor resource during different windows of time.
+ *
+ * For information about monitoring see predictor-monitoring. For
+ * more information about retrieving monitoring results see Viewing Monitoring Results.
+ */
+export const listMonitorEvaluations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMonitorEvaluationsRequest,
+    output: ListMonitorEvaluationsResponse,
+    errors: [
+      InvalidInputException,
+      InvalidNextTokenException,
+      ResourceNotFoundException,
+    ],
   }),
 );
 /**
@@ -2657,6 +2440,293 @@ export const listWhatIfForecasts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: ListWhatIfForecastsResponse,
   errors: [InvalidInputException, InvalidNextTokenException],
 }));
+/**
+ * Creates a dataset group, which holds a collection of related datasets. You can add
+ * datasets to the dataset group when you create the dataset group, or later by using the UpdateDatasetGroup operation.
+ *
+ * After creating a dataset group and adding datasets, you use the dataset group when you
+ * create a predictor. For more information, see Dataset groups.
+ *
+ * To get a list of all your datasets groups, use the ListDatasetGroups
+ * operation.
+ *
+ * The `Status` of a dataset group must be `ACTIVE` before you can
+ * use the dataset group to create a predictor. To get the status, use the DescribeDatasetGroup operation.
+ */
+export const createDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatasetGroupRequest,
+  output: CreateDatasetGroupResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Exports a forecast created by the CreateForecast operation to your
+ * Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions:
+ *
+ * __
+ *
+ * where the component is in Java SimpleDateFormat
+ * (yyyy-MM-ddTHH-mm-ssZ).
+ *
+ * You must specify a DataDestination object that includes an Identity and Access Management
+ * (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see
+ * aws-forecast-iam-roles.
+ *
+ * For more information, see howitworks-forecast.
+ *
+ * To get a list of all your forecast export jobs, use the ListForecastExportJobs operation.
+ *
+ * The `Status` of the forecast export job must be `ACTIVE` before
+ * you can access the forecast in your Amazon S3 bucket. To get the status, use the DescribeForecastExportJob operation.
+ */
+export const createForecastExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateForecastExportJobRequest,
+    output: CreateForecastExportJobResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a predictor monitor resource for an existing auto predictor. Predictor monitoring allows you to see how your predictor's performance changes over time.
+ * For more information, see Predictor Monitoring.
+ */
+export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMonitorRequest,
+  output: CreateMonitorResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Exports backtest forecasts and accuracy metrics generated by the CreateAutoPredictor or CreatePredictor operations. Two
+ * folders containing CSV or Parquet files are exported to your specified S3 bucket.
+ *
+ * The export file names will match the following conventions:
+ *
+ * `__.csv`
+ *
+ * The component is in Java SimpleDate format
+ * (yyyy-MM-ddTHH-mm-ssZ).
+ *
+ * You must specify a DataDestination object that includes an Amazon S3
+ * bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3
+ * bucket. For more information, see aws-forecast-iam-roles.
+ *
+ * The `Status` of the export job must be `ACTIVE` before you
+ * can access the export in your Amazon S3 bucket. To get the status, use the DescribePredictorBacktestExportJob operation.
+ */
+export const createPredictorBacktestExportJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreatePredictorBacktestExportJobRequest,
+    output: CreatePredictorBacktestExportJobResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * What-if analysis is a scenario modeling technique where you make a hypothetical change to a time series and
+ * compare the forecasts generated by these changes against the baseline, unchanged time series. It is important to
+ * remember that the purpose of a what-if analysis is to understand how a forecast can change given different
+ * modifications to the baseline time series.
+ *
+ * For example, imagine you are a clothing retailer who is considering an end of season sale
+ * to clear space for new styles. After creating a baseline forecast, you can use a what-if
+ * analysis to investigate how different sales tactics might affect your goals.
+ *
+ * You could create a scenario where everything is given a 25% markdown, and another where
+ * everything is given a fixed dollar markdown. You could create a scenario where the sale lasts for one week and
+ * another where the sale lasts for one month.
+ * With a what-if analysis, you can compare many different scenarios against each other.
+ *
+ * Note that a what-if analysis is meant to display what the forecasting model has learned and how it will behave in the scenarios that you are evaluating. Do not blindly use the results of the what-if analysis to make business decisions. For instance, forecasts might not be accurate for novel scenarios where there is no reference available to determine whether a forecast is good.
+ *
+ * The TimeSeriesSelector object defines the items that you want in the what-if analysis.
+ */
+export const createWhatIfAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateWhatIfAnalysisRequest,
+    output: CreateWhatIfAnalysisResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Exports a forecast created by the CreateWhatIfForecast operation to your
+ * Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions:
+ *
+ * `≈__`
+ *
+ * The component is in Java SimpleDateFormat
+ * (yyyy-MM-ddTHH-mm-ssZ).
+ *
+ * You must specify a DataDestination object that includes an Identity and Access Management
+ * (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see
+ * aws-forecast-iam-roles.
+ *
+ * For more information, see howitworks-forecast.
+ *
+ * To get a list of all your what-if forecast export jobs, use the ListWhatIfForecastExports
+ * operation.
+ *
+ * The `Status` of the forecast export job must be `ACTIVE` before
+ * you can access the forecast in your Amazon S3 bucket. To get the status, use the DescribeWhatIfForecastExport operation.
+ */
+export const createWhatIfForecastExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateWhatIfForecastExportRequest,
+    output: CreateWhatIfForecastExportResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Explainability is only available for Forecasts and Predictors generated from an
+ * AutoPredictor (CreateAutoPredictor)
+ *
+ * Creates an Amazon Forecast Explainability.
+ *
+ * Explainability helps you better understand how the attributes in your datasets impact
+ * forecast. Amazon Forecast uses a metric called Impact scores to quantify the relative
+ * impact of each attribute and determine whether they increase or decrease forecast
+ * values.
+ *
+ * To enable Forecast Explainability, your predictor must include at least one of the
+ * following: related time series, item metadata, or additional datasets like Holidays and
+ * the Weather Index.
+ *
+ * CreateExplainability accepts either a Predictor ARN or Forecast ARN. To receive
+ * aggregated Impact scores for all time series and time points in your datasets, provide a
+ * Predictor ARN. To receive Impact scores for specific time series and time points,
+ * provide a Forecast ARN.
+ *
+ * **CreateExplainability with a Predictor ARN**
+ *
+ * You can only have one Explainability resource per predictor. If you already
+ * enabled `ExplainPredictor` in CreateAutoPredictor, that
+ * predictor already has an Explainability resource.
+ *
+ * The following parameters are required when providing a Predictor ARN:
+ *
+ * - `ExplainabilityName` - A unique name for the Explainability.
+ *
+ * - `ResourceArn` - The Arn of the predictor.
+ *
+ * - `TimePointGranularity` - Must be set to “ALL”.
+ *
+ * - `TimeSeriesGranularity` - Must be set to “ALL”.
+ *
+ * Do not specify a value for the following parameters:
+ *
+ * - `DataSource` - Only valid when TimeSeriesGranularity is
+ * “SPECIFIC”.
+ *
+ * - `Schema` - Only valid when TimeSeriesGranularity is
+ * “SPECIFIC”.
+ *
+ * - `StartDateTime` - Only valid when TimePointGranularity is
+ * “SPECIFIC”.
+ *
+ * - `EndDateTime` - Only valid when TimePointGranularity is
+ * “SPECIFIC”.
+ *
+ * **CreateExplainability with a Forecast ARN**
+ *
+ * You can specify a maximum of 50 time series and 500 time points.
+ *
+ * The following parameters are required when providing a Predictor ARN:
+ *
+ * - `ExplainabilityName` - A unique name for the Explainability.
+ *
+ * - `ResourceArn` - The Arn of the forecast.
+ *
+ * - `TimePointGranularity` - Either “ALL” or “SPECIFIC”.
+ *
+ * - `TimeSeriesGranularity` - Either “ALL” or “SPECIFIC”.
+ *
+ * If you set TimeSeriesGranularity to “SPECIFIC”, you must also provide the
+ * following:
+ *
+ * - `DataSource` - The S3 location of the CSV file specifying your time
+ * series.
+ *
+ * - `Schema` - The Schema defines the attributes and attribute types
+ * listed in the Data Source.
+ *
+ * If you set TimePointGranularity to “SPECIFIC”, you must also provide the
+ * following:
+ *
+ * - `StartDateTime` - The first timestamp in the range of time
+ * points.
+ *
+ * - `EndDateTime` - The last timestamp in the range of time
+ * points.
+ */
+export const createExplainability = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateExplainabilityRequest,
+    output: CreateExplainabilityResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Exports an Explainability resource created by the CreateExplainability operation. Exported files are exported to an Amazon Simple Storage Service (Amazon
+ * S3) bucket.
+ *
+ * You must specify a DataDestination object that includes an Amazon S3
+ * bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3
+ * bucket. For more information, see aws-forecast-iam-roles.
+ *
+ * The `Status` of the export job must be `ACTIVE` before you
+ * can access the export in your Amazon S3 bucket. To get the status, use the DescribeExplainabilityExport operation.
+ */
+export const createExplainabilityExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateExplainabilityExportRequest,
+    output: CreateExplainabilityExportResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Creates an Amazon Forecast dataset. The information about the dataset that you provide helps
  * Forecast understand how to consume the data for model training. This includes the
@@ -2790,76 +2860,6 @@ export const createWhatIfForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(
       LimitExceededException,
       ResourceAlreadyExistsException,
       ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Describes a dataset import job created using the CreateDatasetImportJob
- * operation.
- *
- * In addition to listing the parameters provided in the `CreateDatasetImportJob`
- * request, this operation includes the following properties:
- *
- * - `CreationTime`
- *
- * - `LastModificationTime`
- *
- * - `DataSize`
- *
- * - `FieldStatistics`
- *
- * - `Status`
- *
- * - `Message` - If an error occurred, information about the error.
- */
-export const describeDatasetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDatasetImportJobRequest,
-    output: DescribeDatasetImportJobResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
-/**
- * Returns a list of dataset groups created using the CreateDatasetGroup operation.
- * For each dataset group, this operation returns a summary of its properties, including its
- * Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the
- * dataset group ARN with the DescribeDatasetGroup
- * operation.
- */
-export const listDatasetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDatasetGroupsRequest,
-  output: ListDatasetGroupsResponse,
-  errors: [InvalidNextTokenException],
-}));
-/**
- * Returns a list of dataset import jobs created using the CreateDatasetImportJob
- * operation. For each import job, this operation returns a summary of its properties, including
- * its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the
- * ARN with the DescribeDatasetImportJob
- * operation. You can filter the list by providing an array of Filter objects.
- */
-export const listDatasetImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDatasetImportJobsRequest,
-    output: ListDatasetImportJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-  }),
-);
-/**
- * Returns a list of the monitoring evaluation results and predictor events collected by
- * the monitor resource during different windows of time.
- *
- * For information about monitoring see predictor-monitoring. For
- * more information about retrieving monitoring results see Viewing Monitoring Results.
- */
-export const listMonitorEvaluations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMonitorEvaluationsRequest,
-    output: ListMonitorEvaluationsResponse,
-    errors: [
-      InvalidInputException,
-      InvalidNextTokenException,
       ResourceNotFoundException,
     ],
   }),

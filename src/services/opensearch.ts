@@ -2659,7 +2659,6 @@ export class InstanceTypeDetails extends S.Class<InstanceTypeDetails>(
 }) {}
 export const InstanceTypeDetailsList = S.Array(InstanceTypeDetails);
 export const ScheduledActionsList = S.Array(ScheduledAction);
-export const SlotList = S.Array(S.Number);
 export const Issues = S.Array(S.String);
 export class AddDataSourceRequest extends S.Class<AddDataSourceRequest>(
   "AddDataSourceRequest",
@@ -3295,6 +3294,7 @@ export class AutoTune extends S.Class<AutoTune>("AutoTune")({
   AutoTuneDetails: S.optional(AutoTuneDetails),
 }) {}
 export const AutoTuneList = S.Array(AutoTune);
+export const SlotList = S.Array(S.Number);
 export class StorageType extends S.Class<StorageType>("StorageType")({
   StorageTypeName: S.optional(S.String),
   StorageSubTypeName: S.optional(S.String),
@@ -3332,321 +3332,62 @@ export class DescribeInstanceTypeLimitsResponse extends S.Class<DescribeInstance
 //# Errors
 export class BaseException extends S.TaggedError<BaseException>()(
   "BaseException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
-  {},
-) {}
-export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
-  "DisabledOperationException",
-  {},
-) {}
-export class DependencyFailureException extends S.TaggedError<DependencyFailureException>()(
-  "DependencyFailureException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+export class DependencyFailureException extends S.TaggedError<DependencyFailureException>()(
+  "DependencyFailureException",
+  { message: S.optional(S.String) },
+) {}
+export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
+  "DisabledOperationException",
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
-) {}
-export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
-  "InvalidPaginationTokenException",
-  {},
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidTypeException extends S.TaggedError<InvalidTypeException>()(
   "InvalidTypeException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
+  "InvalidPaginationTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
+  { message: S.optional(S.String) },
 ) {}
 export class SlotNotAvailableException extends S.TaggedError<SlotNotAvailableException>()(
   "SlotNotAvailableException",
   { SlotSuggestions: S.optional(SlotList), message: S.optional(S.String) },
 ) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Deletes a direct-query data source. For more information, see Deleting
- * an Amazon OpenSearch Service data source with Amazon S3.
- */
-export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDataSourceRequest,
-  output: DeleteDataSourceResponse,
-  errors: [
-    BaseException,
-    DependencyFailureException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a previously configured direct query data source from Amazon OpenSearch
- * Service.
- */
-export const deleteDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDirectQueryDataSourceRequest,
-    output: DeleteDirectQueryDataSourceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Allows the destination Amazon OpenSearch Service domain owner to delete an existing
- * inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
- */
-export const deleteInboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInboundConnectionRequest,
-    output: DeleteInboundConnectionResponse,
-    errors: [DisabledOperationException, ResourceNotFoundException],
-  }),
-);
-/**
- * Describes the domain configuration for the specified Amazon OpenSearch Service domain,
- * including the domain ID, domain service endpoint, and domain ARN.
- */
-export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDomainRequest,
-  output: DescribeDomainResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns domain configuration information about the specified Amazon OpenSearch Service
- * domains.
- */
-export const describeDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDomainsRequest,
-  output: DescribeDomainsResponse,
-  errors: [BaseException, InternalException, ValidationException],
-}));
-/**
- * Dissociates multiple packages from a domain simultaneously.
- */
-export const dissociatePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DissociatePackagesRequest,
-  output: DissociatePackagesResponse,
-  errors: [
-    BaseException,
-    ConflictException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about a direct query data source.
- */
-export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataSourceRequest,
-  output: GetDataSourceResponse,
-  errors: [
-    BaseException,
-    DependencyFailureException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the ARN of the current default application.
- *
- * If the default application isn't set, the operation returns a resource not found
- * error.
- */
-export const getDefaultApplicationSetting =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDefaultApplicationSettingRequest,
-    output: GetDefaultApplicationSettingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns detailed configuration information for a specific direct query data source in
- * Amazon OpenSearch Service.
- */
-export const getDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDirectQueryDataSourceRequest,
-    output: GetDirectQueryDataSourceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * The status of the maintenance action.
- */
-export const getDomainMaintenanceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDomainMaintenanceStatusRequest,
-    output: GetDomainMaintenanceStatusResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
- */
-export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIndexRequest,
-  output: GetIndexResponse,
-  errors: [
-    AccessDeniedException,
-    DependencyFailureException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the most recent status of the last upgrade or upgrade eligibility check performed on
- * an Amazon OpenSearch Service domain.
- */
-export const getUpgradeStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUpgradeStatusRequest,
-  output: GetUpgradeStatusResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all Amazon OpenSearch Service domains associated with a given package. For more
- * information, see Custom packages
- * for Amazon OpenSearch Service.
- */
-export const listDomainsForPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDomainsForPackageRequest,
-    output: ListDomainsForPackageResponse,
-    errors: [
-      AccessDeniedException,
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists all packages associated with an Amazon OpenSearch Service domain. For more
- * information, see Custom packages
- * for Amazon OpenSearch Service.
- */
-export const listPackagesForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPackagesForDomainRequest,
-    output: ListPackagesForDomainResponse,
-    errors: [
-      AccessDeniedException,
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns all resource tags for an Amazon OpenSearch Service domain, data source, or
- * application. For more information, see Tagging Amazon OpenSearch Service resources.
- */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service
- * supports.
- */
-export const listVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListVersionsRequest,
-  output: ListVersionsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about each Amazon Web Services principal that is allowed to
- * access a given Amazon OpenSearch Service domain through the use of an interface VPC
- * endpoint.
- */
-export const listVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVpcEndpointAccessRequest,
-    output: ListVpcEndpointAccessResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
  */
@@ -3656,122 +3397,51 @@ export const listVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [BaseException, DisabledOperationException, InternalException],
 }));
 /**
- * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a
- * particular domain.
+ * Allows the source Amazon OpenSearch Service domain owner to delete an existing
+ * outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const listVpcEndpointsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteOutboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListVpcEndpointsForDomainRequest,
-    output: ListVpcEndpointsForDomainResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Sets the default application to the application with the specified ARN.
- *
- * To remove the default application, use the `GetDefaultApplicationSetting`
- * operation to get the current default and then call the
- * `PutDefaultApplicationSetting` with the current applications ARN and the
- * `setAsDefault` parameter set to `false`.
- */
-export const putDefaultApplicationSetting =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDefaultApplicationSettingRequest,
-    output: PutDefaultApplicationSettingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Allows the remote Amazon OpenSearch Service domain owner to reject an inbound
- * cross-cluster connection request.
- */
-export const rejectInboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectInboundConnectionRequest,
-    output: RejectInboundConnectionResponse,
+    input: DeleteOutboundConnectionRequest,
+    output: DeleteOutboundConnectionResponse,
     errors: [DisabledOperationException, ResourceNotFoundException],
   }),
 );
 /**
- * Removes the specified set of tags from an Amazon OpenSearch Service domain, data
- * source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
+ * Lists all the inbound cross-cluster search connections for a destination (remote)
+ * Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTagsRequest,
-  output: RemoveTagsResponse,
-  errors: [BaseException, InternalException, ValidationException],
-}));
-/**
- * Revokes access to an Amazon OpenSearch Service domain that was provided through an
- * interface VPC endpoint.
- */
-export const revokeVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeInboundConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: RevokeVpcEndpointAccessRequest,
-    output: RevokeVpcEndpointAccessResponse,
+    input: DescribeInboundConnectionsRequest,
+    output: DescribeInboundConnectionsResponse,
+    errors: [DisabledOperationException, InvalidPaginationTokenException],
+  }),
+);
+/**
+ * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+ */
+export const describeVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeVpcEndpointsRequest,
+    output: DescribeVpcEndpointsResponse,
     errors: [
       BaseException,
       DisabledOperationException,
       InternalException,
-      ResourceNotFoundException,
       ValidationException,
     ],
   }),
 );
 /**
- * Starts the node maintenance process on the data node. These processes can include a
- * node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana
- * restart.
+ * Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch
+ * Service domain.
  */
-export const startDomainMaintenance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDomainMaintenanceRequest,
-    output: StartDomainMaintenanceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Schedules a service software update for an Amazon OpenSearch Service domain. For more
- * information, see Service
- * software updates in Amazon OpenSearch Service.
- */
-export const startServiceSoftwareUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartServiceSoftwareUpdateRequest,
-    output: StartServiceSoftwareUpdateResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the configuration and settings of an existing OpenSearch application.
- */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
+export const getUpgradeHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUpgradeHistoryRequest,
+  output: GetUpgradeHistoryResponse,
   errors: [
-    AccessDeniedException,
     BaseException,
-    ConflictException,
     DisabledOperationException,
     InternalException,
     ResourceNotFoundException,
@@ -3779,52 +3449,18 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a direct-query data source. For more information, see Working
- * with Amazon OpenSearch Service data source integrations with Amazon
- * S3.
+ * Allows you to either upgrade your Amazon OpenSearch Service domain or perform an
+ * upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
  */
-export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataSourceRequest,
-  output: UpdateDataSourceResponse,
+export const upgradeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpgradeDomainRequest,
+  output: UpgradeDomainResponse,
   errors: [
     BaseException,
-    DependencyFailureException,
     DisabledOperationException,
     InternalException,
+    ResourceAlreadyExistsException,
     ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the configuration or properties of an existing direct query data source in
- * Amazon OpenSearch Service.
- */
-export const updateDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDirectQueryDataSourceRequest,
-    output: UpdateDirectQueryDataSourceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
- */
-export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateIndexRequest,
-  output: UpdateIndexResponse,
-  errors: [
-    AccessDeniedException,
-    DependencyFailureException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -3846,68 +3482,21 @@ export const updatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates the scope of a package. Scope of the package defines users who can view and
- * associate a package.
+ * Allows you to purchase Amazon OpenSearch Service Reserved Instances.
  */
-export const updatePackageScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePackageScopeRequest,
-  output: UpdatePackageScopeResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
- */
-export const updateVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateVpcEndpointRequest,
-  output: UpdateVpcEndpointResponse,
-  errors: [
-    BaseException,
-    ConflictException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Attaches tags to an existing Amazon OpenSearch Service domain, data source, or
- * application.
- *
- * Tags are a set of case-sensitive key-value pairs. A domain, data source, or
- * application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
- */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsRequest,
-  output: AddTagsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    LimitExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Operation in the Amazon OpenSearch Service API for associating multiple packages with
- * a domain simultaneously.
- */
-export const associatePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociatePackagesRequest,
-  output: AssociatePackagesResponse,
-  errors: [
-    BaseException,
-    ConflictException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
+export const purchaseReservedInstanceOffering =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PurchaseReservedInstanceOfferingRequest,
+    output: PurchaseReservedInstanceOfferingResponse,
+    errors: [
+      DisabledOperationException,
+      InternalException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
 /**
  * Provides access to an Amazon OpenSearch Service domain through the use of an interface
  * VPC endpoint.
@@ -3927,104 +3516,67 @@ export const authorizeVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
+ * Allows the destination Amazon OpenSearch Service domain owner to accept an inbound
+ * cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const cancelDomainConfigChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const acceptInboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CancelDomainConfigChangeRequest,
-    output: CancelDomainConfigChangeResponse,
+    input: AcceptInboundConnectionRequest,
+    output: AcceptInboundConnectionResponse,
+    errors: [
+      DisabledOperationException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a new direct-query data source to the specified domain. For more information,
+ * see Creating Amazon OpenSearch Service data source integrations with Amazon
+ * S3.
+ */
+export const addDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddDataSourceRequest,
+  output: AddDataSourceResponse,
+  errors: [
+    BaseException,
+    DependencyFailureException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a new data source in Amazon OpenSearch Service so that you can perform direct
+ * queries on external data.
+ */
+export const addDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AddDirectQueryDataSourceRequest,
+    output: AddDirectQueryDataSourceResponse,
     errors: [
       BaseException,
       DisabledOperationException,
       InternalException,
+      LimitExceededException,
       ResourceNotFoundException,
       ValidationException,
     ],
   }),
 );
 /**
- * Cancels a scheduled service software update for an Amazon OpenSearch Service domain.
- * You can only perform this operation before the `AutomatedUpdateDate` and when
- * the domain's `UpdateStatus` is `PENDING_UPDATE`. For more
- * information, see Service
- * software updates in Amazon OpenSearch Service.
+ * Allows the destination Amazon OpenSearch Service domain owner to delete an existing
+ * inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const cancelServiceSoftwareUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteInboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CancelServiceSoftwareUpdateRequest,
-    output: CancelServiceSoftwareUpdateResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
+    input: DeleteInboundConnectionRequest,
+    output: DeleteInboundConnectionResponse,
+    errors: [DisabledOperationException, ResourceNotFoundException],
   }),
 );
-/**
- * Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
- */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResponse,
-  errors: [
-    AccessDeniedException,
-    BaseException,
-    ConflictException,
-    DisabledOperationException,
-    InternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
- */
-export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIndexRequest,
-  output: CreateIndexResponse,
-  errors: [
-    AccessDeniedException,
-    DependencyFailureException,
-    DisabledOperationException,
-    InternalException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a specified OpenSearch application.
- */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
-  errors: [
-    AccessDeniedException,
-    BaseException,
-    ConflictException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
- */
-export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIndexRequest,
-  output: DeleteIndexResponse,
-  errors: [
-    AccessDeniedException,
-    DependencyFailureException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
@@ -4056,28 +3608,6 @@ export const describeDomainNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all the inbound cross-cluster search connections for a destination (remote)
- * Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
- */
-export const describeInboundConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInboundConnectionsRequest,
-    output: DescribeInboundConnectionsResponse,
-    errors: [DisabledOperationException, InvalidPaginationTokenException],
-  }),
-);
-/**
- * Lists all the outbound cross-cluster connections for a local (source) Amazon
- * OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
- */
-export const describeOutboundConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOutboundConnectionsRequest,
-    output: DescribeOutboundConnectionsResponse,
-    errors: [DisabledOperationException, InvalidPaginationTokenException],
-  }),
-);
-/**
  * Describes all packages available to OpenSearch Service. For more information, see
  * Custom packages
  * for Amazon OpenSearch Service.
@@ -4106,21 +3636,6 @@ export const describeReservedInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
       DisabledOperationException,
       InternalException,
       ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
- */
-export const describeVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVpcEndpointsRequest,
-    output: DescribeVpcEndpointsResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
       ValidationException,
     ],
   }),
@@ -4261,15 +3776,6 @@ export const listDomainMaintenances = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns the names of all Amazon OpenSearch Service domains owned by the current user
- * in the active Region.
- */
-export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDomainNamesRequest,
-  output: ListDomainNamesResponse,
-  errors: [BaseException, ValidationException],
-}));
-/**
  * Lists all instance types and available features for a given OpenSearch or
  * Elasticsearch version.
  */
@@ -4285,6 +3791,488 @@ export const listInstanceTypeDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Describes the domain configuration for the specified Amazon OpenSearch Service domain,
+ * including the domain ID, domain service endpoint, and domain ARN.
+ */
+export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainRequest,
+  output: DescribeDomainResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all Amazon OpenSearch Service domains associated with a given package. For more
+ * information, see Custom packages
+ * for Amazon OpenSearch Service.
+ */
+export const listDomainsForPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDomainsForPackageRequest,
+    output: ListDomainsForPackageResponse,
+    errors: [
+      AccessDeniedException,
+      BaseException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all packages associated with an Amazon OpenSearch Service domain. For more
+ * information, see Custom packages
+ * for Amazon OpenSearch Service.
+ */
+export const listPackagesForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPackagesForDomainRequest,
+    output: ListPackagesForDomainResponse,
+    errors: [
+      AccessDeniedException,
+      BaseException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns all resource tags for an Amazon OpenSearch Service domain, data source, or
+ * application. For more information, see Tagging Amazon OpenSearch Service resources.
+ */
+export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsRequest,
+  output: ListTagsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service
+ * supports.
+ */
+export const listVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVersionsRequest,
+  output: ListVersionsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Sets the default application to the application with the specified ARN.
+ *
+ * To remove the default application, use the `GetDefaultApplicationSetting`
+ * operation to get the current default and then call the
+ * `PutDefaultApplicationSetting` with the current applications ARN and the
+ * `setAsDefault` parameter set to `false`.
+ */
+export const putDefaultApplicationSetting =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutDefaultApplicationSettingRequest,
+    output: PutDefaultApplicationSettingResponse,
+    errors: [
+      AccessDeniedException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Schedules a service software update for an Amazon OpenSearch Service domain. For more
+ * information, see Service
+ * software updates in Amazon OpenSearch Service.
+ */
+export const startServiceSoftwareUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartServiceSoftwareUpdateRequest,
+    output: StartServiceSoftwareUpdateResponse,
+    errors: [
+      BaseException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets the ARN of the current default application.
+ *
+ * If the default application isn't set, the operation returns a resource not found
+ * error.
+ */
+export const getDefaultApplicationSetting =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetDefaultApplicationSettingRequest,
+    output: GetDefaultApplicationSettingResponse,
+    errors: [
+      AccessDeniedException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Dissociates multiple packages from a domain simultaneously.
+ */
+export const dissociatePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DissociatePackagesRequest,
+  output: DissociatePackagesResponse,
+  errors: [
+    BaseException,
+    ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration and settings of an existing OpenSearch application.
+ */
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+ */
+export const updateVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVpcEndpointRequest,
+  output: UpdateVpcEndpointResponse,
+  errors: [
+    BaseException,
+    ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Operation in the Amazon OpenSearch Service API for associating multiple packages with
+ * a domain simultaneously.
+ */
+export const associatePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociatePackagesRequest,
+  output: AssociatePackagesResponse,
+  errors: [
+    BaseException,
+    ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about a direct query data source.
+ */
+export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataSourceRequest,
+  output: GetDataSourceResponse,
+  errors: [
+    BaseException,
+    DependencyFailureException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a direct-query data source. For more information, see Working
+ * with Amazon OpenSearch Service data source integrations with Amazon
+ * S3.
+ */
+export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataSourceRequest,
+  output: UpdateDataSourceResponse,
+  errors: [
+    BaseException,
+    DependencyFailureException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns detailed configuration information for a specific direct query data source in
+ * Amazon OpenSearch Service.
+ */
+export const getDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDirectQueryDataSourceRequest,
+    output: GetDirectQueryDataSourceResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * The status of the maintenance action.
+ */
+export const getDomainMaintenanceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDomainMaintenanceStatusRequest,
+    output: GetDomainMaintenanceStatusResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns the most recent status of the last upgrade or upgrade eligibility check performed on
+ * an Amazon OpenSearch Service domain.
+ */
+export const getUpgradeStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUpgradeStatusRequest,
+  output: GetUpgradeStatusResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about each Amazon Web Services principal that is allowed to
+ * access a given Amazon OpenSearch Service domain through the use of an interface VPC
+ * endpoint.
+ */
+export const listVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListVpcEndpointAccessRequest,
+    output: ListVpcEndpointAccessResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a
+ * particular domain.
+ */
+export const listVpcEndpointsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListVpcEndpointsForDomainRequest,
+    output: ListVpcEndpointsForDomainResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Allows the remote Amazon OpenSearch Service domain owner to reject an inbound
+ * cross-cluster connection request.
+ */
+export const rejectInboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RejectInboundConnectionRequest,
+    output: RejectInboundConnectionResponse,
+    errors: [DisabledOperationException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Starts the node maintenance process on the data node. These processes can include a
+ * node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana
+ * restart.
+ */
+export const startDomainMaintenance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartDomainMaintenanceRequest,
+    output: StartDomainMaintenanceResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration or properties of an existing direct query data source in
+ * Amazon OpenSearch Service.
+ */
+export const updateDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDirectQueryDataSourceRequest,
+    output: UpdateDirectQueryDataSourceResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the scope of a package. Scope of the package defines users who can view and
+ * associate a package.
+ */
+export const updatePackageScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePackageScopeRequest,
+  output: UpdatePackageScopeResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a previously configured direct query data source from Amazon OpenSearch
+ * Service.
+ */
+export const deleteDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDirectQueryDataSourceRequest,
+    output: DeleteDirectQueryDataSourceResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Revokes access to an Amazon OpenSearch Service domain that was provided through an
+ * interface VPC endpoint.
+ */
+export const revokeVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RevokeVpcEndpointAccessRequest,
+    output: RevokeVpcEndpointAccessResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
+ */
+export const cancelDomainConfigChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelDomainConfigChangeRequest,
+    output: CancelDomainConfigChangeResponse,
+    errors: [
+      BaseException,
+      DisabledOperationException,
+      InternalException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a specified OpenSearch application.
+ */
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a direct-query data source. For more information, see Deleting
+ * an Amazon OpenSearch Service data source with Amazon S3.
+ */
+export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataSourceRequest,
+  output: DeleteDataSourceResponse,
+  errors: [
+    BaseException,
+    DependencyFailureException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates a package with an Amazon OpenSearch Service domain. For more information,
+ * see Custom packages
+ * for Amazon OpenSearch Service.
+ */
+export const associatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociatePackageRequest,
+  output: AssociatePackageResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    ConflictException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Modifies the cluster configuration of the specified Amazon OpenSearch Service
+ * domain.
+ */
+export const updateDomainConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainConfigRequest,
+  output: UpdateDomainConfigResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    InvalidTypeException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of configuration changes that are scheduled for a domain. These
  * changes can be service
@@ -4304,176 +4292,94 @@ export const listScheduledActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Allows you to purchase Amazon OpenSearch Service Reserved Instances.
+ * Lists all the outbound cross-cluster connections for a local (source) Amazon
+ * OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const purchaseReservedInstanceOffering =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseReservedInstanceOfferingRequest,
-    output: PurchaseReservedInstanceOfferingResponse,
-    errors: [
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Modifies the cluster configuration of the specified Amazon OpenSearch Service
- * domain.
- */
-export const updateDomainConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDomainConfigRequest,
-  output: UpdateDomainConfigResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    InvalidTypeException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Reschedules a planned domain configuration change for a later time. This change can be
- * a scheduled service
- * software update or a blue/green Auto-Tune enhancement.
- */
-export const updateScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeOutboundConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateScheduledActionRequest,
-    output: UpdateScheduledActionResponse,
-    errors: [
-      BaseException,
-      ConflictException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      SlotNotAvailableException,
-      ValidationException,
-    ],
+    input: DescribeOutboundConnectionsRequest,
+    output: DescribeOutboundConnectionsResponse,
+    errors: [DisabledOperationException, InvalidPaginationTokenException],
   }),
 );
 /**
- * Allows you to either upgrade your Amazon OpenSearch Service domain or perform an
- * upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
+ * Returns the names of all Amazon OpenSearch Service domains owned by the current user
+ * in the active Region.
  */
-export const upgradeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpgradeDomainRequest,
-  output: UpgradeDomainResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDomainNamesRequest,
+  output: ListDomainNamesResponse,
+  errors: [BaseException, ValidationException],
 }));
 /**
- * Allows the destination Amazon OpenSearch Service domain owner to accept an inbound
- * cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
+ * Returns domain configuration information about the specified Amazon OpenSearch Service
+ * domains.
  */
-export const acceptInboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptInboundConnectionRequest,
-    output: AcceptInboundConnectionResponse,
-    errors: [
-      DisabledOperationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Creates a new direct-query data source to the specified domain. For more information,
- * see Creating Amazon OpenSearch Service data source integrations with Amazon
- * S3.
- */
-export const addDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddDataSourceRequest,
-  output: AddDataSourceResponse,
-  errors: [
-    BaseException,
-    DependencyFailureException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+export const describeDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainsRequest,
+  output: DescribeDomainsResponse,
+  errors: [BaseException, InternalException, ValidationException],
 }));
 /**
- * Adds a new data source in Amazon OpenSearch Service so that you can perform direct
- * queries on external data.
+ * Removes the specified set of tags from an Amazon OpenSearch Service domain, data
+ * source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
-export const addDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddDirectQueryDataSourceRequest,
-    output: AddDirectQueryDataSourceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsRequest,
+  output: RemoveTagsResponse,
+  errors: [BaseException, InternalException, ValidationException],
+}));
 /**
- * Associates a package with an Amazon OpenSearch Service domain. For more information,
- * see Custom packages
- * for Amazon OpenSearch Service.
+ * Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
  */
-export const associatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociatePackageRequest,
-  output: AssociatePackageResponse,
+export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationRequest,
+  output: CreateApplicationResponse,
   errors: [
     AccessDeniedException,
     BaseException,
     ConflictException,
+    DisabledOperationException,
     InternalException,
-    ResourceNotFoundException,
     ValidationException,
   ],
 }));
 /**
- * Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain
- * to a destination domain. For more information, see Cross-cluster search
- * for Amazon OpenSearch Service.
+ * Attaches tags to an existing Amazon OpenSearch Service domain, data source, or
+ * application.
+ *
+ * Tags are a set of case-sensitive key-value pairs. A domain, data source, or
+ * application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
  */
-export const createOutboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsRequest,
+  output: AddTagsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    LimitExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels a scheduled service software update for an Amazon OpenSearch Service domain.
+ * You can only perform this operation before the `AutomatedUpdateDate` and when
+ * the domain's `UpdateStatus` is `PENDING_UPDATE`. For more
+ * information, see Service
+ * software updates in Amazon OpenSearch Service.
+ */
+export const cancelServiceSoftwareUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateOutboundConnectionRequest,
-    output: CreateOutboundConnectionResponse,
+    input: CancelServiceSoftwareUpdateRequest,
+    output: CancelServiceSoftwareUpdateResponse,
     errors: [
-      DisabledOperationException,
+      BaseException,
       InternalException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ValidationException,
     ],
   }),
 );
-/**
- * Creates a package for use with Amazon OpenSearch Service domains. For more
- * information, see Custom packages
- * for Amazon OpenSearch Service.
- */
-export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePackageRequest,
-  output: CreatePackageResponse,
-  errors: [
-    AccessDeniedException,
-    BaseException,
-    InternalException,
-    InvalidTypeException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ValidationException,
-  ],
-}));
 /**
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
@@ -4489,17 +4395,6 @@ export const createVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Allows the source Amazon OpenSearch Service domain owner to delete an existing
- * outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
- */
-export const deleteOutboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOutboundConnectionRequest,
-    output: DeleteOutboundConnectionResponse,
-    errors: [DisabledOperationException, ResourceNotFoundException],
-  }),
-);
 /**
  * Deletes an Amazon OpenSearch Service package. For more information, see Custom packages
  * for Amazon OpenSearch Service.
@@ -4582,17 +4477,37 @@ export const describeReservedInstanceOfferings =
     ],
   }));
 /**
- * Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch
- * Service domain.
+ * Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain
+ * to a destination domain. For more information, see Cross-cluster search
+ * for Amazon OpenSearch Service.
  */
-export const getUpgradeHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUpgradeHistoryRequest,
-  output: GetUpgradeHistoryResponse,
+export const createOutboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateOutboundConnectionRequest,
+    output: CreateOutboundConnectionResponse,
+    errors: [
+      DisabledOperationException,
+      InternalException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+    ],
+  }),
+);
+/**
+ * Creates a package for use with Amazon OpenSearch Service domains. For more
+ * information, see Custom packages
+ * for Amazon OpenSearch Service.
+ */
+export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePackageRequest,
+  output: CreatePackageResponse,
   errors: [
+    AccessDeniedException,
     BaseException,
-    DisabledOperationException,
     InternalException,
-    ResourceNotFoundException,
+    InvalidTypeException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
     ValidationException,
   ],
 }));
@@ -4659,6 +4574,91 @@ export const describeDomainConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Reschedules a planned domain configuration change for a later time. This change can be
+ * a scheduled service
+ * software update or a blue/green Auto-Tune enhancement.
+ */
+export const updateScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateScheduledActionRequest,
+    output: UpdateScheduledActionResponse,
+    errors: [
+      BaseException,
+      ConflictException,
+      InternalException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      SlotNotAvailableException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
+ */
+export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIndexRequest,
+  output: DeleteIndexResponse,
+  errors: [
+    AccessDeniedException,
+    DependencyFailureException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
+ */
+export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIndexRequest,
+  output: GetIndexResponse,
+  errors: [
+    AccessDeniedException,
+    DependencyFailureException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
+ */
+export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIndexRequest,
+  output: UpdateIndexResponse,
+  errors: [
+    AccessDeniedException,
+    DependencyFailureException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
+ */
+export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIndexRequest,
+  output: CreateIndexResponse,
+  errors: [
+    AccessDeniedException,
+    DependencyFailureException,
+    DisabledOperationException,
+    InternalException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the instance count, storage, and master node limits for a given OpenSearch
  * or Elasticsearch version and instance type.

@@ -38,6 +38,7 @@ import {
   getEventSchema,
   getHttpHeader,
   getHttpPrefixHeaders,
+  getPropAnnotations,
   getServiceVersion,
   hasHttpPayload,
   isInputEventStream,
@@ -101,13 +102,18 @@ export const restJson1Protocol: Protocol = (
   const headerProps: HeaderProp[] = [];
   const prefixHeaderProps: PrefixHeaderProp[] = [];
   let outputPayloadProp: PayloadProp | undefined;
+  let responseCodePropName: string | undefined;
 
   for (const prop of getEncodedPropertySignatures(outputAst)) {
     const name = String(prop.name);
     const header = getHttpHeader(prop);
     const prefix = getHttpPrefixHeaders(prop);
+    const annotations = getPropAnnotations(prop);
 
-    if (header) {
+    if (annotations.responseCode) {
+      // Property bound to HTTP response status code
+      responseCodePropName = name;
+    } else if (header) {
       headerProps.push({
         name,
         header,
@@ -211,6 +217,11 @@ export const restJson1Protocol: Protocol = (
 
     deserializeResponse: Effect.fn(function* (response: Response) {
       const result: Record<string, unknown> = {};
+
+      // Extract HTTP response status code if bound to a property
+      if (responseCodePropName) {
+        result[responseCodePropName] = response.status;
+      }
 
       // Extract header-bound properties using pre-computed metadata
       for (const hp of headerProps) {

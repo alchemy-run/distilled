@@ -1368,28 +1368,18 @@ export class CreateRuleOutput extends S.Class<CreateRuleOutput>(
 //# Errors
 export class ListenerNotFoundException extends S.TaggedError<ListenerNotFoundException>()(
   "ListenerNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ListenerNotFound", httpResponseCode: 400 }),
-) {}
-export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
-  "OperationNotPermittedException",
-  {},
-  T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
 ) {}
 export class LoadBalancerNotFoundException extends S.TaggedError<LoadBalancerNotFoundException>()(
   "LoadBalancerNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "LoadBalancerNotFound", httpResponseCode: 400 }),
 ) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
-  T.AwsQueryError({ code: "ResourceInUse", httpResponseCode: 400 }),
-) {}
-export class RuleNotFoundException extends S.TaggedError<RuleNotFoundException>()(
-  "RuleNotFoundException",
-  {},
-  T.AwsQueryError({ code: "RuleNotFound", httpResponseCode: 400 }),
+export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
+  "OperationNotPermittedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
 ) {}
 export class DeleteAssociationSameAccountException extends S.TaggedError<DeleteAssociationSameAccountException>()(
   "DeleteAssociationSameAccountException",
@@ -1399,6 +1389,11 @@ export class DeleteAssociationSameAccountException extends S.TaggedError<DeleteA
     httpResponseCode: 400,
   }),
 ) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceInUse", httpResponseCode: 400 }),
+) {}
 export class TrustStoreInUseException extends S.TaggedError<TrustStoreInUseException>()(
   "TrustStoreInUseException",
   { Message: S.optional(S.String) },
@@ -1406,59 +1401,38 @@ export class TrustStoreInUseException extends S.TaggedError<TrustStoreInUseExcep
 ) {}
 export class InvalidTargetException extends S.TaggedError<InvalidTargetException>()(
   "InvalidTargetException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidTarget", httpResponseCode: 400 }),
-) {}
-export class TargetGroupNotFoundException extends S.TaggedError<TargetGroupNotFoundException>()(
-  "TargetGroupNotFoundException",
-  {},
-  T.AwsQueryError({ code: "TargetGroupNotFound", httpResponseCode: 400 }),
-) {}
-export class TrustStoreNotFoundException extends S.TaggedError<TrustStoreNotFoundException>()(
-  "TrustStoreNotFoundException",
-  {},
-  T.AwsQueryError({ code: "TrustStoreNotFound", httpResponseCode: 400 }),
 ) {}
 export class RevocationIdNotFoundException extends S.TaggedError<RevocationIdNotFoundException>()(
   "RevocationIdNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "RevocationIdNotFound", httpResponseCode: 400 }),
-) {}
-export class InvalidConfigurationRequestException extends S.TaggedError<InvalidConfigurationRequestException>()(
-  "InvalidConfigurationRequestException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidConfigurationRequest",
-    httpResponseCode: 400,
-  }),
 ) {}
 export class DuplicateTagKeysException extends S.TaggedError<DuplicateTagKeysException>()(
   "DuplicateTagKeysException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "DuplicateTagKeys", httpResponseCode: 400 }),
 ) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  {},
-  T.AwsQueryError({ code: "TooManyTags", httpResponseCode: 400 }),
-) {}
-export class CaCertificatesBundleNotFoundException extends S.TaggedError<CaCertificatesBundleNotFoundException>()(
-  "CaCertificatesBundleNotFoundException",
-  {},
-  T.AwsQueryError({
-    code: "CaCertificatesBundleNotFound",
-    httpResponseCode: 400,
-  }),
+export class RuleNotFoundException extends S.TaggedError<RuleNotFoundException>()(
+  "RuleNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "RuleNotFound", httpResponseCode: 400 }),
 ) {}
 export class TrustStoreAssociationNotFoundException extends S.TaggedError<TrustStoreAssociationNotFoundException>()(
   "TrustStoreAssociationNotFoundException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "AssociationNotFound", httpResponseCode: 400 }),
 ) {}
-export class UnsupportedProtocolException extends S.TaggedError<UnsupportedProtocolException>()(
-  "UnsupportedProtocolException",
-  {},
-  T.AwsQueryError({ code: "UnsupportedProtocol", httpResponseCode: 400 }),
+export class TrustStoreNotFoundException extends S.TaggedError<TrustStoreNotFoundException>()(
+  "TrustStoreNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TrustStoreNotFound", httpResponseCode: 400 }),
+) {}
+export class TargetGroupNotFoundException extends S.TaggedError<TargetGroupNotFoundException>()(
+  "TargetGroupNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TargetGroupNotFound", httpResponseCode: 400 }),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
@@ -1470,15 +1444,77 @@ export class ALPNPolicyNotSupportedException extends S.TaggedError<ALPNPolicyNot
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ALPNPolicyNotFound", httpResponseCode: 400 }),
 ) {}
-export class CertificateNotFoundException extends S.TaggedError<CertificateNotFoundException>()(
-  "CertificateNotFoundException",
-  {},
-  T.AwsQueryError({ code: "CertificateNotFound", httpResponseCode: 400 }),
-) {}
 export class IncompatibleProtocolsException extends S.TaggedError<IncompatibleProtocolsException>()(
   "IncompatibleProtocolsException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "IncompatibleProtocols", httpResponseCode: 400 }),
+) {}
+export class InvalidConfigurationRequestException extends S.TaggedError<InvalidConfigurationRequestException>()(
+  "InvalidConfigurationRequestException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidConfigurationRequest",
+    httpResponseCode: 400,
+  }),
+) {}
+export class CaCertificatesBundleNotFoundException extends S.TaggedError<CaCertificatesBundleNotFoundException>()(
+  "CaCertificatesBundleNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CaCertificatesBundleNotFound",
+    httpResponseCode: 400,
+  }),
+) {}
+export class CertificateNotFoundException extends S.TaggedError<CertificateNotFoundException>()(
+  "CertificateNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "CertificateNotFound", httpResponseCode: 400 }),
+) {}
+export class AllocationIdNotFoundException extends S.TaggedError<AllocationIdNotFoundException>()(
+  "AllocationIdNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "AllocationIdNotFound", httpResponseCode: 400 }),
+) {}
+export class DuplicateTargetGroupNameException extends S.TaggedError<DuplicateTargetGroupNameException>()(
+  "DuplicateTargetGroupNameException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DuplicateTargetGroupName", httpResponseCode: 400 }),
+) {}
+export class UnsupportedProtocolException extends S.TaggedError<UnsupportedProtocolException>()(
+  "UnsupportedProtocolException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UnsupportedProtocol", httpResponseCode: 400 }),
+) {}
+export class CapacityDecreaseRequestsLimitExceededException extends S.TaggedError<CapacityDecreaseRequestsLimitExceededException>()(
+  "CapacityDecreaseRequestsLimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CapacityDecreaseRequestLimitExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidLoadBalancerActionException extends S.TaggedError<InvalidLoadBalancerActionException>()(
+  "InvalidLoadBalancerActionException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidLoadBalancerAction", httpResponseCode: 400 }),
+) {}
+export class InvalidCaCertificatesBundleException extends S.TaggedError<InvalidCaCertificatesBundleException>()(
+  "InvalidCaCertificatesBundleException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidCaCertificatesBundle",
+    httpResponseCode: 400,
+  }),
+) {}
+export class PriorityInUseException extends S.TaggedError<PriorityInUseException>()(
+  "PriorityInUseException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "PriorityInUse", httpResponseCode: 400 }),
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyTags", httpResponseCode: 400 }),
 ) {}
 export class TooManyRegistrationsForTargetIdException extends S.TaggedError<TooManyRegistrationsForTargetIdException>()(
   "TooManyRegistrationsForTargetIdException",
@@ -1498,85 +1534,10 @@ export class InvalidSecurityGroupException extends S.TaggedError<InvalidSecurity
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidSecurityGroup", httpResponseCode: 400 }),
 ) {}
-export class AllocationIdNotFoundException extends S.TaggedError<AllocationIdNotFoundException>()(
-  "AllocationIdNotFoundException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "AllocationIdNotFound", httpResponseCode: 400 }),
-) {}
-export class DuplicateTargetGroupNameException extends S.TaggedError<DuplicateTargetGroupNameException>()(
-  "DuplicateTargetGroupNameException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DuplicateTargetGroupName", httpResponseCode: 400 }),
-) {}
 export class DuplicateTrustStoreNameException extends S.TaggedError<DuplicateTrustStoreNameException>()(
   "DuplicateTrustStoreNameException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "DuplicateTrustStoreName", httpResponseCode: 400 }),
-) {}
-export class InvalidCaCertificatesBundleException extends S.TaggedError<InvalidCaCertificatesBundleException>()(
-  "InvalidCaCertificatesBundleException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidCaCertificatesBundle",
-    httpResponseCode: 400,
-  }),
-) {}
-export class CapacityDecreaseRequestsLimitExceededException extends S.TaggedError<CapacityDecreaseRequestsLimitExceededException>()(
-  "CapacityDecreaseRequestsLimitExceededException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "CapacityDecreaseRequestLimitExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class DuplicateListenerException extends S.TaggedError<DuplicateListenerException>()(
-  "DuplicateListenerException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DuplicateListener", httpResponseCode: 400 }),
-) {}
-export class InvalidLoadBalancerActionException extends S.TaggedError<InvalidLoadBalancerActionException>()(
-  "InvalidLoadBalancerActionException",
-  {},
-  T.AwsQueryError({ code: "InvalidLoadBalancerAction", httpResponseCode: 400 }),
-) {}
-export class SSLPolicyNotFoundException extends S.TaggedError<SSLPolicyNotFoundException>()(
-  "SSLPolicyNotFoundException",
-  {},
-  T.AwsQueryError({ code: "SSLPolicyNotFound", httpResponseCode: 400 }),
-) {}
-export class TargetGroupAssociationLimitException extends S.TaggedError<TargetGroupAssociationLimitException>()(
-  "TargetGroupAssociationLimitException",
-  {},
-  T.AwsQueryError({
-    code: "TargetGroupAssociationLimit",
-    httpResponseCode: 400,
-  }),
-) {}
-export class TooManyTargetsException extends S.TaggedError<TooManyTargetsException>()(
-  "TooManyTargetsException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TooManyTargets", httpResponseCode: 400 }),
-) {}
-export class PriorityInUseException extends S.TaggedError<PriorityInUseException>()(
-  "PriorityInUseException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "PriorityInUse", httpResponseCode: 400 }),
-) {}
-export class AvailabilityZoneNotSupportedException extends S.TaggedError<AvailabilityZoneNotSupportedException>()(
-  "AvailabilityZoneNotSupportedException",
-  {},
-  T.AwsQueryError({
-    code: "AvailabilityZoneNotSupported",
-    httpResponseCode: 400,
-  }),
-) {}
-export class CapacityReservationPendingException extends S.TaggedError<CapacityReservationPendingException>()(
-  "CapacityReservationPendingException",
-  {},
-  T.AwsQueryError({
-    code: "CapacityReservationPending",
-    httpResponseCode: 400,
-  }),
 ) {}
 export class TooManyCertificatesException extends S.TaggedError<TooManyCertificatesException>()(
   "TooManyCertificatesException",
@@ -1588,43 +1549,59 @@ export class InvalidRevocationContentException extends S.TaggedError<InvalidRevo
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidRevocationContent", httpResponseCode: 400 }),
 ) {}
-export class TooManyActionsException extends S.TaggedError<TooManyActionsException>()(
-  "TooManyActionsException",
-  {},
-  T.AwsQueryError({ code: "TooManyActions", httpResponseCode: 400 }),
-) {}
-export class TooManyTargetGroupsException extends S.TaggedError<TooManyTargetGroupsException>()(
-  "TooManyTargetGroupsException",
+export class AvailabilityZoneNotSupportedException extends S.TaggedError<AvailabilityZoneNotSupportedException>()(
+  "AvailabilityZoneNotSupportedException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TooManyTargetGroups", httpResponseCode: 400 }),
+  T.AwsQueryError({
+    code: "AvailabilityZoneNotSupported",
+    httpResponseCode: 400,
+  }),
 ) {}
-export class TooManyTrustStoresException extends S.TaggedError<TooManyTrustStoresException>()(
-  "TooManyTrustStoresException",
+export class SSLPolicyNotFoundException extends S.TaggedError<SSLPolicyNotFoundException>()(
+  "SSLPolicyNotFoundException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TooManyTrustStores", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "SSLPolicyNotFound", httpResponseCode: 400 }),
 ) {}
 export class HealthUnavailableException extends S.TaggedError<HealthUnavailableException>()(
   "HealthUnavailableException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "HealthUnavailable", httpResponseCode: 500 }),
 ) {}
-export class TooManyListenersException extends S.TaggedError<TooManyListenersException>()(
-  "TooManyListenersException",
-  {},
-  T.AwsQueryError({ code: "TooManyListeners", httpResponseCode: 400 }),
-) {}
-export class TooManyUniqueTargetGroupsPerLoadBalancerException extends S.TaggedError<TooManyUniqueTargetGroupsPerLoadBalancerException>()(
-  "TooManyUniqueTargetGroupsPerLoadBalancerException",
-  {},
+export class CapacityReservationPendingException extends S.TaggedError<CapacityReservationPendingException>()(
+  "CapacityReservationPendingException",
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "TooManyUniqueTargetGroupsPerLoadBalancer",
+    code: "CapacityReservationPending",
     httpResponseCode: 400,
   }),
 ) {}
-export class SubnetNotFoundException extends S.TaggedError<SubnetNotFoundException>()(
-  "SubnetNotFoundException",
+export class TargetGroupAssociationLimitException extends S.TaggedError<TargetGroupAssociationLimitException>()(
+  "TargetGroupAssociationLimitException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetNotFound", httpResponseCode: 400 }),
+  T.AwsQueryError({
+    code: "TargetGroupAssociationLimit",
+    httpResponseCode: 400,
+  }),
+) {}
+export class DuplicateListenerException extends S.TaggedError<DuplicateListenerException>()(
+  "DuplicateListenerException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DuplicateListener", httpResponseCode: 400 }),
+) {}
+export class TooManyTargetsException extends S.TaggedError<TooManyTargetsException>()(
+  "TooManyTargetsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyTargets", httpResponseCode: 400 }),
+) {}
+export class TooManyTrustStoresException extends S.TaggedError<TooManyTrustStoresException>()(
+  "TooManyTrustStoresException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyTrustStores", httpResponseCode: 400 }),
+) {}
+export class TooManyTargetGroupsException extends S.TaggedError<TooManyTargetGroupsException>()(
+  "TooManyTargetGroupsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyTargetGroups", httpResponseCode: 400 }),
 ) {}
 export class RevocationContentNotFoundException extends S.TaggedError<RevocationContentNotFoundException>()(
   "RevocationContentNotFoundException",
@@ -1636,11 +1613,6 @@ export class DuplicateLoadBalancerNameException extends S.TaggedError<DuplicateL
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "DuplicateLoadBalancerName", httpResponseCode: 400 }),
 ) {}
-export class TooManyRulesException extends S.TaggedError<TooManyRulesException>()(
-  "TooManyRulesException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TooManyRules", httpResponseCode: 400 }),
-) {}
 export class CapacityUnitsLimitExceededException extends S.TaggedError<CapacityUnitsLimitExceededException>()(
   "CapacityUnitsLimitExceededException",
   { Message: S.optional(S.String) },
@@ -1649,10 +1621,15 @@ export class CapacityUnitsLimitExceededException extends S.TaggedError<CapacityU
     httpResponseCode: 400,
   }),
 ) {}
-export class TrustStoreNotReadyException extends S.TaggedError<TrustStoreNotReadyException>()(
-  "TrustStoreNotReadyException",
-  {},
-  T.AwsQueryError({ code: "TrustStoreNotReady", httpResponseCode: 400 }),
+export class TooManyActionsException extends S.TaggedError<TooManyActionsException>()(
+  "TooManyActionsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyActions", httpResponseCode: 400 }),
+) {}
+export class SubnetNotFoundException extends S.TaggedError<SubnetNotFoundException>()(
+  "SubnetNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetNotFound", httpResponseCode: 400 }),
 ) {}
 export class TooManyTrustStoreRevocationEntriesException extends S.TaggedError<TooManyTrustStoreRevocationEntriesException>()(
   "TooManyTrustStoreRevocationEntriesException",
@@ -1672,6 +1649,24 @@ export class InsufficientCapacityException extends S.TaggedError<InsufficientCap
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InsufficientCapacity", httpResponseCode: 500 }),
 ) {}
+export class TooManyUniqueTargetGroupsPerLoadBalancerException extends S.TaggedError<TooManyUniqueTargetGroupsPerLoadBalancerException>()(
+  "TooManyUniqueTargetGroupsPerLoadBalancerException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "TooManyUniqueTargetGroupsPerLoadBalancer",
+    httpResponseCode: 400,
+  }),
+) {}
+export class TooManyListenersException extends S.TaggedError<TooManyListenersException>()(
+  "TooManyListenersException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyListeners", httpResponseCode: 400 }),
+) {}
+export class TooManyRulesException extends S.TaggedError<TooManyRulesException>()(
+  "TooManyRulesException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyRules", httpResponseCode: 400 }),
+) {}
 export class TooManyLoadBalancersException extends S.TaggedError<TooManyLoadBalancersException>()(
   "TooManyLoadBalancersException",
   { Message: S.optional(S.String) },
@@ -1682,60 +1677,13 @@ export class PriorRequestNotCompleteException extends S.TaggedError<PriorRequest
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "PriorRequestNotComplete", httpResponseCode: 429 }),
 ) {}
+export class TrustStoreNotReadyException extends S.TaggedError<TrustStoreNotReadyException>()(
+  "TrustStoreNotReadyException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TrustStoreNotReady", httpResponseCode: 400 }),
+) {}
 
 //# Operations
-/**
- * Removes the specified certificate from the certificate list for the specified HTTPS or TLS
- * listener.
- */
-export const removeListenerCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveListenerCertificatesInput,
-    output: RemoveListenerCertificatesOutput,
-    errors: [ListenerNotFoundException, OperationNotPermittedException],
-  }),
-);
-/**
- * Deletes the specified listener.
- *
- * Alternatively, your listener is deleted when you delete the load balancer to which it is
- * attached.
- */
-export const deleteListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteListenerInput,
-  output: DeleteListenerOutput,
-  errors: [ListenerNotFoundException, ResourceInUseException],
-}));
-/**
- * Deletes the specified Application Load Balancer, Network Load Balancer, or Gateway Load
- * Balancer. Deleting a load balancer also deletes its listeners.
- *
- * You can't delete a load balancer if deletion protection is enabled. If the load balancer
- * does not exist or has already been deleted, the call succeeds.
- *
- * Deleting a load balancer does not affect its registered targets. For example, your EC2
- * instances continue to run and are still registered to their target groups. If you no longer
- * need these EC2 instances, you can stop or terminate them.
- */
-export const deleteLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLoadBalancerInput,
-  output: DeleteLoadBalancerOutput,
-  errors: [
-    LoadBalancerNotFoundException,
-    OperationNotPermittedException,
-    ResourceInUseException,
-  ],
-}));
-/**
- * Deletes the specified rule.
- *
- * You can't delete the default rule.
- */
-export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRuleInput,
-  output: DeleteRuleOutput,
-  errors: [OperationNotPermittedException, RuleNotFoundException],
-}));
 /**
  * Deletes the specified target group.
  *
@@ -1799,58 +1747,6 @@ export const describeLoadBalancerAttributes =
     errors: [LoadBalancerNotFoundException],
   }));
 /**
- * Describes the attributes for the specified target group.
- *
- * For more information, see the following:
- *
- * - Target group attributes in the Application Load Balancers
- * Guide
- *
- * - Target group attributes in the Network Load Balancers
- * Guide
- *
- * - Target group attributes in the Gateway Load Balancers
- * Guide
- */
-export const describeTargetGroupAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTargetGroupAttributesInput,
-    output: DescribeTargetGroupAttributesOutput,
-    errors: [TargetGroupNotFoundException],
-  }));
-/**
- * Describes all trust stores for the specified account.
- */
-export const describeTrustStores = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTrustStoresInput,
-  output: DescribeTrustStoresOutput,
-  errors: [TrustStoreNotFoundException],
-}));
-/**
- * Retrieves the ca certificate bundle.
- *
- * This action returns a pre-signed S3 URI which is
- * active for ten minutes.
- */
-export const getTrustStoreCaCertificatesBundle =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTrustStoreCaCertificatesBundleInput,
-    output: GetTrustStoreCaCertificatesBundleOutput,
-    errors: [TrustStoreNotFoundException],
-  }));
-/**
- * Retrieves the specified revocation file.
- *
- * This action returns a pre-signed S3 URI which is
- * active for ten minutes.
- */
-export const getTrustStoreRevocationContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTrustStoreRevocationContentInput,
-    output: GetTrustStoreRevocationContentOutput,
-    errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
-  }));
-/**
  * [Application Load Balancers] Modify the IP pool associated to a load balancer.
  */
 export const modifyIpPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1859,49 +1755,57 @@ export const modifyIpPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [LoadBalancerNotFoundException],
 }));
 /**
- * Removes the specified revocation file from the specified trust store.
+ * Removes the specified certificate from the certificate list for the specified HTTPS or TLS
+ * listener.
  */
-export const removeTrustStoreRevocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const removeListenerCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: RemoveTrustStoreRevocationsInput,
-    output: RemoveTrustStoreRevocationsOutput,
-    errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
+    input: RemoveListenerCertificatesInput,
+    output: RemoveListenerCertificatesOutput,
+    errors: [ListenerNotFoundException, OperationNotPermittedException],
   }),
 );
 /**
- * Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your
- * Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups,
- * trust stores, listeners, and rules.
+ * Deletes the specified Application Load Balancer, Network Load Balancer, or Gateway Load
+ * Balancer. Deleting a load balancer also deletes its listeners.
  *
- * Each tag consists of a key and an optional value. If a resource already has a tag with the
- * same key, `AddTags` updates its value.
+ * You can't delete a load balancer if deletion protection is enabled. If the load balancer
+ * does not exist or has already been deleted, the call succeeds.
+ *
+ * Deleting a load balancer does not affect its registered targets. For example, your EC2
+ * instances continue to run and are still registered to their target groups. If you no longer
+ * need these EC2 instances, you can stop or terminate them.
  */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsInput,
-  output: AddTagsOutput,
+export const deleteLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLoadBalancerInput,
+  output: DeleteLoadBalancerOutput,
   errors: [
-    DuplicateTagKeysException,
-    ListenerNotFoundException,
     LoadBalancerNotFoundException,
-    RuleNotFoundException,
-    TargetGroupNotFoundException,
-    TooManyTagsException,
-    TrustStoreNotFoundException,
+    OperationNotPermittedException,
+    ResourceInUseException,
   ],
 }));
 /**
- * Deletes a shared trust store association.
+ * Deletes the specified listener.
+ *
+ * Alternatively, your listener is deleted when you delete the load balancer to which it is
+ * attached.
  */
-export const deleteSharedTrustStoreAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteSharedTrustStoreAssociationInput,
-    output: DeleteSharedTrustStoreAssociationOutput,
-    errors: [
-      DeleteAssociationSameAccountException,
-      TrustStoreAssociationNotFoundException,
-      TrustStoreNotFoundException,
-    ],
-  }));
+export const deleteListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteListenerInput,
+  output: DeleteListenerOutput,
+  errors: [ListenerNotFoundException, ResourceInUseException],
+}));
+/**
+ * Deletes the specified rule.
+ *
+ * You can't delete the default rule.
+ */
+export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRuleInput,
+  output: DeleteRuleOutput,
+  errors: [OperationNotPermittedException, RuleNotFoundException],
+}));
 /**
  * Deletes a trust store.
  */
@@ -1909,32 +1813,6 @@ export const deleteTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrustStoreInput,
   output: DeleteTrustStoreOutput,
   errors: [TrustStoreInUseException, TrustStoreNotFoundException],
-}));
-/**
- * Deregisters the specified targets from the specified target group. After the targets are
- * deregistered, they no longer receive traffic from the load balancer.
- *
- * The load balancer stops sending requests to targets that are deregistering, but uses
- * connection draining to ensure that in-flight traffic completes on the existing connections.
- * This deregistration delay is configured by default but can be updated for each target group.
- *
- * For more information, see the following:
- *
- * -
- * Deregistration delay in the *Application Load Balancers User Guide*
- *
- * -
- * Deregistration delay in the *Network Load Balancers User Guide*
- *
- * -
- * Deregistration delay in the *Gateway Load Balancers User Guide*
- *
- * Note: If the specified target does not exist, the action returns successfully.
- */
-export const deregisterTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeregisterTargetsInput,
-  output: DeregisterTargetsOutput,
-  errors: [InvalidTargetException, TargetGroupNotFoundException],
 }));
 /**
  * Describes the current Elastic Load Balancing resource limits for your Amazon Web Services
@@ -1959,34 +1837,25 @@ export const describeAccountLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes the specified rules or the rules for the specified listener. You must specify
- * either a listener or rules.
+ * Describes the attributes for the specified target group.
+ *
+ * For more information, see the following:
+ *
+ * - Target group attributes in the Application Load Balancers
+ * Guide
+ *
+ * - Target group attributes in the Network Load Balancers
+ * Guide
+ *
+ * - Target group attributes in the Gateway Load Balancers
+ * Guide
  */
-export const describeRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeRulesInput,
-  output: DescribeRulesOutput,
-  errors: [
-    ListenerNotFoundException,
-    RuleNotFoundException,
-    UnsupportedProtocolException,
-  ],
-}));
-/**
- * Describes the tags for the specified Elastic Load Balancing resources. You can describe
- * the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load
- * Balancers, target groups, listeners, or rules.
- */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTagsInput,
-  output: DescribeTagsOutput,
-  errors: [
-    ListenerNotFoundException,
-    LoadBalancerNotFoundException,
-    RuleNotFoundException,
-    TargetGroupNotFoundException,
-    TrustStoreNotFoundException,
-  ],
-}));
+export const describeTargetGroupAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeTargetGroupAttributesInput,
+    output: DescribeTargetGroupAttributesOutput,
+    errors: [TargetGroupNotFoundException],
+  }));
 /**
  * Describes the specified target groups or all of your target groups. By default, all target
  * groups are described. Alternatively, you can specify one of the following to filter the
@@ -2028,6 +1897,125 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFoundException],
 }));
 /**
+ * Modifies the health checks used when evaluating the health state of the targets in the
+ * specified target group.
+ */
+export const modifyTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyTargetGroupInput,
+  output: ModifyTargetGroupOutput,
+  errors: [InvalidConfigurationRequestException, TargetGroupNotFoundException],
+}));
+/**
+ * Modifies the specified attributes of the specified target group.
+ */
+export const modifyTargetGroupAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyTargetGroupAttributesInput,
+    output: ModifyTargetGroupAttributesOutput,
+    errors: [
+      InvalidConfigurationRequestException,
+      TargetGroupNotFoundException,
+    ],
+  }),
+);
+/**
+ * Describes all trust stores for the specified account.
+ */
+export const describeTrustStores = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrustStoresInput,
+  output: DescribeTrustStoresOutput,
+  errors: [TrustStoreNotFoundException],
+}));
+/**
+ * Retrieves the ca certificate bundle.
+ *
+ * This action returns a pre-signed S3 URI which is
+ * active for ten minutes.
+ */
+export const getTrustStoreCaCertificatesBundle =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTrustStoreCaCertificatesBundleInput,
+    output: GetTrustStoreCaCertificatesBundleOutput,
+    errors: [TrustStoreNotFoundException],
+  }));
+/**
+ * Removes the specified revocation file from the specified trust store.
+ */
+export const removeTrustStoreRevocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveTrustStoreRevocationsInput,
+    output: RemoveTrustStoreRevocationsOutput,
+    errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
+  }),
+);
+/**
+ * Retrieves the specified revocation file.
+ *
+ * This action returns a pre-signed S3 URI which is
+ * active for ten minutes.
+ */
+export const getTrustStoreRevocationContent =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTrustStoreRevocationContentInput,
+    output: GetTrustStoreRevocationContentOutput,
+    errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
+  }));
+/**
+ * Deletes a shared trust store association.
+ */
+export const deleteSharedTrustStoreAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteSharedTrustStoreAssociationInput,
+    output: DeleteSharedTrustStoreAssociationOutput,
+    errors: [
+      DeleteAssociationSameAccountException,
+      TrustStoreAssociationNotFoundException,
+      TrustStoreNotFoundException,
+    ],
+  }));
+/**
+ * Deregisters the specified targets from the specified target group. After the targets are
+ * deregistered, they no longer receive traffic from the load balancer.
+ *
+ * The load balancer stops sending requests to targets that are deregistering, but uses
+ * connection draining to ensure that in-flight traffic completes on the existing connections.
+ * This deregistration delay is configured by default but can be updated for each target group.
+ *
+ * For more information, see the following:
+ *
+ * -
+ * Deregistration delay in the *Application Load Balancers User Guide*
+ *
+ * -
+ * Deregistration delay in the *Network Load Balancers User Guide*
+ *
+ * -
+ * Deregistration delay in the *Gateway Load Balancers User Guide*
+ *
+ * Note: If the specified target does not exist, the action returns successfully.
+ */
+export const deregisterTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterTargetsInput,
+  output: DeregisterTargetsOutput,
+  errors: [InvalidTargetException, TargetGroupNotFoundException],
+}));
+/**
+ * Describes the tags for the specified Elastic Load Balancing resources. You can describe
+ * the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load
+ * Balancers, target groups, listeners, or rules.
+ */
+export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTagsInput,
+  output: DescribeTagsOutput,
+  errors: [
+    ListenerNotFoundException,
+    LoadBalancerNotFoundException,
+    RuleNotFoundException,
+    TargetGroupNotFoundException,
+    TrustStoreNotFoundException,
+  ],
+}));
+/**
  * Modifies the specified attributes of the specified listener.
  */
 export const modifyListenerAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2053,76 +2041,6 @@ export const modifyLoadBalancerAttributes =
       LoadBalancerNotFoundException,
     ],
   }));
-/**
- * Modifies the health checks used when evaluating the health state of the targets in the
- * specified target group.
- */
-export const modifyTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyTargetGroupInput,
-  output: ModifyTargetGroupOutput,
-  errors: [InvalidConfigurationRequestException, TargetGroupNotFoundException],
-}));
-/**
- * Modifies the specified attributes of the specified target group.
- */
-export const modifyTargetGroupAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyTargetGroupAttributesInput,
-    output: ModifyTargetGroupAttributesOutput,
-    errors: [
-      InvalidConfigurationRequestException,
-      TargetGroupNotFoundException,
-    ],
-  }),
-);
-/**
- * Removes the specified tags from the specified Elastic Load Balancing resources. You can
- * remove the tags for one or more Application Load Balancers, Network Load Balancers, Gateway
- * Load Balancers, target groups, listeners, or rules.
- */
-export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTagsInput,
-  output: RemoveTagsOutput,
-  errors: [
-    ListenerNotFoundException,
-    LoadBalancerNotFoundException,
-    RuleNotFoundException,
-    TargetGroupNotFoundException,
-    TooManyTagsException,
-    TrustStoreNotFoundException,
-  ],
-}));
-/**
- * Sets the type of IP addresses used by the subnets of the specified load balancer.
- */
-export const setIpAddressType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetIpAddressTypeInput,
-  output: SetIpAddressTypeOutput,
-  errors: [
-    InvalidConfigurationRequestException,
-    InvalidSubnetException,
-    LoadBalancerNotFoundException,
-  ],
-}));
-/**
- * Associates the specified security groups with the specified Application Load Balancer or
- * Network Load Balancer. The specified security groups override the previously associated
- * security groups.
- *
- * You can't perform this operation on a Network Load Balancer unless you specified a
- * security group for the load balancer when you created it.
- *
- * You can't associate a security group with a Gateway Load Balancer.
- */
-export const setSecurityGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetSecurityGroupsInput,
-  output: SetSecurityGroupsOutput,
-  errors: [
-    InvalidConfigurationRequestException,
-    InvalidSecurityGroupException,
-    LoadBalancerNotFoundException,
-  ],
-}));
 /**
  * Describes the capacity reservation status for the specified load balancer.
  */
@@ -2170,6 +2088,150 @@ export const modifyTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Sets the priorities of the specified rules.
+ *
+ * You can reorder the rules as long as there are no priority conflicts in the new order. Any
+ * existing rules that you do not specify retain their current priority.
+ */
+export const setRulePriorities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetRulePrioritiesInput,
+  output: SetRulePrioritiesOutput,
+  errors: [
+    OperationNotPermittedException,
+    PriorityInUseException,
+    RuleNotFoundException,
+  ],
+}));
+/**
+ * Removes the specified tags from the specified Elastic Load Balancing resources. You can
+ * remove the tags for one or more Application Load Balancers, Network Load Balancers, Gateway
+ * Load Balancers, target groups, listeners, or rules.
+ */
+export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsInput,
+  output: RemoveTagsOutput,
+  errors: [
+    ListenerNotFoundException,
+    LoadBalancerNotFoundException,
+    RuleNotFoundException,
+    TargetGroupNotFoundException,
+    TooManyTagsException,
+    TrustStoreNotFoundException,
+  ],
+}));
+/**
+ * Describes the specified rules or the rules for the specified listener. You must specify
+ * either a listener or rules.
+ */
+export const describeRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRulesInput,
+  output: DescribeRulesOutput,
+  errors: [
+    ListenerNotFoundException,
+    RuleNotFoundException,
+    UnsupportedProtocolException,
+  ],
+}));
+/**
+ * Sets the type of IP addresses used by the subnets of the specified load balancer.
+ */
+export const setIpAddressType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIpAddressTypeInput,
+  output: SetIpAddressTypeOutput,
+  errors: [
+    InvalidConfigurationRequestException,
+    InvalidSubnetException,
+    LoadBalancerNotFoundException,
+  ],
+}));
+/**
+ * Associates the specified security groups with the specified Application Load Balancer or
+ * Network Load Balancer. The specified security groups override the previously associated
+ * security groups.
+ *
+ * You can't perform this operation on a Network Load Balancer unless you specified a
+ * security group for the load balancer when you created it.
+ *
+ * You can't associate a security group with a Gateway Load Balancer.
+ */
+export const setSecurityGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetSecurityGroupsInput,
+  output: SetSecurityGroupsOutput,
+  errors: [
+    InvalidConfigurationRequestException,
+    InvalidSecurityGroupException,
+    LoadBalancerNotFoundException,
+  ],
+}));
+/**
+ * Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your
+ * Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups,
+ * trust stores, listeners, and rules.
+ *
+ * Each tag consists of a key and an optional value. If a resource already has a tag with the
+ * same key, `AddTags` updates its value.
+ */
+export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsInput,
+  output: AddTagsOutput,
+  errors: [
+    DuplicateTagKeysException,
+    ListenerNotFoundException,
+    LoadBalancerNotFoundException,
+    RuleNotFoundException,
+    TargetGroupNotFoundException,
+    TooManyTagsException,
+    TrustStoreNotFoundException,
+  ],
+}));
+/**
+ * Adds the specified SSL server certificate to the certificate list for the specified HTTPS
+ * or TLS listener.
+ *
+ * If the certificate in already in the certificate list, the call is successful but the
+ * certificate is not added again.
+ *
+ * For more information, see SSL
+ * certificates in the *Application Load Balancers Guide* or Server
+ * certificates in the *Network Load Balancers Guide*.
+ */
+export const addListenerCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AddListenerCertificatesInput,
+    output: AddListenerCertificatesOutput,
+    errors: [
+      CertificateNotFoundException,
+      ListenerNotFoundException,
+      TooManyCertificatesException,
+    ],
+  }),
+);
+/**
+ * Describes the specified policies or all policies used for SSL negotiation.
+ *
+ * For more information, see Security policies in the *Application Load Balancers Guide* and
+ * Security policies in the *Network Load Balancers Guide*.
+ */
+export const describeSSLPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSSLPoliciesInput,
+  output: DescribeSSLPoliciesOutput,
+  errors: [SSLPolicyNotFoundException],
+}));
+/**
+ * Describes the health of the specified targets or all of your targets.
+ */
+export const describeTargetHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTargetHealthInput,
+    output: DescribeTargetHealthOutput,
+    errors: [
+      HealthUnavailableException,
+      InvalidTargetException,
+      TargetGroupNotFoundException,
+    ],
+  }),
+);
+/**
  * Registers the specified targets with the specified target group.
  *
  * If the target is an EC2 instance, it must be in the `running` state when you
@@ -2202,42 +2264,22 @@ export const registerTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Sets the priorities of the specified rules.
+ * Creates a trust store.
  *
- * You can reorder the rules as long as there are no priority conflicts in the new order. Any
- * existing rules that you do not specify retain their current priority.
+ * For more information, see Mutual TLS for Application Load Balancers.
  */
-export const setRulePriorities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetRulePrioritiesInput,
-  output: SetRulePrioritiesOutput,
+export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrustStoreInput,
+  output: CreateTrustStoreOutput,
   errors: [
-    OperationNotPermittedException,
-    PriorityInUseException,
-    RuleNotFoundException,
+    CaCertificatesBundleNotFoundException,
+    DuplicateTagKeysException,
+    DuplicateTrustStoreNameException,
+    InvalidCaCertificatesBundleException,
+    TooManyTagsException,
+    TooManyTrustStoresException,
   ],
 }));
-/**
- * Adds the specified SSL server certificate to the certificate list for the specified HTTPS
- * or TLS listener.
- *
- * If the certificate in already in the certificate list, the call is successful but the
- * certificate is not added again.
- *
- * For more information, see SSL
- * certificates in the *Application Load Balancers Guide* or Server
- * certificates in the *Network Load Balancers Guide*.
- */
-export const addListenerCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddListenerCertificatesInput,
-    output: AddListenerCertificatesOutput,
-    errors: [
-      CertificateNotFoundException,
-      ListenerNotFoundException,
-      TooManyCertificatesException,
-    ],
-  }),
-);
 /**
  * Creates a target group.
  *
@@ -2266,44 +2308,35 @@ export const createTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a trust store.
- *
- * For more information, see Mutual TLS for Application Load Balancers.
+ * Enables the Availability Zones for the specified public subnets for the specified
+ * Application Load Balancer, Network Load Balancer or Gateway Load Balancer. The specified subnets
+ * replace the previously enabled subnets.
  */
-export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTrustStoreInput,
-  output: CreateTrustStoreOutput,
+export const setSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetSubnetsInput,
+  output: SetSubnetsOutput,
   errors: [
-    CaCertificatesBundleNotFoundException,
-    DuplicateTagKeysException,
-    DuplicateTrustStoreNameException,
-    InvalidCaCertificatesBundleException,
-    TooManyTagsException,
-    TooManyTrustStoresException,
+    AllocationIdNotFoundException,
+    AvailabilityZoneNotSupportedException,
+    CapacityReservationPendingException,
+    InvalidConfigurationRequestException,
+    InvalidSubnetException,
+    LoadBalancerNotFoundException,
+    SubnetNotFoundException,
   ],
 }));
 /**
- * Describes the specified policies or all policies used for SSL negotiation.
- *
- * For more information, see Security policies in the *Application Load Balancers Guide* and
- * Security policies in the *Network Load Balancers Guide*.
+ * Adds the specified revocation file to the specified trust store.
  */
-export const describeSSLPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSSLPoliciesInput,
-  output: DescribeSSLPoliciesOutput,
-  errors: [SSLPolicyNotFoundException],
-}));
-/**
- * Describes the health of the specified targets or all of your targets.
- */
-export const describeTargetHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const addTrustStoreRevocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeTargetHealthInput,
-    output: DescribeTargetHealthOutput,
+    input: AddTrustStoreRevocationsInput,
+    output: AddTrustStoreRevocationsOutput,
     errors: [
-      HealthUnavailableException,
-      InvalidTargetException,
-      TargetGroupNotFoundException,
+      InvalidRevocationContentException,
+      RevocationContentNotFoundException,
+      TooManyTrustStoreRevocationEntriesException,
+      TrustStoreNotFoundException,
     ],
   }),
 );
@@ -2330,24 +2363,6 @@ export const modifyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyTargetsException,
     TooManyUniqueTargetGroupsPerLoadBalancerException,
     UnsupportedProtocolException,
-  ],
-}));
-/**
- * Enables the Availability Zones for the specified public subnets for the specified
- * Application Load Balancer, Network Load Balancer or Gateway Load Balancer. The specified subnets
- * replace the previously enabled subnets.
- */
-export const setSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetSubnetsInput,
-  output: SetSubnetsOutput,
-  errors: [
-    AllocationIdNotFoundException,
-    AvailabilityZoneNotSupportedException,
-    CapacityReservationPendingException,
-    InvalidConfigurationRequestException,
-    InvalidSubnetException,
-    LoadBalancerNotFoundException,
-    SubnetNotFoundException,
   ],
 }));
 /**
@@ -2378,102 +2393,6 @@ export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyTargetGroupsException,
     TooManyTargetsException,
     TooManyUniqueTargetGroupsPerLoadBalancerException,
-    UnsupportedProtocolException,
-  ],
-}));
-/**
- * Replaces the specified properties of the specified listener. Any properties that you do
- * not specify remain unchanged.
- *
- * Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy
- * and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP
- * to TLS, you must add the security policy and default certificate properties.
- *
- * To add an item to a list, remove an item from a list, or update an item in a list, you
- * must provide the entire list. For example, to add an action, specify a list with the current
- * actions plus the new action.
- */
-export const modifyListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyListenerInput,
-  output: ModifyListenerOutput,
-  errors: [
-    ALPNPolicyNotSupportedException,
-    CertificateNotFoundException,
-    DuplicateListenerException,
-    IncompatibleProtocolsException,
-    InvalidConfigurationRequestException,
-    InvalidLoadBalancerActionException,
-    ListenerNotFoundException,
-    SSLPolicyNotFoundException,
-    TargetGroupAssociationLimitException,
-    TargetGroupNotFoundException,
-    TooManyActionsException,
-    TooManyCertificatesException,
-    TooManyListenersException,
-    TooManyRegistrationsForTargetIdException,
-    TooManyTargetsException,
-    TooManyUniqueTargetGroupsPerLoadBalancerException,
-    TrustStoreNotFoundException,
-    TrustStoreNotReadyException,
-    UnsupportedProtocolException,
-  ],
-}));
-/**
- * Adds the specified revocation file to the specified trust store.
- */
-export const addTrustStoreRevocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddTrustStoreRevocationsInput,
-    output: AddTrustStoreRevocationsOutput,
-    errors: [
-      InvalidRevocationContentException,
-      RevocationContentNotFoundException,
-      TooManyTrustStoreRevocationEntriesException,
-      TrustStoreNotFoundException,
-    ],
-  }),
-);
-/**
- * Creates a listener for the specified Application Load Balancer, Network Load Balancer, or
- * Gateway Load Balancer.
- *
- * For more information, see the following:
- *
- * - Listeners for
- * your Application Load Balancers
- *
- * - Listeners for
- * your Network Load Balancers
- *
- * - Listeners for your
- * Gateway Load Balancers
- *
- * This operation is idempotent, which means that it completes at most one time. If you
- * attempt to create multiple listeners with the same settings, each call succeeds.
- */
-export const createListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateListenerInput,
-  output: CreateListenerOutput,
-  errors: [
-    ALPNPolicyNotSupportedException,
-    CertificateNotFoundException,
-    DuplicateListenerException,
-    IncompatibleProtocolsException,
-    InvalidConfigurationRequestException,
-    InvalidLoadBalancerActionException,
-    LoadBalancerNotFoundException,
-    SSLPolicyNotFoundException,
-    TargetGroupAssociationLimitException,
-    TargetGroupNotFoundException,
-    TooManyActionsException,
-    TooManyCertificatesException,
-    TooManyListenersException,
-    TooManyRegistrationsForTargetIdException,
-    TooManyTagsException,
-    TooManyTargetsException,
-    TooManyUniqueTargetGroupsPerLoadBalancerException,
-    TrustStoreNotFoundException,
-    TrustStoreNotReadyException,
     UnsupportedProtocolException,
   ],
 }));
@@ -2535,3 +2454,84 @@ export const modifyCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Replaces the specified properties of the specified listener. Any properties that you do
+ * not specify remain unchanged.
+ *
+ * Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy
+ * and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP
+ * to TLS, you must add the security policy and default certificate properties.
+ *
+ * To add an item to a list, remove an item from a list, or update an item in a list, you
+ * must provide the entire list. For example, to add an action, specify a list with the current
+ * actions plus the new action.
+ */
+export const modifyListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyListenerInput,
+  output: ModifyListenerOutput,
+  errors: [
+    ALPNPolicyNotSupportedException,
+    CertificateNotFoundException,
+    DuplicateListenerException,
+    IncompatibleProtocolsException,
+    InvalidConfigurationRequestException,
+    InvalidLoadBalancerActionException,
+    ListenerNotFoundException,
+    SSLPolicyNotFoundException,
+    TargetGroupAssociationLimitException,
+    TargetGroupNotFoundException,
+    TooManyActionsException,
+    TooManyCertificatesException,
+    TooManyListenersException,
+    TooManyRegistrationsForTargetIdException,
+    TooManyTargetsException,
+    TooManyUniqueTargetGroupsPerLoadBalancerException,
+    TrustStoreNotFoundException,
+    TrustStoreNotReadyException,
+    UnsupportedProtocolException,
+  ],
+}));
+/**
+ * Creates a listener for the specified Application Load Balancer, Network Load Balancer, or
+ * Gateway Load Balancer.
+ *
+ * For more information, see the following:
+ *
+ * - Listeners for
+ * your Application Load Balancers
+ *
+ * - Listeners for
+ * your Network Load Balancers
+ *
+ * - Listeners for your
+ * Gateway Load Balancers
+ *
+ * This operation is idempotent, which means that it completes at most one time. If you
+ * attempt to create multiple listeners with the same settings, each call succeeds.
+ */
+export const createListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateListenerInput,
+  output: CreateListenerOutput,
+  errors: [
+    ALPNPolicyNotSupportedException,
+    CertificateNotFoundException,
+    DuplicateListenerException,
+    IncompatibleProtocolsException,
+    InvalidConfigurationRequestException,
+    InvalidLoadBalancerActionException,
+    LoadBalancerNotFoundException,
+    SSLPolicyNotFoundException,
+    TargetGroupAssociationLimitException,
+    TargetGroupNotFoundException,
+    TooManyActionsException,
+    TooManyCertificatesException,
+    TooManyListenersException,
+    TooManyRegistrationsForTargetIdException,
+    TooManyTagsException,
+    TooManyTargetsException,
+    TooManyUniqueTargetGroupsPerLoadBalancerException,
+    TrustStoreNotFoundException,
+    TrustStoreNotReadyException,
+    UnsupportedProtocolException,
+  ],
+}));

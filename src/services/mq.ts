@@ -1180,23 +1180,38 @@ export class DescribeBrokerInstanceOptionsResponse extends S.Class<DescribeBroke
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  {
+    ErrorAttribute: S.optional(S.String).pipe(T.JsonName("errorAttribute")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
-) {}
-export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
-  "InternalServerErrorException",
-  {},
+  {
+    ErrorAttribute: S.optional(S.String).pipe(T.JsonName("errorAttribute")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    ErrorAttribute: S.optional(S.String).pipe(T.JsonName("errorAttribute")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
+  "InternalServerErrorException",
+  {
+    ErrorAttribute: S.optional(S.String).pipe(T.JsonName("errorAttribute")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  {
+    ErrorAttribute: S.optional(S.String).pipe(T.JsonName("errorAttribute")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
@@ -1208,17 +1223,67 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 
 //# Operations
 /**
- * Updates the information for an ActiveMQ user.
+ * Describe available engine types and versions.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserRequest,
-  output: UpdateUserResponse,
+export const describeBrokerEngineTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeBrokerEngineTypesRequest,
+    output: DescribeBrokerEngineTypesResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+    ],
+  }),
+);
+/**
+ * Describe available broker instance options.
+ */
+export const describeBrokerInstanceOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeBrokerInstanceOptionsRequest,
+    output: DescribeBrokerInstanceOptionsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+    ],
+  }));
+/**
+ * Returns a list of all brokers.
+ */
+export const listBrokers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBrokersRequest,
+  output: ListBrokersResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+  ],
+}));
+/**
+ * Returns a list of all configurations.
+ */
+export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConfigurationsRequest,
+  output: ListConfigurationsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+  ],
+}));
+/**
+ * Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+ */
+export const createConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfigurationRequest,
+  output: CreateConfigurationResponse,
   errors: [
     BadRequestException,
     ConflictException,
     ForbiddenException,
     InternalServerErrorException,
-    NotFoundException,
   ],
 }));
 /**
@@ -1235,27 +1300,57 @@ export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates an ActiveMQ user.
+ * Creates a broker. Note: This API is asynchronous.
  *
- * Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
+ * To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy.
+ *
+ * - ec2:CreateNetworkInterface
+ *
+ * This permission is required to allow Amazon MQ to create an elastic network interface (ENI) on behalf of your account.
+ *
+ * - ec2:CreateNetworkInterfacePermission
+ *
+ * This permission is required to attach the ENI to the broker instance.
+ *
+ * - ec2:DeleteNetworkInterface
+ *
+ * - ec2:DeleteNetworkInterfacePermission
+ *
+ * - ec2:DetachNetworkInterface
+ *
+ * - ec2:DescribeInternetGateways
+ *
+ * - ec2:DescribeNetworkInterfaces
+ *
+ * - ec2:DescribeNetworkInterfacePermissions
+ *
+ * - ec2:DescribeRouteTables
+ *
+ * - ec2:DescribeSecurityGroups
+ *
+ * - ec2:DescribeSubnets
+ *
+ * - ec2:DescribeVpcs
+ *
+ * For more information, see Create an IAM User and Get Your Amazon Web Services Credentials and Never Modify or Delete the Amazon MQ Elastic Network Interface in the *Amazon MQ Developer Guide*.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResponse,
+export const createBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBrokerRequest,
+  output: CreateBrokerResponse,
   errors: [
     BadRequestException,
     ConflictException,
     ForbiddenException,
     InternalServerErrorException,
-    NotFoundException,
+    UnauthorizedException,
   ],
 }));
 /**
- * Deletes a broker. Note: This API is asynchronous.
+ * Returns information about the specified broker.
  */
-export const deleteBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBrokerRequest,
-  output: DeleteBrokerResponse,
+export const describeBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBrokerRequest,
+  output: DescribeBrokerResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1278,11 +1373,11 @@ export const deleteConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes a tag from a resource.
+ * Returns information about an ActiveMQ user.
  */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTagsRequest,
-  output: DeleteTagsResponse,
+export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserRequest,
+  output: DescribeUserResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1291,11 +1386,25 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes an ActiveMQ user.
+ * Updates the specified configuration.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
+export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationRequest,
+  output: UpdateConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes a broker. Note: This API is asynchronous.
+ */
+export const deleteBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBrokerRequest,
+  output: DeleteBrokerResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1387,6 +1496,32 @@ export const promote = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Removes a tag from a resource.
+ */
+export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTagsRequest,
+  output: DeleteTagsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes an ActiveMQ user.
+ */
+export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserRequest,
+  output: DeleteUserResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
  * Reboots a broker. Note: This API is asynchronous.
  */
 export const rebootBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1414,61 +1549,13 @@ export const updateBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+ * Creates an ActiveMQ user.
+ *
+ * Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
  */
-export const createConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateConfigurationRequest,
-  output: CreateConfigurationResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-  ],
-}));
-/**
- * Returns information about an ActiveMQ user.
- */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUserRequest,
-  output: DescribeUserResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-  ],
-}));
-/**
- * Returns a list of all brokers.
- */
-export const listBrokers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBrokersRequest,
-  output: ListBrokersResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-  ],
-}));
-/**
- * Returns a list of all configurations.
- */
-export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListConfigurationsRequest,
-  output: ListConfigurationsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-  ],
-}));
-/**
- * Updates the specified configuration.
- */
-export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationRequest,
-  output: UpdateConfigurationResponse,
+export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserRequest,
+  output: CreateUserResponse,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1478,88 +1565,16 @@ export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a broker. Note: This API is asynchronous.
- *
- * To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy.
- *
- * - ec2:CreateNetworkInterface
- *
- * This permission is required to allow Amazon MQ to create an elastic network interface (ENI) on behalf of your account.
- *
- * - ec2:CreateNetworkInterfacePermission
- *
- * This permission is required to attach the ENI to the broker instance.
- *
- * - ec2:DeleteNetworkInterface
- *
- * - ec2:DeleteNetworkInterfacePermission
- *
- * - ec2:DetachNetworkInterface
- *
- * - ec2:DescribeInternetGateways
- *
- * - ec2:DescribeNetworkInterfaces
- *
- * - ec2:DescribeNetworkInterfacePermissions
- *
- * - ec2:DescribeRouteTables
- *
- * - ec2:DescribeSecurityGroups
- *
- * - ec2:DescribeSubnets
- *
- * - ec2:DescribeVpcs
- *
- * For more information, see Create an IAM User and Get Your Amazon Web Services Credentials and Never Modify or Delete the Amazon MQ Elastic Network Interface in the *Amazon MQ Developer Guide*.
+ * Updates the information for an ActiveMQ user.
  */
-export const createBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBrokerRequest,
-  output: CreateBrokerResponse,
+export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserRequest,
+  output: UpdateUserResponse,
   errors: [
     BadRequestException,
     ConflictException,
     ForbiddenException,
     InternalServerErrorException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns information about the specified broker.
- */
-export const describeBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBrokerRequest,
-  output: DescribeBrokerResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
     NotFoundException,
   ],
 }));
-/**
- * Describe available engine types and versions.
- */
-export const describeBrokerEngineTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBrokerEngineTypesRequest,
-    output: DescribeBrokerEngineTypesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-    ],
-  }),
-);
-/**
- * Describe available broker instance options.
- */
-export const describeBrokerInstanceOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBrokerInstanceOptionsRequest,
-    output: DescribeBrokerInstanceOptionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-    ],
-  }));

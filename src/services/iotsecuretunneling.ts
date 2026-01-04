@@ -548,7 +548,7 @@ export class DescribeTunnelResponse extends S.Class<DescribeTunnelResponse>(
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
@@ -558,22 +558,6 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 ) {}
 
 //# Operations
-/**
- * A resource tag.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [ResourceNotFoundException],
-}));
-/**
- * Removes a tag from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [ResourceNotFoundException],
-}));
 /**
  * Closes a tunnel identified by the unique tunnel id. When a `CloseTunnel`
  * request is received, we close the WebSocket connections between the client and proxy
@@ -612,6 +596,22 @@ export const rotateTunnelAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [ResourceNotFoundException],
   }),
 );
+/**
+ * A resource tag.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [ResourceNotFoundException],
+}));
+/**
+ * Removes a tag from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in
  * descending order, newer tunnels will be listed before older tunnels.

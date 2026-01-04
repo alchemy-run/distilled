@@ -2201,158 +2201,38 @@ export class SearchProductsOutput extends S.Class<SearchProductsOutput>(
 //# Errors
 export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
   "InvalidStateException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidParametersException extends S.TaggedError<InvalidParametersException>()(
   "InvalidParametersException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DuplicateResourceException extends S.TaggedError<DuplicateResourceException>()(
   "DuplicateResourceException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
-) {}
-export class TagOptionNotMigratedException extends S.TaggedError<TagOptionNotMigratedException>()(
-  "TagOptionNotMigratedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class OperationNotSupportedException extends S.TaggedError<OperationNotSupportedException>()(
   "OperationNotSupportedException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class TagOptionNotMigratedException extends S.TaggedError<TagOptionNotMigratedException>()(
+  "TagOptionNotMigratedException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Associates a self-service action with a provisioning artifact.
- */
-export const associateServiceActionWithProvisioningArtifact =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateServiceActionWithProvisioningArtifactInput,
-    output: AssociateServiceActionWithProvisioningArtifactOutput,
-    errors: [
-      DuplicateResourceException,
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Deletes the specified constraint.
- *
- * A delegated admin is authorized to invoke this command.
- */
-export const deleteConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConstraintInput,
-  output: DeleteConstraintOutput,
-  errors: [InvalidParametersException, ResourceNotFoundException],
-}));
-/**
- * Deletes the specified product.
- *
- * You cannot delete a product if it was shared with you or is associated with a portfolio.
- *
- * A delegated admin is authorized to invoke this command.
- */
-export const deleteProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProductInput,
-  output: DeleteProductOutput,
-  errors: [
-    InvalidParametersException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TagOptionNotMigratedException,
-  ],
-}));
-/**
- * Deletes the specified plan.
- */
-export const deleteProvisionedProductPlan =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteProvisionedProductPlanInput,
-    output: DeleteProvisionedProductPlanOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
-/**
- * Deletes the specified provisioning artifact (also known as a version) for the specified product.
- *
- * You cannot delete a provisioning artifact associated with a product that was shared with you.
- * You cannot delete the last provisioning artifact for a product, because a product must have at
- * least one provisioning artifact.
- */
-export const deleteProvisioningArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProvisioningArtifactInput,
-    output: DeleteProvisioningArtifactOutput,
-    errors: [
-      InvalidParametersException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes a self-service action.
- */
-export const deleteServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteServiceActionInput,
-  output: DeleteServiceActionOutput,
-  errors: [
-    InvalidParametersException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified TagOption.
- *
- * You cannot delete a TagOption if it is associated with a product or portfolio.
- */
-export const deleteTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTagOptionInput,
-  output: DeleteTagOptionOutput,
-  errors: [
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TagOptionNotMigratedException,
-  ],
-}));
-/**
- * Disable portfolio sharing through the Organizations service. This command will not
- * delete your current shares, but prevents you from creating new shares throughout your
- * organization. Current shares are not kept in sync with your organization structure if the structure
- * changes after calling this API. Only the management account in the organization can call this API.
- *
- * You cannot call this API if there are active delegated administrators in the organization.
- *
- * Note that a delegated administrator is not authorized to invoke `DisableAWSOrganizationsAccess`.
- *
- * If you share an Service Catalog portfolio in an organization within
- * Organizations, and then disable Organizations access for Service Catalog,
- * the portfolio access permissions will not sync with the latest changes to the organization
- * structure. Specifically, accounts that you removed from the organization after
- * disabling Service Catalog access will retain access to the previously shared portfolio.
- */
-export const disableAWSOrganizationsAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableAWSOrganizationsAccessInput,
-    output: DisableAWSOrganizationsAccessOutput,
-    errors: [
-      InvalidStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
 /**
  * Disassociates the specified budget from the specified resource.
  */
@@ -2362,293 +2242,6 @@ export const disassociateBudgetFromResource =
     output: DisassociateBudgetFromResourceOutput,
     errors: [ResourceNotFoundException],
   }));
-/**
- * Disassociates a previously associated principal ARN from a specified
- * portfolio.
- *
- * The `PrincipalType` and `PrincipalARN` must match the
- * `AssociatePrincipalWithPortfolio` call request details. For example,
- * to disassociate an association created with a `PrincipalARN` of `PrincipalType`
- * IAM you must use the `PrincipalType` IAM when calling `DisassociatePrincipalFromPortfolio`.
- *
- * For portfolios that have been shared with principal name sharing enabled: after disassociating a principal,
- * share recipient accounts will no longer be able to provision products in this portfolio using a role matching the name
- * of the associated principal.
- *
- * For more information, review associate-principal-with-portfolio
- * in the Amazon Web Services CLI Command Reference.
- *
- * If you disassociate a principal from a portfolio, with PrincipalType as `IAM`, the same principal will
- * still have access to the portfolio if it matches one of the associated principals of type `IAM_PATTERN`.
- * To fully remove access for a principal, verify all the associated Principals of type `IAM_PATTERN`,
- * and then ensure you disassociate any `IAM_PATTERN` principals that match the principal
- * whose access you are removing.
- */
-export const disassociatePrincipalFromPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociatePrincipalFromPortfolioInput,
-    output: DisassociatePrincipalFromPortfolioOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
-/**
- * Disassociates the specified product from the specified portfolio.
- *
- * A delegated admin is authorized to invoke this command.
- */
-export const disassociateProductFromPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateProductFromPortfolioInput,
-    output: DisassociateProductFromPortfolioOutput,
-    errors: [
-      InvalidParametersException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Disassociates the specified self-service action association from the specified provisioning artifact.
- */
-export const disassociateServiceActionFromProvisioningArtifact =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateServiceActionFromProvisioningArtifactInput,
-    output: DisassociateServiceActionFromProvisioningArtifactOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
-/**
- * Disassociates the specified TagOption from the specified resource.
- */
-export const disassociateTagOptionFromResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateTagOptionFromResourceInput,
-    output: DisassociateTagOptionFromResourceOutput,
-    errors: [ResourceNotFoundException, TagOptionNotMigratedException],
-  }));
-/**
- * Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the
- * current structure. This API can only be called by the management account in the organization.
- *
- * When you call this API, Service Catalog calls `organizations:EnableAWSServiceAccess` on your behalf so that your shares stay in sync with any changes in your Organizations structure.
- *
- * Note that a delegated administrator is not authorized to invoke `EnableAWSOrganizationsAccess`.
- *
- * If you have previously disabled Organizations access for Service Catalog, and then
- * enable access again, the portfolio access permissions might not sync with the latest changes to
- * the organization structure. Specifically, accounts that you removed from the organization after
- * disabling Service Catalog access, and before you enabled access again, can retain access to the
- * previously shared portfolio. As a result, an account that has been removed from the organization
- * might still be able to create or manage Amazon Web Services resources when it is no longer
- * authorized to do so. Amazon Web Services is working to resolve this issue.
- */
-export const enableAWSOrganizationsAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableAWSOrganizationsAccessInput,
-    output: EnableAWSOrganizationsAccessOutput,
-    errors: [
-      InvalidStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Get the Access Status for Organizations portfolio share feature. This API can only be
- * called by the management account in the organization or by a delegated admin.
- */
-export const getAWSOrganizationsAccessStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAWSOrganizationsAccessStatusInput,
-    output: GetAWSOrganizationsAccessStatusOutput,
-    errors: [OperationNotSupportedException, ResourceNotFoundException],
-  }));
-/**
- * Notifies the result
- * of the terminate engine execution.
- */
-export const notifyTerminateProvisionedProductEngineWorkflowResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: NotifyTerminateProvisionedProductEngineWorkflowResultInput,
-    output: NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
-/**
- * Notifies the result
- * of the update engine execution.
- */
-export const notifyUpdateProvisionedProductEngineWorkflowResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: NotifyUpdateProvisionedProductEngineWorkflowResultInput,
-    output: NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
-/**
- * Rejects an offer to share the specified portfolio.
- */
-export const rejectPortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectPortfolioShareInput,
-    output: RejectPortfolioShareOutput,
-    errors: [ResourceNotFoundException],
-  }),
-);
-/**
- * Accepts an offer to share the specified portfolio.
- */
-export const acceptPortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptPortfolioShareInput,
-    output: AcceptPortfolioShareOutput,
-    errors: [
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Associates the specified budget with the specified resource.
- */
-export const associateBudgetWithResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateBudgetWithResourceInput,
-    output: AssociateBudgetWithResourceOutput,
-    errors: [
-      DuplicateResourceException,
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Associates the specified principal ARN with the specified portfolio.
- *
- * If you share the portfolio with principal name sharing enabled, the `PrincipalARN` association is
- * included in the share.
- *
- * The `PortfolioID`, `PrincipalARN`, and `PrincipalType` parameters are
- * required.
- *
- * You can associate a maximum of 10 Principals with a portfolio using `PrincipalType` as `IAM_PATTERN`.
- *
- * When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is
- * then shared with other accounts. For a user in a recipient account who is *not* an Service Catalog Admin,
- * but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal
- * name association for the portfolio. Although this user may not know which principal names are associated through
- * Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then
- * Service Catalog recommends using `PrincipalType` as `IAM`. With this configuration,
- * the `PrincipalARN` must already exist in the recipient account before it can be associated.
- */
-export const associatePrincipalWithPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociatePrincipalWithPortfolioInput,
-    output: AssociatePrincipalWithPortfolioOutput,
-    errors: [
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Associates the specified product with the specified portfolio.
- *
- * A delegated admin is authorized to invoke this command.
- */
-export const associateProductWithPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateProductWithPortfolioInput,
-    output: AssociateProductWithPortfolioOutput,
-    errors: [
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Associate the specified TagOption with the specified portfolio or product.
- */
-export const associateTagOptionWithResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateTagOptionWithResourceInput,
-    output: AssociateTagOptionWithResourceOutput,
-    errors: [
-      DuplicateResourceException,
-      InvalidParametersException,
-      InvalidStateException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      TagOptionNotMigratedException,
-    ],
-  }));
-/**
- * Deletes the specified portfolio.
- *
- * You cannot delete a portfolio if it was shared with you or if it has associated
- * products, users, constraints, or shared accounts.
- *
- * A delegated admin is authorized to invoke this command.
- */
-export const deletePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePortfolioInput,
-  output: DeletePortfolioOutput,
-  errors: [
-    InvalidParametersException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TagOptionNotMigratedException,
-  ],
-}));
-/**
- * Stops sharing the specified portfolio with the specified account or organization
- * node. Shares to an organization node can only be deleted by the management account of an
- * organization or by a delegated administrator.
- *
- * Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
- */
-export const deletePortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePortfolioShareInput,
-    output: DeletePortfolioShareOutput,
-    errors: [
-      InvalidParametersException,
-      InvalidStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Gets information about the specified constraint.
- */
-export const describeConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeConstraintInput,
-  output: DescribeConstraintOutput,
-  errors: [ResourceNotFoundException],
-}));
-/**
- * Gets the status of the specified copy product operation.
- */
-export const describeCopyProductStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCopyProductStatusInput,
-    output: DescribeCopyProductStatusOutput,
-    errors: [ResourceNotFoundException],
-  }),
-);
-/**
- * Gets information about the specified product.
- */
-export const describeProductView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeProductViewInput,
-  output: DescribeProductViewOutput,
-  errors: [InvalidParametersException, ResourceNotFoundException],
-}));
-/**
- * Gets information about the specified TagOption.
- */
-export const describeTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTagOptionInput,
-  output: DescribeTagOptionOutput,
-  errors: [ResourceNotFoundException, TagOptionNotMigratedException],
-}));
 /**
  * Provisions or modifies a product based on the resource changes for the specified plan.
  */
@@ -2852,21 +2445,6 @@ export const updateConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
 /**
- * Updates the specified portfolio.
- *
- * You cannot update a product that was shared with you.
- */
-export const updatePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePortfolioInput,
-  output: UpdatePortfolioOutput,
-  errors: [
-    InvalidParametersException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    TagOptionNotMigratedException,
-  ],
-}));
-/**
  * Updates the specified portfolio share. You can use this API to enable or disable `TagOptions` sharing
  * or Principal sharing for an existing portfolio share.
  *
@@ -2900,18 +2478,6 @@ export const updatePortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the specified product.
- */
-export const updateProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProductInput,
-  output: UpdateProductOutput,
-  errors: [
-    InvalidParametersException,
-    ResourceNotFoundException,
-    TagOptionNotMigratedException,
-  ],
-}));
-/**
  * Updates the specified provisioning artifact (also known as a version) for the specified product.
  *
  * You cannot update a provisioning artifact for a product that was shared with you.
@@ -2932,18 +2498,257 @@ export const updateServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
 /**
- * Updates the specified TagOption.
+ * Deletes the specified constraint.
+ *
+ * A delegated admin is authorized to invoke this command.
  */
-export const updateTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTagOptionInput,
-  output: UpdateTagOptionOutput,
+export const deleteConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConstraintInput,
+  output: DeleteConstraintOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
+/**
+ * Deletes the specified plan.
+ */
+export const deleteProvisionedProductPlan =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteProvisionedProductPlanInput,
+    output: DeleteProvisionedProductPlanOutput,
+    errors: [InvalidParametersException, ResourceNotFoundException],
+  }));
+/**
+ * Deletes the specified provisioning artifact (also known as a version) for the specified product.
+ *
+ * You cannot delete a provisioning artifact associated with a product that was shared with you.
+ * You cannot delete the last provisioning artifact for a product, because a product must have at
+ * least one provisioning artifact.
+ */
+export const deleteProvisioningArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteProvisioningArtifactInput,
+    output: DeleteProvisioningArtifactOutput,
+    errors: [
+      InvalidParametersException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes a self-service action.
+ */
+export const deleteServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceActionInput,
+  output: DeleteServiceActionOutput,
   errors: [
-    DuplicateResourceException,
     InvalidParametersException,
+    ResourceInUseException,
     ResourceNotFoundException,
-    TagOptionNotMigratedException,
   ],
 }));
+/**
+ * Disassociates a previously associated principal ARN from a specified
+ * portfolio.
+ *
+ * The `PrincipalType` and `PrincipalARN` must match the
+ * `AssociatePrincipalWithPortfolio` call request details. For example,
+ * to disassociate an association created with a `PrincipalARN` of `PrincipalType`
+ * IAM you must use the `PrincipalType` IAM when calling `DisassociatePrincipalFromPortfolio`.
+ *
+ * For portfolios that have been shared with principal name sharing enabled: after disassociating a principal,
+ * share recipient accounts will no longer be able to provision products in this portfolio using a role matching the name
+ * of the associated principal.
+ *
+ * For more information, review associate-principal-with-portfolio
+ * in the Amazon Web Services CLI Command Reference.
+ *
+ * If you disassociate a principal from a portfolio, with PrincipalType as `IAM`, the same principal will
+ * still have access to the portfolio if it matches one of the associated principals of type `IAM_PATTERN`.
+ * To fully remove access for a principal, verify all the associated Principals of type `IAM_PATTERN`,
+ * and then ensure you disassociate any `IAM_PATTERN` principals that match the principal
+ * whose access you are removing.
+ */
+export const disassociatePrincipalFromPortfolio =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociatePrincipalFromPortfolioInput,
+    output: DisassociatePrincipalFromPortfolioOutput,
+    errors: [InvalidParametersException, ResourceNotFoundException],
+  }));
+/**
+ * Disassociates the specified product from the specified portfolio.
+ *
+ * A delegated admin is authorized to invoke this command.
+ */
+export const disassociateProductFromPortfolio =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateProductFromPortfolioInput,
+    output: DisassociateProductFromPortfolioOutput,
+    errors: [
+      InvalidParametersException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Disassociates the specified self-service action association from the specified provisioning artifact.
+ */
+export const disassociateServiceActionFromProvisioningArtifact =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateServiceActionFromProvisioningArtifactInput,
+    output: DisassociateServiceActionFromProvisioningArtifactOutput,
+    errors: [InvalidParametersException, ResourceNotFoundException],
+  }));
+/**
+ * Notifies the result
+ * of the terminate engine execution.
+ */
+export const notifyTerminateProvisionedProductEngineWorkflowResult =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: NotifyTerminateProvisionedProductEngineWorkflowResultInput,
+    output: NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
+    errors: [InvalidParametersException, ResourceNotFoundException],
+  }));
+/**
+ * Notifies the result
+ * of the update engine execution.
+ */
+export const notifyUpdateProvisionedProductEngineWorkflowResult =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: NotifyUpdateProvisionedProductEngineWorkflowResultInput,
+    output: NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
+    errors: [InvalidParametersException, ResourceNotFoundException],
+  }));
+/**
+ * Get the Access Status for Organizations portfolio share feature. This API can only be
+ * called by the management account in the organization or by a delegated admin.
+ */
+export const getAWSOrganizationsAccessStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetAWSOrganizationsAccessStatusInput,
+    output: GetAWSOrganizationsAccessStatusOutput,
+    errors: [OperationNotSupportedException, ResourceNotFoundException],
+  }));
+/**
+ * Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the
+ * current structure. This API can only be called by the management account in the organization.
+ *
+ * When you call this API, Service Catalog calls `organizations:EnableAWSServiceAccess` on your behalf so that your shares stay in sync with any changes in your Organizations structure.
+ *
+ * Note that a delegated administrator is not authorized to invoke `EnableAWSOrganizationsAccess`.
+ *
+ * If you have previously disabled Organizations access for Service Catalog, and then
+ * enable access again, the portfolio access permissions might not sync with the latest changes to
+ * the organization structure. Specifically, accounts that you removed from the organization after
+ * disabling Service Catalog access, and before you enabled access again, can retain access to the
+ * previously shared portfolio. As a result, an account that has been removed from the organization
+ * might still be able to create or manage Amazon Web Services resources when it is no longer
+ * authorized to do so. Amazon Web Services is working to resolve this issue.
+ */
+export const enableAWSOrganizationsAccess =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: EnableAWSOrganizationsAccessInput,
+    output: EnableAWSOrganizationsAccessOutput,
+    errors: [
+      InvalidStateException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Stops sharing the specified portfolio with the specified account or organization
+ * node. Shares to an organization node can only be deleted by the management account of an
+ * organization or by a delegated administrator.
+ *
+ * Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
+ */
+export const deletePortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePortfolioShareInput,
+    output: DeletePortfolioShareOutput,
+    errors: [
+      InvalidParametersException,
+      InvalidStateException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Rejects an offer to share the specified portfolio.
+ */
+export const rejectPortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RejectPortfolioShareInput,
+    output: RejectPortfolioShareOutput,
+    errors: [ResourceNotFoundException],
+  }),
+);
+/**
+ * Gets information about the specified constraint.
+ */
+export const describeConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConstraintInput,
+  output: DescribeConstraintOutput,
+  errors: [ResourceNotFoundException],
+}));
+/**
+ * Gets the status of the specified copy product operation.
+ */
+export const describeCopyProductStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCopyProductStatusInput,
+    output: DescribeCopyProductStatusOutput,
+    errors: [ResourceNotFoundException],
+  }),
+);
+/**
+ * Gets information about the specified product.
+ */
+export const describeProductView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProductViewInput,
+  output: DescribeProductViewOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
+/**
+ * Disable portfolio sharing through the Organizations service. This command will not
+ * delete your current shares, but prevents you from creating new shares throughout your
+ * organization. Current shares are not kept in sync with your organization structure if the structure
+ * changes after calling this API. Only the management account in the organization can call this API.
+ *
+ * You cannot call this API if there are active delegated administrators in the organization.
+ *
+ * Note that a delegated administrator is not authorized to invoke `DisableAWSOrganizationsAccess`.
+ *
+ * If you share an Service Catalog portfolio in an organization within
+ * Organizations, and then disable Organizations access for Service Catalog,
+ * the portfolio access permissions will not sync with the latest changes to the organization
+ * structure. Specifically, accounts that you removed from the organization after
+ * disabling Service Catalog access will retain access to the previously shared portfolio.
+ */
+export const disableAWSOrganizationsAccess =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisableAWSOrganizationsAccessInput,
+    output: DisableAWSOrganizationsAccessOutput,
+    errors: [
+      InvalidStateException,
+      OperationNotSupportedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Accepts an offer to share the specified portfolio.
+ */
+export const acceptPortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AcceptPortfolioShareInput,
+    output: AcceptPortfolioShareOutput,
+    errors: [
+      InvalidParametersException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Associates multiple self-service actions with provisioning artifacts.
  */
@@ -2991,20 +2796,6 @@ export const createConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidParametersException,
     LimitExceededException,
     ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates a portfolio.
- *
- * A delegated admin is authorized to invoke this command.
- */
-export const createPortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePortfolioInput,
-  output: CreatePortfolioOutput,
-  errors: [
-    InvalidParametersException,
-    LimitExceededException,
-    TagOptionNotMigratedException,
   ],
 }));
 /**
@@ -3093,18 +2884,6 @@ export const createServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceActionInput,
   output: CreateServiceActionOutput,
   errors: [InvalidParametersException, LimitExceededException],
-}));
-/**
- * Creates a TagOption.
- */
-export const createTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTagOptionInput,
-  output: CreateTagOptionOutput,
-  errors: [
-    DuplicateResourceException,
-    LimitExceededException,
-    TagOptionNotMigratedException,
-  ],
 }));
 /**
  * Gets information about the specified portfolio.
@@ -3261,20 +3040,6 @@ export const listRecordHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidParametersException],
 }));
 /**
- * Lists the resources associated with the specified TagOption.
- */
-export const listResourcesForTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResourcesForTagOptionInput,
-    output: ListResourcesForTagOptionOutput,
-    errors: [
-      InvalidParametersException,
-      ResourceNotFoundException,
-      TagOptionNotMigratedException,
-    ],
-  }),
-);
-/**
  * Lists all self-service actions.
  */
 export const listServiceActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3291,14 +3056,6 @@ export const listStackInstancesForProvisionedProduct =
     output: ListStackInstancesForProvisionedProductOutput,
     errors: [InvalidParametersException, ResourceNotFoundException],
   }));
-/**
- * Lists the specified TagOptions or all TagOptions.
- */
-export const listTagOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagOptionsInput,
-  output: ListTagOptionsOutput,
-  errors: [InvalidParametersException, TagOptionNotMigratedException],
-}));
 /**
  * Notifies the result
  * of the provisioning engine execution.
@@ -3351,6 +3108,18 @@ export const provisionProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Updates the specified product.
+ */
+export const updateProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProductInput,
+  output: UpdateProductOutput,
+  errors: [
+    InvalidParametersException,
+    ResourceNotFoundException,
+    TagOptionNotMigratedException,
+  ],
+}));
+/**
  * Requests updates to the configuration of the specified provisioned product.
  *
  * If there are tags associated with the object, they cannot be updated or added.
@@ -3379,6 +3148,237 @@ export const updateProvisionedProductProperties =
       ResourceNotFoundException,
     ],
   }));
+/**
+ * Associates the specified budget with the specified resource.
+ */
+export const associateBudgetWithResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateBudgetWithResourceInput,
+    output: AssociateBudgetWithResourceOutput,
+    errors: [
+      DuplicateResourceException,
+      InvalidParametersException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates the specified portfolio.
+ *
+ * You cannot update a product that was shared with you.
+ */
+export const updatePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePortfolioInput,
+  output: UpdatePortfolioOutput,
+  errors: [
+    InvalidParametersException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    TagOptionNotMigratedException,
+  ],
+}));
+/**
+ * Associates the specified principal ARN with the specified portfolio.
+ *
+ * If you share the portfolio with principal name sharing enabled, the `PrincipalARN` association is
+ * included in the share.
+ *
+ * The `PortfolioID`, `PrincipalARN`, and `PrincipalType` parameters are
+ * required.
+ *
+ * You can associate a maximum of 10 Principals with a portfolio using `PrincipalType` as `IAM_PATTERN`.
+ *
+ * When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is
+ * then shared with other accounts. For a user in a recipient account who is *not* an Service Catalog Admin,
+ * but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal
+ * name association for the portfolio. Although this user may not know which principal names are associated through
+ * Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then
+ * Service Catalog recommends using `PrincipalType` as `IAM`. With this configuration,
+ * the `PrincipalARN` must already exist in the recipient account before it can be associated.
+ */
+export const associatePrincipalWithPortfolio =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociatePrincipalWithPortfolioInput,
+    output: AssociatePrincipalWithPortfolioOutput,
+    errors: [
+      InvalidParametersException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Associates the specified product with the specified portfolio.
+ *
+ * A delegated admin is authorized to invoke this command.
+ */
+export const associateProductWithPortfolio =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateProductWithPortfolioInput,
+    output: AssociateProductWithPortfolioOutput,
+    errors: [
+      InvalidParametersException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Associates a self-service action with a provisioning artifact.
+ */
+export const associateServiceActionWithProvisioningArtifact =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateServiceActionWithProvisioningArtifactInput,
+    output: AssociateServiceActionWithProvisioningArtifactOutput,
+    errors: [
+      DuplicateResourceException,
+      InvalidParametersException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Associate the specified TagOption with the specified portfolio or product.
+ */
+export const associateTagOptionWithResource =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateTagOptionWithResourceInput,
+    output: AssociateTagOptionWithResourceOutput,
+    errors: [
+      DuplicateResourceException,
+      InvalidParametersException,
+      InvalidStateException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      TagOptionNotMigratedException,
+    ],
+  }));
+/**
+ * Updates the specified TagOption.
+ */
+export const updateTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTagOptionInput,
+  output: UpdateTagOptionOutput,
+  errors: [
+    DuplicateResourceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    TagOptionNotMigratedException,
+  ],
+}));
+/**
+ * Deletes the specified portfolio.
+ *
+ * You cannot delete a portfolio if it was shared with you or if it has associated
+ * products, users, constraints, or shared accounts.
+ *
+ * A delegated admin is authorized to invoke this command.
+ */
+export const deletePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePortfolioInput,
+  output: DeletePortfolioOutput,
+  errors: [
+    InvalidParametersException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TagOptionNotMigratedException,
+  ],
+}));
+/**
+ * Deletes the specified product.
+ *
+ * You cannot delete a product if it was shared with you or is associated with a portfolio.
+ *
+ * A delegated admin is authorized to invoke this command.
+ */
+export const deleteProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProductInput,
+  output: DeleteProductOutput,
+  errors: [
+    InvalidParametersException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TagOptionNotMigratedException,
+  ],
+}));
+/**
+ * Disassociates the specified TagOption from the specified resource.
+ */
+export const disassociateTagOptionFromResource =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateTagOptionFromResourceInput,
+    output: DisassociateTagOptionFromResourceOutput,
+    errors: [ResourceNotFoundException, TagOptionNotMigratedException],
+  }));
+/**
+ * Deletes the specified TagOption.
+ *
+ * You cannot delete a TagOption if it is associated with a product or portfolio.
+ */
+export const deleteTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTagOptionInput,
+  output: DeleteTagOptionOutput,
+  errors: [
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TagOptionNotMigratedException,
+  ],
+}));
+/**
+ * Gets information about the specified TagOption.
+ */
+export const describeTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTagOptionInput,
+  output: DescribeTagOptionOutput,
+  errors: [ResourceNotFoundException, TagOptionNotMigratedException],
+}));
+/**
+ * Creates a portfolio.
+ *
+ * A delegated admin is authorized to invoke this command.
+ */
+export const createPortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePortfolioInput,
+  output: CreatePortfolioOutput,
+  errors: [
+    InvalidParametersException,
+    LimitExceededException,
+    TagOptionNotMigratedException,
+  ],
+}));
+/**
+ * Creates a TagOption.
+ */
+export const createTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTagOptionInput,
+  output: CreateTagOptionOutput,
+  errors: [
+    DuplicateResourceException,
+    LimitExceededException,
+    TagOptionNotMigratedException,
+  ],
+}));
+/**
+ * Lists the resources associated with the specified TagOption.
+ */
+export const listResourcesForTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListResourcesForTagOptionInput,
+    output: ListResourcesForTagOptionOutput,
+    errors: [
+      InvalidParametersException,
+      ResourceNotFoundException,
+      TagOptionNotMigratedException,
+    ],
+  }),
+);
+/**
+ * Lists the specified TagOptions or all TagOptions.
+ */
+export const listTagOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagOptionsInput,
+  output: ListTagOptionsOutput,
+  errors: [InvalidParametersException, TagOptionNotMigratedException],
+}));
 /**
  * Gets the status of the specified portfolio share operation. This API can only be called
  * by the management account in the organization or by a delegated admin.

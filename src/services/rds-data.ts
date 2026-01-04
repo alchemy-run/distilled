@@ -498,67 +498,67 @@ export class ExecuteSqlResponse extends S.Class<ExecuteSqlResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DatabaseErrorException extends S.TaggedError<DatabaseErrorException>()(
   "DatabaseErrorException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DatabaseNotFoundException extends S.TaggedError<DatabaseNotFoundException>()(
   "DatabaseNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DatabaseUnavailableException extends S.TaggedError<DatabaseUnavailableException>()(
   "DatabaseUnavailableException",
   {},
 ) {}
+export class DatabaseResumingException extends S.TaggedError<DatabaseResumingException>()(
+  "DatabaseResumingException",
+  { message: S.optional(S.String) },
+) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
-) {}
-export class HttpEndpointNotEnabledException extends S.TaggedError<HttpEndpointNotEnabledException>()(
-  "HttpEndpointNotEnabledException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
-  {},
-) {}
-export class DatabaseResumingException extends S.TaggedError<DatabaseResumingException>()(
-  "DatabaseResumingException",
-  {},
-) {}
-export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
-  "InvalidResourceStateException",
-  {},
-) {}
-export class InvalidSecretException extends S.TaggedError<InvalidSecretException>()(
-  "InvalidSecretException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class SecretsErrorException extends S.TaggedError<SecretsErrorException>()(
-  "SecretsErrorException",
   {},
 ) {}
 export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableError>()(
   "ServiceUnavailableError",
   {},
 ) {}
+export class HttpEndpointNotEnabledException extends S.TaggedError<HttpEndpointNotEnabledException>()(
+  "HttpEndpointNotEnabledException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
+  "InvalidResourceStateException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidSecretException extends S.TaggedError<InvalidSecretException>()(
+  "InvalidSecretException",
+  { message: S.optional(S.String) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class SecretsErrorException extends S.TaggedError<SecretsErrorException>()(
+  "SecretsErrorException",
+  { message: S.optional(S.String) },
+) {}
 export class StatementTimeoutException extends S.TaggedError<StatementTimeoutException>()(
   "StatementTimeoutException",
-  {},
+  { message: S.optional(S.String), dbConnectionId: S.optional(S.Number) },
 ) {}
 export class TransactionNotFoundException extends S.TaggedError<TransactionNotFoundException>()(
   "TransactionNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class UnsupportedResultException extends S.TaggedError<UnsupportedResultException>()(
   "UnsupportedResultException",
@@ -566,6 +566,24 @@ export class UnsupportedResultException extends S.TaggedError<UnsupportedResultE
 ) {}
 
 //# Operations
+/**
+ * Runs one or more SQL statements.
+ *
+ * This operation isn't supported for Aurora Serverless v2 and provisioned DB clusters.
+ * For Aurora Serverless v1 DB clusters, the operation is deprecated.
+ * Use the `BatchExecuteStatement` or `ExecuteStatement` operation.
+ */
+export const executeSql = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteSqlRequest,
+  output: ExecuteSqlResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableError,
+  ],
+}));
 /**
  * Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
  */
@@ -687,24 +705,6 @@ export const commitTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceUnavailableError,
     StatementTimeoutException,
     TransactionNotFoundException,
-  ],
-}));
-/**
- * Runs one or more SQL statements.
- *
- * This operation isn't supported for Aurora Serverless v2 and provisioned DB clusters.
- * For Aurora Serverless v1 DB clusters, the operation is deprecated.
- * Use the `BatchExecuteStatement` or `ExecuteStatement` operation.
- */
-export const executeSql = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExecuteSqlRequest,
-  output: ExecuteSqlResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableError,
   ],
 }));
 /**

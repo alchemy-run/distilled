@@ -1591,11 +1591,6 @@ export class UpdateUserResponse extends S.Class<UpdateUserResponse>(
   inviteExpiration: S.optional(S.Number),
   codeValidation: S.optional(S.Boolean),
 }) {}
-export class ErrorDetail extends S.Class<ErrorDetail>("ErrorDetail")({
-  field: S.optional(S.String),
-  reason: S.optional(S.String),
-}) {}
-export const ErrorDetailList = S.Array(ErrorDetail);
 export class CreateSecurityGroupResponse extends S.Class<CreateSecurityGroupResponse>(
   "CreateSecurityGroupResponse",
 )({ securityGroup: SecurityGroup }) {}
@@ -1605,38 +1600,394 @@ export class UpdateNetworkSettingsResponse extends S.Class<UpdateNetworkSettings
 export class UpdateSecurityGroupResponse extends S.Class<UpdateSecurityGroupResponse>(
   "UpdateSecurityGroupResponse",
 )({ securityGroup: SecurityGroup }) {}
+export class ErrorDetail extends S.Class<ErrorDetail>("ErrorDetail")({
+  field: S.optional(S.String),
+  reason: S.optional(S.String),
+}) {}
+export const ErrorDetailList = S.Array(ErrorDetail);
 
 //# Errors
 export class BadRequestError extends S.TaggedError<BadRequestError>()(
   "BadRequestError",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ForbiddenError extends S.TaggedError<ForbiddenError>()(
   "ForbiddenError",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
-  {},
+  { message: S.String },
 ) {}
 export class RateLimitError extends S.TaggedError<RateLimitError>()(
   "RateLimitError",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundError extends S.TaggedError<ResourceNotFoundError>()(
   "ResourceNotFoundError",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class UnauthorizedError extends S.TaggedError<UnauthorizedError>()(
   "UnauthorizedError",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationError extends S.TaggedError<ValidationError>()(
   "ValidationError",
-  {},
+  { reasons: S.optional(ErrorDetailList) },
 ) {}
 
 //# Operations
+/**
+ * Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name.
+ */
+export const listNetworks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListNetworksRequest,
+  output: ListNetworksResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and security settings.
+ */
+export const createSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSecurityGroupRequest,
+  output: CreateSecurityGroupResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options.
+ */
+export const updateNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateNetworkSettingsRequest,
+    output: UpdateNetworkSettingsResponse,
+    errors: [
+      BadRequestError,
+      ForbiddenError,
+      InternalServerError,
+      RateLimitError,
+      ResourceNotFoundError,
+      UnauthorizedError,
+      ValidationError,
+    ],
+  }),
+);
+/**
+ * Updates the properties of an existing security group in a Wickr network, such as its name or settings.
+ */
+export const updateSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityGroupRequest,
+  output: UpdateSecurityGroupResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Resets multiple devices for a specific user in a Wickr network. This operation forces the selected devices to log out and requires users to re-authenticate, which is useful for security purposes or when devices need to be revoked.
+ */
+export const batchResetDevicesForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchResetDevicesForUserRequest,
+    output: BatchResetDevicesForUserResponse,
+    errors: [
+      BadRequestError,
+      ForbiddenError,
+      InternalServerError,
+      RateLimitError,
+      ResourceNotFoundError,
+      UnauthorizedError,
+      ValidationError,
+    ],
+  }),
+);
+/**
+ * Retrieves historical guest user count data for a Wickr network, showing the number of guest users per billing period over the past 90 days.
+ */
+export const getGuestUserHistoryCount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetGuestUserHistoryCountRequest,
+    output: GetGuestUserHistoryCountResponse,
+    errors: [
+      BadRequestError,
+      ForbiddenError,
+      InternalServerError,
+      RateLimitError,
+      ResourceNotFoundError,
+      UnauthorizedError,
+      ValidationError,
+    ],
+  }),
+);
+/**
+ * Retrieves all network-level settings for a Wickr network, including client metrics, data retention, and other configuration options.
+ */
+export const getNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNetworkSettingsRequest,
+  output: GetNetworkSettingsResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Retrieves the OpenID Connect (OIDC) configuration for a Wickr network, including SSO settings and optional token information if access token parameters are provided.
+ */
+export const getOidcInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOidcInfoRequest,
+  output: GetOidcInfoResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration.
+ */
+export const getSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSecurityGroupRequest,
+  output: GetSecurityGroupResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Retrieves a paginated list of guest users who have been blocked from a Wickr network. You can filter and sort the results.
+ */
+export const listBlockedGuestUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListBlockedGuestUsersRequest,
+    output: ListBlockedGuestUsersResponse,
+    errors: [
+      BadRequestError,
+      ForbiddenError,
+      InternalServerError,
+      RateLimitError,
+      ResourceNotFoundError,
+      UnauthorizedError,
+      ValidationError,
+    ],
+  }),
+);
+/**
+ * Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria.
+ */
+export const listBots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBotsRequest,
+  output: ListBotsResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all devices where the user has logged into Wickr.
+ */
+export const listDevicesForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDevicesForUserRequest,
+  output: ListDevicesForUserResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated networks who can communicate with network members.
+ */
+export const listGuestUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGuestUsersRequest,
+  output: ListGuestUsersResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Retrieves a paginated list of users who belong to a specific security group in a Wickr network.
+ */
+export const listSecurityGroupUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSecurityGroupUsersRequest,
+    output: ListSecurityGroupUsersResponse,
+    errors: [
+      BadRequestError,
+      ForbiddenError,
+      InternalServerError,
+      RateLimitError,
+      ResourceNotFoundError,
+      UnauthorizedError,
+      ValidationError,
+    ],
+  }),
+);
+/**
+ * Updates the properties of an existing user in a Wickr network. This operation allows you to modify the user's name, password, security group membership, and invite code settings.
+ *
+ * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
+ */
+export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserRequest,
+  output: UpdateUserResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts.
+ */
+export const batchToggleUserSuspendStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchToggleUserSuspendStatusRequest,
+    output: BatchToggleUserSuspendStatusResponse,
+    errors: [
+      BadRequestError,
+      ForbiddenError,
+      InternalServerError,
+      RateLimitError,
+      ResourceNotFoundError,
+      UnauthorizedError,
+      ValidationError,
+    ],
+  }));
+/**
+ * Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks.
+ */
+export const createBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBotRequest,
+  output: CreateBotResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements.
+ */
+export const createDataRetentionBot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDataRetentionBotRequest,
+    output: CreateDataRetentionBotResponse,
+    errors: [
+      BadRequestError,
+      ForbiddenError,
+      InternalServerError,
+      RateLimitError,
+      ResourceNotFoundError,
+      UnauthorizedError,
+      ValidationError,
+    ],
+  }),
+);
+/**
+ * Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network.
+ */
+export const createDataRetentionBotChallenge =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateDataRetentionBotChallengeRequest,
+    output: CreateDataRetentionBotChallengeResponse,
+    errors: [
+      BadRequestError,
+      ForbiddenError,
+      InternalServerError,
+      RateLimitError,
+      ResourceNotFoundError,
+      UnauthorizedError,
+      ValidationError,
+    ],
+  }));
+/**
+ * Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization.
+ */
+export const createNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkRequest,
+  output: CreateNetworkResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network.
+ */
+export const deleteBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBotRequest,
+  output: DeleteBotResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database.
  */
@@ -1971,357 +2322,6 @@ export const batchLookupUserUname = /*@__PURE__*/ /*#__PURE__*/ API.make(
 export const batchReinviteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchReinviteUserRequest,
   output: BatchReinviteUserResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Resets multiple devices for a specific user in a Wickr network. This operation forces the selected devices to log out and requires users to re-authenticate, which is useful for security purposes or when devices need to be revoked.
- */
-export const batchResetDevicesForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchResetDevicesForUserRequest,
-    output: BatchResetDevicesForUserResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
-/**
- * Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts.
- */
-export const batchToggleUserSuspendStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchToggleUserSuspendStatusRequest,
-    output: BatchToggleUserSuspendStatusResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }));
-/**
- * Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks.
- */
-export const createBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBotRequest,
-  output: CreateBotResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements.
- */
-export const createDataRetentionBot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataRetentionBotRequest,
-    output: CreateDataRetentionBotResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
-/**
- * Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network.
- */
-export const createDataRetentionBotChallenge =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataRetentionBotChallengeRequest,
-    output: CreateDataRetentionBotChallengeResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }));
-/**
- * Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization.
- */
-export const createNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateNetworkRequest,
-  output: CreateNetworkResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Retrieves historical guest user count data for a Wickr network, showing the number of guest users per billing period over the past 90 days.
- */
-export const getGuestUserHistoryCount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetGuestUserHistoryCountRequest,
-    output: GetGuestUserHistoryCountResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
-/**
- * Retrieves all network-level settings for a Wickr network, including client metrics, data retention, and other configuration options.
- */
-export const getNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetNetworkSettingsRequest,
-  output: GetNetworkSettingsResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Retrieves the OpenID Connect (OIDC) configuration for a Wickr network, including SSO settings and optional token information if access token parameters are provided.
- */
-export const getOidcInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetOidcInfoRequest,
-  output: GetOidcInfoResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration.
- */
-export const getSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSecurityGroupRequest,
-  output: GetSecurityGroupResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Retrieves a paginated list of guest users who have been blocked from a Wickr network. You can filter and sort the results.
- */
-export const listBlockedGuestUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBlockedGuestUsersRequest,
-    output: ListBlockedGuestUsersResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
-/**
- * Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria.
- */
-export const listBots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBotsRequest,
-  output: ListBotsResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all devices where the user has logged into Wickr.
- */
-export const listDevicesForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDevicesForUserRequest,
-  output: ListDevicesForUserResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated networks who can communicate with network members.
- */
-export const listGuestUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGuestUsersRequest,
-  output: ListGuestUsersResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name.
- */
-export const listNetworks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListNetworksRequest,
-  output: ListNetworksResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Retrieves a paginated list of users who belong to a specific security group in a Wickr network.
- */
-export const listSecurityGroupUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSecurityGroupUsersRequest,
-    output: ListSecurityGroupUsersResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
-/**
- * Updates the properties of an existing user in a Wickr network. This operation allows you to modify the user's name, password, security group membership, and invite code settings.
- *
- * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
- */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserRequest,
-  output: UpdateUserResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and security settings.
- */
-export const createSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSecurityGroupRequest,
-  output: CreateSecurityGroupResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network.
- */
-export const deleteBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBotRequest,
-  output: DeleteBotResponse,
-  errors: [
-    BadRequestError,
-    ForbiddenError,
-    InternalServerError,
-    RateLimitError,
-    ResourceNotFoundError,
-    UnauthorizedError,
-    ValidationError,
-  ],
-}));
-/**
- * Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options.
- */
-export const updateNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNetworkSettingsRequest,
-    output: UpdateNetworkSettingsResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
-/**
- * Updates the properties of an existing security group in a Wickr network, such as its name or settings.
- */
-export const updateSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSecurityGroupRequest,
-  output: UpdateSecurityGroupResponse,
   errors: [
     BadRequestError,
     ForbiddenError,

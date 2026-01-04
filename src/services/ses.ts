@@ -1314,12 +1314,20 @@ export class SendEmailResponse extends S.Class<SendEmailResponse>(
 //# Errors
 export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
   "AlreadyExistsException",
-  {},
+  { Name: S.optional(S.String), message: S.optional(S.String) },
   T.AwsQueryError({ code: "AlreadyExists", httpResponseCode: 400 }),
+) {}
+export class CustomVerificationEmailInvalidContentException extends S.TaggedError<CustomVerificationEmailInvalidContentException>()(
+  "CustomVerificationEmailInvalidContentException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CustomVerificationEmailInvalidContent",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class ConfigurationSetDoesNotExistException extends S.TaggedError<ConfigurationSetDoesNotExistException>()(
   "ConfigurationSetDoesNotExistException",
-  {},
+  { ConfigurationSetName: S.optional(S.String), message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ConfigurationSetDoesNotExist",
     httpResponseCode: 400,
@@ -1327,114 +1335,44 @@ export class ConfigurationSetDoesNotExistException extends S.TaggedError<Configu
 ) {}
 export class RuleSetDoesNotExistException extends S.TaggedError<RuleSetDoesNotExistException>()(
   "RuleSetDoesNotExistException",
-  {},
+  { Name: S.optional(S.String), message: S.optional(S.String) },
   T.AwsQueryError({ code: "RuleSetDoesNotExist", httpResponseCode: 400 }),
-) {}
-export class RuleDoesNotExistException extends S.TaggedError<RuleDoesNotExistException>()(
-  "RuleDoesNotExistException",
-  {},
-  T.AwsQueryError({ code: "RuleDoesNotExist", httpResponseCode: 400 }),
-) {}
-export class EventDestinationDoesNotExistException extends S.TaggedError<EventDestinationDoesNotExistException>()(
-  "EventDestinationDoesNotExistException",
-  {},
-  T.AwsQueryError({
-    code: "EventDestinationDoesNotExist",
-    httpResponseCode: 400,
-  }),
-) {}
-export class CustomVerificationEmailInvalidContentException extends S.TaggedError<CustomVerificationEmailInvalidContentException>()(
-  "CustomVerificationEmailInvalidContentException",
-  {},
-  T.AwsQueryError({
-    code: "CustomVerificationEmailInvalidContent",
-    httpResponseCode: 400,
-  }),
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-  T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
-) {}
-export class InvalidTrackingOptionsException extends S.TaggedError<InvalidTrackingOptionsException>()(
-  "InvalidTrackingOptionsException",
-  {},
-  T.AwsQueryError({ code: "InvalidTrackingOptions", httpResponseCode: 400 }),
-) {}
-export class InvalidTemplateException extends S.TaggedError<InvalidTemplateException>()(
-  "InvalidTemplateException",
-  {},
-  T.AwsQueryError({ code: "InvalidTemplate", httpResponseCode: 400 }),
-) {}
-export class TrackingOptionsDoesNotExistException extends S.TaggedError<TrackingOptionsDoesNotExistException>()(
-  "TrackingOptionsDoesNotExistException",
-  { ConfigurationSetName: S.optional(S.String), message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "TrackingOptionsDoesNotExistException",
-    httpResponseCode: 400,
-  }),
 ) {}
 export class CannotDeleteException extends S.TaggedError<CannotDeleteException>()(
   "CannotDeleteException",
   { Name: S.optional(S.String), message: S.optional(S.String) },
   T.AwsQueryError({ code: "CannotDelete", httpResponseCode: 400 }),
 ) {}
-export class CustomVerificationEmailTemplateDoesNotExistException extends S.TaggedError<CustomVerificationEmailTemplateDoesNotExistException>()(
-  "CustomVerificationEmailTemplateDoesNotExistException",
-  {},
-  T.AwsQueryError({
-    code: "CustomVerificationEmailTemplateDoesNotExist",
-    httpResponseCode: 400,
-  }),
-) {}
 export class InvalidPolicyException extends S.TaggedError<InvalidPolicyException>()(
   "InvalidPolicyException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidPolicy", httpResponseCode: 400 }),
 ) {}
-export class InvalidCloudWatchDestinationException extends S.TaggedError<InvalidCloudWatchDestinationException>()(
-  "InvalidCloudWatchDestinationException",
-  {
-    ConfigurationSetName: S.optional(S.String),
-    EventDestinationName: S.optional(S.String),
-    message: S.optional(S.String),
-  },
-  T.AwsQueryError({
-    code: "InvalidCloudWatchDestination",
-    httpResponseCode: 400,
-  }),
-) {}
-export class FromEmailAddressNotVerifiedException extends S.TaggedError<FromEmailAddressNotVerifiedException>()(
-  "FromEmailAddressNotVerifiedException",
-  {},
-  T.AwsQueryError({
-    code: "FromEmailAddressNotVerified",
-    httpResponseCode: 400,
-  }),
+export class RuleDoesNotExistException extends S.TaggedError<RuleDoesNotExistException>()(
+  "RuleDoesNotExistException",
+  { Name: S.optional(S.String), message: S.optional(S.String) },
+  T.AwsQueryError({ code: "RuleDoesNotExist", httpResponseCode: 400 }),
 ) {}
 export class InvalidLambdaFunctionException extends S.TaggedError<InvalidLambdaFunctionException>()(
   "InvalidLambdaFunctionException",
   { FunctionArn: S.optional(S.String), message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidLambdaFunction", httpResponseCode: 400 }),
 ) {}
-export class TemplateDoesNotExistException extends S.TaggedError<TemplateDoesNotExistException>()(
-  "TemplateDoesNotExistException",
-  {},
-  T.AwsQueryError({ code: "TemplateDoesNotExist", httpResponseCode: 400 }),
+export class InvalidTemplateException extends S.TaggedError<InvalidTemplateException>()(
+  "InvalidTemplateException",
+  { TemplateName: S.optional(S.String), message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidTemplate", httpResponseCode: 400 }),
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
 ) {}
 export class ConfigurationSetAlreadyExistsException extends S.TaggedError<ConfigurationSetAlreadyExistsException>()(
   "ConfigurationSetAlreadyExistsException",
   { ConfigurationSetName: S.optional(S.String), message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ConfigurationSetAlreadyExists",
-    httpResponseCode: 400,
-  }),
-) {}
-export class TrackingOptionsAlreadyExistsException extends S.TaggedError<TrackingOptionsAlreadyExistsException>()(
-  "TrackingOptionsAlreadyExistsException",
-  { ConfigurationSetName: S.optional(S.String), message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "TrackingOptionsAlreadyExistsException",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1449,6 +1387,22 @@ export class CustomVerificationEmailTemplateAlreadyExistsException extends S.Tag
     httpResponseCode: 400,
   }),
 ) {}
+export class CustomVerificationEmailTemplateDoesNotExistException extends S.TaggedError<CustomVerificationEmailTemplateDoesNotExistException>()(
+  "CustomVerificationEmailTemplateDoesNotExistException",
+  {
+    CustomVerificationEmailTemplateName: S.optional(S.String),
+    message: S.optional(S.String),
+  },
+  T.AwsQueryError({
+    code: "CustomVerificationEmailTemplateDoesNotExist",
+    httpResponseCode: 400,
+  }),
+) {}
+export class TemplateDoesNotExistException extends S.TaggedError<TemplateDoesNotExistException>()(
+  "TemplateDoesNotExistException",
+  { TemplateName: S.optional(S.String), message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TemplateDoesNotExist", httpResponseCode: 400 }),
+) {}
 export class InvalidDeliveryOptionsException extends S.TaggedError<InvalidDeliveryOptionsException>()(
   "InvalidDeliveryOptionsException",
   { message: S.optional(S.String) },
@@ -1456,17 +1410,9 @@ export class InvalidDeliveryOptionsException extends S.TaggedError<InvalidDelive
 ) {}
 export class AccountSendingPausedException extends S.TaggedError<AccountSendingPausedException>()(
   "AccountSendingPausedException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "AccountSendingPausedException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ConfigurationSetSendingPausedException extends S.TaggedError<ConfigurationSetSendingPausedException>()(
-  "ConfigurationSetSendingPausedException",
-  {},
-  T.AwsQueryError({
-    code: "ConfigurationSetSendingPausedException",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1475,43 +1421,54 @@ export class InvalidRenderingParameterException extends S.TaggedError<InvalidRen
   { TemplateName: S.optional(S.String), message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidRenderingParameter", httpResponseCode: 400 }),
 ) {}
-export class InvalidFirehoseDestinationException extends S.TaggedError<InvalidFirehoseDestinationException>()(
-  "InvalidFirehoseDestinationException",
+export class InvalidS3ConfigurationException extends S.TaggedError<InvalidS3ConfigurationException>()(
+  "InvalidS3ConfigurationException",
+  { Bucket: S.optional(S.String), message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidS3Configuration", httpResponseCode: 400 }),
+) {}
+export class EventDestinationDoesNotExistException extends S.TaggedError<EventDestinationDoesNotExistException>()(
+  "EventDestinationDoesNotExistException",
   {
     ConfigurationSetName: S.optional(S.String),
     EventDestinationName: S.optional(S.String),
     message: S.optional(S.String),
   },
   T.AwsQueryError({
-    code: "InvalidFirehoseDestination",
+    code: "EventDestinationDoesNotExist",
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidS3ConfigurationException extends S.TaggedError<InvalidS3ConfigurationException>()(
-  "InvalidS3ConfigurationException",
-  { Bucket: S.optional(S.String), message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidS3Configuration", httpResponseCode: 400 }),
+export class TrackingOptionsDoesNotExistException extends S.TaggedError<TrackingOptionsDoesNotExistException>()(
+  "TrackingOptionsDoesNotExistException",
+  { ConfigurationSetName: S.optional(S.String), message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "TrackingOptionsDoesNotExistException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidTrackingOptionsException extends S.TaggedError<InvalidTrackingOptionsException>()(
+  "InvalidTrackingOptionsException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidTrackingOptions", httpResponseCode: 400 }),
 ) {}
 export class InvalidConfigurationSetException extends S.TaggedError<InvalidConfigurationSetException>()(
   "InvalidConfigurationSetException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidConfigurationSet", httpResponseCode: 400 }),
 ) {}
-export class InvalidSnsTopicException extends S.TaggedError<InvalidSnsTopicException>()(
-  "InvalidSnsTopicException",
-  {},
-  T.AwsQueryError({ code: "InvalidSnsTopic", httpResponseCode: 400 }),
-) {}
-export class MessageRejected extends S.TaggedError<MessageRejected>()(
-  "MessageRejected",
-  {},
-  T.AwsQueryError({ code: "MessageRejected", httpResponseCode: 400 }),
-) {}
-export class MailFromDomainNotVerifiedException extends S.TaggedError<MailFromDomainNotVerifiedException>()(
-  "MailFromDomainNotVerifiedException",
-  {},
+export class FromEmailAddressNotVerifiedException extends S.TaggedError<FromEmailAddressNotVerifiedException>()(
+  "FromEmailAddressNotVerifiedException",
+  { FromEmailAddress: S.optional(S.String), message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "MailFromDomainNotVerifiedException",
+    code: "FromEmailAddressNotVerified",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ConfigurationSetSendingPausedException extends S.TaggedError<ConfigurationSetSendingPausedException>()(
+  "ConfigurationSetSendingPausedException",
+  { ConfigurationSetName: S.optional(S.String), message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ConfigurationSetSendingPausedException",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1520,14 +1477,30 @@ export class MissingRenderingAttributeException extends S.TaggedError<MissingRen
   { TemplateName: S.optional(S.String), message: S.optional(S.String) },
   T.AwsQueryError({ code: "MissingRenderingAttribute", httpResponseCode: 400 }),
 ) {}
-export class InvalidSNSDestinationException extends S.TaggedError<InvalidSNSDestinationException>()(
-  "InvalidSNSDestinationException",
+export class InvalidSnsTopicException extends S.TaggedError<InvalidSnsTopicException>()(
+  "InvalidSnsTopicException",
+  { Topic: S.optional(S.String), message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidSnsTopic", httpResponseCode: 400 }),
+) {}
+export class InvalidCloudWatchDestinationException extends S.TaggedError<InvalidCloudWatchDestinationException>()(
+  "InvalidCloudWatchDestinationException",
   {
     ConfigurationSetName: S.optional(S.String),
     EventDestinationName: S.optional(S.String),
     message: S.optional(S.String),
   },
-  T.AwsQueryError({ code: "InvalidSNSDestination", httpResponseCode: 400 }),
+  T.AwsQueryError({
+    code: "InvalidCloudWatchDestination",
+    httpResponseCode: 400,
+  }),
+) {}
+export class TrackingOptionsAlreadyExistsException extends S.TaggedError<TrackingOptionsAlreadyExistsException>()(
+  "TrackingOptionsAlreadyExistsException",
+  { ConfigurationSetName: S.optional(S.String), message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "TrackingOptionsAlreadyExistsException",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class EventDestinationAlreadyExistsException extends S.TaggedError<EventDestinationAlreadyExistsException>()(
   "EventDestinationAlreadyExistsException",
@@ -1541,6 +1514,31 @@ export class EventDestinationAlreadyExistsException extends S.TaggedError<EventD
     httpResponseCode: 400,
   }),
 ) {}
+export class MessageRejected extends S.TaggedError<MessageRejected>()(
+  "MessageRejected",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "MessageRejected", httpResponseCode: 400 }),
+) {}
+export class MailFromDomainNotVerifiedException extends S.TaggedError<MailFromDomainNotVerifiedException>()(
+  "MailFromDomainNotVerifiedException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "MailFromDomainNotVerifiedException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidFirehoseDestinationException extends S.TaggedError<InvalidFirehoseDestinationException>()(
+  "InvalidFirehoseDestinationException",
+  {
+    ConfigurationSetName: S.optional(S.String),
+    EventDestinationName: S.optional(S.String),
+    message: S.optional(S.String),
+  },
+  T.AwsQueryError({
+    code: "InvalidFirehoseDestination",
+    httpResponseCode: 400,
+  }),
+) {}
 export class ProductionAccessNotGrantedException extends S.TaggedError<ProductionAccessNotGrantedException>()(
   "ProductionAccessNotGrantedException",
   { message: S.optional(S.String) },
@@ -1548,6 +1546,15 @@ export class ProductionAccessNotGrantedException extends S.TaggedError<Productio
     code: "ProductionAccessNotGranted",
     httpResponseCode: 400,
   }),
+) {}
+export class InvalidSNSDestinationException extends S.TaggedError<InvalidSNSDestinationException>()(
+  "InvalidSNSDestinationException",
+  {
+    ConfigurationSetName: S.optional(S.String),
+    EventDestinationName: S.optional(S.String),
+    message: S.optional(S.String),
+  },
+  T.AwsQueryError({ code: "InvalidSNSDestination", httpResponseCode: 400 }),
 ) {}
 
 //# Operations
@@ -1681,24 +1688,6 @@ export const listVerifiedEmailAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Sets the specified receipt rule set as the active receipt rule set.
- *
- * To disable your email-receiving through Amazon SES completely, you can call this
- * operation with `RuleSetName` set to null.
- *
- * For information about managing receipt rule sets, see the Amazon SES
- * Developer Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const setActiveReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetActiveReceiptRuleSetRequest,
-    output: SetActiveReceiptRuleSetResponse,
-    errors: [RuleSetDoesNotExistException],
-  }),
-);
-/**
  * Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM
  * signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends
  * from addresses on that domain. If Easy DKIM signing is enabled for an email address,
@@ -1797,21 +1786,6 @@ export const setIdentityNotificationTopic =
     errors: [],
   }));
 /**
- * Sets the position of the specified receipt rule in the receipt rule set.
- *
- * For information about managing receipt rules, see the Amazon SES
- * Developer Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const setReceiptRulePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetReceiptRulePositionRequest,
-    output: SetReceiptRulePositionResponse,
-    errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
-  }),
-);
-/**
  * Enables or disables email sending across your entire Amazon SES account in the current
  * Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to
  * temporarily pause email sending across your Amazon SES account in a given Amazon Web Services Region when
@@ -1827,35 +1801,6 @@ export const updateAccountSendingEnabled = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [],
   }),
 );
-/**
- * Enables or disables the publishing of reputation metrics for emails sent using a
- * specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce
- * and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can
- * create alarms when bounce or complaint rates exceed certain thresholds.
- *
- * You can execute this operation no more than once per second.
- */
-export const updateConfigurationSetReputationMetricsEnabled =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationSetReputationMetricsEnabledRequest,
-    output: UpdateConfigurationSetReputationMetricsEnabledResponse,
-    errors: [ConfigurationSetDoesNotExistException],
-  }));
-/**
- * Enables or disables email sending for messages sent using a specific configuration set
- * in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms
- * to temporarily pause email sending for a configuration set when the reputation metrics
- * for that configuration set (such as your bounce on complaint rate) exceed certain
- * thresholds.
- *
- * You can execute this operation no more than once per second.
- */
-export const updateConfigurationSetSendingEnabled =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationSetSendingEnabledRequest,
-    output: UpdateConfigurationSetSendingEnabledResponse,
-    errors: [ConfigurationSetDoesNotExistException],
-  }));
 /**
  * Deprecated. Use the `VerifyEmailIdentity` operation to verify a new email
  * address.
@@ -1878,54 +1823,6 @@ export const verifyEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Creates a receipt rule set by cloning an existing one. All receipt rules and
- * configurations are copied to the new receipt rule set and are completely independent of
- * the source rule set.
- *
- * For information about setting up rule sets, see the Amazon SES Developer Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const cloneReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CloneReceiptRuleSetRequest,
-  output: CloneReceiptRuleSetResponse,
-  errors: [
-    AlreadyExistsException,
-    LimitExceededException,
-    RuleSetDoesNotExistException,
-  ],
-}));
-/**
- * Creates an empty receipt rule set.
- *
- * For information about setting up receipt rule sets, see the Amazon SES Developer Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const createReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReceiptRuleSetRequest,
-    output: CreateReceiptRuleSetResponse,
-    errors: [AlreadyExistsException, LimitExceededException],
-  }),
-);
-/**
- * Creates an email template. Email templates enable you to send personalized email to
- * one or more destinations in a single operation. For more information, see the Amazon SES
- * Developer Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const createTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTemplateRequest,
-  output: CreateTemplateResponse,
-  errors: [
-    AlreadyExistsException,
-    InvalidTemplateException,
-    LimitExceededException,
-  ],
-}));
-/**
  * Deletes a configuration set. Configuration sets enable you to publish email sending
  * events. For information about using configuration sets, see the Amazon SES
  * Developer Guide.
@@ -1939,44 +1836,6 @@ export const deleteConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [ConfigurationSetDoesNotExistException],
   }),
 );
-/**
- * Deletes a configuration set event destination. Configuration set event destinations
- * are associated with configuration sets, which enable you to publish email sending
- * events. For information about using configuration sets, see the Amazon SES
- * Developer Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const deleteConfigurationSetEventDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfigurationSetEventDestinationRequest,
-    output: DeleteConfigurationSetEventDestinationResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      EventDestinationDoesNotExistException,
-    ],
-  }));
-/**
- * Deletes an association between a configuration set and a custom domain for open and
- * click event tracking.
- *
- * By default, images and links used for tracking open and click events are hosted on
- * domains operated by Amazon SES. You can configure a subdomain of your own to handle these
- * events. For information about using custom domains, see the Amazon SES Developer Guide.
- *
- * Deleting this kind of association results in emails sent using the specified
- * configuration set to capture open and click events using the standard,
- * Amazon SES-operated domains.
- */
-export const deleteConfigurationSetTrackingOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfigurationSetTrackingOptionsRequest,
-    output: DeleteConfigurationSetTrackingOptionsResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      TrackingOptionsDoesNotExistException,
-    ],
-  }));
 /**
  * Deletes the specified receipt rule.
  *
@@ -2023,19 +1882,6 @@ export const describeActiveReceiptRuleSet =
     errors: [],
   }));
 /**
- * Returns the details of the specified receipt rule.
- *
- * For information about setting up receipt rules, see the Amazon SES
- * Developer Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const describeReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeReceiptRuleRequest,
-  output: DescribeReceiptRuleResponse,
-  errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
-}));
-/**
  * Returns the details of the specified receipt rule set.
  *
  * For information about managing receipt rule sets, see the Amazon SES
@@ -2050,22 +1896,6 @@ export const describeReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [RuleSetDoesNotExistException],
   }),
 );
-/**
- * Returns the custom email verification template for the template name you
- * specify.
- *
- * For more information about custom verification email templates, see Using
- * Custom Verification Email Templates in the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const getCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCustomVerificationEmailTemplateRequest,
-    output: GetCustomVerificationEmailTemplateResponse,
-    errors: [CustomVerificationEmailTemplateDoesNotExistException],
-  }));
 /**
  * Provides sending statistics for the current Amazon Web Services Region. The result is a list of data
  * points, representing the last two weeks of sending activity. Each data point in the list
@@ -2194,55 +2024,6 @@ export const reorderReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Modifies an association between a configuration set and a custom domain for open and
- * click event tracking.
- *
- * By default, images and links used for tracking open and click events are hosted on
- * domains operated by Amazon SES. You can configure a subdomain of your own to handle these
- * events. For information about using custom domains, see the Amazon SES Developer Guide.
- */
-export const updateConfigurationSetTrackingOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationSetTrackingOptionsRequest,
-    output: UpdateConfigurationSetTrackingOptionsResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      InvalidTrackingOptionsException,
-      TrackingOptionsDoesNotExistException,
-    ],
-  }));
-/**
- * Updates an existing custom verification email template.
- *
- * For more information about custom verification email templates, see Using
- * Custom Verification Email Templates in the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const updateCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCustomVerificationEmailTemplateRequest,
-    output: UpdateCustomVerificationEmailTemplateResponse,
-    errors: [
-      CustomVerificationEmailInvalidContentException,
-      CustomVerificationEmailTemplateDoesNotExistException,
-      FromEmailAddressNotVerifiedException,
-    ],
-  }));
-/**
- * Updates an email template. Email templates enable you to send personalized email to
- * one or more destinations in a single operation. For more information, see the Amazon SES
- * Developer Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTemplateRequest,
-  output: UpdateTemplateResponse,
-  errors: [InvalidTemplateException, TemplateDoesNotExistException],
-}));
-/**
  * Returns a set of DKIM tokens for a domain identity.
  *
  * When you execute the `VerifyDomainDkim` operation, the domain that you
@@ -2298,43 +2079,98 @@ export const verifyDomainIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates an association between a configuration set and a custom domain for open and
- * click event tracking.
- *
- * By default, images and links used for tracking open and click events are hosted on
- * domains operated by Amazon SES. You can configure a subdomain of your own to handle these
- * events. For information about using custom domains, see the Amazon SES Developer Guide.
- */
-export const createConfigurationSetTrackingOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateConfigurationSetTrackingOptionsRequest,
-    output: CreateConfigurationSetTrackingOptionsResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      InvalidTrackingOptionsException,
-      TrackingOptionsAlreadyExistsException,
-    ],
-  }));
-/**
- * Creates a new custom verification email template.
- *
- * For more information about custom verification email templates, see Using
- * Custom Verification Email Templates in the Amazon SES Developer
- * Guide.
+ * Enables or disables the publishing of reputation metrics for emails sent using a
+ * specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce
+ * and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can
+ * create alarms when bounce or complaint rates exceed certain thresholds.
  *
  * You can execute this operation no more than once per second.
  */
-export const createCustomVerificationEmailTemplate =
+export const updateConfigurationSetReputationMetricsEnabled =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCustomVerificationEmailTemplateRequest,
-    output: CreateCustomVerificationEmailTemplateResponse,
-    errors: [
-      CustomVerificationEmailInvalidContentException,
-      CustomVerificationEmailTemplateAlreadyExistsException,
-      FromEmailAddressNotVerifiedException,
-      LimitExceededException,
-    ],
+    input: UpdateConfigurationSetReputationMetricsEnabledRequest,
+    output: UpdateConfigurationSetReputationMetricsEnabledResponse,
+    errors: [ConfigurationSetDoesNotExistException],
   }));
+/**
+ * Enables or disables email sending for messages sent using a specific configuration set
+ * in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms
+ * to temporarily pause email sending for a configuration set when the reputation metrics
+ * for that configuration set (such as your bounce on complaint rate) exceed certain
+ * thresholds.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const updateConfigurationSetSendingEnabled =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateConfigurationSetSendingEnabledRequest,
+    output: UpdateConfigurationSetSendingEnabledResponse,
+    errors: [ConfigurationSetDoesNotExistException],
+  }));
+/**
+ * Sets the specified receipt rule set as the active receipt rule set.
+ *
+ * To disable your email-receiving through Amazon SES completely, you can call this
+ * operation with `RuleSetName` set to null.
+ *
+ * For information about managing receipt rule sets, see the Amazon SES
+ * Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const setActiveReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetActiveReceiptRuleSetRequest,
+    output: SetActiveReceiptRuleSetResponse,
+    errors: [RuleSetDoesNotExistException],
+  }),
+);
+/**
+ * Sets the position of the specified receipt rule in the receipt rule set.
+ *
+ * For information about managing receipt rules, see the Amazon SES
+ * Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const setReceiptRulePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetReceiptRulePositionRequest,
+    output: SetReceiptRulePositionResponse,
+    errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
+  }),
+);
+/**
+ * Returns the details of the specified receipt rule.
+ *
+ * For information about setting up receipt rules, see the Amazon SES
+ * Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const describeReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeReceiptRuleRequest,
+  output: DescribeReceiptRuleResponse,
+  errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
+}));
+/**
+ * Creates a receipt rule set by cloning an existing one. All receipt rules and
+ * configurations are copied to the new receipt rule set and are completely independent of
+ * the source rule set.
+ *
+ * For information about setting up rule sets, see the Amazon SES Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const cloneReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CloneReceiptRuleSetRequest,
+  output: CloneReceiptRuleSetResponse,
+  errors: [
+    AlreadyExistsException,
+    LimitExceededException,
+    RuleSetDoesNotExistException,
+  ],
+}));
 /**
  * Creates a new IP address filter.
  *
@@ -2362,6 +2198,22 @@ export const describeConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [ConfigurationSetDoesNotExistException],
   }),
 );
+/**
+ * Returns the custom email verification template for the template name you
+ * specify.
+ *
+ * For more information about custom verification email templates, see Using
+ * Custom Verification Email Templates in the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const getCustomVerificationEmailTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetCustomVerificationEmailTemplateRequest,
+    output: GetCustomVerificationEmailTemplateResponse,
+    errors: [CustomVerificationEmailTemplateDoesNotExistException],
+  }));
 /**
  * Returns the requested sending authorization policies for the given identity (an email
  * address or a domain). The policies are returned as a map of policy names to policy
@@ -2433,6 +2285,104 @@ export const putConfigurationSetDeliveryOptions =
     ],
   }));
 /**
+ * Creates an empty receipt rule set.
+ *
+ * For information about setting up receipt rule sets, see the Amazon SES Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const createReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateReceiptRuleSetRequest,
+    output: CreateReceiptRuleSetResponse,
+    errors: [AlreadyExistsException, LimitExceededException],
+  }),
+);
+/**
+ * Creates an email template. Email templates enable you to send personalized email to
+ * one or more destinations in a single operation. For more information, see the Amazon SES
+ * Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const createTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTemplateRequest,
+  output: CreateTemplateResponse,
+  errors: [
+    AlreadyExistsException,
+    InvalidTemplateException,
+    LimitExceededException,
+  ],
+}));
+/**
+ * Deletes a configuration set event destination. Configuration set event destinations
+ * are associated with configuration sets, which enable you to publish email sending
+ * events. For information about using configuration sets, see the Amazon SES
+ * Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const deleteConfigurationSetEventDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteConfigurationSetEventDestinationRequest,
+    output: DeleteConfigurationSetEventDestinationResponse,
+    errors: [
+      ConfigurationSetDoesNotExistException,
+      EventDestinationDoesNotExistException,
+    ],
+  }));
+/**
+ * Deletes an association between a configuration set and a custom domain for open and
+ * click event tracking.
+ *
+ * By default, images and links used for tracking open and click events are hosted on
+ * domains operated by Amazon SES. You can configure a subdomain of your own to handle these
+ * events. For information about using custom domains, see the Amazon SES Developer Guide.
+ *
+ * Deleting this kind of association results in emails sent using the specified
+ * configuration set to capture open and click events using the standard,
+ * Amazon SES-operated domains.
+ */
+export const deleteConfigurationSetTrackingOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteConfigurationSetTrackingOptionsRequest,
+    output: DeleteConfigurationSetTrackingOptionsResponse,
+    errors: [
+      ConfigurationSetDoesNotExistException,
+      TrackingOptionsDoesNotExistException,
+    ],
+  }));
+/**
+ * Modifies an association between a configuration set and a custom domain for open and
+ * click event tracking.
+ *
+ * By default, images and links used for tracking open and click events are hosted on
+ * domains operated by Amazon SES. You can configure a subdomain of your own to handle these
+ * events. For information about using custom domains, see the Amazon SES Developer Guide.
+ */
+export const updateConfigurationSetTrackingOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateConfigurationSetTrackingOptionsRequest,
+    output: UpdateConfigurationSetTrackingOptionsResponse,
+    errors: [
+      ConfigurationSetDoesNotExistException,
+      InvalidTrackingOptionsException,
+      TrackingOptionsDoesNotExistException,
+    ],
+  }));
+/**
+ * Updates an email template. Email templates enable you to send personalized email to
+ * one or more destinations in a single operation. For more information, see the Amazon SES
+ * Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTemplateRequest,
+  output: UpdateTemplateResponse,
+  errors: [InvalidTemplateException, TemplateDoesNotExistException],
+}));
+/**
  * Creates a configuration set.
  *
  * Configuration sets enable you to publish email sending events. For information about
@@ -2453,26 +2403,25 @@ export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a receipt rule.
+ * Creates a new custom verification email template.
  *
- * For information about setting up receipt rules, see the Amazon SES
- * Developer Guide.
+ * For more information about custom verification email templates, see Using
+ * Custom Verification Email Templates in the Amazon SES Developer
+ * Guide.
  *
  * You can execute this operation no more than once per second.
  */
-export const createReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateReceiptRuleRequest,
-  output: CreateReceiptRuleResponse,
-  errors: [
-    AlreadyExistsException,
-    InvalidLambdaFunctionException,
-    InvalidS3ConfigurationException,
-    InvalidSnsTopicException,
-    LimitExceededException,
-    RuleDoesNotExistException,
-    RuleSetDoesNotExistException,
-  ],
-}));
+export const createCustomVerificationEmailTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateCustomVerificationEmailTemplateRequest,
+    output: CreateCustomVerificationEmailTemplateResponse,
+    errors: [
+      CustomVerificationEmailInvalidContentException,
+      CustomVerificationEmailTemplateAlreadyExistsException,
+      FromEmailAddressNotVerifiedException,
+      LimitExceededException,
+    ],
+  }));
 /**
  * Returns the current status of Easy DKIM signing for an entity. For domain name
  * identities, this operation also returns the DKIM tokens that are required for Easy DKIM
@@ -2561,6 +2510,99 @@ export const getIdentityVerificationAttributes =
     errors: [],
   }));
 /**
+ * Creates a preview of the MIME content of an email when provided with a template and a
+ * set of replacement data.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const testRenderTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestRenderTemplateRequest,
+  output: TestRenderTemplateResponse,
+  errors: [
+    InvalidRenderingParameterException,
+    MissingRenderingAttributeException,
+    TemplateDoesNotExistException,
+  ],
+}));
+/**
+ * Updates a receipt rule.
+ *
+ * For information about managing receipt rules, see the Amazon SES
+ * Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const updateReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReceiptRuleRequest,
+  output: UpdateReceiptRuleResponse,
+  errors: [
+    InvalidLambdaFunctionException,
+    InvalidS3ConfigurationException,
+    InvalidSnsTopicException,
+    LimitExceededException,
+    RuleDoesNotExistException,
+    RuleSetDoesNotExistException,
+  ],
+}));
+/**
+ * Updates an existing custom verification email template.
+ *
+ * For more information about custom verification email templates, see Using
+ * Custom Verification Email Templates in the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const updateCustomVerificationEmailTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateCustomVerificationEmailTemplateRequest,
+    output: UpdateCustomVerificationEmailTemplateResponse,
+    errors: [
+      CustomVerificationEmailInvalidContentException,
+      CustomVerificationEmailTemplateDoesNotExistException,
+      FromEmailAddressNotVerifiedException,
+    ],
+  }));
+/**
+ * Creates a receipt rule.
+ *
+ * For information about setting up receipt rules, see the Amazon SES
+ * Developer Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const createReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReceiptRuleRequest,
+  output: CreateReceiptRuleResponse,
+  errors: [
+    AlreadyExistsException,
+    InvalidLambdaFunctionException,
+    InvalidS3ConfigurationException,
+    InvalidSnsTopicException,
+    LimitExceededException,
+    RuleDoesNotExistException,
+    RuleSetDoesNotExistException,
+  ],
+}));
+/**
+ * Creates an association between a configuration set and a custom domain for open and
+ * click event tracking.
+ *
+ * By default, images and links used for tracking open and click events are hosted on
+ * domains operated by Amazon SES. You can configure a subdomain of your own to handle these
+ * events. For information about using custom domains, see the Amazon SES Developer Guide.
+ */
+export const createConfigurationSetTrackingOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateConfigurationSetTrackingOptionsRequest,
+    output: CreateConfigurationSetTrackingOptionsResponse,
+    errors: [
+      ConfigurationSetDoesNotExistException,
+      InvalidTrackingOptionsException,
+      TrackingOptionsAlreadyExistsException,
+    ],
+  }));
+/**
  * Generates and sends a bounce message to the sender of an email you received through
  * Amazon SES. You can only use this operation on an email up to 24 hours after you receive
  * it.
@@ -2577,6 +2619,152 @@ export const sendBounce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendBounceRequest,
   output: SendBounceResponse,
   errors: [MessageRejected],
+}));
+/**
+ * Composes an email message using an email template and immediately queues it for
+ * sending.
+ *
+ * To send email using this operation, your call must meet the following
+ * requirements:
+ *
+ * - The call must refer to an existing email template. You can create email
+ * templates using the CreateTemplate operation.
+ *
+ * - The message must be sent from a verified email address or domain.
+ *
+ * - If your account is still in the Amazon SES sandbox, you may only send to verified
+ * addresses or domains, or to email addresses associated with the Amazon SES Mailbox
+ * Simulator. For more information, see Verifying Email
+ * Addresses and Domains in the Amazon SES Developer
+ * Guide.
+ *
+ * - The maximum message size is 10 MB.
+ *
+ * - Calls to the `SendTemplatedEmail` operation may only include one
+ * `Destination` parameter. A destination is a set of recipients
+ * that receives the same version of the email. The `Destination`
+ * parameter can include up to 50 recipients, across the To:, CC: and BCC:
+ * fields.
+ *
+ * - The `Destination` parameter must include at least one recipient
+ * email address. The recipient address can be a To: address, a CC: address, or a
+ * BCC: address. If a recipient email address is invalid (that is, it is not in the
+ * format *UserName@[SubDomain.]Domain.TopLevelDomain*), the
+ * entire message is rejected, even if the message contains other recipients that
+ * are valid.
+ *
+ * If your call to the `SendTemplatedEmail` operation includes all of the
+ * required parameters, Amazon SES accepts it and returns a Message ID. However, if Amazon SES
+ * can't render the email because the template contains errors, it doesn't send the
+ * email. Additionally, because it already accepted the message, Amazon SES doesn't return a
+ * message stating that it was unable to send the email.
+ *
+ * For these reasons, we highly recommend that you set up Amazon SES to send you
+ * notifications when Rendering Failure events occur. For more information, see Sending Personalized Email Using the Amazon SES API in the
+ * *Amazon Simple Email Service Developer Guide*.
+ */
+export const sendTemplatedEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendTemplatedEmailRequest,
+  output: SendTemplatedEmailResponse,
+  errors: [
+    AccountSendingPausedException,
+    ConfigurationSetDoesNotExistException,
+    ConfigurationSetSendingPausedException,
+    MailFromDomainNotVerifiedException,
+    MessageRejected,
+    TemplateDoesNotExistException,
+  ],
+}));
+/**
+ * Composes an email message and immediately queues it for sending.
+ *
+ * This operation is more flexible than the `SendEmail` operation. When you
+ * use the `SendRawEmail` operation, you can specify the headers of the message
+ * as well as its content. This flexibility is useful, for example, when you need to send a
+ * multipart MIME email (such a message that contains both a text and an HTML version). You
+ * can also use this operation to send messages that include attachments.
+ *
+ * The `SendRawEmail` operation has the following requirements:
+ *
+ * - You can only send email from verified email addresses or domains. If you try to send email from
+ * an address that isn't verified, the operation results in an "Email address not
+ * verified" error.
+ *
+ * - If your account is still in the Amazon SES sandbox, you can only send email to other verified addresses
+ * in your account, or to addresses that are associated with the Amazon SES mailbox simulator.
+ *
+ * - The maximum message size, including attachments, is 10 MB.
+ *
+ * - Each message has to include at least one recipient address. A recipient
+ * address includes any address on the To:, CC:, or BCC: lines.
+ *
+ * - If you send a single message to more than one recipient address, and one of
+ * the recipient addresses isn't in a valid format (that is, it's not in the format
+ * *UserName@[SubDomain.]Domain.TopLevelDomain*), Amazon SES
+ * rejects the entire message, even if the other addresses are valid.
+ *
+ * - Each message can include up to 50 recipient addresses across the To:, CC:, or
+ * BCC: lines. If you need to send a single message to more than 50 recipients, you
+ * have to split the list of recipient addresses into groups of less than 50
+ * recipients, and send separate messages to each group.
+ *
+ * - Amazon SES allows you to specify 8-bit Content-Transfer-Encoding for MIME message
+ * parts. However, if Amazon SES has to modify the contents of your message (for
+ * example, if you use open and click tracking), 8-bit content isn't preserved. For
+ * this reason, we highly recommend that you encode all content that isn't 7-bit
+ * ASCII. For more information, see MIME Encoding in the Amazon SES Developer
+ * Guide.
+ *
+ * Additionally, keep the following considerations in mind when using the
+ * `SendRawEmail` operation:
+ *
+ * - Although you can customize the message headers when using the
+ * `SendRawEmail` operation, Amazon SES automatically applies its own
+ * `Message-ID` and `Date` headers; if you passed these
+ * headers when creating the message, they are overwritten by the values that Amazon SES
+ * provides.
+ *
+ * - If you are using sending authorization to send on behalf of another user,
+ * `SendRawEmail` enables you to specify the cross-account identity
+ * for the email's Source, From, and Return-Path parameters in one of two ways: you
+ * can pass optional parameters `SourceArn`, `FromArn`,
+ * and/or `ReturnPathArn`, or you can include the following X-headers in
+ * the header of your raw email:
+ *
+ * - `X-SES-SOURCE-ARN`
+ *
+ * - `X-SES-FROM-ARN`
+ *
+ * - `X-SES-RETURN-PATH-ARN`
+ *
+ * Don't include these X-headers in the DKIM signature. Amazon SES removes these
+ * before it sends the email.
+ *
+ * If you only specify the `SourceIdentityArn` parameter, Amazon SES sets
+ * the From and Return-Path addresses to the same identity that you
+ * specified.
+ *
+ * For more information about sending authorization, see the Using
+ * Sending Authorization with Amazon SES in the Amazon SES Developer
+ * Guide.
+ *
+ * - For every message that you send, the total number of recipients (including
+ * each recipient in the To:, CC: and BCC: fields) is counted against the maximum
+ * number of emails you can send in a 24-hour period (your sending
+ * quota). For more information about sending quotas in Amazon SES, see
+ * Managing Your Amazon SES Sending Limits in the Amazon SES Developer
+ * Guide.
+ */
+export const sendRawEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendRawEmailRequest,
+  output: SendRawEmailResponse,
+  errors: [
+    AccountSendingPausedException,
+    ConfigurationSetDoesNotExistException,
+    ConfigurationSetSendingPausedException,
+    MailFromDomainNotVerifiedException,
+    MessageRejected,
+  ],
 }));
 /**
  * Composes an email message to multiple destinations. The message body is created using
@@ -2675,166 +2863,31 @@ export const sendEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Composes an email message and immediately queues it for sending.
+ * Adds an email address to the list of identities for your Amazon SES account in the current
+ * Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a
+ * customized verification email is sent to the specified address.
  *
- * This operation is more flexible than the `SendEmail` operation. When you
- * use the `SendRawEmail` operation, you can specify the headers of the message
- * as well as its content. This flexibility is useful, for example, when you need to send a
- * multipart MIME email (such a message that contains both a text and an HTML version). You
- * can also use this operation to send messages that include attachments.
- *
- * The `SendRawEmail` operation has the following requirements:
- *
- * - You can only send email from verified email addresses or domains. If you try to send email from
- * an address that isn't verified, the operation results in an "Email address not
- * verified" error.
- *
- * - If your account is still in the Amazon SES sandbox, you can only send email to other verified addresses
- * in your account, or to addresses that are associated with the Amazon SES mailbox simulator.
- *
- * - The maximum message size, including attachments, is 10 MB.
- *
- * - Each message has to include at least one recipient address. A recipient
- * address includes any address on the To:, CC:, or BCC: lines.
- *
- * - If you send a single message to more than one recipient address, and one of
- * the recipient addresses isn't in a valid format (that is, it's not in the format
- * *UserName@[SubDomain.]Domain.TopLevelDomain*), Amazon SES
- * rejects the entire message, even if the other addresses are valid.
- *
- * - Each message can include up to 50 recipient addresses across the To:, CC:, or
- * BCC: lines. If you need to send a single message to more than 50 recipients, you
- * have to split the list of recipient addresses into groups of less than 50
- * recipients, and send separate messages to each group.
- *
- * - Amazon SES allows you to specify 8-bit Content-Transfer-Encoding for MIME message
- * parts. However, if Amazon SES has to modify the contents of your message (for
- * example, if you use open and click tracking), 8-bit content isn't preserved. For
- * this reason, we highly recommend that you encode all content that isn't 7-bit
- * ASCII. For more information, see MIME Encoding in the Amazon SES Developer
+ * To use this operation, you must first create a custom verification email template. For
+ * more information about creating and using custom verification email templates, see
+ * Using
+ * Custom Verification Email Templates in the Amazon SES Developer
  * Guide.
- *
- * Additionally, keep the following considerations in mind when using the
- * `SendRawEmail` operation:
- *
- * - Although you can customize the message headers when using the
- * `SendRawEmail` operation, Amazon SES automatically applies its own
- * `Message-ID` and `Date` headers; if you passed these
- * headers when creating the message, they are overwritten by the values that Amazon SES
- * provides.
- *
- * - If you are using sending authorization to send on behalf of another user,
- * `SendRawEmail` enables you to specify the cross-account identity
- * for the email's Source, From, and Return-Path parameters in one of two ways: you
- * can pass optional parameters `SourceArn`, `FromArn`,
- * and/or `ReturnPathArn`, or you can include the following X-headers in
- * the header of your raw email:
- *
- * - `X-SES-SOURCE-ARN`
- *
- * - `X-SES-FROM-ARN`
- *
- * - `X-SES-RETURN-PATH-ARN`
- *
- * Don't include these X-headers in the DKIM signature. Amazon SES removes these
- * before it sends the email.
- *
- * If you only specify the `SourceIdentityArn` parameter, Amazon SES sets
- * the From and Return-Path addresses to the same identity that you
- * specified.
- *
- * For more information about sending authorization, see the Using
- * Sending Authorization with Amazon SES in the Amazon SES Developer
- * Guide.
- *
- * - For every message that you send, the total number of recipients (including
- * each recipient in the To:, CC: and BCC: fields) is counted against the maximum
- * number of emails you can send in a 24-hour period (your sending
- * quota). For more information about sending quotas in Amazon SES, see
- * Managing Your Amazon SES Sending Limits in the Amazon SES Developer
- * Guide.
- */
-export const sendRawEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendRawEmailRequest,
-  output: SendRawEmailResponse,
-  errors: [
-    AccountSendingPausedException,
-    ConfigurationSetDoesNotExistException,
-    ConfigurationSetSendingPausedException,
-    MailFromDomainNotVerifiedException,
-    MessageRejected,
-  ],
-}));
-/**
- * Composes an email message using an email template and immediately queues it for
- * sending.
- *
- * To send email using this operation, your call must meet the following
- * requirements:
- *
- * - The call must refer to an existing email template. You can create email
- * templates using the CreateTemplate operation.
- *
- * - The message must be sent from a verified email address or domain.
- *
- * - If your account is still in the Amazon SES sandbox, you may only send to verified
- * addresses or domains, or to email addresses associated with the Amazon SES Mailbox
- * Simulator. For more information, see Verifying Email
- * Addresses and Domains in the Amazon SES Developer
- * Guide.
- *
- * - The maximum message size is 10 MB.
- *
- * - Calls to the `SendTemplatedEmail` operation may only include one
- * `Destination` parameter. A destination is a set of recipients
- * that receives the same version of the email. The `Destination`
- * parameter can include up to 50 recipients, across the To:, CC: and BCC:
- * fields.
- *
- * - The `Destination` parameter must include at least one recipient
- * email address. The recipient address can be a To: address, a CC: address, or a
- * BCC: address. If a recipient email address is invalid (that is, it is not in the
- * format *UserName@[SubDomain.]Domain.TopLevelDomain*), the
- * entire message is rejected, even if the message contains other recipients that
- * are valid.
- *
- * If your call to the `SendTemplatedEmail` operation includes all of the
- * required parameters, Amazon SES accepts it and returns a Message ID. However, if Amazon SES
- * can't render the email because the template contains errors, it doesn't send the
- * email. Additionally, because it already accepted the message, Amazon SES doesn't return a
- * message stating that it was unable to send the email.
- *
- * For these reasons, we highly recommend that you set up Amazon SES to send you
- * notifications when Rendering Failure events occur. For more information, see Sending Personalized Email Using the Amazon SES API in the
- * *Amazon Simple Email Service Developer Guide*.
- */
-export const sendTemplatedEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendTemplatedEmailRequest,
-  output: SendTemplatedEmailResponse,
-  errors: [
-    AccountSendingPausedException,
-    ConfigurationSetDoesNotExistException,
-    ConfigurationSetSendingPausedException,
-    MailFromDomainNotVerifiedException,
-    MessageRejected,
-    TemplateDoesNotExistException,
-  ],
-}));
-/**
- * Creates a preview of the MIME content of an email when provided with a template and a
- * set of replacement data.
  *
  * You can execute this operation no more than once per second.
  */
-export const testRenderTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestRenderTemplateRequest,
-  output: TestRenderTemplateResponse,
-  errors: [
-    InvalidRenderingParameterException,
-    MissingRenderingAttributeException,
-    TemplateDoesNotExistException,
-  ],
-}));
+export const sendCustomVerificationEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SendCustomVerificationEmailRequest,
+    output: SendCustomVerificationEmailResponse,
+    errors: [
+      ConfigurationSetDoesNotExistException,
+      CustomVerificationEmailTemplateDoesNotExistException,
+      FromEmailAddressNotVerifiedException,
+      MessageRejected,
+      ProductionAccessNotGrantedException,
+    ],
+  }),
+);
 /**
  * Updates the event destination of a configuration set. Event destinations are
  * associated with configuration sets, which enable you to publish email sending events to
@@ -2861,26 +2914,6 @@ export const updateConfigurationSetEventDestination =
     ],
   }));
 /**
- * Updates a receipt rule.
- *
- * For information about managing receipt rules, see the Amazon SES
- * Developer Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const updateReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateReceiptRuleRequest,
-  output: UpdateReceiptRuleResponse,
-  errors: [
-    InvalidLambdaFunctionException,
-    InvalidS3ConfigurationException,
-    InvalidSnsTopicException,
-    LimitExceededException,
-    RuleDoesNotExistException,
-    RuleSetDoesNotExistException,
-  ],
-}));
-/**
  * Creates a configuration set event destination.
  *
  * When you create or update an event destination, you must provide one, and only
@@ -2906,29 +2939,3 @@ export const createConfigurationSetEventDestination =
       LimitExceededException,
     ],
   }));
-/**
- * Adds an email address to the list of identities for your Amazon SES account in the current
- * Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a
- * customized verification email is sent to the specified address.
- *
- * To use this operation, you must first create a custom verification email template. For
- * more information about creating and using custom verification email templates, see
- * Using
- * Custom Verification Email Templates in the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const sendCustomVerificationEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendCustomVerificationEmailRequest,
-    output: SendCustomVerificationEmailResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      CustomVerificationEmailTemplateDoesNotExistException,
-      FromEmailAddressNotVerifiedException,
-      MessageRejected,
-      ProductionAccessNotGrantedException,
-    ],
-  }),
-);

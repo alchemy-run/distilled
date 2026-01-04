@@ -1246,10 +1246,6 @@ export class TagCollectionFilter extends S.Class<TagCollectionFilter>(
   "TagCollectionFilter",
 )({ AppBoundaryKey: S.String, TagValues: TagValues }) {}
 export const TagCollectionFilters = S.Array(TagCollectionFilter);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String }) {}
-export const ValidationExceptionFields = S.Array(ValidationExceptionField);
 export class ProactiveInsight extends S.Class<ProactiveInsight>(
   "ProactiveInsight",
 )({
@@ -1499,6 +1495,10 @@ export class RecommendationRelatedAnomaly extends S.Class<RecommendationRelatedA
 export const RecommendationRelatedAnomalies = S.Array(
   RecommendationRelatedAnomaly,
 );
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, Message: S.String }) {}
+export const ValidationExceptionFields = S.Array(ValidationExceptionField);
 export class Recommendation extends S.Class<Recommendation>("Recommendation")({
   Description: S.optional(S.String),
   Link: S.optional(S.String),
@@ -1563,31 +1563,43 @@ export class DescribeAnomalyResponse extends S.Class<DescribeAnomalyResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
+  { Message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  {
+    Message: S.String,
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    Message: S.String,
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.String,
+    Reason: S.optional(S.String),
+    Fields: S.optional(ValidationExceptionFields),
+  },
 ) {}
 
 //# Operations
@@ -1609,11 +1621,12 @@ export const describeAccountOverview = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
+ * Returns a list of a specified insight's recommendations. Each recommendation includes
+ * a list of related metrics and a list of related events.
  */
-export const describeFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFeedbackRequest,
-  output: DescribeFeedbackResponse,
+export const listRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRecommendationsRequest,
+  output: ListRecommendationsResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1623,29 +1636,14 @@ export const describeFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns active insights, predictive insights, and resource hours analyzed in last
- * hour.
+ * Provides an overview of your system's health. If additional member accounts are part
+ * of your organization, you can filter those accounts using the `AccountIds`
+ * field.
  */
-export const describeOrganizationHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOrganizationHealthRequest,
-    output: DescribeOrganizationHealthResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns an overview of your organization's history based on the specified time range.
- * The overview includes the total reactive and proactive insights.
- */
-export const describeOrganizationOverview =
+export const describeOrganizationResourceCollectionHealth =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationOverviewRequest,
-    output: DescribeOrganizationOverviewResponse,
+    input: DescribeOrganizationResourceCollectionHealthRequest,
+    output: DescribeOrganizationResourceCollectionHealthResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -1654,50 +1652,16 @@ export const describeOrganizationOverview =
     ],
   }));
 /**
- * Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
- * for all closed insights in resource collections in your account. You specify the type of
- * Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and
- * Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze
- * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+ * Returns the integration status of services that are integrated with DevOps Guru.
+ * The one service that can be integrated with DevOps Guru
+ * is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
  */
-export const describeResourceCollectionHealth =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeResourceCollectionHealthRequest,
-    output: DescribeResourceCollectionHealthResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Collects customer feedback about the specified insight.
- */
-export const putFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutFeedbackRequest,
-  output: PutFeedbackResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a notification channel from DevOps Guru. A notification channel is used to notify
- * you when DevOps Guru generates an insight that contains information about how to improve your
- * operations.
- */
-export const removeNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeServiceIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: RemoveNotificationChannelRequest,
-    output: RemoveNotificationChannelResponse,
+    input: DescribeServiceIntegrationRequest,
+    output: DescribeServiceIntegrationResponse,
     errors: [
       AccessDeniedException,
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -1706,33 +1670,55 @@ export const removeNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Enables or disables integration with a service that can be integrated with DevOps Guru. The
- * one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which
- * can produce proactive recommendations which can be stored and viewed in DevOps Guru.
+ * Returns lists Amazon Web Services resources that are of the specified resource collection type.
+ * The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and
+ * Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze
+ * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
-export const updateEventSourcesConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getResourceCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateEventSourcesConfigRequest,
-    output: UpdateEventSourcesConfigResponse,
+    input: GetResourceCollectionRequest,
+    output: GetResourceCollectionResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
+      ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],
   }),
 );
 /**
- * Deletes the insight along with the associated anomalies, events and recommendations.
+ * Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
  */
-export const deleteInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteInsightRequest,
-  output: DeleteInsightResponse,
+export const listMonitoredResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMonitoredResourcesRequest,
+    output: ListMonitoredResourcesResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a list of insights in your Amazon Web Services account. You can specify which insights are
+ * returned by their start time, one or more statuses (`ONGOING` or `CLOSED`), one or more severities
+ * (`LOW`, `MEDIUM`, and `HIGH`), and type
+ * (`REACTIVE` or `PROACTIVE`).
+ *
+ * Use the `Filters` parameter to specify status and severity search
+ * parameters. Use the `Type` parameter to specify `REACTIVE` or
+ * `PROACTIVE` in your search.
+ */
+export const searchInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchInsightsRequest,
+  output: SearchInsightsResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1755,42 +1741,6 @@ export const describeEventSourcesConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Returns the integration status of services that are integrated with DevOps Guru.
- * The one service that can be integrated with DevOps Guru
- * is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
- */
-export const describeServiceIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeServiceIntegrationRequest,
-    output: DescribeServiceIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.
- * For more information,
- * see Estimate your
- * Amazon DevOps Guru costs and
- * Amazon DevOps Guru pricing.
- */
-export const getCostEstimation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCostEstimationRequest,
-  output: GetCostEstimationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Returns a list of notification channels configured for DevOps Guru. Each notification
  * channel is used to notify you when DevOps Guru generates an insight that contains information
@@ -1848,22 +1798,6 @@ export const searchOrganizationInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services
- * resources.
- */
-export const startCostEstimation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartCostEstimationRequest,
-  output: StartCostEstimationResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates the collection of resources that DevOps Guru analyzes.
  * The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and
  * Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze
@@ -1902,6 +1836,55 @@ export const updateServiceIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Returns active insights, predictive insights, and resource hours analyzed in last
+ * hour.
+ */
+export const describeOrganizationHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeOrganizationHealthRequest,
+    output: DescribeOrganizationHealthResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns an overview of your organization's history based on the specified time range.
+ * The overview includes the total reactive and proactive insights.
+ */
+export const describeOrganizationOverview =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeOrganizationOverviewRequest,
+    output: DescribeOrganizationOverviewResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
+ * for all closed insights in resource collections in your account. You specify the type of
+ * Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and
+ * Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze
+ * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+ */
+export const describeResourceCollectionHealth =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeResourceCollectionHealthRequest,
+    output: DescribeResourceCollectionHealthResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
  * Returns the number of open reactive insights, the number of open proactive insights,
  * and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the
  * health of operations in your Amazon Web Services account.
@@ -1919,6 +1902,120 @@ export const describeAccountHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Enables or disables integration with a service that can be integrated with DevOps Guru. The
+ * one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which
+ * can produce proactive recommendations which can be stored and viewed in DevOps Guru.
+ */
+export const updateEventSourcesConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEventSourcesConfigRequest,
+    output: UpdateEventSourcesConfigResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.
+ * For more information,
+ * see Estimate your
+ * Amazon DevOps Guru costs and
+ * Amazon DevOps Guru pricing.
+ */
+export const getCostEstimation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCostEstimationRequest,
+  output: GetCostEstimationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services
+ * resources.
+ */
+export const startCostEstimation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCostEstimationRequest,
+  output: StartCostEstimationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Collects customer feedback about the specified insight.
+ */
+export const putFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutFeedbackRequest,
+  output: PutFeedbackResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a notification channel from DevOps Guru. A notification channel is used to notify
+ * you when DevOps Guru generates an insight that contains information about how to improve your
+ * operations.
+ */
+export const removeNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveNotificationChannelRequest,
+    output: RemoveNotificationChannelResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
+ */
+export const describeFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFeedbackRequest,
+  output: DescribeFeedbackResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the insight along with the associated anomalies, events and recommendations.
+ */
+export const deleteInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInsightRequest,
+  output: DeleteInsightResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Returns details about an insight that you specify using its ID.
  */
 export const describeInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1932,104 +2029,6 @@ export const describeInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Provides an overview of your system's health. If additional member accounts are part
- * of your organization, you can filter those accounts using the `AccountIds`
- * field.
- */
-export const describeOrganizationResourceCollectionHealth =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationResourceCollectionHealthRequest,
-    output: DescribeOrganizationResourceCollectionHealthResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns lists Amazon Web Services resources that are of the specified resource collection type.
- * The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and
- * Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze
- * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
- */
-export const getResourceCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourceCollectionRequest,
-    output: GetResourceCollectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
- */
-export const listMonitoredResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMonitoredResourcesRequest,
-    output: ListMonitoredResourcesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of insights in your Amazon Web Services account. You can specify which insights are
- * returned by their start time, one or more statuses (`ONGOING` or `CLOSED`), one or more severities
- * (`LOW`, `MEDIUM`, and `HIGH`), and type
- * (`REACTIVE` or `PROACTIVE`).
- *
- * Use the `Filters` parameter to specify status and severity search
- * parameters. Use the `Type` parameter to specify `REACTIVE` or
- * `PROACTIVE` in your search.
- */
-export const searchInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchInsightsRequest,
-  output: SearchInsightsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a notification channel to DevOps Guru. A notification channel is used to notify you
- * about important DevOps Guru events, such as when an insight is generated.
- *
- * If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
- * to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
- * For more information, see Permissions
- * for Amazon SNS topics.
- *
- * If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
- * to the CMK. For more information, see Permissions for
- * Amazon Web Services KMS–encrypted Amazon SNS topics.
- */
-export const addNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddNotificationChannelRequest,
-    output: AddNotificationChannelResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Returns a list of the anomalies that belong to an insight that you specify using its
  * ID.
@@ -2079,20 +2078,33 @@ export const listInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of a specified insight's recommendations. Each recommendation includes
- * a list of related metrics and a list of related events.
+ * Adds a notification channel to DevOps Guru. A notification channel is used to notify you
+ * about important DevOps Guru events, such as when an insight is generated.
+ *
+ * If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
+ * to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
+ * For more information, see Permissions
+ * for Amazon SNS topics.
+ *
+ * If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
+ * to the CMK. For more information, see Permissions for
+ * Amazon Web Services KMS–encrypted Amazon SNS topics.
  */
-export const listRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRecommendationsRequest,
-  output: ListRecommendationsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const addNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AddNotificationChannelRequest,
+    output: AddNotificationChannelResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
  * You can use filters to specify which events are returned.

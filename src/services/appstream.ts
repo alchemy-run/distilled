@@ -1922,60 +1922,60 @@ export class DescribeUsageReportSubscriptionsResult extends S.Class<DescribeUsag
 }) {}
 
 //# Errors
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  {},
-) {}
 export class InvalidAccountStatusException extends S.TaggedError<InvalidAccountStatusException>()(
   "InvalidAccountStatusException",
-  {},
-) {}
-export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
-  "OperationNotPermittedException",
-  {},
-) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class EntitlementNotFoundException extends S.TaggedError<EntitlementNotFoundException>()(
   "EntitlementNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
-  "InvalidParameterCombinationException",
-  {},
+export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidRoleException extends S.TaggedError<InvalidRoleException>()(
-  "InvalidRoleException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class IncompatibleImageException extends S.TaggedError<IncompatibleImageException>()(
-  "IncompatibleImageException",
-  {},
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotAvailableException extends S.TaggedError<ResourceNotAvailableException>()(
   "ResourceNotAvailableException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidRoleException extends S.TaggedError<InvalidRoleException>()(
+  "InvalidRoleException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
+  "InvalidParameterCombinationException",
+  { Message: S.optional(S.String) },
+) {}
+export class IncompatibleImageException extends S.TaggedError<IncompatibleImageException>()(
+  "IncompatibleImageException",
+  { Message: S.optional(S.String) },
+) {}
+export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
+  "OperationNotPermittedException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
-  {},
-) {}
-export class RequestLimitExceededException extends S.TaggedError<RequestLimitExceededException>()(
-  "RequestLimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class EntitlementAlreadyExistsException extends S.TaggedError<EntitlementAlreadyExistsException>()(
   "EntitlementAlreadyExistsException",
+  { Message: S.optional(S.String) },
+) {}
+export class RequestLimitExceededException extends S.TaggedError<RequestLimitExceededException>()(
+  "RequestLimitExceededException",
   { Message: S.optional(S.String) },
 ) {}
 export class DryRunOperationException extends S.TaggedError<DryRunOperationException>()(
@@ -1985,64 +1985,12 @@ export class DryRunOperationException extends S.TaggedError<DryRunOperationExcep
 
 //# Operations
 /**
- * Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
+ * Immediately stops the specified streaming session.
  */
-export const deleteDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDirectoryConfigRequest,
-    output: DeleteDirectoryConfigResult,
-    errors: [ResourceInUseException, ResourceNotFoundException],
-  }),
-);
-/**
- * Deletes the specified entitlement.
- */
-export const deleteEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEntitlementRequest,
-  output: DeleteEntitlementResult,
-  errors: [
-    ConcurrentModificationException,
-    EntitlementNotFoundException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified fleet.
- */
-export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFleetRequest,
-  output: DeleteFleetResult,
-  errors: [
-    ConcurrentModificationException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
- */
-export const deleteStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStackRequest,
-  output: DeleteStackResult,
-  errors: [
-    ConcurrentModificationException,
-    OperationNotPermittedException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes custom branding that customizes the appearance of the streaming application catalog page.
- */
-export const deleteThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteThemeForStackRequest,
-  output: DeleteThemeForStackResult,
-  errors: [
-    ConcurrentModificationException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-  ],
+export const expireSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExpireSessionRequest,
+  output: ExpireSessionResult,
+  errors: [],
 }));
 /**
  * Disables usage report generation.
@@ -2054,373 +2002,6 @@ export const deleteUsageReportSubscription =
     errors: [InvalidAccountStatusException, ResourceNotFoundException],
   }));
 /**
- * Deletes a user from the user pool.
- */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResult,
-  errors: [ResourceNotFoundException],
-}));
-/**
- * Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
- */
-export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableUserRequest,
-  output: DisableUserResult,
-  errors: [ResourceNotFoundException],
-}));
-/**
- * Disassociates a specified app block builder from a specified app block.
- */
-export const disassociateAppBlockBuilderAppBlock =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAppBlockBuilderAppBlockRequest,
-    output: DisassociateAppBlockBuilderAppBlockResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Disassociates the specified application from the fleet.
- */
-export const disassociateApplicationFleet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateApplicationFleetRequest,
-    output: DisassociateApplicationFleetResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }));
-/**
- * Deletes the specified application from the specified entitlement.
- */
-export const disassociateApplicationFromEntitlement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateApplicationFromEntitlementRequest,
-    output: DisassociateApplicationFromEntitlementResult,
-    errors: [
-      EntitlementNotFoundException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Disassociates the specified fleet from the specified stack.
- */
-export const disassociateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateFleetRequest,
-  output: DisassociateFleetResult,
-  errors: [
-    ConcurrentModificationException,
-    OperationNotPermittedException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Removes license included application(s) association(s) from an image builder instance.
- */
-export const disassociateSoftwareFromImageBuilder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSoftwareFromImageBuilderRequest,
-    output: DisassociateSoftwareFromImageBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
- */
-export const enableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableUserRequest,
-  output: EnableUserResult,
-  errors: [InvalidAccountStatusException, ResourceNotFoundException],
-}));
-/**
- * Immediately stops the specified streaming session.
- */
-export const expireSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExpireSessionRequest,
-  output: ExpireSessionResult,
-  errors: [],
-}));
-/**
- * Initiates license included applications deployment to an image builder instance.
- */
-export const startSoftwareDeploymentToImageBuilder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartSoftwareDeploymentToImageBuilderRequest,
-    output: StartSoftwareDeploymentToImageBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Stops the specified fleet.
- */
-export const stopFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopFleetRequest,
-  output: StopFleetResult,
-  errors: [ConcurrentModificationException, ResourceNotFoundException],
-}));
-/**
- * Adds or overwrites one or more tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks.
- *
- * Each tag consists of a key and an optional value. If a resource already has a tag with the same key,
- * this operation updates its value.
- *
- * To list the current tags for your resources, use ListTagsForResource.
- * To disassociate tags from your resources, use UntagResource.
- *
- * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidAccountStatusException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Disassociates one or more specified tags from the specified WorkSpaces Applications resource.
- *
- * To list the current tags for your resources, use ListTagsForResource.
- *
- * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [ResourceNotFoundException],
-}));
-/**
- * Associates an application to entitle.
- */
-export const associateApplicationToEntitlement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateApplicationToEntitlementRequest,
-    output: AssociateApplicationToEntitlementResult,
-    errors: [
-      EntitlementNotFoundException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Associates the specified fleet with the specified stack.
- */
-export const associateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateFleetRequest,
-  output: AssociateFleetResult,
-  errors: [
-    ConcurrentModificationException,
-    IncompatibleImageException,
-    InvalidAccountStatusException,
-    LimitExceededException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Associates license included application(s) with an existing image builder instance.
- */
-export const associateSoftwareToImageBuilder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateSoftwareToImageBuilderRequest,
-    output: AssociateSoftwareToImageBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      IncompatibleImageException,
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Creates a URL to start a create app block builder streaming session.
- */
-export const createAppBlockBuilderStreamingURL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAppBlockBuilderStreamingURLRequest,
-    output: CreateAppBlockBuilderStreamingURLResult,
-    errors: [OperationNotPermittedException, ResourceNotFoundException],
-  }));
-/**
- * Creates a URL to start an image builder streaming session.
- */
-export const createImageBuilderStreamingURL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateImageBuilderStreamingURLRequest,
-    output: CreateImageBuilderStreamingURLResult,
-    errors: [OperationNotPermittedException, ResourceNotFoundException],
-  }));
-/**
- * Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
- */
-export const createStreamingURL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStreamingURLRequest,
-  output: CreateStreamingURLResult,
-  errors: [
-    InvalidParameterCombinationException,
-    OperationNotPermittedException,
-    ResourceNotAvailableException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates a usage report subscription. Usage reports are generated daily.
- */
-export const createUsageReportSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateUsageReportSubscriptionRequest,
-    output: CreateUsageReportSubscriptionResult,
-    errors: [
-      InvalidAccountStatusException,
-      InvalidRoleException,
-      LimitExceededException,
-    ],
-  }));
-/**
- * Creates a new user in the user pool.
- */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResult,
-  errors: [
-    InvalidAccountStatusException,
-    InvalidParameterCombinationException,
-    LimitExceededException,
-    OperationNotPermittedException,
-    ResourceAlreadyExistsException,
-  ],
-}));
-/**
- * Deletes an app block.
- */
-export const deleteAppBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAppBlockRequest,
-  output: DeleteAppBlockResult,
-  errors: [
-    ConcurrentModificationException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes an app block builder.
- *
- * An app block builder can only be deleted when it has no association with an app
- * block.
- */
-export const deleteAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAppBlockBuilderRequest,
-    output: DeleteAppBlockBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      OperationNotPermittedException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes an application.
- */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResult,
-  errors: [
-    ConcurrentModificationException,
-    OperationNotPermittedException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified image. You cannot delete an image when it is in use.
- * After you delete an image, you cannot provision new capacity using the image.
- */
-export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImageRequest,
-  output: DeleteImageResult,
-  errors: [
-    ConcurrentModificationException,
-    OperationNotPermittedException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified image builder and releases the capacity.
- */
-export const deleteImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImageBuilderRequest,
-  output: DeleteImageBuilderResult,
-  errors: [
-    ConcurrentModificationException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
- */
-export const deleteImagePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteImagePermissionsRequest,
-    output: DeleteImagePermissionsResult,
-    errors: [ResourceNotAvailableException, ResourceNotFoundException],
-  }),
-);
-/**
- * Retrieves a list that describes one or more app block builder associations.
- */
-export const describeAppBlockBuilderAppBlockAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
-    output: DescribeAppBlockBuilderAppBlockAssociationsResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }));
-/**
- * Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
- */
-export const describeApplicationFleetAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeApplicationFleetAssociationsRequest,
-    output: DescribeApplicationFleetAssociationsResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }));
-/**
- * Retrieves a list that describes one or more applications.
- */
-export const describeApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationsRequest,
-    output: DescribeApplicationsResult,
-    errors: [OperationNotPermittedException, ResourceNotFoundException],
-  }),
-);
-/**
  * Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
  */
 export const describeImageBuilders = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2430,38 +2011,6 @@ export const describeImageBuilders = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [ResourceNotFoundException],
   }),
 );
-/**
- * Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
- */
-export const describeImages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeImagesRequest,
-  output: DescribeImagesResult,
-  errors: [InvalidParameterCombinationException, ResourceNotFoundException],
-}));
-/**
- * Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:
- *
- * - The stack name
- *
- * - The user name (email address of the user associated with the stack) and the authentication type for the user
- */
-export const describeUserStackAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeUserStackAssociationsRequest,
-    output: DescribeUserStackAssociationsResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }));
-/**
- * Retrieves information about an export image task, including its current state, progress, and any error details.
- */
-export const getExportImageTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetExportImageTaskRequest,
-  output: GetExportImageTaskResult,
-  errors: [OperationNotPermittedException, ResourceNotFoundException],
-}));
 /**
  * Retrieves the name of the fleet that is associated with the specified stack.
  */
@@ -2493,170 +2042,22 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFoundException],
 }));
 /**
- * Starts the specified fleet.
+ * Adds or overwrites one or more tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks.
+ *
+ * Each tag consists of a key and an optional value. If a resource already has a tag with the same key,
+ * this operation updates its value.
+ *
+ * To list the current tags for your resources, use ListTagsForResource.
+ * To disassociate tags from your resources, use UntagResource.
+ *
+ * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const startFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartFleetRequest,
-  output: StartFleetResult,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
-    ConcurrentModificationException,
     InvalidAccountStatusException,
-    InvalidRoleException,
     LimitExceededException,
-    OperationNotPermittedException,
-    RequestLimitExceededException,
-    ResourceNotAvailableException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Starts the specified image builder.
- */
-export const startImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartImageBuilderRequest,
-  output: StartImageBuilderResult,
-  errors: [
-    ConcurrentModificationException,
-    IncompatibleImageException,
-    InvalidAccountStatusException,
-    ResourceNotAvailableException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Stops an app block builder.
- *
- * Stopping an app block builder terminates the instance, and the instance state is not
- * persisted.
- */
-export const stopAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopAppBlockBuilderRequest,
-  output: StopAppBlockBuilderResult,
-  errors: [
-    ConcurrentModificationException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Stops the specified image builder.
- */
-export const stopImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopImageBuilderRequest,
-  output: StopImageBuilderResult,
-  errors: [
-    ConcurrentModificationException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates an app block builder.
- *
- * If the app block builder is in the `STARTING` or `STOPPING`
- * state, you can't update it. If the app block builder is in the `RUNNING`
- * state, you can only update the DisplayName and Description. If the app block builder is
- * in the `STOPPED` state, you can update any attribute except the Name.
- */
-export const updateAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAppBlockBuilderRequest,
-    output: UpdateAppBlockBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidAccountStatusException,
-      InvalidParameterCombinationException,
-      InvalidRoleException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      RequestLimitExceededException,
-      ResourceInUseException,
-      ResourceNotAvailableException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Updates the specified application.
- */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResult,
-  errors: [
-    ConcurrentModificationException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
- */
-export const updateDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDirectoryConfigRequest,
-    output: UpdateDirectoryConfigResult,
-    errors: [
-      ConcurrentModificationException,
-      IncompatibleImageException,
-      InvalidRoleException,
-      OperationNotPermittedException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Updates the specified entitlement.
- */
-export const updateEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEntitlementRequest,
-  output: UpdateEntitlementResult,
-  errors: [
-    ConcurrentModificationException,
-    EntitlementNotFoundException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates the specified fleet.
- *
- * If the fleet is in the `STOPPED` state, you can update any attribute except
- * the fleet name.
- *
- * If the fleet is in the `RUNNING` state, you can update the following based
- * on the fleet type:
- *
- * - Always-On and On-Demand fleet types
- *
- * You can update the `DisplayName`, `ComputeCapacity`,
- * `ImageARN`, `ImageName`,
- * `IdleDisconnectTimeoutInSeconds`, and
- * `DisconnectTimeoutInSeconds` attributes.
- *
- * - Elastic fleet type
- *
- * You can update the `DisplayName`,
- * `IdleDisconnectTimeoutInSeconds`,
- * `DisconnectTimeoutInSeconds`, `MaxConcurrentSessions`, `SessionScriptS3Location`
- * and `UsbDeviceFilterStrings` attributes.
- *
- * If the fleet is in the `STARTING` or `STOPPED` state, you can't update it.
- */
-export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFleetRequest,
-  output: UpdateFleetResult,
-  errors: [
-    ConcurrentModificationException,
-    IncompatibleImageException,
-    InvalidAccountStatusException,
-    InvalidParameterCombinationException,
-    InvalidRoleException,
-    LimitExceededException,
-    OperationNotPermittedException,
-    RequestLimitExceededException,
-    ResourceInUseException,
-    ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
 }));
@@ -2675,221 +2076,123 @@ export const updateImagePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the specified fields for the specified stack.
+ * Deletes an app block.
  */
-export const updateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateStackRequest,
-  output: UpdateStackResult,
+export const deleteAppBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppBlockRequest,
+  output: DeleteAppBlockResult,
   errors: [
     ConcurrentModificationException,
-    IncompatibleImageException,
-    InvalidAccountStatusException,
-    InvalidParameterCombinationException,
-    InvalidRoleException,
-    LimitExceededException,
-    OperationNotPermittedException,
     ResourceInUseException,
     ResourceNotFoundException,
   ],
 }));
 /**
- * Updates custom branding that customizes the appearance of the streaming application catalog page.
+ * Deletes the specified fleet.
  */
-export const updateThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateThemeForStackRequest,
-  output: UpdateThemeForStackResult,
+export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFleetRequest,
+  output: DeleteFleetResult,
   errors: [
     ConcurrentModificationException,
-    InvalidAccountStatusException,
-    InvalidParameterCombinationException,
-    LimitExceededException,
-    OperationNotPermittedException,
+    ResourceInUseException,
     ResourceNotFoundException,
   ],
 }));
 /**
- * Associates the specified app block builder with the specified app block.
+ * Stops the specified fleet.
  */
-export const associateAppBlockBuilderAppBlock =
+export const stopFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopFleetRequest,
+  output: StopFleetResult,
+  errors: [ConcurrentModificationException, ResourceNotFoundException],
+}));
+/**
+ * Creates a usage report subscription. Usage reports are generated daily.
+ */
+export const createUsageReportSubscription =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateAppBlockBuilderAppBlockRequest,
-    output: AssociateAppBlockBuilderAppBlockResult,
+    input: CreateUsageReportSubscriptionRequest,
+    output: CreateUsageReportSubscriptionResult,
     errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
+      InvalidAccountStatusException,
+      InvalidRoleException,
       LimitExceededException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
     ],
   }));
 /**
- * Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
+ * Deletes a user from the user pool.
  */
-export const associateApplicationFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateApplicationFleetRequest,
-    output: AssociateApplicationFleetResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
- */
-export const batchAssociateUserStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAssociateUserStackRequest,
-    output: BatchAssociateUserStackResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }),
-);
-/**
- * Disassociates the specified users from the specified stacks.
- */
-export const batchDisassociateUserStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDisassociateUserStackRequest,
-    output: BatchDisassociateUserStackResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }),
-);
-/**
- * Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
- */
-export const copyImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CopyImageRequest,
-  output: CopyImageResponse,
-  errors: [
-    IncompatibleImageException,
-    InvalidAccountStatusException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotAvailableException,
-    ResourceNotFoundException,
-  ],
+export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserRequest,
+  output: DeleteUserResult,
+  errors: [ResourceNotFoundException],
 }));
 /**
- * Creates an app block.
+ * Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
+ */
+export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableUserRequest,
+  output: DisableUserResult,
+  errors: [ResourceNotFoundException],
+}));
+/**
+ * Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
+ */
+export const enableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableUserRequest,
+  output: EnableUserResult,
+  errors: [InvalidAccountStatusException, ResourceNotFoundException],
+}));
+/**
+ * Disassociates one or more specified tags from the specified WorkSpaces Applications resource.
  *
- * App blocks are a WorkSpaces Applications resource that stores the details about the
- * virtual hard disk in an S3 bucket. It also stores the setup script with details about
- * how to mount the virtual hard disk. The virtual hard disk includes the application
- * binaries and other files necessary to launch your applications. Multiple applications
- * can be assigned to a single app block.
+ * To list the current tags for your resources, use ListTagsForResource.
  *
- * This is only supported for Elastic fleets.
+ * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const createAppBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAppBlockRequest,
-  output: CreateAppBlockResult,
-  errors: [
-    ConcurrentModificationException,
-    LimitExceededException,
-    OperationNotPermittedException,
-    ResourceAlreadyExistsException,
-  ],
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [ResourceNotFoundException],
 }));
 /**
- * Creates an app block builder.
+ * Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
  */
-export const createAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateAppBlockBuilderRequest,
-    output: CreateAppBlockBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidAccountStatusException,
-      InvalidParameterCombinationException,
-      InvalidRoleException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      RequestLimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotAvailableException,
-      ResourceNotFoundException,
-    ],
+    input: DeleteDirectoryConfigRequest,
+    output: DeleteDirectoryConfigResult,
+    errors: [ResourceInUseException, ResourceNotFoundException],
   }),
 );
 /**
- * Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+ * Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
  */
-export const createDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteImagePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateDirectoryConfigRequest,
-    output: CreateDirectoryConfigResult,
-    errors: [
-      InvalidAccountStatusException,
-      InvalidRoleException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-    ],
+    input: DeleteImagePermissionsRequest,
+    output: DeleteImagePermissionsResult,
+    errors: [ResourceNotAvailableException, ResourceNotFoundException],
   }),
 );
 /**
- * Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
+ * Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
  */
-export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFleetRequest,
-  output: CreateFleetResult,
-  errors: [
-    ConcurrentModificationException,
-    IncompatibleImageException,
-    InvalidAccountStatusException,
-    InvalidParameterCombinationException,
-    InvalidRoleException,
-    LimitExceededException,
-    OperationNotPermittedException,
-    RequestLimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotAvailableException,
-    ResourceNotFoundException,
-  ],
+export const describeImages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeImagesRequest,
+  output: DescribeImagesResult,
+  errors: [InvalidParameterCombinationException, ResourceNotFoundException],
 }));
 /**
- * Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
+ * Creates a URL to start a create app block builder streaming session.
  */
-export const createStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStackRequest,
-  output: CreateStackResult,
-  errors: [
-    ConcurrentModificationException,
-    InvalidAccountStatusException,
-    InvalidParameterCombinationException,
-    InvalidRoleException,
-    LimitExceededException,
-    OperationNotPermittedException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates custom branding that customizes the appearance of the streaming application catalog page.
- */
-export const createThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateThemeForStackRequest,
-  output: CreateThemeForStackResult,
-  errors: [
-    ConcurrentModificationException,
-    InvalidAccountStatusException,
-    LimitExceededException,
-    OperationNotPermittedException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-  ],
-}));
+export const createAppBlockBuilderStreamingURL =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateAppBlockBuilderStreamingURLRequest,
+    output: CreateAppBlockBuilderStreamingURLResult,
+    errors: [OperationNotPermittedException, ResourceNotFoundException],
+  }));
 /**
  * Retrieves a list that describes one or more app blocks.
  */
@@ -3014,51 +2317,494 @@ export const listExportImageTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Starts an app block builder.
- *
- * An app block builder can only be started when it's associated with an app
- * block.
- *
- * Starting an app block builder starts a new instance, which is equivalent to an elastic
- * fleet instance with application builder assistance functionality.
+ * Starts the specified image builder.
  */
-export const startAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const startImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartImageBuilderRequest,
+  output: StartImageBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    IncompatibleImageException,
+    InvalidAccountStatusException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+ */
+export const updateDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartAppBlockBuilderRequest,
-    output: StartAppBlockBuilderResult,
+    input: UpdateDirectoryConfigRequest,
+    output: UpdateDirectoryConfigResult,
     errors: [
       ConcurrentModificationException,
-      InvalidAccountStatusException,
-      LimitExceededException,
+      IncompatibleImageException,
+      InvalidRoleException,
       OperationNotPermittedException,
-      RequestLimitExceededException,
-      ResourceNotAvailableException,
+      ResourceInUseException,
       ResourceNotFoundException,
     ],
   }),
 );
 /**
- * Creates an application.
- *
- * Applications are a WorkSpaces Applications resource that stores the details about how to
- * launch applications on Elastic fleet streaming instances. An application consists of the
- * launch details, icon, and display name. Applications are associated with an app block
- * that contains the application binaries and other files. The applications assigned to an
- * Elastic fleet are the applications users can launch.
- *
- * This is only supported for Elastic fleets.
+ * Updates the specified fields for the specified stack.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResult,
+export const updateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStackRequest,
+  output: UpdateStackResult,
   errors: [
     ConcurrentModificationException,
+    IncompatibleImageException,
+    InvalidAccountStatusException,
+    InvalidParameterCombinationException,
+    InvalidRoleException,
     LimitExceededException,
     OperationNotPermittedException,
-    ResourceAlreadyExistsException,
+    ResourceInUseException,
     ResourceNotFoundException,
   ],
 }));
+/**
+ * Associates license included application(s) with an existing image builder instance.
+ */
+export const associateSoftwareToImageBuilder =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateSoftwareToImageBuilderRequest,
+    output: AssociateSoftwareToImageBuilderResult,
+    errors: [
+      ConcurrentModificationException,
+      IncompatibleImageException,
+      InvalidParameterCombinationException,
+      OperationNotPermittedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Creates a URL to start an image builder streaming session.
+ */
+export const createImageBuilderStreamingURL =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateImageBuilderStreamingURLRequest,
+    output: CreateImageBuilderStreamingURLResult,
+    errors: [OperationNotPermittedException, ResourceNotFoundException],
+  }));
+/**
+ * Deletes the specified image. You cannot delete an image when it is in use.
+ * After you delete an image, you cannot provision new capacity using the image.
+ */
+export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImageRequest,
+  output: DeleteImageResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified image builder and releases the capacity.
+ */
+export const deleteImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImageBuilderRequest,
+  output: DeleteImageBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves a list that describes one or more applications.
+ */
+export const describeApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeApplicationsRequest,
+    output: DescribeApplicationsResult,
+    errors: [OperationNotPermittedException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Retrieves information about an export image task, including its current state, progress, and any error details.
+ */
+export const getExportImageTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExportImageTaskRequest,
+  output: GetExportImageTaskResult,
+  errors: [OperationNotPermittedException, ResourceNotFoundException],
+}));
+/**
+ * Stops an app block builder.
+ *
+ * Stopping an app block builder terminates the instance, and the instance state is not
+ * persisted.
+ */
+export const stopAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopAppBlockBuilderRequest,
+  output: StopAppBlockBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Stops the specified image builder.
+ */
+export const stopImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopImageBuilderRequest,
+  output: StopImageBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates the specified application.
+ */
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates the specified entitlement.
+ */
+export const updateEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEntitlementRequest,
+  output: UpdateEntitlementResult,
+  errors: [
+    ConcurrentModificationException,
+    EntitlementNotFoundException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified application from the specified entitlement.
+ */
+export const disassociateApplicationFromEntitlement =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateApplicationFromEntitlementRequest,
+    output: DisassociateApplicationFromEntitlementResult,
+    errors: [
+      EntitlementNotFoundException,
+      OperationNotPermittedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Deletes an app block builder.
+ *
+ * An app block builder can only be deleted when it has no association with an app
+ * block.
+ */
+export const deleteAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAppBlockBuilderRequest,
+    output: DeleteAppBlockBuilderResult,
+    errors: [
+      ConcurrentModificationException,
+      OperationNotPermittedException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes an application.
+ */
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified entitlement.
+ */
+export const deleteEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEntitlementRequest,
+  output: DeleteEntitlementResult,
+  errors: [
+    ConcurrentModificationException,
+    EntitlementNotFoundException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
+ */
+export const deleteStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStackRequest,
+  output: DeleteStackResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes custom branding that customizes the appearance of the streaming application catalog page.
+ */
+export const deleteThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteThemeForStackRequest,
+  output: DeleteThemeForStackResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Disassociates the specified fleet from the specified stack.
+ */
+export const disassociateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateFleetRequest,
+  output: DisassociateFleetResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Initiates license included applications deployment to an image builder instance.
+ */
+export const startSoftwareDeploymentToImageBuilder =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartSoftwareDeploymentToImageBuilderRequest,
+    output: StartSoftwareDeploymentToImageBuilderResult,
+    errors: [
+      ConcurrentModificationException,
+      OperationNotPermittedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Associates an application to entitle.
+ */
+export const associateApplicationToEntitlement =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateApplicationToEntitlementRequest,
+    output: AssociateApplicationToEntitlementResult,
+    errors: [
+      EntitlementNotFoundException,
+      LimitExceededException,
+      OperationNotPermittedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
+ */
+export const createStreamingURL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStreamingURLRequest,
+  output: CreateStreamingURLResult,
+  errors: [
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves a list that describes one or more app block builder associations.
+ */
+export const describeAppBlockBuilderAppBlockAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
+    output: DescribeAppBlockBuilderAppBlockAssociationsResult,
+    errors: [
+      InvalidParameterCombinationException,
+      OperationNotPermittedException,
+    ],
+  }));
+/**
+ * Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
+ */
+export const describeApplicationFleetAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeApplicationFleetAssociationsRequest,
+    output: DescribeApplicationFleetAssociationsResult,
+    errors: [
+      InvalidParameterCombinationException,
+      OperationNotPermittedException,
+    ],
+  }));
+/**
+ * Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:
+ *
+ * - The stack name
+ *
+ * - The user name (email address of the user associated with the stack) and the authentication type for the user
+ */
+export const describeUserStackAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeUserStackAssociationsRequest,
+    output: DescribeUserStackAssociationsResult,
+    errors: [
+      InvalidParameterCombinationException,
+      OperationNotPermittedException,
+    ],
+  }));
+/**
+ * Updates custom branding that customizes the appearance of the streaming application catalog page.
+ */
+export const updateThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateThemeForStackRequest,
+  output: UpdateThemeForStackResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidAccountStatusException,
+    InvalidParameterCombinationException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Disassociates a specified app block builder from a specified app block.
+ */
+export const disassociateAppBlockBuilderAppBlock =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateAppBlockBuilderAppBlockRequest,
+    output: DisassociateAppBlockBuilderAppBlockResult,
+    errors: [
+      ConcurrentModificationException,
+      InvalidParameterCombinationException,
+      OperationNotPermittedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Disassociates the specified application from the fleet.
+ */
+export const disassociateApplicationFleet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateApplicationFleetRequest,
+    output: DisassociateApplicationFleetResult,
+    errors: [
+      ConcurrentModificationException,
+      InvalidParameterCombinationException,
+      OperationNotPermittedException,
+    ],
+  }));
+/**
+ * Removes license included application(s) association(s) from an image builder instance.
+ */
+export const disassociateSoftwareFromImageBuilder =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateSoftwareFromImageBuilderRequest,
+    output: DisassociateSoftwareFromImageBuilderResult,
+    errors: [
+      ConcurrentModificationException,
+      InvalidParameterCombinationException,
+      OperationNotPermittedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Associates the specified app block builder with the specified app block.
+ */
+export const associateAppBlockBuilderAppBlock =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateAppBlockBuilderAppBlockRequest,
+    output: AssociateAppBlockBuilderAppBlockResult,
+    errors: [
+      ConcurrentModificationException,
+      InvalidParameterCombinationException,
+      LimitExceededException,
+      OperationNotPermittedException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
+ */
+export const associateApplicationFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateApplicationFleetRequest,
+    output: AssociateApplicationFleetResult,
+    errors: [
+      ConcurrentModificationException,
+      InvalidParameterCombinationException,
+      LimitExceededException,
+      OperationNotPermittedException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Associates the specified fleet with the specified stack.
+ */
+export const associateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateFleetRequest,
+  output: AssociateFleetResult,
+  errors: [
+    ConcurrentModificationException,
+    IncompatibleImageException,
+    InvalidAccountStatusException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
+ */
+export const batchAssociateUserStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchAssociateUserStackRequest,
+    output: BatchAssociateUserStackResult,
+    errors: [
+      InvalidParameterCombinationException,
+      OperationNotPermittedException,
+    ],
+  }),
+);
+/**
+ * Disassociates the specified users from the specified stacks.
+ */
+export const batchDisassociateUserStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchDisassociateUserStackRequest,
+    output: BatchDisassociateUserStackResult,
+    errors: [
+      InvalidParameterCombinationException,
+      OperationNotPermittedException,
+    ],
+  }),
+);
+/**
+ * Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+ */
+export const createDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDirectoryConfigRequest,
+    output: CreateDirectoryConfigResult,
+    errors: [
+      InvalidAccountStatusException,
+      InvalidRoleException,
+      LimitExceededException,
+      OperationNotPermittedException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Creates a new entitlement. Entitlements control access to specific applications within
  * a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user
@@ -3095,6 +2841,26 @@ export const createExportImageTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
+ */
+export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFleetRequest,
+  output: CreateFleetResult,
+  errors: [
+    ConcurrentModificationException,
+    IncompatibleImageException,
+    InvalidAccountStatusException,
+    InvalidParameterCombinationException,
+    InvalidRoleException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    RequestLimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates an image builder. An image builder is a virtual machine that is used to create an image.
  *
@@ -3188,3 +2954,237 @@ export const describeUsageReportSubscriptions =
     output: DescribeUsageReportSubscriptionsResult,
     errors: [InvalidAccountStatusException, ResourceNotFoundException],
   }));
+/**
+ * Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
+ */
+export const createStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStackRequest,
+  output: CreateStackResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidAccountStatusException,
+    InvalidParameterCombinationException,
+    InvalidRoleException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Creates custom branding that customizes the appearance of the streaming application catalog page.
+ */
+export const createThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateThemeForStackRequest,
+  output: CreateThemeForStackResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidAccountStatusException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
+ */
+export const copyImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopyImageRequest,
+  output: CopyImageResponse,
+  errors: [
+    IncompatibleImageException,
+    InvalidAccountStatusException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Creates a new user in the user pool.
+ */
+export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserRequest,
+  output: CreateUserResult,
+  errors: [
+    InvalidAccountStatusException,
+    InvalidParameterCombinationException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceAlreadyExistsException,
+  ],
+}));
+/**
+ * Creates an app block.
+ *
+ * App blocks are a WorkSpaces Applications resource that stores the details about the
+ * virtual hard disk in an S3 bucket. It also stores the setup script with details about
+ * how to mount the virtual hard disk. The virtual hard disk includes the application
+ * binaries and other files necessary to launch your applications. Multiple applications
+ * can be assigned to a single app block.
+ *
+ * This is only supported for Elastic fleets.
+ */
+export const createAppBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAppBlockRequest,
+  output: CreateAppBlockResult,
+  errors: [
+    ConcurrentModificationException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceAlreadyExistsException,
+  ],
+}));
+/**
+ * Creates an application.
+ *
+ * Applications are a WorkSpaces Applications resource that stores the details about how to
+ * launch applications on Elastic fleet streaming instances. An application consists of the
+ * launch details, icon, and display name. Applications are associated with an app block
+ * that contains the application binaries and other files. The applications assigned to an
+ * Elastic fleet are the applications users can launch.
+ *
+ * This is only supported for Elastic fleets.
+ */
+export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationRequest,
+  output: CreateApplicationResult,
+  errors: [
+    ConcurrentModificationException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates the specified fleet.
+ *
+ * If the fleet is in the `STOPPED` state, you can update any attribute except
+ * the fleet name.
+ *
+ * If the fleet is in the `RUNNING` state, you can update the following based
+ * on the fleet type:
+ *
+ * - Always-On and On-Demand fleet types
+ *
+ * You can update the `DisplayName`, `ComputeCapacity`,
+ * `ImageARN`, `ImageName`,
+ * `IdleDisconnectTimeoutInSeconds`, and
+ * `DisconnectTimeoutInSeconds` attributes.
+ *
+ * - Elastic fleet type
+ *
+ * You can update the `DisplayName`,
+ * `IdleDisconnectTimeoutInSeconds`,
+ * `DisconnectTimeoutInSeconds`, `MaxConcurrentSessions`, `SessionScriptS3Location`
+ * and `UsbDeviceFilterStrings` attributes.
+ *
+ * If the fleet is in the `STARTING` or `STOPPED` state, you can't update it.
+ */
+export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFleetRequest,
+  output: UpdateFleetResult,
+  errors: [
+    ConcurrentModificationException,
+    IncompatibleImageException,
+    InvalidAccountStatusException,
+    InvalidParameterCombinationException,
+    InvalidRoleException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    RequestLimitExceededException,
+    ResourceInUseException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Starts an app block builder.
+ *
+ * An app block builder can only be started when it's associated with an app
+ * block.
+ *
+ * Starting an app block builder starts a new instance, which is equivalent to an elastic
+ * fleet instance with application builder assistance functionality.
+ */
+export const startAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartAppBlockBuilderRequest,
+    output: StartAppBlockBuilderResult,
+    errors: [
+      ConcurrentModificationException,
+      InvalidAccountStatusException,
+      LimitExceededException,
+      OperationNotPermittedException,
+      RequestLimitExceededException,
+      ResourceNotAvailableException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Starts the specified fleet.
+ */
+export const startFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartFleetRequest,
+  output: StartFleetResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidAccountStatusException,
+    InvalidRoleException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    RequestLimitExceededException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates an app block builder.
+ *
+ * If the app block builder is in the `STARTING` or `STOPPING`
+ * state, you can't update it. If the app block builder is in the `RUNNING`
+ * state, you can only update the DisplayName and Description. If the app block builder is
+ * in the `STOPPED` state, you can update any attribute except the Name.
+ */
+export const updateAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAppBlockBuilderRequest,
+    output: UpdateAppBlockBuilderResult,
+    errors: [
+      ConcurrentModificationException,
+      InvalidAccountStatusException,
+      InvalidParameterCombinationException,
+      InvalidRoleException,
+      LimitExceededException,
+      OperationNotPermittedException,
+      RequestLimitExceededException,
+      ResourceInUseException,
+      ResourceNotAvailableException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates an app block builder.
+ */
+export const createAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAppBlockBuilderRequest,
+    output: CreateAppBlockBuilderResult,
+    errors: [
+      ConcurrentModificationException,
+      InvalidAccountStatusException,
+      InvalidParameterCombinationException,
+      InvalidRoleException,
+      LimitExceededException,
+      OperationNotPermittedException,
+      RequestLimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceNotAvailableException,
+      ResourceNotFoundException,
+    ],
+  }),
+);

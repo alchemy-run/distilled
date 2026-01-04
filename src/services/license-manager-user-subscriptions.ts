@@ -761,34 +761,42 @@ export class AssociateUserResponse extends S.Class<AssociateUserResponse>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Removes tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
 /**
  * Adds tags to a resource.
  */
@@ -802,13 +810,140 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes tags from a resource.
+ * Updates additional product configuration settings for the registered identity provider.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [InternalServerException, ResourceNotFoundException],
+export const updateIdentityProviderSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateIdentityProviderSettingsRequest,
+    output: UpdateIdentityProviderSettingsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns the list of tags for the specified resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
 }));
+/**
+ * List the Remote Desktop Services (RDS) License Server endpoints
+ */
+export const listLicenseServerEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListLicenseServerEndpointsRequest,
+    output: ListLicenseServerEndpointsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the user-based subscription products available from an identity provider.
+ */
+export const listProductSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListProductSubscriptionsRequest,
+    output: ListProductSubscriptionsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Registers an identity provider for user-based subscriptions.
+ */
+export const registerIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RegisterIdentityProviderRequest,
+    output: RegisterIdentityProviderResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists user associations for an identity provider.
+ */
+export const listUserAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListUserAssociationsRequest,
+    output: ListUserAssociationsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Starts a product subscription for a user with the specified identity provider.
+ *
+ * Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as **Pending** billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the *Amazon Web Services Billing User Guide*.
+ */
+export const startProductSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartProductSubscriptionRequest,
+    output: StartProductSubscriptionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Stops a product subscription for a user with the specified identity provider.
+ */
+export const stopProductSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopProductSubscriptionRequest,
+    output: StopProductSubscriptionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Deregisters the Active Directory identity provider from License Manager user-based subscriptions.
  */
@@ -877,141 +1012,6 @@ export const listInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * List the Remote Desktop Services (RDS) License Server endpoints
- */
-export const listLicenseServerEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLicenseServerEndpointsRequest,
-    output: ListLicenseServerEndpointsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists the user-based subscription products available from an identity provider.
- */
-export const listProductSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProductSubscriptionsRequest,
-    output: ListProductSubscriptionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns the list of tags for the specified resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists user associations for an identity provider.
- */
-export const listUserAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListUserAssociationsRequest,
-    output: ListUserAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Registers an identity provider for user-based subscriptions.
- */
-export const registerIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterIdentityProviderRequest,
-    output: RegisterIdentityProviderResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Starts a product subscription for a user with the specified identity provider.
- *
- * Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as **Pending** billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the *Amazon Web Services Billing User Guide*.
- */
-export const startProductSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartProductSubscriptionRequest,
-    output: StartProductSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Stops a product subscription for a user with the specified identity provider.
- */
-export const stopProductSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopProductSubscriptionRequest,
-    output: StopProductSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates additional product configuration settings for the registered identity provider.
- */
-export const updateIdentityProviderSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateIdentityProviderSettingsRequest,
-    output: UpdateIdentityProviderSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Deletes a `LicenseServerEndpoint` resource.
  */

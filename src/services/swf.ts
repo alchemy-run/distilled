@@ -1653,42 +1653,42 @@ export class History extends S.Class<History>("History")(
 //# Errors
 export class OperationNotPermittedFault extends S.TaggedError<OperationNotPermittedFault>()(
   "OperationNotPermittedFault",
-  {},
-) {}
-export class LimitExceededFault extends S.TaggedError<LimitExceededFault>()(
-  "LimitExceededFault",
-  {},
-) {}
-export class UnknownResourceFault extends S.TaggedError<UnknownResourceFault>()(
-  "UnknownResourceFault",
-  {},
-) {}
-export class TypeAlreadyExistsFault extends S.TaggedError<TypeAlreadyExistsFault>()(
-  "TypeAlreadyExistsFault",
-  {},
-) {}
-export class TypeNotDeprecatedFault extends S.TaggedError<TypeNotDeprecatedFault>()(
-  "TypeNotDeprecatedFault",
-  {},
-) {}
-export class TypeDeprecatedFault extends S.TaggedError<TypeDeprecatedFault>()(
-  "TypeDeprecatedFault",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DomainDeprecatedFault extends S.TaggedError<DomainDeprecatedFault>()(
   "DomainDeprecatedFault",
   { message: S.optional(S.String) },
 ) {}
+export class LimitExceededFault extends S.TaggedError<LimitExceededFault>()(
+  "LimitExceededFault",
+  { message: S.optional(S.String) },
+) {}
 export class DomainAlreadyExistsFault extends S.TaggedError<DomainAlreadyExistsFault>()(
   "DomainAlreadyExistsFault",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class TooManyTagsFault extends S.TaggedError<TooManyTagsFault>()(
-  "TooManyTagsFault",
-  {},
+export class TypeDeprecatedFault extends S.TaggedError<TypeDeprecatedFault>()(
+  "TypeDeprecatedFault",
+  { message: S.optional(S.String) },
+) {}
+export class UnknownResourceFault extends S.TaggedError<UnknownResourceFault>()(
+  "UnknownResourceFault",
+  { message: S.optional(S.String) },
+) {}
+export class TypeAlreadyExistsFault extends S.TaggedError<TypeAlreadyExistsFault>()(
+  "TypeAlreadyExistsFault",
+  { message: S.optional(S.String) },
 ) {}
 export class DefaultUndefinedFault extends S.TaggedError<DefaultUndefinedFault>()(
   "DefaultUndefinedFault",
+  { message: S.optional(S.String) },
+) {}
+export class TypeNotDeprecatedFault extends S.TaggedError<TypeNotDeprecatedFault>()(
+  "TypeNotDeprecatedFault",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyTagsFault extends S.TaggedError<TooManyTagsFault>()(
+  "TooManyTagsFault",
   { message: S.optional(S.String) },
 ) {}
 export class WorkflowExecutionAlreadyStartedFault extends S.TaggedError<WorkflowExecutionAlreadyStartedFault>()(
@@ -1697,6 +1697,576 @@ export class WorkflowExecutionAlreadyStartedFault extends S.TaggedError<Workflow
 ) {}
 
 //# Operations
+/**
+ * Returns the list of domains registered in the account. The results may be split into
+ * multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken
+ * returned by the initial call.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains. The element must be set to
+ * `arn:aws:swf::AccountID:domain/*`, where *AccountID* is
+ * the account ID, with no dashes.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDomainsInput,
+  output: DomainInfos,
+  errors: [OperationNotPermittedFault],
+}));
+/**
+ * Deprecates the specified domain. After a domain has been deprecated it cannot be used
+ * to create new workflow executions or register new types. However, you can still use visibility
+ * actions on this domain. Deprecating a domain also deprecates all activity and workflow types
+ * registered in the domain. Executions that were started before the domain was deprecated
+ * continues to run.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const deprecateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprecateDomainInput,
+  output: DeprecateDomainResponse,
+  errors: [
+    DomainDeprecatedFault,
+    OperationNotPermittedFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Returns information about the specified activity type. This includes configuration
+ * settings provided when the type was registered and other general information about the
+ * type.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `activityType.name`: String constraint. The key is
+ * `swf:activityType.name`.
+ *
+ * - `activityType.version`: String constraint. The key is
+ * `swf:activityType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const describeActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeActivityTypeInput,
+    output: ActivityTypeDetail,
+    errors: [OperationNotPermittedFault, UnknownResourceFault],
+  }),
+);
+/**
+ * Returns information about the specified domain, including description and
+ * status.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainInput,
+  output: DomainDetail,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Returns information about the specified *workflow type*. This
+ * includes configuration settings specified when the type was registered and other information
+ * such as creation date, current status, etc.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `workflowType.name`: String constraint. The key is
+ * `swf:workflowType.name`.
+ *
+ * - `workflowType.version`: String constraint. The key is
+ * `swf:workflowType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const describeWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeWorkflowTypeInput,
+    output: WorkflowTypeDetail,
+    errors: [OperationNotPermittedFault, UnknownResourceFault],
+  }),
+);
+/**
+ * Returns a list of closed workflow executions in the specified domain that meet the
+ * filtering criteria. The results may be split into multiple pages. To retrieve subsequent
+ * pages, make the call again using the nextPageToken returned by the initial call.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `tagFilter.tag`: String constraint. The key is
+ * `swf:tagFilter.tag`.
+ *
+ * - `typeFilter.name`: String constraint. The key is
+ * `swf:typeFilter.name`.
+ *
+ * - `typeFilter.version`: String constraint. The key is
+ * `swf:typeFilter.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const listClosedWorkflowExecutions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListClosedWorkflowExecutionsInput,
+    output: WorkflowExecutionInfos,
+    errors: [OperationNotPermittedFault, UnknownResourceFault],
+  }));
+/**
+ * Registers a new *activity type* along with its configuration
+ * settings in the specified domain.
+ *
+ * A `TypeAlreadyExists` fault is returned if the type already exists in the
+ * domain. You cannot change any configuration settings of the type after its registration, and
+ * it must be registered as a new version.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `defaultTaskList.name`: String constraint. The key is
+ * `swf:defaultTaskList.name`.
+ *
+ * - `name`: String constraint. The key is `swf:name`.
+ *
+ * - `version`: String constraint. The key is
+ * `swf:version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const registerActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RegisterActivityTypeInput,
+    output: RegisterActivityTypeResponse,
+    errors: [
+      LimitExceededFault,
+      OperationNotPermittedFault,
+      TypeAlreadyExistsFault,
+      UnknownResourceFault,
+    ],
+  }),
+);
+/**
+ * Used by deciders to tell the service that the DecisionTask identified
+ * by the `taskToken` has successfully completed. The `decisions` argument
+ * specifies the list of decisions made while processing the task.
+ *
+ * A `DecisionTaskCompleted` event is added to the workflow history. The
+ * `executionContext` specified is attached to the event in the workflow execution
+ * history.
+ *
+ * **Access Control**
+ *
+ * If an IAM policy grants permission to use `RespondDecisionTaskCompleted`, it
+ * can express permissions for the list of decisions in the `decisions` parameter.
+ * Each of the decisions has one or more parameters, much like a regular API call. To allow for
+ * policies to be as readable as possible, you can express permissions on decisions as if they
+ * were actual API calls, including applying conditions to some parameters. For more information,
+ * see Using
+ * IAM to Manage Access to Amazon SWF Workflows in the
+ * *Amazon SWF Developer Guide*.
+ */
+export const respondDecisionTaskCompleted =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RespondDecisionTaskCompletedInput,
+    output: RespondDecisionTaskCompletedResponse,
+    errors: [OperationNotPermittedFault, UnknownResourceFault],
+  }));
+/**
+ * Deletes the specified *activity type*.
+ *
+ * Note: Prior to deletion, activity types must first be **deprecated**.
+ *
+ * After an activity type has been deleted, you cannot schedule new activities of that type. Activities that started before the type was deleted will continue to run.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `activityType.name`: String constraint. The key is
+ * `swf:activityType.name`.
+ *
+ * - `activityType.version`: String constraint. The key is
+ * `swf:activityType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const deleteActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteActivityTypeInput,
+  output: DeleteActivityTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeNotDeprecatedFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Deprecates the specified *workflow type*. After a workflow type has
+ * been deprecated, you cannot create new executions of that type. Executions that were started
+ * before the type was deprecated continues to run. A deprecated workflow type may still be used
+ * when calling visibility actions.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `workflowType.name`: String constraint. The key is
+ * `swf:workflowType.name`.
+ *
+ * - `workflowType.version`: String constraint. The key is
+ * `swf:workflowType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const deprecateWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeprecateWorkflowTypeInput,
+    output: DeprecateWorkflowTypeResponse,
+    errors: [
+      OperationNotPermittedFault,
+      TypeDeprecatedFault,
+      UnknownResourceFault,
+    ],
+  }),
+);
+/**
+ * Returns information about all activities registered in the specified domain that match
+ * the specified name and registration status. The result includes information like creation
+ * date, current status of the activity, etc. The results may be split into multiple pages. To
+ * retrieve subsequent pages, make the call again using the `nextPageToken` returned
+ * by the initial call.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const listActivityTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListActivityTypesInput,
+  output: ActivityTypeInfos,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Returns information about workflow types in the specified domain. The results may be
+ * split into multiple pages that can be retrieved by making the call repeatedly.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const listWorkflowTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWorkflowTypesInput,
+  output: WorkflowTypeInfos,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Used by activity workers to report to the service that the ActivityTask represented by the specified `taskToken` is still making progress. The worker
+ * can also specify details of the progress, for example percent complete, using the
+ * `details` parameter. This action can also be used by the worker as a mechanism to
+ * check if cancellation is being requested for the activity task. If a cancellation is being
+ * attempted for the specified task, then the boolean `cancelRequested` flag returned
+ * by the service is set to `true`.
+ *
+ * This action resets the `taskHeartbeatTimeout` clock. The
+ * `taskHeartbeatTimeout` is specified in RegisterActivityType.
+ *
+ * This action doesn't in itself create an event in the workflow execution history.
+ * However, if the task times out, the workflow execution history contains a
+ * `ActivityTaskTimedOut` event that contains the information from the last
+ * heartbeat generated by the activity worker.
+ *
+ * The `taskStartToCloseTimeout` of an activity type is the maximum duration
+ * of an activity task, regardless of the number of RecordActivityTaskHeartbeat requests received. The `taskStartToCloseTimeout` is also specified in RegisterActivityType.
+ *
+ * This operation is only useful for long-lived activities to report liveliness of the
+ * task and to determine if a cancellation is being attempted.
+ *
+ * If the `cancelRequested` flag returns `true`, a cancellation is
+ * being attempted. If the worker can cancel the activity, it should respond with RespondActivityTaskCanceled. Otherwise, it should ignore the cancellation
+ * request.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const recordActivityTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RecordActivityTaskHeartbeatInput,
+    output: ActivityTaskStatus,
+    errors: [OperationNotPermittedFault, UnknownResourceFault],
+  }),
+);
+/**
+ * Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used
+ * to create new workflow executions or register new types.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const undeprecateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UndeprecateDomainInput,
+  output: UndeprecateDomainResponse,
+  errors: [
+    DomainAlreadyExistsFault,
+    OperationNotPermittedFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Returns a list of open workflow executions in the specified domain that meet the
+ * filtering criteria. The results may be split into multiple pages. To retrieve subsequent
+ * pages, make the call again using the nextPageToken returned by the initial call.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `tagFilter.tag`: String constraint. The key is
+ * `swf:tagFilter.tag`.
+ *
+ * - `typeFilter.name`: String constraint. The key is
+ * `swf:typeFilter.name`.
+ *
+ * - `typeFilter.version`: String constraint. The key is
+ * `swf:typeFilter.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const listOpenWorkflowExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListOpenWorkflowExecutionsInput,
+    output: WorkflowExecutionInfos,
+    errors: [OperationNotPermittedFault, UnknownResourceFault],
+  }),
+);
 /**
  * Records a `WorkflowExecutionCancelRequested` event in the currently running
  * workflow execution identified by the given domain, workflowId, and runId. This logically
@@ -1940,106 +2510,6 @@ export const terminateWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Undeprecates a previously deprecated *activity type*. After an activity type has
- * been undeprecated, you can create new tasks of that activity type.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `activityType.name`: String constraint. The key is
- * `swf:activityType.name`.
- *
- * - `activityType.version`: String constraint. The key is
- * `swf:activityType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const undeprecateActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UndeprecateActivityTypeInput,
-    output: UndeprecateActivityTypeResponse,
-    errors: [
-      OperationNotPermittedFault,
-      TypeAlreadyExistsFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
-/**
- * Undeprecates a previously deprecated *workflow type*. After a workflow type has
- * been undeprecated, you can create new executions of that type.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `workflowType.name`: String constraint. The key is
- * `swf:workflowType.name`.
- *
- * - `workflowType.version`: String constraint. The key is
- * `swf:workflowType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const undeprecateWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UndeprecateWorkflowTypeInput,
-    output: UndeprecateWorkflowTypeResponse,
-    errors: [
-      OperationNotPermittedFault,
-      TypeAlreadyExistsFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
-/**
- * Remove a tag from a Amazon SWF domain.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
-  errors: [
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
  * Returns the number of closed workflow executions within the given domain that meet the
  * specified filtering criteria.
  *
@@ -2191,282 +2661,17 @@ export const countPendingDecisionTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the specified *workflow type*.
- *
- * Note: Prior to deletion, workflow types must first be **deprecated**.
- *
- * After a workflow type has been deleted, you cannot create new executions of that type. Executions that
- * started before the type was deleted will continue to run.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `workflowType.name`: String constraint. The key is
- * `swf:workflowType.name`.
- *
- * - `workflowType.version`: String constraint. The key is
- * `swf:workflowType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
+ * Remove a tag from a Amazon SWF domain.
  */
-export const deleteWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWorkflowTypeInput,
-  output: DeleteWorkflowTypeResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceResponse,
   errors: [
-    OperationNotPermittedFault,
-    TypeNotDeprecatedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Deprecates the specified *activity type*. After an activity type has
- * been deprecated, you cannot create new tasks of that activity type. Tasks of this type that
- * were scheduled before the type was deprecated continue to run.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `activityType.name`: String constraint. The key is
- * `swf:activityType.name`.
- *
- * - `activityType.version`: String constraint. The key is
- * `swf:activityType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const deprecateActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprecateActivityTypeInput,
-    output: DeprecateActivityTypeResponse,
-    errors: [
-      OperationNotPermittedFault,
-      TypeDeprecatedFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
-/**
- * Deprecates the specified domain. After a domain has been deprecated it cannot be used
- * to create new workflow executions or register new types. However, you can still use visibility
- * actions on this domain. Deprecating a domain also deprecates all activity and workflow types
- * registered in the domain. Executions that were started before the domain was deprecated
- * continues to run.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const deprecateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeprecateDomainInput,
-  output: DeprecateDomainResponse,
-  errors: [
-    DomainDeprecatedFault,
+    LimitExceededFault,
     OperationNotPermittedFault,
     UnknownResourceFault,
   ],
 }));
-/**
- * Deprecates the specified *workflow type*. After a workflow type has
- * been deprecated, you cannot create new executions of that type. Executions that were started
- * before the type was deprecated continues to run. A deprecated workflow type may still be used
- * when calling visibility actions.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `workflowType.name`: String constraint. The key is
- * `swf:workflowType.name`.
- *
- * - `workflowType.version`: String constraint. The key is
- * `swf:workflowType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const deprecateWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprecateWorkflowTypeInput,
-    output: DeprecateWorkflowTypeResponse,
-    errors: [
-      OperationNotPermittedFault,
-      TypeDeprecatedFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
-/**
- * Returns information about all activities registered in the specified domain that match
- * the specified name and registration status. The result includes information like creation
- * date, current status of the activity, etc. The results may be split into multiple pages. To
- * retrieve subsequent pages, make the call again using the `nextPageToken` returned
- * by the initial call.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const listActivityTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListActivityTypesInput,
-  output: ActivityTypeInfos,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Returns the list of domains registered in the account. The results may be split into
- * multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken
- * returned by the initial call.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains. The element must be set to
- * `arn:aws:swf::AccountID:domain/*`, where *AccountID* is
- * the account ID, with no dashes.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDomainsInput,
-  output: DomainInfos,
-  errors: [OperationNotPermittedFault],
-}));
-/**
- * Returns a list of open workflow executions in the specified domain that meet the
- * filtering criteria. The results may be split into multiple pages. To retrieve subsequent
- * pages, make the call again using the nextPageToken returned by the initial call.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `tagFilter.tag`: String constraint. The key is
- * `swf:tagFilter.tag`.
- *
- * - `typeFilter.name`: String constraint. The key is
- * `swf:typeFilter.name`.
- *
- * - `typeFilter.version`: String constraint. The key is
- * `swf:typeFilter.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const listOpenWorkflowExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOpenWorkflowExecutionsInput,
-    output: WorkflowExecutionInfos,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
 /**
  * List tags for a given domain.
  */
@@ -2478,34 +2683,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     OperationNotPermittedFault,
     UnknownResourceFault,
   ],
-}));
-/**
- * Returns information about workflow types in the specified domain. The results may be
- * split into multiple pages that can be retrieved by making the call repeatedly.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const listWorkflowTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListWorkflowTypesInput,
-  output: WorkflowTypeInfos,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
 /**
  * Used by workers to get an ActivityTask from the specified activity
@@ -2604,64 +2781,9 @@ export const pollForDecisionTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Used by activity workers to report to the service that the ActivityTask represented by the specified `taskToken` is still making progress. The worker
- * can also specify details of the progress, for example percent complete, using the
- * `details` parameter. This action can also be used by the worker as a mechanism to
- * check if cancellation is being requested for the activity task. If a cancellation is being
- * attempted for the specified task, then the boolean `cancelRequested` flag returned
- * by the service is set to `true`.
- *
- * This action resets the `taskHeartbeatTimeout` clock. The
- * `taskHeartbeatTimeout` is specified in RegisterActivityType.
- *
- * This action doesn't in itself create an event in the workflow execution history.
- * However, if the task times out, the workflow execution history contains a
- * `ActivityTaskTimedOut` event that contains the information from the last
- * heartbeat generated by the activity worker.
- *
- * The `taskStartToCloseTimeout` of an activity type is the maximum duration
- * of an activity task, regardless of the number of RecordActivityTaskHeartbeat requests received. The `taskStartToCloseTimeout` is also specified in RegisterActivityType.
- *
- * This operation is only useful for long-lived activities to report liveliness of the
- * task and to determine if a cancellation is being attempted.
- *
- * If the `cancelRequested` flag returns `true`, a cancellation is
- * being attempted. If the worker can cancel the activity, it should respond with RespondActivityTaskCanceled. Otherwise, it should ignore the cancellation
- * request.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const recordActivityTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RecordActivityTaskHeartbeatInput,
-    output: ActivityTaskStatus,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
-/**
- * Registers a new *activity type* along with its configuration
- * settings in the specified domain.
- *
- * A `TypeAlreadyExists` fault is returned if the type already exists in the
- * domain. You cannot change any configuration settings of the type after its registration, and
- * it must be registered as a new version.
+ * Deprecates the specified *activity type*. After an activity type has
+ * been deprecated, you cannot create new tasks of that activity type. Tasks of this type that
+ * were scheduled before the type was deprecated continue to run.
  *
  * **Access Control**
  *
@@ -2677,13 +2799,11 @@ export const recordActivityTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Constrain the following parameters by using a `Condition` element with
  * the appropriate keys.
  *
- * - `defaultTaskList.name`: String constraint. The key is
- * `swf:defaultTaskList.name`.
+ * - `activityType.name`: String constraint. The key is
+ * `swf:activityType.name`.
  *
- * - `name`: String constraint. The key is `swf:name`.
- *
- * - `version`: String constraint. The key is
- * `swf:version`.
+ * - `activityType.version`: String constraint. The key is
+ * `swf:activityType.version`.
  *
  * If the caller doesn't have sufficient permissions to invoke the action, or the
  * parameter values fall outside the specified constraints, the action fails. The associated
@@ -2691,12 +2811,70 @@ export const recordActivityTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const registerActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deprecateActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: RegisterActivityTypeInput,
-    output: RegisterActivityTypeResponse,
+    input: DeprecateActivityTypeInput,
+    output: DeprecateActivityTypeResponse,
     errors: [
-      LimitExceededFault,
+      OperationNotPermittedFault,
+      TypeDeprecatedFault,
+      UnknownResourceFault,
+    ],
+  }),
+);
+/**
+ * Add a tag to a Amazon SWF domain.
+ *
+ * Amazon SWF supports a maximum of 50 tags per resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceResponse,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    TooManyTagsFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Undeprecates a previously deprecated *activity type*. After an activity type has
+ * been undeprecated, you can create new tasks of that activity type.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `activityType.name`: String constraint. The key is
+ * `swf:activityType.name`.
+ *
+ * - `activityType.version`: String constraint. The key is
+ * `swf:activityType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const undeprecateActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UndeprecateActivityTypeInput,
+    output: UndeprecateActivityTypeResponse,
+    errors: [
       OperationNotPermittedFault,
       TypeAlreadyExistsFault,
       UnknownResourceFault,
@@ -2704,20 +2882,31 @@ export const registerActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Registers a new domain.
+ * Undeprecates a previously deprecated *workflow type*. After a workflow type has
+ * been undeprecated, you can create new executions of that type.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
  *
  * **Access Control**
  *
  * You can use IAM policies to control this action's access to Amazon SWF resources as
  * follows:
  *
- * - You cannot use an IAM policy to control domain access for this action. The name of
- * the domain being registered is available as the resource of this action.
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
  *
  * - Use an `Action` element to allow or deny permission to call this
  * action.
  *
- * - You cannot use an IAM policy to constrain this action's parameters.
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `workflowType.name`: String constraint. The key is
+ * `swf:workflowType.name`.
+ *
+ * - `workflowType.version`: String constraint. The key is
+ * `swf:workflowType.version`.
  *
  * If the caller doesn't have sufficient permissions to invoke the action, or the
  * parameter values fall outside the specified constraints, the action fails. The associated
@@ -2725,16 +2914,17 @@ export const registerActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const registerDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterDomainInput,
-  output: RegisterDomainResponse,
-  errors: [
-    DomainAlreadyExistsFault,
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    TooManyTagsFault,
-  ],
-}));
+export const undeprecateWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UndeprecateWorkflowTypeInput,
+    output: UndeprecateWorkflowTypeResponse,
+    errors: [
+      OperationNotPermittedFault,
+      TypeAlreadyExistsFault,
+      UnknownResourceFault,
+    ],
+  }),
+);
 /**
  * Registers a new *workflow type* and its configuration settings in
  * the specified domain.
@@ -2786,171 +2976,16 @@ export const registerWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Add a tag to a Amazon SWF domain.
+ * Deletes the specified *workflow type*.
  *
- * Amazon SWF supports a maximum of 50 tags per resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
-  errors: [
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    TooManyTagsFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used
- * to create new workflow executions or register new types.
+ * Note: Prior to deletion, workflow types must first be **deprecated**.
  *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const undeprecateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UndeprecateDomainInput,
-  output: UndeprecateDomainResponse,
-  errors: [
-    DomainAlreadyExistsFault,
-    OperationNotPermittedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Deletes the specified *activity type*.
- *
- * Note: Prior to deletion, activity types must first be **deprecated**.
- *
- * After an activity type has been deleted, you cannot schedule new activities of that type. Activities that started before the type was deleted will continue to run.
+ * After a workflow type has been deleted, you cannot create new executions of that type. Executions that
+ * started before the type was deleted will continue to run.
  *
  * **Access Control**
  *
  * You can use IAM policies to control this action's access to Amazon SWF resources as follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `activityType.name`: String constraint. The key is
- * `swf:activityType.name`.
- *
- * - `activityType.version`: String constraint. The key is
- * `swf:activityType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const deleteActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteActivityTypeInput,
-  output: DeleteActivityTypeResponse,
-  errors: [
-    OperationNotPermittedFault,
-    TypeNotDeprecatedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Returns information about the specified activity type. This includes configuration
- * settings provided when the type was registered and other general information about the
- * type.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `activityType.name`: String constraint. The key is
- * `swf:activityType.name`.
- *
- * - `activityType.version`: String constraint. The key is
- * `swf:activityType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const describeActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeActivityTypeInput,
-    output: ActivityTypeDetail,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
-/**
- * Returns information about the specified domain, including description and
- * status.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDomainInput,
-  output: DomainDetail,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Returns information about the specified *workflow type*. This
- * includes configuration settings specified when the type was registered and other information
- * such as creation date, current status, etc.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
  *
  * - Use a `Resource` element with the domain name to limit the action to
  * only specified domains.
@@ -2973,43 +3008,30 @@ export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const describeWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeWorkflowTypeInput,
-    output: WorkflowTypeDetail,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const deleteWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkflowTypeInput,
+  output: DeleteWorkflowTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeNotDeprecatedFault,
+    UnknownResourceFault,
+  ],
+}));
 /**
- * Returns a list of closed workflow executions in the specified domain that meet the
- * filtering criteria. The results may be split into multiple pages. To retrieve subsequent
- * pages, make the call again using the nextPageToken returned by the initial call.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
+ * Registers a new domain.
  *
  * **Access Control**
  *
  * You can use IAM policies to control this action's access to Amazon SWF resources as
  * follows:
  *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
+ * - You cannot use an IAM policy to control domain access for this action. The name of
+ * the domain being registered is available as the resource of this action.
  *
  * - Use an `Action` element to allow or deny permission to call this
  * action.
  *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `tagFilter.tag`: String constraint. The key is
- * `swf:tagFilter.tag`.
- *
- * - `typeFilter.name`: String constraint. The key is
- * `swf:typeFilter.name`.
- *
- * - `typeFilter.version`: String constraint. The key is
- * `swf:typeFilter.version`.
+ * - You cannot use an IAM policy to constrain this action's parameters.
  *
  * If the caller doesn't have sufficient permissions to invoke the action, or the
  * parameter values fall outside the specified constraints, the action fails. The associated
@@ -3017,38 +3039,16 @@ export const describeWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listClosedWorkflowExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListClosedWorkflowExecutionsInput,
-    output: WorkflowExecutionInfos,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }));
-/**
- * Used by deciders to tell the service that the DecisionTask identified
- * by the `taskToken` has successfully completed. The `decisions` argument
- * specifies the list of decisions made while processing the task.
- *
- * A `DecisionTaskCompleted` event is added to the workflow history. The
- * `executionContext` specified is attached to the event in the workflow execution
- * history.
- *
- * **Access Control**
- *
- * If an IAM policy grants permission to use `RespondDecisionTaskCompleted`, it
- * can express permissions for the list of decisions in the `decisions` parameter.
- * Each of the decisions has one or more parameters, much like a regular API call. To allow for
- * policies to be as readable as possible, you can express permissions on decisions as if they
- * were actual API calls, including applying conditions to some parameters. For more information,
- * see Using
- * IAM to Manage Access to Amazon SWF Workflows in the
- * *Amazon SWF Developer Guide*.
- */
-export const respondDecisionTaskCompleted =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RespondDecisionTaskCompletedInput,
-    output: RespondDecisionTaskCompletedResponse,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }));
+export const registerDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterDomainInput,
+  output: RegisterDomainResponse,
+  errors: [
+    DomainAlreadyExistsFault,
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    TooManyTagsFault,
+  ],
+}));
 /**
  * Returns information about the specified workflow execution including its type and some
  * statistics.

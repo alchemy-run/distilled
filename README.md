@@ -241,6 +241,72 @@ program.pipe(
 );
 ```
 
+### Lambda
+
+```typescript
+import { Console, Effect, Stream } from "effect";
+import { FetchHttpClient } from "@effect/platform";
+import * as lambda from "effect-aws/lambda";
+import { Credentials, Region } from "effect-aws";
+
+const program = Effect.gen(function* () {
+  const functionName = "my-hello-function";
+
+  // Create a Lambda function (requires a ZIP file with your handler code)
+  yield* lambda.createFunction({
+    FunctionName: functionName,
+    Runtime: "nodejs20.x",
+    Role: "arn:aws:iam::123456789012:role/lambda-execution-role",
+    Handler: "index.handler",
+    Code: { ZipFile: myZipFileAsUint8Array },
+  });
+
+  // Invoke the function
+  const response = yield* lambda.invoke({
+    FunctionName: functionName,
+    InvocationType: "RequestResponse",
+    Payload: new TextEncoder().encode(JSON.stringify({ name: "World" })),
+  });
+
+  yield* Console.log(`Status: ${response.StatusCode}`); // 200
+
+  // Read the response payload (it's a stream)
+  const payload = yield* response.Payload!.pipe(
+    Stream.decodeText(),
+    Stream.mkString,
+  );
+  yield* Console.log(JSON.parse(payload)); // { statusCode: 200, body: "..." }
+
+  // Update function configuration
+  yield* lambda.updateFunctionConfiguration({
+    FunctionName: functionName,
+    MemorySize: 256,
+    Timeout: 60,
+  });
+
+  // Tag the function
+  const funcInfo = yield* lambda.getFunction({ FunctionName: functionName });
+  yield* lambda.tagResource({
+    Resource: funcInfo.Configuration!.FunctionArn!,
+    Tags: { Environment: "production", Team: "platform" },
+  });
+
+  // List all functions
+  const functions = yield* lambda.listFunctions({});
+  yield* Console.log(`Total functions: ${functions.Functions?.length}`);
+
+  // Cleanup
+  yield* lambda.deleteFunction({ FunctionName: functionName });
+});
+
+program.pipe(
+  Effect.provide(FetchHttpClient.layer),
+  Effect.provideService(Region, "us-east-1"),
+  Effect.provide(Credentials.fromChain()),
+  Effect.runPromise,
+);
+```
+
 ### LocalStack Testing
 
 ```typescript
@@ -277,6 +343,27 @@ const program = s3.getObject({
       Effect.succeed({ found: false, message: "File not found" }),
     InvalidObjectState: (error) =>
       Effect.fail(new Error(`Object in ${error.StorageClass} storage`)),
+  }),
+);
+```
+
+Lambda error handling:
+
+```typescript
+import { Effect } from "effect";
+import * as lambda from "effect-aws/lambda";
+
+const program = lambda.invoke({
+  FunctionName: "my-function",
+  Payload: new TextEncoder().encode("{}"),
+}).pipe(
+  Effect.catchTags({
+    ResourceNotFoundException: () =>
+      Effect.succeed({ error: "Function not found" }),
+    InvalidRequestContentException: (error) =>
+      Effect.fail(new Error(`Bad request: ${error.message}`)),
+    ServiceException: () =>
+      Effect.succeed({ error: "Lambda service unavailable" }),
   }),
 );
 ```

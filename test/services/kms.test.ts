@@ -155,18 +155,26 @@ test(
       // Cancel deletion
       yield* cancelKeyDeletion({ KeyId: keyId });
 
-      // Verify key is enabled again
-      const describeEnabled = yield* describeKey({ KeyId: keyId });
-      if (
-        describeEnabled.KeyMetadata?.KeyState !== "Disabled" &&
-        describeEnabled.KeyMetadata?.KeyState !== "Enabled"
-      ) {
-        return yield* Effect.fail(
-          new Error(
-            `Expected KeyState=Disabled or Enabled after cancel, got ${describeEnabled.KeyMetadata?.KeyState}`,
+      // Wait for key state to transition from PendingDeletion to Disabled/Enabled
+      // AWS may take a moment to update the state after cancellation
+      yield* describeKey({ KeyId: keyId }).pipe(
+        Effect.flatMap((result) => {
+          const state = result.KeyMetadata?.KeyState;
+          if (state === "Disabled" || state === "Enabled") {
+            return Effect.succeed(result);
+          }
+          return Effect.fail(
+            new Error(
+              `Key still in state ${state}, waiting for Disabled/Enabled`,
+            ),
+          );
+        }),
+        Effect.retry({
+          schedule: Schedule.spaced("1 second").pipe(
+            Schedule.intersect(Schedule.recurs(30)),
           ),
-        );
-      }
+        }),
+      );
     } finally {
       // Clean up - schedule deletion again
       yield* scheduleKeyDeletion({

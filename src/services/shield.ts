@@ -616,10 +616,6 @@ export const ProtectedResourceTypeFilters = S.Array(S.String);
 export const ProtectionGroupAggregationFilters = S.Array(S.String);
 export const ResourceArnFilters = S.Array(S.String);
 export const ProtectionNameFilters = S.Array(S.String);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class InclusionProtectionGroupFilters extends S.Class<InclusionProtectionGroupFilters>(
   "InclusionProtectionGroupFilters",
 )({
@@ -702,6 +698,10 @@ export class ProtectionGroup extends S.Class<ProtectionGroup>(
   Members: ProtectionGroupMembers,
   ProtectionGroupArn: S.optional(S.String),
 }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export const ProtectionGroups = S.Array(ProtectionGroup);
 export class ApplicationLayerAutomaticResponseConfiguration extends S.Class<ApplicationLayerAutomaticResponseConfiguration>(
   "ApplicationLayerAutomaticResponseConfiguration",
@@ -869,51 +869,59 @@ export class DescribeSubscriptionResponse extends S.Class<DescribeSubscriptionRe
 //# Errors
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
-  {},
-) {}
-export class InvalidOperationException extends S.TaggedError<InvalidOperationException>()(
-  "InvalidOperationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccessDeniedForDependencyException extends S.TaggedError<AccessDeniedForDependencyException>()(
   "AccessDeniedForDependencyException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
+  { message: S.optional(S.String), resourceType: S.optional(S.String) },
 ) {}
 export class OptimisticLockException extends S.TaggedError<OptimisticLockException>()(
   "OptimisticLockException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String), resourceType: S.optional(S.String) },
+) {}
+export class InvalidOperationException extends S.TaggedError<InvalidOperationException>()(
+  "InvalidOperationException",
+  { message: S.optional(S.String) },
 ) {}
 export class LockedSubscriptionException extends S.TaggedError<LockedSubscriptionException>()(
   "LockedSubscriptionException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidResourceException extends S.TaggedError<InvalidResourceException>()(
-  "InvalidResourceException",
-  {},
-) {}
-export class LimitsExceededException extends S.TaggedError<LimitsExceededException>()(
-  "LimitsExceededException",
-  {},
-) {}
-export class NoAssociatedRoleException extends S.TaggedError<NoAssociatedRoleException>()(
-  "NoAssociatedRoleException",
-  {},
-) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  {
+    message: S.optional(S.String),
+    reason: S.optional(S.String),
+    fields: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
   "InvalidPaginationTokenException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class InvalidResourceException extends S.TaggedError<InvalidResourceException>()(
+  "InvalidResourceException",
+  { message: S.optional(S.String) },
+) {}
+export class NoAssociatedRoleException extends S.TaggedError<NoAssociatedRoleException>()(
+  "NoAssociatedRoleException",
+  { message: S.optional(S.String) },
+) {}
+export class LimitsExceededException extends S.TaggedError<LimitsExceededException>()(
+  "LimitsExceededException",
+  {
+    message: S.optional(S.String),
+    Type: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
@@ -922,14 +930,45 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 
 //# Operations
 /**
- * Deletes an Shield Advanced Protection.
+ * Returns the `SubscriptionState`, either `Active` or `Inactive`.
  */
-export const deleteProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProtectionRequest,
-  output: DeleteProtectionResponse,
+export const getSubscriptionState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetSubscriptionStateRequest,
+    output: GetSubscriptionStateResponse,
+    errors: [InternalErrorException],
+  }),
+);
+/**
+ * Activates Shield Advanced for an account.
+ *
+ * For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account,
+ * regardless of whether the payer account itself is subscribed.
+ *
+ * When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an `UpdateSubscription` request.
+ */
+export const createSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSubscriptionRequest,
+  output: CreateSubscriptionResponse,
+  errors: [InternalErrorException, ResourceAlreadyExistsException],
+}));
+/**
+ * Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
+ */
+export const describeDRTAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDRTAccessRequest,
+  output: DescribeDRTAccessResponse,
+  errors: [InternalErrorException, ResourceNotFoundException],
+}));
+/**
+ * Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
+ */
+export const deleteSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSubscriptionRequest,
+  output: DeleteSubscriptionResponse,
   errors: [
     InternalErrorException,
-    OptimisticLockException,
+    LockedSubscriptionException,
     ResourceNotFoundException,
   ],
 }));
@@ -948,26 +987,6 @@ export const deleteProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
- */
-export const deleteSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSubscriptionRequest,
-  output: DeleteSubscriptionResponse,
-  errors: [
-    InternalErrorException,
-    LockedSubscriptionException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
- */
-export const describeDRTAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDRTAccessRequest,
-  output: DescribeDRTAccessResponse,
-  errors: [InternalErrorException, ResourceNotFoundException],
-}));
-/**
  * A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
 export const describeEmergencyContactSettings =
@@ -977,37 +996,17 @@ export const describeEmergencyContactSettings =
     errors: [InternalErrorException, ResourceNotFoundException],
   }));
 /**
- * Disable the Shield Advanced automatic application layer DDoS mitigation feature for the protected resource. This
- * stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
+ * Deletes an Shield Advanced Protection.
  */
-export const disableApplicationLayerAutomaticResponse =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableApplicationLayerAutomaticResponseRequest,
-    output: DisableApplicationLayerAutomaticResponseResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
- */
-export const disableProactiveEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableProactiveEngagementRequest,
-    output: DisableProactiveEngagementResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProtectionRequest,
+  output: DeleteProtectionResponse,
+  errors: [
+    InternalErrorException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
  */
@@ -1022,31 +1021,55 @@ export const disassociateDRTRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.
- *
- * You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
+ * Returns the specification for the specified protection group.
  */
-export const disassociateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DisassociateHealthCheckRequest,
-    output: DisassociateHealthCheckResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidResourceException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
+    input: DescribeProtectionGroupRequest,
+    output: DescribeProtectionGroupResponse,
+    errors: [InternalErrorException, ResourceNotFoundException],
   }),
 );
 /**
- * Returns the `SubscriptionState`, either `Active` or `Inactive`.
+ * Retrieves the resources that are included in the protection group.
  */
-export const getSubscriptionState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listResourcesInProtectionGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListResourcesInProtectionGroupRequest,
+    output: ListResourcesInProtectionGroupResponse,
+    errors: [
+      InternalErrorException,
+      InvalidPaginationTokenException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidResourceException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
+ */
+export const disassociateDRTLogBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetSubscriptionStateRequest,
-    output: GetSubscriptionStateResponse,
-    errors: [InternalErrorException],
+    input: DisassociateDRTLogBucketRequest,
+    output: DisassociateDRTLogBucketResponse,
+    errors: [
+      AccessDeniedForDependencyException,
+      InternalErrorException,
+      InvalidOperationException,
+      NoAssociatedRoleException,
+      OptimisticLockException,
+      ResourceNotFoundException,
+    ],
   }),
 );
 /**
@@ -1075,21 +1098,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
   ],
 }));
-/**
- * Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
- */
-export const updateApplicationLayerAutomaticResponse =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApplicationLayerAutomaticResponseRequest,
-    output: UpdateApplicationLayerAutomaticResponseResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }));
 /**
  * Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
@@ -1137,26 +1145,21 @@ export const updateSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription.
- *
- * To use the services of the SRT and make an `AssociateDRTLogBucket` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
+ * Disable the Shield Advanced automatic application layer DDoS mitigation feature for the protected resource. This
+ * stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
  */
-export const associateDRTLogBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDRTLogBucketRequest,
-    output: AssociateDRTLogBucketResponse,
+export const disableApplicationLayerAutomaticResponse =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisableApplicationLayerAutomaticResponseRequest,
+    output: DisableApplicationLayerAutomaticResponseResponse,
     errors: [
-      AccessDeniedForDependencyException,
       InternalErrorException,
       InvalidOperationException,
       InvalidParameterException,
-      LimitsExceededException,
-      NoAssociatedRoleException,
       OptimisticLockException,
       ResourceNotFoundException,
     ],
-  }),
-);
+  }));
 /**
  * Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs.
  *
@@ -1184,19 +1187,47 @@ export const associateDRTRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.
- *
- * You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
+ * Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
  */
-export const associateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateHealthCheckRequest,
-    output: AssociateHealthCheckResponse,
+export const updateApplicationLayerAutomaticResponse =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateApplicationLayerAutomaticResponseRequest,
+    output: UpdateApplicationLayerAutomaticResponseResponse,
     errors: [
       InternalErrorException,
+      InvalidOperationException,
       InvalidParameterException,
-      InvalidResourceException,
-      LimitsExceededException,
+      OptimisticLockException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
+ */
+export const disableProactiveEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisableProactiveEngagementRequest,
+    output: DisableProactiveEngagementResponse,
+    errors: [
+      InternalErrorException,
+      InvalidOperationException,
+      InvalidParameterException,
+      OptimisticLockException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
+ */
+export const enableProactiveEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: EnableProactiveEngagementRequest,
+    output: EnableProactiveEngagementResponse,
+    errors: [
+      InternalErrorException,
+      InvalidOperationException,
+      InvalidParameterException,
       OptimisticLockException,
       ResourceNotFoundException,
     ],
@@ -1223,144 +1254,6 @@ export const associateProactiveEngagementDetails =
       ResourceNotFoundException,
     ],
   }));
-/**
- * Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
- */
-export const createProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProtectionGroupRequest,
-    output: CreateProtectionGroupResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      LimitsExceededException,
-      OptimisticLockException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Activates Shield Advanced for an account.
- *
- * For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account,
- * regardless of whether the payer account itself is subscribed.
- *
- * When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an `UpdateSubscription` request.
- */
-export const createSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSubscriptionRequest,
-  output: CreateSubscriptionResponse,
-  errors: [InternalErrorException, ResourceAlreadyExistsException],
-}));
-/**
- * Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
- */
-export const disassociateDRTLogBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateDRTLogBucketRequest,
-    output: DisassociateDRTLogBucketResponse,
-    errors: [
-      AccessDeniedForDependencyException,
-      InternalErrorException,
-      InvalidOperationException,
-      NoAssociatedRoleException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource.
- *
- * This feature is available for Amazon CloudFront distributions and Application Load Balancers only.
- *
- * This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the
- * resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associated
- * with the resource. For information about how automatic mitigation works and the requirements for using it, see
- * Shield Advanced automatic application layer DDoS mitigation.
- *
- * Don't use this action to make changes to automatic mitigation settings when it's already enabled for a resource. Instead, use UpdateApplicationLayerAutomaticResponse.
- *
- * To use this feature, you must associate a web ACL with the protected resource. The web ACL must be created using the latest version of WAF (v2). You can associate the web ACL through the Shield Advanced console
- * at https://console.aws.amazon.com/wafv2/shieldv2#/. For more information,
- * see Getting Started with Shield Advanced. You can also associate the web ACL to the resource through the WAF console or the WAF API, but you must manage Shield Advanced automatic mitigation through Shield Advanced. For information about WAF, see
- * WAF Developer Guide.
- */
-export const enableApplicationLayerAutomaticResponse =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableApplicationLayerAutomaticResponseRequest,
-    output: EnableApplicationLayerAutomaticResponseResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      LimitsExceededException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
- */
-export const enableProactiveEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableProactiveEngagementRequest,
-    output: EnableProactiveEngagementResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidResourceException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses.
- *
- * You can add protection to only a single resource with each `CreateProtection` request. You can add protection to multiple resources
- * at once through the Shield Advanced console at https://console.aws.amazon.com/wafv2/shieldv2#/.
- * For more information see
- * Getting Started with Shield Advanced
- * and Adding Shield Advanced protection to Amazon Web Services resources.
- */
-export const createProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProtectionRequest,
-  output: CreateProtectionResponse,
-  errors: [
-    InternalErrorException,
-    InvalidOperationException,
-    InvalidParameterException,
-    InvalidResourceException,
-    LimitsExceededException,
-    OptimisticLockException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns the specification for the specified protection group.
- */
-export const describeProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProtectionGroupRequest,
-    output: DescribeProtectionGroupResponse,
-    errors: [InternalErrorException, ResourceNotFoundException],
-  }),
-);
 /**
  * Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide
  * filtering criteria and retrieve just the subset of protection groups that match the criteria.
@@ -1390,18 +1283,23 @@ export const listProtections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves the resources that are included in the protection group.
+ * Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.
+ *
+ * You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
  */
-export const listResourcesInProtectionGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListResourcesInProtectionGroupRequest,
-    output: ListResourcesInProtectionGroupResponse,
+export const disassociateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateHealthCheckRequest,
+    output: DisassociateHealthCheckResponse,
     errors: [
       InternalErrorException,
-      InvalidPaginationTokenException,
+      InvalidParameterException,
+      InvalidResourceException,
+      OptimisticLockException,
       ResourceNotFoundException,
     ],
-  }));
+  }),
+);
 /**
  * Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers.
  *
@@ -1439,6 +1337,116 @@ export const listAttacks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalErrorException,
     InvalidOperationException,
     InvalidParameterException,
+  ],
+}));
+/**
+ * Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.
+ *
+ * You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
+ */
+export const associateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateHealthCheckRequest,
+    output: AssociateHealthCheckResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      InvalidResourceException,
+      LimitsExceededException,
+      OptimisticLockException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
+ */
+export const createProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateProtectionGroupRequest,
+    output: CreateProtectionGroupResponse,
+    errors: [
+      InternalErrorException,
+      InvalidParameterException,
+      LimitsExceededException,
+      OptimisticLockException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource.
+ *
+ * This feature is available for Amazon CloudFront distributions and Application Load Balancers only.
+ *
+ * This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the
+ * resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associated
+ * with the resource. For information about how automatic mitigation works and the requirements for using it, see
+ * Shield Advanced automatic application layer DDoS mitigation.
+ *
+ * Don't use this action to make changes to automatic mitigation settings when it's already enabled for a resource. Instead, use UpdateApplicationLayerAutomaticResponse.
+ *
+ * To use this feature, you must associate a web ACL with the protected resource. The web ACL must be created using the latest version of WAF (v2). You can associate the web ACL through the Shield Advanced console
+ * at https://console.aws.amazon.com/wafv2/shieldv2#/. For more information,
+ * see Getting Started with Shield Advanced. You can also associate the web ACL to the resource through the WAF console or the WAF API, but you must manage Shield Advanced automatic mitigation through Shield Advanced. For information about WAF, see
+ * WAF Developer Guide.
+ */
+export const enableApplicationLayerAutomaticResponse =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: EnableApplicationLayerAutomaticResponseRequest,
+    output: EnableApplicationLayerAutomaticResponseResponse,
+    errors: [
+      InternalErrorException,
+      InvalidOperationException,
+      InvalidParameterException,
+      LimitsExceededException,
+      OptimisticLockException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription.
+ *
+ * To use the services of the SRT and make an `AssociateDRTLogBucket` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
+ */
+export const associateDRTLogBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateDRTLogBucketRequest,
+    output: AssociateDRTLogBucketResponse,
+    errors: [
+      AccessDeniedForDependencyException,
+      InternalErrorException,
+      InvalidOperationException,
+      InvalidParameterException,
+      LimitsExceededException,
+      NoAssociatedRoleException,
+      OptimisticLockException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses.
+ *
+ * You can add protection to only a single resource with each `CreateProtection` request. You can add protection to multiple resources
+ * at once through the Shield Advanced console at https://console.aws.amazon.com/wafv2/shieldv2#/.
+ * For more information see
+ * Getting Started with Shield Advanced
+ * and Adding Shield Advanced protection to Amazon Web Services resources.
+ */
+export const createProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProtectionRequest,
+  output: CreateProtectionResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    InvalidParameterException,
+    InvalidResourceException,
+    LimitsExceededException,
+    OptimisticLockException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
   ],
 }));
 /**

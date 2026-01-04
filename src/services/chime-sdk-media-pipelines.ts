@@ -1451,60 +1451,78 @@ export class CreateMediaConcatenationPipelineResponse extends S.Class<CreateMedi
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
-) {}
-export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
-  "ServiceFailureException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
-  "ThrottledClientException",
-  {},
-) {}
-export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
-  "UnauthorizedClientException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
 ) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
+  "ServiceFailureException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
+  "ThrottledClientException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
+  "UnauthorizedClientException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
 ) {}
 
 //# Operations
-/**
- * Updates the status of a media insights pipeline.
- */
-export const updateMediaInsightsPipelineStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateMediaInsightsPipelineStatusRequest,
-    output: UpdateMediaInsightsPipelineStatusResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
 /**
  * Deletes the media pipeline.
  */
@@ -1524,64 +1542,11 @@ export const deleteMediaCapturePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the specified configuration settings.
+ * Gets an existing media pipeline.
  */
-export const deleteMediaInsightsPipelineConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMediaInsightsPipelineConfigurationRequest,
-    output: DeleteMediaInsightsPipelineConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Deletes the media pipeline.
- */
-export const deleteMediaPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMediaPipelineRequest,
-  output: DeleteMediaPipelineResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Deletes an Amazon Kinesis Video Stream pool.
- */
-export const deleteMediaPipelineKinesisVideoStreamPool =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMediaPipelineKinesisVideoStreamPoolRequest,
-    output: DeleteMediaPipelineKinesisVideoStreamPoolResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Lists the tags available for a media pipeline.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const getMediaPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMediaPipelineRequest,
+  output: GetMediaPipelineResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1593,128 +1558,15 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts a voice tone analysis task. For more information about voice tone analysis, see
- * Using Amazon Chime SDK voice analytics
- * in the *Amazon Chime SDK Developer Guide*.
- *
- * Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
- * AWS service terms for the Amazon Chime SDK.
+ * Returns a list of media pipelines.
  */
-export const startVoiceToneAnalysisTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listMediaCapturePipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StartVoiceToneAnalysisTaskRequest,
-    output: StartVoiceToneAnalysisTaskResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Stops a speaker search task.
- */
-export const stopSpeakerSearchTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopSpeakerSearchTaskRequest,
-    output: StopSpeakerSearchTaskResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Stops a voice tone analysis task.
- */
-export const stopVoiceToneAnalysisTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopVoiceToneAnalysisTaskRequest,
-    output: StopVoiceToneAnalysisTaskResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Removes any tags from a media pipeline.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Updates the media insights pipeline's configuration settings.
- */
-export const updateMediaInsightsPipelineConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateMediaInsightsPipelineConfigurationRequest,
-    output: UpdateMediaInsightsPipelineConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Creates a streaming media pipeline.
- */
-export const createMediaStreamPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMediaStreamPipelineRequest,
-    output: CreateMediaStreamPipelineResponse,
+    input: ListMediaCapturePipelinesRequest,
+    output: ListMediaCapturePipelinesResponse,
     errors: [
       BadRequestException,
       ForbiddenException,
-      NotFoundException,
       ResourceLimitExceededException,
       ServiceFailureException,
       ServiceUnavailableException,
@@ -1812,16 +1664,256 @@ export const getVoiceToneAnalysisTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns a list of media pipelines.
+ * Starts a voice tone analysis task. For more information about voice tone analysis, see
+ * Using Amazon Chime SDK voice analytics
+ * in the *Amazon Chime SDK Developer Guide*.
+ *
+ * Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
+ * AWS service terms for the Amazon Chime SDK.
  */
-export const listMediaCapturePipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const startVoiceToneAnalysisTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListMediaCapturePipelinesRequest,
-    output: ListMediaCapturePipelinesResponse,
+    input: StartVoiceToneAnalysisTaskRequest,
+    output: StartVoiceToneAnalysisTaskResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Updates an Amazon Kinesis Video Stream pool in a media pipeline.
+ */
+export const updateMediaPipelineKinesisVideoStreamPool =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateMediaPipelineKinesisVideoStreamPoolRequest,
+    output: UpdateMediaPipelineKinesisVideoStreamPoolResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Lists the tags available for a media pipeline.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Removes any tags from a media pipeline.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Creates a streaming media pipeline.
+ */
+export const createMediaStreamPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateMediaStreamPipelineRequest,
+    output: CreateMediaStreamPipelineResponse,
     errors: [
       BadRequestException,
       ForbiddenException,
+      NotFoundException,
       ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Updates the media insights pipeline's configuration settings.
+ */
+export const updateMediaInsightsPipelineConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateMediaInsightsPipelineConfigurationRequest,
+    output: UpdateMediaInsightsPipelineConfigurationResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Deletes the specified configuration settings.
+ */
+export const deleteMediaInsightsPipelineConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteMediaInsightsPipelineConfigurationRequest,
+    output: DeleteMediaInsightsPipelineConfigurationResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Deletes the media pipeline.
+ */
+export const deleteMediaPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMediaPipelineRequest,
+  output: DeleteMediaPipelineResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Deletes an Amazon Kinesis Video Stream pool.
+ */
+export const deleteMediaPipelineKinesisVideoStreamPool =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteMediaPipelineKinesisVideoStreamPoolRequest,
+    output: DeleteMediaPipelineKinesisVideoStreamPoolResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Stops a speaker search task.
+ */
+export const stopSpeakerSearchTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopSpeakerSearchTaskRequest,
+    output: StopSpeakerSearchTaskResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Stops a voice tone analysis task.
+ */
+export const stopVoiceToneAnalysisTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopVoiceToneAnalysisTaskRequest,
+    output: StopVoiceToneAnalysisTaskResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Updates the status of a media insights pipeline.
+ */
+export const updateMediaInsightsPipelineStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateMediaInsightsPipelineStatusRequest,
+    output: UpdateMediaInsightsPipelineStatusResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Starts a speaker search task.
+ *
+ * Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
+ * AWS service terms for the Amazon Chime SDK.
+ */
+export const startSpeakerSearchTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartSpeakerSearchTaskRequest,
+    output: StartSpeakerSearchTaskResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
       ServiceFailureException,
       ServiceUnavailableException,
       ThrottledClientException,
@@ -1880,63 +1972,6 @@ export const listMediaPipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts a speaker search task.
- *
- * Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
- * AWS service terms for the Amazon Chime SDK.
- */
-export const startSpeakerSearchTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartSpeakerSearchTaskRequest,
-    output: StartSpeakerSearchTaskResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Updates an Amazon Kinesis Video Stream pool in a media pipeline.
- */
-export const updateMediaPipelineKinesisVideoStreamPool =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateMediaPipelineKinesisVideoStreamPoolRequest,
-    output: UpdateMediaPipelineKinesisVideoStreamPoolResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Creates a media live connector pipeline in an Amazon Chime SDK meeting.
- */
-export const createMediaLiveConnectorPipeline =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateMediaLiveConnectorPipelineRequest,
-    output: CreateMediaLiveConnectorPipelineResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
  * Creates an Amazon Kinesis Video Stream pool for use with media stream
  * pipelines.
  *
@@ -1971,6 +2006,23 @@ export const createMediaPipelineKinesisVideoStreamPool =
     ],
   }));
 /**
+ * Creates a media live connector pipeline in an Amazon Chime SDK meeting.
+ */
+export const createMediaLiveConnectorPipeline =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateMediaLiveConnectorPipelineRequest,
+    output: CreateMediaLiveConnectorPipelineResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
  * A structure that contains the static configurations for a media insights
  * pipeline.
  */
@@ -1989,22 +2041,6 @@ export const createMediaInsightsPipelineConfiguration =
       UnauthorizedClientException,
     ],
   }));
-/**
- * Gets an existing media pipeline.
- */
-export const getMediaPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMediaPipelineRequest,
-  output: GetMediaPipelineResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
 /**
  * Creates a media insights pipeline.
  */

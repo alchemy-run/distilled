@@ -536,38 +536,30 @@ export class StartFHIRExportJobResponse extends S.Class<StartFHIRExportJobRespon
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
 ) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Returns a list of all existing tags associated with a data store.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
 /**
  * Add a user-specifed key and value tag to a data store.
  */
@@ -582,6 +574,14 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Returns a list of all existing tags associated with a data store.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
@@ -600,6 +600,35 @@ export const describeFHIRExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Get the import job properties to learn more about the job or job progress.
+ */
+export const describeFHIRImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeFHIRImportJobRequest,
+    output: DescribeFHIRImportJobResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Start a FHIR export job.
+ */
+export const startFHIRExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartFHIRExportJobRequest,
+  output: StartFHIRExportJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * List all FHIR-enabled data stores in a user’s account, regardless of data store
  * status.
  */
@@ -607,6 +636,22 @@ export const listFHIRDatastores = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFHIRDatastoresRequest,
   output: ListFHIRDatastoresResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
+/**
+ * Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR
+ * data found in the `InputDataConfig` object and stores processing results in the
+ * `JobOutputDataConfig` object.
+ */
+export const startFHIRImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartFHIRImportJobRequest,
+  output: StartFHIRImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
 /**
  * Lists all FHIR export jobs associated with an account and their statuses.
@@ -628,22 +673,6 @@ export const listFHIRExportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const listFHIRImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFHIRImportJobsRequest,
   output: ListFHIRImportJobsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR
- * data found in the `InputDataConfig` object and stores processing results in the
- * `JobOutputDataConfig` object.
- */
-export const startFHIRImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartFHIRImportJobRequest,
-  output: StartFHIRImportJobResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -695,32 +724,3 @@ export const describeFHIRDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Get the import job properties to learn more about the job or job progress.
- */
-export const describeFHIRImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFHIRImportJobRequest,
-    output: DescribeFHIRImportJobResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Start a FHIR export job.
- */
-export const startFHIRExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartFHIRExportJobRequest,
-  output: StartFHIRExportJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));

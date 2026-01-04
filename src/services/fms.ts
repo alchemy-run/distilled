@@ -1538,23 +1538,23 @@ export class GetViolationDetailsResponse extends S.Class<GetViolationDetailsResp
 //# Errors
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidOperationException extends S.TaggedError<InvalidOperationException>()(
   "InvalidOperationException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidTypeException extends S.TaggedError<InvalidTypeException>()(
   "InvalidTypeException",
@@ -1578,181 +1578,6 @@ export const deleteNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Permanently deletes an Firewall Manager protocols list.
- */
-export const deleteProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProtocolsListRequest,
-  output: DeleteProtocolsListResponse,
-  errors: [
-    InternalErrorException,
-    InvalidOperationException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified ResourceSet.
- */
-export const deleteResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteResourceSetRequest,
-  output: DeleteResourceSetResponse,
-  errors: [
-    InternalErrorException,
-    InvalidInputException,
-    InvalidOperationException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a PutAdminAccount request. To set an account as a default administrator account, you must submit an AssociateAdminAccount request.
- *
- * Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
- */
-export const disassociateAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateAdminAccountRequest,
-    output: DisassociateAdminAccountResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Returns the Organizations account that is associated with Firewall Manager
- * as the Firewall Manager default administrator.
- */
-export const getAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAdminAccountRequest,
-  output: GetAdminAccountResponse,
-  errors: [
-    InternalErrorException,
-    InvalidOperationException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Information
- * about the Amazon Simple Notification Service (SNS) topic that is used to
- * record Firewall Manager SNS logs.
- */
-export const getNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetNotificationChannelRequest,
-    output: GetNotificationChannelResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Designates the IAM role and Amazon Simple Notification Service (SNS) topic that
- * Firewall Manager uses to record SNS logs.
- *
- * To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the `SnsRoleName` to publish SNS logs. If the `SnsRoleName` provided is a role other than the `AWSServiceRoleForFMS` service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal `fms.amazonaws.com` to assume this role. For information about configuring an SNS access policy, see
- * Service roles for Firewall Manager in the *Firewall Manager Developer Guide*.
- */
-export const putNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutNotificationChannelRequest,
-    output: PutNotificationChannelResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Adds one or more tags to an Amazon Web Services resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidInputException,
-    InvalidOperationException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Removes one or more tags from an Amazon Web Services resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidInputException,
-    InvalidOperationException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose resources you want to protect.
- *
- * For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators in the *Firewall Manager Developer Guide*.
- */
-export const associateAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateAdminAccountRequest,
-    output: AssociateAdminAccountResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
- */
-export const associateThirdPartyFirewall = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateThirdPartyFirewallRequest,
-    output: AssociateThirdPartyFirewallResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Disassociates resources from a Firewall Manager resource set.
- */
-export const batchDisassociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDisassociateResourceRequest,
-    output: BatchDisassociateResourceResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Permanently deletes an Firewall Manager applications list.
- */
-export const deleteAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAppsListRequest,
-  output: DeleteAppsListResponse,
-  errors: [
-    InternalErrorException,
-    InvalidOperationException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
  * Permanently deletes an Firewall Manager policy.
  */
 export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1766,152 +1591,6 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
   ],
 }));
-/**
- * Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call `DisassociateThirdPartyFirewall`, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
- */
-export const disassociateThirdPartyFirewall =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateThirdPartyFirewallRequest,
-    output: DisassociateThirdPartyFirewallResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
- */
-export const getAdminScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAdminScopeRequest,
-  output: GetAdminScopeResponse,
-  errors: [
-    InternalErrorException,
-    InvalidInputException,
-    InvalidOperationException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns information about the specified Firewall Manager applications list.
- */
-export const getAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAppsListRequest,
-  output: GetAppsListResponse,
-  errors: [
-    InternalErrorException,
-    InvalidOperationException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * If you created a Shield Advanced policy, returns policy-level attack summary information
- * in the event of a potential DDoS attack. Other policy types are currently unsupported.
- */
-export const getProtectionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProtectionStatusRequest,
-  output: GetProtectionStatusResponse,
-  errors: [
-    InternalErrorException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns information about the specified Firewall Manager protocols list.
- */
-export const getProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProtocolsListRequest,
-  output: GetProtocolsListResponse,
-  errors: [
-    InternalErrorException,
-    InvalidOperationException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Gets information about a specific resource set.
- */
-export const getResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourceSetRequest,
-  output: GetResourceSetResponse,
-  errors: [
-    InternalErrorException,
-    InvalidInputException,
-    InvalidOperationException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
- */
-export const getThirdPartyFirewallAssociationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetThirdPartyFirewallAssociationStatusRequest,
-    output: GetThirdPartyFirewallAssociationStatusResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their AdminScope.
- */
-export const listAdminsManagingAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAdminsManagingAccountRequest,
-    output: ListAdminsManagingAccountResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Returns a `MemberAccounts` object that lists the member accounts in the
- * administrator's Amazon Web Services organization.
- *
- * Either an Firewall Manager administrator or the organization's management account can make this request.
- */
-export const listMemberAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMemberAccountsRequest,
-  output: ListMemberAccountsResponse,
-  errors: [InternalErrorException, ResourceNotFoundException],
-}));
-/**
- * Retrieves the list of tags for the specified Amazon Web Services resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidInputException,
-    InvalidOperationException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Associate resources to a Firewall Manager resource set.
- */
-export const batchAssociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAssociateResourceRequest,
-    output: BatchAssociateResourceResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Returns information about the specified Firewall Manager policy.
  */
@@ -2063,6 +1742,327 @@ export const putResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     LimitExceededException,
   ],
 }));
+/**
+ * Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call `DisassociateThirdPartyFirewall`, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
+ */
+export const disassociateThirdPartyFirewall =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateThirdPartyFirewallRequest,
+    output: DisassociateThirdPartyFirewallResponse,
+    errors: [
+      InternalErrorException,
+      InvalidInputException,
+      InvalidOperationException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Returns information about the specified Firewall Manager applications list.
+ */
+export const getAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAppsListRequest,
+  output: GetAppsListResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * If you created a Shield Advanced policy, returns policy-level attack summary information
+ * in the event of a potential DDoS attack. Other policy types are currently unsupported.
+ */
+export const getProtectionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProtectionStatusRequest,
+  output: GetProtectionStatusResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns information about the specified Firewall Manager protocols list.
+ */
+export const getProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProtocolsListRequest,
+  output: GetProtocolsListResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Gets information about a specific resource set.
+ */
+export const getResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceSetRequest,
+  output: GetResourceSetResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
+ */
+export const getThirdPartyFirewallAssociationStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetThirdPartyFirewallAssociationStatusRequest,
+    output: GetThirdPartyFirewallAssociationStatusResponse,
+    errors: [
+      InternalErrorException,
+      InvalidInputException,
+      InvalidOperationException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their AdminScope.
+ */
+export const listAdminsManagingAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAdminsManagingAccountRequest,
+    output: ListAdminsManagingAccountResponse,
+    errors: [
+      InternalErrorException,
+      InvalidInputException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Returns a `MemberAccounts` object that lists the member accounts in the
+ * administrator's Amazon Web Services organization.
+ *
+ * Either an Firewall Manager administrator or the organization's management account can make this request.
+ */
+export const listMemberAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMemberAccountsRequest,
+  output: ListMemberAccountsResponse,
+  errors: [InternalErrorException, ResourceNotFoundException],
+}));
+/**
+ * Retrieves the list of tags for the specified Amazon Web Services resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Permanently deletes an Firewall Manager protocols list.
+ */
+export const deleteProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProtocolsListRequest,
+  output: DeleteProtocolsListResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns the Organizations account that is associated with Firewall Manager
+ * as the Firewall Manager default administrator.
+ */
+export const getAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAdminAccountRequest,
+  output: GetAdminAccountResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Information
+ * about the Amazon Simple Notification Service (SNS) topic that is used to
+ * record Firewall Manager SNS logs.
+ */
+export const getNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetNotificationChannelRequest,
+    output: GetNotificationChannelResponse,
+    errors: [
+      InternalErrorException,
+      InvalidOperationException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Designates the IAM role and Amazon Simple Notification Service (SNS) topic that
+ * Firewall Manager uses to record SNS logs.
+ *
+ * To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the `SnsRoleName` to publish SNS logs. If the `SnsRoleName` provided is a role other than the `AWSServiceRoleForFMS` service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal `fms.amazonaws.com` to assume this role. For information about configuring an SNS access policy, see
+ * Service roles for Firewall Manager in the *Firewall Manager Developer Guide*.
+ */
+export const putNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutNotificationChannelRequest,
+    output: PutNotificationChannelResponse,
+    errors: [
+      InternalErrorException,
+      InvalidOperationException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a PutAdminAccount request. To set an account as a default administrator account, you must submit an AssociateAdminAccount request.
+ *
+ * Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
+ */
+export const disassociateAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateAdminAccountRequest,
+    output: DisassociateAdminAccountResponse,
+    errors: [
+      InternalErrorException,
+      InvalidOperationException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Permanently deletes an Firewall Manager applications list.
+ */
+export const deleteAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppsListRequest,
+  output: DeleteAppsListResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified ResourceSet.
+ */
+export const deleteResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceSetRequest,
+  output: DeleteResourceSetResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Removes one or more tags from an Amazon Web Services resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
+ */
+export const associateThirdPartyFirewall = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateThirdPartyFirewallRequest,
+    output: AssociateThirdPartyFirewallResponse,
+    errors: [
+      InternalErrorException,
+      InvalidInputException,
+      InvalidOperationException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Disassociates resources from a Firewall Manager resource set.
+ */
+export const batchDisassociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchDisassociateResourceRequest,
+    output: BatchDisassociateResourceResponse,
+    errors: [
+      InternalErrorException,
+      InvalidInputException,
+      InvalidOperationException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
+ */
+export const getAdminScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAdminScopeRequest,
+  output: GetAdminScopeResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Adds one or more tags to an Amazon Web Services resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose resources you want to protect.
+ *
+ * For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators in the *Firewall Manager Developer Guide*.
+ */
+export const associateAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateAdminAccountRequest,
+    output: AssociateAdminAccountResponse,
+    errors: [
+      InternalErrorException,
+      InvalidInputException,
+      InvalidOperationException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Associate resources to a Firewall Manager resource set.
+ */
+export const batchAssociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchAssociateResourceRequest,
+    output: BatchAssociateResourceResponse,
+    errors: [
+      InternalErrorException,
+      InvalidInputException,
+      InvalidOperationException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Returns an array of `PolicyComplianceStatus` objects. Use
  * `PolicyComplianceStatus` to get a summary of which member accounts are protected

@@ -155,6 +155,108 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
   "UntagResourceResponse",
 )({}) {}
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export class CreateEmailContactRequest extends S.Class<CreateEmailContactRequest>(
+  "CreateEmailContactRequest",
+)(
+  { name: S.String, emailAddress: S.String, tags: S.optional(TagMap) },
+  T.all(
+    T.Http({ method: "POST", uri: "/2022-09-19/emailcontacts" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetEmailContactRequest extends S.Class<GetEmailContactRequest>(
+  "GetEmailContactRequest",
+)(
+  { arn: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "GET", uri: "/emailcontacts/{arn}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteEmailContactRequest extends S.Class<DeleteEmailContactRequest>(
+  "DeleteEmailContactRequest",
+)(
+  { arn: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "DELETE", uri: "/emailcontacts/{arn}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteEmailContactResponse extends S.Class<DeleteEmailContactResponse>(
+  "DeleteEmailContactResponse",
+)({}) {}
+export class ListEmailContactsRequest extends S.Class<ListEmailContactsRequest>(
+  "ListEmailContactsRequest",
+)(
+  {
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/emailcontacts" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ActivateEmailContactRequest extends S.Class<ActivateEmailContactRequest>(
+  "ActivateEmailContactRequest",
+)(
+  { arn: S.String.pipe(T.HttpLabel()), code: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "PUT", uri: "/emailcontacts/{arn}/activate/{code}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ActivateEmailContactResponse extends S.Class<ActivateEmailContactResponse>(
+  "ActivateEmailContactResponse",
+)({}) {}
+export class SendActivationCodeRequest extends S.Class<SendActivationCodeRequest>(
+  "SendActivationCodeRequest",
+)(
+  { arn: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/2022-10-31/emailcontacts/{arn}/activate/send",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class SendActivationCodeResponse extends S.Class<SendActivationCodeResponse>(
+  "SendActivationCodeResponse",
+)({}) {}
+export class EmailContact extends S.Class<EmailContact>("EmailContact")({
+  arn: S.String,
+  name: S.String,
+  address: S.String,
+  status: S.String,
+  creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+}) {}
+export const EmailContacts = S.Array(EmailContact);
 export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
   "ListTagsForResourceResponse",
 )({ tags: S.optional(TagMap) }) {}
@@ -174,6 +276,15 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
 export class TagResourceResponse extends S.Class<TagResourceResponse>(
   "TagResourceResponse",
 )({}) {}
+export class CreateEmailContactResponse extends S.Class<CreateEmailContactResponse>(
+  "CreateEmailContactResponse",
+)({ arn: S.String }) {}
+export class ListEmailContactsResponse extends S.Class<ListEmailContactsResponse>(
+  "ListEmailContactsResponse",
+)({ nextToken: S.optional(S.String), emailContacts: EmailContacts }) {}
+export class GetEmailContactResponse extends S.Class<GetEmailContactResponse>(
+  "GetEmailContactResponse",
+)({ emailContact: EmailContact }) {}
 export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
   "ValidationExceptionField",
 )({ name: S.String, message: S.String }) {}
@@ -182,26 +293,90 @@ export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  {
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+    serviceCode: S.String,
+    quotaCode: S.String,
+  },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  {
+    message: S.String,
+    serviceCode: S.optional(S.String),
+    quotaCode: S.optional(S.String),
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  {
+    message: S.String,
+    reason: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
+/**
+ * Lists all email contacts created under the Account.
+ */
+export const listEmailContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEmailContactsRequest,
+  output: ListEmailContactsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns an email contact.
+ */
+export const getEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEmailContactRequest,
+  output: GetEmailContactResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.
  */
@@ -210,6 +385,57 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: TagResourceResponse,
   errors: [
     AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an email contact.
+ *
+ * Deleting an email contact removes it from all associated notification configurations.
+ */
+export const deleteEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEmailContactRequest,
+  output: DeleteEmailContactResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
+ */
+export const activateEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ActivateEmailContactRequest,
+    output: ActivateEmailContactResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Sends an activation email to the email address associated with the specified email contact.
+ *
+ * It might take a few minutes for the activation email to arrive. If it doesn't arrive, check in your spam folder or try sending another activation email.
+ */
+export const sendActivationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendActivationCodeRequest,
+  output: SendActivationCodeResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -231,15 +457,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
+ * Creates an email contact for the provided email address.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const createEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEmailContactRequest,
+  output: CreateEmailContactResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],

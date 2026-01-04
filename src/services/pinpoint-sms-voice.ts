@@ -519,25 +519,25 @@ export class SendVoiceMessageResponse extends S.Class<SendVoiceMessageResponse>(
 )({ MessageId: S.optional(S.String) }) {}
 
 //# Errors
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
-  "BadRequestException",
-  {},
-) {}
-export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
-  "InternalServiceErrorException",
-  {},
-) {}
 export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
   "AlreadyExistsException",
   { Message: S.optional(S.String) },
 ) {}
+export class BadRequestException extends S.TaggedError<BadRequestException>()(
+  "BadRequestException",
+  { Message: S.optional(S.String) },
+) {}
+export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
+  "InternalServiceErrorException",
+  { Message: S.optional(S.String) },
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
@@ -545,20 +545,6 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 ) {}
 
 //# Operations
-/**
- * Deletes an event destination in a configuration set.
- */
-export const deleteConfigurationSetEventDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfigurationSetEventDestinationRequest,
-    output: DeleteConfigurationSetEventDestinationResponse,
-    errors: [
-      BadRequestException,
-      InternalServiceErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
 /**
  * List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
  */
@@ -573,20 +559,6 @@ export const listConfigurationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
- */
-export const updateConfigurationSetEventDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationSetEventDestinationRequest,
-    output: UpdateConfigurationSetEventDestinationResponse,
-    errors: [
-      BadRequestException,
-      InternalServiceErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
 /**
  * Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
  */
@@ -604,17 +576,43 @@ export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Create a new event destination in a configuration set.
+ * Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
  */
-export const createConfigurationSetEventDestination =
+export const getConfigurationSetEventDestinations =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateConfigurationSetEventDestinationRequest,
-    output: CreateConfigurationSetEventDestinationResponse,
+    input: GetConfigurationSetEventDestinationsRequest,
+    output: GetConfigurationSetEventDestinationsResponse,
     errors: [
-      AlreadyExistsException,
       BadRequestException,
       InternalServiceErrorException,
-      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Deletes an event destination in a configuration set.
+ */
+export const deleteConfigurationSetEventDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteConfigurationSetEventDestinationRequest,
+    output: DeleteConfigurationSetEventDestinationResponse,
+    errors: [
+      BadRequestException,
+      InternalServiceErrorException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
+ */
+export const updateConfigurationSetEventDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateConfigurationSetEventDestinationRequest,
+    output: UpdateConfigurationSetEventDestinationResponse,
+    errors: [
+      BadRequestException,
+      InternalServiceErrorException,
       NotFoundException,
       TooManyRequestsException,
     ],
@@ -635,20 +633,6 @@ export const deleteConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
- */
-export const getConfigurationSetEventDestinations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConfigurationSetEventDestinationsRequest,
-    output: GetConfigurationSetEventDestinationsResponse,
-    errors: [
-      BadRequestException,
-      InternalServiceErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
  * Create a new voice message and send it to a recipient's phone number.
  */
 export const sendVoiceMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -660,3 +644,19 @@ export const sendVoiceMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
+/**
+ * Create a new event destination in a configuration set.
+ */
+export const createConfigurationSetEventDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateConfigurationSetEventDestinationRequest,
+    output: CreateConfigurationSetEventDestinationResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      InternalServiceErrorException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));

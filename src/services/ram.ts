@@ -1208,119 +1208,87 @@ export class ListResourceTypesResponse extends S.Class<ListResourceTypesResponse
 }) {}
 
 //# Errors
+export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
+  "OperationNotPermittedException",
+  { message: S.String },
+  T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
+) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
+) {}
+export class InvalidClientTokenException extends S.TaggedError<InvalidClientTokenException>()(
+  "InvalidClientTokenException",
+  { message: S.String },
+  T.AwsQueryError({ code: "InvalidClientToken", httpResponseCode: 400 }),
 ) {}
 export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
   "IdempotentParameterMismatchException",
-  {},
+  { message: S.String },
   T.AwsQueryError({
     code: "IdempotentParameterMismatch",
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidClientTokenException extends S.TaggedError<InvalidClientTokenException>()(
-  "InvalidClientTokenException",
-  {},
-  T.AwsQueryError({ code: "InvalidClientToken", httpResponseCode: 400 }),
-) {}
-export class MalformedArnException extends S.TaggedError<MalformedArnException>()(
-  "MalformedArnException",
-  {},
-  T.AwsQueryError({ code: "InvalidArn.Malformed", httpResponseCode: 400 }),
-) {}
-export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
-  "OperationNotPermittedException",
-  {},
-  T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
-) {}
-export class InvalidStateTransitionException extends S.TaggedError<InvalidStateTransitionException>()(
-  "InvalidStateTransitionException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidStateTransitionException.Unknown",
-    httpResponseCode: 400,
-  }),
-) {}
 export class ServerInternalException extends S.TaggedError<ServerInternalException>()(
   "ServerInternalException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-  T.AwsQueryError({ code: "Unavailable", httpResponseCode: 503 }),
 ) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
-) {}
-export class UnknownResourceException extends S.TaggedError<UnknownResourceException>()(
-  "UnknownResourceException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidResourceShareArn.NotFound",
-    httpResponseCode: 400,
-  }),
-) {}
-export class MissingRequiredParameterException extends S.TaggedError<MissingRequiredParameterException>()(
-  "MissingRequiredParameterException",
-  {},
-  T.AwsQueryError({ code: "MissingRequiredParameter", httpResponseCode: 400 }),
-) {}
-export class ResourceShareLimitExceededException extends S.TaggedError<ResourceShareLimitExceededException>()(
-  "ResourceShareLimitExceededException",
-  {},
-  T.AwsQueryError({
-    code: "ResourceShareLimitExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ResourceShareInvitationAlreadyAcceptedException extends S.TaggedError<ResourceShareInvitationAlreadyAcceptedException>()(
-  "ResourceShareInvitationAlreadyAcceptedException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidResourceShareInvitationArn.AlreadyAccepted",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidPolicyException extends S.TaggedError<InvalidPolicyException>()(
-  "InvalidPolicyException",
-  {},
-  T.AwsQueryError({ code: "InvalidPolicy", httpResponseCode: 400 }),
-) {}
-export class ResourceArnNotFoundException extends S.TaggedError<ResourceArnNotFoundException>()(
-  "ResourceArnNotFoundException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidResourceArn.NotFound",
-    httpResponseCode: 400,
-  }),
 ) {}
 export class InvalidMaxResultsException extends S.TaggedError<InvalidMaxResultsException>()(
   "InvalidMaxResultsException",
   { message: S.String },
   T.AwsQueryError({ code: "InvalidMaxResults", httpResponseCode: 400 }),
 ) {}
-export class ResourceShareInvitationAlreadyRejectedException extends S.TaggedError<ResourceShareInvitationAlreadyRejectedException>()(
-  "ResourceShareInvitationAlreadyRejectedException",
-  {},
+export class MalformedArnException extends S.TaggedError<MalformedArnException>()(
+  "MalformedArnException",
+  { message: S.String },
+  T.AwsQueryError({ code: "InvalidArn.Malformed", httpResponseCode: 400 }),
+) {}
+export class InvalidStateTransitionException extends S.TaggedError<InvalidStateTransitionException>()(
+  "InvalidStateTransitionException",
+  { message: S.String },
   T.AwsQueryError({
-    code: "InvalidResourceShareInvitationArn.AlreadyRejected",
+    code: "InvalidStateTransitionException.Unknown",
     httpResponseCode: 400,
   }),
 ) {}
-export class ResourceShareInvitationArnNotFoundException extends S.TaggedError<ResourceShareInvitationArnNotFoundException>()(
-  "ResourceShareInvitationArnNotFoundException",
-  {},
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.String },
+  T.AwsQueryError({ code: "Unavailable", httpResponseCode: 503 }),
+) {}
+export class ResourceArnNotFoundException extends S.TaggedError<ResourceArnNotFoundException>()(
+  "ResourceArnNotFoundException",
+  { message: S.String },
   T.AwsQueryError({
-    code: "InvalidResourceShareInvitationArn.NotFound",
+    code: "InvalidResourceArn.NotFound",
     httpResponseCode: 400,
   }),
+) {}
+export class ResourceShareInvitationAlreadyAcceptedException extends S.TaggedError<ResourceShareInvitationAlreadyAcceptedException>()(
+  "ResourceShareInvitationAlreadyAcceptedException",
+  { message: S.String },
+  T.AwsQueryError({
+    code: "InvalidResourceShareInvitationArn.AlreadyAccepted",
+    httpResponseCode: 400,
+  }),
+) {}
+export class MissingRequiredParameterException extends S.TaggedError<MissingRequiredParameterException>()(
+  "MissingRequiredParameterException",
+  { message: S.String },
+  T.AwsQueryError({ code: "MissingRequiredParameter", httpResponseCode: 400 }),
+) {}
+export class InvalidPolicyException extends S.TaggedError<InvalidPolicyException>()(
+  "InvalidPolicyException",
+  { message: S.String },
+  T.AwsQueryError({ code: "InvalidPolicy", httpResponseCode: 400 }),
 ) {}
 export class InvalidResourceTypeException extends S.TaggedError<InvalidResourceTypeException>()(
   "InvalidResourceTypeException",
@@ -1330,44 +1298,68 @@ export class InvalidResourceTypeException extends S.TaggedError<InvalidResourceT
     httpResponseCode: 400,
   }),
 ) {}
-export class UnmatchedPolicyPermissionException extends S.TaggedError<UnmatchedPolicyPermissionException>()(
-  "UnmatchedPolicyPermissionException",
+export class ResourceShareInvitationArnNotFoundException extends S.TaggedError<ResourceShareInvitationArnNotFoundException>()(
+  "ResourceShareInvitationArnNotFoundException",
   { message: S.String },
   T.AwsQueryError({
-    code: "UnmatchedPolicyPermissionException",
+    code: "InvalidResourceShareInvitationArn.NotFound",
     httpResponseCode: 400,
   }),
 ) {}
-export class ResourceShareInvitationExpiredException extends S.TaggedError<ResourceShareInvitationExpiredException>()(
-  "ResourceShareInvitationExpiredException",
-  {},
+export class ResourceShareLimitExceededException extends S.TaggedError<ResourceShareLimitExceededException>()(
+  "ResourceShareLimitExceededException",
+  { message: S.String },
   T.AwsQueryError({
-    code: "InvalidResourceShareInvitationArn.Expired",
+    code: "ResourceShareLimitExceeded",
     httpResponseCode: 400,
   }),
 ) {}
 export class TagLimitExceededException extends S.TaggedError<TagLimitExceededException>()(
   "TagLimitExceededException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "TagLimitExceeded", httpResponseCode: 400 }),
+) {}
+export class ResourceShareInvitationAlreadyRejectedException extends S.TaggedError<ResourceShareInvitationAlreadyRejectedException>()(
+  "ResourceShareInvitationAlreadyRejectedException",
+  { message: S.String },
+  T.AwsQueryError({
+    code: "InvalidResourceShareInvitationArn.AlreadyRejected",
+    httpResponseCode: 400,
+  }),
+) {}
+export class UnknownResourceException extends S.TaggedError<UnknownResourceException>()(
+  "UnknownResourceException",
+  { message: S.String },
+  T.AwsQueryError({
+    code: "InvalidResourceShareArn.NotFound",
+    httpResponseCode: 400,
+  }),
+) {}
+export class MalformedPolicyTemplateException extends S.TaggedError<MalformedPolicyTemplateException>()(
+  "MalformedPolicyTemplateException",
+  { message: S.String },
+  T.AwsQueryError({
+    code: "MalformedPolicyTemplateException",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
 ) {}
-export class MalformedPolicyTemplateException extends S.TaggedError<MalformedPolicyTemplateException>()(
-  "MalformedPolicyTemplateException",
-  {},
-  T.AwsQueryError({
-    code: "MalformedPolicyTemplateException",
-    httpResponseCode: 400,
-  }),
-) {}
 export class TagPolicyViolationException extends S.TaggedError<TagPolicyViolationException>()(
   "TagPolicyViolationException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "TagPolicyViolation", httpResponseCode: 400 }),
+) {}
+export class ResourceShareInvitationExpiredException extends S.TaggedError<ResourceShareInvitationExpiredException>()(
+  "ResourceShareInvitationExpiredException",
+  { message: S.String },
+  T.AwsQueryError({
+    code: "InvalidResourceShareInvitationArn.Expired",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class PermissionAlreadyExistsException extends S.TaggedError<PermissionAlreadyExistsException>()(
   "PermissionAlreadyExistsException",
@@ -1375,6 +1367,14 @@ export class PermissionAlreadyExistsException extends S.TaggedError<PermissionAl
   T.AwsQueryError({
     code: "PermissionAlreadyExistsException",
     httpResponseCode: 409,
+  }),
+) {}
+export class UnmatchedPolicyPermissionException extends S.TaggedError<UnmatchedPolicyPermissionException>()(
+  "UnmatchedPolicyPermissionException",
+  { message: S.String },
+  T.AwsQueryError({
+    code: "UnmatchedPolicyPermissionException",
+    httpResponseCode: 400,
   }),
 ) {}
 export class PermissionVersionsLimitExceededException extends S.TaggedError<PermissionVersionsLimitExceededException>()(
@@ -1419,32 +1419,114 @@ export const enableSharingWithAwsOrganization =
     ],
   }));
 /**
- * Retrieves the lists of resources and principals that associated for resource shares that you
- * own.
+ * Retrieves a list of available RAM permissions that you can use for the supported
+ * resource types.
  */
-export const getResourceShareAssociations =
+export const listPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPermissionsRequest,
+  output: ListPermissionsResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterException,
+    OperationNotPermittedException,
+    ServerInternalException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Retrieves the current status of the asynchronous tasks performed by RAM when you
+ * perform the ReplacePermissionAssociationsWork operation.
+ */
+export const listReplacePermissionAssociationsWork =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetResourceShareAssociationsRequest,
-    output: GetResourceShareAssociationsResponse,
+    input: ListReplacePermissionAssociationsWorkRequest,
+    output: ListReplacePermissionAssociationsWorkResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterException,
+      ServerInternalException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Lists the resource types that can be shared by RAM.
+ */
+export const listResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResourceTypesRequest,
+  output: ListResourceTypesResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServerInternalException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Lists information about the managed permission and its associations to any resource shares that use
+ * this managed permission. This lets you see which resource shares use which versions of the specified
+ * managed permission.
+ */
+export const listPermissionAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPermissionAssociationsRequest,
+    output: ListPermissionAssociationsResponse,
     errors: [
       InvalidNextTokenException,
       InvalidParameterException,
       MalformedArnException,
-      OperationNotPermittedException,
       ServerInternalException,
       ServiceUnavailableException,
-      UnknownResourceException,
     ],
-  }));
+  }),
+);
 /**
- * Lists the available versions of the specified RAM permission.
+ * Retrieves the resource policies for the specified resources that you own and have
+ * shared.
  */
-export const listPermissionVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getResourcePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePoliciesRequest,
+  output: GetResourcePoliciesResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterException,
+    MalformedArnException,
+    ResourceArnNotFoundException,
+    ServerInternalException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Modifies some of the properties of the specified resource share.
+ */
+export const updateResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceShareRequest,
+  output: UpdateResourceShareResponse,
+  errors: [
+    IdempotentParameterMismatchException,
+    InvalidClientTokenException,
+    InvalidParameterException,
+    MalformedArnException,
+    MissingRequiredParameterException,
+    OperationNotPermittedException,
+    ServerInternalException,
+    ServiceUnavailableException,
+    UnknownResourceException,
+  ],
+}));
+/**
+ * Deletes one version of a customer managed permission. The version you specify must not be attached to any
+ * resource share and must not be the default version for the permission.
+ *
+ * If a customer managed permission has the maximum of 5 versions, then you must delete at
+ * least one version before you can create another.
+ */
+export const deletePermissionVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListPermissionVersionsRequest,
-    output: ListPermissionVersionsResponse,
+    input: DeletePermissionVersionRequest,
+    output: DeletePermissionVersionResponse,
     errors: [
-      InvalidNextTokenException,
+      IdempotentParameterMismatchException,
+      InvalidClientTokenException,
       InvalidParameterException,
       MalformedArnException,
       OperationNotPermittedException,
@@ -1454,23 +1536,6 @@ export const listPermissionVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists the RAM permissions that are associated with a resource share.
- */
-export const listResourceSharePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListResourceSharePermissionsRequest,
-    output: ListResourceSharePermissionsResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterException,
-      MalformedArnException,
-      OperationNotPermittedException,
-      ServerInternalException,
-      ServiceUnavailableException,
-      UnknownResourceException,
-    ],
-  }));
 /**
  * Updates all resource shares that use a managed permission to a different managed
  * permission. This operation always applies the default version of the target managed
@@ -1525,6 +1590,59 @@ export const setDefaultPermissionVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Retrieves the lists of resources and principals that associated for resource shares that you
+ * own.
+ */
+export const getResourceShareAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetResourceShareAssociationsRequest,
+    output: GetResourceShareAssociationsResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterException,
+      MalformedArnException,
+      OperationNotPermittedException,
+      ServerInternalException,
+      ServiceUnavailableException,
+      UnknownResourceException,
+    ],
+  }));
+/**
+ * Lists the available versions of the specified RAM permission.
+ */
+export const listPermissionVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPermissionVersionsRequest,
+    output: ListPermissionVersionsResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterException,
+      MalformedArnException,
+      OperationNotPermittedException,
+      ServerInternalException,
+      ServiceUnavailableException,
+      UnknownResourceException,
+    ],
+  }),
+);
+/**
+ * Lists the RAM permissions that are associated with a resource share.
+ */
+export const listResourceSharePermissions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListResourceSharePermissionsRequest,
+    output: ListResourceSharePermissionsResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterException,
+      MalformedArnException,
+      OperationNotPermittedException,
+      ServerInternalException,
+      ServiceUnavailableException,
+      UnknownResourceException,
+    ],
+  }));
+/**
  * Removes the specified tag key and value pairs from the specified resource share or managed permission.
  */
 export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1539,17 +1657,14 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Modifies some of the properties of the specified resource share.
+ * Retrieves the contents of a managed permission in JSON format.
  */
-export const updateResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateResourceShareRequest,
-  output: UpdateResourceShareResponse,
+export const getPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPermissionRequest,
+  output: GetPermissionResponse,
   errors: [
-    IdempotentParameterMismatchException,
-    InvalidClientTokenException,
     InvalidParameterException,
     MalformedArnException,
-    MissingRequiredParameterException,
     OperationNotPermittedException,
     ServerInternalException,
     ServiceUnavailableException,
@@ -1595,28 +1710,56 @@ export const deletePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes one version of a customer managed permission. The version you specify must not be attached to any
- * resource share and must not be the default version for the permission.
- *
- * If a customer managed permission has the maximum of 5 versions, then you must delete at
- * least one version before you can create another.
+ * Retrieves details about the resource shares that you own or that are shared with you.
  */
-export const deletePermissionVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePermissionVersionRequest,
-    output: DeletePermissionVersionResponse,
+export const getResourceShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceSharesRequest,
+  output: GetResourceSharesResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterException,
+    MalformedArnException,
+    ServerInternalException,
+    ServiceUnavailableException,
+    UnknownResourceException,
+  ],
+}));
+/**
+ * Lists the principals that you are sharing resources with or that are sharing resources
+ * with you.
+ */
+export const listPrincipals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPrincipalsRequest,
+  output: ListPrincipalsResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterException,
+    MalformedArnException,
+    ServerInternalException,
+    ServiceUnavailableException,
+    UnknownResourceException,
+  ],
+}));
+/**
+ * Removes a managed permission from a resource share. Permission changes take effect immediately. You can
+ * remove a managed permission from a resource share only if there are currently no resources of the relevant
+ * resource type currently attached to the resource share.
+ */
+export const disassociateResourceSharePermission =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateResourceSharePermissionRequest,
+    output: DisassociateResourceSharePermissionResponse,
     errors: [
-      IdempotentParameterMismatchException,
       InvalidClientTokenException,
       InvalidParameterException,
+      InvalidStateTransitionException,
       MalformedArnException,
       OperationNotPermittedException,
       ServerInternalException,
       ServiceUnavailableException,
       UnknownResourceException,
     ],
-  }),
-);
+  }));
 /**
  * Deletes the specified resource share.
  *
@@ -1639,158 +1782,6 @@ export const deleteResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes the specified principals or resources from participating in the specified
- * resource share.
- */
-export const disassociateResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateResourceShareRequest,
-    output: DisassociateResourceShareResponse,
-    errors: [
-      IdempotentParameterMismatchException,
-      InvalidClientTokenException,
-      InvalidParameterException,
-      InvalidStateTransitionException,
-      MalformedArnException,
-      OperationNotPermittedException,
-      ResourceShareLimitExceededException,
-      ServerInternalException,
-      ServiceUnavailableException,
-      UnknownResourceException,
-    ],
-  }),
-);
-/**
- * Removes a managed permission from a resource share. Permission changes take effect immediately. You can
- * remove a managed permission from a resource share only if there are currently no resources of the relevant
- * resource type currently attached to the resource share.
- */
-export const disassociateResourceSharePermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateResourceSharePermissionRequest,
-    output: DisassociateResourceSharePermissionResponse,
-    errors: [
-      InvalidClientTokenException,
-      InvalidParameterException,
-      InvalidStateTransitionException,
-      MalformedArnException,
-      OperationNotPermittedException,
-      ServerInternalException,
-      ServiceUnavailableException,
-      UnknownResourceException,
-    ],
-  }));
-/**
- * Retrieves the contents of a managed permission in JSON format.
- */
-export const getPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPermissionRequest,
-  output: GetPermissionResponse,
-  errors: [
-    InvalidParameterException,
-    MalformedArnException,
-    OperationNotPermittedException,
-    ServerInternalException,
-    ServiceUnavailableException,
-    UnknownResourceException,
-  ],
-}));
-/**
- * Retrieves the resource policies for the specified resources that you own and have
- * shared.
- */
-export const getResourcePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePoliciesRequest,
-  output: GetResourcePoliciesResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterException,
-    MalformedArnException,
-    ResourceArnNotFoundException,
-    ServerInternalException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Retrieves details about the resource shares that you own or that are shared with you.
- */
-export const getResourceShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourceSharesRequest,
-  output: GetResourceSharesResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterException,
-    MalformedArnException,
-    ServerInternalException,
-    ServiceUnavailableException,
-    UnknownResourceException,
-  ],
-}));
-/**
- * Lists information about the managed permission and its associations to any resource shares that use
- * this managed permission. This lets you see which resource shares use which versions of the specified
- * managed permission.
- */
-export const listPermissionAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPermissionAssociationsRequest,
-    output: ListPermissionAssociationsResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterException,
-      MalformedArnException,
-      ServerInternalException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Retrieves a list of available RAM permissions that you can use for the supported
- * resource types.
- */
-export const listPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPermissionsRequest,
-  output: ListPermissionsResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterException,
-    OperationNotPermittedException,
-    ServerInternalException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Lists the principals that you are sharing resources with or that are sharing resources
- * with you.
- */
-export const listPrincipals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPrincipalsRequest,
-  output: ListPrincipalsResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterException,
-    MalformedArnException,
-    ServerInternalException,
-    ServiceUnavailableException,
-    UnknownResourceException,
-  ],
-}));
-/**
- * Retrieves the current status of the asynchronous tasks performed by RAM when you
- * perform the ReplacePermissionAssociationsWork operation.
- */
-export const listReplacePermissionAssociationsWork =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListReplacePermissionAssociationsWorkRequest,
-    output: ListReplacePermissionAssociationsWorkResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServerInternalException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
  * Lists the resources that you added to a resource share or the resources that are shared with
  * you.
  */
@@ -1808,18 +1799,24 @@ export const listResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the resource types that can be shared by RAM.
+ * Retrieves details about invitations that you have received for resource shares.
  */
-export const listResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListResourceTypesRequest,
-  output: ListResourceTypesResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterException,
-    ServerInternalException,
-    ServiceUnavailableException,
-  ],
-}));
+export const getResourceShareInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetResourceShareInvitationsRequest,
+    output: GetResourceShareInvitationsResponse,
+    errors: [
+      InvalidMaxResultsException,
+      InvalidNextTokenException,
+      InvalidParameterException,
+      MalformedArnException,
+      ResourceShareInvitationArnNotFoundException,
+      ServerInternalException,
+      ServiceUnavailableException,
+      UnknownResourceException,
+    ],
+  }),
+);
 /**
  * When you attach a resource-based policy to a resource, RAM automatically creates
  * a resource share of `featureSet`=`CREATED_FROM_POLICY` with a managed permission that
@@ -1864,6 +1861,162 @@ export const promotePermissionCreatedFromPolicy =
     ],
   }));
 /**
+ * Removes the specified principals or resources from participating in the specified
+ * resource share.
+ */
+export const disassociateResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateResourceShareRequest,
+    output: DisassociateResourceShareResponse,
+    errors: [
+      IdempotentParameterMismatchException,
+      InvalidClientTokenException,
+      InvalidParameterException,
+      InvalidStateTransitionException,
+      MalformedArnException,
+      OperationNotPermittedException,
+      ResourceShareLimitExceededException,
+      ServerInternalException,
+      ServiceUnavailableException,
+      UnknownResourceException,
+    ],
+  }),
+);
+/**
+ * Adds the specified list of principals and list of resources to a resource share. Principals that
+ * already have access to this resource share immediately receive access to the added resources.
+ * Newly added principals immediately receive access to the resources shared in this resource share.
+ */
+export const associateResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateResourceShareRequest,
+    output: AssociateResourceShareResponse,
+    errors: [
+      IdempotentParameterMismatchException,
+      InvalidClientTokenException,
+      InvalidParameterException,
+      InvalidStateTransitionException,
+      MalformedArnException,
+      OperationNotPermittedException,
+      ResourceShareLimitExceededException,
+      ServerInternalException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnknownResourceException,
+    ],
+  }),
+);
+/**
+ * Adds the specified tag keys and values to a resource share or managed permission. If you choose a resource share, the
+ * tags are attached to only the resource share, not to the resources that are in the resource share.
+ *
+ * The tags on a managed permission are the same for all versions of the managed permission.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidParameterException,
+    MalformedArnException,
+    ResourceArnNotFoundException,
+    ServerInternalException,
+    ServiceUnavailableException,
+    TagLimitExceededException,
+    TagPolicyViolationException,
+    UnknownResourceException,
+  ],
+}));
+/**
+ * Rejects an invitation to a resource share from another Amazon Web Services account.
+ */
+export const rejectResourceShareInvitation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RejectResourceShareInvitationRequest,
+    output: RejectResourceShareInvitationResponse,
+    errors: [
+      IdempotentParameterMismatchException,
+      InvalidClientTokenException,
+      MalformedArnException,
+      OperationNotPermittedException,
+      ResourceShareInvitationAlreadyAcceptedException,
+      ResourceShareInvitationAlreadyRejectedException,
+      ResourceShareInvitationArnNotFoundException,
+      ResourceShareInvitationExpiredException,
+      ServerInternalException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you
+ * want to share, a list of principals you want to share the resources with, and the
+ * permissions to grant those principals.
+ *
+ * Sharing a resource makes it available for use by principals outside of the
+ * Amazon Web Services account that created the resource. Sharing doesn't change any permissions or
+ * quotas that apply to the resource in the account that created it.
+ */
+export const createResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceShareRequest,
+  output: CreateResourceShareResponse,
+  errors: [
+    IdempotentParameterMismatchException,
+    InvalidClientTokenException,
+    InvalidParameterException,
+    InvalidStateTransitionException,
+    MalformedArnException,
+    OperationNotPermittedException,
+    ResourceShareLimitExceededException,
+    ServerInternalException,
+    ServiceUnavailableException,
+    TagLimitExceededException,
+    TagPolicyViolationException,
+    UnknownResourceException,
+  ],
+}));
+/**
+ * Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the
+ * invitation, the resources included in the resource share are available to interact with in the
+ * relevant Amazon Web Services Management Consoles and tools.
+ */
+export const acceptResourceShareInvitation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AcceptResourceShareInvitationRequest,
+    output: AcceptResourceShareInvitationResponse,
+    errors: [
+      IdempotentParameterMismatchException,
+      InvalidClientTokenException,
+      MalformedArnException,
+      OperationNotPermittedException,
+      ResourceShareInvitationAlreadyAcceptedException,
+      ResourceShareInvitationAlreadyRejectedException,
+      ResourceShareInvitationArnNotFoundException,
+      ResourceShareInvitationExpiredException,
+      ServerInternalException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Lists the resources in a resource share that is shared with you but for which the invitation is
+ * still `PENDING`. That means that you haven't accepted or rejected the
+ * invitation and the invitation hasn't expired.
+ */
+export const listPendingInvitationResources =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListPendingInvitationResourcesRequest,
+    output: ListPendingInvitationResourcesResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterException,
+      MalformedArnException,
+      MissingRequiredParameterException,
+      ResourceShareInvitationAlreadyRejectedException,
+      ResourceShareInvitationArnNotFoundException,
+      ResourceShareInvitationExpiredException,
+      ServerInternalException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
  * When you attach a resource-based policy to a resource, RAM automatically creates
  * a resource share of `featureSet`=`CREATED_FROM_POLICY` with a managed permission that
  * has the same IAM permissions as the original resource-based policy. However, this type
@@ -1896,159 +2049,6 @@ export const promoteResourceShareCreatedFromPolicy =
       UnmatchedPolicyPermissionException,
     ],
   }));
-/**
- * Rejects an invitation to a resource share from another Amazon Web Services account.
- */
-export const rejectResourceShareInvitation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectResourceShareInvitationRequest,
-    output: RejectResourceShareInvitationResponse,
-    errors: [
-      IdempotentParameterMismatchException,
-      InvalidClientTokenException,
-      MalformedArnException,
-      OperationNotPermittedException,
-      ResourceShareInvitationAlreadyAcceptedException,
-      ResourceShareInvitationAlreadyRejectedException,
-      ResourceShareInvitationArnNotFoundException,
-      ResourceShareInvitationExpiredException,
-      ServerInternalException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the
- * invitation, the resources included in the resource share are available to interact with in the
- * relevant Amazon Web Services Management Consoles and tools.
- */
-export const acceptResourceShareInvitation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptResourceShareInvitationRequest,
-    output: AcceptResourceShareInvitationResponse,
-    errors: [
-      IdempotentParameterMismatchException,
-      InvalidClientTokenException,
-      MalformedArnException,
-      OperationNotPermittedException,
-      ResourceShareInvitationAlreadyAcceptedException,
-      ResourceShareInvitationAlreadyRejectedException,
-      ResourceShareInvitationArnNotFoundException,
-      ResourceShareInvitationExpiredException,
-      ServerInternalException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Adds the specified list of principals and list of resources to a resource share. Principals that
- * already have access to this resource share immediately receive access to the added resources.
- * Newly added principals immediately receive access to the resources shared in this resource share.
- */
-export const associateResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateResourceShareRequest,
-    output: AssociateResourceShareResponse,
-    errors: [
-      IdempotentParameterMismatchException,
-      InvalidClientTokenException,
-      InvalidParameterException,
-      InvalidStateTransitionException,
-      MalformedArnException,
-      OperationNotPermittedException,
-      ResourceShareLimitExceededException,
-      ServerInternalException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnknownResourceException,
-    ],
-  }),
-);
-/**
- * Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you
- * want to share, a list of principals you want to share the resources with, and the
- * permissions to grant those principals.
- *
- * Sharing a resource makes it available for use by principals outside of the
- * Amazon Web Services account that created the resource. Sharing doesn't change any permissions or
- * quotas that apply to the resource in the account that created it.
- */
-export const createResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateResourceShareRequest,
-  output: CreateResourceShareResponse,
-  errors: [
-    IdempotentParameterMismatchException,
-    InvalidClientTokenException,
-    InvalidParameterException,
-    InvalidStateTransitionException,
-    MalformedArnException,
-    OperationNotPermittedException,
-    ResourceShareLimitExceededException,
-    ServerInternalException,
-    ServiceUnavailableException,
-    TagLimitExceededException,
-    TagPolicyViolationException,
-    UnknownResourceException,
-  ],
-}));
-/**
- * Retrieves details about invitations that you have received for resource shares.
- */
-export const getResourceShareInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourceShareInvitationsRequest,
-    output: GetResourceShareInvitationsResponse,
-    errors: [
-      InvalidMaxResultsException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      MalformedArnException,
-      ResourceShareInvitationArnNotFoundException,
-      ServerInternalException,
-      ServiceUnavailableException,
-      UnknownResourceException,
-    ],
-  }),
-);
-/**
- * Lists the resources in a resource share that is shared with you but for which the invitation is
- * still `PENDING`. That means that you haven't accepted or rejected the
- * invitation and the invitation hasn't expired.
- */
-export const listPendingInvitationResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListPendingInvitationResourcesRequest,
-    output: ListPendingInvitationResourcesResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterException,
-      MalformedArnException,
-      MissingRequiredParameterException,
-      ResourceShareInvitationAlreadyRejectedException,
-      ResourceShareInvitationArnNotFoundException,
-      ResourceShareInvitationExpiredException,
-      ServerInternalException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Adds the specified tag keys and values to a resource share or managed permission. If you choose a resource share, the
- * tags are attached to only the resource share, not to the resources that are in the resource share.
- *
- * The tags on a managed permission are the same for all versions of the managed permission.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidParameterException,
-    MalformedArnException,
-    ResourceArnNotFoundException,
-    ServerInternalException,
-    ServiceUnavailableException,
-    TagLimitExceededException,
-    TagPolicyViolationException,
-    UnknownResourceException,
-  ],
-}));
 /**
  * Creates a new version of the specified customer managed permission. The new version is automatically set as
  * the default version of the customer managed permission. New resource shares automatically use the default

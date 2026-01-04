@@ -672,39 +672,39 @@ export class ListProfilesResponse extends S.Class<ListProfilesResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
-  "InternalServiceErrorException",
-  {},
-) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
 ) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
+  { Message: S.String, FieldName: S.optional(S.String) },
+) {}
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { Message: S.optional(S.String) },
+) {}
+export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
+  "InternalServiceErrorException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceExistsException extends S.TaggedError<ResourceExistsException>()(
   "ResourceExistsException",
@@ -712,127 +712,6 @@ export class ResourceExistsException extends S.TaggedError<ResourceExistsExcepti
 ) {}
 
 //# Operations
-/**
- * Lists the tags that you associated with the specified resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds one or more tags to a specified resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes one or more tags from a specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a DNS reource configuration to a Route 53 Profile.
- */
-export const associateResourceToProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateResourceToProfileRequest,
-    output: AssociateResourceToProfileResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates an empty Route 53 Profile.
- */
-export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProfileRequest,
-  output: CreateProfileResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterException,
-    LimitExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
- */
-export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProfileRequest,
-  output: DeleteProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Dissociates a specified Route 53 Profile from the specified VPC.
- */
-export const disassociateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateProfileRequest,
-  output: DisassociateProfileResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Dissoaciated a specified resource, from the Route 53 Profile.
- */
-export const disassociateResourceFromProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateResourceFromProfileRequest,
-    output: DisassociateResourceFromProfileResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile.
  */
@@ -847,20 +726,23 @@ export const getProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
+ * Updates the specified Route 53 Profile resourse association.
  */
-export const getProfileAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProfileAssociationRequest,
-    output: GetProfileAssociationResponse,
+export const updateProfileResourceAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateProfileResourceAssociationRequest,
+    output: UpdateProfileResourceAssociationResponse,
     errors: [
       AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      InvalidParameterException,
+      LimitExceededException,
       ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],
-  }),
-);
+  }));
 /**
  * Returns information about a specified Route 53 Profile resource association.
  */
@@ -910,6 +792,76 @@ export const listProfileResourceAssociations =
     ],
   }));
 /**
+ * Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
+ */
+export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProfileRequest,
+  output: DeleteProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the tags that you associated with the specified resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
+ */
+export const getProfileAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetProfileAssociationRequest,
+    output: GetProfileAssociationResponse,
+    errors: [
+      AccessDeniedException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Adds one or more tags to a specified resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes one or more tags from a specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists all the Route 53 Profiles associated with your Amazon Web Services account.
  */
 export const listProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -924,12 +876,12 @@ export const listProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates the specified Route 53 Profile resourse association.
+ * Dissoaciated a specified resource, from the Route 53 Profile.
  */
-export const updateProfileResourceAssociation =
+export const disassociateResourceFromProfile =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateProfileResourceAssociationRequest,
-    output: UpdateProfileResourceAssociationResponse,
+    input: DisassociateResourceFromProfileRequest,
+    output: DisassociateResourceFromProfileResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -941,6 +893,54 @@ export const updateProfileResourceAssociation =
       ValidationException,
     ],
   }));
+/**
+ * Associates a DNS reource configuration to a Route 53 Profile.
+ */
+export const associateResourceToProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateResourceToProfileRequest,
+    output: AssociateResourceToProfileResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      InvalidParameterException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates an empty Route 53 Profile.
+ */
+export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProfileRequest,
+  output: CreateProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterException,
+    LimitExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Dissociates a specified Route 53 Profile from the specified VPC.
+ */
+export const disassociateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateProfileRequest,
+  output: DisassociateProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota).
  * For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.

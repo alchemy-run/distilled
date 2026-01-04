@@ -778,7 +778,6 @@ export class SortCriteria extends S.Class<SortCriteria>("SortCriteria")({
   Field: S.optional(S.String),
   SortOrder: S.optional(S.String),
 }) {}
-export const ResourceList = S.Array(S.String);
 export class CreateGraphRequest extends S.Class<CreateGraphRequest>(
   "CreateGraphRequest",
 )(
@@ -991,6 +990,7 @@ export class DatasourcePackageIngestDetail extends S.Class<DatasourcePackageInge
   DatasourcePackageIngestState: S.optional(S.String),
   LastIngestStateChange: S.optional(LastIngestStateChangeDates),
 }) {}
+export const ResourceList = S.Array(S.String);
 export const DatasourcePackageIngestDetails = S.Record({
   key: S.String,
   value: DatasourcePackageIngestDetail,
@@ -1110,121 +1110,67 @@ export class BatchGetGraphMemberDatasourcesResponse extends S.Class<BatchGetGrap
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  {
+    Message: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorCodeReason: S.optional(S.String),
+    SubErrorCode: S.optional(S.String),
+    SubErrorCodeReason: S.optional(S.String),
+  },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  {
+    Message: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorCodeReason: S.optional(S.String),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String), Resources: S.optional(ResourceList) },
 ) {}
 
 //# Operations
 /**
- * Rejects an invitation to contribute the account data to a behavior graph. This operation
- * must be called by an invited member account that has the `INVITED`
- * status.
+ * Retrieves the list of open and accepted behavior graph invitations for the member
+ * account. This operation can only be called by an invited member account.
  *
- * `RejectInvitation` cannot be called by an organization account in the
- * organization behavior graph. In the organization behavior graph, organization accounts do
- * not receive an invitation.
+ * Open invitations are invitations that the member account has not responded to.
+ *
+ * The results do not include behavior graphs for which the member account declined the
+ * invitation. The results also do not include behavior graphs that the member account
+ * resigned from or was removed from.
  */
-export const rejectInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RejectInvitationRequest,
-  output: RejectInvitationResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInvitationsRequest,
+  output: ListInvitationsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
 }));
 /**
- * Applies tag values to a behavior graph.
+ * Returns information about the Detective administrator account for an
+ * organization. Can only be called by the organization management account.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes tags from a behavior graph.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a data source package for the Detective behavior graph.
- */
-export const updateDatasourcePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDatasourcePackagesRequest,
-    output: UpdateDatasourcePackagesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the state of an investigation.
- */
-export const updateInvestigationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInvestigationStateRequest,
-    output: UpdateInvestigationStateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the configuration for the Organizations integration in the current Region.
- * Can only be called by the Detective administrator account for the
- * organization.
- */
-export const updateOrganizationConfiguration =
+export const listOrganizationAdminAccounts =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrganizationConfigurationRequest,
-    output: UpdateOrganizationConfigurationResponse,
+    input: ListOrganizationAdminAccountsRequest,
+    output: ListOrganizationAdminAccountsResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -1232,133 +1178,6 @@ export const updateOrganizationConfiguration =
       ValidationException,
     ],
   }));
-/**
- * Accepts an invitation for the member account to contribute data to a behavior graph.
- * This operation can only be called by an invited member account.
- *
- * The request provides the ARN of behavior graph.
- *
- * The member account status in the graph must be `INVITED`.
- */
-export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AcceptInvitationRequest,
-  output: AcceptInvitationResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Disables the specified behavior graph and queues it to be deleted. This operation
- * removes the behavior graph from each member account's list of behavior graphs.
- *
- * `DeleteGraph` can only be called by the administrator account for a behavior
- * graph.
- */
-export const deleteGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGraphRequest,
-  output: DeleteGraphResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the specified member accounts from the behavior graph. The removed accounts no
- * longer contribute data to the behavior graph. This operation can only be called by the
- * administrator account for the behavior graph.
- *
- * For invited accounts, the removed accounts are deleted from the list of accounts in the
- * behavior graph. To restore the account, the administrator account must send another
- * invitation.
- *
- * For organization accounts in the organization behavior graph, the Detective
- * administrator account can always enable the organization account again. Organization
- * accounts that are not enabled as member accounts are not included in the
- * `ListMembers` results for the organization behavior graph.
- *
- * An administrator account cannot use `DeleteMembers` to remove their own
- * account from the behavior graph. To disable a behavior graph, the administrator account
- * uses the `DeleteGraph` API method.
- */
-export const deleteMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMembersRequest,
-  output: DeleteMembersResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about the configuration for the organization behavior graph.
- * Currently indicates whether to automatically enable new organization accounts as member
- * accounts.
- *
- * Can only be called by the Detective administrator account for the organization.
- */
-export const describeOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConfigurationRequest,
-    output: DescribeOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Removes the Detective administrator account in the current Region. Deletes the
- * organization behavior graph.
- *
- * Can only be called by the organization management account.
- *
- * Removing the Detective administrator account does not affect the delegated
- * administrator account for Detective in Organizations.
- *
- * To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
- */
-export const disableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationAdminAccountRequest,
-    output: DisableOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Removes the member account from the specified behavior graph. This operation can only be
- * called by an invited member account that has the `ENABLED` status.
- *
- * `DisassociateMembership` cannot be called by an organization account in the
- * organization behavior graph. For the organization behavior graph, the Detective
- * administrator account determines which organization accounts to enable or disable as member
- * accounts.
- */
-export const disassociateMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateMembershipRequest,
-    output: DisassociateMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Designates the Detective administrator account for the organization in the
  * current Region.
@@ -1389,6 +1208,40 @@ export const enableOrganizationAdminAccount =
     ],
   }));
 /**
+ * Updates the configuration for the Organizations integration in the current Region.
+ * Can only be called by the Detective administrator account for the
+ * organization.
+ */
+export const updateOrganizationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateOrganizationConfigurationRequest,
+    output: UpdateOrganizationConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns information about the configuration for the organization behavior graph.
+ * Currently indicates whether to automatically enable new organization accounts as member
+ * accounts.
+ *
+ * Can only be called by the Detective administrator account for the organization.
+ */
+export const describeOrganizationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeOrganizationConfigurationRequest,
+    output: DescribeOrganizationConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `GetInvestigation` returns the investigation results of an investigation for a behavior graph.
  */
 export const getInvestigation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1401,21 +1254,6 @@ export const getInvestigation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
     ValidationException,
   ],
-}));
-/**
- * Retrieves the list of open and accepted behavior graph invitations for the member
- * account. This operation can only be called by an invited member account.
- *
- * Open invitations are invitations that the member account has not responded to.
- *
- * The results do not include behavior graphs for which the member account declined the
- * invitation. The results also do not include behavior graphs that the member account
- * resigned from or was removed from.
- */
-export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInvitationsRequest,
-  output: ListInvitationsResponse,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
 }));
 /**
  * Retrieves the list of member accounts for a behavior graph.
@@ -1465,6 +1303,258 @@ export const startInvestigation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Applies tag values to a behavior graph.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from a behavior graph.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the state of an investigation.
+ */
+export const updateInvestigationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateInvestigationStateRequest,
+    output: UpdateInvestigationStateResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Disables the specified behavior graph and queues it to be deleted. This operation
+ * removes the behavior graph from each member account's list of behavior graphs.
+ *
+ * `DeleteGraph` can only be called by the administrator account for a behavior
+ * graph.
+ */
+export const deleteGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGraphRequest,
+  output: DeleteGraphResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Rejects an invitation to contribute the account data to a behavior graph. This operation
+ * must be called by an invited member account that has the `INVITED`
+ * status.
+ *
+ * `RejectInvitation` cannot be called by an organization account in the
+ * organization behavior graph. In the organization behavior graph, organization accounts do
+ * not receive an invitation.
+ */
+export const rejectInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectInvitationRequest,
+  output: RejectInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Accepts an invitation for the member account to contribute data to a behavior graph.
+ * This operation can only be called by an invited member account.
+ *
+ * The request provides the ARN of behavior graph.
+ *
+ * The member account status in the graph must be `INVITED`.
+ */
+export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptInvitationRequest,
+  output: AcceptInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the specified member accounts from the behavior graph. The removed accounts no
+ * longer contribute data to the behavior graph. This operation can only be called by the
+ * administrator account for the behavior graph.
+ *
+ * For invited accounts, the removed accounts are deleted from the list of accounts in the
+ * behavior graph. To restore the account, the administrator account must send another
+ * invitation.
+ *
+ * For organization accounts in the organization behavior graph, the Detective
+ * administrator account can always enable the organization account again. Organization
+ * accounts that are not enabled as member accounts are not included in the
+ * `ListMembers` results for the organization behavior graph.
+ *
+ * An administrator account cannot use `DeleteMembers` to remove their own
+ * account from the behavior graph. To disable a behavior graph, the administrator account
+ * uses the `DeleteGraph` API method.
+ */
+export const deleteMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMembersRequest,
+  output: DeleteMembersResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information on the data source package history for an account.
+ */
+export const batchGetMembershipDatasources =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchGetMembershipDatasourcesRequest,
+    output: BatchGetMembershipDatasourcesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Removes the Detective administrator account in the current Region. Deletes the
+ * organization behavior graph.
+ *
+ * Can only be called by the organization management account.
+ *
+ * Removing the Detective administrator account does not affect the delegated
+ * administrator account for Detective in Organizations.
+ *
+ * To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
+ */
+export const disableOrganizationAdminAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisableOrganizationAdminAccountRequest,
+    output: DisableOrganizationAdminAccountResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Removes the member account from the specified behavior graph. This operation can only be
+ * called by an invited member account that has the `ENABLED` status.
+ *
+ * `DisassociateMembership` cannot be called by an organization account in the
+ * organization behavior graph. For the organization behavior graph, the Detective
+ * administrator account determines which organization accounts to enable or disable as member
+ * accounts.
+ */
+export const disassociateMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateMembershipRequest,
+    output: DisassociateMembershipResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns the list of behavior graphs that the calling account is an administrator account
+ * of. This operation can only be called by an administrator account.
+ *
+ * Because an account can currently only be the administrator of one behavior graph within
+ * a Region, the results always contain a single behavior graph.
+ */
+export const listGraphs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGraphsRequest,
+  output: ListGraphsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+}));
+/**
+ * Creates a new behavior graph for the calling account, and sets that account as the
+ * administrator account. This operation is called by the account that is enabling Detective.
+ *
+ * The operation also enables Detective for the calling account in the currently
+ * selected Region. It returns the ARN of the new behavior graph.
+ *
+ * `CreateGraph` triggers a process to create the corresponding data tables for
+ * the new behavior graph.
+ *
+ * An account can only be the administrator account for one behavior graph within a Region.
+ * If the same account calls `CreateGraph` with the same administrator account, it
+ * always returns the same behavior graph ARN. It does not create a new behavior graph.
+ */
+export const createGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGraphRequest,
+  output: CreateGraphResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+  ],
+}));
+/**
+ * Lists data source packages in the behavior graph.
+ */
+export const listDatasourcePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDatasourcePackagesRequest,
+    output: ListDatasourcePackagesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Starts a data source package for the Detective behavior graph.
+ */
+export const updateDatasourcePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDatasourcePackagesRequest,
+    output: UpdateDatasourcePackagesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Sends a request to enable data ingest for a member account that has a status of
  * `ACCEPTED_BUT_DISABLED`.
  *
@@ -1490,44 +1580,6 @@ export const startMonitoringMember = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Gets information on the data source package history for an account.
- */
-export const batchGetMembershipDatasources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetMembershipDatasourcesRequest,
-    output: BatchGetMembershipDatasourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a new behavior graph for the calling account, and sets that account as the
- * administrator account. This operation is called by the account that is enabling Detective.
- *
- * The operation also enables Detective for the calling account in the currently
- * selected Region. It returns the ARN of the new behavior graph.
- *
- * `CreateGraph` triggers a process to create the corresponding data tables for
- * the new behavior graph.
- *
- * An account can only be the administrator account for one behavior graph within a Region.
- * If the same account calls `CreateGraph` with the same administrator account, it
- * always returns the same behavior graph ARN. It does not create a new behavior graph.
- */
-export const createGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGraphRequest,
-  output: CreateGraphResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-  ],
-}));
 /**
  * `CreateMembers` is used to send invitations to accounts. For the organization
  * behavior graph, the Detective administrator account uses
@@ -1572,48 +1624,6 @@ export const createMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Returns the list of behavior graphs that the calling account is an administrator account
- * of. This operation can only be called by an administrator account.
- *
- * Because an account can currently only be the administrator of one behavior graph within
- * a Region, the results always contain a single behavior graph.
- */
-export const listGraphs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGraphsRequest,
-  output: ListGraphsResponse,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
-}));
-/**
- * Returns information about the Detective administrator account for an
- * organization. Can only be called by the organization management account.
- */
-export const listOrganizationAdminAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListOrganizationAdminAccountsRequest,
-    output: ListOrganizationAdminAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists data source packages in the behavior graph.
- */
-export const listDatasourcePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDatasourcePackagesRequest,
-    output: ListDatasourcePackagesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Returns the membership details for specified member accounts for a behavior
  * graph.

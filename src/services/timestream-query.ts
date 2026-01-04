@@ -806,38 +806,38 @@ export class QueryResponse extends S.Class<QueryResponse>("QueryResponse")({
 }) {}
 
 //# Errors
-export class InvalidEndpointException extends S.TaggedError<InvalidEndpointException>()(
-  "InvalidEndpointException",
-  {},
-) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "AccessDenied", httpResponseCode: 403 }),
+) {}
+export class InvalidEndpointException extends S.TaggedError<InvalidEndpointException>()(
+  "InvalidEndpointException",
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String), ScheduledQueryArn: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
 ) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class QueryExecutionException extends S.TaggedError<QueryExecutionException>()(
   "QueryExecutionException",
@@ -845,6 +845,23 @@ export class QueryExecutionException extends S.TaggedError<QueryExecutionExcepti
 ) {}
 
 //# Operations
+/**
+ * Describes the settings for your account that include the query pricing model and the configured maximum TCUs the service can use for your query workload.
+ *
+ * You're charged only for the duration of compute units used for your workloads.
+ */
+export const describeAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAccountSettingsRequest,
+    output: DescribeAccountSettingsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidEndpointException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * DescribeEndpoints returns a list of available endpoints to make Timestream
  * API calls against. This API is available through both Write and Query.
@@ -888,32 +905,6 @@ export const executeScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * List all tags on a Timestream query resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InvalidEndpointException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the association of tags from a Timestream query resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidEndpointException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Update a scheduled query.
  */
 export const updateScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -950,6 +941,32 @@ export const cancelQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Removes the association of tags from a Timestream query resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List all tags on a Timestream query resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Deletes a given scheduled query. This is an irreversible operation.
  */
 export const deleteScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -967,39 +984,6 @@ export const deleteScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Associate a set of tags with a Timestream resource. You can then activate these
- * user-defined tags so that they appear on the Billing and Cost Management console for
- * cost allocation tracking.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidEndpointException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Describes the settings for your account that include the query pricing model and the configured maximum TCUs the service can use for your query workload.
- *
- * You're charged only for the duration of compute units used for your workloads.
- */
-export const describeAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountSettingsRequest,
-    output: DescribeAccountSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * A synchronous operation that allows you to submit a query with parameters to be stored
  * by Timestream for later running. Timestream only supports using this operation with
  * `ValidateOnly` set to `true`.
@@ -1011,6 +995,22 @@ export const prepareQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalServerException,
     InvalidEndpointException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associate a set of tags with a Timestream resource. You can then activate these
+ * user-defined tags so that they appear on the Billing and Cost Management console for
+ * cost allocation tracking.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],

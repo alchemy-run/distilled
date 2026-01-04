@@ -392,10 +392,6 @@ export class CreateTokenWithIAMResponse extends S.Class<CreateTokenWithIAMRespon
 }) {}
 
 //# Errors
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   {
@@ -404,9 +400,17 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
     error_description: S.optional(S.String),
   },
 ) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
+) {}
 export class AuthorizationPendingException extends S.TaggedError<AuthorizationPendingException>()(
   "AuthorizationPendingException",
-  {},
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
+) {}
+export class InvalidClientMetadataException extends S.TaggedError<InvalidClientMetadataException>()(
+  "InvalidClientMetadataException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
 ) {}
 export class InvalidClientException extends S.TaggedError<InvalidClientException>()(
   "InvalidClientException",
@@ -414,18 +418,30 @@ export class InvalidClientException extends S.TaggedError<InvalidClientException
 ) {}
 export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(
   "ExpiredTokenException",
-  {},
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
 ) {}
-export class InvalidGrantException extends S.TaggedError<InvalidGrantException>()(
-  "InvalidGrantException",
-  {},
+export class InvalidRedirectUriException extends S.TaggedError<InvalidRedirectUriException>()(
+  "InvalidRedirectUriException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  {
+    error: S.optional(S.String),
+    reason: S.optional(S.String),
+    error_description: S.optional(S.String),
+  },
 ) {}
-export class InvalidClientMetadataException extends S.TaggedError<InvalidClientMetadataException>()(
-  "InvalidClientMetadataException",
+export class InvalidGrantException extends S.TaggedError<InvalidGrantException>()(
+  "InvalidGrantException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
+) {}
+export class SlowDownException extends S.TaggedError<SlowDownException>()(
+  "SlowDownException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
+) {}
+export class InvalidScopeException extends S.TaggedError<InvalidScopeException>()(
+  "InvalidScopeException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
 ) {}
 export class InvalidRequestRegionException extends S.TaggedError<InvalidRequestRegionException>()(
@@ -437,25 +453,13 @@ export class InvalidRequestRegionException extends S.TaggedError<InvalidRequestR
     region: S.optional(S.String),
   },
 ) {}
-export class InvalidScopeException extends S.TaggedError<InvalidScopeException>()(
-  "InvalidScopeException",
-  {},
-) {}
-export class SlowDownException extends S.TaggedError<SlowDownException>()(
-  "SlowDownException",
-  {},
-) {}
-export class InvalidRedirectUriException extends S.TaggedError<InvalidRedirectUriException>()(
-  "InvalidRedirectUriException",
-  { error: S.optional(S.String), error_description: S.optional(S.String) },
-) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
-  {},
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
 ) {}
 export class UnsupportedGrantTypeException extends S.TaggedError<UnsupportedGrantTypeException>()(
   "UnsupportedGrantTypeException",
-  {},
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -476,6 +480,24 @@ export const startDeviceAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Registers a public client with IAM Identity Center. This allows clients to perform authorization using
+ * the authorization code grant with Proof Key for Code Exchange (PKCE) or the device
+ * code grant.
+ */
+export const registerClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterClientRequest,
+  output: RegisterClientResponse,
+  errors: [
+    InternalServerException,
+    InvalidClientMetadataException,
+    InvalidRedirectUriException,
+    InvalidRequestException,
+    InvalidScopeException,
+    SlowDownException,
+    UnsupportedGrantTypeException,
+  ],
+}));
 /**
  * Creates and returns access and refresh tokens for clients that are authenticated using
  * client secrets. The access token can be used to fetch short-lived credentials for the assigned
@@ -522,24 +544,6 @@ export const createTokenWithIAM = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidScopeException,
     SlowDownException,
     UnauthorizedClientException,
-    UnsupportedGrantTypeException,
-  ],
-}));
-/**
- * Registers a public client with IAM Identity Center. This allows clients to perform authorization using
- * the authorization code grant with Proof Key for Code Exchange (PKCE) or the device
- * code grant.
- */
-export const registerClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterClientRequest,
-  output: RegisterClientResponse,
-  errors: [
-    InternalServerException,
-    InvalidClientMetadataException,
-    InvalidRedirectUriException,
-    InvalidRequestException,
-    InvalidScopeException,
-    SlowDownException,
     UnsupportedGrantTypeException,
   ],
 }));

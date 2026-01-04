@@ -786,39 +786,39 @@ export class DescribeTrustedAdvisorCheckResultResponse extends S.Class<DescribeT
 //# Errors
 export class AttachmentSetExpired extends S.TaggedError<AttachmentSetExpired>()(
   "AttachmentSetExpired",
-  {},
-) {}
-export class AttachmentSetIdNotFound extends S.TaggedError<AttachmentSetIdNotFound>()(
-  "AttachmentSetIdNotFound",
-  {},
-) {}
-export class CaseIdNotFound extends S.TaggedError<CaseIdNotFound>()(
-  "CaseIdNotFound",
-  {},
-) {}
-export class InternalServerError extends S.TaggedError<InternalServerError>()(
-  "InternalServerError",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AttachmentIdNotFound extends S.TaggedError<AttachmentIdNotFound>()(
   "AttachmentIdNotFound",
   { message: S.optional(S.String) },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-  T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
+export class InternalServerError extends S.TaggedError<InternalServerError>()(
+  "InternalServerError",
+  { message: S.optional(S.String) },
+) {}
+export class CaseIdNotFound extends S.TaggedError<CaseIdNotFound>()(
+  "CaseIdNotFound",
+  { message: S.optional(S.String) },
 ) {}
 export class AttachmentLimitExceeded extends S.TaggedError<AttachmentLimitExceeded>()(
   "AttachmentLimitExceeded",
   { message: S.optional(S.String) },
 ) {}
-export class CaseCreationLimitExceeded extends S.TaggedError<CaseCreationLimitExceeded>()(
-  "CaseCreationLimitExceeded",
+export class AttachmentSetIdNotFound extends S.TaggedError<AttachmentSetIdNotFound>()(
+  "AttachmentSetIdNotFound",
   { message: S.optional(S.String) },
 ) {}
 export class DescribeAttachmentLimitExceeded extends S.TaggedError<DescribeAttachmentLimitExceeded>()(
   "DescribeAttachmentLimitExceeded",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
+) {}
+export class CaseCreationLimitExceeded extends S.TaggedError<CaseCreationLimitExceeded>()(
+  "CaseCreationLimitExceeded",
   { message: S.optional(S.String) },
 ) {}
 export class AttachmentSetSizeLimitExceeded extends S.TaggedError<AttachmentSetSizeLimitExceeded>()(
@@ -827,6 +827,75 @@ export class AttachmentSetSizeLimitExceeded extends S.TaggedError<AttachmentSetS
 ) {}
 
 //# Operations
+/**
+ * Refreshes the Trusted Advisor check that you specify using the check ID. You can get the
+ * check IDs by calling the DescribeTrustedAdvisorChecks
+ * operation.
+ *
+ * Some checks are refreshed automatically. If you call the
+ * `RefreshTrustedAdvisorCheck` operation to refresh them, you might see
+ * the `InvalidParameterValue` error.
+ *
+ * The response contains a TrustedAdvisorCheckRefreshStatus
+ * object.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ *
+ * To call the Trusted Advisor operations in
+ * the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
+ * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
+ * API in the *Amazon Web Services Support User Guide*.
+ */
+export const refreshTrustedAdvisorCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RefreshTrustedAdvisorCheckRequest,
+    output: RefreshTrustedAdvisorCheckResponse,
+    errors: [InternalServerError],
+  }),
+);
+/**
+ * Resolves a support case. This operation takes a `caseId` and returns the
+ * initial and final state of the case.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const resolveCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResolveCaseRequest,
+  output: ResolveCaseResponse,
+  errors: [CaseIdNotFound, InternalServerError],
+}));
+/**
+ * Returns the list of severity levels that you can assign to a support case. The
+ * severity level for a case is also a field in the CaseDetails data type
+ * that you include for a CreateCase request.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const describeSeverityLevels = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeSeverityLevelsRequest,
+    output: DescribeSeverityLevelsResponse,
+    errors: [InternalServerError],
+  }),
+);
 /**
  * Adds additional customer communication to an Amazon Web Services Support case. Use the `caseId`
  * parameter to identify the case to which to add communication. You can list a set of
@@ -855,9 +924,11 @@ export const addCommunicationToCase = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns the list of severity levels that you can assign to a support case. The
- * severity level for a case is also a field in the CaseDetails data type
- * that you include for a CreateCase request.
+ * Returns the attachment that has the specified ID. Attachments can include screenshots,
+ * error logs, or other files that describe your issue. Attachment IDs are generated by the
+ * case management system when you add an attachment to a case or case communication.
+ * Attachment IDs are returned in the AttachmentDetails objects that are
+ * returned by the DescribeCommunications operation.
  *
  * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
  * API.
@@ -867,11 +938,117 @@ export const addCommunicationToCase = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeSeverityLevels = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAttachmentRequest,
+  output: DescribeAttachmentResponse,
+  errors: [
+    AttachmentIdNotFound,
+    DescribeAttachmentLimitExceeded,
+    InternalServerError,
+  ],
+}));
+/**
+ * Returns a list of cases that you specify by passing one or more case IDs. You can use
+ * the `afterTime` and `beforeTime` parameters to filter the cases by
+ * date. You can set values for the `includeResolvedCases` and
+ * `includeCommunications` parameters to specify how much information to
+ * return.
+ *
+ * The response returns the following in JSON format:
+ *
+ * - One or more CaseDetails data types.
+ *
+ * - One or more `nextToken` values, which specify where to paginate the
+ * returned records represented by the `CaseDetails` objects.
+ *
+ * Case data is available for 12 months after creation. If a case was created more than
+ * 12 months ago, a request might return an error.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const describeCases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCasesRequest,
+  output: DescribeCasesResponse,
+  errors: [CaseIdNotFound, InternalServerError],
+}));
+/**
+ * Returns communications and attachments for one or more support cases. Use the
+ * `afterTime` and `beforeTime` parameters to filter by date. You
+ * can use the `caseId` parameter to restrict the results to a specific
+ * case.
+ *
+ * Case data is available for 12 months after creation. If a case was created more than
+ * 12 months ago, a request for data might cause an error.
+ *
+ * You can use the `maxResults` and `nextToken` parameters to
+ * control the pagination of the results. Set `maxResults` to the number of
+ * cases that you want to display on each page, and use `nextToken` to specify
+ * the resumption of pagination.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const describeCommunications = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeSeverityLevelsRequest,
-    output: DescribeSeverityLevelsResponse,
-    errors: [InternalServerError],
+    input: DescribeCommunicationsRequest,
+    output: DescribeCommunicationsResponse,
+    errors: [CaseIdNotFound, InternalServerError],
+  }),
+);
+/**
+ * Returns the current list of Amazon Web Services services and a list of service categories for each
+ * service. You then use service names and categories in your CreateCase
+ * requests. Each Amazon Web Services service has its own set of categories.
+ *
+ * The service codes and category codes correspond to the values that appear in the
+ * **Service** and **Category** lists on the Amazon Web Services Support Center Create Case page. The values in those fields
+ * don't necessarily match the service codes and categories returned by the
+ * `DescribeServices` operation. Always use the service codes and categories
+ * that the `DescribeServices` operation returns, so that you have the most
+ * recent set of service and category codes.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const describeServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeServicesRequest,
+  output: DescribeServicesResponse,
+  errors: [InternalServerError],
+}));
+/**
+ * Returns a list of supported languages for a specified `categoryCode`,
+ * `issueType` and `serviceCode`. The returned supported languages will
+ * include a ISO 639-1 code for the `language`, and the language display name.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const describeSupportedLanguages = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeSupportedLanguagesRequest,
+    output: DescribeSupportedLanguagesResponse,
+    errors: [InternalServerError, ThrottlingException],
   }),
 );
 /**
@@ -958,176 +1135,6 @@ export const describeTrustedAdvisorCheckSummaries =
     errors: [InternalServerError, ThrottlingException],
   }));
 /**
- * Refreshes the Trusted Advisor check that you specify using the check ID. You can get the
- * check IDs by calling the DescribeTrustedAdvisorChecks
- * operation.
- *
- * Some checks are refreshed automatically. If you call the
- * `RefreshTrustedAdvisorCheck` operation to refresh them, you might see
- * the `InvalidParameterValue` error.
- *
- * The response contains a TrustedAdvisorCheckRefreshStatus
- * object.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- *
- * To call the Trusted Advisor operations in
- * the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
- * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
- * API in the *Amazon Web Services Support User Guide*.
- */
-export const refreshTrustedAdvisorCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RefreshTrustedAdvisorCheckRequest,
-    output: RefreshTrustedAdvisorCheckResponse,
-    errors: [InternalServerError],
-  }),
-);
-/**
- * Resolves a support case. This operation takes a `caseId` and returns the
- * initial and final state of the case.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const resolveCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResolveCaseRequest,
-  output: ResolveCaseResponse,
-  errors: [CaseIdNotFound, InternalServerError],
-}));
-/**
- * Creates a case in the Amazon Web Services Support Center. This operation is similar to how you create a case
- * in the Amazon Web Services Support Center Create
- * Case page.
- *
- * The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a
- * service limit increase in the following ways:
- *
- * - Submit a request from the Amazon Web Services Support Center Create Case page.
- *
- * - Use the Service Quotas RequestServiceQuotaIncrease operation.
- *
- * A successful `CreateCase` request returns an Amazon Web Services Support case number. You can use
- * the DescribeCases operation and specify the case number to get
- * existing Amazon Web Services Support cases. After you create a case, use the AddCommunicationToCase operation to add additional communication or
- * attachments to an existing case.
- *
- * The `caseId` is separate from the `displayId` that appears in
- * the Amazon Web Services Support Center. Use the DescribeCases operation to get the `displayId`.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const createCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCaseRequest,
-  output: CreateCaseResponse,
-  errors: [
-    AttachmentSetExpired,
-    AttachmentSetIdNotFound,
-    CaseCreationLimitExceeded,
-    InternalServerError,
-  ],
-}));
-/**
- * Returns the attachment that has the specified ID. Attachments can include screenshots,
- * error logs, or other files that describe your issue. Attachment IDs are generated by the
- * case management system when you add an attachment to a case or case communication.
- * Attachment IDs are returned in the AttachmentDetails objects that are
- * returned by the DescribeCommunications operation.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const describeAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAttachmentRequest,
-  output: DescribeAttachmentResponse,
-  errors: [
-    AttachmentIdNotFound,
-    DescribeAttachmentLimitExceeded,
-    InternalServerError,
-  ],
-}));
-/**
- * Returns a list of cases that you specify by passing one or more case IDs. You can use
- * the `afterTime` and `beforeTime` parameters to filter the cases by
- * date. You can set values for the `includeResolvedCases` and
- * `includeCommunications` parameters to specify how much information to
- * return.
- *
- * The response returns the following in JSON format:
- *
- * - One or more CaseDetails data types.
- *
- * - One or more `nextToken` values, which specify where to paginate the
- * returned records represented by the `CaseDetails` objects.
- *
- * Case data is available for 12 months after creation. If a case was created more than
- * 12 months ago, a request might return an error.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const describeCases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeCasesRequest,
-  output: DescribeCasesResponse,
-  errors: [CaseIdNotFound, InternalServerError],
-}));
-/**
- * Returns communications and attachments for one or more support cases. Use the
- * `afterTime` and `beforeTime` parameters to filter by date. You
- * can use the `caseId` parameter to restrict the results to a specific
- * case.
- *
- * Case data is available for 12 months after creation. If a case was created more than
- * 12 months ago, a request for data might cause an error.
- *
- * You can use the `maxResults` and `nextToken` parameters to
- * control the pagination of the results. Set `maxResults` to the number of
- * cases that you want to display on each page, and use `nextToken` to specify
- * the resumption of pagination.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const describeCommunications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCommunicationsRequest,
-    output: DescribeCommunicationsResponse,
-    errors: [CaseIdNotFound, InternalServerError],
-  }),
-);
-/**
  * Returns a list of CreateCaseOption types along with the
  * corresponding supported hours and language availability. You can specify the `language`
  * `categoryCode`,
@@ -1148,77 +1155,6 @@ export const describeCreateCaseOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InternalServerError, ThrottlingException],
   }),
 );
-/**
- * Returns the current list of Amazon Web Services services and a list of service categories for each
- * service. You then use service names and categories in your CreateCase
- * requests. Each Amazon Web Services service has its own set of categories.
- *
- * The service codes and category codes correspond to the values that appear in the
- * **Service** and **Category** lists on the Amazon Web Services Support Center Create Case page. The values in those fields
- * don't necessarily match the service codes and categories returned by the
- * `DescribeServices` operation. Always use the service codes and categories
- * that the `DescribeServices` operation returns, so that you have the most
- * recent set of service and category codes.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const describeServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeServicesRequest,
-  output: DescribeServicesResponse,
-  errors: [InternalServerError],
-}));
-/**
- * Returns a list of supported languages for a specified `categoryCode`,
- * `issueType` and `serviceCode`. The returned supported languages will
- * include a ISO 639-1 code for the `language`, and the language display name.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const describeSupportedLanguages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSupportedLanguagesRequest,
-    output: DescribeSupportedLanguagesResponse,
-    errors: [InternalServerError, ThrottlingException],
-  }),
-);
-/**
- * Adds one or more attachments to an attachment set.
- *
- * An attachment set is a temporary container for attachments that you add to a case or
- * case communication. The set is available for 1 hour after it's created. The
- * `expiryTime` returned in the response is when the set expires.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const addAttachmentsToSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddAttachmentsToSetRequest,
-  output: AddAttachmentsToSetResponse,
-  errors: [
-    AttachmentLimitExceeded,
-    AttachmentSetExpired,
-    AttachmentSetIdNotFound,
-    AttachmentSetSizeLimitExceeded,
-    InternalServerError,
-  ],
-}));
 /**
  * Returns the results of the Trusted Advisor check that has the specified check ID. You
  * can get the check IDs by calling the DescribeTrustedAdvisorChecks
@@ -1264,3 +1200,67 @@ export const describeTrustedAdvisorCheckResult =
     output: DescribeTrustedAdvisorCheckResultResponse,
     errors: [InternalServerError, ThrottlingException],
   }));
+/**
+ * Creates a case in the Amazon Web Services Support Center. This operation is similar to how you create a case
+ * in the Amazon Web Services Support Center Create
+ * Case page.
+ *
+ * The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a
+ * service limit increase in the following ways:
+ *
+ * - Submit a request from the Amazon Web Services Support Center Create Case page.
+ *
+ * - Use the Service Quotas RequestServiceQuotaIncrease operation.
+ *
+ * A successful `CreateCase` request returns an Amazon Web Services Support case number. You can use
+ * the DescribeCases operation and specify the case number to get
+ * existing Amazon Web Services Support cases. After you create a case, use the AddCommunicationToCase operation to add additional communication or
+ * attachments to an existing case.
+ *
+ * The `caseId` is separate from the `displayId` that appears in
+ * the Amazon Web Services Support Center. Use the DescribeCases operation to get the `displayId`.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const createCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCaseRequest,
+  output: CreateCaseResponse,
+  errors: [
+    AttachmentSetExpired,
+    AttachmentSetIdNotFound,
+    CaseCreationLimitExceeded,
+    InternalServerError,
+  ],
+}));
+/**
+ * Adds one or more attachments to an attachment set.
+ *
+ * An attachment set is a temporary container for attachments that you add to a case or
+ * case communication. The set is available for 1 hour after it's created. The
+ * `expiryTime` returned in the response is when the set expires.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const addAttachmentsToSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddAttachmentsToSetRequest,
+  output: AddAttachmentsToSetResponse,
+  errors: [
+    AttachmentLimitExceeded,
+    AttachmentSetExpired,
+    AttachmentSetIdNotFound,
+    AttachmentSetSizeLimitExceeded,
+    InternalServerError,
+  ],
+}));

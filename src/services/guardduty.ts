@@ -4863,15 +4863,24 @@ export class GetFindingsResponse extends S.Class<GetFindingsResponse>(
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
-  "InternalServerErrorException",
-  {},
+  {
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+    Type: S.optional(S.String).pipe(T.JsonName("__type")),
+  },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  {
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+    Type: S.optional(S.String).pipe(T.JsonName("__type")),
+  },
+) {}
+export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
+  "InternalServerErrorException",
+  {
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+    Type: S.optional(S.String).pipe(T.JsonName("__type")),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
@@ -4882,284 +4891,13 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+    Type: S.optional(S.String).pipe(T.JsonName("__type")),
+  },
 ) {}
 
 //# Operations
-/**
- * Archives GuardDuty findings that are specified by the list of finding IDs.
- *
- * Only the administrator account can archive findings. Member accounts don't have
- * permission to archive findings from their accounts.
- */
-export const archiveFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ArchiveFindingsRequest,
-  output: ArchiveFindingsResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Generates sample findings of types specified by the list of finding types. If 'NULL' is
- * specified for `findingTypes`, the API generates sample findings of all supported
- * finding types.
- */
-export const createSampleFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSampleFindingsRequest,
-    output: CreateSampleFindingsResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
-/**
- * Deletes an Amazon GuardDuty detector that is specified by the detector ID.
- */
-export const deleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDetectorRequest,
-  output: DeleteDetectorResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Deletes the filter specified by the filter name.
- */
-export const deleteFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFilterRequest,
-  output: DeleteFilterResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Deletes the IPSet specified by the `ipSetId`. IPSets are called trusted IP
- * lists in the console user interface.
- */
-export const deleteIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIPSetRequest,
-  output: DeleteIPSetResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Deletes the publishing definition with the specified `destinationId`.
- */
-export const deletePublishingDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePublishingDestinationRequest,
-    output: DeletePublishingDestinationResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
-/**
- * Deletes the threat entity set that is associated with the specified
- * `threatEntitySetId`.
- */
-export const deleteThreatEntitySet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteThreatEntitySetRequest,
-    output: DeleteThreatEntitySetResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
-/**
- * Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
- */
-export const deleteThreatIntelSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteThreatIntelSetRequest,
-    output: DeleteThreatIntelSetResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
-/**
- * Deletes the trusted entity set that is associated with the specified
- * `trustedEntitySetId`.
- */
-export const deleteTrustedEntitySet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTrustedEntitySetRequest,
-    output: DeleteTrustedEntitySetResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
-/**
- * Removes the existing GuardDuty delegated
- * administrator of the organization. Only the organization's management account can run this
- * API operation.
- */
-export const disableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationAdminAccountRequest,
-    output: DisableOrganizationAdminAccountResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }));
-/**
- * Disassociates the current GuardDuty member account from its administrator account.
- *
- * When you
- * disassociate an invited member from a GuardDuty delegated administrator, the member account details
- * obtained from the CreateMembers API, including the associated email addresses, are retained. This is
- * done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To
- * remove the details associated with a member account, the delegated administrator must invoke the
- * DeleteMembers API.
- *
- * With `autoEnableOrganizationMembers` configuration for your organization set to
- * `ALL`, you'll receive an error if you attempt to disable GuardDuty in a member
- * account.
- */
-export const disassociateFromAdministratorAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromAdministratorAccountRequest,
-    output: DisassociateFromAdministratorAccountResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }));
-/**
- * Disassociates the current GuardDuty member account from its administrator account.
- *
- * When you
- * disassociate an invited member from a GuardDuty delegated administrator, the member account details
- * obtained from the CreateMembers API, including the associated email addresses, are retained. This is
- * done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To
- * remove the details associated with a member account, the delegated administrator must invoke the
- * DeleteMembers API.
- */
-export const disassociateFromMasterAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromMasterAccountRequest,
-    output: DisassociateFromMasterAccountResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }));
-/**
- * Designates an Amazon Web Services account within the organization as your GuardDuty delegated
- * administrator. Only the organization's management account can run this
- * API operation.
- */
-export const enableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOrganizationAdminAccountRequest,
-    output: EnableOrganizationAdminAccountResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }));
-/**
- * Returns the count of all GuardDuty membership invitations that were sent to the current
- * member account except the currently accepted invitation.
- */
-export const getInvitationsCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInvitationsCountRequest,
-  output: GetInvitationsCountResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Adds tags to a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerErrorException,
-  ],
-}));
-/**
- * Unarchives GuardDuty findings specified by the `findingIds`.
- */
-export const unarchiveFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UnarchiveFindingsRequest,
-  output: UnarchiveFindingsResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Removes tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerErrorException,
-  ],
-}));
-/**
- * Updates the GuardDuty detector specified by the detector ID.
- *
- * Specifying both EKS Runtime Monitoring (`EKS_RUNTIME_MONITORING`)
- * and Runtime Monitoring (`RUNTIME_MONITORING`) will cause an error.
- * You can add only one of these two features because Runtime Monitoring already includes the
- * threat detection for Amazon EKS resources. For more information, see
- * Runtime Monitoring.
- *
- * There might be regional differences because some data sources might not be
- * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
- * information, see Regions and endpoints.
- */
-export const updateDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDetectorRequest,
-  output: UpdateDetectorResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Marks the specified GuardDuty findings as useful or not useful.
- */
-export const updateFindingsFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFindingsFeedbackRequest,
-    output: UpdateFindingsFeedbackResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
-/**
- * Updates the IPSet specified by the IPSet ID.
- */
-export const updateIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateIPSetRequest,
-  output: UpdateIPSetResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerErrorException,
-  ],
-}));
-/**
- * Updates information about the publishing destination specified by the
- * `destinationId`.
- */
-export const updatePublishingDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePublishingDestinationRequest,
-    output: UpdatePublishingDestinationResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
-/**
- * Updates the threat entity set associated with the specified `threatEntitySetId`.
- */
-export const updateThreatEntitySet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateThreatEntitySetRequest,
-    output: UpdateThreatEntitySetResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
-/**
- * Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
- */
-export const updateThreatIntelSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateThreatIntelSetRequest,
-    output: UpdateThreatIntelSetResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerErrorException,
-    ],
-  }),
-);
-/**
- * Updates the trusted entity set associated with the specified `trustedEntitySetId`.
- */
-export const updateTrustedEntitySet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTrustedEntitySetRequest,
-    output: UpdateTrustedEntitySetResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
 /**
  * Accepts the invitation to be a member account and get monitored by a GuardDuty
  * administrator account that sent the invitation.
@@ -5171,28 +4909,141 @@ export const acceptAdministratorInvitation =
     errors: [BadRequestException, InternalServerErrorException],
   }));
 /**
- * Accepts the invitation to be monitored by a GuardDuty administrator account.
+ * Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account
+ * IDs. This step is a prerequisite for managing the associated member accounts either by
+ * invitation or through an organization.
+ *
+ * As a delegated administrator, using `CreateMembers` will enable GuardDuty in
+ * the added member accounts, with the exception of the
+ * organization delegated administrator account. A delegated administrator must enable GuardDuty
+ * prior to being added as a member.
+ *
+ * When you use CreateMembers as an Organizations delegated
+ * administrator, GuardDuty applies your organization's auto-enable settings to the member
+ * accounts in this request, irrespective of the accounts being new or existing members. For
+ * more information about the existing auto-enable settings for your organization, see
+ * DescribeOrganizationConfiguration.
+ *
+ * If you disassociate a member account that was added by invitation, the member account details
+ * obtained from this API, including the associated email addresses, will be retained.
+ * This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To
+ * remove the details associated with a member account, the delegated administrator must invoke the
+ * DeleteMembers API.
+ *
+ * When the member accounts added through Organizations are later disassociated, you (administrator)
+ * can't invite them by calling the InviteMembers API. You can create an association with these
+ * member accounts again only by calling the CreateMembers API.
  */
-export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AcceptInvitationRequest,
-  output: AcceptInvitationResponse,
+export const createMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMembersRequest,
+  output: CreateMembersResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
 /**
- * Creates a new IPSet, which is called a trusted IP list in the console user interface. An
- * IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services
- * infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are
- * included in IPSets. Only users from the administrator account can use this operation.
+ * Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the
+ * findings, the destination resource must exist.
  */
-export const createIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIPSetRequest,
-  output: CreateIPSetResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerErrorException,
-  ],
+export const createPublishingDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePublishingDestinationRequest,
+    output: CreatePublishingDestinationResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }),
+);
+/**
+ * Declines invitations sent to the current member account by Amazon Web Services accounts specified by
+ * their account IDs.
+ */
+export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeclineInvitationsRequest,
+  output: DeclineInvitationsResponse,
+  errors: [BadRequestException, InternalServerErrorException],
 }));
+/**
+ * Provides the details of the GuardDuty administrator account associated with the current
+ * GuardDuty member account.
+ *
+ * Based on the type of account that runs this API, the following list shows how the API behavior varies:
+ *
+ * - When the GuardDuty administrator account runs this API, it will return success (`HTTP 200`) but no content.
+ *
+ * - When a member account runs this API, it will return the details of the GuardDuty administrator account that is associated
+ * with this calling member account.
+ *
+ * - When an individual account (not associated with an organization) runs this API, it will return success (`HTTP 200`)
+ * but no content.
+ */
+export const getAdministratorAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAdministratorAccountRequest,
+    output: GetAdministratorAccountResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }),
+);
+/**
+ * Provides the details for the GuardDuty administrator account associated with the current
+ * GuardDuty member account.
+ */
+export const getMasterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMasterAccountRequest,
+  output: GetMasterAccountResponse,
+  errors: [BadRequestException, InternalServerErrorException],
+}));
+/**
+ * Retrieves GuardDuty member accounts (of the current GuardDuty administrator account)
+ * specified by the account IDs.
+ */
+export const getMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMembersRequest,
+  output: GetMembersResponse,
+  errors: [BadRequestException, InternalServerErrorException],
+}));
+/**
+ * Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services
+ * account.
+ */
+export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInvitationsRequest,
+  output: ListInvitationsResponse,
+  errors: [BadRequestException, InternalServerErrorException],
+}));
+/**
+ * Lists the Malware Protection plan IDs associated with the protected
+ * resources in your Amazon Web Services account.
+ */
+export const listMalwareProtectionPlans = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMalwareProtectionPlansRequest,
+    output: ListMalwareProtectionPlansResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      InternalServerErrorException,
+    ],
+  }),
+);
+/**
+ * Lists the accounts designated as GuardDuty delegated administrators.
+ * Only the organization's management account can run this
+ * API operation.
+ */
+export const listOrganizationAdminAccounts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListOrganizationAdminAccountsRequest,
+    output: ListOrganizationAdminAccountsResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }));
+/**
+ * Returns a list of publishing destinations associated with the specified
+ * `detectorId`.
+ */
+export const listPublishingDestinations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPublishingDestinationsRequest,
+    output: ListPublishingDestinationsResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }),
+);
 /**
  * Creates a new threat entity set. In a threat entity set, you can provide known malicious
  * IP addresses and domains for your Amazon Web Services environment.
@@ -5205,22 +5056,6 @@ export const createThreatEntitySet = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: CreateThreatEntitySetRequest,
     output: CreateThreatEntitySetResponse,
     errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
-/**
- * Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses.
- * GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator
- * account can use this operation.
- */
-export const createThreatIntelSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateThreatIntelSetRequest,
-    output: CreateThreatIntelSetResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerErrorException,
-    ],
   }),
 );
 /**
@@ -5540,186 +5375,315 @@ export const updateFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [BadRequestException, InternalServerErrorException],
 }));
 /**
- * Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account
- * IDs. This step is a prerequisite for managing the associated member accounts either by
- * invitation or through an organization.
- *
- * As a delegated administrator, using `CreateMembers` will enable GuardDuty in
- * the added member accounts, with the exception of the
- * organization delegated administrator account. A delegated administrator must enable GuardDuty
- * prior to being added as a member.
- *
- * When you use CreateMembers as an Organizations delegated
- * administrator, GuardDuty applies your organization's auto-enable settings to the member
- * accounts in this request, irrespective of the accounts being new or existing members. For
- * more information about the existing auto-enable settings for your organization, see
- * DescribeOrganizationConfiguration.
- *
- * If you disassociate a member account that was added by invitation, the member account details
- * obtained from this API, including the associated email addresses, will be retained.
- * This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To
- * remove the details associated with a member account, the delegated administrator must invoke the
- * DeleteMembers API.
- *
- * When the member accounts added through Organizations are later disassociated, you (administrator)
- * can't invite them by calling the InviteMembers API. You can create an association with these
- * member accounts again only by calling the CreateMembers API.
+ * Accepts the invitation to be monitored by a GuardDuty administrator account.
  */
-export const createMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateMembersRequest,
-  output: CreateMembersResponse,
+export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptInvitationRequest,
+  output: AcceptInvitationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
 /**
- * Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the
- * findings, the destination resource must exist.
+ * Archives GuardDuty findings that are specified by the list of finding IDs.
+ *
+ * Only the administrator account can archive findings. Member accounts don't have
+ * permission to archive findings from their accounts.
  */
-export const createPublishingDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const archiveFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ArchiveFindingsRequest,
+  output: ArchiveFindingsResponse,
+  errors: [BadRequestException, InternalServerErrorException],
+}));
+/**
+ * Generates sample findings of types specified by the list of finding types. If 'NULL' is
+ * specified for `findingTypes`, the API generates sample findings of all supported
+ * finding types.
+ */
+export const createSampleFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreatePublishingDestinationRequest,
-    output: CreatePublishingDestinationResponse,
+    input: CreateSampleFindingsRequest,
+    output: CreateSampleFindingsResponse,
     errors: [BadRequestException, InternalServerErrorException],
   }),
 );
 /**
- * Declines invitations sent to the current member account by Amazon Web Services accounts specified by
- * their account IDs.
+ * Deletes an Amazon GuardDuty detector that is specified by the detector ID.
  */
-export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeclineInvitationsRequest,
-  output: DeclineInvitationsResponse,
+export const deleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDetectorRequest,
+  output: DeleteDetectorResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
 /**
- * Deletes the Malware Protection plan ID associated with the Malware Protection plan resource.
- * Use this API only when you no longer want to protect the resource associated with this
- * Malware Protection plan ID.
+ * Deletes the filter specified by the filter name.
  */
-export const deleteMalwareProtectionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMalwareProtectionPlanRequest,
-    output: DeleteMalwareProtectionPlanResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFilterRequest,
+  output: DeleteFilterResponse,
+  errors: [BadRequestException, InternalServerErrorException],
+}));
 /**
- * Provides the details of the GuardDuty administrator account associated with the current
- * GuardDuty member account.
- *
- * Based on the type of account that runs this API, the following list shows how the API behavior varies:
- *
- * - When the GuardDuty administrator account runs this API, it will return success (`HTTP 200`) but no content.
- *
- * - When a member account runs this API, it will return the details of the GuardDuty administrator account that is associated
- * with this calling member account.
- *
- * - When an individual account (not associated with an organization) runs this API, it will return success (`HTTP 200`)
- * but no content.
+ * Deletes the IPSet specified by the `ipSetId`. IPSets are called trusted IP
+ * lists in the console user interface.
  */
-export const getAdministratorAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIPSetRequest,
+  output: DeleteIPSetResponse,
+  errors: [BadRequestException, InternalServerErrorException],
+}));
+/**
+ * Deletes the publishing definition with the specified `destinationId`.
+ */
+export const deletePublishingDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetAdministratorAccountRequest,
-    output: GetAdministratorAccountResponse,
+    input: DeletePublishingDestinationRequest,
+    output: DeletePublishingDestinationResponse,
     errors: [BadRequestException, InternalServerErrorException],
   }),
 );
 /**
- * Retrieves the Malware Protection plan details associated with a Malware Protection
- * plan ID.
+ * Deletes the threat entity set that is associated with the specified
+ * `threatEntitySetId`.
  */
-export const getMalwareProtectionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteThreatEntitySet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetMalwareProtectionPlanRequest,
-    output: GetMalwareProtectionPlanResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-    ],
+    input: DeleteThreatEntitySetRequest,
+    output: DeleteThreatEntitySetResponse,
+    errors: [BadRequestException, InternalServerErrorException],
   }),
 );
 /**
- * Provides the details for the GuardDuty administrator account associated with the current
- * GuardDuty member account.
+ * Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
  */
-export const getMasterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMasterAccountRequest,
-  output: GetMasterAccountResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Retrieves GuardDuty member accounts (of the current GuardDuty administrator account)
- * specified by the account IDs.
- */
-export const getMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMembersRequest,
-  output: GetMembersResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services
- * account.
- */
-export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInvitationsRequest,
-  output: ListInvitationsResponse,
-  errors: [BadRequestException, InternalServerErrorException],
-}));
-/**
- * Lists the Malware Protection plan IDs associated with the protected
- * resources in your Amazon Web Services account.
- */
-export const listMalwareProtectionPlans = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteThreatIntelSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListMalwareProtectionPlansRequest,
-    output: ListMalwareProtectionPlansResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerErrorException,
-    ],
+    input: DeleteThreatIntelSetRequest,
+    output: DeleteThreatIntelSetResponse,
+    errors: [BadRequestException, InternalServerErrorException],
   }),
 );
 /**
- * Lists the accounts designated as GuardDuty delegated administrators.
- * Only the organization's management account can run this
+ * Deletes the trusted entity set that is associated with the specified
+ * `trustedEntitySetId`.
+ */
+export const deleteTrustedEntitySet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteTrustedEntitySetRequest,
+    output: DeleteTrustedEntitySetResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }),
+);
+/**
+ * Removes the existing GuardDuty delegated
+ * administrator of the organization. Only the organization's management account can run this
  * API operation.
  */
-export const listOrganizationAdminAccounts =
+export const disableOrganizationAdminAccount =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListOrganizationAdminAccountsRequest,
-    output: ListOrganizationAdminAccountsResponse,
+    input: DisableOrganizationAdminAccountRequest,
+    output: DisableOrganizationAdminAccountResponse,
     errors: [BadRequestException, InternalServerErrorException],
   }));
 /**
- * Returns a list of publishing destinations associated with the specified
- * `detectorId`.
+ * Disassociates the current GuardDuty member account from its administrator account.
+ *
+ * When you
+ * disassociate an invited member from a GuardDuty delegated administrator, the member account details
+ * obtained from the CreateMembers API, including the associated email addresses, are retained. This is
+ * done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To
+ * remove the details associated with a member account, the delegated administrator must invoke the
+ * DeleteMembers API.
+ *
+ * With `autoEnableOrganizationMembers` configuration for your organization set to
+ * `ALL`, you'll receive an error if you attempt to disable GuardDuty in a member
+ * account.
  */
-export const listPublishingDestinations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const disassociateFromAdministratorAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateFromAdministratorAccountRequest,
+    output: DisassociateFromAdministratorAccountResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }));
+/**
+ * Disassociates the current GuardDuty member account from its administrator account.
+ *
+ * When you
+ * disassociate an invited member from a GuardDuty delegated administrator, the member account details
+ * obtained from the CreateMembers API, including the associated email addresses, are retained. This is
+ * done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To
+ * remove the details associated with a member account, the delegated administrator must invoke the
+ * DeleteMembers API.
+ */
+export const disassociateFromMasterAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateFromMasterAccountRequest,
+    output: DisassociateFromMasterAccountResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }));
+/**
+ * Designates an Amazon Web Services account within the organization as your GuardDuty delegated
+ * administrator. Only the organization's management account can run this
+ * API operation.
+ */
+export const enableOrganizationAdminAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: EnableOrganizationAdminAccountRequest,
+    output: EnableOrganizationAdminAccountResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }));
+/**
+ * Returns the count of all GuardDuty membership invitations that were sent to the current
+ * member account except the currently accepted invitation.
+ */
+export const getInvitationsCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInvitationsCountRequest,
+  output: GetInvitationsCountResponse,
+  errors: [BadRequestException, InternalServerErrorException],
+}));
+/**
+ * Unarchives GuardDuty findings specified by the `findingIds`.
+ */
+export const unarchiveFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnarchiveFindingsRequest,
+  output: UnarchiveFindingsResponse,
+  errors: [BadRequestException, InternalServerErrorException],
+}));
+/**
+ * Updates the GuardDuty detector specified by the detector ID.
+ *
+ * Specifying both EKS Runtime Monitoring (`EKS_RUNTIME_MONITORING`)
+ * and Runtime Monitoring (`RUNTIME_MONITORING`) will cause an error.
+ * You can add only one of these two features because Runtime Monitoring already includes the
+ * threat detection for Amazon EKS resources. For more information, see
+ * Runtime Monitoring.
+ *
+ * There might be regional differences because some data sources might not be
+ * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
+ * information, see Regions and endpoints.
+ */
+export const updateDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDetectorRequest,
+  output: UpdateDetectorResponse,
+  errors: [BadRequestException, InternalServerErrorException],
+}));
+/**
+ * Marks the specified GuardDuty findings as useful or not useful.
+ */
+export const updateFindingsFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListPublishingDestinationsRequest,
-    output: ListPublishingDestinationsResponse,
+    input: UpdateFindingsFeedbackRequest,
+    output: UpdateFindingsFeedbackResponse,
     errors: [BadRequestException, InternalServerErrorException],
   }),
 );
 /**
- * Updates an existing Malware Protection plan resource.
+ * Updates information about the publishing destination specified by the
+ * `destinationId`.
  */
-export const updateMalwareProtectionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updatePublishingDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateMalwareProtectionPlanRequest,
-    output: UpdateMalwareProtectionPlanResponse,
+    input: UpdatePublishingDestinationRequest,
+    output: UpdatePublishingDestinationResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }),
+);
+/**
+ * Updates the threat entity set associated with the specified `threatEntitySetId`.
+ */
+export const updateThreatEntitySet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateThreatEntitySetRequest,
+    output: UpdateThreatEntitySetResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }),
+);
+/**
+ * Updates the trusted entity set associated with the specified `trustedEntitySetId`.
+ */
+export const updateTrustedEntitySet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTrustedEntitySetRequest,
+    output: UpdateTrustedEntitySetResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }),
+);
+/**
+ * Adds tags to a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerErrorException,
+  ],
+}));
+/**
+ * Removes tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerErrorException,
+  ],
+}));
+/**
+ * Updates the IPSet specified by the IPSet ID.
+ */
+export const updateIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIPSetRequest,
+  output: UpdateIPSetResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerErrorException,
+  ],
+}));
+/**
+ * Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
+ */
+export const updateThreatIntelSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateThreatIntelSetRequest,
+    output: UpdateThreatIntelSetResponse,
     errors: [
       AccessDeniedException,
       BadRequestException,
       InternalServerErrorException,
-      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a new IPSet, which is called a trusted IP list in the console user interface. An
+ * IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services
+ * infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are
+ * included in IPSets. Only users from the administrator account can use this operation.
+ */
+export const createIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIPSetRequest,
+  output: CreateIPSetResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerErrorException,
+  ],
+}));
+/**
+ * Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses.
+ * GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator
+ * account can use this operation.
+ */
+export const createThreatIntelSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateThreatIntelSetRequest,
+    output: CreateThreatIntelSetResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      InternalServerErrorException,
     ],
   }),
 );
@@ -5741,24 +5705,21 @@ export const getFindingsStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Initiates the malware scan. Invoking this API will automatically create the Service-linked role in
- * the corresponding account if the resourceArn belongs to an EC2 instance.
- *
- * When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information,
- * see ListMalwareScans and GetMalwareScan.
- *
- * When you use this API, the Amazon Web Services service terms for GuardDuty Malware
- * Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
+ * Retrieves the Malware Protection plan details associated with a Malware Protection
+ * plan ID.
  */
-export const startMalwareScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartMalwareScanRequest,
-  output: StartMalwareScanResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalServerErrorException,
-  ],
-}));
+export const getMalwareProtectionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMalwareProtectionPlanRequest,
+    output: GetMalwareProtectionPlanResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      InternalServerErrorException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Contains information on member accounts to be updated.
  *
@@ -5777,6 +5738,38 @@ export const updateMemberDetectors = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: UpdateMemberDetectorsRequest,
     output: UpdateMemberDetectorsResponse,
     errors: [BadRequestException, InternalServerErrorException],
+  }),
+);
+/**
+ * Updates an existing Malware Protection plan resource.
+ */
+export const updateMalwareProtectionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateMalwareProtectionPlanRequest,
+    output: UpdateMalwareProtectionPlanResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      InternalServerErrorException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes the Malware Protection plan ID associated with the Malware Protection plan resource.
+ * Use this API only when you no longer want to protect the resource associated with this
+ * Malware Protection plan ID.
+ */
+export const deleteMalwareProtectionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMalwareProtectionPlanRequest,
+    output: DeleteMalwareProtectionPlanResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      InternalServerErrorException,
+      ResourceNotFoundException,
+    ],
   }),
 );
 /**
@@ -5886,6 +5879,25 @@ export const updateOrganizationConfiguration =
     output: UpdateOrganizationConfigurationResponse,
     errors: [BadRequestException, InternalServerErrorException],
   }));
+/**
+ * Initiates the malware scan. Invoking this API will automatically create the Service-linked role in
+ * the corresponding account if the resourceArn belongs to an EC2 instance.
+ *
+ * When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information,
+ * see ListMalwareScans and GetMalwareScan.
+ *
+ * When you use this API, the Amazon Web Services service terms for GuardDuty Malware
+ * Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
+ */
+export const startMalwareScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMalwareScanRequest,
+  output: StartMalwareScanResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerErrorException,
+  ],
+}));
 /**
  * Creates a single GuardDuty detector. A detector is a resource that represents the
  * GuardDuty service. To start using GuardDuty, you must create a detector in each Region where

@@ -1715,50 +1715,57 @@ export class CreateChannelFlowResponse extends S.Class<CreateChannelFlowResponse
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
-  "ThrottledClientException",
-  {},
-) {}
-export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
-  "UnauthorizedClientException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
+  "ThrottledClientException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
+  "UnauthorizedClientException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Deletes the streaming configurations for an `AppInstance`. For more information, see
- * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
+ * Gets the membership preferences of an `AppInstanceUser` or `AppInstanceBot`
+ * for the specified channel. A user or a bot must be a member of the channel and own the membership in order to retrieve membership preferences.
+ * Users or bots in the `AppInstanceAdmin` and channel moderator roles can't
+ * retrieve preferences for other users or bots. Banned users or bots can't retrieve membership preferences for the
+ * channel from which they are banned.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
  */
-export const deleteMessagingStreamingConfigurations =
+export const getChannelMembershipPreferences =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMessagingStreamingConfigurationsRequest,
-    output: DeleteMessagingStreamingConfigurationsResponse,
+    input: GetChannelMembershipPreferencesRequest,
+    output: GetChannelMembershipPreferencesResponse,
     errors: [
       BadRequestException,
       ForbiddenException,
@@ -1769,14 +1776,19 @@ export const deleteMessagingStreamingConfigurations =
     ],
   }));
 /**
- * Removes the specified tags from the specified Amazon Chime SDK messaging resource.
+ * Gets the full details of a channel message.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const getChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChannelMessageRequest,
+  output: GetChannelMessageResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
+    NotFoundException,
     ServiceFailureException,
     ServiceUnavailableException,
     ThrottledClientException,
@@ -1784,72 +1796,55 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Associates a channel flow with a channel. Once associated, all messages to that channel go through channel flow processors. To stop processing, use the
- * `DisassociateChannelFlow` API.
+ * Sets the membership preferences of an `AppInstanceUser` or `AppInstanceBot`
+ * for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the
+ * membership can set preferences. Users or bots in the `AppInstanceAdmin` and channel moderator roles can't set
+ * preferences for other users. Banned users or bots can't set membership preferences for the channel from
+ * which they are banned.
  *
- * Only administrators or channel moderators can associate a channel flow. The
- * `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
- * `AppInstanceUser` or `AppInstanceBot`
- * that makes the API call as the value in the header.
+ * The x-amz-chime-bearer request header is mandatory. Use the ARN of an
+ * `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+ * header.
  */
-export const associateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateChannelFlowRequest,
-    output: AssociateChannelFlowResponse,
+export const putChannelMembershipPreferences =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutChannelMembershipPreferencesRequest,
+    output: PutChannelMembershipPreferencesResponse,
     errors: [
       BadRequestException,
       ConflictException,
       ForbiddenException,
-      NotFoundException,
       ServiceFailureException,
       ServiceUnavailableException,
       ThrottledClientException,
       UnauthorizedClientException,
     ],
-  }),
-);
+  }));
 /**
- * Adds a member to a channel. The `InvitedBy` field in `ChannelMembership`
- * is derived from the request header. A channel member can:
- *
- * - List messages
- *
- * - Send messages
- *
- * - Receive messages
- *
- * - Edit their own messages
- *
- * - Leave the channel
- *
- * Privacy settings impact this action as follows:
- *
- * - Public Channels: You do not need to be a member to list messages, but you must be
- * a member to send messages.
- *
- * - Private Channels: You must be a member to list or send messages.
+ * Sends a message to a particular channel that the member is a part of.
  *
  * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUserArn` or `AppInstanceBot` that makes the API call
- * as the value in the header.
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ *
+ * Also, `STANDARD` messages can be up to 4KB in size and contain metadata. Metadata is arbitrary,
+ * and you can use it in a variety of ways, such as containing a link to an attachment.
+ *
+ * `CONTROL` messages are limited to 30 bytes and do not contain metadata.
  */
-export const createChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateChannelMembershipRequest,
-    output: CreateChannelMembershipResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const sendChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendChannelMessageRequest,
+  output: SendChannelMessageResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Creates a new `ChannelModerator`. A channel moderator can:
  *
@@ -1883,636 +1878,6 @@ export const createChannelModerator = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Immediately makes a channel and its memberships inaccessible and marks them for
- * deletion. This is an irreversible process.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUserArn` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Removes a member from a channel's ban list.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const deleteChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteChannelBanRequest,
-  output: DeleteChannelBanResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Deletes a channel flow, an irreversible process. This is a developer API.
- *
- * This API works only when the channel flow is not associated with any channel. To get a list of all channels that a channel flow is associated with, use the
- * `ListChannelsAssociatedWithChannelFlow` API. Use the `DisassociateChannelFlow` API to disassociate a channel flow from all channels.
- */
-export const deleteChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteChannelFlowRequest,
-  output: DeleteChannelFlowResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Removes a member from a channel.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * `AppInstanceUserArn` of the user that makes the API call as the value in
- * the header.
- */
-export const deleteChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteChannelMembershipRequest,
-    output: DeleteChannelMembershipResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Deletes a channel message. Only admins can perform this action. Deletion makes messages
- * inaccessible immediately. A background process deletes any revisions created by
- * `UpdateChannelMessage`.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const deleteChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteChannelMessageRequest,
-    output: DeleteChannelMessageResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Deletes a channel moderator.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const deleteChannelModerator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteChannelModeratorRequest,
-    output: DeleteChannelModeratorResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Disassociates a channel flow from all its channels. Once disassociated, all messages to
- * that channel stop going through the channel flow processor.
- *
- * Only administrators or channel moderators can disassociate a channel flow.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const disassociateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateChannelFlowRequest,
-    output: DisassociateChannelFlowResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Gets the membership preferences of an `AppInstanceUser` or `AppInstanceBot`
- * for the specified channel. A user or a bot must be a member of the channel and own the membership in order to retrieve membership preferences.
- * Users or bots in the `AppInstanceAdmin` and channel moderator roles can't
- * retrieve preferences for other users or bots. Banned users or bots can't retrieve membership preferences for the
- * channel from which they are banned.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const getChannelMembershipPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetChannelMembershipPreferencesRequest,
-    output: GetChannelMembershipPreferencesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Retrieves the data streaming configuration for an `AppInstance`. For more information, see
- * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
- */
-export const getMessagingStreamingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetMessagingStreamingConfigurationsRequest,
-    output: GetMessagingStreamingConfigurationsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Lists all channels that an `AppInstanceUser` or `AppInstanceBot` is a part of.
- * Only an `AppInstanceAdmin` can call the API with a user ARN that is not their own.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const listChannelMembershipsForAppInstanceUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListChannelMembershipsForAppInstanceUserRequest,
-    output: ListChannelMembershipsForAppInstanceUserResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * A list of the channels moderated by an `AppInstanceUser`.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const listChannelsModeratedByAppInstanceUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListChannelsModeratedByAppInstanceUserRequest,
-    output: ListChannelsModeratedByAppInstanceUserResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Lists the tags applied to an Amazon Chime SDK messaging resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Sets the number of days before the channel is automatically deleted.
- *
- * - A background process deletes expired channels within 6 hours of expiration.
- * Actual deletion times may vary.
- *
- * - Expired channels that have not yet been deleted appear as active, and you can update
- * their expiration settings. The system honors the new settings.
- *
- * - The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const putChannelExpirationSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutChannelExpirationSettingsRequest,
-    output: PutChannelExpirationSettingsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Redacts message content and metadata. The message exists in the back end, but the
- * action returns null content, and the state shows as redacted.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const redactChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RedactChannelMessageRequest,
-    output: RedactChannelMessageResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Applies the specified tags to the specified Amazon Chime SDK messaging resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ResourceLimitExceededException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Update a channel's attributes.
- *
- * **Restriction**: You can't change a channel's privacy.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateChannelRequest,
-  output: UpdateChannelResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Updates channel flow attributes. This is a developer API.
- */
-export const updateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateChannelFlowRequest,
-  output: UpdateChannelFlowResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Updates the content of a message.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const updateChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateChannelMessageRequest,
-    output: UpdateChannelMessageResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * The details of the time when a user last read messages in a channel.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const updateChannelReadMarker = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateChannelReadMarkerRequest,
-    output: UpdateChannelReadMarkerResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Adds a specified number of users and bots to a channel.
- */
-export const batchCreateChannelMembership =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchCreateChannelMembershipRequest,
-    output: BatchCreateChannelMembershipResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Calls back Amazon Chime SDK messaging with a processing response message. This should be invoked from the processor Lambda. This is a developer API.
- *
- * You can return one of the following processing responses:
- *
- * - Update message content or metadata
- *
- * - Deny a message
- *
- * - Make no changes to the message
- */
-export const channelFlowCallback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ChannelFlowCallbackRequest,
-  output: ChannelFlowCallbackResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Creates a channel to which you can add users and send messages.
- *
- * **Restriction**: You can't change a channel's
- * privacy.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateChannelRequest,
-  output: CreateChannelResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    ResourceLimitExceededException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Permanently bans a member from a channel. Moderators can't add banned members to a
- * channel. To undo a ban, you first have to `DeleteChannelBan`, and then
- * `CreateChannelMembership`. Bans are cleaned up when you delete users or
- * channels.
- *
- * If you ban a user who is already part of a channel, that user is automatically kicked
- * from the channel.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const createChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateChannelBanRequest,
-  output: CreateChannelBanResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    ResourceLimitExceededException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Returns the full details of a channel in an Amazon Chime
- * `AppInstance`.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeChannelRequest,
-  output: DescribeChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Returns the full details of a channel ban.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const describeChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeChannelBanRequest,
-  output: DescribeChannelBanResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Returns the full details of a channel flow in an Amazon Chime `AppInstance`. This is a developer API.
- */
-export const describeChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeChannelFlowRequest,
-  output: DescribeChannelFlowResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Returns the full details of a user's channel membership.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const describeChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeChannelMembershipRequest,
-    output: DescribeChannelMembershipResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Returns the full details of a channel moderated by the specified
- * `AppInstanceUser` or `AppInstanceBot`.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const describeChannelModeratedByAppInstanceUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeChannelModeratedByAppInstanceUserRequest,
-    output: DescribeChannelModeratedByAppInstanceUserResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Returns the full details of a single ChannelModerator.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * `AppInstanceUserArn` of the user that makes the API call as the value in
- * the header.
- */
-export const describeChannelModerator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeChannelModeratorRequest,
-    output: DescribeChannelModeratorResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Gets the full details of a channel message.
- *
- * The `x-amz-chime-bearer` request header is mandatory. Use the
- * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
- * the header.
- */
-export const getChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetChannelMessageRequest,
-  output: GetChannelMessageResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
 /**
  * Gets message status for a specified `messageId`. Use this API to determine the intermediate status of messages going through channel flow processing. The API provides an alternative to
  * retrieving message status if the event was not received because a client wasn't connected to a websocket.
@@ -2737,25 +2102,6 @@ export const listSubChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Sets the data streaming configuration for an `AppInstance`. For more information, see
- * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
- */
-export const putMessagingStreamingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutMessagingStreamingConfigurationsRequest,
-    output: PutMessagingStreamingConfigurationsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
  * Allows the `ChimeBearer` to search channels by channel members. Users or bots can search
  * across the channels that they belong to. Users in the `AppInstanceAdmin` role can search across
  * all channels.
@@ -2779,6 +2125,431 @@ export const searchChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Sets the number of days before the channel is automatically deleted.
+ *
+ * - A background process deletes expired channels within 6 hours of expiration.
+ * Actual deletion times may vary.
+ *
+ * - Expired channels that have not yet been deleted appear as active, and you can update
+ * their expiration settings. The system honors the new settings.
+ *
+ * - The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const putChannelExpirationSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutChannelExpirationSettingsRequest,
+    output: PutChannelExpirationSettingsResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Redacts message content and metadata. The message exists in the back end, but the
+ * action returns null content, and the state shows as redacted.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const redactChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RedactChannelMessageRequest,
+    output: RedactChannelMessageResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Update a channel's attributes.
+ *
+ * **Restriction**: You can't change a channel's privacy.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChannelRequest,
+  output: UpdateChannelResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Updates channel flow attributes. This is a developer API.
+ */
+export const updateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChannelFlowRequest,
+  output: UpdateChannelFlowResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Updates the content of a message.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const updateChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateChannelMessageRequest,
+    output: UpdateChannelMessageResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * The details of the time when a user last read messages in a channel.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const updateChannelReadMarker = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateChannelReadMarkerRequest,
+    output: UpdateChannelReadMarkerResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Immediately makes a channel and its memberships inaccessible and marks them for
+ * deletion. This is an irreversible process.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUserArn` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelRequest,
+  output: DeleteChannelResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Deletes a channel flow, an irreversible process. This is a developer API.
+ *
+ * This API works only when the channel flow is not associated with any channel. To get a list of all channels that a channel flow is associated with, use the
+ * `ListChannelsAssociatedWithChannelFlow` API. Use the `DisassociateChannelFlow` API to disassociate a channel flow from all channels.
+ */
+export const deleteChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelFlowRequest,
+  output: DeleteChannelFlowResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Removes a member from a channel.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * `AppInstanceUserArn` of the user that makes the API call as the value in
+ * the header.
+ */
+export const deleteChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteChannelMembershipRequest,
+    output: DeleteChannelMembershipResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Lists all channels that an `AppInstanceUser` or `AppInstanceBot` is a part of.
+ * Only an `AppInstanceAdmin` can call the API with a user ARN that is not their own.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const listChannelMembershipsForAppInstanceUser =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListChannelMembershipsForAppInstanceUserRequest,
+    output: ListChannelMembershipsForAppInstanceUserResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * A list of the channels moderated by an `AppInstanceUser`.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const listChannelsModeratedByAppInstanceUser =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListChannelsModeratedByAppInstanceUserRequest,
+    output: ListChannelsModeratedByAppInstanceUserResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Lists the tags applied to an Amazon Chime SDK messaging resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Removes a member from a channel's ban list.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const deleteChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelBanRequest,
+  output: DeleteChannelBanResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Deletes a channel message. Only admins can perform this action. Deletion makes messages
+ * inaccessible immediately. A background process deletes any revisions created by
+ * `UpdateChannelMessage`.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const deleteChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteChannelMessageRequest,
+    output: DeleteChannelMessageResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Deletes a channel moderator.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const deleteChannelModerator = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteChannelModeratorRequest,
+    output: DeleteChannelModeratorResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Deletes the streaming configurations for an `AppInstance`. For more information, see
+ * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
+ */
+export const deleteMessagingStreamingConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteMessagingStreamingConfigurationsRequest,
+    output: DeleteMessagingStreamingConfigurationsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Removes the specified tags from the specified Amazon Chime SDK messaging resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Calls back Amazon Chime SDK messaging with a processing response message. This should be invoked from the processor Lambda. This is a developer API.
+ *
+ * You can return one of the following processing responses:
+ *
+ * - Update message content or metadata
+ *
+ * - Deny a message
+ *
+ * - Make no changes to the message
+ */
+export const channelFlowCallback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChannelFlowCallbackRequest,
+  output: ChannelFlowCallbackResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Returns the full details of a channel in an Amazon Chime
+ * `AppInstance`.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChannelRequest,
+  output: DescribeChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Returns the full details of a channel flow in an Amazon Chime `AppInstance`. This is a developer API.
+ */
+export const describeChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChannelFlowRequest,
+  output: DescribeChannelFlowResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Returns the full details of a channel moderated by the specified
+ * `AppInstanceUser` or `AppInstanceBot`.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const describeChannelModeratedByAppInstanceUser =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeChannelModeratedByAppInstanceUserRequest,
+    output: DescribeChannelModeratedByAppInstanceUserResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
  * Returns the details of a channel based on the membership of the specified
  * `AppInstanceUser` or `AppInstanceBot`.
  *
@@ -2800,24 +2571,18 @@ export const describeChannelMembershipForAppInstanceUser =
     ],
   }));
 /**
- * Sets the membership preferences of an `AppInstanceUser` or `AppInstanceBot`
- * for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the
- * membership can set preferences. Users or bots in the `AppInstanceAdmin` and channel moderator roles can't set
- * preferences for other users. Banned users or bots can't set membership preferences for the channel from
- * which they are banned.
- *
- * The x-amz-chime-bearer request header is mandatory. Use the ARN of an
- * `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
- * header.
+ * Sets the data streaming configuration for an `AppInstance`. For more information, see
+ * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
-export const putChannelMembershipPreferences =
+export const putMessagingStreamingConfigurations =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutChannelMembershipPreferencesRequest,
-    output: PutChannelMembershipPreferencesResponse,
+    input: PutMessagingStreamingConfigurationsRequest,
+    output: PutMessagingStreamingConfigurationsResponse,
     errors: [
       BadRequestException,
       ConflictException,
       ForbiddenException,
+      NotFoundException,
       ServiceFailureException,
       ServiceUnavailableException,
       ThrottledClientException,
@@ -2825,24 +2590,259 @@ export const putChannelMembershipPreferences =
     ],
   }));
 /**
- * Sends a message to a particular channel that the member is a part of.
+ * Adds a member to a channel. The `InvitedBy` field in `ChannelMembership`
+ * is derived from the request header. A channel member can:
+ *
+ * - List messages
+ *
+ * - Send messages
+ *
+ * - Receive messages
+ *
+ * - Edit their own messages
+ *
+ * - Leave the channel
+ *
+ * Privacy settings impact this action as follows:
+ *
+ * - Public Channels: You do not need to be a member to list messages, but you must be
+ * a member to send messages.
+ *
+ * - Private Channels: You must be a member to list or send messages.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUserArn` or `AppInstanceBot` that makes the API call
+ * as the value in the header.
+ */
+export const createChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateChannelMembershipRequest,
+    output: CreateChannelMembershipResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Disassociates a channel flow from all its channels. Once disassociated, all messages to
+ * that channel stop going through the channel flow processor.
+ *
+ * Only administrators or channel moderators can disassociate a channel flow.
  *
  * The `x-amz-chime-bearer` request header is mandatory. Use the
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
- *
- * Also, `STANDARD` messages can be up to 4KB in size and contain metadata. Metadata is arbitrary,
- * and you can use it in a variety of ways, such as containing a link to an attachment.
- *
- * `CONTROL` messages are limited to 30 bytes and do not contain metadata.
  */
-export const sendChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendChannelMessageRequest,
-  output: SendChannelMessageResponse,
+export const disassociateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateChannelFlowRequest,
+    output: DisassociateChannelFlowResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Retrieves the data streaming configuration for an `AppInstance`. For more information, see
+ * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
+ */
+export const getMessagingStreamingConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetMessagingStreamingConfigurationsRequest,
+    output: GetMessagingStreamingConfigurationsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Associates a channel flow with a channel. Once associated, all messages to that channel go through channel flow processors. To stop processing, use the
+ * `DisassociateChannelFlow` API.
+ *
+ * Only administrators or channel moderators can associate a channel flow. The
+ * `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
+ * `AppInstanceUser` or `AppInstanceBot`
+ * that makes the API call as the value in the header.
+ */
+export const associateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateChannelFlowRequest,
+    output: AssociateChannelFlowResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Adds a specified number of users and bots to a channel.
+ */
+export const batchCreateChannelMembership =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchCreateChannelMembershipRequest,
+    output: BatchCreateChannelMembershipResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Returns the full details of a channel ban.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const describeChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChannelBanRequest,
+  output: DescribeChannelBanResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Returns the full details of a user's channel membership.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const describeChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeChannelMembershipRequest,
+    output: DescribeChannelMembershipResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Returns the full details of a single ChannelModerator.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * `AppInstanceUserArn` of the user that makes the API call as the value in
+ * the header.
+ */
+export const describeChannelModerator = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeChannelModeratorRequest,
+    output: DescribeChannelModeratorResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Applies the specified tags to the specified Amazon Chime SDK messaging resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Creates a channel to which you can add users and send messages.
+ *
+ * **Restriction**: You can't change a channel's
+ * privacy.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChannelRequest,
+  output: CreateChannelResponse,
   errors: [
     BadRequestException,
     ConflictException,
     ForbiddenException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Permanently bans a member from a channel. Moderators can't add banned members to a
+ * channel. To undo a ban, you first have to `DeleteChannelBan`, and then
+ * `CreateChannelMembership`. Bans are cleaned up when you delete users or
+ * channels.
+ *
+ * If you ban a user who is already part of a channel, that user is automatically kicked
+ * from the channel.
+ *
+ * The `x-amz-chime-bearer` request header is mandatory. Use the
+ * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
+ * the header.
+ */
+export const createChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChannelBanRequest,
+  output: CreateChannelBanResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ResourceLimitExceededException,
     ServiceFailureException,
     ServiceUnavailableException,
     ThrottledClientException,

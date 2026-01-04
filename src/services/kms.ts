@@ -1239,67 +1239,11 @@ export class DescribeKeyResponse extends S.Class<DescribeKeyResponse>(
 )({ KeyMetadata: S.optional(KeyMetadata) }, ns) {}
 
 //# Errors
-export class DependencyTimeoutException extends S.TaggedError<DependencyTimeoutException>()(
-  "DependencyTimeoutException",
-  {},
-  T.AwsQueryError({ code: "DependencyTimeout", httpResponseCode: 503 }),
-) {}
-export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
-  "InvalidArnException",
-  {},
-  T.AwsQueryError({ code: "InvalidArn", httpResponseCode: 400 }),
-) {}
-export class DisabledException extends S.TaggedError<DisabledException>()(
-  "DisabledException",
-  {},
-  T.AwsQueryError({ code: "Disabled", httpResponseCode: 409 }),
-) {}
-export class KMSInternalException extends S.TaggedError<KMSInternalException>()(
-  "KMSInternalException",
-  {},
-  T.AwsQueryError({ code: "KMSInternal", httpResponseCode: 500 }),
-) {}
-export class KMSInvalidStateException extends S.TaggedError<KMSInvalidStateException>()(
-  "KMSInvalidStateException",
-  {},
-  T.AwsQueryError({ code: "KMSInvalidStateException", httpResponseCode: 409 }),
-) {}
-export class DryRunOperationException extends S.TaggedError<DryRunOperationException>()(
-  "DryRunOperationException",
-  {},
-  T.AwsQueryError({ code: "DryRunOperation", httpResponseCode: 412 }),
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-  T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-  T.AwsQueryError({ code: "NotFound", httpResponseCode: 404 }),
-) {}
 export class CloudHsmClusterInvalidConfigurationException extends S.TaggedError<CloudHsmClusterInvalidConfigurationException>()(
   "CloudHsmClusterInvalidConfigurationException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "CloudHsmClusterInvalidConfigurationException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class CloudHsmClusterNotActiveException extends S.TaggedError<CloudHsmClusterNotActiveException>()(
-  "CloudHsmClusterNotActiveException",
-  {},
-  T.AwsQueryError({
-    code: "CloudHsmClusterNotActiveException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class CustomKeyStoreInvalidStateException extends S.TaggedError<CustomKeyStoreInvalidStateException>()(
-  "CustomKeyStoreInvalidStateException",
-  {},
-  T.AwsQueryError({
-    code: "CustomKeyStoreInvalidStateException",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1307,6 +1251,11 @@ export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException
   "AlreadyExistsException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "AlreadyExists", httpResponseCode: 409 }),
+) {}
+export class DependencyTimeoutException extends S.TaggedError<DependencyTimeoutException>()(
+  "DependencyTimeoutException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DependencyTimeout", httpResponseCode: 503 }),
 ) {}
 export class CustomKeyStoreHasCMKsException extends S.TaggedError<CustomKeyStoreHasCMKsException>()(
   "CustomKeyStoreHasCMKsException",
@@ -1316,63 +1265,44 @@ export class CustomKeyStoreHasCMKsException extends S.TaggedError<CustomKeyStore
     httpResponseCode: 400,
   }),
 ) {}
+export class CustomKeyStoreInvalidStateException extends S.TaggedError<CustomKeyStoreInvalidStateException>()(
+  "CustomKeyStoreInvalidStateException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CustomKeyStoreInvalidStateException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
+  "InvalidArnException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidArn", httpResponseCode: 400 }),
+) {}
+export class DisabledException extends S.TaggedError<DisabledException>()(
+  "DisabledException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "Disabled", httpResponseCode: 409 }),
+) {}
+export class CloudHsmClusterNotActiveException extends S.TaggedError<CloudHsmClusterNotActiveException>()(
+  "CloudHsmClusterNotActiveException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CloudHsmClusterNotActiveException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class KMSInternalException extends S.TaggedError<KMSInternalException>()(
+  "KMSInternalException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSInternal", httpResponseCode: 500 }),
+) {}
 export class CustomKeyStoreNotFoundException extends S.TaggedError<CustomKeyStoreNotFoundException>()(
   "CustomKeyStoreNotFoundException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "CustomKeyStoreNotFoundException",
     httpResponseCode: 400,
   }),
-) {}
-export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
-  "UnsupportedOperationException",
-  {},
-  T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
-) {}
-export class InvalidGrantTokenException extends S.TaggedError<InvalidGrantTokenException>()(
-  "InvalidGrantTokenException",
-  {},
-  T.AwsQueryError({ code: "InvalidGrantToken", httpResponseCode: 400 }),
-) {}
-export class InvalidKeyUsageException extends S.TaggedError<InvalidKeyUsageException>()(
-  "InvalidKeyUsageException",
-  {},
-  T.AwsQueryError({ code: "InvalidKeyUsage", httpResponseCode: 400 }),
-) {}
-export class KeyUnavailableException extends S.TaggedError<KeyUnavailableException>()(
-  "KeyUnavailableException",
-  {},
-  T.AwsQueryError({ code: "KeyUnavailable", httpResponseCode: 500 }),
-) {}
-export class InvalidMarkerException extends S.TaggedError<InvalidMarkerException>()(
-  "InvalidMarkerException",
-  {},
-  T.AwsQueryError({ code: "InvalidMarker", httpResponseCode: 400 }),
-) {}
-export class MalformedPolicyDocumentException extends S.TaggedError<MalformedPolicyDocumentException>()(
-  "MalformedPolicyDocumentException",
-  {},
-  T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
-) {}
-export class TagException extends S.TaggedError<TagException>()(
-  "TagException",
-  {},
-  T.AwsQueryError({ code: "TagException", httpResponseCode: 400 }),
-) {}
-export class InvalidGrantIdException extends S.TaggedError<InvalidGrantIdException>()(
-  "InvalidGrantIdException",
-  {},
-  T.AwsQueryError({ code: "InvalidGrantId", httpResponseCode: 400 }),
-) {}
-export class InvalidAliasNameException extends S.TaggedError<InvalidAliasNameException>()(
-  "InvalidAliasNameException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidAliasName", httpResponseCode: 400 }),
-) {}
-export class IncorrectKeyException extends S.TaggedError<IncorrectKeyException>()(
-  "IncorrectKeyException",
-  {},
-  T.AwsQueryError({ code: "IncorrectKeyException", httpResponseCode: 400 }),
 ) {}
 export class ExpiredImportTokenException extends S.TaggedError<ExpiredImportTokenException>()(
   "ExpiredImportTokenException",
@@ -1382,33 +1312,30 @@ export class ExpiredImportTokenException extends S.TaggedError<ExpiredImportToke
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidCiphertextException extends S.TaggedError<InvalidCiphertextException>()(
-  "InvalidCiphertextException",
-  {},
-  T.AwsQueryError({ code: "InvalidCiphertext", httpResponseCode: 400 }),
-) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
 ) {}
-export class CloudHsmClusterNotFoundException extends S.TaggedError<CloudHsmClusterNotFoundException>()(
-  "CloudHsmClusterNotFoundException",
+export class DryRunOperationException extends S.TaggedError<DryRunOperationException>()(
+  "DryRunOperationException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "CloudHsmClusterNotFoundException",
-    httpResponseCode: 400,
-  }),
+  T.AwsQueryError({ code: "DryRunOperation", httpResponseCode: 412 }),
 ) {}
-export class KMSInvalidSignatureException extends S.TaggedError<KMSInvalidSignatureException>()(
-  "KMSInvalidSignatureException",
+export class InvalidMarkerException extends S.TaggedError<InvalidMarkerException>()(
+  "InvalidMarkerException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KMSInvalidSignature", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidMarker", httpResponseCode: 400 }),
 ) {}
-export class KMSInvalidMacException extends S.TaggedError<KMSInvalidMacException>()(
-  "KMSInvalidMacException",
+export class InvalidAliasNameException extends S.TaggedError<InvalidAliasNameException>()(
+  "InvalidAliasNameException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KMSInvalidMac", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidAliasName", httpResponseCode: 400 }),
+) {}
+export class InvalidGrantTokenException extends S.TaggedError<InvalidGrantTokenException>()(
+  "InvalidGrantTokenException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidGrantToken", httpResponseCode: 400 }),
 ) {}
 export class CloudHsmClusterInUseException extends S.TaggedError<CloudHsmClusterInUseException>()(
   "CloudHsmClusterInUseException",
@@ -1418,10 +1345,10 @@ export class CloudHsmClusterInUseException extends S.TaggedError<CloudHsmCluster
     httpResponseCode: 400,
   }),
 ) {}
-export class XksKeyAlreadyInUseException extends S.TaggedError<XksKeyAlreadyInUseException>()(
-  "XksKeyAlreadyInUseException",
+export class KMSInvalidStateException extends S.TaggedError<KMSInvalidStateException>()(
+  "KMSInvalidStateException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "XksKeyAlreadyInUse", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "KMSInvalidStateException", httpResponseCode: 409 }),
 ) {}
 export class IncorrectKeyMaterialException extends S.TaggedError<IncorrectKeyMaterialException>()(
   "IncorrectKeyMaterialException",
@@ -1431,6 +1358,49 @@ export class IncorrectKeyMaterialException extends S.TaggedError<IncorrectKeyMat
     httpResponseCode: 400,
   }),
 ) {}
+export class InvalidGrantIdException extends S.TaggedError<InvalidGrantIdException>()(
+  "InvalidGrantIdException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidGrantId", httpResponseCode: 400 }),
+) {}
+export class CloudHsmClusterNotFoundException extends S.TaggedError<CloudHsmClusterNotFoundException>()(
+  "CloudHsmClusterNotFoundException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CloudHsmClusterNotFoundException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NotFound", httpResponseCode: 404 }),
+) {}
+export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
+  "UnsupportedOperationException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
+) {}
+export class InvalidKeyUsageException extends S.TaggedError<InvalidKeyUsageException>()(
+  "InvalidKeyUsageException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidKeyUsage", httpResponseCode: 400 }),
+) {}
+export class IncorrectKeyException extends S.TaggedError<IncorrectKeyException>()(
+  "IncorrectKeyException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "IncorrectKeyException", httpResponseCode: 400 }),
+) {}
+export class InvalidCiphertextException extends S.TaggedError<InvalidCiphertextException>()(
+  "InvalidCiphertextException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidCiphertext", httpResponseCode: 400 }),
+) {}
 export class CloudHsmClusterNotRelatedException extends S.TaggedError<CloudHsmClusterNotRelatedException>()(
   "CloudHsmClusterNotRelatedException",
   { message: S.optional(S.String) },
@@ -1439,19 +1409,26 @@ export class CloudHsmClusterNotRelatedException extends S.TaggedError<CloudHsmCl
     httpResponseCode: 400,
   }),
 ) {}
+export class TagException extends S.TaggedError<TagException>()(
+  "TagException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TagException", httpResponseCode: 400 }),
+) {}
+export class MalformedPolicyDocumentException extends S.TaggedError<MalformedPolicyDocumentException>()(
+  "MalformedPolicyDocumentException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
+) {}
+export class KeyUnavailableException extends S.TaggedError<KeyUnavailableException>()(
+  "KeyUnavailableException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KeyUnavailable", httpResponseCode: 500 }),
+) {}
 export class CustomKeyStoreNameInUseException extends S.TaggedError<CustomKeyStoreNameInUseException>()(
   "CustomKeyStoreNameInUseException",
-  {},
-  T.AwsQueryError({
-    code: "CustomKeyStoreNameInUseException",
-    httpResponseCode: 400,
-  }),
-) {}
-export class XksKeyInvalidConfigurationException extends S.TaggedError<XksKeyInvalidConfigurationException>()(
-  "XksKeyInvalidConfigurationException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "XksKeyInvalidConfiguration",
+    code: "CustomKeyStoreNameInUseException",
     httpResponseCode: 400,
   }),
 ) {}
@@ -1463,13 +1440,10 @@ export class InvalidImportTokenException extends S.TaggedError<InvalidImportToke
     httpResponseCode: 400,
   }),
 ) {}
-export class XksProxyIncorrectAuthenticationCredentialException extends S.TaggedError<XksProxyIncorrectAuthenticationCredentialException>()(
-  "XksProxyIncorrectAuthenticationCredentialException",
+export class XksKeyAlreadyInUseException extends S.TaggedError<XksKeyAlreadyInUseException>()(
+  "XksKeyAlreadyInUseException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "XksProxyIncorrectAuthenticationCredentialException",
-    httpResponseCode: 400,
-  }),
+  T.AwsQueryError({ code: "XksKeyAlreadyInUse", httpResponseCode: 400 }),
 ) {}
 export class IncorrectTrustAnchorException extends S.TaggedError<IncorrectTrustAnchorException>()(
   "IncorrectTrustAnchorException",
@@ -1479,9 +1453,35 @@ export class IncorrectTrustAnchorException extends S.TaggedError<IncorrectTrustA
     httpResponseCode: 400,
   }),
 ) {}
+export class KMSInvalidMacException extends S.TaggedError<KMSInvalidMacException>()(
+  "KMSInvalidMacException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSInvalidMac", httpResponseCode: 400 }),
+) {}
+export class KMSInvalidSignatureException extends S.TaggedError<KMSInvalidSignatureException>()(
+  "KMSInvalidSignatureException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSInvalidSignature", httpResponseCode: 400 }),
+) {}
+export class XksProxyIncorrectAuthenticationCredentialException extends S.TaggedError<XksProxyIncorrectAuthenticationCredentialException>()(
+  "XksProxyIncorrectAuthenticationCredentialException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "XksProxyIncorrectAuthenticationCredentialException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class XksKeyInvalidConfigurationException extends S.TaggedError<XksKeyInvalidConfigurationException>()(
+  "XksKeyInvalidConfigurationException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "XksKeyInvalidConfiguration",
+    httpResponseCode: 400,
+  }),
+) {}
 export class XksProxyInvalidConfigurationException extends S.TaggedError<XksProxyInvalidConfigurationException>()(
   "XksProxyInvalidConfigurationException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "XksProxyInvalidConfigurationException",
     httpResponseCode: 400,
@@ -1494,7 +1494,7 @@ export class XksKeyNotFoundException extends S.TaggedError<XksKeyNotFoundExcepti
 ) {}
 export class XksProxyInvalidResponseException extends S.TaggedError<XksProxyInvalidResponseException>()(
   "XksProxyInvalidResponseException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "XksProxyInvalidResponseException",
     httpResponseCode: 400,
@@ -1502,7 +1502,7 @@ export class XksProxyInvalidResponseException extends S.TaggedError<XksProxyInva
 ) {}
 export class XksProxyUriEndpointInUseException extends S.TaggedError<XksProxyUriEndpointInUseException>()(
   "XksProxyUriEndpointInUseException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "XksProxyUriEndpointInUseException",
     httpResponseCode: 400,
@@ -1510,12 +1510,12 @@ export class XksProxyUriEndpointInUseException extends S.TaggedError<XksProxyUri
 ) {}
 export class XksProxyUriInUseException extends S.TaggedError<XksProxyUriInUseException>()(
   "XksProxyUriInUseException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "XksProxyUriInUseException", httpResponseCode: 400 }),
 ) {}
 export class XksProxyUriUnreachableException extends S.TaggedError<XksProxyUriUnreachableException>()(
   "XksProxyUriUnreachableException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "XksProxyUriUnreachableException",
     httpResponseCode: 400,
@@ -1523,7 +1523,7 @@ export class XksProxyUriUnreachableException extends S.TaggedError<XksProxyUriUn
 ) {}
 export class XksProxyVpcEndpointServiceInUseException extends S.TaggedError<XksProxyVpcEndpointServiceInUseException>()(
   "XksProxyVpcEndpointServiceInUseException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "XksProxyVpcEndpointServiceInUseException",
     httpResponseCode: 400,
@@ -1531,7 +1531,7 @@ export class XksProxyVpcEndpointServiceInUseException extends S.TaggedError<XksP
 ) {}
 export class XksProxyVpcEndpointServiceInvalidConfigurationException extends S.TaggedError<XksProxyVpcEndpointServiceInvalidConfigurationException>()(
   "XksProxyVpcEndpointServiceInvalidConfigurationException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "XksProxyVpcEndpointServiceInvalidConfigurationException",
     httpResponseCode: 400,
@@ -1539,7 +1539,7 @@ export class XksProxyVpcEndpointServiceInvalidConfigurationException extends S.T
 ) {}
 export class XksProxyVpcEndpointServiceNotFoundException extends S.TaggedError<XksProxyVpcEndpointServiceNotFoundException>()(
   "XksProxyVpcEndpointServiceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "XksProxyVpcEndpointServiceNotFoundException",
     httpResponseCode: 400,
@@ -1548,64 +1548,390 @@ export class XksProxyVpcEndpointServiceNotFoundException extends S.TaggedError<X
 
 //# Operations
 /**
- * Associates an existing KMS alias with a different KMS key. Each alias is associated with
- * only one KMS key at a time, although a KMS key can have multiple aliases. The alias and the
- * KMS key must be in the same Amazon Web Services account and Region.
+ * Disconnects the custom key store from its backing key store. This operation disconnects an
+ * CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from
+ * the external key store proxy that communicates with your external key manager.
  *
- * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
+ * This operation is part of the custom key stores feature in KMS, which
+ * combines the convenience and extensive integration of KMS with the isolation and control of a
+ * key store that you own and manage.
  *
- * The current and new KMS key must be the same type (both symmetric or both asymmetric or
- * both HMAC), and they must have the same key usage. This restriction prevents errors in code
- * that uses aliases. If you must assign an alias to a different type of KMS key, use DeleteAlias to delete the old alias and CreateAlias to create
- * a new alias.
+ * While a custom key store is disconnected, you can manage the custom key store and its KMS
+ * keys, but you cannot create or use its KMS keys. You can reconnect the custom key store at any
+ * time.
  *
- * You cannot use `UpdateAlias` to change an alias name. To change an alias name,
- * use DeleteAlias to delete the old alias and CreateAlias to
- * create a new alias.
+ * While a custom key store is disconnected, all attempts to create KMS keys in the custom key store or to use existing KMS keys in cryptographic operations will
+ * fail. This action can prevent users from storing and accessing sensitive data.
  *
- * Because an alias is not a property of a KMS key, you can create, update, and delete the
- * aliases of a KMS key without affecting the KMS key. Also, aliases do not appear in the
- * response from the DescribeKey operation. To get the aliases of all KMS keys
- * in the account, use the ListAliases operation.
+ * When you disconnect a custom key store, its `ConnectionState` changes to
+ * `Disconnected`. To find the connection state of a custom key store, use the DescribeCustomKeyStores operation. To reconnect a custom key store, use the
+ * ConnectCustomKeyStore operation.
  *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ * If the operation succeeds, it returns a JSON object with no
+ * properties.
  *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
  *
- * **Required permissions**
- *
- * - kms:UpdateAlias on
- * the alias (IAM policy).
- *
- * - kms:UpdateAlias on
- * the current KMS key (key policy).
- *
- * - kms:UpdateAlias on
- * the new KMS key (key policy).
- *
- * For details, see Controlling access to aliases in the
- * *Key Management Service Developer Guide*.
+ * **Required permissions**: kms:DisconnectCustomKeyStore (IAM policy)
  *
  * **Related operations:**
  *
- * - CreateAlias
+ * - ConnectCustomKeyStore
  *
- * - DeleteAlias
+ * - CreateCustomKeyStore
  *
- * - ListAliases
+ * - DeleteCustomKeyStore
+ *
+ * - DescribeCustomKeyStores
+ *
+ * - UpdateCustomKeyStore
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAliasRequest,
-  output: UpdateAliasResponse,
+export const disconnectCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisconnectCustomKeyStoreRequest,
+    output: DisconnectCustomKeyStoreResponse,
+    errors: [
+      CustomKeyStoreInvalidStateException,
+      CustomKeyStoreNotFoundException,
+      KMSInternalException,
+    ],
+  }),
+);
+/**
+ * Deletes a custom key store. This operation does not affect any backing elements of the
+ * custom key store. It does not delete the CloudHSM cluster that is associated with an CloudHSM key
+ * store, or affect any users or keys in the cluster. For an external key store, it does not
+ * affect the external key store proxy, external key manager, or any external keys.
+ *
+ * This operation is part of the custom key stores feature in KMS, which
+ * combines the convenience and extensive integration of KMS with the isolation and control of a
+ * key store that you own and manage.
+ *
+ * The custom key store that you delete cannot contain any KMS keys. Before deleting the key store,
+ * verify that you will never need to use any of the KMS keys in the key store for any
+ * cryptographic operations. Then, use ScheduleKeyDeletion to delete the KMS keys from the
+ * key store. After the required waiting period expires and all KMS keys are deleted from the
+ * custom key store, use DisconnectCustomKeyStore to disconnect the key store
+ * from KMS. Then, you can delete the custom key store.
+ *
+ * For keys in an CloudHSM key store, the `ScheduleKeyDeletion` operation makes a
+ * best effort to delete the key material from the associated cluster. However, you might need to
+ * manually delete the orphaned key
+ * material from the cluster and its backups. KMS never creates, manages, or deletes
+ * cryptographic keys in the external key manager associated with an external key store. You must
+ * manage them using your external key manager tools.
+ *
+ * Instead of deleting the custom key store, consider using the DisconnectCustomKeyStore operation to disconnect the custom key store from its
+ * backing key store. While the key store is disconnected, you cannot create or use the KMS keys
+ * in the key store. But, you do not need to delete KMS keys and you can reconnect a disconnected
+ * custom key store at any time.
+ *
+ * If the operation succeeds, it returns a JSON object with no
+ * properties.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DeleteCustomKeyStore (IAM policy)
+ *
+ * **Related operations:**
+ *
+ * - ConnectCustomKeyStore
+ *
+ * - CreateCustomKeyStore
+ *
+ * - DescribeCustomKeyStores
+ *
+ * - DisconnectCustomKeyStore
+ *
+ * - UpdateCustomKeyStore
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const deleteCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCustomKeyStoreRequest,
+    output: DeleteCustomKeyStoreResponse,
+    errors: [
+      CustomKeyStoreHasCMKsException,
+      CustomKeyStoreInvalidStateException,
+      CustomKeyStoreNotFoundException,
+      KMSInternalException,
+    ],
+  }),
+);
+/**
+ * Connects or reconnects a custom key store to its backing key store. For an CloudHSM key
+ * store, `ConnectCustomKeyStore` connects the key store to its associated CloudHSM
+ * cluster. For an external key store, `ConnectCustomKeyStore` connects the key store
+ * to the external key store proxy that communicates with your external key manager.
+ *
+ * The custom key store must be connected before you can create KMS keys in the key store or
+ * use the KMS keys it contains. You can disconnect and reconnect a custom key store at any
+ * time.
+ *
+ * The connection process for a custom key store can take an extended amount of time to
+ * complete. This operation starts the connection process, but it does not wait for it to
+ * complete. When it succeeds, this operation quickly returns an HTTP 200 response and a JSON
+ * object with no properties. However, this response does not indicate that the custom key store
+ * is connected. To get the connection state of the custom key store, use the DescribeCustomKeyStores operation.
+ *
+ * This operation is part of the custom key stores feature in KMS, which
+ * combines the convenience and extensive integration of KMS with the isolation and control of a
+ * key store that you own and manage.
+ *
+ * The `ConnectCustomKeyStore` operation might fail for various reasons. To find
+ * the reason, use the DescribeCustomKeyStores operation and see the
+ * `ConnectionErrorCode` in the response. For help interpreting the
+ * `ConnectionErrorCode`, see CustomKeyStoresListEntry.
+ *
+ * To fix the failure, use the DisconnectCustomKeyStore operation to
+ * disconnect the custom key store, correct the error, use the UpdateCustomKeyStore operation if necessary, and then use
+ * `ConnectCustomKeyStore` again.
+ *
+ * **CloudHSM key store**
+ *
+ * During the connection process for an CloudHSM key store, KMS finds the CloudHSM cluster that
+ * is associated with the custom key store, creates the connection infrastructure, connects to
+ * the cluster, logs into the CloudHSM client as the `kmsuser` CU, and rotates its
+ * password.
+ *
+ * To connect an CloudHSM key store, its associated CloudHSM cluster must have at least one active
+ * HSM. To get the number of active HSMs in a cluster, use the DescribeClusters operation. To add HSMs
+ * to the cluster, use the CreateHsm operation. Also, the
+ * `kmsuser` crypto
+ * user (CU) must not be logged into the cluster. This prevents KMS from using this
+ * account to log in.
+ *
+ * If you are having trouble connecting or disconnecting a CloudHSM key store, see Troubleshooting an CloudHSM key
+ * store in the *Key Management Service Developer Guide*.
+ *
+ * **External key store**
+ *
+ * When you connect an external key store that uses public endpoint connectivity, KMS tests
+ * its ability to communicate with your external key manager by sending a request via the
+ * external key store proxy.
+ *
+ * When you connect to an external key store that uses VPC endpoint service connectivity,
+ * KMS establishes the networking elements that it needs to communicate with your external key
+ * manager via the external key store proxy. This includes creating an interface endpoint to the
+ * VPC endpoint service and a private hosted zone for traffic between KMS and the VPC endpoint
+ * service.
+ *
+ * To connect an external key store, KMS must be able to connect to the external key store
+ * proxy, the external key store proxy must be able to communicate with your external key
+ * manager, and the external key manager must be available for cryptographic operations.
+ *
+ * If you are having trouble connecting or disconnecting an external key store, see Troubleshooting an external
+ * key store in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ConnectCustomKeyStore (IAM policy)
+ *
+ * **Related operations**
+ *
+ * - CreateCustomKeyStore
+ *
+ * - DeleteCustomKeyStore
+ *
+ * - DescribeCustomKeyStores
+ *
+ * - DisconnectCustomKeyStore
+ *
+ * - UpdateCustomKeyStore
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const connectCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ConnectCustomKeyStoreRequest,
+    output: ConnectCustomKeyStoreResponse,
+    errors: [
+      CloudHsmClusterInvalidConfigurationException,
+      CloudHsmClusterNotActiveException,
+      CustomKeyStoreInvalidStateException,
+      CustomKeyStoreNotFoundException,
+      KMSInternalException,
+    ],
+  }),
+);
+/**
+ * Gets a list of all KMS keys in the caller's Amazon Web Services account and Region.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ListKeys (IAM policy)
+ *
+ * **Related operations:**
+ *
+ * - CreateKey
+ *
+ * - DescribeKey
+ *
+ * - ListAliases
+ *
+ * - ListResourceTags
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListKeysRequest,
+  output: ListKeysResponse,
   errors: [
     DependencyTimeoutException,
+    InvalidMarkerException,
+    KMSInternalException,
+  ],
+}));
+/**
+ * Gets information about custom key stores in the account and Region.
+ *
+ * This operation is part of the custom key stores feature in KMS, which
+ * combines the convenience and extensive integration of KMS with the isolation and control of a
+ * key store that you own and manage.
+ *
+ * By default, this operation returns information about all custom key stores in the account
+ * and Region. To get only information about a particular custom key store, use either the
+ * `CustomKeyStoreName` or `CustomKeyStoreId` parameter (but not
+ * both).
+ *
+ * To determine whether the custom key store is connected to its CloudHSM cluster or external
+ * key store proxy, use the `ConnectionState` element in the response. If an attempt
+ * to connect the custom key store failed, the `ConnectionState` value is
+ * `FAILED` and the `ConnectionErrorCode` element in the response
+ * indicates the cause of the failure. For help interpreting the
+ * `ConnectionErrorCode`, see CustomKeyStoresListEntry.
+ *
+ * Custom key stores have a `DISCONNECTED` connection state if the key store has
+ * never been connected or you used the DisconnectCustomKeyStore operation to
+ * disconnect it. Otherwise, the connection state is CONNECTED. If your custom key store
+ * connection state is `CONNECTED` but you are having trouble using it, verify that
+ * the backing store is active and available. For an CloudHSM key store, verify that the associated
+ * CloudHSM cluster is active and contains the minimum number of HSMs required for the operation, if
+ * any. For an external key store, verify that the external key store proxy and its associated
+ * external key manager are reachable and enabled.
+ *
+ * For help repairing your CloudHSM key store, see the Troubleshooting CloudHSM key stores. For help
+ * repairing your external key store, see the Troubleshooting external key stores.
+ * Both topics are in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DescribeCustomKeyStores (IAM policy)
+ *
+ * **Related operations:**
+ *
+ * - ConnectCustomKeyStore
+ *
+ * - CreateCustomKeyStore
+ *
+ * - DeleteCustomKeyStore
+ *
+ * - DisconnectCustomKeyStore
+ *
+ * - UpdateCustomKeyStore
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const describeCustomKeyStores = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCustomKeyStoresRequest,
+    output: DescribeCustomKeyStoresResponse,
+    errors: [
+      CustomKeyStoreNotFoundException,
+      InvalidMarkerException,
+      KMSInternalException,
+    ],
+  }),
+);
+/**
+ * Returns information about all grants in the Amazon Web Services account and Region that have the
+ * specified retiring principal.
+ *
+ * You can specify any principal in your Amazon Web Services account. The grants that are returned include
+ * grants for KMS keys in your Amazon Web Services account and other Amazon Web Services accounts. You might use this
+ * operation to determine which grants you may retire. To retire a grant, use the RetireGrant operation.
+ *
+ * For detailed information about grants, including grant terminology, see Grants in KMS in the
+ *
+ * *Key Management Service Developer Guide*
+ * . For examples of creating grants in several
+ * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
+ *
+ * **Cross-account use**: You must specify a principal in your
+ * Amazon Web Services account. This operation returns a list of grants where the retiring principal specified
+ * in the `ListRetirableGrants` request is the same retiring principal on the grant.
+ * This can include grants on KMS keys owned by other Amazon Web Services accounts, but you do not need
+ * `kms:ListRetirableGrants` permission (or any other additional permission) in any
+ * Amazon Web Services account other than your own.
+ *
+ * **Required permissions**: kms:ListRetirableGrants (IAM policy) in your
+ * Amazon Web Services account.
+ *
+ * KMS authorizes `ListRetirableGrants` requests by evaluating the caller
+ * account's kms:ListRetirableGrants permissions. The authorized resource in
+ * `ListRetirableGrants` calls is the retiring principal specified in the request.
+ * KMS does not evaluate the caller's permissions to verify their access to any KMS keys or
+ * grants that might be returned by the `ListRetirableGrants` call.
+ *
+ * **Related operations:**
+ *
+ * - CreateGrant
+ *
+ * - ListGrants
+ *
+ * - RetireGrant
+ *
+ * - RevokeGrant
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listRetirableGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRetirableGrantsRequest,
+  output: ListGrantsResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS
+ * key for cryptographic operations.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For more
+ * information about how key state affects the use of a KMS key, see Key states of KMS keys in the
+ *
+ * *Key Management Service Developer Guide*
+ * .
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DisableKey (key policy)
+ *
+ * **Related operations**: EnableKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const disableKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableKeyRequest,
+  output: DisableKeyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
     KMSInternalException,
     KMSInvalidStateException,
-    LimitExceededException,
     NotFoundException,
   ],
 }));
@@ -1672,6 +1998,347 @@ export const cancelKeyDeletion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Gets a key policy attached to the specified KMS key.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:GetKeyPolicy (key policy)
+ *
+ * **Related operations**: PutKeyPolicy
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const getKeyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetKeyPolicyRequest,
+  output: GetKeyPolicyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Gets the names of the key policies that are attached to a KMS key. This operation is
+ * designed to get policy names that you can use in a GetKeyPolicy operation.
+ * However, the only valid policy name is `default`.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ListKeyPolicies (key policy)
+ *
+ * **Related operations:**
+ *
+ * - GetKeyPolicy
+ *
+ * - PutKeyPolicy
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listKeyPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListKeyPoliciesRequest,
+  output: ListKeyPoliciesResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Schedules the deletion of a KMS key. By default, KMS applies a waiting period of 30
+ * days, but you can specify a waiting period of 7-30 days. When this operation is successful,
+ * the key state of the KMS key changes to `PendingDeletion` and the key can't be used
+ * in any cryptographic operations. It remains in this state for the duration of the waiting
+ * period. Before the waiting period ends, you can use CancelKeyDeletion to
+ * cancel the deletion of the KMS key. After the waiting period ends, KMS deletes the KMS key,
+ * its key material, and all KMS data associated with it, including all aliases that refer to
+ * it.
+ *
+ * Deleting a KMS key is a destructive and potentially dangerous operation. When a KMS key
+ * is deleted, all data that was encrypted under the KMS key is unrecoverable. (The only
+ * exception is a multi-Region replica key, or an asymmetric or HMAC KMS key with
+ * imported key material.) To prevent the use of a KMS key without deleting it, use
+ * DisableKey.
+ *
+ * You can schedule the deletion of a multi-Region primary key and its replica keys at any
+ * time. However, KMS will not delete a multi-Region primary key with existing replica keys. If
+ * you schedule the deletion of a primary key with replicas, its key state changes to
+ * `PendingReplicaDeletion` and it cannot be replicated or used in cryptographic
+ * operations. This status can continue indefinitely. When the last of its replicas keys is
+ * deleted (not just scheduled), the key state of the primary key changes to
+ * `PendingDeletion` and its waiting period (`PendingWindowInDays`)
+ * begins. For details, see Deleting multi-Region keys in
+ * the *Key Management Service Developer Guide*.
+ *
+ * When KMS deletes a KMS key from an CloudHSM
+ * key store, it makes a best effort to delete the associated key material from the
+ * associated CloudHSM cluster. However, you might need to manually delete the orphaned key
+ * material from the cluster and its backups. Deleting a KMS key from an external key
+ * store has no effect on the associated external key. However, for both types of
+ * custom key stores, deleting a KMS key is destructive and irreversible. You cannot decrypt
+ * ciphertext encrypted under the KMS key by using only its associated external key or CloudHSM key.
+ * Also, you cannot recreate a KMS key in an external key store by creating a new KMS key with
+ * the same key material.
+ *
+ * For more information about scheduling a KMS key for deletion, see Deleting KMS keys in the
+ * *Key Management Service Developer Guide*.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ScheduleKeyDeletion (key
+ * policy)
+ *
+ * **Related operations**
+ *
+ * - CancelKeyDeletion
+ *
+ * - DisableKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const scheduleKeyDeletion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ScheduleKeyDeletionRequest,
+  output: ScheduleKeyDeletionResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Returns a random byte string that is cryptographically secure.
+ *
+ * You must use the `NumberOfBytes` parameter to specify the length of the random
+ * byte string. There is no default value for string length.
+ *
+ * By default, the random byte string is generated in KMS. To generate the byte string in
+ * the CloudHSM cluster associated with an CloudHSM key store, use the `CustomKeyStoreId`
+ * parameter.
+ *
+ * `GenerateRandom` also supports Amazon Web Services Nitro Enclaves, which provide an
+ * isolated compute environment in Amazon EC2. To call `GenerateRandom` for a Nitro enclave
+ * or NitroTPM, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. Use the `Recipient`
+ * parameter to provide the attestation document for the attested environment. Instead of
+ * plaintext bytes, the response includes the plaintext bytes encrypted under the public key from
+ * the attestation document (`CiphertextForRecipient`). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the *Key Management Service Developer Guide*.
+ *
+ * For more information about entropy and random number generation, see Entropy and random number generation in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Not applicable.
+ * `GenerateRandom` does not use any account-specific resources, such as KMS
+ * keys.
+ *
+ * **Required permissions**: kms:GenerateRandom (IAM policy)
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const generateRandom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateRandomRequest,
+  output: GenerateRandomResponse,
+  errors: [
+    CustomKeyStoreInvalidStateException,
+    CustomKeyStoreNotFoundException,
+    DependencyTimeoutException,
+    KMSInternalException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Deletes a grant. Typically, you retire a grant when you no longer need its permissions. To
+ * identify the grant to retire, use a grant token, or both the grant ID and a
+ * key identifier (key ID or key ARN) of the KMS key. The CreateGrant operation
+ * returns both values.
+ *
+ * This operation can be called by the *retiring principal* for a grant,
+ * by the *grantee principal* if the grant allows the `RetireGrant`
+ * operation, and by the Amazon Web Services account in which the grant is created. It can also be called by
+ * principals to whom permission for retiring a grant is delegated.
+ *
+ * For detailed information about grants, including grant terminology, see Grants in KMS in the
+ *
+ * *Key Management Service Developer Guide*
+ * . For examples of creating grants in several
+ * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
+ *
+ * **Cross-account use**: Yes. You can retire a grant on a KMS
+ * key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: Permission to retire a grant is
+ * determined primarily by the grant. For details, see Retiring and revoking grants in the
+ * *Key Management Service Developer Guide*.
+ *
+ * **Related operations:**
+ *
+ * - CreateGrant
+ *
+ * - ListGrants
+ *
+ * - ListRetirableGrants
+ *
+ * - RevokeGrant
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const retireGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetireGrantRequest,
+  output: RetireGrantResponse,
+  errors: [
+    DependencyTimeoutException,
+    DryRunOperationException,
+    InvalidArnException,
+    InvalidGrantIdException,
+    InvalidGrantTokenException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified grant. You revoke a grant to terminate the permissions that the
+ * grant allows. For more information, see Retiring and revoking grants in the
+ *
+ * *Key Management Service Developer Guide*
+ * .
+ *
+ * When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as *eventual consistency*. For details, see Eventual consistency in
+ * the
+ * *Key Management Service Developer Guide*
+ * .
+ *
+ * For detailed information about grants, including grant terminology, see Grants in KMS in the
+ *
+ * *Key Management Service Developer Guide*
+ * . For examples of creating grants in several
+ * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
+ *
+ * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
+ * ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:RevokeGrant (key policy).
+ *
+ * **Related operations:**
+ *
+ * - CreateGrant
+ *
+ * - ListGrants
+ *
+ * - ListRetirableGrants
+ *
+ * - RetireGrant
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const revokeGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeGrantRequest,
+  output: RevokeGrantResponse,
+  errors: [
+    DependencyTimeoutException,
+    DryRunOperationException,
+    InvalidArnException,
+    InvalidGrantIdException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Returns all tags on the specified KMS key.
+ *
+ * For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in
+ * the *Amazon Web Services General Reference*. For information about using
+ * tags in KMS, see Tags in
+ * KMS.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ListResourceTags (key policy)
+ *
+ * **Related operations:**
+ *
+ * - CreateKey
+ *
+ * - ReplicateKey
+ *
+ * - TagResource
+ *
+ * - UntagResource
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listResourceTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResourceTagsRequest,
+  output: ListResourceTagsResponse,
+  errors: [
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Gets a list of aliases in the caller's Amazon Web Services account and region. For more information
+ * about aliases, see CreateAlias.
+ *
+ * By default, the `ListAliases` operation returns all aliases in the account and
+ * region. To get only the aliases associated with a particular KMS key, use the
+ * `KeyId` parameter.
+ *
+ * The `ListAliases` response can include aliases that you created and associated
+ * with your customer managed keys, and aliases that Amazon Web Services created and associated with Amazon Web Services
+ * managed keys in your account. You can recognize Amazon Web Services aliases because their names have the
+ * format `aws/`, such as `aws/dynamodb`.
+ *
+ * The response might also include aliases that have no `TargetKeyId` field. These
+ * are predefined aliases that Amazon Web Services has created but has not yet associated with a KMS key.
+ * Aliases that Amazon Web Services creates in your account, including predefined aliases, do not count against
+ * your KMS
+ * aliases quota.
+ *
+ * **Cross-account use**: No. `ListAliases` does not
+ * return aliases in other Amazon Web Services accounts.
+ *
+ * **Required permissions**: kms:ListAliases (IAM policy)
+ *
+ * For details, see Controlling access to aliases in the *Key Management Service Developer Guide*.
+ *
+ * **Related operations:**
+ *
+ * - CreateAlias
+ *
+ * - DeleteAlias
+ *
+ * - UpdateAlias
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAliasesRequest,
+  output: ListAliasesResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+}));
+/**
  * Deletes the specified alias.
  *
  * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
@@ -1718,147 +2385,127 @@ export const deleteAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a custom key store. This operation does not affect any backing elements of the
- * custom key store. It does not delete the CloudHSM cluster that is associated with an CloudHSM key
- * store, or affect any users or keys in the cluster. For an external key store, it does not
- * affect the external key store proxy, external key manager, or any external keys.
+ * Gets a list of all grants for the specified KMS key.
  *
- * This operation is part of the custom key stores feature in KMS, which
- * combines the convenience and extensive integration of KMS with the isolation and control of a
- * key store that you own and manage.
+ * You must specify the KMS key in all requests. You can filter the grant list by grant ID or
+ * grantee principal.
  *
- * The custom key store that you delete cannot contain any KMS keys. Before deleting the key store,
- * verify that you will never need to use any of the KMS keys in the key store for any
- * cryptographic operations. Then, use ScheduleKeyDeletion to delete the KMS keys from the
- * key store. After the required waiting period expires and all KMS keys are deleted from the
- * custom key store, use DisconnectCustomKeyStore to disconnect the key store
- * from KMS. Then, you can delete the custom key store.
- *
- * For keys in an CloudHSM key store, the `ScheduleKeyDeletion` operation makes a
- * best effort to delete the key material from the associated cluster. However, you might need to
- * manually delete the orphaned key
- * material from the cluster and its backups. KMS never creates, manages, or deletes
- * cryptographic keys in the external key manager associated with an external key store. You must
- * manage them using your external key manager tools.
- *
- * Instead of deleting the custom key store, consider using the DisconnectCustomKeyStore operation to disconnect the custom key store from its
- * backing key store. While the key store is disconnected, you cannot create or use the KMS keys
- * in the key store. But, you do not need to delete KMS keys and you can reconnect a disconnected
- * custom key store at any time.
- *
- * If the operation succeeds, it returns a JSON object with no
- * properties.
- *
- * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DeleteCustomKeyStore (IAM policy)
- *
- * **Related operations:**
- *
- * - ConnectCustomKeyStore
- *
- * - CreateCustomKeyStore
- *
- * - DescribeCustomKeyStores
- *
- * - DisconnectCustomKeyStore
- *
- * - UpdateCustomKeyStore
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const deleteCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomKeyStoreRequest,
-    output: DeleteCustomKeyStoreResponse,
-    errors: [
-      CustomKeyStoreHasCMKsException,
-      CustomKeyStoreInvalidStateException,
-      CustomKeyStoreNotFoundException,
-      KMSInternalException,
-    ],
-  }),
-);
-/**
- * Deletes key material that was previously imported. This operation makes the specified KMS
- * key temporarily unusable. To restore the usability of the KMS key, reimport the same key
- * material. For more information about importing key material into KMS, see Importing Key Material
- * in the *Key Management Service Developer Guide*.
- *
- * When the specified KMS key is in the `PendingDeletion` state, this operation
- * does not change the KMS key's state. Otherwise, it changes the KMS key's state to
- * `PendingImport`.
- *
- * **Considerations for multi-Region symmetric encryption keys**
- *
- * - When you delete the key material of a primary Region key that is in
- * `PENDING_ROTATION` or `PENDING_MULTI_REGION_IMPORT_AND_ROTATION`state,
- * you'll also be deleting the key materials for the replica Region keys.
- *
- * - If you delete any key material of a replica Region key, the primary Region key and
- * other replica Region keys remain unchanged.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DeleteImportedKeyMaterial (key policy)
- *
- * **Related operations:**
- *
- * - GetParametersForImport
- *
- * - ListKeyRotations
- *
- * - ImportKeyMaterial
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const deleteImportedKeyMaterial = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteImportedKeyMaterialRequest,
-    output: DeleteImportedKeyMaterialResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS
- * key for cryptographic operations.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For more
- * information about how key state affects the use of a KMS key, see Key states of KMS keys in the
+ * For detailed information about grants, including grant terminology, see Grants in KMS in the
  *
  * *Key Management Service Developer Guide*
- * .
+ * . For examples of creating grants in several
+ * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
  *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ * The `GranteePrincipal` field in the `ListGrants` response usually contains the
+ * user or role designated as the grantee principal in the grant. However, when the grantee
+ * principal in the grant is an Amazon Web Services service, the `GranteePrincipal` field contains
+ * the service
+ * principal, which might represent several different grantee principals.
  *
- * **Required permissions**: kms:DisableKey (key policy)
+ * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
+ * ARN in the value of the `KeyId` parameter.
  *
- * **Related operations**: EnableKey
+ * **Required permissions**: kms:ListGrants (key policy)
+ *
+ * **Related operations:**
+ *
+ * - CreateGrant
+ *
+ * - ListRetirableGrants
+ *
+ * - RetireGrant
+ *
+ * - RevokeGrant
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const disableKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableKeyRequest,
-  output: DisableKeyResponse,
+export const listGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGrantsRequest,
+  output: ListGrantsResponse,
   errors: [
     DependencyTimeoutException,
+    InvalidArnException,
+    InvalidGrantIdException,
+    InvalidMarkerException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Changes the primary key of a multi-Region key.
+ *
+ * This operation changes the replica key in the specified Region to a primary key and
+ * changes the former primary key to a replica key. For example, suppose you have a primary key
+ * in `us-east-1` and a replica key in `eu-west-2`. If you run
+ * `UpdatePrimaryRegion` with a `PrimaryRegion` value of
+ * `eu-west-2`, the primary key is now the key in `eu-west-2`, and the
+ * key in `us-east-1` becomes a replica key. For details, see Change the primary key in a
+ * set of multi-Region keys in the *Key Management Service Developer Guide*.
+ *
+ * This operation supports *multi-Region keys*, an KMS feature that lets you create multiple
+ * interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key
+ * material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt
+ * it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
+ *
+ * The *primary key* of a multi-Region key is the source for properties
+ * that are always shared by primary and replica keys, including the key material, key ID, key spec, key usage, key material
+ * origin, and automatic
+ * key rotation. It's the only key that can be replicated. You cannot delete the primary
+ * key until all replica keys are deleted.
+ *
+ * The key ID and primary Region that you specify uniquely identify the replica key that will
+ * become the primary key. The primary Region must already have a replica key. This operation
+ * does not create a KMS key in the specified Region. To find the replica keys, use the DescribeKey operation on the primary key or any replica key. To create a replica
+ * key, use the ReplicateKey operation.
+ *
+ * You can run this operation while using the affected multi-Region keys in cryptographic
+ * operations. This operation should not delay, interrupt, or cause failures in cryptographic
+ * operations.
+ *
+ * Even after this operation completes, the process of updating the primary Region might
+ * still be in progress for a few more seconds. Operations such as `DescribeKey` might
+ * display both the old and new primary keys as replicas. The old and new primary keys have a
+ * transient key state of `Updating`. The original key state is restored when the
+ * update is complete. While the key state is `Updating`, you can use the keys in
+ * cryptographic operations, but you cannot replicate the new primary key or perform certain
+ * management operations, such as enabling or disabling these keys. For details about the
+ * `Updating` key state, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * This operation does not return any output. To verify that primary key is changed, use the
+ * DescribeKey operation.
+ *
+ * **Cross-account use**: No. You cannot use this operation in a
+ * different Amazon Web Services account.
+ *
+ * **Required permissions**:
+ *
+ * - `kms:UpdatePrimaryRegion` on the current primary key (in the primary key's
+ * Region). Include this permission primary key's key policy.
+ *
+ * - `kms:UpdatePrimaryRegion` on the current replica key (in the replica key's
+ * Region). Include this permission in the replica key's key policy.
+ *
+ * **Related operations**
+ *
+ * - CreateKey
+ *
+ * - ReplicateKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const updatePrimaryRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePrimaryRegionRequest,
+  output: UpdatePrimaryRegionResponse,
+  errors: [
+    DisabledException,
     InvalidArnException,
     KMSInternalException,
     KMSInvalidStateException,
     NotFoundException,
+    UnsupportedOperationException,
   ],
 }));
 /**
@@ -1907,87 +2554,6 @@ export const disableKeyRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     KMSInvalidStateException,
     NotFoundException,
     UnsupportedOperationException,
-  ],
-}));
-/**
- * Disconnects the custom key store from its backing key store. This operation disconnects an
- * CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from
- * the external key store proxy that communicates with your external key manager.
- *
- * This operation is part of the custom key stores feature in KMS, which
- * combines the convenience and extensive integration of KMS with the isolation and control of a
- * key store that you own and manage.
- *
- * While a custom key store is disconnected, you can manage the custom key store and its KMS
- * keys, but you cannot create or use its KMS keys. You can reconnect the custom key store at any
- * time.
- *
- * While a custom key store is disconnected, all attempts to create KMS keys in the custom key store or to use existing KMS keys in cryptographic operations will
- * fail. This action can prevent users from storing and accessing sensitive data.
- *
- * When you disconnect a custom key store, its `ConnectionState` changes to
- * `Disconnected`. To find the connection state of a custom key store, use the DescribeCustomKeyStores operation. To reconnect a custom key store, use the
- * ConnectCustomKeyStore operation.
- *
- * If the operation succeeds, it returns a JSON object with no
- * properties.
- *
- * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DisconnectCustomKeyStore (IAM policy)
- *
- * **Related operations:**
- *
- * - ConnectCustomKeyStore
- *
- * - CreateCustomKeyStore
- *
- * - DeleteCustomKeyStore
- *
- * - DescribeCustomKeyStores
- *
- * - UpdateCustomKeyStore
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const disconnectCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisconnectCustomKeyStoreRequest,
-    output: DisconnectCustomKeyStoreResponse,
-    errors: [
-      CustomKeyStoreInvalidStateException,
-      CustomKeyStoreNotFoundException,
-      KMSInternalException,
-    ],
-  }),
-);
-/**
- * Sets the key state of a KMS key to enabled. This allows you to use the KMS key for
- * cryptographic operations.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:EnableKey (key policy)
- *
- * **Related operations**: DisableKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const enableKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableKeyRequest,
-  output: EnableKeyResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    NotFoundException,
   ],
 }));
 /**
@@ -2056,6 +2622,1176 @@ export const enableKeyRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     KMSInvalidStateException,
     NotFoundException,
     UnsupportedOperationException,
+  ],
+}));
+/**
+ * Deletes key material that was previously imported. This operation makes the specified KMS
+ * key temporarily unusable. To restore the usability of the KMS key, reimport the same key
+ * material. For more information about importing key material into KMS, see Importing Key Material
+ * in the *Key Management Service Developer Guide*.
+ *
+ * When the specified KMS key is in the `PendingDeletion` state, this operation
+ * does not change the KMS key's state. Otherwise, it changes the KMS key's state to
+ * `PendingImport`.
+ *
+ * **Considerations for multi-Region symmetric encryption keys**
+ *
+ * - When you delete the key material of a primary Region key that is in
+ * `PENDING_ROTATION` or `PENDING_MULTI_REGION_IMPORT_AND_ROTATION`state,
+ * you'll also be deleting the key materials for the replica Region keys.
+ *
+ * - If you delete any key material of a replica Region key, the primary Region key and
+ * other replica Region keys remain unchanged.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DeleteImportedKeyMaterial (key policy)
+ *
+ * **Related operations:**
+ *
+ * - GetParametersForImport
+ *
+ * - ListKeyRotations
+ *
+ * - ImportKeyMaterial
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const deleteImportedKeyMaterial = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteImportedKeyMaterialRequest,
+    output: DeleteImportedKeyMaterialResponse,
+    errors: [
+      DependencyTimeoutException,
+      InvalidArnException,
+      KMSInternalException,
+      KMSInvalidStateException,
+      NotFoundException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Provides detailed information about the rotation status for a KMS key, including whether
+ * automatic
+ * rotation of the key material is enabled for the specified KMS key, the rotation
+ * period, and the next scheduled rotation date.
+ *
+ * Automatic key rotation is supported only on symmetric encryption KMS keys.
+ * You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.
+ *
+ * You can enable (EnableKeyRotation) and disable automatic rotation (DisableKeyRotation) of the key material in customer managed KMS keys. Key
+ * material rotation of Amazon Web Services managed KMS keys is not
+ * configurable. KMS always rotates the key material in Amazon Web Services managed KMS keys every year. The
+ * key rotation status for Amazon Web Services managed KMS keys is always `true`.
+ *
+ * You can perform on-demand (RotateKeyOnDemand) rotation of the key
+ * material in customer managed KMS keys, regardless of whether or not automatic key rotation is
+ * enabled. You can use GetKeyRotationStatus to identify the date and time that an in progress
+ * on-demand rotation was initiated. You can use ListKeyRotations to view the
+ * details of completed rotations.
+ *
+ * In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three
+ * years to every year. For details, see EnableKeyRotation.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * - Disabled: The key rotation status does not change when you disable a KMS key. However,
+ * while the KMS key is disabled, KMS does not rotate the key material. When you re-enable
+ * the KMS key, rotation resumes. If the key material in the re-enabled KMS key hasn't been
+ * rotated in one year, KMS rotates it immediately, and every year thereafter. If it's been
+ * less than a year since the key material in the re-enabled KMS key was rotated, the KMS key
+ * resumes its prior rotation schedule.
+ *
+ * - Pending deletion: While a KMS key is pending deletion, its key rotation status is
+ * `false` and KMS does not rotate the key material. If you cancel the
+ * deletion, the original key rotation status returns to `true`.
+ *
+ * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
+ * ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:GetKeyRotationStatus (key policy)
+ *
+ * **Related operations:**
+ *
+ * - DisableKeyRotation
+ *
+ * - EnableKeyRotation
+ *
+ * - ListKeyRotations
+ *
+ * - RotateKeyOnDemand
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const getKeyRotationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetKeyRotationStatusRequest,
+    output: GetKeyRotationStatusResponse,
+    errors: [
+      DependencyTimeoutException,
+      InvalidArnException,
+      KMSInternalException,
+      KMSInvalidStateException,
+      NotFoundException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Returns the public key and an import token you need to import or reimport key material for
+ * a KMS key.
+ *
+ * By default, KMS keys are created with key material that KMS generates. This operation
+ * supports Importing key
+ * material, an advanced feature that lets you generate and import the cryptographic
+ * key material for a KMS key.
+ *
+ * Before calling `GetParametersForImport`, use the CreateKey
+ * operation with an `Origin` value of `EXTERNAL` to create a KMS key with
+ * no key material. You can import key material for a symmetric encryption KMS key, HMAC KMS key,
+ * asymmetric encryption KMS key, or asymmetric signing KMS key. You can also import key material
+ * into a multi-Region key of any supported type. However, you can't import key material into
+ * a KMS key in a custom
+ * key store. You can also use `GetParametersForImport` to get a public key
+ * and import token to reimport
+ * the original key material into a KMS key whose key material expired or was
+ * deleted.
+ *
+ * `GetParametersForImport` returns the items that you need to import your key
+ * material.
+ *
+ * - The public key (or "wrapping key") of an RSA key pair that KMS generates.
+ *
+ * You will use this public key to encrypt ("wrap") your key material while it's in
+ * transit to KMS.
+ *
+ * - A import token that ensures that KMS can decrypt your key material and associate it
+ * with the correct KMS key.
+ *
+ * The public key and its import token are permanently linked and must be used together. Each
+ * public key and import token set is valid for 24 hours. The expiration date and time appear in
+ * the `ParametersValidTo` field in the `GetParametersForImport` response.
+ * You cannot use an expired public key or import token in an ImportKeyMaterial
+ * request. If your key and token expire, send another `GetParametersForImport`
+ * request.
+ *
+ * `GetParametersForImport` requires the following information:
+ *
+ * - The key ID of the KMS key for which you are importing the key material.
+ *
+ * - The key spec of the public key ("wrapping key") that you will use to encrypt your key
+ * material during import.
+ *
+ * - The wrapping algorithm that you will use with the public key to encrypt your key
+ * material.
+ *
+ * You can use the same or a different public key spec and wrapping algorithm each time you
+ * import or reimport the same key material.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:GetParametersForImport (key policy)
+ *
+ * **Related operations:**
+ *
+ * - ImportKeyMaterial
+ *
+ * - DeleteImportedKeyMaterial
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const getParametersForImport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetParametersForImportRequest,
+    output: GetParametersForImportResponse,
+    errors: [
+      DependencyTimeoutException,
+      InvalidArnException,
+      KMSInternalException,
+      KMSInvalidStateException,
+      NotFoundException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Returns information about the key materials associated with the specified KMS key. You can
+ * use the optional `IncludeKeyMaterial` parameter to control which key materials are
+ * included in the response.
+ *
+ * You must specify the KMS key in all requests. You can refine the key rotations list by
+ * limiting the number of rotations returned.
+ *
+ * For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the
+ * *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ListKeyRotations (key policy)
+ *
+ * **Related operations:**
+ *
+ * - EnableKeyRotation
+ *
+ * - DeleteImportedKeyMaterial
+ *
+ * - DisableKeyRotation
+ *
+ * - GetKeyRotationStatus
+ *
+ * - ImportKeyMaterial
+ *
+ * - RotateKeyOnDemand
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listKeyRotations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListKeyRotationsRequest,
+  output: ListKeyRotationsResponse,
+  errors: [
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Immediately initiates rotation of the key material of the specified symmetric encryption
+ * KMS key.
+ *
+ * You can perform on-demand rotation of the key
+ * material in customer managed KMS keys, regardless of whether or not automatic key
+ * rotation is enabled. On-demand rotations do not change existing automatic rotation
+ * schedules. For example, consider a KMS key that has automatic key rotation enabled with a
+ * rotation period of 730 days. If the key is scheduled to automatically rotate on April 14,
+ * 2024, and you perform an on-demand rotation on April 10, 2024, the key will automatically
+ * rotate, as scheduled, on April 14, 2024 and every 730 days thereafter.
+ *
+ * You can perform on-demand key rotation a maximum of 10
+ * times per KMS key. You can use the KMS console to view the number of
+ * remaining on-demand rotations available for a KMS key.
+ *
+ * You can use GetKeyRotationStatus to identify any in progress on-demand
+ * rotations. You can use ListKeyRotations to identify the date that completed
+ * on-demand rotations were performed. You can monitor rotation of the key material for your KMS
+ * keys in CloudTrail and Amazon CloudWatch.
+ *
+ * On-demand key rotation is supported only on symmetric encryption KMS keys. You cannot
+ * perform on-demand rotation of asymmetric KMS keys, HMAC KMS keys, or KMS keys in a
+ * custom key store. When you initiate on-demand key rotation on a symmetric encryption KMS key
+ * with imported key material, you must have already imported new key material and that
+ * key material's state should be `PENDING_ROTATION`. Use the
+ * `ListKeyRotations` operation to check the state of all key materials associated
+ * with a KMS key. To perform on-demand rotation of a set of related multi-Region keys, import
+ * new key material in the primary Region key, import the same key material in each replica
+ * Region key, and invoke the on-demand rotation on the primary Region key.
+ *
+ * You cannot initiate on-demand rotation of Amazon Web Services managed KMS keys. KMS
+ * always rotates the key material of Amazon Web Services managed keys every year. Rotation of Amazon Web Services owned KMS
+ * keys is managed by the Amazon Web Services service that owns the key.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:RotateKeyOnDemand (key policy)
+ *
+ * **Related operations:**
+ *
+ * - EnableKeyRotation
+ *
+ * - DisableKeyRotation
+ *
+ * - GetKeyRotationStatus
+ *
+ * - ImportKeyMaterial
+ *
+ * - ListKeyRotations
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const rotateKeyOnDemand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RotateKeyOnDemandRequest,
+  output: RotateKeyOnDemandResponse,
+  errors: [
+    ConflictException,
+    DependencyTimeoutException,
+    DisabledException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Creates a friendly name for a KMS key.
+ *
+ * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
+ *
+ * You can use an alias to identify a KMS key in the KMS console, in the DescribeKey operation and in cryptographic operations, such as Encrypt and
+ * GenerateDataKey. You can also change the KMS key that's associated with
+ * the alias (UpdateAlias) or delete the alias (DeleteAlias)
+ * at any time. These operations don't affect the underlying KMS key.
+ *
+ * You can associate the alias with any customer managed key in the same Amazon Web Services Region. Each
+ * alias is associated with only one KMS key at a time, but a KMS key can have multiple aliases.
+ * A valid KMS key is required. You can't create an alias without a KMS key.
+ *
+ * The alias must be unique in the account and Region, but you can have aliases with the same
+ * name in different Regions. For detailed information about aliases, see Aliases in KMS in the
+ * *Key Management Service Developer Guide*.
+ *
+ * This operation does not return a response. To get the alias that you created, use the
+ * ListAliases operation.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on an alias in a different Amazon Web Services account.
+ *
+ * **Required permissions**
+ *
+ * - kms:CreateAlias on
+ * the alias (IAM policy).
+ *
+ * - kms:CreateAlias on
+ * the KMS key (key policy).
+ *
+ * For details, see Controlling access to aliases in the *Key Management Service Developer Guide*.
+ *
+ * **Related operations:**
+ *
+ * - DeleteAlias
+ *
+ * - ListAliases
+ *
+ * - UpdateAlias
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAliasRequest,
+  output: CreateAliasResponse,
+  errors: [
+    AlreadyExistsException,
+    DependencyTimeoutException,
+    InvalidAliasNameException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Sets the key state of a KMS key to enabled. This allows you to use the KMS key for
+ * cryptographic operations.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:EnableKey (key policy)
+ *
+ * **Related operations**: DisableKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const enableKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableKeyRequest,
+  output: EnableKeyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Associates an existing KMS alias with a different KMS key. Each alias is associated with
+ * only one KMS key at a time, although a KMS key can have multiple aliases. The alias and the
+ * KMS key must be in the same Amazon Web Services account and Region.
+ *
+ * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
+ *
+ * The current and new KMS key must be the same type (both symmetric or both asymmetric or
+ * both HMAC), and they must have the same key usage. This restriction prevents errors in code
+ * that uses aliases. If you must assign an alias to a different type of KMS key, use DeleteAlias to delete the old alias and CreateAlias to create
+ * a new alias.
+ *
+ * You cannot use `UpdateAlias` to change an alias name. To change an alias name,
+ * use DeleteAlias to delete the old alias and CreateAlias to
+ * create a new alias.
+ *
+ * Because an alias is not a property of a KMS key, you can create, update, and delete the
+ * aliases of a KMS key without affecting the KMS key. Also, aliases do not appear in the
+ * response from the DescribeKey operation. To get the aliases of all KMS keys
+ * in the account, use the ListAliases operation.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**
+ *
+ * - kms:UpdateAlias on
+ * the alias (IAM policy).
+ *
+ * - kms:UpdateAlias on
+ * the current KMS key (key policy).
+ *
+ * - kms:UpdateAlias on
+ * the new KMS key (key policy).
+ *
+ * For details, see Controlling access to aliases in the
+ * *Key Management Service Developer Guide*.
+ *
+ * **Related operations:**
+ *
+ * - CreateAlias
+ *
+ * - DeleteAlias
+ *
+ * - ListAliases
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const updateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAliasRequest,
+  output: UpdateAliasResponse,
+  errors: [
+    DependencyTimeoutException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Adds a grant to a KMS key.
+ *
+ * A *grant* is a policy instrument that allows Amazon Web Services principals to use
+ * KMS keys in cryptographic operations. It also can allow them to view a KMS key (DescribeKey) and create and manage grants. When authorizing access to a KMS key,
+ * grants are considered along with key policies and IAM policies. Grants are often used for
+ * temporary permissions because you can create one, use its permissions, and delete it without
+ * changing your key policies or IAM policies.
+ *
+ * For detailed information about grants, including grant terminology, see Grants in KMS in the
+ *
+ * *Key Management Service Developer Guide*
+ * . For examples of creating grants in several
+ * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
+ *
+ * The `CreateGrant` operation returns a `GrantToken` and a
+ * `GrantId`.
+ *
+ * - When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as *eventual consistency*. Once the grant has achieved eventual consistency, the grantee
+ * principal can use the permissions in the grant without identifying the grant.
+ *
+ * However, to use the permissions in the grant immediately, use the
+ * `GrantToken` that `CreateGrant` returns. For details, see Using a grant
+ * token in the
+ * *Key Management Service Developer Guide*
+ * .
+ *
+ * - The `CreateGrant` operation also returns a `GrantId`. You can
+ * use the `GrantId` and a key identifier to identify the grant in the RetireGrant and RevokeGrant operations. To find the grant
+ * ID, use the ListGrants or ListRetirableGrants
+ * operations.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
+ * ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:CreateGrant (key policy)
+ *
+ * **Related operations:**
+ *
+ * - ListGrants
+ *
+ * - ListRetirableGrants
+ *
+ * - RetireGrant
+ *
+ * - RevokeGrant
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const createGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGrantRequest,
+  output: CreateGrantResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    InvalidArnException,
+    InvalidGrantTokenException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Provides detailed information about a KMS key. You can run `DescribeKey` on a
+ * customer
+ * managed key or an Amazon Web Services managed key.
+ *
+ * This detailed information includes the key ARN, creation date (and deletion date, if
+ * applicable), the key state, and the origin and expiration date (if any) of the key material.
+ * It includes fields, like `KeySpec`, that help you distinguish different types of
+ * KMS keys. It also displays the key usage (encryption, signing, or generating and verifying
+ * MACs) and the algorithms that the KMS key supports.
+ *
+ * For multi-Region keys, `DescribeKey` displays the primary key and all
+ * related replica keys. For KMS keys in CloudHSM key stores, it includes information
+ * about the key store, such as the key store ID and the CloudHSM cluster ID. For KMS keys in external key stores,
+ * it includes the custom key store ID and the ID of the external key.
+ *
+ * `DescribeKey` does not return the following information:
+ *
+ * - Aliases associated with the KMS key. To get this information, use ListAliases.
+ *
+ * - Whether automatic key rotation is enabled on the KMS key. To get this information, use
+ * GetKeyRotationStatus. Also, some key states prevent a KMS key from
+ * being automatically rotated. For details, see How key rotation
+ * works in the *Key Management Service Developer Guide*.
+ *
+ * - Tags on the KMS key. To get this information, use ListResourceTags.
+ *
+ * - Key policies and grants on the KMS key. To get this information, use GetKeyPolicy and ListGrants.
+ *
+ * In general, `DescribeKey` is a non-mutating operation. It returns data about
+ * KMS keys, but doesn't change them. However, Amazon Web Services services use `DescribeKey` to
+ * create Amazon Web Services
+ * managed keys from a *predefined Amazon Web Services alias* with no key
+ * ID.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:DescribeKey (key policy)
+ *
+ * **Related operations:**
+ *
+ * - GetKeyPolicy
+ *
+ * - GetKeyRotationStatus
+ *
+ * - ListAliases
+ *
+ * - ListGrants
+ *
+ * - ListKeys
+ *
+ * - ListResourceTags
+ *
+ * - ListRetirableGrants
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const describeKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeKeyRequest,
+  output: DescribeKeyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes tags from a customer managed key. To delete a
+ * tag, specify the tag key and the KMS key.
+ *
+ * Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
+ *
+ * When it succeeds, the `UntagResource` operation doesn't return any output.
+ * Also, if the specified tag key isn't found on the KMS key, it doesn't throw an exception or
+ * return a response. To confirm that the operation worked, use the ListResourceTags operation.
+ *
+ * For information about using tags in KMS, see Tagging keys. For general information about
+ * tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon
+ * Web Services General Reference.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:UntagResource (key policy)
+ *
+ * **Related operations**
+ *
+ * - CreateKey
+ *
+ * - ListResourceTags
+ *
+ * - ReplicateKey
+ *
+ * - TagResource
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    TagException,
+  ],
+}));
+/**
+ * Returns the public key of an asymmetric KMS key. Unlike the private key of a asymmetric
+ * KMS key, which never leaves KMS unencrypted, callers with `kms:GetPublicKey`
+ * permission can download the public key of an asymmetric KMS key. You can share the public key
+ * to allow others to encrypt messages and verify signatures outside of KMS.
+ * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * You do not need to download the public key. Instead, you can use the public key within
+ * KMS by calling the Encrypt, ReEncrypt, or Verify operations with the identifier of an asymmetric KMS key. When you use the
+ * public key within KMS, you benefit from the authentication, authorization, and logging that
+ * are part of every KMS operation. You also reduce of risk of encrypting data that cannot be
+ * decrypted. These features are not effective outside of KMS.
+ *
+ * To help you use the public key safely outside of KMS, `GetPublicKey` returns
+ * important information about the public key in the response, including:
+ *
+ * - KeySpec: The type of key material in the public key, such as
+ * `RSA_4096` or `ECC_NIST_P521`.
+ *
+ * - KeyUsage: Whether the key is used for encryption, signing, or deriving a shared
+ * secret.
+ *
+ * - EncryptionAlgorithms, KeyAgreementAlgorithms, or SigningAlgorithms: A list of the encryption algorithms, key agreement
+ * algorithms, or signing algorithms for the key.
+ *
+ * Although KMS cannot enforce these restrictions on external operations, it is crucial
+ * that you use this information to prevent the public key from being used improperly. For
+ * example, you can prevent a public signing key from being used encrypt data, or prevent a
+ * public key from being used with an encryption algorithm that is not supported by KMS. You
+ * can also avoid errors, such as using the wrong signing algorithm in a verification
+ * operation.
+ *
+ * To verify a signature outside of KMS with an SM2 public key (China Regions only), you
+ * must specify the distinguishing ID. By default, KMS uses `1234567812345678` as
+ * the distinguishing ID. For more information, see Offline
+ * verification with SM2 key pairs.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:GetPublicKey (key policy)
+ *
+ * **Related operations**: CreateKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPublicKeyRequest,
+  output: GetPublicKeyResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    InvalidArnException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Adds or edits tags on a customer managed key.
+ *
+ * Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
+ *
+ * Each tag consists of a tag key and a tag value, both of which are case-sensitive strings.
+ * The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag
+ * value. To edit a tag, specify an existing tag key and a new tag value.
+ *
+ * You can use this operation to tag a customer managed key, but you
+ * cannot tag an Amazon Web Services managed key, an Amazon Web Services owned key, a custom key store,
+ * or an alias.
+ *
+ * You can also add tags to a KMS key while creating it (CreateKey) or
+ * replicating it (ReplicateKey).
+ *
+ * For information about using tags in KMS, see Tagging keys. For general information about
+ * tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon
+ * Web Services General Reference.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:TagResource (key policy)
+ *
+ * **Related operations**
+ *
+ * - CreateKey
+ *
+ * - ListResourceTags
+ *
+ * - ReplicateKey
+ *
+ * - UntagResource
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    NotFoundException,
+    TagException,
+  ],
+}));
+/**
+ * Attaches a key policy to the specified KMS key.
+ *
+ * For more information about key policies, see Key Policies in the *Key Management Service Developer Guide*.
+ * For help writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the
+ * *Identity and Access Management User Guide*
+ * . For examples of adding a key policy in multiple programming languages,
+ * see Use
+ * PutKeyPolicy with an Amazon Web Services SDK or CLI in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:PutKeyPolicy (key policy)
+ *
+ * **Related operations**: GetKeyPolicy
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const putKeyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutKeyPolicyRequest,
+  output: PutKeyPolicyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Replicates a multi-Region key into the specified Region. This operation creates a
+ * multi-Region replica key based on a multi-Region primary key in a different Region of the same
+ * Amazon Web Services partition. You can create multiple replicas of a primary key, but each must be in a
+ * different Region. To create a multi-Region primary key, use the CreateKey
+ * operation.
+ *
+ * This operation supports *multi-Region keys*, an KMS feature that lets you create multiple
+ * interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key
+ * material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt
+ * it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
+ *
+ * A *replica key* is a fully-functional KMS key that can be used
+ * independently of its primary and peer replica keys. A primary key and its replica keys share
+ * properties that make them interoperable. They have the same key ID and key material. They also
+ * have the same key spec, key usage, key material origin, and automatic key rotation status.
+ * KMS automatically synchronizes these shared properties among related multi-Region keys. All
+ * other properties of a replica key can differ, including its key policy, tags, aliases, and key state. KMS pricing and quotas for KMS keys
+ * apply to each primary key and replica key.
+ *
+ * When this operation completes, the new replica key has a transient key state of
+ * `Creating`. This key state changes to `Enabled` (or
+ * `PendingImport`) after a few seconds when the process of creating the new replica
+ * key is complete. While the key state is `Creating`, you can manage key, but you
+ * cannot yet use it in cryptographic operations. If you are creating and using the replica key
+ * programmatically, retry on `KMSInvalidStateException` or call
+ * `DescribeKey` to check its `KeyState` value before using it. For
+ * details about the `Creating` key state, see Key states of KMS keys in the
+ * *Key Management Service Developer Guide*.
+ *
+ * You cannot create more than one replica of a primary key in any Region. If the Region
+ * already includes a replica of the key you're trying to replicate, `ReplicateKey`
+ * returns an `AlreadyExistsException` error. If the key state of the existing replica
+ * is `PendingDeletion`, you can cancel the scheduled key deletion (CancelKeyDeletion) or wait for the key to be deleted. The new replica key you
+ * create will have the same shared
+ * properties as the original replica key.
+ *
+ * The CloudTrail log of a `ReplicateKey` operation records a
+ * `ReplicateKey` operation in the primary key's Region and a CreateKey operation in the replica key's Region.
+ *
+ * If you replicate a multi-Region primary key with imported key material, the replica key is
+ * created with no key material. You must import the same key material that you imported into the
+ * primary key.
+ *
+ * To convert a replica key to a primary key, use the UpdatePrimaryRegion
+ * operation.
+ *
+ * `ReplicateKey` uses different default values for the `KeyPolicy`
+ * and `Tags` parameters than those used in the KMS console. For details, see the
+ * parameter descriptions.
+ *
+ * **Cross-account use**: No. You cannot use this operation to
+ * create a replica key in a different Amazon Web Services account.
+ *
+ * **Required permissions**:
+ *
+ * - `kms:ReplicateKey` on the primary key (in the primary key's Region).
+ * Include this permission in the primary key's key policy.
+ *
+ * - `kms:CreateKey` in an IAM policy in the replica Region.
+ *
+ * - To use the `Tags` parameter, `kms:TagResource` in an IAM policy
+ * in the replica Region.
+ *
+ * **Related operations**
+ *
+ * - CreateKey
+ *
+ * - UpdatePrimaryRegion
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const replicateKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplicateKeyRequest,
+  output: ReplicateKeyResponse,
+  errors: [
+    AlreadyExistsException,
+    DisabledException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    NotFoundException,
+    TagException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Derives a shared secret using a key agreement algorithm.
+ *
+ * You must use an asymmetric NIST-standard elliptic curve (ECC) or SM2 (China Regions
+ * only) KMS key pair with a `KeyUsage` value of `KEY_AGREEMENT` to call
+ * DeriveSharedSecret.
+ *
+ * DeriveSharedSecret uses the Elliptic Curve Cryptography Cofactor Diffie-Hellman Primitive (ECDH) to establish a
+ * key agreement between two peers by deriving a shared secret from their elliptic curve
+ * public-private key pairs. You can use the raw shared secret that DeriveSharedSecret returns to
+ * derive a symmetric key that can encrypt and decrypt data that is sent between the two peers,
+ * or that can generate and verify HMACs. KMS recommends that you follow NIST
+ * recommendations for key derivation when using the raw shared secret to derive a
+ * symmetric key.
+ *
+ * The following workflow demonstrates how to establish key agreement over an insecure
+ * communication channel using DeriveSharedSecret.
+ *
+ * - **Alice** calls CreateKey to create an
+ * asymmetric KMS key pair with a `KeyUsage` value of
+ * `KEY_AGREEMENT`.
+ *
+ * The asymmetric KMS key must use a NIST-standard elliptic curve (ECC) or SM2 (China
+ * Regions only) key spec.
+ *
+ * - **Bob** creates an elliptic curve key pair.
+ *
+ * Bob can call CreateKey to create an asymmetric KMS key pair or
+ * generate a key pair outside of KMS. Bob's key pair must use the same NIST-standard
+ * elliptic curve (ECC) or SM2 (China Regions ony) curve as Alice.
+ *
+ * - Alice and Bob **exchange their public keys** through an
+ * insecure communication channel (like the internet).
+ *
+ * Use GetPublicKey to download the public key of your asymmetric KMS
+ * key pair.
+ *
+ * KMS strongly recommends verifying that the public key you receive came from the
+ * expected party before using it to derive a shared secret.
+ *
+ * - **Alice** calls DeriveSharedSecret.
+ *
+ * KMS uses the private key from the KMS key pair generated in **Step 1**, Bob's public key, and the Elliptic Curve Cryptography Cofactor
+ * Diffie-Hellman Primitive to derive the shared secret. The private key in your KMS key pair
+ * never leaves KMS unencrypted. DeriveSharedSecret returns the raw shared secret.
+ *
+ * - **Bob** uses the Elliptic Curve Cryptography Cofactor
+ * Diffie-Hellman Primitive to calculate the same raw secret using his private key and
+ * Alice's public key.
+ *
+ * To derive a shared secret you must provide a key agreement algorithm, the private key of
+ * the caller's asymmetric NIST-standard elliptic curve or SM2 (China Regions only) KMS key
+ * pair, and the public key from your peer's NIST-standard elliptic curve or SM2 (China
+ * Regions only) key pair. The public key can be from another asymmetric KMS key pair or from a
+ * key pair generated outside of KMS, but both key pairs must be on the same elliptic
+ * curve.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:DeriveSharedSecret (key policy)
+ *
+ * **Related operations:**
+ *
+ * - CreateKey
+ *
+ * - GetPublicKey
+ *
+ * - DescribeKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const deriveSharedSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeriveSharedSecretRequest,
+  output: DeriveSharedSecretResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Encrypts plaintext of up to 4,096 bytes using a KMS key. You can use a symmetric or
+ * asymmetric KMS key with a `KeyUsage` of `ENCRYPT_DECRYPT`.
+ *
+ * You can use this operation to encrypt small amounts of arbitrary data, such as a personal
+ * identifier or database password, or other sensitive information. You don't need to use the
+ * `Encrypt` operation to encrypt a data key. The GenerateDataKey
+ * and GenerateDataKeyPair operations return a plaintext data key and an
+ * encrypted copy of that data key.
+ *
+ * If you use a symmetric encryption KMS key, you can use an encryption context to add
+ * additional security to your encryption operation. If you specify an
+ * `EncryptionContext` when encrypting data, you must specify the same encryption
+ * context (a case-sensitive exact match) when decrypting the data. Otherwise, the request to
+ * decrypt fails with an `InvalidCiphertextException`. For more information, see
+ * Encryption
+ * Context in the *Key Management Service Developer Guide*.
+ *
+ * If you specify an asymmetric KMS key, you must also specify the encryption algorithm. The
+ * algorithm must be compatible with the KMS key spec.
+ *
+ * When you use an asymmetric KMS key to encrypt or reencrypt data, be sure to record the KMS key and encryption algorithm that you choose. You will be required to provide the same KMS key and encryption algorithm when you decrypt the data. If the KMS key and algorithm do not match the values used to encrypt the data, the decrypt operation fails.
+ *
+ * You are not required to supply the key ID and encryption algorithm when you decrypt with symmetric encryption KMS keys because KMS stores this information in the ciphertext blob. KMS cannot store metadata in ciphertext generated with asymmetric keys. The standard format for asymmetric key ciphertext does not include configurable fields.
+ *
+ * The maximum size of the data that you can encrypt varies with the type of KMS key and the
+ * encryption algorithm that you choose.
+ *
+ * - Symmetric encryption KMS keys
+ *
+ * - `SYMMETRIC_DEFAULT`: 4096 bytes
+ *
+ * - `RSA_2048`
+ *
+ * - `RSAES_OAEP_SHA_1`: 214 bytes
+ *
+ * - `RSAES_OAEP_SHA_256`: 190 bytes
+ *
+ * - `RSA_3072`
+ *
+ * - `RSAES_OAEP_SHA_1`: 342 bytes
+ *
+ * - `RSAES_OAEP_SHA_256`: 318 bytes
+ *
+ * - `RSA_4096`
+ *
+ * - `RSAES_OAEP_SHA_1`: 470 bytes
+ *
+ * - `RSAES_OAEP_SHA_256`: 446 bytes
+ *
+ * - `SM2PKE`: 1024 bytes (China Regions only)
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:Encrypt (key policy)
+ *
+ * **Related operations:**
+ *
+ * - Decrypt
+ *
+ * - GenerateDataKey
+ *
+ * - GenerateDataKeyPair
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const encrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EncryptRequest,
+  output: EncryptResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Returns a unique symmetric data key for use outside of KMS. This operation returns a
+ * plaintext copy of the data key and a copy that is encrypted under a symmetric encryption KMS
+ * key that you specify. The bytes in the plaintext key are random; they are not related to the
+ * caller or the KMS key. You can use the plaintext key to encrypt your data outside of KMS and
+ * store the encrypted data key with the encrypted data.
+ *
+ * To generate a data key, specify the symmetric encryption KMS key that will be used to
+ * encrypt the data key. You cannot use an asymmetric KMS key to encrypt data keys. To get the
+ * type of your KMS key, use the DescribeKey operation.
+ *
+ * You must also specify the length of the data key. Use either the `KeySpec` or
+ * `NumberOfBytes` parameters (but not both). For 128-bit and 256-bit data keys, use
+ * the `KeySpec` parameter.
+ *
+ * To generate a 128-bit SM4 data key (China Regions only), specify a `KeySpec`
+ * value of `AES_128` or a `NumberOfBytes` value of `16`. The
+ * symmetric encryption key used in China Regions to encrypt your data key is an SM4 encryption
+ * key.
+ *
+ * To get only an encrypted copy of the data key, use GenerateDataKeyWithoutPlaintext. To generate an asymmetric data key pair, use
+ * the GenerateDataKeyPair or GenerateDataKeyPairWithoutPlaintext operation. To get a cryptographically secure
+ * random byte string, use GenerateRandom.
+ *
+ * You can use an optional encryption context to add additional security to the encryption
+ * operation. If you specify an `EncryptionContext`, you must specify the same
+ * encryption context (a case-sensitive exact match) when decrypting the encrypted data key.
+ * Otherwise, the request to decrypt fails with an `InvalidCiphertextException`. For more information, see Encryption Context in the
+ * *Key Management Service Developer Guide*.
+ *
+ * `GenerateDataKey` also supports Amazon Web Services Nitro Enclaves, which provide an
+ * isolated compute environment in Amazon EC2. To call `GenerateDataKey` for an Amazon Web Services Nitro
+ * enclave or NitroTPM, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. Use the
+ * `Recipient` parameter to provide the attestation document for the attested
+ * environment. `GenerateDataKey` returns a copy of the data key encrypted under the
+ * specified KMS key, as usual. But instead of a plaintext copy of the data key, the response
+ * includes a copy of the data key encrypted under the public key from the attestation document
+ * (`CiphertextForRecipient`). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the *Key Management Service Developer Guide*.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **How to use your data key**
+ *
+ * We recommend that you use the following pattern to encrypt data locally in your
+ * application. You can write your own code or use a client-side encryption library, such as the
+ * Amazon Web Services Encryption SDK, the
+ * Amazon DynamoDB Encryption Client,
+ * or Amazon S3
+ * client-side encryption to do these tasks for you.
+ *
+ * To encrypt data outside of KMS:
+ *
+ * - Use the `GenerateDataKey` operation to get a data key.
+ *
+ * - Use the plaintext data key (in the `Plaintext` field of the response) to
+ * encrypt your data outside of KMS. Then erase the plaintext data key from memory.
+ *
+ * - Store the encrypted data key (in the `CiphertextBlob` field of the
+ * response) with the encrypted data.
+ *
+ * To decrypt data outside of KMS:
+ *
+ * - Use the Decrypt operation to decrypt the encrypted data key. The
+ * operation returns a plaintext copy of the data key.
+ *
+ * - Use the plaintext data key to decrypt data outside of KMS, then erase the plaintext
+ * data key from memory.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:GenerateDataKey (key policy)
+ *
+ * **Related operations:**
+ *
+ * - Decrypt
+ *
+ * - Encrypt
+ *
+ * - GenerateDataKeyPair
+ *
+ * - GenerateDataKeyPairWithoutPlaintext
+ *
+ * - GenerateDataKeyWithoutPlaintext
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const generateDataKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateDataKeyRequest,
+  output: GenerateDataKeyResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
   ],
 }));
 /**
@@ -2356,658 +4092,6 @@ export const generateMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a random byte string that is cryptographically secure.
- *
- * You must use the `NumberOfBytes` parameter to specify the length of the random
- * byte string. There is no default value for string length.
- *
- * By default, the random byte string is generated in KMS. To generate the byte string in
- * the CloudHSM cluster associated with an CloudHSM key store, use the `CustomKeyStoreId`
- * parameter.
- *
- * `GenerateRandom` also supports Amazon Web Services Nitro Enclaves, which provide an
- * isolated compute environment in Amazon EC2. To call `GenerateRandom` for a Nitro enclave
- * or NitroTPM, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. Use the `Recipient`
- * parameter to provide the attestation document for the attested environment. Instead of
- * plaintext bytes, the response includes the plaintext bytes encrypted under the public key from
- * the attestation document (`CiphertextForRecipient`). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the *Key Management Service Developer Guide*.
- *
- * For more information about entropy and random number generation, see Entropy and random number generation in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Not applicable.
- * `GenerateRandom` does not use any account-specific resources, such as KMS
- * keys.
- *
- * **Required permissions**: kms:GenerateRandom (IAM policy)
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const generateRandom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GenerateRandomRequest,
-  output: GenerateRandomResponse,
-  errors: [
-    CustomKeyStoreInvalidStateException,
-    CustomKeyStoreNotFoundException,
-    DependencyTimeoutException,
-    KMSInternalException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Gets a key policy attached to the specified KMS key.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:GetKeyPolicy (key policy)
- *
- * **Related operations**: PutKeyPolicy
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const getKeyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetKeyPolicyRequest,
-  output: GetKeyPolicyResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Provides detailed information about the rotation status for a KMS key, including whether
- * automatic
- * rotation of the key material is enabled for the specified KMS key, the rotation
- * period, and the next scheduled rotation date.
- *
- * Automatic key rotation is supported only on symmetric encryption KMS keys.
- * You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.
- *
- * You can enable (EnableKeyRotation) and disable automatic rotation (DisableKeyRotation) of the key material in customer managed KMS keys. Key
- * material rotation of Amazon Web Services managed KMS keys is not
- * configurable. KMS always rotates the key material in Amazon Web Services managed KMS keys every year. The
- * key rotation status for Amazon Web Services managed KMS keys is always `true`.
- *
- * You can perform on-demand (RotateKeyOnDemand) rotation of the key
- * material in customer managed KMS keys, regardless of whether or not automatic key rotation is
- * enabled. You can use GetKeyRotationStatus to identify the date and time that an in progress
- * on-demand rotation was initiated. You can use ListKeyRotations to view the
- * details of completed rotations.
- *
- * In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three
- * years to every year. For details, see EnableKeyRotation.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * - Disabled: The key rotation status does not change when you disable a KMS key. However,
- * while the KMS key is disabled, KMS does not rotate the key material. When you re-enable
- * the KMS key, rotation resumes. If the key material in the re-enabled KMS key hasn't been
- * rotated in one year, KMS rotates it immediately, and every year thereafter. If it's been
- * less than a year since the key material in the re-enabled KMS key was rotated, the KMS key
- * resumes its prior rotation schedule.
- *
- * - Pending deletion: While a KMS key is pending deletion, its key rotation status is
- * `false` and KMS does not rotate the key material. If you cancel the
- * deletion, the original key rotation status returns to `true`.
- *
- * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
- * ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:GetKeyRotationStatus (key policy)
- *
- * **Related operations:**
- *
- * - DisableKeyRotation
- *
- * - EnableKeyRotation
- *
- * - ListKeyRotations
- *
- * - RotateKeyOnDemand
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const getKeyRotationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetKeyRotationStatusRequest,
-    output: GetKeyRotationStatusResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Returns the public key and an import token you need to import or reimport key material for
- * a KMS key.
- *
- * By default, KMS keys are created with key material that KMS generates. This operation
- * supports Importing key
- * material, an advanced feature that lets you generate and import the cryptographic
- * key material for a KMS key.
- *
- * Before calling `GetParametersForImport`, use the CreateKey
- * operation with an `Origin` value of `EXTERNAL` to create a KMS key with
- * no key material. You can import key material for a symmetric encryption KMS key, HMAC KMS key,
- * asymmetric encryption KMS key, or asymmetric signing KMS key. You can also import key material
- * into a multi-Region key of any supported type. However, you can't import key material into
- * a KMS key in a custom
- * key store. You can also use `GetParametersForImport` to get a public key
- * and import token to reimport
- * the original key material into a KMS key whose key material expired or was
- * deleted.
- *
- * `GetParametersForImport` returns the items that you need to import your key
- * material.
- *
- * - The public key (or "wrapping key") of an RSA key pair that KMS generates.
- *
- * You will use this public key to encrypt ("wrap") your key material while it's in
- * transit to KMS.
- *
- * - A import token that ensures that KMS can decrypt your key material and associate it
- * with the correct KMS key.
- *
- * The public key and its import token are permanently linked and must be used together. Each
- * public key and import token set is valid for 24 hours. The expiration date and time appear in
- * the `ParametersValidTo` field in the `GetParametersForImport` response.
- * You cannot use an expired public key or import token in an ImportKeyMaterial
- * request. If your key and token expire, send another `GetParametersForImport`
- * request.
- *
- * `GetParametersForImport` requires the following information:
- *
- * - The key ID of the KMS key for which you are importing the key material.
- *
- * - The key spec of the public key ("wrapping key") that you will use to encrypt your key
- * material during import.
- *
- * - The wrapping algorithm that you will use with the public key to encrypt your key
- * material.
- *
- * You can use the same or a different public key spec and wrapping algorithm each time you
- * import or reimport the same key material.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:GetParametersForImport (key policy)
- *
- * **Related operations:**
- *
- * - ImportKeyMaterial
- *
- * - DeleteImportedKeyMaterial
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const getParametersForImport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetParametersForImportRequest,
-    output: GetParametersForImportResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Returns the public key of an asymmetric KMS key. Unlike the private key of a asymmetric
- * KMS key, which never leaves KMS unencrypted, callers with `kms:GetPublicKey`
- * permission can download the public key of an asymmetric KMS key. You can share the public key
- * to allow others to encrypt messages and verify signatures outside of KMS.
- * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
- *
- * You do not need to download the public key. Instead, you can use the public key within
- * KMS by calling the Encrypt, ReEncrypt, or Verify operations with the identifier of an asymmetric KMS key. When you use the
- * public key within KMS, you benefit from the authentication, authorization, and logging that
- * are part of every KMS operation. You also reduce of risk of encrypting data that cannot be
- * decrypted. These features are not effective outside of KMS.
- *
- * To help you use the public key safely outside of KMS, `GetPublicKey` returns
- * important information about the public key in the response, including:
- *
- * - KeySpec: The type of key material in the public key, such as
- * `RSA_4096` or `ECC_NIST_P521`.
- *
- * - KeyUsage: Whether the key is used for encryption, signing, or deriving a shared
- * secret.
- *
- * - EncryptionAlgorithms, KeyAgreementAlgorithms, or SigningAlgorithms: A list of the encryption algorithms, key agreement
- * algorithms, or signing algorithms for the key.
- *
- * Although KMS cannot enforce these restrictions on external operations, it is crucial
- * that you use this information to prevent the public key from being used improperly. For
- * example, you can prevent a public signing key from being used encrypt data, or prevent a
- * public key from being used with an encryption algorithm that is not supported by KMS. You
- * can also avoid errors, such as using the wrong signing algorithm in a verification
- * operation.
- *
- * To verify a signature outside of KMS with an SM2 public key (China Regions only), you
- * must specify the distinguishing ID. By default, KMS uses `1234567812345678` as
- * the distinguishing ID. For more information, see Offline
- * verification with SM2 key pairs.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:GetPublicKey (key policy)
- *
- * **Related operations**: CreateKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPublicKeyRequest,
-  output: GetPublicKeyResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    InvalidArnException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Gets the names of the key policies that are attached to a KMS key. This operation is
- * designed to get policy names that you can use in a GetKeyPolicy operation.
- * However, the only valid policy name is `default`.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ListKeyPolicies (key policy)
- *
- * **Related operations:**
- *
- * - GetKeyPolicy
- *
- * - PutKeyPolicy
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listKeyPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListKeyPoliciesRequest,
-  output: ListKeyPoliciesResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Returns all tags on the specified KMS key.
- *
- * For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in
- * the *Amazon Web Services General Reference*. For information about using
- * tags in KMS, see Tags in
- * KMS.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ListResourceTags (key policy)
- *
- * **Related operations:**
- *
- * - CreateKey
- *
- * - ReplicateKey
- *
- * - TagResource
- *
- * - UntagResource
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listResourceTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListResourceTagsRequest,
-  output: ListResourceTagsResponse,
-  errors: [
-    InvalidArnException,
-    InvalidMarkerException,
-    KMSInternalException,
-    NotFoundException,
-  ],
-}));
-/**
- * Returns information about all grants in the Amazon Web Services account and Region that have the
- * specified retiring principal.
- *
- * You can specify any principal in your Amazon Web Services account. The grants that are returned include
- * grants for KMS keys in your Amazon Web Services account and other Amazon Web Services accounts. You might use this
- * operation to determine which grants you may retire. To retire a grant, use the RetireGrant operation.
- *
- * For detailed information about grants, including grant terminology, see Grants in KMS in the
- *
- * *Key Management Service Developer Guide*
- * . For examples of creating grants in several
- * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
- *
- * **Cross-account use**: You must specify a principal in your
- * Amazon Web Services account. This operation returns a list of grants where the retiring principal specified
- * in the `ListRetirableGrants` request is the same retiring principal on the grant.
- * This can include grants on KMS keys owned by other Amazon Web Services accounts, but you do not need
- * `kms:ListRetirableGrants` permission (or any other additional permission) in any
- * Amazon Web Services account other than your own.
- *
- * **Required permissions**: kms:ListRetirableGrants (IAM policy) in your
- * Amazon Web Services account.
- *
- * KMS authorizes `ListRetirableGrants` requests by evaluating the caller
- * account's kms:ListRetirableGrants permissions. The authorized resource in
- * `ListRetirableGrants` calls is the retiring principal specified in the request.
- * KMS does not evaluate the caller's permissions to verify their access to any KMS keys or
- * grants that might be returned by the `ListRetirableGrants` call.
- *
- * **Related operations:**
- *
- * - CreateGrant
- *
- * - ListGrants
- *
- * - RetireGrant
- *
- * - RevokeGrant
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listRetirableGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRetirableGrantsRequest,
-  output: ListGrantsResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    InvalidMarkerException,
-    KMSInternalException,
-    NotFoundException,
-  ],
-}));
-/**
- * Replicates a multi-Region key into the specified Region. This operation creates a
- * multi-Region replica key based on a multi-Region primary key in a different Region of the same
- * Amazon Web Services partition. You can create multiple replicas of a primary key, but each must be in a
- * different Region. To create a multi-Region primary key, use the CreateKey
- * operation.
- *
- * This operation supports *multi-Region keys*, an KMS feature that lets you create multiple
- * interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key
- * material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt
- * it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
- *
- * A *replica key* is a fully-functional KMS key that can be used
- * independently of its primary and peer replica keys. A primary key and its replica keys share
- * properties that make them interoperable. They have the same key ID and key material. They also
- * have the same key spec, key usage, key material origin, and automatic key rotation status.
- * KMS automatically synchronizes these shared properties among related multi-Region keys. All
- * other properties of a replica key can differ, including its key policy, tags, aliases, and key state. KMS pricing and quotas for KMS keys
- * apply to each primary key and replica key.
- *
- * When this operation completes, the new replica key has a transient key state of
- * `Creating`. This key state changes to `Enabled` (or
- * `PendingImport`) after a few seconds when the process of creating the new replica
- * key is complete. While the key state is `Creating`, you can manage key, but you
- * cannot yet use it in cryptographic operations. If you are creating and using the replica key
- * programmatically, retry on `KMSInvalidStateException` or call
- * `DescribeKey` to check its `KeyState` value before using it. For
- * details about the `Creating` key state, see Key states of KMS keys in the
- * *Key Management Service Developer Guide*.
- *
- * You cannot create more than one replica of a primary key in any Region. If the Region
- * already includes a replica of the key you're trying to replicate, `ReplicateKey`
- * returns an `AlreadyExistsException` error. If the key state of the existing replica
- * is `PendingDeletion`, you can cancel the scheduled key deletion (CancelKeyDeletion) or wait for the key to be deleted. The new replica key you
- * create will have the same shared
- * properties as the original replica key.
- *
- * The CloudTrail log of a `ReplicateKey` operation records a
- * `ReplicateKey` operation in the primary key's Region and a CreateKey operation in the replica key's Region.
- *
- * If you replicate a multi-Region primary key with imported key material, the replica key is
- * created with no key material. You must import the same key material that you imported into the
- * primary key.
- *
- * To convert a replica key to a primary key, use the UpdatePrimaryRegion
- * operation.
- *
- * `ReplicateKey` uses different default values for the `KeyPolicy`
- * and `Tags` parameters than those used in the KMS console. For details, see the
- * parameter descriptions.
- *
- * **Cross-account use**: No. You cannot use this operation to
- * create a replica key in a different Amazon Web Services account.
- *
- * **Required permissions**:
- *
- * - `kms:ReplicateKey` on the primary key (in the primary key's Region).
- * Include this permission in the primary key's key policy.
- *
- * - `kms:CreateKey` in an IAM policy in the replica Region.
- *
- * - To use the `Tags` parameter, `kms:TagResource` in an IAM policy
- * in the replica Region.
- *
- * **Related operations**
- *
- * - CreateKey
- *
- * - UpdatePrimaryRegion
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const replicateKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReplicateKeyRequest,
-  output: ReplicateKeyResponse,
-  errors: [
-    AlreadyExistsException,
-    DisabledException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    MalformedPolicyDocumentException,
-    NotFoundException,
-    TagException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Deletes a grant. Typically, you retire a grant when you no longer need its permissions. To
- * identify the grant to retire, use a grant token, or both the grant ID and a
- * key identifier (key ID or key ARN) of the KMS key. The CreateGrant operation
- * returns both values.
- *
- * This operation can be called by the *retiring principal* for a grant,
- * by the *grantee principal* if the grant allows the `RetireGrant`
- * operation, and by the Amazon Web Services account in which the grant is created. It can also be called by
- * principals to whom permission for retiring a grant is delegated.
- *
- * For detailed information about grants, including grant terminology, see Grants in KMS in the
- *
- * *Key Management Service Developer Guide*
- * . For examples of creating grants in several
- * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
- *
- * **Cross-account use**: Yes. You can retire a grant on a KMS
- * key in a different Amazon Web Services account.
- *
- * **Required permissions**: Permission to retire a grant is
- * determined primarily by the grant. For details, see Retiring and revoking grants in the
- * *Key Management Service Developer Guide*.
- *
- * **Related operations:**
- *
- * - CreateGrant
- *
- * - ListGrants
- *
- * - ListRetirableGrants
- *
- * - RevokeGrant
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const retireGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RetireGrantRequest,
-  output: RetireGrantResponse,
-  errors: [
-    DependencyTimeoutException,
-    DryRunOperationException,
-    InvalidArnException,
-    InvalidGrantIdException,
-    InvalidGrantTokenException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Deletes the specified grant. You revoke a grant to terminate the permissions that the
- * grant allows. For more information, see Retiring and revoking grants in the
- *
- * *Key Management Service Developer Guide*
- * .
- *
- * When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as *eventual consistency*. For details, see Eventual consistency in
- * the
- * *Key Management Service Developer Guide*
- * .
- *
- * For detailed information about grants, including grant terminology, see Grants in KMS in the
- *
- * *Key Management Service Developer Guide*
- * . For examples of creating grants in several
- * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
- *
- * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
- * ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:RevokeGrant (key policy).
- *
- * **Related operations:**
- *
- * - CreateGrant
- *
- * - ListGrants
- *
- * - ListRetirableGrants
- *
- * - RetireGrant
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const revokeGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokeGrantRequest,
-  output: RevokeGrantResponse,
-  errors: [
-    DependencyTimeoutException,
-    DryRunOperationException,
-    InvalidArnException,
-    InvalidGrantIdException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Schedules the deletion of a KMS key. By default, KMS applies a waiting period of 30
- * days, but you can specify a waiting period of 7-30 days. When this operation is successful,
- * the key state of the KMS key changes to `PendingDeletion` and the key can't be used
- * in any cryptographic operations. It remains in this state for the duration of the waiting
- * period. Before the waiting period ends, you can use CancelKeyDeletion to
- * cancel the deletion of the KMS key. After the waiting period ends, KMS deletes the KMS key,
- * its key material, and all KMS data associated with it, including all aliases that refer to
- * it.
- *
- * Deleting a KMS key is a destructive and potentially dangerous operation. When a KMS key
- * is deleted, all data that was encrypted under the KMS key is unrecoverable. (The only
- * exception is a multi-Region replica key, or an asymmetric or HMAC KMS key with
- * imported key material.) To prevent the use of a KMS key without deleting it, use
- * DisableKey.
- *
- * You can schedule the deletion of a multi-Region primary key and its replica keys at any
- * time. However, KMS will not delete a multi-Region primary key with existing replica keys. If
- * you schedule the deletion of a primary key with replicas, its key state changes to
- * `PendingReplicaDeletion` and it cannot be replicated or used in cryptographic
- * operations. This status can continue indefinitely. When the last of its replicas keys is
- * deleted (not just scheduled), the key state of the primary key changes to
- * `PendingDeletion` and its waiting period (`PendingWindowInDays`)
- * begins. For details, see Deleting multi-Region keys in
- * the *Key Management Service Developer Guide*.
- *
- * When KMS deletes a KMS key from an CloudHSM
- * key store, it makes a best effort to delete the associated key material from the
- * associated CloudHSM cluster. However, you might need to manually delete the orphaned key
- * material from the cluster and its backups. Deleting a KMS key from an external key
- * store has no effect on the associated external key. However, for both types of
- * custom key stores, deleting a KMS key is destructive and irreversible. You cannot decrypt
- * ciphertext encrypted under the KMS key by using only its associated external key or CloudHSM key.
- * Also, you cannot recreate a KMS key in an external key store by creating a new KMS key with
- * the same key material.
- *
- * For more information about scheduling a KMS key for deletion, see Deleting KMS keys in the
- * *Key Management Service Developer Guide*.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ScheduleKeyDeletion (key
- * policy)
- *
- * **Related operations**
- *
- * - CancelKeyDeletion
- *
- * - DisableKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const scheduleKeyDeletion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ScheduleKeyDeletionRequest,
-  output: ScheduleKeyDeletionResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
  * Creates a digital
  * signature for a message or message digest by using the private key in an asymmetric
  * signing KMS key. To verify the signature, use the Verify operation, or use
@@ -3073,887 +4157,6 @@ export const sign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     KMSInternalException,
     KMSInvalidStateException,
     NotFoundException,
-  ],
-}));
-/**
- * Adds or edits tags on a customer managed key.
- *
- * Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
- *
- * Each tag consists of a tag key and a tag value, both of which are case-sensitive strings.
- * The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag
- * value. To edit a tag, specify an existing tag key and a new tag value.
- *
- * You can use this operation to tag a customer managed key, but you
- * cannot tag an Amazon Web Services managed key, an Amazon Web Services owned key, a custom key store,
- * or an alias.
- *
- * You can also add tags to a KMS key while creating it (CreateKey) or
- * replicating it (ReplicateKey).
- *
- * For information about using tags in KMS, see Tagging keys. For general information about
- * tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon
- * Web Services General Reference.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:TagResource (key policy)
- *
- * **Related operations**
- *
- * - CreateKey
- *
- * - ListResourceTags
- *
- * - ReplicateKey
- *
- * - UntagResource
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    NotFoundException,
-    TagException,
-  ],
-}));
-/**
- * Deletes tags from a customer managed key. To delete a
- * tag, specify the tag key and the KMS key.
- *
- * Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
- *
- * When it succeeds, the `UntagResource` operation doesn't return any output.
- * Also, if the specified tag key isn't found on the KMS key, it doesn't throw an exception or
- * return a response. To confirm that the operation worked, use the ListResourceTags operation.
- *
- * For information about using tags in KMS, see Tagging keys. For general information about
- * tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon
- * Web Services General Reference.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:UntagResource (key policy)
- *
- * **Related operations**
- *
- * - CreateKey
- *
- * - ListResourceTags
- *
- * - ReplicateKey
- *
- * - TagResource
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    TagException,
-  ],
-}));
-/**
- * Changes the primary key of a multi-Region key.
- *
- * This operation changes the replica key in the specified Region to a primary key and
- * changes the former primary key to a replica key. For example, suppose you have a primary key
- * in `us-east-1` and a replica key in `eu-west-2`. If you run
- * `UpdatePrimaryRegion` with a `PrimaryRegion` value of
- * `eu-west-2`, the primary key is now the key in `eu-west-2`, and the
- * key in `us-east-1` becomes a replica key. For details, see Change the primary key in a
- * set of multi-Region keys in the *Key Management Service Developer Guide*.
- *
- * This operation supports *multi-Region keys*, an KMS feature that lets you create multiple
- * interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key
- * material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt
- * it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
- *
- * The *primary key* of a multi-Region key is the source for properties
- * that are always shared by primary and replica keys, including the key material, key ID, key spec, key usage, key material
- * origin, and automatic
- * key rotation. It's the only key that can be replicated. You cannot delete the primary
- * key until all replica keys are deleted.
- *
- * The key ID and primary Region that you specify uniquely identify the replica key that will
- * become the primary key. The primary Region must already have a replica key. This operation
- * does not create a KMS key in the specified Region. To find the replica keys, use the DescribeKey operation on the primary key or any replica key. To create a replica
- * key, use the ReplicateKey operation.
- *
- * You can run this operation while using the affected multi-Region keys in cryptographic
- * operations. This operation should not delay, interrupt, or cause failures in cryptographic
- * operations.
- *
- * Even after this operation completes, the process of updating the primary Region might
- * still be in progress for a few more seconds. Operations such as `DescribeKey` might
- * display both the old and new primary keys as replicas. The old and new primary keys have a
- * transient key state of `Updating`. The original key state is restored when the
- * update is complete. While the key state is `Updating`, you can use the keys in
- * cryptographic operations, but you cannot replicate the new primary key or perform certain
- * management operations, such as enabling or disabling these keys. For details about the
- * `Updating` key state, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * This operation does not return any output. To verify that primary key is changed, use the
- * DescribeKey operation.
- *
- * **Cross-account use**: No. You cannot use this operation in a
- * different Amazon Web Services account.
- *
- * **Required permissions**:
- *
- * - `kms:UpdatePrimaryRegion` on the current primary key (in the primary key's
- * Region). Include this permission primary key's key policy.
- *
- * - `kms:UpdatePrimaryRegion` on the current replica key (in the replica key's
- * Region). Include this permission in the replica key's key policy.
- *
- * **Related operations**
- *
- * - CreateKey
- *
- * - ReplicateKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const updatePrimaryRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePrimaryRegionRequest,
-  output: UpdatePrimaryRegionResponse,
-  errors: [
-    DisabledException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Connects or reconnects a custom key store to its backing key store. For an CloudHSM key
- * store, `ConnectCustomKeyStore` connects the key store to its associated CloudHSM
- * cluster. For an external key store, `ConnectCustomKeyStore` connects the key store
- * to the external key store proxy that communicates with your external key manager.
- *
- * The custom key store must be connected before you can create KMS keys in the key store or
- * use the KMS keys it contains. You can disconnect and reconnect a custom key store at any
- * time.
- *
- * The connection process for a custom key store can take an extended amount of time to
- * complete. This operation starts the connection process, but it does not wait for it to
- * complete. When it succeeds, this operation quickly returns an HTTP 200 response and a JSON
- * object with no properties. However, this response does not indicate that the custom key store
- * is connected. To get the connection state of the custom key store, use the DescribeCustomKeyStores operation.
- *
- * This operation is part of the custom key stores feature in KMS, which
- * combines the convenience and extensive integration of KMS with the isolation and control of a
- * key store that you own and manage.
- *
- * The `ConnectCustomKeyStore` operation might fail for various reasons. To find
- * the reason, use the DescribeCustomKeyStores operation and see the
- * `ConnectionErrorCode` in the response. For help interpreting the
- * `ConnectionErrorCode`, see CustomKeyStoresListEntry.
- *
- * To fix the failure, use the DisconnectCustomKeyStore operation to
- * disconnect the custom key store, correct the error, use the UpdateCustomKeyStore operation if necessary, and then use
- * `ConnectCustomKeyStore` again.
- *
- * **CloudHSM key store**
- *
- * During the connection process for an CloudHSM key store, KMS finds the CloudHSM cluster that
- * is associated with the custom key store, creates the connection infrastructure, connects to
- * the cluster, logs into the CloudHSM client as the `kmsuser` CU, and rotates its
- * password.
- *
- * To connect an CloudHSM key store, its associated CloudHSM cluster must have at least one active
- * HSM. To get the number of active HSMs in a cluster, use the DescribeClusters operation. To add HSMs
- * to the cluster, use the CreateHsm operation. Also, the
- * `kmsuser` crypto
- * user (CU) must not be logged into the cluster. This prevents KMS from using this
- * account to log in.
- *
- * If you are having trouble connecting or disconnecting a CloudHSM key store, see Troubleshooting an CloudHSM key
- * store in the *Key Management Service Developer Guide*.
- *
- * **External key store**
- *
- * When you connect an external key store that uses public endpoint connectivity, KMS tests
- * its ability to communicate with your external key manager by sending a request via the
- * external key store proxy.
- *
- * When you connect to an external key store that uses VPC endpoint service connectivity,
- * KMS establishes the networking elements that it needs to communicate with your external key
- * manager via the external key store proxy. This includes creating an interface endpoint to the
- * VPC endpoint service and a private hosted zone for traffic between KMS and the VPC endpoint
- * service.
- *
- * To connect an external key store, KMS must be able to connect to the external key store
- * proxy, the external key store proxy must be able to communicate with your external key
- * manager, and the external key manager must be available for cryptographic operations.
- *
- * If you are having trouble connecting or disconnecting an external key store, see Troubleshooting an external
- * key store in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ConnectCustomKeyStore (IAM policy)
- *
- * **Related operations**
- *
- * - CreateCustomKeyStore
- *
- * - DeleteCustomKeyStore
- *
- * - DescribeCustomKeyStores
- *
- * - DisconnectCustomKeyStore
- *
- * - UpdateCustomKeyStore
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const connectCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ConnectCustomKeyStoreRequest,
-    output: ConnectCustomKeyStoreResponse,
-    errors: [
-      CloudHsmClusterInvalidConfigurationException,
-      CloudHsmClusterNotActiveException,
-      CustomKeyStoreInvalidStateException,
-      CustomKeyStoreNotFoundException,
-      KMSInternalException,
-    ],
-  }),
-);
-/**
- * Creates a friendly name for a KMS key.
- *
- * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
- *
- * You can use an alias to identify a KMS key in the KMS console, in the DescribeKey operation and in cryptographic operations, such as Encrypt and
- * GenerateDataKey. You can also change the KMS key that's associated with
- * the alias (UpdateAlias) or delete the alias (DeleteAlias)
- * at any time. These operations don't affect the underlying KMS key.
- *
- * You can associate the alias with any customer managed key in the same Amazon Web Services Region. Each
- * alias is associated with only one KMS key at a time, but a KMS key can have multiple aliases.
- * A valid KMS key is required. You can't create an alias without a KMS key.
- *
- * The alias must be unique in the account and Region, but you can have aliases with the same
- * name in different Regions. For detailed information about aliases, see Aliases in KMS in the
- * *Key Management Service Developer Guide*.
- *
- * This operation does not return a response. To get the alias that you created, use the
- * ListAliases operation.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on an alias in a different Amazon Web Services account.
- *
- * **Required permissions**
- *
- * - kms:CreateAlias on
- * the alias (IAM policy).
- *
- * - kms:CreateAlias on
- * the KMS key (key policy).
- *
- * For details, see Controlling access to aliases in the *Key Management Service Developer Guide*.
- *
- * **Related operations:**
- *
- * - DeleteAlias
- *
- * - ListAliases
- *
- * - UpdateAlias
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAliasRequest,
-  output: CreateAliasResponse,
-  errors: [
-    AlreadyExistsException,
-    DependencyTimeoutException,
-    InvalidAliasNameException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Adds a grant to a KMS key.
- *
- * A *grant* is a policy instrument that allows Amazon Web Services principals to use
- * KMS keys in cryptographic operations. It also can allow them to view a KMS key (DescribeKey) and create and manage grants. When authorizing access to a KMS key,
- * grants are considered along with key policies and IAM policies. Grants are often used for
- * temporary permissions because you can create one, use its permissions, and delete it without
- * changing your key policies or IAM policies.
- *
- * For detailed information about grants, including grant terminology, see Grants in KMS in the
- *
- * *Key Management Service Developer Guide*
- * . For examples of creating grants in several
- * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
- *
- * The `CreateGrant` operation returns a `GrantToken` and a
- * `GrantId`.
- *
- * - When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as *eventual consistency*. Once the grant has achieved eventual consistency, the grantee
- * principal can use the permissions in the grant without identifying the grant.
- *
- * However, to use the permissions in the grant immediately, use the
- * `GrantToken` that `CreateGrant` returns. For details, see Using a grant
- * token in the
- * *Key Management Service Developer Guide*
- * .
- *
- * - The `CreateGrant` operation also returns a `GrantId`. You can
- * use the `GrantId` and a key identifier to identify the grant in the RetireGrant and RevokeGrant operations. To find the grant
- * ID, use the ListGrants or ListRetirableGrants
- * operations.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
- * ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:CreateGrant (key policy)
- *
- * **Related operations:**
- *
- * - ListGrants
- *
- * - ListRetirableGrants
- *
- * - RetireGrant
- *
- * - RevokeGrant
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const createGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGrantRequest,
-  output: CreateGrantResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    DryRunOperationException,
-    InvalidArnException,
-    InvalidGrantTokenException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Derives a shared secret using a key agreement algorithm.
- *
- * You must use an asymmetric NIST-standard elliptic curve (ECC) or SM2 (China Regions
- * only) KMS key pair with a `KeyUsage` value of `KEY_AGREEMENT` to call
- * DeriveSharedSecret.
- *
- * DeriveSharedSecret uses the Elliptic Curve Cryptography Cofactor Diffie-Hellman Primitive (ECDH) to establish a
- * key agreement between two peers by deriving a shared secret from their elliptic curve
- * public-private key pairs. You can use the raw shared secret that DeriveSharedSecret returns to
- * derive a symmetric key that can encrypt and decrypt data that is sent between the two peers,
- * or that can generate and verify HMACs. KMS recommends that you follow NIST
- * recommendations for key derivation when using the raw shared secret to derive a
- * symmetric key.
- *
- * The following workflow demonstrates how to establish key agreement over an insecure
- * communication channel using DeriveSharedSecret.
- *
- * - **Alice** calls CreateKey to create an
- * asymmetric KMS key pair with a `KeyUsage` value of
- * `KEY_AGREEMENT`.
- *
- * The asymmetric KMS key must use a NIST-standard elliptic curve (ECC) or SM2 (China
- * Regions only) key spec.
- *
- * - **Bob** creates an elliptic curve key pair.
- *
- * Bob can call CreateKey to create an asymmetric KMS key pair or
- * generate a key pair outside of KMS. Bob's key pair must use the same NIST-standard
- * elliptic curve (ECC) or SM2 (China Regions ony) curve as Alice.
- *
- * - Alice and Bob **exchange their public keys** through an
- * insecure communication channel (like the internet).
- *
- * Use GetPublicKey to download the public key of your asymmetric KMS
- * key pair.
- *
- * KMS strongly recommends verifying that the public key you receive came from the
- * expected party before using it to derive a shared secret.
- *
- * - **Alice** calls DeriveSharedSecret.
- *
- * KMS uses the private key from the KMS key pair generated in **Step 1**, Bob's public key, and the Elliptic Curve Cryptography Cofactor
- * Diffie-Hellman Primitive to derive the shared secret. The private key in your KMS key pair
- * never leaves KMS unencrypted. DeriveSharedSecret returns the raw shared secret.
- *
- * - **Bob** uses the Elliptic Curve Cryptography Cofactor
- * Diffie-Hellman Primitive to calculate the same raw secret using his private key and
- * Alice's public key.
- *
- * To derive a shared secret you must provide a key agreement algorithm, the private key of
- * the caller's asymmetric NIST-standard elliptic curve or SM2 (China Regions only) KMS key
- * pair, and the public key from your peer's NIST-standard elliptic curve or SM2 (China
- * Regions only) key pair. The public key can be from another asymmetric KMS key pair or from a
- * key pair generated outside of KMS, but both key pairs must be on the same elliptic
- * curve.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:DeriveSharedSecret (key policy)
- *
- * **Related operations:**
- *
- * - CreateKey
- *
- * - GetPublicKey
- *
- * - DescribeKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const deriveSharedSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeriveSharedSecretRequest,
-  output: DeriveSharedSecretResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    DryRunOperationException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Encrypts plaintext of up to 4,096 bytes using a KMS key. You can use a symmetric or
- * asymmetric KMS key with a `KeyUsage` of `ENCRYPT_DECRYPT`.
- *
- * You can use this operation to encrypt small amounts of arbitrary data, such as a personal
- * identifier or database password, or other sensitive information. You don't need to use the
- * `Encrypt` operation to encrypt a data key. The GenerateDataKey
- * and GenerateDataKeyPair operations return a plaintext data key and an
- * encrypted copy of that data key.
- *
- * If you use a symmetric encryption KMS key, you can use an encryption context to add
- * additional security to your encryption operation. If you specify an
- * `EncryptionContext` when encrypting data, you must specify the same encryption
- * context (a case-sensitive exact match) when decrypting the data. Otherwise, the request to
- * decrypt fails with an `InvalidCiphertextException`. For more information, see
- * Encryption
- * Context in the *Key Management Service Developer Guide*.
- *
- * If you specify an asymmetric KMS key, you must also specify the encryption algorithm. The
- * algorithm must be compatible with the KMS key spec.
- *
- * When you use an asymmetric KMS key to encrypt or reencrypt data, be sure to record the KMS key and encryption algorithm that you choose. You will be required to provide the same KMS key and encryption algorithm when you decrypt the data. If the KMS key and algorithm do not match the values used to encrypt the data, the decrypt operation fails.
- *
- * You are not required to supply the key ID and encryption algorithm when you decrypt with symmetric encryption KMS keys because KMS stores this information in the ciphertext blob. KMS cannot store metadata in ciphertext generated with asymmetric keys. The standard format for asymmetric key ciphertext does not include configurable fields.
- *
- * The maximum size of the data that you can encrypt varies with the type of KMS key and the
- * encryption algorithm that you choose.
- *
- * - Symmetric encryption KMS keys
- *
- * - `SYMMETRIC_DEFAULT`: 4096 bytes
- *
- * - `RSA_2048`
- *
- * - `RSAES_OAEP_SHA_1`: 214 bytes
- *
- * - `RSAES_OAEP_SHA_256`: 190 bytes
- *
- * - `RSA_3072`
- *
- * - `RSAES_OAEP_SHA_1`: 342 bytes
- *
- * - `RSAES_OAEP_SHA_256`: 318 bytes
- *
- * - `RSA_4096`
- *
- * - `RSAES_OAEP_SHA_1`: 470 bytes
- *
- * - `RSAES_OAEP_SHA_256`: 446 bytes
- *
- * - `SM2PKE`: 1024 bytes (China Regions only)
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:Encrypt (key policy)
- *
- * **Related operations:**
- *
- * - Decrypt
- *
- * - GenerateDataKey
- *
- * - GenerateDataKeyPair
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const encrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EncryptRequest,
-  output: EncryptResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    DryRunOperationException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Returns a unique symmetric data key for use outside of KMS. This operation returns a
- * plaintext copy of the data key and a copy that is encrypted under a symmetric encryption KMS
- * key that you specify. The bytes in the plaintext key are random; they are not related to the
- * caller or the KMS key. You can use the plaintext key to encrypt your data outside of KMS and
- * store the encrypted data key with the encrypted data.
- *
- * To generate a data key, specify the symmetric encryption KMS key that will be used to
- * encrypt the data key. You cannot use an asymmetric KMS key to encrypt data keys. To get the
- * type of your KMS key, use the DescribeKey operation.
- *
- * You must also specify the length of the data key. Use either the `KeySpec` or
- * `NumberOfBytes` parameters (but not both). For 128-bit and 256-bit data keys, use
- * the `KeySpec` parameter.
- *
- * To generate a 128-bit SM4 data key (China Regions only), specify a `KeySpec`
- * value of `AES_128` or a `NumberOfBytes` value of `16`. The
- * symmetric encryption key used in China Regions to encrypt your data key is an SM4 encryption
- * key.
- *
- * To get only an encrypted copy of the data key, use GenerateDataKeyWithoutPlaintext. To generate an asymmetric data key pair, use
- * the GenerateDataKeyPair or GenerateDataKeyPairWithoutPlaintext operation. To get a cryptographically secure
- * random byte string, use GenerateRandom.
- *
- * You can use an optional encryption context to add additional security to the encryption
- * operation. If you specify an `EncryptionContext`, you must specify the same
- * encryption context (a case-sensitive exact match) when decrypting the encrypted data key.
- * Otherwise, the request to decrypt fails with an `InvalidCiphertextException`. For more information, see Encryption Context in the
- * *Key Management Service Developer Guide*.
- *
- * `GenerateDataKey` also supports Amazon Web Services Nitro Enclaves, which provide an
- * isolated compute environment in Amazon EC2. To call `GenerateDataKey` for an Amazon Web Services Nitro
- * enclave or NitroTPM, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. Use the
- * `Recipient` parameter to provide the attestation document for the attested
- * environment. `GenerateDataKey` returns a copy of the data key encrypted under the
- * specified KMS key, as usual. But instead of a plaintext copy of the data key, the response
- * includes a copy of the data key encrypted under the public key from the attestation document
- * (`CiphertextForRecipient`). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the *Key Management Service Developer Guide*.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **How to use your data key**
- *
- * We recommend that you use the following pattern to encrypt data locally in your
- * application. You can write your own code or use a client-side encryption library, such as the
- * Amazon Web Services Encryption SDK, the
- * Amazon DynamoDB Encryption Client,
- * or Amazon S3
- * client-side encryption to do these tasks for you.
- *
- * To encrypt data outside of KMS:
- *
- * - Use the `GenerateDataKey` operation to get a data key.
- *
- * - Use the plaintext data key (in the `Plaintext` field of the response) to
- * encrypt your data outside of KMS. Then erase the plaintext data key from memory.
- *
- * - Store the encrypted data key (in the `CiphertextBlob` field of the
- * response) with the encrypted data.
- *
- * To decrypt data outside of KMS:
- *
- * - Use the Decrypt operation to decrypt the encrypted data key. The
- * operation returns a plaintext copy of the data key.
- *
- * - Use the plaintext data key to decrypt data outside of KMS, then erase the plaintext
- * data key from memory.
- *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:GenerateDataKey (key policy)
- *
- * **Related operations:**
- *
- * - Decrypt
- *
- * - Encrypt
- *
- * - GenerateDataKeyPair
- *
- * - GenerateDataKeyPairWithoutPlaintext
- *
- * - GenerateDataKeyWithoutPlaintext
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const generateDataKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GenerateDataKeyRequest,
-  output: GenerateDataKeyResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    DryRunOperationException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Gets a list of aliases in the caller's Amazon Web Services account and region. For more information
- * about aliases, see CreateAlias.
- *
- * By default, the `ListAliases` operation returns all aliases in the account and
- * region. To get only the aliases associated with a particular KMS key, use the
- * `KeyId` parameter.
- *
- * The `ListAliases` response can include aliases that you created and associated
- * with your customer managed keys, and aliases that Amazon Web Services created and associated with Amazon Web Services
- * managed keys in your account. You can recognize Amazon Web Services aliases because their names have the
- * format `aws/`, such as `aws/dynamodb`.
- *
- * The response might also include aliases that have no `TargetKeyId` field. These
- * are predefined aliases that Amazon Web Services has created but has not yet associated with a KMS key.
- * Aliases that Amazon Web Services creates in your account, including predefined aliases, do not count against
- * your KMS
- * aliases quota.
- *
- * **Cross-account use**: No. `ListAliases` does not
- * return aliases in other Amazon Web Services accounts.
- *
- * **Required permissions**: kms:ListAliases (IAM policy)
- *
- * For details, see Controlling access to aliases in the *Key Management Service Developer Guide*.
- *
- * **Related operations:**
- *
- * - CreateAlias
- *
- * - DeleteAlias
- *
- * - UpdateAlias
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAliasesRequest,
-  output: ListAliasesResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    InvalidMarkerException,
-    KMSInternalException,
-    NotFoundException,
-  ],
-}));
-/**
- * Gets a list of all grants for the specified KMS key.
- *
- * You must specify the KMS key in all requests. You can filter the grant list by grant ID or
- * grantee principal.
- *
- * For detailed information about grants, including grant terminology, see Grants in KMS in the
- *
- * *Key Management Service Developer Guide*
- * . For examples of creating grants in several
- * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
- *
- * The `GranteePrincipal` field in the `ListGrants` response usually contains the
- * user or role designated as the grantee principal in the grant. However, when the grantee
- * principal in the grant is an Amazon Web Services service, the `GranteePrincipal` field contains
- * the service
- * principal, which might represent several different grantee principals.
- *
- * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
- * ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:ListGrants (key policy)
- *
- * **Related operations:**
- *
- * - CreateGrant
- *
- * - ListRetirableGrants
- *
- * - RetireGrant
- *
- * - RevokeGrant
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGrantsRequest,
-  output: ListGrantsResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    InvalidGrantIdException,
-    InvalidMarkerException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Returns information about the key materials associated with the specified KMS key. You can
- * use the optional `IncludeKeyMaterial` parameter to control which key materials are
- * included in the response.
- *
- * You must specify the KMS key in all requests. You can refine the key rotations list by
- * limiting the number of rotations returned.
- *
- * For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the
- * *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ListKeyRotations (key policy)
- *
- * **Related operations:**
- *
- * - EnableKeyRotation
- *
- * - DeleteImportedKeyMaterial
- *
- * - DisableKeyRotation
- *
- * - GetKeyRotationStatus
- *
- * - ImportKeyMaterial
- *
- * - RotateKeyOnDemand
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listKeyRotations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListKeyRotationsRequest,
-  output: ListKeyRotationsResponse,
-  errors: [
-    InvalidArnException,
-    InvalidMarkerException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Gets a list of all KMS keys in the caller's Amazon Web Services account and Region.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ListKeys (IAM policy)
- *
- * **Related operations:**
- *
- * - CreateKey
- *
- * - DescribeKey
- *
- * - ListAliases
- *
- * - ListResourceTags
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListKeysRequest,
-  output: ListKeysResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidMarkerException,
-    KMSInternalException,
-  ],
-}));
-/**
- * Attaches a key policy to the specified KMS key.
- *
- * For more information about key policies, see Key Policies in the *Key Management Service Developer Guide*.
- * For help writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the
- * *Identity and Access Management User Guide*
- * . For examples of adding a key policy in multiple programming languages,
- * see Use
- * PutKeyPolicy with an Amazon Web Services SDK or CLI in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:PutKeyPolicy (key policy)
- *
- * **Related operations**: GetKeyPolicy
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const putKeyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutKeyPolicyRequest,
-  output: PutKeyPolicyResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    MalformedPolicyDocumentException,
-    NotFoundException,
-    UnsupportedOperationException,
   ],
 }));
 /**
@@ -4049,181 +4252,6 @@ export const reEncrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Immediately initiates rotation of the key material of the specified symmetric encryption
- * KMS key.
- *
- * You can perform on-demand rotation of the key
- * material in customer managed KMS keys, regardless of whether or not automatic key
- * rotation is enabled. On-demand rotations do not change existing automatic rotation
- * schedules. For example, consider a KMS key that has automatic key rotation enabled with a
- * rotation period of 730 days. If the key is scheduled to automatically rotate on April 14,
- * 2024, and you perform an on-demand rotation on April 10, 2024, the key will automatically
- * rotate, as scheduled, on April 14, 2024 and every 730 days thereafter.
- *
- * You can perform on-demand key rotation a maximum of 10
- * times per KMS key. You can use the KMS console to view the number of
- * remaining on-demand rotations available for a KMS key.
- *
- * You can use GetKeyRotationStatus to identify any in progress on-demand
- * rotations. You can use ListKeyRotations to identify the date that completed
- * on-demand rotations were performed. You can monitor rotation of the key material for your KMS
- * keys in CloudTrail and Amazon CloudWatch.
- *
- * On-demand key rotation is supported only on symmetric encryption KMS keys. You cannot
- * perform on-demand rotation of asymmetric KMS keys, HMAC KMS keys, or KMS keys in a
- * custom key store. When you initiate on-demand key rotation on a symmetric encryption KMS key
- * with imported key material, you must have already imported new key material and that
- * key material's state should be `PENDING_ROTATION`. Use the
- * `ListKeyRotations` operation to check the state of all key materials associated
- * with a KMS key. To perform on-demand rotation of a set of related multi-Region keys, import
- * new key material in the primary Region key, import the same key material in each replica
- * Region key, and invoke the on-demand rotation on the primary Region key.
- *
- * You cannot initiate on-demand rotation of Amazon Web Services managed KMS keys. KMS
- * always rotates the key material of Amazon Web Services managed keys every year. Rotation of Amazon Web Services owned KMS
- * keys is managed by the Amazon Web Services service that owns the key.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:RotateKeyOnDemand (key policy)
- *
- * **Related operations:**
- *
- * - EnableKeyRotation
- *
- * - DisableKeyRotation
- *
- * - GetKeyRotationStatus
- *
- * - ImportKeyMaterial
- *
- * - ListKeyRotations
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const rotateKeyOnDemand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RotateKeyOnDemandRequest,
-  output: RotateKeyOnDemandResponse,
-  errors: [
-    ConflictException,
-    DependencyTimeoutException,
-    DisabledException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Verifies a digital signature that was generated by the Sign operation.
- *
- * Verification confirms that an authorized user signed the message with the specified KMS
- * key and signing algorithm, and the message hasn't changed since it was signed. If the
- * signature is verified, the value of the `SignatureValid` field in the response is
- * `True`. If the signature verification fails, the `Verify` operation
- * fails with an `KMSInvalidSignatureException` exception.
- *
- * A digital signature is generated by using the private key in an asymmetric KMS key. The
- * signature is verified by using the public key in the same asymmetric KMS key.
- * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
- *
- * To use the `Verify` operation, specify the same asymmetric KMS key, message,
- * and signing algorithm that were used to produce the signature. The message type does not need
- * to be the same as the one used for signing, but it must indicate whether the value of the
- * `Message` parameter should be hashed as part of the verification process.
- *
- * You can also verify the digital signature by using the public key of the KMS key outside
- * of KMS. Use the GetPublicKey operation to download the public key in the
- * asymmetric KMS key and then use the public key to verify the signature outside of KMS. The
- * advantage of using the `Verify` operation is that it is performed within KMS. As
- * a result, it's easy to call, the operation is performed within the FIPS boundary, it is logged
- * in CloudTrail, and you can use key policy and IAM policy to determine who is authorized to use
- * the KMS key to verify signatures.
- *
- * To verify a signature outside of KMS with an SM2 public key (China Regions only), you
- * must specify the distinguishing ID. By default, KMS uses `1234567812345678` as
- * the distinguishing ID. For more information, see Offline
- * verification with SM2 key pairs.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:Verify (key policy)
- *
- * **Related operations**: Sign
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const verify = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: VerifyRequest,
-  output: VerifyResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    DryRunOperationException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
-    KMSInternalException,
-    KMSInvalidSignatureException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Verifies the hash-based message authentication code (HMAC) for a specified message, HMAC
- * KMS key, and MAC algorithm. To verify the HMAC, `VerifyMac` computes an HMAC using
- * the message, HMAC KMS key, and MAC algorithm that you specify, and compares the computed HMAC
- * to the HMAC that you specify. If the HMACs are identical, the verification succeeds;
- * otherwise, it fails. Verification indicates that the message hasn't changed since the HMAC was
- * calculated, and the specified key was used to generate and verify the HMAC.
- *
- * HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards
- * defined in RFC 2104.
- *
- * This operation is part of KMS support for HMAC KMS keys. For details, see
- * HMAC keys in KMS in the
- * *Key Management Service Developer Guide*.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:VerifyMac (key policy)
- *
- * **Related operations**: GenerateMac
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const verifyMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: VerifyMacRequest,
-  output: VerifyMacResponse,
-  errors: [
-    DisabledException,
-    DryRunOperationException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
-    KMSInternalException,
-    KMSInvalidMacException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
  * Decrypts ciphertext that was encrypted by a KMS key using any of the following
  * operations:
  *
@@ -4309,137 +4337,6 @@ export const decrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     KeyUnavailableException,
     KMSInternalException,
     KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Gets information about custom key stores in the account and Region.
- *
- * This operation is part of the custom key stores feature in KMS, which
- * combines the convenience and extensive integration of KMS with the isolation and control of a
- * key store that you own and manage.
- *
- * By default, this operation returns information about all custom key stores in the account
- * and Region. To get only information about a particular custom key store, use either the
- * `CustomKeyStoreName` or `CustomKeyStoreId` parameter (but not
- * both).
- *
- * To determine whether the custom key store is connected to its CloudHSM cluster or external
- * key store proxy, use the `ConnectionState` element in the response. If an attempt
- * to connect the custom key store failed, the `ConnectionState` value is
- * `FAILED` and the `ConnectionErrorCode` element in the response
- * indicates the cause of the failure. For help interpreting the
- * `ConnectionErrorCode`, see CustomKeyStoresListEntry.
- *
- * Custom key stores have a `DISCONNECTED` connection state if the key store has
- * never been connected or you used the DisconnectCustomKeyStore operation to
- * disconnect it. Otherwise, the connection state is CONNECTED. If your custom key store
- * connection state is `CONNECTED` but you are having trouble using it, verify that
- * the backing store is active and available. For an CloudHSM key store, verify that the associated
- * CloudHSM cluster is active and contains the minimum number of HSMs required for the operation, if
- * any. For an external key store, verify that the external key store proxy and its associated
- * external key manager are reachable and enabled.
- *
- * For help repairing your CloudHSM key store, see the Troubleshooting CloudHSM key stores. For help
- * repairing your external key store, see the Troubleshooting external key stores.
- * Both topics are in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DescribeCustomKeyStores (IAM policy)
- *
- * **Related operations:**
- *
- * - ConnectCustomKeyStore
- *
- * - CreateCustomKeyStore
- *
- * - DeleteCustomKeyStore
- *
- * - DisconnectCustomKeyStore
- *
- * - UpdateCustomKeyStore
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const describeCustomKeyStores = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCustomKeyStoresRequest,
-    output: DescribeCustomKeyStoresResponse,
-    errors: [
-      CustomKeyStoreNotFoundException,
-      InvalidMarkerException,
-      KMSInternalException,
-    ],
-  }),
-);
-/**
- * Provides detailed information about a KMS key. You can run `DescribeKey` on a
- * customer
- * managed key or an Amazon Web Services managed key.
- *
- * This detailed information includes the key ARN, creation date (and deletion date, if
- * applicable), the key state, and the origin and expiration date (if any) of the key material.
- * It includes fields, like `KeySpec`, that help you distinguish different types of
- * KMS keys. It also displays the key usage (encryption, signing, or generating and verifying
- * MACs) and the algorithms that the KMS key supports.
- *
- * For multi-Region keys, `DescribeKey` displays the primary key and all
- * related replica keys. For KMS keys in CloudHSM key stores, it includes information
- * about the key store, such as the key store ID and the CloudHSM cluster ID. For KMS keys in external key stores,
- * it includes the custom key store ID and the ID of the external key.
- *
- * `DescribeKey` does not return the following information:
- *
- * - Aliases associated with the KMS key. To get this information, use ListAliases.
- *
- * - Whether automatic key rotation is enabled on the KMS key. To get this information, use
- * GetKeyRotationStatus. Also, some key states prevent a KMS key from
- * being automatically rotated. For details, see How key rotation
- * works in the *Key Management Service Developer Guide*.
- *
- * - Tags on the KMS key. To get this information, use ListResourceTags.
- *
- * - Key policies and grants on the KMS key. To get this information, use GetKeyPolicy and ListGrants.
- *
- * In general, `DescribeKey` is a non-mutating operation. It returns data about
- * KMS keys, but doesn't change them. However, Amazon Web Services services use `DescribeKey` to
- * create Amazon Web Services
- * managed keys from a *predefined Amazon Web Services alias* with no key
- * ID.
- *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:DescribeKey (key policy)
- *
- * **Related operations:**
- *
- * - GetKeyPolicy
- *
- * - GetKeyRotationStatus
- *
- * - ListAliases
- *
- * - ListGrants
- *
- * - ListKeys
- *
- * - ListResourceTags
- *
- * - ListRetirableGrants
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const describeKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeKeyRequest,
-  output: DescribeKeyResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
     NotFoundException,
   ],
 }));
@@ -4573,6 +4470,109 @@ export const importKeyMaterial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     KMSInvalidStateException,
     NotFoundException,
     UnsupportedOperationException,
+  ],
+}));
+/**
+ * Verifies the hash-based message authentication code (HMAC) for a specified message, HMAC
+ * KMS key, and MAC algorithm. To verify the HMAC, `VerifyMac` computes an HMAC using
+ * the message, HMAC KMS key, and MAC algorithm that you specify, and compares the computed HMAC
+ * to the HMAC that you specify. If the HMACs are identical, the verification succeeds;
+ * otherwise, it fails. Verification indicates that the message hasn't changed since the HMAC was
+ * calculated, and the specified key was used to generate and verify the HMAC.
+ *
+ * HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards
+ * defined in RFC 2104.
+ *
+ * This operation is part of KMS support for HMAC KMS keys. For details, see
+ * HMAC keys in KMS in the
+ * *Key Management Service Developer Guide*.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:VerifyMac (key policy)
+ *
+ * **Related operations**: GenerateMac
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const verifyMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyMacRequest,
+  output: VerifyMacResponse,
+  errors: [
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidMacException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Verifies a digital signature that was generated by the Sign operation.
+ *
+ * Verification confirms that an authorized user signed the message with the specified KMS
+ * key and signing algorithm, and the message hasn't changed since it was signed. If the
+ * signature is verified, the value of the `SignatureValid` field in the response is
+ * `True`. If the signature verification fails, the `Verify` operation
+ * fails with an `KMSInvalidSignatureException` exception.
+ *
+ * A digital signature is generated by using the private key in an asymmetric KMS key. The
+ * signature is verified by using the public key in the same asymmetric KMS key.
+ * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * To use the `Verify` operation, specify the same asymmetric KMS key, message,
+ * and signing algorithm that were used to produce the signature. The message type does not need
+ * to be the same as the one used for signing, but it must indicate whether the value of the
+ * `Message` parameter should be hashed as part of the verification process.
+ *
+ * You can also verify the digital signature by using the public key of the KMS key outside
+ * of KMS. Use the GetPublicKey operation to download the public key in the
+ * asymmetric KMS key and then use the public key to verify the signature outside of KMS. The
+ * advantage of using the `Verify` operation is that it is performed within KMS. As
+ * a result, it's easy to call, the operation is performed within the FIPS boundary, it is logged
+ * in CloudTrail, and you can use key policy and IAM policy to determine who is authorized to use
+ * the KMS key to verify signatures.
+ *
+ * To verify a signature outside of KMS with an SM2 public key (China Regions only), you
+ * must specify the distinguishing ID. By default, KMS uses `1234567812345678` as
+ * the distinguishing ID. For more information, see Offline
+ * verification with SM2 key pairs.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:Verify (key policy)
+ *
+ * **Related operations**: Sign
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const verify = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyRequest,
+  output: VerifyResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidSignatureException,
+    KMSInvalidStateException,
+    NotFoundException,
   ],
 }));
 /**

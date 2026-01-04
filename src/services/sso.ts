@@ -364,35 +364,20 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
   "InvalidRequestException",
   { message: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the
- * administrator of the account. For more information, see Assign User Access in the *IAM Identity Center User Guide*. This operation
- * returns a paginated response.
- */
-export const listAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAccountsRequest,
-  output: ListAccountsResponse,
-  errors: [
-    InvalidRequestException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
 /**
  * Removes the locally stored SSO tokens from the client-side cache and sends an API call to
  * the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in
@@ -419,12 +404,11 @@ export const logout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns the STS short-term credentials for a given role name that is assigned to the
- * user.
+ * Lists all roles that are assigned to the user for a given AWS account.
  */
-export const getRoleCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRoleCredentialsRequest,
-  output: GetRoleCredentialsResponse,
+export const listAccountRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAccountRolesRequest,
+  output: ListAccountRolesResponse,
   errors: [
     InvalidRequestException,
     ResourceNotFoundException,
@@ -433,11 +417,27 @@ export const getRoleCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all roles that are assigned to the user for a given AWS account.
+ * Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the
+ * administrator of the account. For more information, see Assign User Access in the *IAM Identity Center User Guide*. This operation
+ * returns a paginated response.
  */
-export const listAccountRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAccountRolesRequest,
-  output: ListAccountRolesResponse,
+export const listAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAccountsRequest,
+  output: ListAccountsResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Returns the STS short-term credentials for a given role name that is assigned to the
+ * user.
+ */
+export const getRoleCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRoleCredentialsRequest,
+  output: GetRoleCredentialsResponse,
   errors: [
     InvalidRequestException,
     ResourceNotFoundException,

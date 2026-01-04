@@ -262,6 +262,7 @@ const rules = T.EndpointRuleSet({
 
 //# Schemas
 export const TagKeyList = S.Array(S.String);
+export const ScopeTargets = S.Array(S.String);
 export class AttachManagedPolicyToPermissionSetRequest extends S.Class<AttachManagedPolicyToPermissionSetRequest>(
   "AttachManagedPolicyToPermissionSetRequest",
 )(
@@ -760,6 +761,92 @@ export class UpdatePermissionSetRequest extends S.Class<UpdatePermissionSetReque
 export class UpdatePermissionSetResponse extends S.Class<UpdatePermissionSetResponse>(
   "UpdatePermissionSetResponse",
 )({}) {}
+export class PutApplicationAccessScopeRequest extends S.Class<PutApplicationAccessScopeRequest>(
+  "PutApplicationAccessScopeRequest",
+)(
+  {
+    Scope: S.String,
+    AuthorizedTargets: S.optional(ScopeTargets),
+    ApplicationArn: S.String,
+  },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class PutApplicationAccessScopeResponse extends S.Class<PutApplicationAccessScopeResponse>(
+  "PutApplicationAccessScopeResponse",
+)({}) {}
+export class GetApplicationAccessScopeRequest extends S.Class<GetApplicationAccessScopeRequest>(
+  "GetApplicationAccessScopeRequest",
+)(
+  { ApplicationArn: S.String, Scope: S.String },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class DeleteApplicationAccessScopeRequest extends S.Class<DeleteApplicationAccessScopeRequest>(
+  "DeleteApplicationAccessScopeRequest",
+)(
+  { ApplicationArn: S.String, Scope: S.String },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class DeleteApplicationAccessScopeResponse extends S.Class<DeleteApplicationAccessScopeResponse>(
+  "DeleteApplicationAccessScopeResponse",
+)({}) {}
+export class ListApplicationAccessScopesRequest extends S.Class<ListApplicationAccessScopesRequest>(
+  "ListApplicationAccessScopesRequest",
+)(
+  {
+    ApplicationArn: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class GetApplicationAuthenticationMethodRequest extends S.Class<GetApplicationAuthenticationMethodRequest>(
+  "GetApplicationAuthenticationMethodRequest",
+)(
+  { ApplicationArn: S.String, AuthenticationMethodType: S.String },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class DeleteApplicationAuthenticationMethodRequest extends S.Class<DeleteApplicationAuthenticationMethodRequest>(
+  "DeleteApplicationAuthenticationMethodRequest",
+)(
+  { ApplicationArn: S.String, AuthenticationMethodType: S.String },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class DeleteApplicationAuthenticationMethodResponse extends S.Class<DeleteApplicationAuthenticationMethodResponse>(
+  "DeleteApplicationAuthenticationMethodResponse",
+)({}) {}
+export class ListApplicationAuthenticationMethodsRequest extends S.Class<ListApplicationAuthenticationMethodsRequest>(
+  "ListApplicationAuthenticationMethodsRequest",
+)(
+  { ApplicationArn: S.String, NextToken: S.optional(S.String) },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class GetApplicationGrantRequest extends S.Class<GetApplicationGrantRequest>(
+  "GetApplicationGrantRequest",
+)(
+  { ApplicationArn: S.String, GrantType: S.String },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class DeleteApplicationGrantRequest extends S.Class<DeleteApplicationGrantRequest>(
+  "DeleteApplicationGrantRequest",
+)(
+  { ApplicationArn: S.String, GrantType: S.String },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class DeleteApplicationGrantResponse extends S.Class<DeleteApplicationGrantResponse>(
+  "DeleteApplicationGrantResponse",
+)({}) {}
+export class ListApplicationGrantsRequest extends S.Class<ListApplicationGrantsRequest>(
+  "ListApplicationGrantsRequest",
+)(
+  { ApplicationArn: S.String, NextToken: S.optional(S.String) },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class RefreshTokenGrant extends S.Class<RefreshTokenGrant>(
+  "RefreshTokenGrant",
+)({}) {}
+export class TokenExchangeGrant extends S.Class<TokenExchangeGrant>(
+  "TokenExchangeGrant",
+)({}) {}
 export class ListAccountAssignmentsFilter extends S.Class<ListAccountAssignmentsFilter>(
   "ListAccountAssignmentsFilter",
 )({ AccountId: S.optional(S.String) }) {}
@@ -793,6 +880,7 @@ export class UpdateApplicationPortalOptions extends S.Class<UpdateApplicationPor
 export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
   "EncryptionConfiguration",
 )({ KeyType: S.String, KmsKeyArn: S.optional(S.String) }) {}
+export const RedirectUris = S.Array(S.String);
 export class AttachCustomerManagedPolicyReferenceToPermissionSetRequest extends S.Class<AttachCustomerManagedPolicyReferenceToPermissionSetRequest>(
   "AttachCustomerManagedPolicyReferenceToPermissionSetRequest",
 )(
@@ -1042,6 +1130,41 @@ export class UpdateInstanceRequest extends S.Class<UpdateInstanceRequest>(
 export class UpdateInstanceResponse extends S.Class<UpdateInstanceResponse>(
   "UpdateInstanceResponse",
 )({}) {}
+export class GetApplicationAccessScopeResponse extends S.Class<GetApplicationAccessScopeResponse>(
+  "GetApplicationAccessScopeResponse",
+)({ Scope: S.String, AuthorizedTargets: S.optional(ScopeTargets) }) {}
+export class IamAuthenticationMethod extends S.Class<IamAuthenticationMethod>(
+  "IamAuthenticationMethod",
+)({ ActorPolicy: S.Any }) {}
+export const AuthenticationMethod = S.Union(
+  S.Struct({ Iam: IamAuthenticationMethod }),
+);
+export class GetApplicationAuthenticationMethodResponse extends S.Class<GetApplicationAuthenticationMethodResponse>(
+  "GetApplicationAuthenticationMethodResponse",
+)({ AuthenticationMethod: S.optional(AuthenticationMethod) }) {}
+export class AuthorizationCodeGrant extends S.Class<AuthorizationCodeGrant>(
+  "AuthorizationCodeGrant",
+)({ RedirectUris: S.optional(RedirectUris) }) {}
+export const TokenIssuerAudiences = S.Array(S.String);
+export class AuthorizedTokenIssuer extends S.Class<AuthorizedTokenIssuer>(
+  "AuthorizedTokenIssuer",
+)({
+  TrustedTokenIssuerArn: S.optional(S.String),
+  AuthorizedAudiences: S.optional(TokenIssuerAudiences),
+}) {}
+export const AuthorizedTokenIssuers = S.Array(AuthorizedTokenIssuer);
+export class JwtBearerGrant extends S.Class<JwtBearerGrant>("JwtBearerGrant")({
+  AuthorizedTokenIssuers: S.optional(AuthorizedTokenIssuers),
+}) {}
+export const Grant = S.Union(
+  S.Struct({ AuthorizationCode: AuthorizationCodeGrant }),
+  S.Struct({ JwtBearer: JwtBearerGrant }),
+  S.Struct({ RefreshToken: RefreshTokenGrant }),
+  S.Struct({ TokenExchange: TokenExchangeGrant }),
+);
+export class GetApplicationGrantResponse extends S.Class<GetApplicationGrantResponse>(
+  "GetApplicationGrantResponse",
+)({ Grant: Grant }) {}
 export class OidcJwtUpdateConfiguration extends S.Class<OidcJwtUpdateConfiguration>(
   "OidcJwtUpdateConfiguration",
 )({
@@ -1148,6 +1271,23 @@ export const TrustedTokenIssuerList = S.Array(TrustedTokenIssuerMetadata);
 export const TrustedTokenIssuerUpdateConfiguration = S.Union(
   S.Struct({ OidcJwtConfiguration: OidcJwtUpdateConfiguration }),
 );
+export class ScopeDetails extends S.Class<ScopeDetails>("ScopeDetails")({
+  Scope: S.String,
+  AuthorizedTargets: S.optional(ScopeTargets),
+}) {}
+export const Scopes = S.Array(ScopeDetails);
+export class AuthenticationMethodItem extends S.Class<AuthenticationMethodItem>(
+  "AuthenticationMethodItem",
+)({
+  AuthenticationMethodType: S.optional(S.String),
+  AuthenticationMethod: S.optional(AuthenticationMethod),
+}) {}
+export const AuthenticationMethods = S.Array(AuthenticationMethodItem);
+export class GrantItem extends S.Class<GrantItem>("GrantItem")({
+  GrantType: S.String,
+  Grant: Grant,
+}) {}
+export const Grants = S.Array(GrantItem);
 export class CreateAccountAssignmentResponse extends S.Class<CreateAccountAssignmentResponse>(
   "CreateAccountAssignmentResponse",
 )({
@@ -1273,6 +1413,31 @@ export class UpdateTrustedTokenIssuerRequest extends S.Class<UpdateTrustedTokenI
 export class UpdateTrustedTokenIssuerResponse extends S.Class<UpdateTrustedTokenIssuerResponse>(
   "UpdateTrustedTokenIssuerResponse",
 )({}) {}
+export class ListApplicationAccessScopesResponse extends S.Class<ListApplicationAccessScopesResponse>(
+  "ListApplicationAccessScopesResponse",
+)({ Scopes: Scopes, NextToken: S.optional(S.String) }) {}
+export class PutApplicationAuthenticationMethodRequest extends S.Class<PutApplicationAuthenticationMethodRequest>(
+  "PutApplicationAuthenticationMethodRequest",
+)(
+  {
+    ApplicationArn: S.String,
+    AuthenticationMethodType: S.String,
+    AuthenticationMethod: AuthenticationMethod,
+  },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class PutApplicationAuthenticationMethodResponse extends S.Class<PutApplicationAuthenticationMethodResponse>(
+  "PutApplicationAuthenticationMethodResponse",
+)({}) {}
+export class ListApplicationAuthenticationMethodsResponse extends S.Class<ListApplicationAuthenticationMethodsResponse>(
+  "ListApplicationAuthenticationMethodsResponse",
+)({
+  AuthenticationMethods: S.optional(AuthenticationMethods),
+  NextToken: S.optional(S.String),
+}) {}
+export class ListApplicationGrantsResponse extends S.Class<ListApplicationGrantsResponse>(
+  "ListApplicationGrantsResponse",
+)({ Grants: Grants, NextToken: S.optional(S.String) }) {}
 export class AccountAssignmentForPrincipal extends S.Class<AccountAssignmentForPrincipal>(
   "AccountAssignmentForPrincipal",
 )({
@@ -1343,6 +1508,15 @@ export class ListApplicationsResponse extends S.Class<ListApplicationsResponse>(
   Applications: S.optional(ApplicationList),
   NextToken: S.optional(S.String),
 }) {}
+export class PutApplicationGrantRequest extends S.Class<PutApplicationGrantRequest>(
+  "PutApplicationGrantRequest",
+)(
+  { ApplicationArn: S.String, GrantType: S.String, Grant: Grant },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class PutApplicationGrantResponse extends S.Class<PutApplicationGrantResponse>(
+  "PutApplicationGrantResponse",
+)({}) {}
 export class DescribeApplicationProviderResponse extends S.Class<DescribeApplicationProviderResponse>(
   "DescribeApplicationProviderResponse",
 )({
@@ -1355,34 +1529,494 @@ export class DescribeApplicationProviderResponse extends S.Class<DescribeApplica
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Returns the details of an instance of IAM Identity Center. The status can be one of the following:
+ *
+ * - `CREATE_IN_PROGRESS` - The instance is in the process of being created. When the instance is ready for use, DescribeInstance returns the status of `ACTIVE`. While the instance is in the `CREATE_IN_PROGRESS` state, you can call only DescribeInstance and DeleteInstance operations.
+ *
+ * - `DELETE_IN_PROGRESS` - The instance is being deleted. Returns `AccessDeniedException` after the delete operation completes.
+ *
+ * - `ACTIVE` - The instance is active.
+ */
+export const describeInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstanceRequest,
+  output: DescribeInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
+ */
+export const listAccountAssignmentsForPrincipal =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAccountAssignmentsForPrincipalRequest,
+    output: ListAccountAssignmentsForPrincipalResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
+ */
+export const listApplicationAssignmentsForPrincipal =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListApplicationAssignmentsForPrincipalRequest,
+    output: ListApplicationAssignmentsForPrincipalResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the `applicationAccount` parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
+ */
+export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a configuration for an application to use grants. Conceptually grants are authorization to request actions related to tokens. This configuration will be used when parties are requesting and receiving tokens during the trusted identity propagation process. For more information on the IAM Identity Center supported grant workflows, see SAML 2.0 and OAuth 2.0.
+ *
+ * A grant is created between your applications and Identity Center instance which enables an application to use specified mechanisms to obtain tokens. These tokens are used by your applications to gain access to Amazon Web Services resources on behalf of users. The following elements are within these exchanges:
+ *
+ * - **Requester** - The application requesting access to Amazon Web Services resources.
+ *
+ * - **Subject** - Typically the user that is requesting access to Amazon Web Services resources.
+ *
+ * - **Grant** - Conceptually, a grant is authorization to access Amazon Web Services resources. These grants authorize token generation for authenticating access to the requester and for the request to make requests on behalf of the subjects. There are four types of grants:
+ *
+ * - **AuthorizationCode** - Allows an application to request authorization through a series of user-agent redirects.
+ *
+ * - **JWT bearer ** - Authorizes an application to exchange a JSON Web Token that came from an external identity provider. To learn more, see RFC 6479.
+ *
+ * - **Refresh token** - Enables application to request new access tokens to replace expiring or expired access tokens.
+ *
+ * - **Exchange token** - A grant that requests tokens from the authorization server by providing a ‘subject’ token with access scope authorizing trusted identity propagation to this application. To learn more, see RFC 8693.
+ *
+ * - **Authorization server** - IAM Identity Center requests tokens.
+ *
+ * User credentials are never shared directly within these exchanges. Instead, applications use grants to request access tokens from IAM Identity Center. For more information, see RFC 6479.
+ * **Use cases**
+ *
+ * - Connecting to custom applications.
+ *
+ * - Configuring an Amazon Web Services service to make calls to another Amazon Web Services services using JWT tokens.
+ */
+export const putApplicationGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutApplicationGrantRequest,
+  output: PutApplicationGrantResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an instance of IAM Identity Center for a standalone Amazon Web Services account that is not managed by Organizations or a member Amazon Web Services account in an organization. You can create only one instance per account and across all Amazon Web Services Regions.
+ *
+ * The CreateInstance request is rejected if the following apply:
+ *
+ * - The instance is created within the organization management account.
+ *
+ * - An instance already exists in the same account.
+ */
+export const createInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstanceRequest,
+  output: CreateInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Describes the status for the given permission set provisioning request.
+ */
+export const describePermissionSetProvisioningStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribePermissionSetProvisioningStatusRequest,
+    output: DescribePermissionSetProvisioningStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
+ */
+export const listAccountAssignmentCreationStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAccountAssignmentCreationStatusRequest,
+    output: ListAccountAssignmentCreationStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
+ */
+export const listAccountAssignmentDeletionStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAccountAssignmentDeletionStatusRequest,
+    output: ListAccountAssignmentDeletionStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the assignee of the specified Amazon Web Services account with the specified permission set.
+ */
+export const listAccountAssignments = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAccountAssignmentsRequest,
+    output: ListAccountAssignmentsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists Amazon Web Services account users that are assigned to an application.
+ */
+export const listApplicationAssignments = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListApplicationAssignmentsRequest,
+    output: ListApplicationAssignmentsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the Amazon Web Services managed policy that is attached to a specified permission set.
+ */
+export const listManagedPoliciesInPermissionSet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListManagedPoliciesInPermissionSetRequest,
+    output: ListManagedPoliciesInPermissionSetResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
+ */
+export const listPermissionSetProvisioningStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListPermissionSetProvisioningStatusRequest,
+    output: ListPermissionSetProvisioningStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration.
+ *
+ * Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer.
+ */
+export const updateTrustedTokenIssuer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTrustedTokenIssuerRequest,
+    output: UpdateTrustedTokenIssuerResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the access scopes and authorized targets associated with an application.
+ */
+export const listApplicationAccessScopes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListApplicationAccessScopesRequest,
+    output: ListApplicationAccessScopesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Adds or updates an authentication method for an application.
+ */
+export const putApplicationAuthenticationMethod =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutApplicationAuthenticationMethodRequest,
+    output: PutApplicationAuthenticationMethodResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists all of the authentication methods supported by the specified application.
+ */
+export const listApplicationAuthenticationMethods =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListApplicationAuthenticationMethodsRequest,
+    output: ListApplicationAuthenticationMethodsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * List the grants associated with an application.
+ */
+export const listApplicationGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListApplicationGrantsRequest,
+    output: ListApplicationGrantsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a principal's access from a specified Amazon Web Services account using a specified permission set.
+ *
+ * After a successful response, call `DescribeAccountAssignmentDeletionStatus` to describe the status of an assignment deletion request.
+ */
+export const deleteAccountAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAccountAssignmentRequest,
+    output: DeleteAccountAssignmentResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * The process by which a specified permission set is provisioned to the specified target.
+ */
+export const provisionPermissionSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ProvisionPermissionSetRequest,
+    output: ProvisionPermissionSetResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary.
+ */
+export const putPermissionsBoundaryToPermissionSet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutPermissionsBoundaryToPermissionSetRequest,
+    output: PutPermissionsBoundaryToPermissionSetResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates application properties.
+ */
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
+ */
+export const updateInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInstanceRequest,
+  output: UpdateInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Grant application access to a user or group.
+ */
+export const createApplicationAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateApplicationAssignmentRequest,
+    output: CreateApplicationAssignmentResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes the association with the application. The connected service resource still exists.
+ */
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Revoke application access to an application by deleting application assignments for a user or group.
+ */
+export const deleteApplicationAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteApplicationAssignmentRequest,
+    output: DeleteApplicationAssignmentResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes the inline policy from a specified permission set.
+ */
+export const deleteInlinePolicyFromPermissionSet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteInlinePolicyFromPermissionSetRequest,
+    output: DeleteInlinePolicyFromPermissionSetResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
@@ -1516,6 +2150,25 @@ export const putApplicationSessionConfiguration =
     ],
   }));
 /**
+ * Attaches an inline policy to a permission set.
+ *
+ * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this action to apply the corresponding IAM policy updates to all assigned accounts.
+ */
+export const putInlinePolicyToPermissionSet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutInlinePolicyToPermissionSetRequest,
+    output: PutInlinePolicyToPermissionSetResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
  * Associates a set of tags with a specified resource.
  */
 export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1578,6 +2231,72 @@ export const updatePermissionSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
+ */
+export const putApplicationAccessScope = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutApplicationAccessScopeRequest,
+    output: PutApplicationAccessScopeResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an IAM Identity Center access scope from an application.
+ */
+export const deleteApplicationAccessScope =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteApplicationAccessScopeRequest,
+    output: DeleteApplicationAccessScopeResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an authentication method from an application.
+ */
+export const deleteApplicationAuthenticationMethod =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteApplicationAuthenticationMethodRequest,
+    output: DeleteApplicationAuthenticationMethodResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes a grant from an application.
+ */
+export const deleteApplicationGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteApplicationGrantRequest,
+    output: DeleteApplicationGrantResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Attaches the specified customer managed policy to the specified PermissionSet.
  */
 export const attachCustomerManagedPolicyReferenceToPermissionSet =
@@ -1590,160 +2309,6 @@ export const attachCustomerManagedPolicyReferenceToPermissionSet =
       InternalServerException,
       ResourceNotFoundException,
       ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Attaches an Amazon Web Services managed policy ARN to a permission set.
- *
- * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this operation. Calling `ProvisionPermissionSet` applies the corresponding IAM policy updates to all assigned accounts.
- */
-export const attachManagedPolicyToPermissionSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachManagedPolicyToPermissionSetRequest,
-    output: AttachManagedPolicyToPermissionSetResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Grant application access to a user or group.
- */
-export const createApplicationAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateApplicationAssignmentRequest,
-    output: CreateApplicationAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates an instance of IAM Identity Center for a standalone Amazon Web Services account that is not managed by Organizations or a member Amazon Web Services account in an organization. You can create only one instance per account and across all Amazon Web Services Regions.
- *
- * The CreateInstance request is rejected if the following apply:
- *
- * - The instance is created within the organization management account.
- *
- * - An instance already exists in the same account.
- */
-export const createInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInstanceRequest,
-  output: CreateInstanceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a principal's access from a specified Amazon Web Services account using a specified permission set.
- *
- * After a successful response, call `DescribeAccountAssignmentDeletionStatus` to describe the status of an assignment deletion request.
- */
-export const deleteAccountAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountAssignmentRequest,
-    output: DeleteAccountAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes the association with the application. The connected service resource still exists.
- */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Revoke application access to an application by deleting application assignments for a user or group.
- */
-export const deleteApplicationAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApplicationAssignmentRequest,
-    output: DeleteApplicationAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes the inline policy from a specified permission set.
- */
-export const deleteInlinePolicyFromPermissionSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteInlinePolicyFromPermissionSetRequest,
-    output: DeleteInlinePolicyFromPermissionSetResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
- */
-export const deleteInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteInstanceRequest,
-  output: DeleteInstanceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Describes the status of the assignment creation request.
- */
-export const describeAccountAssignmentCreationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAccountAssignmentCreationStatusRequest,
-    output: DescribeAccountAssignmentCreationStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],
@@ -1975,15 +2540,14 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * The process by which a specified permission set is provisioned to the specified target.
+ * Retrieves the authorized targets for an IAM Identity Center access scope for an application.
  */
-export const provisionPermissionSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getApplicationAccessScope = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ProvisionPermissionSetRequest,
-    output: ProvisionPermissionSetResponse,
+    input: GetApplicationAccessScopeRequest,
+    output: GetApplicationAccessScopeResponse,
     errors: [
       AccessDeniedException,
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -1992,14 +2556,43 @@ export const provisionPermissionSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Attaches an inline policy to a permission set.
- *
- * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this action to apply the corresponding IAM policy updates to all assigned accounts.
+ * Retrieves details about an authentication method used by an application.
  */
-export const putInlinePolicyToPermissionSet =
+export const getApplicationAuthenticationMethod =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutInlinePolicyToPermissionSetRequest,
-    output: PutInlinePolicyToPermissionSetResponse,
+    input: GetApplicationAuthenticationMethodRequest,
+    output: GetApplicationAuthenticationMethodResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves details about an application grant.
+ */
+export const getApplicationGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationGrantRequest,
+  output: GetApplicationGrantResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Attaches an Amazon Web Services managed policy ARN to a permission set.
+ *
+ * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this operation. Calling `ProvisionPermissionSet` applies the corresponding IAM policy updates to all assigned accounts.
+ */
+export const attachManagedPolicyToPermissionSet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AttachManagedPolicyToPermissionSetRequest,
+    output: AttachManagedPolicyToPermissionSetResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -2010,52 +2603,6 @@ export const putInlinePolicyToPermissionSet =
       ValidationException,
     ],
   }));
-/**
- * Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary.
- */
-export const putPermissionsBoundaryToPermissionSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutPermissionsBoundaryToPermissionSetRequest,
-    output: PutPermissionsBoundaryToPermissionSetResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates application properties.
- */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
- */
-export const updateInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateInstanceRequest,
-  output: UpdateInstanceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Assigns access to a principal for a specified Amazon Web Services account using a specified permission set.
  *
@@ -2099,194 +2646,6 @@ export const createPermissionSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns the details of an instance of IAM Identity Center. The status can be one of the following:
- *
- * - `CREATE_IN_PROGRESS` - The instance is in the process of being created. When the instance is ready for use, DescribeInstance returns the status of `ACTIVE`. While the instance is in the `CREATE_IN_PROGRESS` state, you can call only DescribeInstance and DeleteInstance operations.
- *
- * - `DELETE_IN_PROGRESS` - The instance is being deleted. Returns `AccessDeniedException` after the delete operation completes.
- *
- * - `ACTIVE` - The instance is active.
- */
-export const describeInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeInstanceRequest,
-  output: DescribeInstanceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Describes the status for the given permission set provisioning request.
- */
-export const describePermissionSetProvisioningStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePermissionSetProvisioningStatusRequest,
-    output: DescribePermissionSetProvisioningStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
- */
-export const listAccountAssignmentCreationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAccountAssignmentCreationStatusRequest,
-    output: ListAccountAssignmentCreationStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
- */
-export const listAccountAssignmentDeletionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAccountAssignmentDeletionStatusRequest,
-    output: ListAccountAssignmentDeletionStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the assignee of the specified Amazon Web Services account with the specified permission set.
- */
-export const listAccountAssignments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAccountAssignmentsRequest,
-    output: ListAccountAssignmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists Amazon Web Services account users that are assigned to an application.
- */
-export const listApplicationAssignments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListApplicationAssignmentsRequest,
-    output: ListApplicationAssignmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists the application providers configured in the IAM Identity Center identity store.
- */
-export const listApplicationProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListApplicationProvidersRequest,
-    output: ListApplicationProvidersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
- */
-export const listInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInstancesRequest,
-  output: ListInstancesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the Amazon Web Services managed policy that is attached to a specified permission set.
- */
-export const listManagedPoliciesInPermissionSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListManagedPoliciesInPermissionSetRequest,
-    output: ListManagedPoliciesInPermissionSetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
- */
-export const listPermissionSetProvisioningStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListPermissionSetProvisioningStatusRequest,
-    output: ListPermissionSetProvisioningStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists all the trusted token issuers configured in an instance of IAM Identity Center.
- */
-export const listTrustedTokenIssuers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTrustedTokenIssuersRequest,
-    output: ListTrustedTokenIssuersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration.
- *
- * Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer.
- */
-export const updateTrustedTokenIssuer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTrustedTokenIssuerRequest,
-    output: UpdateTrustedTokenIssuerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider.
  *
  * This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 applications. For more information on these application types, see Amazon Web Services managed applications.
@@ -2323,6 +2682,78 @@ export const createInstanceAccessControlAttributeConfiguration =
     ],
   }));
 /**
+ * Lists the application providers configured in the IAM Identity Center identity store.
+ */
+export const listApplicationProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListApplicationProvidersRequest,
+    output: ListApplicationProvidersResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
+ */
+export const listInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInstancesRequest,
+  output: ListInstancesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all the trusted token issuers configured in an instance of IAM Identity Center.
+ */
+export const listTrustedTokenIssuers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTrustedTokenIssuersRequest,
+    output: ListTrustedTokenIssuersResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
+ */
+export const deleteInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInstanceRequest,
+  output: DeleteInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Describes the status of the assignment creation request.
+ */
+export const describeAccountAssignmentCreationStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAccountAssignmentCreationStatusRequest,
+    output: DescribeAccountAssignmentCreationStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
  * Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services.
  *
  * This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication.
@@ -2341,49 +2772,6 @@ export const createTrustedTokenIssuer = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
- */
-export const listAccountAssignmentsForPrincipal =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAccountAssignmentsForPrincipalRequest,
-    output: ListAccountAssignmentsForPrincipalResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
- */
-export const listApplicationAssignmentsForPrincipal =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListApplicationAssignmentsForPrincipalRequest,
-    output: ListApplicationAssignmentsForPrincipalResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the `applicationAccount` parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
- */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center.
  */

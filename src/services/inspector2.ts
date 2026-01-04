@@ -2007,10 +2007,6 @@ export const UpdateIntegrationDetails = S.Union(
   S.Struct({ gitlabSelfManaged: UpdateGitLabSelfManagedIntegrationDetail }),
   S.Struct({ github: UpdateGitHubIntegrationDetail }),
 );
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFields = S.Array(ValidationExceptionField);
 export class FailedAssociationResult extends S.Class<FailedAssociationResult>(
   "FailedAssociationResult",
 )({
@@ -2641,6 +2637,10 @@ export class Vulnerability extends S.Class<Vulnerability>("Vulnerability")({
   epss: S.optional(Epss),
 }) {}
 export const Vulnerabilities = S.Array(Vulnerability);
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFields = S.Array(ValidationExceptionField);
 export const StringList = S.Array(S.String);
 export class Recommendation extends S.Class<Recommendation>("Recommendation")({
   text: S.optional(S.String),
@@ -3178,38 +3178,283 @@ export class ListCoverageResponse extends S.Class<ListCoverageResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { message: S.String },
 ) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
   { message: S.String },
 ) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String, resourceId: S.String },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.String,
+    fields: S.optional(ValidationExceptionFields),
+  },
+) {}
 
 //# Operations
+/**
+ * Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated
+ * with your account.
+ */
+export const getEc2DeepInspectionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetEc2DeepInspectionConfigurationRequest,
+    output: GetEc2DeepInspectionConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Retrieves setting configurations for Inspector scans.
+ */
+export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationRequest,
+  output: GetConfigurationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector
+ * delegated administrator this updates the setting for all accounts you manage. Member
+ * accounts in an organization cannot update this setting.
+ */
+export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationRequest,
+  output: UpdateConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response
+ * indicates the association was successfully started, but doesn’t indicate whether it was
+ * completed. You can check if the association completed by using ListMembers for multiple
+ * accounts or GetMembers for a single account.
+ */
+export const associateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateMemberRequest,
+  output: AssociateMemberResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to
+ * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
+ * this API to start a CIS scan session for the scan ID supplied by the service.
+ */
+export const startCisSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCisSessionRequest,
+  output: StartCisSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Initiates a code security scan on a specified repository.
+ */
+export const startCodeSecurityScan = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartCodeSecurityScanRequest,
+    output: StartCodeSecurityScanResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates an existing code security scan configuration.
+ */
+export const updateCodeSecurityScanConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateCodeSecurityScanConfigurationRequest,
+    output: UpdateCodeSecurityScanConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
+ * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
+ * this API to start a CIS scan session for the scan ID supplied by the service.
+ */
+export const sendCisSessionHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SendCisSessionHealthRequest,
+    output: SendCisSessionHealthResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Disables the Amazon Inspector delegated administrator for your organization.
+ */
+export const disableDelegatedAdminAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisableDelegatedAdminAccountRequest,
+    output: DisableDelegatedAdminAccountResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Enables the Amazon Inspector delegated administrator for your Organizations organization.
+ */
+export const enableDelegatedAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: EnableDelegatedAdminAccountRequest,
+    output: EnableDelegatedAdminAccountResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Disassociates multiple code repositories from an Amazon Inspector code security scan
+ * configuration.
+ */
+export const batchDisassociateCodeSecurityScanConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDisassociateCodeSecurityScanConfigurationRequest,
+    output: BatchDisassociateCodeSecurityScanConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves information about a specific code security scan.
+ */
+export const getCodeSecurityScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCodeSecurityScanRequest,
+  output: GetCodeSecurityScanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Specifies the action that is to be applied to the findings that match the filter.
+ */
+export const updateFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFilterRequest,
+  output: UpdateFilterResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Resets an encryption key. After the key is reset your resources will be encrypted by an
+ * Amazon Web Services owned key.
+ */
+export const resetEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetEncryptionKeyRequest,
+  output: ResetEncryptionKeyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an encryption key. A `ResourceNotFoundException` means that an
+ * Amazon Web Services owned key is being used for encryption.
+ */
+export const updateEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEncryptionKeyRequest,
+  output: UpdateEncryptionKeyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels the given findings report.
  */
@@ -3301,49 +3546,6 @@ export const deleteFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
- */
-export const describeOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConfigurationRequest,
-    output: DescribeOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disables the Amazon Inspector delegated administrator for your organization.
- */
-export const disableDelegatedAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableDelegatedAdminAccountRequest,
-    output: DisableDelegatedAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a member account from an Amazon Inspector delegated administrator.
- */
-export const disassociateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateMemberRequest,
-  output: DisassociateMemberResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
  */
 export const enable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3357,23 +3559,6 @@ export const enable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Enables the Amazon Inspector delegated administrator for your Organizations organization.
- */
-export const enableDelegatedAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableDelegatedAdminAccountRequest,
-    output: EnableDelegatedAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Retrieves a CIS scan report.
  */
@@ -3437,21 +3622,6 @@ export const getDelegatedAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated
- * with your account.
- */
-export const getEc2DeepInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEc2DeepInspectionConfigurationRequest,
-    output: GetEc2DeepInspectionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
  * Gets an encryption key.
  */
 export const getEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3496,20 +3666,6 @@ export const getSbomExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * List members associated with the Amazon Inspector delegated administrator for your
- * organization.
- */
-export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMembersRequest,
-  output: ListMembersResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists all tags attached to a given resource.
  */
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3522,90 +3678,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Resets an encryption key. After the key is reset your resources will be encrypted by an
- * Amazon Web Services owned key.
- */
-export const resetEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResetEncryptionKeyRequest,
-  output: ResetEncryptionKeyResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
- * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
- * this API to start a CIS scan session for the scan ID supplied by the service.
- */
-export const sendCisSessionHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendCisSessionHealthRequest,
-    output: SendCisSessionHealthResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
- * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
- * this API to start a CIS scan session for the scan ID supplied by the service.
- */
-export const sendCisSessionTelemetry = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendCisSessionTelemetryRequest,
-    output: SendCisSessionTelemetryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to
- * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
- * this API to start a CIS scan session for the scan ID supplied by the service.
- */
-export const startCisSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartCisSessionRequest,
-  output: StartCisSessionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Initiates a code security scan on a specified repository.
- */
-export const startCodeSecurityScan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCodeSecurityScanRequest,
-    output: StartCodeSecurityScanResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Adds tags to a resource.
  */
@@ -3620,173 +3692,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Removes tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing code security scan configuration.
- */
-export const updateCodeSecurityScanConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCodeSecurityScanConfigurationRequest,
-    output: UpdateCodeSecurityScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector
- * delegated administrator this updates the setting for all accounts you manage. Member
- * accounts in an organization cannot update this setting.
- */
-export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationRequest,
-  output: UpdateConfigurationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
- */
-export const updateEc2DeepInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEc2DeepInspectionConfigurationRequest,
-    output: UpdateEc2DeepInspectionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Updates an encryption key. A `ResourceNotFoundException` means that an
- * Amazon Web Services owned key is being used for encryption.
- */
-export const updateEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEncryptionKeyRequest,
-  output: UpdateEncryptionKeyResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Specifies the action that is to be applied to the findings that match the filter.
- */
-export const updateFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFilterRequest,
-  output: UpdateFilterResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the configurations for your Amazon Inspector organization.
- */
-export const updateOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrganizationConfigurationRequest,
-    output: UpdateOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response
- * indicates the association was successfully started, but doesn’t indicate whether it was
- * completed. You can check if the association completed by using ListMembers for multiple
- * accounts or GetMembers for a single account.
- */
-export const associateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateMemberRequest,
-  output: AssociateMemberResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Disassociates multiple code repositories from an Amazon Inspector code security scan
- * configuration.
- */
-export const batchDisassociateCodeSecurityScanConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateCodeSecurityScanConfigurationRequest,
-    output: BatchDisassociateCodeSecurityScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within
- * your organization. You must be the delegated administrator of an organization in Amazon Inspector to
- * use this API.
- */
-export const batchGetMemberEc2DeepInspectionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetMemberEc2DeepInspectionStatusRequest,
-    output: BatchGetMemberEc2DeepInspectionStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your
- * organization. You must be the delegated administrator of an organization in Amazon Inspector to use
- * this API.
- */
-export const batchUpdateMemberEc2DeepInspectionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateMemberEc2DeepInspectionStatusRequest,
-    output: BatchUpdateMemberEc2DeepInspectionStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Creates a finding report. By default only `ACTIVE` findings are returned in
  * the report. To see `SUPRESSED` or `CLOSED` findings you must specify
@@ -3821,33 +3726,6 @@ export const disable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves information about a specific code security scan.
- */
-export const getCodeSecurityScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCodeSecurityScanRequest,
-  output: GetCodeSecurityScanResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves setting configurations for Inspector scans.
- */
-export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConfigurationRequest,
-  output: GetConfigurationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Gets member information for your organization.
  */
 export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3861,36 +3739,6 @@ export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Lists the permissions an account has to configure Amazon Inspector.
- * If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
- */
-export const listAccountPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAccountPermissionsRequest,
-    output: ListAccountPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists all code security integrations in your account.
- */
-export const listCodeSecurityIntegrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCodeSecurityIntegrationsRequest,
-    output: ListCodeSecurityIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Lists the associations between code repositories and Amazon Inspector code security scan
  * configurations.
@@ -3918,6 +3766,152 @@ export const listCodeSecurityScanConfigurations =
       AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
+ */
+export const updateEc2DeepInspectionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateEc2DeepInspectionConfigurationRequest,
+    output: UpdateEc2DeepInspectionConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the configurations for your Amazon Inspector organization.
+ */
+export const updateOrganizationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateOrganizationConfigurationRequest,
+    output: UpdateOrganizationConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an
+ * Amazon Inspector delegated administrator to use this API.
+ */
+export const updateOrgEc2DeepInspectionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateOrgEc2DeepInspectionConfigurationRequest,
+    output: UpdateOrgEc2DeepInspectionConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
+ */
+export const describeOrganizationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeOrganizationConfigurationRequest,
+    output: DescribeOrganizationConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociates a member account from an Amazon Inspector delegated administrator.
+ */
+export const disassociateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateMemberRequest,
+  output: DisassociateMemberResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List members associated with the Amazon Inspector delegated administrator for your
+ * organization.
+ */
+export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMembersRequest,
+  output: ListMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within
+ * your organization. You must be the delegated administrator of an organization in Amazon Inspector to
+ * use this API.
+ */
+export const batchGetMemberEc2DeepInspectionStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchGetMemberEc2DeepInspectionStatusRequest,
+    output: BatchGetMemberEc2DeepInspectionStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your
+ * organization. You must be the delegated administrator of an organization in Amazon Inspector to use
+ * this API.
+ */
+export const batchUpdateMemberEc2DeepInspectionStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchUpdateMemberEc2DeepInspectionStatusRequest,
+    output: BatchUpdateMemberEc2DeepInspectionStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the permissions an account has to configure Amazon Inspector.
+ * If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
+ */
+export const listAccountPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAccountPermissionsRequest,
+    output: ListAccountPermissionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all code security integrations in your account.
+ */
+export const listCodeSecurityIntegrations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCodeSecurityIntegrationsRequest,
+    output: ListCodeSecurityIntegrationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
       ThrottlingException,
       ValidationException,
     ],
@@ -3961,6 +3955,24 @@ export const listFilters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
+ * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
+ * this API to start a CIS scan session for the scan ID supplied by the service.
+ */
+export const sendCisSessionTelemetry = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SendCisSessionTelemetryRequest,
+    output: SendCisSessionTelemetryResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
  * this API to stop a CIS scan session for the scan ID supplied by the service.
@@ -3972,6 +3984,19 @@ export const stopCisSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -3992,21 +4017,6 @@ export const updateCisScanConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an
- * Amazon Inspector delegated administrator to use this API.
- */
-export const updateOrgEc2DeepInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrgEc2DeepInspectionConfigurationRequest,
-    output: UpdateOrgEc2DeepInspectionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Associates multiple code repositories with an Amazon Inspector code security scan
  * configuration.

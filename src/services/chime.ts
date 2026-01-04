@@ -1745,45 +1745,45 @@ export class PutRetentionSettingsResponse extends S.Class<PutRetentionSettingsRe
 }) {}
 
 //# Errors
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
-  "BadRequestException",
-  {},
-) {}
-export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
-  "ForbiddenException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
-  "ServiceFailureException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
-  "ThrottledClientException",
-  {},
-) {}
-export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
-  "UnauthorizedClientException",
-  {},
-) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
-export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
-  "ResourceLimitExceededException",
-  {},
+export class BadRequestException extends S.TaggedError<BadRequestException>()(
+  "BadRequestException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
+  "ForbiddenException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
+  "ServiceFailureException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
+  "ResourceLimitExceededException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
+  "ThrottledClientException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
+  "UnauthorizedClientException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
@@ -1791,169 +1791,6 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
 ) {}
 
 //# Operations
-/**
- * Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
- */
-export const getPhoneNumberSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPhoneNumberSettingsRequest,
-    output: GetPhoneNumberSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Logs out the specified user from all of the devices they are currently logged into.
- */
-export const logoutUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: LogoutUserRequest,
-  output: LogoutUserResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Redacts the specified message from the specified Amazon Chime conversation.
- */
-export const redactConversationMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RedactConversationMessageRequest,
-    output: RedactConversationMessageResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Redacts the specified message from the specified Amazon Chime channel.
- */
-export const redactRoomMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RedactRoomMessageRequest,
-  output: RedactRoomMessageResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
- */
-export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGlobalSettingsRequest,
-    output: UpdateGlobalSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Updates the phone number settings for the administrator's AWS account, such as the default
- * outbound calling name. You can update the default outbound calling name once every seven
- * days. Outbound calling names can take up to 72 hours to update.
- */
-export const updatePhoneNumberSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePhoneNumberSettingsRequest,
-    output: UpdatePhoneNumberSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Associates a phone number with the specified Amazon Chime user.
- */
-export const associatePhoneNumberWithUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociatePhoneNumberWithUserRequest,
-    output: AssociatePhoneNumberWithUserResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Associates the specified sign-in delegate groups with the specified Amazon Chime account.
- */
-export const associateSigninDelegateGroupsWithAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateSigninDelegateGroupsWithAccountRequest,
-    output: AssociateSigninDelegateGroupsWithAccountResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Removes the suspension from up to 50 previously suspended users for the specified Amazon
- * Chime `EnterpriseLWA` account. Only users on `EnterpriseLWA`
- * accounts can be unsuspended using this action. For more information about different account types, see
- *
- * Managing Your Amazon Chime Accounts
- * in the account types, in the *Amazon Chime Administration Guide*.
- *
- * Previously suspended users who are unsuspended using this action are returned to
- * `Registered`
- * status. Users who are not previously suspended are ignored.
- */
-export const batchUnsuspendUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchUnsuspendUserRequest,
-  output: BatchUnsuspendUserResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
 /**
  * Deletes the events configuration that allows a bot to receive outgoing events.
  */
@@ -1972,52 +1809,25 @@ export const deleteEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Moves the specified phone number into the **Deletion queue**. A
- * phone number must be disassociated from any users or Amazon Chime Voice Connectors
- * before it can be deleted.
+ * Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see
+ * Logging Amazon Chime API Calls with AWS CloudTrail
+ * in the *Amazon Chime Administration Guide*.
  *
- * Deleted phone numbers remain in the
- * **Deletion queue**
- * for 7 days before they are deleted permanently.
+ * To turn off existing retention settings, remove the number of days from the corresponding
+ * **RetentionDays**
+ * field in the
+ * **RetentionSettings**
+ * object. For more information about retention settings, see
+ * Managing Chat Retention Policies
+ * in the *Amazon Chime Administration Guide*.
  */
-export const deletePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePhoneNumberRequest,
-  output: DeletePhoneNumberResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Deletes a chat room in an Amazon Chime Enterprise account.
- */
-export const deleteRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRoomRequest,
-  output: DeleteRoomResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Removes a member from a chat room in an Amazon Chime Enterprise account.
- */
-export const deleteRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const putRetentionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteRoomMembershipRequest,
-    output: DeleteRoomMembershipResponse,
+    input: PutRetentionSettingsRequest,
+    output: PutRetentionSettingsResponse,
     errors: [
       BadRequestException,
+      ConflictException,
       ForbiddenException,
       NotFoundException,
       ServiceFailureException,
@@ -2028,31 +1838,37 @@ export const deleteRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Disassociates the primary provisioned phone number from the specified Amazon Chime user.
+ * Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime
+ * `Team` account. Only `Team` account types are currently
+ * supported for this action.
  */
-export const disassociatePhoneNumberFromUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociatePhoneNumberFromUserRequest,
-    output: DisassociatePhoneNumberFromUserResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const inviteUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InviteUsersRequest,
+  output: InviteUsersResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
- * Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
+ * Updates the settings for the specified Amazon Chime account. You can update settings for
+ * remote control of shared screens, or for the dial-out option. For more information about
+ * these settings, see Use
+ * the Policies Page in the Amazon Chime Administration
+ * Guide.
  */
-export const disassociateSigninDelegateGroupsFromAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSigninDelegateGroupsFromAccountRequest,
-    output: DisassociateSigninDelegateGroupsFromAccountResponse,
+export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountSettingsRequest,
+    output: UpdateAccountSettingsResponse,
     errors: [
       BadRequestException,
+      ConflictException,
       ForbiddenException,
       NotFoundException,
       ServiceFailureException,
@@ -2060,7 +1876,40 @@ export const disassociateSigninDelegateGroupsFromAccount =
       ThrottledClientException,
       UnauthorizedClientException,
     ],
-  }));
+  }),
+);
+/**
+ * Updates user details for a specified user ID. Currently, only `LicenseType` updates are supported for this action.
+ */
+export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserRequest,
+  output: UpdateUserResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Updates the settings for the specified user, such as phone number settings.
+ */
+export const updateUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserSettingsRequest,
+  output: UpdateUserSettingsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Retrieves details for the specified Amazon Chime account, such as account type and supported
  * licenses.
@@ -2106,22 +1955,6 @@ export const getBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     BadRequestException,
     ForbiddenException,
     NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business
- * Calling and Amazon Chime Voice Connector settings.
- */
-export const getGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetGlobalSettingsRequest,
-  output: GetGlobalSettingsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
     ServiceFailureException,
     ServiceUnavailableException,
     ThrottledClientException,
@@ -2250,23 +2083,6 @@ export const listBots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the phone number orders for the administrator's Amazon Chime account.
- */
-export const listPhoneNumberOrders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPhoneNumberOrdersRequest,
-    output: ListPhoneNumberOrdersResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
  * Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
  */
 export const listPhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2333,26 +2149,6 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates an events configuration that allows a bot to receive outgoing events sent by Amazon
- * Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information,
- * see Bot.
- */
-export const putEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutEventsConfigurationRequest,
-    output: PutEventsConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
  * Regenerates the security token for a bot.
  */
 export const regenerateSecurityToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2406,28 +2202,6 @@ export const restorePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Searches for phone numbers that can be ordered. For US numbers, provide at least one of
- * the following search filters: `AreaCode`, `City`,
- * `State`, or `TollFreePrefix`. If you provide
- * `City`, you must also provide `State`. Numbers outside the US only
- * support the `PhoneNumberType` filter, which you must use.
- */
-export const searchAvailablePhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchAvailablePhoneNumbersRequest,
-    output: SearchAvailablePhoneNumbersResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
  * Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
  */
 export const updateAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2451,27 +2225,6 @@ export const updateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: UpdateBotResponse,
   errors: [
     BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action.
- *
- * For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
- *
- * Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
- */
-export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePhoneNumberRequest,
-  output: UpdatePhoneNumberResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
     ForbiddenException,
     NotFoundException,
     ServiceFailureException,
@@ -2517,6 +2270,206 @@ export const updateRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Moves the specified phone number into the **Deletion queue**. A
+ * phone number must be disassociated from any users or Amazon Chime Voice Connectors
+ * before it can be deleted.
+ *
+ * Deleted phone numbers remain in the
+ * **Deletion queue**
+ * for 7 days before they are deleted permanently.
+ */
+export const deletePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePhoneNumberRequest,
+  output: DeletePhoneNumberResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Deletes a chat room in an Amazon Chime Enterprise account.
+ */
+export const deleteRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRoomRequest,
+  output: DeleteRoomResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Removes a member from a chat room in an Amazon Chime Enterprise account.
+ */
+export const deleteRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRoomMembershipRequest,
+    output: DeleteRoomMembershipResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Disassociates the primary provisioned phone number from the specified Amazon Chime user.
+ */
+export const disassociatePhoneNumberFromUser =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociatePhoneNumberFromUserRequest,
+    output: DisassociatePhoneNumberFromUserResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
+ */
+export const disassociateSigninDelegateGroupsFromAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateSigninDelegateGroupsFromAccountRequest,
+    output: DisassociateSigninDelegateGroupsFromAccountResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Logs out the specified user from all of the devices they are currently logged into.
+ */
+export const logoutUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: LogoutUserRequest,
+  output: LogoutUserResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Redacts the specified message from the specified Amazon Chime conversation.
+ */
+export const redactConversationMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RedactConversationMessageRequest,
+    output: RedactConversationMessageResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Redacts the specified message from the specified Amazon Chime channel.
+ */
+export const redactRoomMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RedactRoomMessageRequest,
+  output: RedactRoomMessageResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Associates a phone number with the specified Amazon Chime user.
+ */
+export const associatePhoneNumberWithUser =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociatePhoneNumberWithUserRequest,
+    output: AssociatePhoneNumberWithUserResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Associates the specified sign-in delegate groups with the specified Amazon Chime account.
+ */
+export const associateSigninDelegateGroupsWithAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateSigninDelegateGroupsWithAccountRequest,
+    output: AssociateSigninDelegateGroupsWithAccountResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
+/**
+ * Removes the suspension from up to 50 previously suspended users for the specified Amazon
+ * Chime `EnterpriseLWA` account. Only users on `EnterpriseLWA`
+ * accounts can be unsuspended using this action. For more information about different account types, see
+ *
+ * Managing Your Amazon Chime Accounts
+ * in the account types, in the *Amazon Chime Administration Guide*.
+ *
+ * Previously suspended users who are unsuspended using this action are returned to
+ * `Registered`
+ * status. Users who are not previously suspended are ignored.
+ */
+export const batchUnsuspendUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUnsuspendUserRequest,
+  output: BatchUnsuspendUserResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Moves phone numbers into the
  * **Deletion queue**. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted.
@@ -2644,6 +2597,224 @@ export const createBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Creates a chat room for the specified Amazon Chime Enterprise account.
+ */
+export const createRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRoomRequest,
+  output: CreateRoomResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action.
+ *
+ * For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
+ *
+ * Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
+ */
+export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePhoneNumberRequest,
+  output: UpdatePhoneNumberResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Creates a user under the specified Amazon Chime account.
+ */
+export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserRequest,
+  output: CreateUserResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a
+ * chat room administrator or a general chat room member.
+ */
+export const batchCreateRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchCreateRoomMembershipRequest,
+    output: BatchCreateRoomMembershipResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
+ */
+export const createRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRoomMembershipRequest,
+    output: CreateRoomMembershipResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      NotFoundException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business
+ * Calling and Amazon Chime Voice Connector settings.
+ */
+export const getGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGlobalSettingsRequest,
+  output: GetGlobalSettingsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
+ * Lists the phone number orders for the administrator's Amazon Chime account.
+ */
+export const listPhoneNumberOrders = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPhoneNumberOrdersRequest,
+    output: ListPhoneNumberOrdersResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Searches for phone numbers that can be ordered. For US numbers, provide at least one of
+ * the following search filters: `AreaCode`, `City`,
+ * `State`, or `TollFreePrefix`. If you provide
+ * `City`, you must also provide `State`. Numbers outside the US only
+ * support the `PhoneNumberType` filter, which you must use.
+ */
+export const searchAvailablePhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchAvailablePhoneNumbersRequest,
+    output: SearchAvailablePhoneNumbersResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
+ */
+export const getPhoneNumberSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPhoneNumberSettingsRequest,
+    output: GetPhoneNumberSettingsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
+ */
+export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateGlobalSettingsRequest,
+    output: UpdateGlobalSettingsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Updates the phone number settings for the administrator's AWS account, such as the default
+ * outbound calling name. You can update the default outbound calling name once every seven
+ * days. Outbound calling names can take up to 72 hours to update.
+ */
+export const updatePhoneNumberSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePhoneNumberSettingsRequest,
+    output: UpdatePhoneNumberSettingsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
+ */
+export const getPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPhoneNumberRequest,
+  output: GetPhoneNumberResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
+/**
  * Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public
  * switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer.
  *
@@ -2669,39 +2840,80 @@ export const createMeetingDialOut = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a chat room for the specified Amazon Chime Enterprise account.
+ * Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type.
+ * For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
  */
-export const createRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRoomRequest,
-  output: CreateRoomResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ResourceLimitExceededException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
+export const createPhoneNumberOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePhoneNumberOrderRequest,
+    output: CreatePhoneNumberOrderResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      ForbiddenException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
 /**
- * Creates a user under the specified Amazon Chime account.
+ * Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
+export const getEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetEventsConfigurationRequest,
+    output: GetEventsConfigurationResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Creates an events configuration that allows a bot to receive outgoing events sent by Amazon
+ * Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information,
+ * see Bot.
+ */
+export const putEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutEventsConfigurationRequest,
+    output: PutEventsConfigurationResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      NotFoundException,
+      ResourceLimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      UnauthorizedClientException,
+    ],
+  }),
+);
+/**
+ * Lists supported phone number countries.
+ */
+export const listSupportedPhoneNumberCountries =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSupportedPhoneNumberCountriesRequest,
+    output: ListSupportedPhoneNumberCountriesResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      ForbiddenException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottledClientException,
+      UnauthorizedClientException,
+    ],
+  }));
 /**
  * Deletes the specified Amazon Chime account. You must suspend all users before deleting
  * `Team` account. You can use the BatchSuspendUser action
@@ -2732,215 +2944,3 @@ export const deleteAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnprocessableEntityException,
   ],
 }));
-/**
- * Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
- */
-export const getEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEventsConfigurationRequest,
-    output: GetEventsConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime
- * `Team` account. Only `Team` account types are currently
- * supported for this action.
- */
-export const inviteUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InviteUsersRequest,
-  output: InviteUsersResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Lists supported phone number countries.
- */
-export const listSupportedPhoneNumberCountries =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSupportedPhoneNumberCountriesRequest,
-    output: ListSupportedPhoneNumberCountriesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
-/**
- * Updates the settings for the specified Amazon Chime account. You can update settings for
- * remote control of shared screens, or for the dial-out option. For more information about
- * these settings, see Use
- * the Policies Page in the Amazon Chime Administration
- * Guide.
- */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsRequest,
-    output: UpdateAccountSettingsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Updates user details for a specified user ID. Currently, only `LicenseType` updates are supported for this action.
- */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserRequest,
-  output: UpdateUserResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Updates the settings for the specified user, such as phone number settings.
- */
-export const updateUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserSettingsRequest,
-  output: UpdateUserSettingsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a
- * chat room administrator or a general chat room member.
- */
-export const batchCreateRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchCreateRoomMembershipRequest,
-    output: BatchCreateRoomMembershipResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type.
- * For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
- */
-export const createPhoneNumberOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePhoneNumberOrderRequest,
-    output: CreatePhoneNumberOrderResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
- */
-export const createRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRoomMembershipRequest,
-    output: CreateRoomMembershipResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
-/**
- * Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
- */
-export const getPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPhoneNumberRequest,
-  output: GetPhoneNumberResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottledClientException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see
- * Logging Amazon Chime API Calls with AWS CloudTrail
- * in the *Amazon Chime Administration Guide*.
- *
- * To turn off existing retention settings, remove the number of days from the corresponding
- * **RetentionDays**
- * field in the
- * **RetentionSettings**
- * object. For more information about retention settings, see
- * Managing Chat Retention Policies
- * in the *Amazon Chime Administration Guide*.
- */
-export const putRetentionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRetentionSettingsRequest,
-    output: PutRetentionSettingsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);

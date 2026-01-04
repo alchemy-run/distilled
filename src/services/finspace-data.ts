@@ -1110,34 +1110,135 @@ export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String), reason: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {},
 ) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String), reason: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String), reason: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Request programmatic credentials to use with FinSpace SDK. For more information, see Step 2. Access credentials programmatically using IAM access key id and secret access key.
+ */
+export const getProgrammaticAccessCredentials =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetProgrammaticAccessCredentialsRequest,
+    output: GetProgrammaticAccessCredentialsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Get information about a Changeset.
+ */
+export const getChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChangesetRequest,
+  output: GetChangesetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about a Dataview.
+ */
+export const getDataView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataViewRequest,
+  output: GetDataViewResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the FinSpace Changesets for a Dataset.
+ */
+export const listChangesets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListChangesetsRequest,
+  output: ListChangesetsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all of the active Datasets that a user has access to.
+ */
+export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDatasetsRequest,
+  output: ListDatasetsResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all available Dataviews for a Dataset.
+ */
+export const listDataViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDataViewsRequest,
+  output: ListDataViewsResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Denies access to the FinSpace web application and API for the specified user.
+ */
+export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableUserRequest,
+  output: DisableUserResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes a user from a permission group.
  */
@@ -1155,22 +1256,6 @@ export const disassociateUserFromPermissionGroup =
     ],
   }));
 /**
- * Allows the specified user to access the FinSpace web application and API.
- */
-export const enableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableUserRequest,
-  output: EnableUserResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Returns information about a Dataset.
  */
 export const getDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1185,49 +1270,6 @@ export const getDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Retrieves details for a specific user.
- */
-export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUserRequest,
-  output: GetUserResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * A temporary Amazon S3 location, where you can copy your files from a source location to stage or use
- * as a scratch space in FinSpace notebook.
- */
-export const getWorkingLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWorkingLocationRequest,
-  output: GetWorkingLocationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all available permission groups in FinSpace.
- */
-export const listPermissionGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPermissionGroupsRequest,
-    output: ListPermissionGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
  */
@@ -1306,6 +1348,66 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Retrieves the details of a specific permission group.
+ */
+export const getPermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPermissionGroupRequest,
+  output: GetPermissionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all the permission groups that are associated with a specific user.
+ */
+export const listPermissionGroupsByUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPermissionGroupsByUserRequest,
+    output: ListPermissionGroupsByUserResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists details of all the users in a specific permission group.
+ */
+export const listUsersByPermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListUsersByPermissionGroupRequest,
+    output: ListUsersByPermissionGroupResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves details for a specific user.
+ */
+export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserRequest,
+  output: GetUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
  */
 export const associateUserToPermissionGroup =
@@ -1321,22 +1423,6 @@ export const associateUserToPermissionGroup =
       ValidationException,
     ],
   }));
-/**
- * Creates a new Changeset in a FinSpace Dataset.
- */
-export const createChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateChangesetRequest,
-  output: CreateChangesetResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Creates a group of permissions for various actions that a user can perform in FinSpace.
  */
@@ -1404,184 +1490,21 @@ export const deletePermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Denies access to the FinSpace web application and API for the specified user.
+ * Allows the specified user to access the FinSpace web application and API.
  */
-export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableUserRequest,
-  output: DisableUserResponse,
+export const enableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableUserRequest,
+  output: EnableUserResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    LimitExceededException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
-/**
- * Get information about a Changeset.
- */
-export const getChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetChangesetRequest,
-  output: GetChangesetResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about a Dataview.
- */
-export const getDataView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataViewRequest,
-  output: GetDataViewResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the credentials to access the external Dataview from an S3 location. To call this API:
- *
- * - You must retrieve the programmatic credentials.
- *
- * - You must be a member of a FinSpace user group, where the dataset that you want to access has `Read Dataset Data` permissions.
- */
-export const getExternalDataViewAccessDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetExternalDataViewAccessDetailsRequest,
-    output: GetExternalDataViewAccessDetailsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves the details of a specific permission group.
- */
-export const getPermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPermissionGroupRequest,
-  output: GetPermissionGroupResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Request programmatic credentials to use with FinSpace SDK. For more information, see Step 2. Access credentials programmatically using IAM access key id and secret access key.
- */
-export const getProgrammaticAccessCredentials =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetProgrammaticAccessCredentialsRequest,
-    output: GetProgrammaticAccessCredentialsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the FinSpace Changesets for a Dataset.
- */
-export const listChangesets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListChangesetsRequest,
-  output: ListChangesetsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all of the active Datasets that a user has access to.
- */
-export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDatasetsRequest,
-  output: ListDatasetsResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all available Dataviews for a Dataset.
- */
-export const listDataViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDataViewsRequest,
-  output: ListDataViewsResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all the permission groups that are associated with a specific user.
- */
-export const listPermissionGroupsByUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPermissionGroupsByUserRequest,
-    output: ListPermissionGroupsByUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists all available users in FinSpace.
- */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListUsersRequest,
-  output: ListUsersResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists details of all the users in a specific permission group.
- */
-export const listUsersByPermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListUsersByPermissionGroupRequest,
-    output: ListUsersByPermissionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Creates a Dataview for a Dataset.
  */
@@ -1603,6 +1526,83 @@ export const createDataView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
   output: CreateDatasetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all available users in FinSpace.
+ */
+export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUsersRequest,
+  output: ListUsersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * A temporary Amazon S3 location, where you can copy your files from a source location to stage or use
+ * as a scratch space in FinSpace notebook.
+ */
+export const getWorkingLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkingLocationRequest,
+  output: GetWorkingLocationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all available permission groups in FinSpace.
+ */
+export const listPermissionGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPermissionGroupsRequest,
+    output: ListPermissionGroupsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns the credentials to access the external Dataview from an S3 location. To call this API:
+ *
+ * - You must retrieve the programmatic credentials.
+ *
+ * - You must be a member of a FinSpace user group, where the dataset that you want to access has `Read Dataset Data` permissions.
+ */
+export const getExternalDataViewAccessDetails =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetExternalDataViewAccessDetailsRequest,
+    output: GetExternalDataViewAccessDetailsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a new Changeset in a FinSpace Dataset.
+ */
+export const createChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChangesetRequest,
+  output: CreateChangesetResponse,
   errors: [
     AccessDeniedException,
     ConflictException,

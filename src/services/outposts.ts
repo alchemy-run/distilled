@@ -1320,30 +1320,46 @@ export class ListAssetsOutput extends S.Class<ListAssetsOutput>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  {
+    Message: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Lists the Outposts for your Amazon Web Services account.
+ *
+ * Use filters to return specific results. If you specify multiple filters, the results include only the resources that match
+ * all of the specified filters. For a filter where you can specify multiple values, the results include
+ * items that match any of the values that you specify for the filter.
+ */
+export const listOutposts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOutpostsInput,
+  output: ListOutpostsOutput,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+}));
 /**
  * Removes tags from the specified resource.
  */
@@ -1351,62 +1367,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalServerException, NotFoundException, ValidationException],
-}));
-/**
- * Cancels the capacity task.
- */
-export const cancelCapacityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelCapacityTaskInput,
-  output: CancelCapacityTaskOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Cancels the specified order for an Outpost.
- */
-export const cancelOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelOrderInput,
-  output: CancelOrderOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified Outpost.
- */
-export const deleteOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteOutpostInput,
-  output: DeleteOutpostOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified site.
- */
-export const deleteSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSiteInput,
-  output: DeleteSiteOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
 }));
 /**
  * Gets the instance types that an Outpost can support in `InstanceTypeCapacity`.
@@ -1455,31 +1415,6 @@ export const listCatalogItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the Outposts for your Amazon Web Services account.
- *
- * Use filters to return specific results. If you specify multiple filters, the results include only the resources that match
- * all of the specified filters. For a filter where you can specify multiple values, the results include
- * items that match any of the values that you specify for the filter.
- */
-export const listOutposts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListOutpostsInput,
-  output: ListOutpostsOutput,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
-}));
-/**
- * Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific
- * results.
- *
- * Use filters to return specific results. If you specify multiple filters, the results include only the resources that match
- * all of the specified filters. For a filter where you can specify multiple values, the results include
- * items that match any of the values that you specify for the filter.
- */
-export const listSites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSitesInput,
-  output: ListSitesOutput,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
-}));
-/**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1508,125 +1443,16 @@ export const startConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts the decommission process to return the Outposts racks or servers.
+ * Cancels the capacity task.
  */
-export const startOutpostDecommission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartOutpostDecommissionInput,
-    output: StartOutpostDecommissionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Adds tags to the specified resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [InternalServerException, NotFoundException, ValidationException],
-}));
-/**
- * Updates an Outpost.
- */
-export const updateOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateOutpostInput,
-  output: UpdateOutpostOutput,
+export const cancelCapacityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelCapacityTaskInput,
+  output: CancelCapacityTaskOutput,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
     NotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the specified site.
- */
-export const updateSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSiteInput,
-  output: UpdateSiteOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the address of the specified site.
- *
- * You can't update a site address if there is an order in progress. You must wait for the
- * order to complete or cancel the order.
- *
- * You can update the operating address before you place an order at the site, or after all
- * Outposts that belong to the site have been deactivated.
- */
-export const updateSiteAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSiteAddressInput,
-  output: UpdateSiteAddressOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Update the physical and logistical details for a rack at a site. For more information
- * about hardware requirements for racks, see Network
- * readiness checklist in the Amazon Web Services Outposts User Guide.
- *
- * To update a rack at a site with an order of `IN_PROGRESS`, you must wait for
- * the order to complete or cancel the order.
- */
-export const updateSiteRackPhysicalProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSiteRackPhysicalPropertiesInput,
-    output: UpdateSiteRackPhysicalPropertiesOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates an Outpost.
- *
- * You can specify either an Availability one or an AZ ID.
- */
-export const createOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateOutpostInput,
-  output: CreateOutpostOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a site for an Outpost.
- */
-export const createSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSiteInput,
-  output: CreateSiteOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
     ValidationException,
   ],
 }));
@@ -1776,16 +1602,162 @@ export const startCapacityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates an order for an Outpost.
+ * Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific
+ * results.
+ *
+ * Use filters to return specific results. If you specify multiple filters, the results include only the resources that match
+ * all of the specified filters. For a filter where you can specify multiple values, the results include
+ * items that match any of the values that you specify for the filter.
  */
-export const createOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateOrderInput,
-  output: CreateOrderOutput,
+export const listSites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSitesInput,
+  output: ListSitesOutput,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+}));
+/**
+ * Adds tags to the specified resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [InternalServerException, NotFoundException, ValidationException],
+}));
+/**
+ * Starts the decommission process to return the Outposts racks or servers.
+ */
+export const startOutpostDecommission = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartOutpostDecommissionInput,
+    output: StartOutpostDecommissionOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      NotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates an Outpost.
+ */
+export const updateOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOutpostInput,
+  output: UpdateOutpostOutput,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
     NotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified site.
+ */
+export const updateSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSiteInput,
+  output: UpdateSiteOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the address of the specified site.
+ *
+ * You can't update a site address if there is an order in progress. You must wait for the
+ * order to complete or cancel the order.
+ *
+ * You can update the operating address before you place an order at the site, or after all
+ * Outposts that belong to the site have been deactivated.
+ */
+export const updateSiteAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSiteAddressInput,
+  output: UpdateSiteAddressOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update the physical and logistical details for a rack at a site. For more information
+ * about hardware requirements for racks, see Network
+ * readiness checklist in the Amazon Web Services Outposts User Guide.
+ *
+ * To update a rack at a site with an order of `IN_PROGRESS`, you must wait for
+ * the order to complete or cancel the order.
+ */
+export const updateSiteRackPhysicalProperties =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateSiteRackPhysicalPropertiesInput,
+    output: UpdateSiteRackPhysicalPropertiesOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      NotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Cancels the specified order for an Outpost.
+ */
+export const cancelOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelOrderInput,
+  output: CancelOrderOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified Outpost.
+ */
+export const deleteOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOutpostInput,
+  output: DeleteOutpostOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified site.
+ */
+export const deleteSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSiteInput,
+  output: DeleteSiteOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a site for an Outpost.
+ */
+export const createSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSiteInput,
+  output: CreateSiteOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
     ServiceQuotaExceededException,
     ValidationException,
   ],
@@ -1813,6 +1785,38 @@ export const listOrders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalServerException,
     NotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an order for an Outpost.
+ */
+export const createOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOrderInput,
+  output: CreateOrderOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an Outpost.
+ *
+ * You can specify either an Availability one or an AZ ID.
+ */
+export const createOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOutpostInput,
+  output: CreateOutpostOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
 }));

@@ -614,10 +614,6 @@ export class RoomSummary extends S.Class<RoomSummary>("RoomSummary")({
   ),
 }) {}
 export const RoomList = S.Array(RoomSummary);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class CreateChatTokenResponse extends S.Class<CreateChatTokenResponse>(
   "CreateChatTokenResponse",
 )({
@@ -684,71 +680,60 @@ export class CreateLoggingConfigurationResponse extends S.Class<CreateLoggingCon
   state: S.optional(S.String),
   tags: S.optional(Tags),
 }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class PendingVerification extends S.TaggedError<PendingVerification>()(
-  "PendingVerification",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class PendingVerification extends S.TaggedError<PendingVerification>()(
+  "PendingVerification",
+  { message: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+    limit: S.Number,
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+    limit: S.Number,
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
-/**
- * Deletes the specified room.
- */
-export const deleteRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRoomRequest,
-  output: DeleteRoomResponse,
-  errors: [
-    AccessDeniedException,
-    PendingVerification,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Disconnects all connections using a specified user ID from a room. This replicates the
- *
- * DisconnectUser WebSocket operation in the Amazon IVS Chat Messaging API.
- */
-export const disconnectUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisconnectUserRequest,
-  output: DisconnectUserResponse,
-  errors: [
-    AccessDeniedException,
-    PendingVerification,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Gets the specified logging configuration.
  */
@@ -764,37 +749,25 @@ export const getLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets the specified room.
+ * Gets summary information about all your logging configurations in the AWS region where
+ * the API request is processed.
  */
-export const getRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRoomRequest,
-  output: GetRoomResponse,
+export const listLoggingConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListLoggingConfigurationsRequest,
+    output: ListLoggingConfigurationsResponse,
+    errors: [AccessDeniedException, ValidationException],
+  }),
+);
+/**
+ * Gets summary information about all your rooms in the AWS region where the API request is
+ * processed. Results are sorted in descending order of `updateTime`.
+ */
+export const listRooms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRoomsRequest,
+  output: ListRoomsResponse,
   errors: [
     AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about AWS tags for the specified ARN.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds or updates tags for the AWS resource with the specified ARN.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
     ResourceNotFoundException,
     ValidationException,
   ],
@@ -821,6 +794,19 @@ export const updateLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
 export const updateRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoomRequest,
   output: UpdateRoomResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified room.
+ */
+export const deleteRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRoomRequest,
+  output: DeleteRoomResponse,
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -872,42 +858,49 @@ export const deleteLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Sends an event to a specific room which directs clients to delete a specific message;
- * that is, unrender it from view and delete it from the client’s chat history. This event’s
- * `EventName` is `aws:DELETE_MESSAGE`. This replicates the
- * DeleteMessage WebSocket operation in the Amazon IVS Chat Messaging API.
+ * Gets the specified room.
  */
-export const deleteMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMessageRequest,
-  output: DeleteMessageResponse,
+export const getRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRoomRequest,
+  output: GetRoomResponse,
   errors: [
     AccessDeniedException,
-    PendingVerification,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Gets summary information about all your logging configurations in the AWS region where
- * the API request is processed.
+ * Adds or updates tags for the AWS resource with the specified ARN.
  */
-export const listLoggingConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLoggingConfigurationsRequest,
-    output: ListLoggingConfigurationsResponse,
-    errors: [AccessDeniedException, ValidationException],
-  }),
-);
-/**
- * Gets summary information about all your rooms in the AWS region where the API request is
- * processed. Results are sorted in descending order of `updateTime`.
- */
-export const listRooms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRoomsRequest,
-  output: ListRoomsResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
-    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from the resource with the specified ARN.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about AWS tags for the specified ARN.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
     ResourceNotFoundException,
     ValidationException,
   ],
@@ -929,14 +922,50 @@ export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes tags from the resource with the specified ARN.
+ * Creates a room that allows clients to connect and pass messages.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const createRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRoomRequest,
+  output: CreateRoomResponse,
   errors: [
-    InternalServerException,
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Disconnects all connections using a specified user ID from a room. This replicates the
+ *
+ * DisconnectUser WebSocket operation in the Amazon IVS Chat Messaging API.
+ */
+export const disconnectUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisconnectUserRequest,
+  output: DisconnectUserResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Sends an event to a specific room which directs clients to delete a specific message;
+ * that is, unrender it from view and delete it from the client’s chat history. This event’s
+ * `EventName` is `aws:DELETE_MESSAGE`. This replicates the
+ * DeleteMessage WebSocket operation in the Amazon IVS Chat Messaging API.
+ */
+export const deleteMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMessageRequest,
+  output: DeleteMessageResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -958,18 +987,3 @@ export const createLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates a room that allows clients to connect and pass messages.
- */
-export const createRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRoomRequest,
-  output: CreateRoomResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    PendingVerification,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));

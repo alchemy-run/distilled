@@ -410,6 +410,41 @@ export class UpdateWatchlistRequest extends S.Class<UpdateWatchlistRequest>(
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
+export class DescribeDomainRequest extends S.Class<DescribeDomainRequest>(
+  "DescribeDomainRequest",
+)(
+  { DomainId: S.String },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class ServerSideEncryptionConfiguration extends S.Class<ServerSideEncryptionConfiguration>(
+  "ServerSideEncryptionConfiguration",
+)({ KmsKeyId: S.String }) {}
+export class UpdateDomainRequest extends S.Class<UpdateDomainRequest>(
+  "UpdateDomainRequest",
+)(
+  {
+    DomainId: S.String,
+    Name: S.String,
+    Description: S.optional(S.String),
+    ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration,
+  },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class DeleteDomainRequest extends S.Class<DeleteDomainRequest>(
+  "DeleteDomainRequest",
+)(
+  { DomainId: S.String },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class DeleteDomainResponse extends S.Class<DeleteDomainResponse>(
+  "DeleteDomainResponse",
+)({}) {}
+export class ListDomainsRequest extends S.Class<ListDomainsRequest>(
+  "ListDomainsRequest",
+)(
+  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
 export const RegistrationConfigWatchlistIds = S.Array(S.String);
 export class RegistrationConfig extends S.Class<RegistrationConfig>(
   "RegistrationConfig",
@@ -496,6 +531,47 @@ export class TagResourceResponse extends S.Class<TagResourceResponse>(
 export class UpdateWatchlistResponse extends S.Class<UpdateWatchlistResponse>(
   "UpdateWatchlistResponse",
 )({ Watchlist: S.optional(Watchlist) }) {}
+export class CreateDomainRequest extends S.Class<CreateDomainRequest>(
+  "CreateDomainRequest",
+)(
+  {
+    Name: S.String,
+    Description: S.optional(S.String),
+    ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration,
+    ClientToken: S.optional(S.String),
+    Tags: S.optional(TagList),
+  },
+  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+) {}
+export class ServerSideEncryptionUpdateDetails extends S.Class<ServerSideEncryptionUpdateDetails>(
+  "ServerSideEncryptionUpdateDetails",
+)({
+  OldKmsKeyId: S.optional(S.String),
+  UpdateStatus: S.optional(S.String),
+  Message: S.optional(S.String),
+}) {}
+export class WatchlistDetails extends S.Class<WatchlistDetails>(
+  "WatchlistDetails",
+)({ DefaultWatchlistId: S.String }) {}
+export class Domain extends S.Class<Domain>("Domain")({
+  DomainId: S.optional(S.String),
+  Arn: S.optional(S.String),
+  Name: S.optional(S.String),
+  Description: S.optional(S.String),
+  DomainStatus: S.optional(S.String),
+  ServerSideEncryptionConfiguration: S.optional(
+    ServerSideEncryptionConfiguration,
+  ),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  ServerSideEncryptionUpdateDetails: S.optional(
+    ServerSideEncryptionUpdateDetails,
+  ),
+  WatchlistDetails: S.optional(WatchlistDetails),
+}) {}
+export class UpdateDomainResponse extends S.Class<UpdateDomainResponse>(
+  "UpdateDomainResponse",
+)({ Domain: S.optional(Domain) }) {}
 export const FraudDetectionReasons = S.Array(S.String);
 export class EnrollmentJobFraudDetectionConfig extends S.Class<EnrollmentJobFraudDetectionConfig>(
   "EnrollmentJobFraudDetectionConfig",
@@ -594,6 +670,23 @@ export class WatchlistSummary extends S.Class<WatchlistSummary>(
   UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
 }) {}
 export const WatchlistSummaries = S.Array(WatchlistSummary);
+export class DomainSummary extends S.Class<DomainSummary>("DomainSummary")({
+  DomainId: S.optional(S.String),
+  Arn: S.optional(S.String),
+  Name: S.optional(S.String),
+  Description: S.optional(S.String),
+  DomainStatus: S.optional(S.String),
+  ServerSideEncryptionConfiguration: S.optional(
+    ServerSideEncryptionConfiguration,
+  ),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  ServerSideEncryptionUpdateDetails: S.optional(
+    ServerSideEncryptionUpdateDetails,
+  ),
+  WatchlistDetails: S.optional(WatchlistDetails),
+}) {}
+export const DomainSummaries = S.Array(DomainSummary);
 export class AssociateFraudsterResponse extends S.Class<AssociateFraudsterResponse>(
   "AssociateFraudsterResponse",
 )({ Fraudster: S.optional(Fraudster) }) {}
@@ -669,6 +762,15 @@ export class StartSpeakerEnrollmentJobRequest extends S.Class<StartSpeakerEnroll
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
+export class CreateDomainResponse extends S.Class<CreateDomainResponse>(
+  "CreateDomainResponse",
+)({ Domain: S.optional(Domain) }) {}
+export class ListDomainsResponse extends S.Class<ListDomainsResponse>(
+  "ListDomainsResponse",
+)({
+  DomainSummaries: S.optional(DomainSummaries),
+  NextToken: S.optional(S.String),
+}) {}
 export class AuthenticationConfiguration extends S.Class<AuthenticationConfiguration>(
   "AuthenticationConfiguration",
 )({ AcceptanceThreshold: S.Number }) {}
@@ -703,6 +805,9 @@ export class DescribeFraudsterRegistrationJobResponse extends S.Class<DescribeFr
 export class StartSpeakerEnrollmentJobResponse extends S.Class<StartSpeakerEnrollmentJobResponse>(
   "StartSpeakerEnrollmentJobResponse",
 )({ Job: S.optional(SpeakerEnrollmentJob) }) {}
+export class DescribeDomainResponse extends S.Class<DescribeDomainResponse>(
+  "DescribeDomainResponse",
+)({ Domain: S.optional(Domain) }) {}
 export class FraudRiskDetails extends S.Class<FraudRiskDetails>(
   "FraudRiskDetails",
 )({
@@ -738,153 +843,98 @@ export class EvaluateSessionResponse extends S.Class<EvaluateSessionResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String), ConflictType: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Deletes the specified watchlist from Voice ID. This API throws an exception when
- * there are fraudsters in the watchlist that you are trying to delete. You must delete the
- * fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
+ * Lists all the domains in the Amazon Web Services account.
  */
-export const deleteWatchlist = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWatchlistRequest,
-  output: DeleteWatchlistResponse,
+export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDomainsRequest,
+  output: ListDomainsResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Describes the specified fraudster.
+ * Starts a new batch fraudster registration job using provided details.
  */
-export const describeFraudster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFraudsterRequest,
-  output: DescribeFraudsterResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Describes the specified watchlist.
- */
-export const describeWatchlist = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeWatchlistRequest,
-  output: DescribeWatchlistResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Disassociates the fraudsters from the watchlist specified. Voice ID always expects a
- * fraudster to be a part of at least one watchlist. If
- * you try to disassociate a fraudster from its only watchlist, a `ValidationException` is thrown.
- */
-export const disassociateFraudster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateFraudsterRequest,
-    output: DisassociateFraudsterResponse,
+export const startFraudsterRegistrationJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartFraudsterRegistrationJobRequest,
+    output: StartFraudsterRegistrationJobResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
       InternalServerException,
       ResourceNotFoundException,
+      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],
-  }),
-);
+  }));
 /**
- * Lists all tags associated with a specified Voice ID resource.
+ * Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters,
+ * customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Tags a Voice ID resource with the provided list of tags.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainRequest,
+  output: CreateDomainResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Removes specified tags from a specified Amazon Connect Voice ID resource.
+ * Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or
+ * not they already exist in Voice ID. If they don't yet exist, a new speaker is created
+ * in an opted out state. If they already exist, their existing status is overridden and
+ * they are opted out. Enrollment and evaluation authentication requests are rejected for
+ * opted out speakers, and opted out speakers have no voice embeddings stored in
+ * Voice ID.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const optOutSpeaker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: OptOutSpeakerRequest,
+  output: OptOutSpeakerResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
- */
-export const updateWatchlist = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWatchlistRequest,
-  output: UpdateWatchlistResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -917,36 +967,6 @@ export const createWatchlist = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
- */
-export const deleteFraudster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFraudsterRequest,
-  output: DeleteFraudsterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified speaker from Voice ID.
- */
-export const deleteSpeaker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSpeakerRequest,
-  output: DeleteSpeakerResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1058,43 +1078,190 @@ export const listWatchlists = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or
- * not they already exist in Voice ID. If they don't yet exist, a new speaker is created
- * in an opted out state. If they already exist, their existing status is overridden and
- * they are opted out. Enrollment and evaluation authentication requests are rejected for
- * opted out speakers, and opted out speakers have no voice embeddings stored in
- * Voice ID.
+ * Disassociates the fraudsters from the watchlist specified. Voice ID always expects a
+ * fraudster to be a part of at least one watchlist. If
+ * you try to disassociate a fraudster from its only watchlist, a `ValidationException` is thrown.
  */
-export const optOutSpeaker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: OptOutSpeakerRequest,
-  output: OptOutSpeakerResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a new batch fraudster registration job using provided details.
- */
-export const startFraudsterRegistrationJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartFraudsterRegistrationJobRequest,
-    output: StartFraudsterRegistrationJobResponse,
+export const disassociateFraudster = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateFraudsterRequest,
+    output: DisassociateFraudsterResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
       InternalServerException,
       ResourceNotFoundException,
-      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],
-  }));
+  }),
+);
+/**
+ * Tags a Voice ID resource with the provided list of tags.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
+ */
+export const updateWatchlist = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWatchlistRequest,
+  output: UpdateWatchlistResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified domain. This API has clobber behavior, and clears and replaces
+ * all attributes. If an optional field, such as 'Description' is not provided, it is
+ * removed from the domain.
+ */
+export const updateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainRequest,
+  output: UpdateDomainResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified speaker from Voice ID.
+ */
+export const deleteSpeaker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSpeakerRequest,
+  output: DeleteSpeakerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified watchlist from Voice ID. This API throws an exception when
+ * there are fraudsters in the watchlist that you are trying to delete. You must delete the
+ * fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
+ */
+export const deleteWatchlist = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWatchlistRequest,
+  output: DeleteWatchlistResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes specified tags from a specified Amazon Connect Voice ID resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified domain from Voice ID.
+ */
+export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainRequest,
+  output: DeleteDomainResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Describes the specified watchlist.
+ */
+export const describeWatchlist = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWatchlistRequest,
+  output: DescribeWatchlistResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all tags associated with a specified Voice ID resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
+ */
+export const deleteFraudster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFraudsterRequest,
+  output: DeleteFraudsterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Describes the specified fraudster.
+ */
+export const describeFraudster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFraudsterRequest,
+  output: DescribeFraudsterResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the specified fraudster registration job.
  */
@@ -1110,6 +1277,36 @@ export const describeFraudsterRegistrationJob =
       ValidationException,
     ],
   }));
+/**
+ * Describes the specified domain.
+ */
+export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainRequest,
+  output: DescribeDomainResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Evaluates a specified session based on audio data accumulated during a streaming
+ * Amazon Connect Voice ID call.
+ */
+export const evaluateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EvaluateSessionRequest,
+  output: EvaluateSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a new batch speaker enrollment job using specified details.
  */
@@ -1128,19 +1325,3 @@ export const startSpeakerEnrollmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Evaluates a specified session based on audio data accumulated during a streaming
- * Amazon Connect Voice ID call.
- */
-export const evaluateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EvaluateSessionRequest,
-  output: EvaluateSessionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));

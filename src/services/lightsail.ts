@@ -4666,97 +4666,117 @@ export class GetExportSnapshotRecordsResult extends S.Class<GetExportSnapshotRec
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class AccountSetupInProgressException extends S.TaggedError<AccountSetupInProgressException>()(
-  "AccountSetupInProgressException",
-  {},
+  {
+    code: S.optional(S.String),
+    docs: S.optional(S.String),
+    message: S.optional(S.String),
+    tip: S.optional(S.String),
+  },
 ) {}
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
+  {
+    code: S.optional(S.String),
+    docs: S.optional(S.String),
+    message: S.optional(S.String),
+    tip: S.optional(S.String),
+  },
 ) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class OperationFailureException extends S.TaggedError<OperationFailureException>()(
-  "OperationFailureException",
-  {},
+export class AccountSetupInProgressException extends S.TaggedError<AccountSetupInProgressException>()(
+  "AccountSetupInProgressException",
+  {
+    code: S.optional(S.String),
+    docs: S.optional(S.String),
+    message: S.optional(S.String),
+    tip: S.optional(S.String),
+  },
 ) {}
 export class RegionSetupInProgressException extends S.TaggedError<RegionSetupInProgressException>()(
   "RegionSetupInProgressException",
-  {},
+  {
+    code: S.optional(S.String),
+    docs: S.optional(S.String),
+    message: S.optional(S.String),
+    tip: S.optional(S.String),
+  },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  {
+    code: S.optional(S.String),
+    docs: S.optional(S.String),
+    message: S.optional(S.String),
+    tip: S.optional(S.String),
+  },
 ) {}
 export class ServiceException extends S.TaggedError<ServiceException>()(
   "ServiceException",
-  {},
+  {
+    code: S.optional(S.String),
+    docs: S.optional(S.String),
+    message: S.optional(S.String),
+    tip: S.optional(S.String),
+  },
+) {}
+export class OperationFailureException extends S.TaggedError<OperationFailureException>()(
+  "OperationFailureException",
+  {
+    code: S.optional(S.String),
+    docs: S.optional(S.String),
+    message: S.optional(S.String),
+    tip: S.optional(S.String),
+  },
 ) {}
 export class UnauthenticatedException extends S.TaggedError<UnauthenticatedException>()(
   "UnauthenticatedException",
-  {},
+  {
+    code: S.optional(S.String),
+    docs: S.optional(S.String),
+    message: S.optional(S.String),
+    tip: S.optional(S.String),
+  },
 ) {}
 
 //# Operations
 /**
- * Attaches one or more Lightsail instances to a load balancer.
- *
- * After some time, the instances are attached to the load balancer and the health check
- * status is available.
- *
- * The `attach instances to load balancer` operation supports tag-based access
- * control via resource tags applied to the resource identified by load balancer
- * name. For more information, see the Lightsail Developer Guide.
+ * Returns information about Amazon Lightsail containers, such as the current version of the
+ * Lightsail Control (lightsailctl) plugin.
  */
-export const attachInstancesToLoadBalancer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachInstancesToLoadBalancerRequest,
-    output: AttachInstancesToLoadBalancerResult,
+export const getContainerAPIMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetContainerAPIMetadataRequest,
+    output: GetContainerAPIMetadataResult,
     errors: [
       AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
       RegionSetupInProgressException,
       ServiceException,
       UnauthenticatedException,
     ],
-  }));
+  }),
+);
 /**
- * Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just
- * an updated, more secure version of Secure Socket Layer (SSL).
- *
- * Once you create and validate your certificate, you can attach it to your load balancer.
- * You can also use this API to rotate the certificates on your account. Use the
- * `AttachLoadBalancerTlsCertificate` action with the non-attached certificate, and
- * it will replace the existing one and become the attached certificate.
- *
- * The `AttachLoadBalancerTlsCertificate` operation supports tag-based access
- * control via resource tags applied to the resource identified by load balancer
- * name. For more information, see the Amazon Lightsail Developer Guide.
+ * Returns information about one or more of your Amazon Lightsail container services.
  */
-export const attachLoadBalancerTlsCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachLoadBalancerTlsCertificateRequest,
-    output: AttachLoadBalancerTlsCertificateResult,
+export const getContainerServices = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetContainerServicesRequest,
+    output: ContainerServicesListResult,
     errors: [
       AccessDeniedException,
-      AccountSetupInProgressException,
       InvalidInputException,
       NotFoundException,
-      OperationFailureException,
       RegionSetupInProgressException,
       ServiceException,
       UnauthenticatedException,
     ],
-  }));
+  }),
+);
 /**
- * Attaches a static IP address to a specific Amazon Lightsail instance.
+ * Returns information about a specific domain recordset.
  */
-export const attachStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AttachStaticIpRequest,
-  output: AttachStaticIpResult,
+export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainRequest,
+  output: GetDomainResult,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4769,22 +4789,12 @@ export const attachStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an
- * automatic snapshot of an instance or disk as a manual snapshot. This operation can also be
- * used to copy a manual or automatic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail.
- *
- * When copying a *manual snapshot*, be sure to define the source
- * region, `source snapshot name`, and `target snapshot name`
- * parameters.
- *
- * When copying an *automatic snapshot*, be sure to define the
- * `source region`, `source resource name`, target snapshot
- * name, and either the `restore date` or the use latest restorable
- * auto snapshot parameters.
+ * Returns information about a specific Amazon Lightsail instance, which is a virtual private
+ * server.
  */
-export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CopySnapshotRequest,
-  output: CopySnapshotResult,
+export const getInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceRequest,
+  output: GetInstanceResult,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4796,6 +4806,816 @@ export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthenticatedException,
   ],
 }));
+/**
+ * Returns information about the TLS certificates that are associated with the specified
+ * Lightsail load balancer.
+ *
+ * TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+ *
+ * You can have a maximum of 2 certificates associated with a Lightsail load balancer. One
+ * is active and the other is inactive.
+ */
+export const getLoadBalancerTlsCertificates =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetLoadBalancerTlsCertificatesRequest,
+    output: GetLoadBalancerTlsCertificatesResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Returns the available automatic snapshots for an instance or disk. For more information,
+ * see the Amazon Lightsail Developer Guide.
+ */
+export const getAutoSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAutoSnapshotsRequest,
+  output: GetAutoSnapshotsResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the CloudFormation stack record created as a result of the create cloud
+ * formation stack operation.
+ *
+ * An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported Lightsail
+ * snapshot.
+ */
+export const getCloudFormationStackRecords =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetCloudFormationStackRecordsRequest,
+    output: GetCloudFormationStackRecordsResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Returns information about a specific block storage disk.
+ */
+export const getDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDiskRequest,
+  output: GetDiskResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns information about one or more of your Amazon Lightsail content delivery network
+ * (CDN) distributions.
+ */
+export const getDistributions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDistributionsRequest,
+  output: GetDistributionsResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns temporary SSH keys you can use to connect to a specific virtual private server, or
+ * *instance*.
+ *
+ * The `get instance access details` operation supports tag-based access control
+ * via resource tags applied to the resource identified by `instance name`. For more
+ * information, see the Amazon Lightsail Developer Guide.
+ */
+export const getInstanceAccessDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetInstanceAccessDetailsRequest,
+    output: GetInstanceAccessDetailsResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Returns information about the specified Lightsail load balancer.
+ */
+export const getLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLoadBalancerRequest,
+  output: GetLoadBalancerResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns a list of all valid regions for Amazon Lightsail. Use the include
+ * availability zones parameter to also return the Availability Zones in a
+ * region.
+ */
+export const getRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRegionsRequest,
+  output: GetRegionsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns information about a specific database in Amazon Lightsail.
+ */
+export const getRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetRelationalDatabaseRequest,
+    output: GetRelationalDatabaseResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified block storage disk. The disk must be in the `available`
+ * state (not attached to a Lightsail instance).
+ *
+ * The disk may remain in the `deleting` state for several minutes.
+ *
+ * The `delete disk` operation supports tag-based access control via resource tags
+ * applied to the resource identified by `disk name`. For more information, see the
+ * Amazon Lightsail Developer Guide.
+ */
+export const deleteDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDiskRequest,
+  output: DeleteDiskResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the list of available instance images, or *blueprints*. You can
+ * use a blueprint to create a new instance already running a specific operating system, as well
+ * as a preinstalled app or development stack. The software each instance is running depends on
+ * the blueprint image you choose.
+ *
+ * Use active blueprints when creating new instances. Inactive blueprints are listed to
+ * support customers with existing instances and are not necessarily available to create new
+ * instances. Blueprints are marked inactive when they become outdated due to operating system
+ * updates or new application releases.
+ */
+export const getBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBlueprintsRequest,
+  output: GetBlueprintsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the bundles that you can apply to an Amazon Lightsail instance when you create
+ * it.
+ *
+ * A bundle describes the specifications of an instance, such as the monthly cost, amount of
+ * memory, the number of vCPUs, amount of storage space, and monthly network data transfer
+ * quota.
+ *
+ * Bundles are referred to as *instance plans* in the Lightsail
+ * console.
+ */
+export const getBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBundlesRequest,
+  output: GetBundlesResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns information about the configured contact methods. Specify a protocol in your
+ * request to return information about a specific contact method.
+ *
+ * A contact method is used to send you notifications about your Amazon Lightsail resources.
+ * You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services
+ * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
+ * see Notifications in Amazon Lightsail.
+ */
+export const getContactMethods = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContactMethodsRequest,
+  output: GetContactMethodsResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns information about a specific block storage disk snapshot.
+ */
+export const getDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDiskSnapshotRequest,
+  output: GetDiskSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses
+ * allowed to connect to the instance through the ports, and the protocol.
+ */
+export const getInstancePortStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetInstancePortStatesRequest,
+    output: GetInstancePortStatesResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Returns information about a specific instance snapshot.
+ */
+export const getInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceSnapshotRequest,
+  output: GetInstanceSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the state of a specific instance. Works on one instance at a time.
+ */
+export const getInstanceState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceStateRequest,
+  output: GetInstanceStateResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes
+ * the major engine version of a database.
+ *
+ * You can use a blueprint ID to create a new database that runs a specific database
+ * engine.
+ */
+export const getRelationalDatabaseBlueprints =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRelationalDatabaseBlueprintsRequest,
+    output: GetRelationalDatabaseBlueprintsResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Returns the list of bundles that are available in Amazon Lightsail. A bundle describes the
+ * performance specifications for a database.
+ *
+ * You can use a bundle ID to create a new database with explicit performance
+ * specifications.
+ */
+export const getRelationalDatabaseBundles =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRelationalDatabaseBundlesRequest,
+    output: GetRelationalDatabaseBundlesResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Returns a list of events for a specific database in Amazon Lightsail.
+ */
+export const getRelationalDatabaseEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetRelationalDatabaseEventsRequest,
+    output: GetRelationalDatabaseEventsResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Returns a list of log events for a database in Amazon Lightsail.
+ */
+export const getRelationalDatabaseLogEvents =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRelationalDatabaseLogEventsRequest,
+    output: GetRelationalDatabaseLogEventsResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Returns information about a specific database snapshot in Amazon Lightsail.
+ */
+export const getRelationalDatabaseSnapshot =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRelationalDatabaseSnapshotRequest,
+    output: GetRelationalDatabaseSnapshotResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Returns information about an Amazon Lightsail static IP.
+ */
+export const getStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStaticIpRequest,
+  output: GetStaticIpResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Peers the Lightsail VPC with the user's default VPC.
+ */
+export const peerVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PeerVpcRequest,
+  output: PeerVpcResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Allows the update of one or more parameters of a database in Amazon Lightsail.
+ *
+ * Parameter updates don't cause outages; therefore, their application is not subject to the
+ * preferred maintenance window. However, there are two ways in which parameter updates are
+ * applied: `dynamic` or `pending-reboot`. Parameters marked with a
+ * `dynamic` apply type are applied immediately. Parameters marked with a
+ * `pending-reboot` apply type are applied only after the database is rebooted using
+ * the `reboot relational database` operation.
+ *
+ * The `update relational database parameters` operation supports tag-based access
+ * control via resource tags applied to the resource identified by relationalDatabaseName. For
+ * more information, see the Amazon Lightsail Developer Guide.
+ */
+export const updateRelationalDatabaseParameters =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateRelationalDatabaseParametersRequest,
+    output: UpdateRelationalDatabaseParametersResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Deletes your Amazon Lightsail content delivery network (CDN) distribution.
+ */
+export const deleteDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDistributionRequest,
+  output: DeleteDistributionResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Detaches an SSL/TLS certificate from your Amazon Lightsail content delivery network (CDN)
+ * distribution.
+ *
+ * After the certificate is detached, your distribution stops accepting traffic for all of
+ * the domains that are associated with the certificate.
+ */
+export const detachCertificateFromDistribution =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DetachCertificateFromDistributionRequest,
+    output: DetachCertificateFromDistributionResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const disableAddOn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableAddOnRequest,
+  output: DisableAddOnResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see
+ * the Amazon Lightsail Developer Guide.
+ */
+export const enableAddOn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableAddOnRequest,
+  output: EnableAddOnResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the bundles that can be applied to your Amazon Lightsail content delivery network
+ * (CDN) distributions.
+ *
+ * A distribution bundle specifies the monthly network transfer quota and monthly cost of
+ * your distribution.
+ */
+export const getDistributionBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDistributionBundlesRequest,
+    output: GetDistributionBundlesResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail
+ * content delivery network (CDN) distribution.
+ */
+export const getDistributionLatestCacheReset =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetDistributionLatestCacheResetRequest,
+    output: GetDistributionLatestCacheResetResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Returns the data points of a specific metric for an Amazon Lightsail content delivery
+ * network (CDN) distribution.
+ *
+ * Metrics report the utilization of your resources, and the error counts generated by them.
+ * Monitor and collect metric data regularly to maintain the reliability, availability, and
+ * performance of your resources.
+ */
+export const getDistributionMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDistributionMetricDataRequest,
+    output: GetDistributionMetricDataResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Creates or updates an alarm, and associates it with the specified metric.
+ *
+ * An alarm is used to monitor a single metric for one of your resources. When a metric
+ * condition is met, the alarm can notify you by email, SMS text message, and a banner displayed
+ * on the Amazon Lightsail console. For more information, see Alarms
+ * in Amazon Lightsail.
+ *
+ * When this action creates an alarm, the alarm state is immediately set to
+ * `INSUFFICIENT_DATA`. The alarm is then evaluated and its state is set
+ * appropriately. Any actions associated with the new state are then executed.
+ *
+ * When you update an existing alarm, its state is left unchanged, but the update completely
+ * overwrites the previous configuration of the alarm. The alarm is then evaluated with the
+ * updated configuration.
+ */
+export const putAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAlarmRequest,
+  output: PutAlarmResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Deletes currently cached content from your Amazon Lightsail content delivery network (CDN)
+ * distribution.
+ *
+ * After resetting the cache, the next time a content request is made, your distribution
+ * pulls, serves, and caches it from the origin.
+ */
+export const resetDistributionCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResetDistributionCacheRequest,
+    output: ResetDistributionCacheResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Sends a verification request to an email contact method to ensure it's owned by the
+ * requester. SMS contact methods don't need to be verified.
+ *
+ * A contact method is used to send you notifications about your Amazon Lightsail resources.
+ * You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services
+ * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
+ * see Notifications in Amazon Lightsail.
+ *
+ * A verification request is sent to the contact method when you initially create it. Use
+ * this action to send another verification request if a previous verification request was
+ * deleted, or has expired.
+ *
+ * Notifications are not sent to an email contact method until after it is verified, and
+ * confirmed as valid.
+ */
+export const sendContactMethodVerification =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SendContactMethodVerificationRequest,
+    output: SendContactMethodVerificationResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification
+ * trigger is configured for the specified alarm, the test also sends a notification to the
+ * notification protocol (`Email` and/or `SMS`) configured for the
+ * alarm.
+ *
+ * An alarm is used to monitor a single metric for one of your resources. When a metric
+ * condition is met, the alarm can notify you by email, SMS text message, and a banner displayed
+ * on the Amazon Lightsail console. For more information, see Alarms
+ * in Amazon Lightsail.
+ */
+export const testAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestAlarmRequest,
+  output: TestAlarmResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Updates an existing Amazon Lightsail content delivery network (CDN) distribution.
+ *
+ * Use this action to update the configuration of your existing distribution.
+ */
+export const updateDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDistributionRequest,
+  output: UpdateDistributionResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Updates the bundle of your Amazon Lightsail content delivery network (CDN)
+ * distribution.
+ *
+ * A distribution bundle specifies the monthly network transfer quota and monthly cost of
+ * your distribution.
+ *
+ * Update your distribution's bundle if your distribution is going over its monthly network
+ * transfer quota and is incurring an overage fee.
+ *
+ * You can update your distribution's bundle only one time within your monthly Amazon Web Services billing cycle. To determine if you can update your distribution's bundle, use the
+ * `GetDistributions` action. The `ableToUpdateBundle` parameter in the
+ * result will indicate whether you can currently update your distribution's bundle.
+ */
+export const updateDistributionBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDistributionBundleRequest,
+    output: UpdateDistributionBundleResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN)
+ * distribution.
+ *
+ * After the certificate is attached, your distribution accepts HTTPS traffic for all of the
+ * domains that are associated with the certificate.
+ *
+ * Use the `CreateCertificate` action to create a certificate that you can attach
+ * to your distribution.
+ *
+ * Only certificates created in the `us-east-1`
+ * Amazon Web Services Region can be attached to Lightsail distributions. Lightsail
+ * distributions are global resources that can reference an origin in any Amazon Web Services
+ * Region, and distribute its content globally. However, all distributions are located in the
+ * `us-east-1` Region.
+ */
+export const attachCertificateToDistribution =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AttachCertificateToDistributionRequest,
+    output: AttachCertificateToDistributionResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
 /**
  * Creates an email or SMS text message contact method.
  *
@@ -4817,286 +5637,6 @@ export const createContactMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthenticatedException,
   ],
 }));
-/**
- * Creates a temporary set of log in credentials that you can use to log in to the Docker
- * process on your local machine. After you're logged in, you can use the native Docker commands
- * to push your local container images to the container image registry of your Amazon Lightsail
- * account so that you can use them with your Lightsail container service. The log in
- * credentials expire 12 hours after they are created, at which point you will need to create a
- * new set of log in credentials.
- *
- * You can only push container images to the container service registry of your Lightsail
- * account. You cannot pull container images or perform any other container image management
- * actions on the container service registry.
- *
- * After you push your container images to the container image registry of your Lightsail
- * account, use the `RegisterContainerImage` action to register the pushed images to a
- * specific Lightsail container service.
- *
- * This action is not required if you install and use the Lightsail Control
- * (lightsailctl) plugin to push container images to your Lightsail container service. For
- * more information, see Pushing and managing container images on your Amazon Lightsail container services
- * in the *Amazon Lightsail Developer Guide*.
- */
-export const createContainerServiceRegistryLogin =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContainerServiceRegistryLoginRequest,
-    output: CreateContainerServiceRegistryLoginResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting
- * disk can be attached to an Amazon Lightsail instance in the same Availability Zone
- * (`us-east-2a`).
- *
- * The `create disk from snapshot` operation supports tag-based access control via
- * request tags and resource tags applied to the resource identified by disk snapshot
- * name. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const createDiskFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDiskFromSnapshotRequest,
-    output: CreateDiskFromSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Creates a snapshot of a block storage disk. You can use snapshots for backups, to make
- * copies of disks, and to save data before shutting down a Lightsail instance.
- *
- * You can take a snapshot of an attached disk that is in use; however, snapshots only
- * capture data that has been written to your disk at the time the snapshot command is issued.
- * This may exclude any data that has been cached by any applications or the operating system. If
- * you can pause any file systems on the disk long enough to take a snapshot, your snapshot
- * should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should
- * unmount the disk from within the Lightsail instance, issue the create disk snapshot command,
- * and then remount the disk to ensure a consistent and complete snapshot. You may remount and
- * use your disk while the snapshot status is pending.
- *
- * You can also use this operation to create a snapshot of an instance's system volume. You
- * might want to do this, for example, to recover data from the system volume of a botched
- * instance or to create a backup of the system volume like you would for a block storage disk.
- * To create a snapshot of a system volume, just define the `instance name` parameter
- * when issuing the snapshot command, and a snapshot of the defined instance's system volume will
- * be created. After the snapshot is available, you can create a block storage disk from the
- * snapshot and attach it to a running instance to access the data on the disk.
- *
- * The `create disk snapshot` operation supports tag-based access control via
- * request tags. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const createDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDiskSnapshotRequest,
-  output: CreateDiskSnapshotResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Creates a domain resource for the specified domain (example.com).
- *
- * The `create domain` operation supports tag-based access control via request
- * tags. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDomainRequest,
-  output: CreateDomainResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Creates one or more Amazon Lightsail instances.
- *
- * The `create instances` operation supports tag-based access control via request
- * tags. For more information, see the Lightsail Developer Guide.
- */
-export const createInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInstancesRequest,
-  output: CreateInstancesResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Creates a snapshot of a specific virtual private server, or *instance*.
- * You can use a snapshot to create a new instance that is based on that snapshot.
- *
- * The `create instance snapshot` operation supports tag-based access control via
- * request tags. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const createInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInstanceSnapshotRequest,
-    output: CreateInstanceSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Creates a Lightsail load balancer. To learn more about deciding whether to load balance
- * your application, see Configure your Lightsail instances for load balancing. You can create up to 10
- * load balancers per AWS Region in your account.
- *
- * When you create a load balancer, you can specify a unique name and port settings. To
- * change additional load balancer settings, use the `UpdateLoadBalancerAttribute`
- * operation.
- *
- * The `create load balancer` operation supports tag-based access control via
- * request tags. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const createLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLoadBalancerRequest,
-  output: CreateLoadBalancerResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Creates an SSL/TLS certificate for an Amazon Lightsail load balancer.
- *
- * TLS is just an updated, more secure version of Secure Socket Layer (SSL).
- *
- * The `CreateLoadBalancerTlsCertificate` operation supports tag-based access
- * control via resource tags applied to the resource identified by load balancer
- * name. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const createLoadBalancerTlsCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLoadBalancerTlsCertificateRequest,
-    output: CreateLoadBalancerTlsCertificateResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Creates a new database in Amazon Lightsail.
- *
- * The `create relational database` operation supports tag-based access control
- * via request tags. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const createRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRelationalDatabaseRequest,
-    output: CreateRelationalDatabaseResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Creates a new database from an existing database snapshot in Amazon Lightsail.
- *
- * You can create a new database from a snapshot in if something goes wrong with your
- * original database, or to change it to a different plan, such as a high availability or
- * standard plan.
- *
- * The `create relational database from snapshot` operation supports tag-based
- * access control via request tags and resource tags applied to the resource identified by
- * relationalDatabaseSnapshotName. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const createRelationalDatabaseFromSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRelationalDatabaseFromSnapshotRequest,
-    output: CreateRelationalDatabaseFromSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups,
- * to make copies of a database, and to save data before deleting a database.
- *
- * The `create relational database snapshot` operation supports tag-based access
- * control via request tags. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const createRelationalDatabaseSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRelationalDatabaseSnapshotRequest,
-    output: CreateRelationalDatabaseSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
 /**
  * Deletes an alarm.
  *
@@ -5135,66 +5675,6 @@ export const deleteAutoSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a Amazon Lightsail bucket.
- *
- * When you delete your bucket, the bucket name is released and can be reused for a new
- * bucket in your account or another Amazon Web Services account.
- */
-export const deleteBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBucketRequest,
-  output: DeleteBucketResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Deletes an access key for the specified Amazon Lightsail bucket.
- *
- * We recommend that you delete an access key if the secret access key is compromised.
- *
- * For more information about access keys, see Creating access keys for a bucket in Amazon Lightsail in the
- * *Amazon Lightsail Developer Guide*.
- */
-export const deleteBucketAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBucketAccessKeyRequest,
-    output: DeleteBucketAccessKeyResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Deletes an SSL/TLS certificate for your Amazon Lightsail content delivery network (CDN)
- * distribution.
- *
- * Certificates that are currently attached to a distribution cannot be deleted. Use the
- * `DetachCertificateFromDistribution` action to detach a certificate from a
- * distribution.
- */
-export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCertificateRequest,
-  output: DeleteCertificateResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
  * Deletes a contact method.
  *
  * A contact method is used to send you notifications about your Amazon Lightsail resources.
@@ -5207,65 +5687,6 @@ export const deleteContactMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DeleteContactMethodResult,
   errors: [
     AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Deletes a container image that is registered to your Amazon Lightsail container
- * service.
- */
-export const deleteContainerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContainerImageRequest,
-    output: DeleteContainerImageResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Deletes your Amazon Lightsail container service.
- */
-export const deleteContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContainerServiceRequest,
-    output: DeleteContainerServiceResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Deletes the specified block storage disk. The disk must be in the `available`
- * state (not attached to a Lightsail instance).
- *
- * The disk may remain in the `deleting` state for several minutes.
- *
- * The `delete disk` operation supports tag-based access control via resource tags
- * applied to the resource identified by `disk name`. For more information, see the
- * Amazon Lightsail Developer Guide.
- */
-export const deleteDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDiskRequest,
-  output: DeleteDiskResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
     InvalidInputException,
     NotFoundException,
     OperationFailureException,
@@ -5297,21 +5718,6 @@ export const deleteDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     NotFoundException,
     OperationFailureException,
     RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Deletes your Amazon Lightsail content delivery network (CDN) distribution.
- */
-export const deleteDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDistributionRequest,
-  output: DeleteDistributionResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
     ServiceException,
     UnauthenticatedException,
   ],
@@ -5544,26 +5950,6 @@ export const deleteRelationalDatabaseSnapshot =
     ],
   }));
 /**
- * Detaches an SSL/TLS certificate from your Amazon Lightsail content delivery network (CDN)
- * distribution.
- *
- * After the certificate is detached, your distribution stops accepting traffic for all of
- * the domains that are associated with the certificate.
- */
-export const detachCertificateFromDistribution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DetachCertificateFromDistributionRequest,
-    output: DetachCertificateFromDistributionResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
  * Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount
  * any file systems on the device within your operating system before stopping the instance and
  * detaching the disk.
@@ -5629,61 +6015,6 @@ export const detachStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const disableAddOn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableAddOnRequest,
-  output: DisableAddOnResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Downloads the regional Amazon Lightsail default key pair.
- *
- * This action also creates a Lightsail default key pair if a default key pair
- * does not currently exist in the Amazon Web Services Region.
- */
-export const downloadDefaultKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DownloadDefaultKeyPairRequest,
-    output: DownloadDefaultKeyPairResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see
- * the Amazon Lightsail Developer Guide.
- */
-export const enableAddOn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableAddOnRequest,
-  output: EnableAddOnResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
  * Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2).
  * This operation results in an export snapshot record that can be used with the create
  * cloud formation stack operation to create new Amazon EC2 instances.
@@ -5732,101 +6063,6 @@ export const getActiveNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns the existing access key IDs for the specified Amazon Lightsail bucket.
- *
- * This action does not return the secret access key value of an access key. You can get a
- * secret access key only when you create it from the response of the CreateBucketAccessKey action. If you lose the secret access key, you must create
- * a new access key.
- */
-export const getBucketAccessKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBucketAccessKeysRequest,
-  output: GetBucketAccessKeysResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns information about one or more Amazon Lightsail SSL/TLS certificates.
- *
- * To get a summary of a certificate, omit `includeCertificateDetails` from your
- * request. The response will include only the certificate Amazon Resource Name (ARN),
- * certificate name, domain name, and tags.
- */
-export const getCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCertificatesRequest,
-  output: GetCertificatesResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns information about Amazon Lightsail containers, such as the current version of the
- * Lightsail Control (lightsailctl) plugin.
- */
-export const getContainerAPIMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContainerAPIMetadataRequest,
-    output: GetContainerAPIMetadataResult,
-    errors: [
-      AccessDeniedException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Returns the data points of a specific metric of your Amazon Lightsail container
- * service.
- *
- * Metrics report the utilization of your resources. Monitor and collect metric data
- * regularly to maintain the reliability, availability, and performance of your resources.
- */
-export const getContainerServiceMetricData =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContainerServiceMetricDataRequest,
-    output: GetContainerServiceMetricDataResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Returns the list of powers that can be specified for your Amazon Lightsail container
- * services.
- *
- * The power specifies the amount of memory, the number of vCPUs, and the base price of the
- * container service.
- */
-export const getContainerServicePowers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContainerServicePowersRequest,
-    output: GetContainerServicePowersResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
  * Returns information about all block storage disks in your AWS account and region.
  */
 export const getDisks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5861,66 +6097,6 @@ export const getDiskSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns the bundles that can be applied to your Amazon Lightsail content delivery network
- * (CDN) distributions.
- *
- * A distribution bundle specifies the monthly network transfer quota and monthly cost of
- * your distribution.
- */
-export const getDistributionBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDistributionBundlesRequest,
-    output: GetDistributionBundlesResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail
- * content delivery network (CDN) distribution.
- */
-export const getDistributionLatestCacheReset =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDistributionLatestCacheResetRequest,
-    output: GetDistributionLatestCacheResetResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Returns the data points of a specific metric for an Amazon Lightsail content delivery
- * network (CDN) distribution.
- *
- * Metrics report the utilization of your resources, and the error counts generated by them.
- * Monitor and collect metric data regularly to maintain the reliability, availability, and
- * performance of your resources.
- */
-export const getDistributionMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDistributionMetricDataRequest,
-    output: GetDistributionMetricDataResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
 /**
  * Returns a list of all domains in the user's account.
  */
@@ -6289,23 +6465,6 @@ export const importKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a Boolean value indicating whether your Lightsail VPC is peered.
- */
-export const isVpcPeered = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: IsVpcPeeredRequest,
-  output: IsVpcPeeredResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
  * Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses
  * allowed to connect to the instance through the ports, and the protocol.
  *
@@ -6329,35 +6488,6 @@ export const openInstancePublicPorts = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates or updates an alarm, and associates it with the specified metric.
- *
- * An alarm is used to monitor a single metric for one of your resources. When a metric
- * condition is met, the alarm can notify you by email, SMS text message, and a banner displayed
- * on the Amazon Lightsail console. For more information, see Alarms
- * in Amazon Lightsail.
- *
- * When this action creates an alarm, the alarm state is immediately set to
- * `INSUFFICIENT_DATA`. The alarm is then evaluated and its state is set
- * appropriately. Any actions associated with the new state are then executed.
- *
- * When you update an existing alarm, its state is left unchanged, but the update completely
- * overwrites the previous configuration of the alarm. The alarm is then evaluated with the
- * updated configuration.
- */
-export const putAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutAlarmRequest,
-  output: PutAlarmResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
 /**
  * Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses
  * allowed to connect to the instance through the ports, and the protocol. This action also
@@ -6431,28 +6561,6 @@ export const rebootRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Registers a container image to your Amazon Lightsail container service.
- *
- * This action is not required if you install and use the Lightsail Control
- * (lightsailctl) plugin to push container images to your Lightsail container service. For
- * more information, see Pushing and managing container images on your Amazon Lightsail container services
- * in the *Amazon Lightsail Developer Guide*.
- */
-export const registerContainerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterContainerImageRequest,
-    output: RegisterContainerImageResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
  * Deletes a specific static IP from your account.
  */
 export const releaseStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -6470,57 +6578,6 @@ export const releaseStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes currently cached content from your Amazon Lightsail content delivery network (CDN)
- * distribution.
- *
- * After resetting the cache, the next time a content request is made, your distribution
- * pulls, serves, and caches it from the origin.
- */
-export const resetDistributionCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetDistributionCacheRequest,
-    output: ResetDistributionCacheResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Sends a verification request to an email contact method to ensure it's owned by the
- * requester. SMS contact methods don't need to be verified.
- *
- * A contact method is used to send you notifications about your Amazon Lightsail resources.
- * You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services
- * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
- * see Notifications in Amazon Lightsail.
- *
- * A verification request is sent to the contact method when you initially create it. Use
- * this action to send another verification request if a previous verification request was
- * deleted, or has expired.
- *
- * Notifications are not sent to an email contact method until after it is verified, and
- * confirmed as valid.
- */
-export const sendContactMethodVerification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SendContactMethodVerificationRequest,
-    output: SendContactMethodVerificationResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
  * Sets the IP address type for an Amazon Lightsail resource.
  *
  * Use this action to enable dual-stack for a resource, which enables IPv4 and IPv6 for the
@@ -6536,63 +6593,6 @@ export const setIpAddressType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidInputException,
     NotFoundException,
     OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Sets the Amazon Lightsail resources that can access the specified Lightsail
- * bucket.
- *
- * Lightsail buckets currently support setting access for Lightsail instances in the same
- * Amazon Web Services Region.
- */
-export const setResourceAccessForBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetResourceAccessForBucketRequest,
-    output: SetResourceAccessForBucketResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Creates an SSL/TLS certificate that secures traffic for your website. After the
- * certificate is created, it is installed on the specified Lightsail instance.
- *
- * If you provide more than one domain name in the request, at least one name must be less
- * than or equal to 63 characters in length.
- */
-export const setupInstanceHttps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetupInstanceHttpsRequest,
-  output: SetupInstanceHttpsResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Initiates a graphical user interface (GUI) session that’s used to access a virtual
- * computer’s operating system and application. The session will be active for 1 hour. Use this
- * action to resume the session after it expires.
- */
-export const startGUISession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartGUISessionRequest,
-  output: StartGUISessionResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
     RegionSetupInProgressException,
     ServiceException,
     UnauthenticatedException,
@@ -6648,23 +6648,6 @@ export const startRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Terminates a web-based Amazon DCV session that’s used to access a virtual computer’s
- * operating system or application. The session will close and any unsaved data will be
- * lost.
- */
-export const stopGUISession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopGUISessionRequest,
-  output: StopGUISessionResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
 /**
  * Stops a specific Amazon Lightsail instance that is currently running.
  *
@@ -6741,47 +6724,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification
- * trigger is configured for the specified alarm, the test also sends a notification to the
- * notification protocol (`Email` and/or `SMS`) configured for the
- * alarm.
- *
- * An alarm is used to monitor a single metric for one of your resources. When a metric
- * condition is met, the alarm can notify you by email, SMS text message, and a banner displayed
- * on the Amazon Lightsail console. For more information, see Alarms
- * in Amazon Lightsail.
- */
-export const testAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestAlarmRequest,
-  output: TestAlarmResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Unpeers the Lightsail VPC from the user's default VPC.
- */
-export const unpeerVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UnpeerVpcRequest,
-  output: UnpeerVpcResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
  * Deletes the specified set of tag keys and their values from the specified Amazon Lightsail
  * resource.
  *
@@ -6803,98 +6745,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthenticatedException,
   ],
 }));
-/**
- * Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket.
- *
- * A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a
- * bucket. You can update a bucket's bundle only one time within a monthly Amazon Web Services
- * billing cycle. To determine if you can update a bucket's bundle, use the GetBuckets action. The
- * `ableToUpdateBundle` parameter in the response will indicate whether you can
- * currently update a bucket's bundle.
- *
- * Update a bucket's bundle if it's consistently going over its storage space or data
- * transfer quota, or if a bucket's usage is consistently in the lower range of its storage space
- * or data transfer quota. Due to the unpredictable usage fluctuations that a bucket might
- * experience, we strongly recommend that you update a bucket's bundle only as a long-term
- * strategy, instead of as a short-term, monthly cost-cutting measure. Choose a bucket bundle
- * that will provide the bucket with ample storage space and data transfer for a long time to
- * come.
- */
-export const updateBucketBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBucketBundleRequest,
-  output: UpdateBucketBundleResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Updates the configuration of your Amazon Lightsail container service, such as its power,
- * scale, and public domain names.
- */
-export const updateContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContainerServiceRequest,
-    output: UpdateContainerServiceResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Updates an existing Amazon Lightsail content delivery network (CDN) distribution.
- *
- * Use this action to update the configuration of your existing distribution.
- */
-export const updateDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDistributionRequest,
-  output: UpdateDistributionResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Updates the bundle of your Amazon Lightsail content delivery network (CDN)
- * distribution.
- *
- * A distribution bundle specifies the monthly network transfer quota and monthly cost of
- * your distribution.
- *
- * Update your distribution's bundle if your distribution is going over its monthly network
- * transfer quota and is incurring an overage fee.
- *
- * You can update your distribution's bundle only one time within your monthly Amazon Web Services billing cycle. To determine if you can update your distribution's bundle, use the
- * `GetDistributions` action. The `ableToUpdateBundle` parameter in the
- * result will indicate whether you can currently update your distribution's bundle.
- */
-export const updateDistributionBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDistributionBundleRequest,
-    output: UpdateDistributionBundleResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
 /**
  * Updates a domain recordset after it is created.
  *
@@ -6990,6 +6840,62 @@ export const updateRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Downloads the regional Amazon Lightsail default key pair.
+ *
+ * This action also creates a Lightsail default key pair if a default key pair
+ * does not currently exist in the Amazon Web Services Region.
+ */
+export const downloadDefaultKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DownloadDefaultKeyPairRequest,
+    output: DownloadDefaultKeyPairResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Returns a Boolean value indicating whether your Lightsail VPC is peered.
+ */
+export const isVpcPeered = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: IsVpcPeeredRequest,
+  output: IsVpcPeeredResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Unpeers the Lightsail VPC from the user's default VPC.
+ */
+export const unpeerVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnpeerVpcRequest,
+  output: UnpeerVpcResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
  * Allocates a static IP address.
  */
 export const allocateStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -7006,35 +6912,6 @@ export const allocateStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthenticatedException,
   ],
 }));
-/**
- * Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN)
- * distribution.
- *
- * After the certificate is attached, your distribution accepts HTTPS traffic for all of the
- * domains that are associated with the certificate.
- *
- * Use the `CreateCertificate` action to create a certificate that you can attach
- * to your distribution.
- *
- * Only certificates created in the `us-east-1`
- * Amazon Web Services Region can be attached to Lightsail distributions. Lightsail
- * distributions are global resources that can reference an origin in any Amazon Web Services
- * Region, and distribute its content globally. However, all distributions are located in the
- * `us-east-1` Region.
- */
-export const attachCertificateToDistribution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachCertificateToDistributionRequest,
-    output: AttachCertificateToDistributionResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
 /**
  * Attaches a block storage disk to a running or stopped Lightsail instance and exposes it
  * to the instance with the specified disk name.
@@ -7058,6 +6935,350 @@ export const attachDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Attaches one or more Lightsail instances to a load balancer.
+ *
+ * After some time, the instances are attached to the load balancer and the health check
+ * status is available.
+ *
+ * The `attach instances to load balancer` operation supports tag-based access
+ * control via resource tags applied to the resource identified by load balancer
+ * name. For more information, see the Lightsail Developer Guide.
+ */
+export const attachInstancesToLoadBalancer =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AttachInstancesToLoadBalancerRequest,
+    output: AttachInstancesToLoadBalancerResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just
+ * an updated, more secure version of Secure Socket Layer (SSL).
+ *
+ * Once you create and validate your certificate, you can attach it to your load balancer.
+ * You can also use this API to rotate the certificates on your account. Use the
+ * `AttachLoadBalancerTlsCertificate` action with the non-attached certificate, and
+ * it will replace the existing one and become the attached certificate.
+ *
+ * The `AttachLoadBalancerTlsCertificate` operation supports tag-based access
+ * control via resource tags applied to the resource identified by load balancer
+ * name. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const attachLoadBalancerTlsCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AttachLoadBalancerTlsCertificateRequest,
+    output: AttachLoadBalancerTlsCertificateResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Attaches a static IP address to a specific Amazon Lightsail instance.
+ */
+export const attachStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachStaticIpRequest,
+  output: AttachStaticIpResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an
+ * automatic snapshot of an instance or disk as a manual snapshot. This operation can also be
+ * used to copy a manual or automatic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail.
+ *
+ * When copying a *manual snapshot*, be sure to define the source
+ * region, `source snapshot name`, and `target snapshot name`
+ * parameters.
+ *
+ * When copying an *automatic snapshot*, be sure to define the
+ * `source region`, `source resource name`, target snapshot
+ * name, and either the `restore date` or the use latest restorable
+ * auto snapshot parameters.
+ */
+export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopySnapshotRequest,
+  output: CopySnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting
+ * disk can be attached to an Amazon Lightsail instance in the same Availability Zone
+ * (`us-east-2a`).
+ *
+ * The `create disk from snapshot` operation supports tag-based access control via
+ * request tags and resource tags applied to the resource identified by disk snapshot
+ * name. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const createDiskFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDiskFromSnapshotRequest,
+    output: CreateDiskFromSnapshotResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Creates a snapshot of a block storage disk. You can use snapshots for backups, to make
+ * copies of disks, and to save data before shutting down a Lightsail instance.
+ *
+ * You can take a snapshot of an attached disk that is in use; however, snapshots only
+ * capture data that has been written to your disk at the time the snapshot command is issued.
+ * This may exclude any data that has been cached by any applications or the operating system. If
+ * you can pause any file systems on the disk long enough to take a snapshot, your snapshot
+ * should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should
+ * unmount the disk from within the Lightsail instance, issue the create disk snapshot command,
+ * and then remount the disk to ensure a consistent and complete snapshot. You may remount and
+ * use your disk while the snapshot status is pending.
+ *
+ * You can also use this operation to create a snapshot of an instance's system volume. You
+ * might want to do this, for example, to recover data from the system volume of a botched
+ * instance or to create a backup of the system volume like you would for a block storage disk.
+ * To create a snapshot of a system volume, just define the `instance name` parameter
+ * when issuing the snapshot command, and a snapshot of the defined instance's system volume will
+ * be created. After the snapshot is available, you can create a block storage disk from the
+ * snapshot and attach it to a running instance to access the data on the disk.
+ *
+ * The `create disk snapshot` operation supports tag-based access control via
+ * request tags. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const createDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDiskSnapshotRequest,
+  output: CreateDiskSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Creates a domain resource for the specified domain (example.com).
+ *
+ * The `create domain` operation supports tag-based access control via request
+ * tags. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainRequest,
+  output: CreateDomainResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Creates one or more Amazon Lightsail instances.
+ *
+ * The `create instances` operation supports tag-based access control via request
+ * tags. For more information, see the Lightsail Developer Guide.
+ */
+export const createInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstancesRequest,
+  output: CreateInstancesResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Creates a snapshot of a specific virtual private server, or *instance*.
+ * You can use a snapshot to create a new instance that is based on that snapshot.
+ *
+ * The `create instance snapshot` operation supports tag-based access control via
+ * request tags. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const createInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateInstanceSnapshotRequest,
+    output: CreateInstanceSnapshotResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Creates a Lightsail load balancer. To learn more about deciding whether to load balance
+ * your application, see Configure your Lightsail instances for load balancing. You can create up to 10
+ * load balancers per AWS Region in your account.
+ *
+ * When you create a load balancer, you can specify a unique name and port settings. To
+ * change additional load balancer settings, use the `UpdateLoadBalancerAttribute`
+ * operation.
+ *
+ * The `create load balancer` operation supports tag-based access control via
+ * request tags. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const createLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLoadBalancerRequest,
+  output: CreateLoadBalancerResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Creates an SSL/TLS certificate for an Amazon Lightsail load balancer.
+ *
+ * TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+ *
+ * The `CreateLoadBalancerTlsCertificate` operation supports tag-based access
+ * control via resource tags applied to the resource identified by load balancer
+ * name. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const createLoadBalancerTlsCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateLoadBalancerTlsCertificateRequest,
+    output: CreateLoadBalancerTlsCertificateResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Creates a new database in Amazon Lightsail.
+ *
+ * The `create relational database` operation supports tag-based access control
+ * via request tags. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const createRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRelationalDatabaseRequest,
+    output: CreateRelationalDatabaseResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Creates a new database from an existing database snapshot in Amazon Lightsail.
+ *
+ * You can create a new database from a snapshot in if something goes wrong with your
+ * original database, or to change it to a different plan, such as a high availability or
+ * standard plan.
+ *
+ * The `create relational database from snapshot` operation supports tag-based
+ * access control via request tags and resource tags applied to the resource identified by
+ * relationalDatabaseSnapshotName. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const createRelationalDatabaseFromSnapshot =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateRelationalDatabaseFromSnapshotRequest,
+    output: CreateRelationalDatabaseFromSnapshotResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups,
+ * to make copies of a database, and to save data before deleting a database.
+ *
+ * The `create relational database snapshot` operation supports tag-based access
+ * control via request tags. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const createRelationalDatabaseSnapshot =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateRelationalDatabaseSnapshotRequest,
+    output: CreateRelationalDatabaseSnapshotResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      NotFoundException,
+      OperationFailureException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
  * Closes ports for a specific Amazon Lightsail instance.
  *
  * The `CloseInstancePublicPorts` action supports tag-based access control via
@@ -7080,25 +7301,6 @@ export const closeInstancePublicPorts = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates an Amazon Lightsail bucket.
- *
- * A bucket is a cloud storage resource available in the Lightsail object storage service.
- * Use buckets to store objects such as data and its descriptive metadata. For more information
- * about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer
- * Guide.
- */
-export const createBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBucketRequest,
-  output: CreateBucketResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
 /**
  * Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an exported
  * Amazon Lightsail snapshot. This operation results in a CloudFormation stack record that can be
@@ -7125,27 +7327,6 @@ export const createCloudFormationStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates two URLs that are used to access a virtual computer’s graphical user interface
- * (GUI) session. The primary URL initiates a web-based Amazon DCV session to the virtual
- * computer's application. The secondary URL initiates a web-based Amazon DCV session to the
- * virtual computer's operating session.
- *
- * Use `StartGUISession` to open the session.
- */
-export const createGUISessionAccessDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateGUISessionAccessDetailsRequest,
-    output: CreateGUISessionAccessDetailsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
  * Creates a custom SSH key pair that you can use with an Amazon Lightsail
  * instance.
  *
@@ -7170,464 +7351,6 @@ export const createKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns the list of available instance images, or *blueprints*. You can
- * use a blueprint to create a new instance already running a specific operating system, as well
- * as a preinstalled app or development stack. The software each instance is running depends on
- * the blueprint image you choose.
- *
- * Use active blueprints when creating new instances. Inactive blueprints are listed to
- * support customers with existing instances and are not necessarily available to create new
- * instances. Blueprints are marked inactive when they become outdated due to operating system
- * updates or new application releases.
- */
-export const getBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBlueprintsRequest,
-  output: GetBlueprintsResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns the bundles that you can apply to a Amazon Lightsail bucket.
- *
- * The bucket bundle specifies the monthly cost, storage quota, and data transfer quota for a
- * bucket.
- *
- * Use the UpdateBucketBundle action to update the
- * bundle for a bucket.
- */
-export const getBucketBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBucketBundlesRequest,
-  output: GetBucketBundlesResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns the data points of a specific metric for an Amazon Lightsail bucket.
- *
- * Metrics report the utilization of a bucket. View and collect metric data regularly to
- * monitor the number of objects stored in a bucket (including object versions) and the storage
- * space used by those objects.
- */
-export const getBucketMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBucketMetricDataRequest,
-  output: GetBucketMetricDataResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns the bundles that you can apply to an Amazon Lightsail instance when you create
- * it.
- *
- * A bundle describes the specifications of an instance, such as the monthly cost, amount of
- * memory, the number of vCPUs, amount of storage space, and monthly network data transfer
- * quota.
- *
- * Bundles are referred to as *instance plans* in the Lightsail
- * console.
- */
-export const getBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBundlesRequest,
-  output: GetBundlesResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns information about the configured contact methods. Specify a protocol in your
- * request to return information about a specific contact method.
- *
- * A contact method is used to send you notifications about your Amazon Lightsail resources.
- * You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services
- * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
- * see Notifications in Amazon Lightsail.
- */
-export const getContactMethods = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetContactMethodsRequest,
-  output: GetContactMethodsResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns the container images that are registered to your Amazon Lightsail container
- * service.
- *
- * If you created a deployment on your Lightsail container service that uses container
- * images from a public registry like Docker Hub, those images are not returned as part of this
- * action. Those images are not registered to your Lightsail container service.
- */
-export const getContainerImages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetContainerImagesRequest,
-  output: GetContainerImagesResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns the log events of a container of your Amazon Lightsail container service.
- *
- * If your container service has more than one node (i.e., a scale greater than 1), then the
- * log events that are returned for the specified container are merged from all nodes on your
- * container service.
- *
- * Container logs are retained for a certain amount of time. For more information, see
- * Amazon Lightsail
- * endpoints and quotas in the Amazon Web Services General
- * Reference.
- */
-export const getContainerLog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetContainerLogRequest,
-  output: GetContainerLogResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns information about a specific block storage disk snapshot.
- */
-export const getDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDiskSnapshotRequest,
-  output: GetDiskSnapshotResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses
- * allowed to connect to the instance through the ports, and the protocol.
- */
-export const getInstancePortStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInstancePortStatesRequest,
-    output: GetInstancePortStatesResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Returns information about a specific instance snapshot.
- */
-export const getInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInstanceSnapshotRequest,
-  output: GetInstanceSnapshotResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns the state of a specific instance. Works on one instance at a time.
- */
-export const getInstanceState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInstanceStateRequest,
-  output: GetInstanceStateResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns a list of TLS security policies that you can apply to Lightsail load
- * balancers.
- *
- * For more information about load balancer TLS security policies, see Configuring TLS security policies on your Amazon Lightsail load
- * balancers in the *Amazon Lightsail Developer Guide*.
- */
-export const getLoadBalancerTlsPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLoadBalancerTlsPoliciesRequest,
-    output: GetLoadBalancerTlsPoliciesResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes
- * the major engine version of a database.
- *
- * You can use a blueprint ID to create a new database that runs a specific database
- * engine.
- */
-export const getRelationalDatabaseBlueprints =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseBlueprintsRequest,
-    output: GetRelationalDatabaseBlueprintsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Returns the list of bundles that are available in Amazon Lightsail. A bundle describes the
- * performance specifications for a database.
- *
- * You can use a bundle ID to create a new database with explicit performance
- * specifications.
- */
-export const getRelationalDatabaseBundles =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseBundlesRequest,
-    output: GetRelationalDatabaseBundlesResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Returns a list of events for a specific database in Amazon Lightsail.
- */
-export const getRelationalDatabaseEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRelationalDatabaseEventsRequest,
-    output: GetRelationalDatabaseEventsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Returns a list of log events for a database in Amazon Lightsail.
- */
-export const getRelationalDatabaseLogEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseLogEventsRequest,
-    output: GetRelationalDatabaseLogEventsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Returns information about a specific database snapshot in Amazon Lightsail.
- */
-export const getRelationalDatabaseSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseSnapshotRequest,
-    output: GetRelationalDatabaseSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Returns information about an Amazon Lightsail static IP.
- */
-export const getStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStaticIpRequest,
-  output: GetStaticIpResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Peers the Lightsail VPC with the user's default VPC.
- */
-export const peerVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PeerVpcRequest,
-  output: PeerVpcResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Allows the update of one or more parameters of a database in Amazon Lightsail.
- *
- * Parameter updates don't cause outages; therefore, their application is not subject to the
- * preferred maintenance window. However, there are two ways in which parameter updates are
- * applied: `dynamic` or `pending-reboot`. Parameters marked with a
- * `dynamic` apply type are applied immediately. Parameters marked with a
- * `pending-reboot` apply type are applied only after the database is rebooted using
- * the `reboot relational database` operation.
- *
- * The `update relational database parameters` operation supports tag-based access
- * control via resource tags applied to the resource identified by relationalDatabaseName. For
- * more information, see the Amazon Lightsail Developer Guide.
- */
-export const updateRelationalDatabaseParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRelationalDatabaseParametersRequest,
-    output: UpdateRelationalDatabaseParametersResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
- * Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of
- * an access key ID and corresponding secret access key.
- *
- * Access keys grant full programmatic access to the specified bucket and its objects. You
- * can have a maximum of two access keys per bucket. Use the GetBucketAccessKeys action to get a list of current access keys for a specific bucket. For more
- * information about access keys, see Creating access keys for a bucket in Amazon Lightsail in the
- * *Amazon Lightsail Developer Guide*.
- *
- * The `secretAccessKey` value is returned only in response to the
- * `CreateBucketAccessKey` action. You can get a secret access key only when you
- * first create an access key; you cannot get the secret access key later. If you lose the
- * secret access key, you must create a new access key.
- */
-export const createBucketAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBucketAccessKeyRequest,
-    output: CreateBucketAccessKeyResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Creates an Amazon Lightsail container service.
- *
- * A Lightsail container service is a compute resource to which you can deploy containers.
- * For more information, see Container services in Amazon Lightsail in the Lightsail Dev
- * Guide.
- */
-export const createContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContainerServiceRequest,
-    output: CreateContainerServiceResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
 /**
  * Creates a block storage disk that can be attached to an Amazon Lightsail instance in the
  * same Availability Zone (`us-east-2a`).
@@ -7716,88 +7439,6 @@ export const createInstancesFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns information about the configured alarms. Specify an alarm name in your request to
- * return information about a specific alarm, or specify a monitored resource name to return
- * information about all alarms for a specific resource.
- *
- * An alarm is used to monitor a single metric for one of your resources. When a metric
- * condition is met, the alarm can notify you by email, SMS text message, and a banner displayed
- * on the Amazon Lightsail console. For more information, see Alarms
- * in Amazon Lightsail.
- */
-export const getAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAlarmsRequest,
-  output: GetAlarmsResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns the available automatic snapshots for an instance or disk. For more information,
- * see the Amazon Lightsail Developer Guide.
- */
-export const getAutoSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAutoSnapshotsRequest,
-  output: GetAutoSnapshotsResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns information about one or more Amazon Lightsail buckets. The information returned
- * includes the synchronization status of the Amazon Simple Storage Service (Amazon S3)
- * account-level block public access feature for your Lightsail buckets.
- *
- * For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer
- * Guide.
- */
-export const getBuckets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBucketsRequest,
-  output: GetBucketsResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns the CloudFormation stack record created as a result of the create cloud
- * formation stack operation.
- *
- * An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported Lightsail
- * snapshot.
- */
-export const getCloudFormationStackRecords =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCloudFormationStackRecordsRequest,
-    output: GetCloudFormationStackRecordsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
-/**
  * Returns the deployments for your Amazon Lightsail container service
  *
  * A deployment specifies the settings, such as the ports and launch command, of containers
@@ -7825,118 +7466,6 @@ export const getContainerServiceDeployments =
     ],
   }));
 /**
- * Returns information about a specific block storage disk.
- */
-export const getDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDiskRequest,
-  output: GetDiskResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns information about one or more of your Amazon Lightsail content delivery network
- * (CDN) distributions.
- */
-export const getDistributions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDistributionsRequest,
-  output: GetDistributionsResult,
-  errors: [
-    AccessDeniedException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns temporary SSH keys you can use to connect to a specific virtual private server, or
- * *instance*.
- *
- * The `get instance access details` operation supports tag-based access control
- * via resource tags applied to the resource identified by `instance name`. For more
- * information, see the Amazon Lightsail Developer Guide.
- */
-export const getInstanceAccessDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInstanceAccessDetailsRequest,
-    output: GetInstanceAccessDetailsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Returns information about the specified Lightsail load balancer.
- */
-export const getLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLoadBalancerRequest,
-  output: GetLoadBalancerResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns a list of all valid regions for Amazon Lightsail. Use the include
- * availability zones parameter to also return the Availability Zones in a
- * region.
- */
-export const getRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRegionsRequest,
-  output: GetRegionsResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns information about a specific database in Amazon Lightsail.
- */
-export const getRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRelationalDatabaseRequest,
-    output: GetRelationalDatabaseResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
  * Returns detailed information for five of the most recent `SetupInstanceHttps`
  * requests that were ran on the target instance.
  */
@@ -7961,6 +7490,570 @@ export const getSetupHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const updateBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBucketRequest,
   output: UpdateBucketResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the data points of a specific metric for an Amazon Lightsail bucket.
+ *
+ * Metrics report the utilization of a bucket. View and collect metric data regularly to
+ * monitor the number of objects stored in a bucket (including object versions) and the storage
+ * space used by those objects.
+ */
+export const getBucketMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketMetricDataRequest,
+  output: GetBucketMetricDataResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the container images that are registered to your Amazon Lightsail container
+ * service.
+ *
+ * If you created a deployment on your Lightsail container service that uses container
+ * images from a public registry like Docker Hub, those images are not returned as part of this
+ * action. Those images are not registered to your Lightsail container service.
+ */
+export const getContainerImages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContainerImagesRequest,
+  output: GetContainerImagesResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the log events of a container of your Amazon Lightsail container service.
+ *
+ * If your container service has more than one node (i.e., a scale greater than 1), then the
+ * log events that are returned for the specified container are merged from all nodes on your
+ * container service.
+ *
+ * Container logs are retained for a certain amount of time. For more information, see
+ * Amazon Lightsail
+ * endpoints and quotas in the Amazon Web Services General
+ * Reference.
+ */
+export const getContainerLog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContainerLogRequest,
+  output: GetContainerLogResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the existing access key IDs for the specified Amazon Lightsail bucket.
+ *
+ * This action does not return the secret access key value of an access key. You can get a
+ * secret access key only when you create it from the response of the CreateBucketAccessKey action. If you lose the secret access key, you must create
+ * a new access key.
+ */
+export const getBucketAccessKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketAccessKeysRequest,
+  output: GetBucketAccessKeysResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns information about one or more Amazon Lightsail SSL/TLS certificates.
+ *
+ * To get a summary of a certificate, omit `includeCertificateDetails` from your
+ * request. The response will include only the certificate Amazon Resource Name (ARN),
+ * certificate name, domain name, and tags.
+ */
+export const getCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCertificatesRequest,
+  output: GetCertificatesResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the data points of a specific metric of your Amazon Lightsail container
+ * service.
+ *
+ * Metrics report the utilization of your resources. Monitor and collect metric data
+ * regularly to maintain the reliability, availability, and performance of your resources.
+ */
+export const getContainerServiceMetricData =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetContainerServiceMetricDataRequest,
+    output: GetContainerServiceMetricDataResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Returns the list of powers that can be specified for your Amazon Lightsail container
+ * services.
+ *
+ * The power specifies the amount of memory, the number of vCPUs, and the base price of the
+ * container service.
+ */
+export const getContainerServicePowers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetContainerServicePowersRequest,
+    output: GetContainerServicePowersResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Registers a container image to your Amazon Lightsail container service.
+ *
+ * This action is not required if you install and use the Lightsail Control
+ * (lightsailctl) plugin to push container images to your Lightsail container service. For
+ * more information, see Pushing and managing container images on your Amazon Lightsail container services
+ * in the *Amazon Lightsail Developer Guide*.
+ */
+export const registerContainerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RegisterContainerImageRequest,
+    output: RegisterContainerImageResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Sets the Amazon Lightsail resources that can access the specified Lightsail
+ * bucket.
+ *
+ * Lightsail buckets currently support setting access for Lightsail instances in the same
+ * Amazon Web Services Region.
+ */
+export const setResourceAccessForBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetResourceAccessForBucketRequest,
+    output: SetResourceAccessForBucketResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Creates an SSL/TLS certificate that secures traffic for your website. After the
+ * certificate is created, it is installed on the specified Lightsail instance.
+ *
+ * If you provide more than one domain name in the request, at least one name must be less
+ * than or equal to 63 characters in length.
+ */
+export const setupInstanceHttps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetupInstanceHttpsRequest,
+  output: SetupInstanceHttpsResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Initiates a graphical user interface (GUI) session that’s used to access a virtual
+ * computer’s operating system and application. The session will be active for 1 hour. Use this
+ * action to resume the session after it expires.
+ */
+export const startGUISession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartGUISessionRequest,
+  output: StartGUISessionResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Terminates a web-based Amazon DCV session that’s used to access a virtual computer’s
+ * operating system or application. The session will close and any unsaved data will be
+ * lost.
+ */
+export const stopGUISession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopGUISessionRequest,
+  output: StopGUISessionResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket.
+ *
+ * A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a
+ * bucket. You can update a bucket's bundle only one time within a monthly Amazon Web Services
+ * billing cycle. To determine if you can update a bucket's bundle, use the GetBuckets action. The
+ * `ableToUpdateBundle` parameter in the response will indicate whether you can
+ * currently update a bucket's bundle.
+ *
+ * Update a bucket's bundle if it's consistently going over its storage space or data
+ * transfer quota, or if a bucket's usage is consistently in the lower range of its storage space
+ * or data transfer quota. Due to the unpredictable usage fluctuations that a bucket might
+ * experience, we strongly recommend that you update a bucket's bundle only as a long-term
+ * strategy, instead of as a short-term, monthly cost-cutting measure. Choose a bucket bundle
+ * that will provide the bucket with ample storage space and data transfer for a long time to
+ * come.
+ */
+export const updateBucketBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBucketBundleRequest,
+  output: UpdateBucketBundleResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Updates the configuration of your Amazon Lightsail container service, such as its power,
+ * scale, and public domain names.
+ */
+export const updateContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContainerServiceRequest,
+    output: UpdateContainerServiceResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Deletes your Amazon Lightsail container service.
+ */
+export const deleteContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteContainerServiceRequest,
+    output: DeleteContainerServiceResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Creates a temporary set of log in credentials that you can use to log in to the Docker
+ * process on your local machine. After you're logged in, you can use the native Docker commands
+ * to push your local container images to the container image registry of your Amazon Lightsail
+ * account so that you can use them with your Lightsail container service. The log in
+ * credentials expire 12 hours after they are created, at which point you will need to create a
+ * new set of log in credentials.
+ *
+ * You can only push container images to the container service registry of your Lightsail
+ * account. You cannot pull container images or perform any other container image management
+ * actions on the container service registry.
+ *
+ * After you push your container images to the container image registry of your Lightsail
+ * account, use the `RegisterContainerImage` action to register the pushed images to a
+ * specific Lightsail container service.
+ *
+ * This action is not required if you install and use the Lightsail Control
+ * (lightsailctl) plugin to push container images to your Lightsail container service. For
+ * more information, see Pushing and managing container images on your Amazon Lightsail container services
+ * in the *Amazon Lightsail Developer Guide*.
+ */
+export const createContainerServiceRegistryLogin =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateContainerServiceRegistryLoginRequest,
+    output: CreateContainerServiceRegistryLoginResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Deletes a Amazon Lightsail bucket.
+ *
+ * When you delete your bucket, the bucket name is released and can be reused for a new
+ * bucket in your account or another Amazon Web Services account.
+ */
+export const deleteBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketRequest,
+  output: DeleteBucketResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Deletes an access key for the specified Amazon Lightsail bucket.
+ *
+ * We recommend that you delete an access key if the secret access key is compromised.
+ *
+ * For more information about access keys, see Creating access keys for a bucket in Amazon Lightsail in the
+ * *Amazon Lightsail Developer Guide*.
+ */
+export const deleteBucketAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteBucketAccessKeyRequest,
+    output: DeleteBucketAccessKeyResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Deletes an SSL/TLS certificate for your Amazon Lightsail content delivery network (CDN)
+ * distribution.
+ *
+ * Certificates that are currently attached to a distribution cannot be deleted. Use the
+ * `DetachCertificateFromDistribution` action to detach a certificate from a
+ * distribution.
+ */
+export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCertificateRequest,
+  output: DeleteCertificateResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Creates two URLs that are used to access a virtual computer’s graphical user interface
+ * (GUI) session. The primary URL initiates a web-based Amazon DCV session to the virtual
+ * computer's application. The secondary URL initiates a web-based Amazon DCV session to the
+ * virtual computer's operating session.
+ *
+ * Use `StartGUISession` to open the session.
+ */
+export const createGUISessionAccessDetails =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateGUISessionAccessDetailsRequest,
+    output: CreateGUISessionAccessDetailsResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }));
+/**
+ * Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of
+ * an access key ID and corresponding secret access key.
+ *
+ * Access keys grant full programmatic access to the specified bucket and its objects. You
+ * can have a maximum of two access keys per bucket. Use the GetBucketAccessKeys action to get a list of current access keys for a specific bucket. For more
+ * information about access keys, see Creating access keys for a bucket in Amazon Lightsail in the
+ * *Amazon Lightsail Developer Guide*.
+ *
+ * The `secretAccessKey` value is returned only in response to the
+ * `CreateBucketAccessKey` action. You can get a secret access key only when you
+ * first create an access key; you cannot get the secret access key later. If you lose the
+ * secret access key, you must create a new access key.
+ */
+export const createBucketAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateBucketAccessKeyRequest,
+    output: CreateBucketAccessKeyResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Creates an Amazon Lightsail container service.
+ *
+ * A Lightsail container service is a compute resource to which you can deploy containers.
+ * For more information, see Container services in Amazon Lightsail in the Lightsail Dev
+ * Guide.
+ */
+export const createContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateContainerServiceRequest,
+    output: CreateContainerServiceResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Returns a list of TLS security policies that you can apply to Lightsail load
+ * balancers.
+ *
+ * For more information about load balancer TLS security policies, see Configuring TLS security policies on your Amazon Lightsail load
+ * balancers in the *Amazon Lightsail Developer Guide*.
+ */
+export const getLoadBalancerTlsPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetLoadBalancerTlsPoliciesRequest,
+    output: GetLoadBalancerTlsPoliciesResult,
+    errors: [
+      AccessDeniedException,
+      AccountSetupInProgressException,
+      InvalidInputException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Creates an Amazon Lightsail bucket.
+ *
+ * A bucket is a cloud storage resource available in the Lightsail object storage service.
+ * Use buckets to store objects such as data and its descriptive metadata. For more information
+ * about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer
+ * Guide.
+ */
+export const createBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBucketRequest,
+  output: CreateBucketResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Returns the bundles that you can apply to a Amazon Lightsail bucket.
+ *
+ * The bucket bundle specifies the monthly cost, storage quota, and data transfer quota for a
+ * bucket.
+ *
+ * Use the UpdateBucketBundle action to update the
+ * bundle for a bucket.
+ */
+export const getBucketBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketBundlesRequest,
+  output: GetBucketBundlesResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
+/**
+ * Deletes a container image that is registered to your Amazon Lightsail container
+ * service.
+ */
+export const deleteContainerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteContainerImageRequest,
+    output: DeleteContainerImageResult,
+    errors: [
+      AccessDeniedException,
+      InvalidInputException,
+      NotFoundException,
+      RegionSetupInProgressException,
+      ServiceException,
+      UnauthenticatedException,
+    ],
+  }),
+);
+/**
+ * Returns information about one or more Amazon Lightsail buckets. The information returned
+ * includes the synchronization status of the Amazon Simple Storage Service (Amazon S3)
+ * account-level block public access feature for your Lightsail buckets.
+ *
+ * For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer
+ * Guide.
+ */
+export const getBuckets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketsRequest,
+  output: GetBucketsResult,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -7998,31 +8091,20 @@ export const createContainerServiceDeployment =
     ],
   }));
 /**
- * Returns information about one or more of your Amazon Lightsail container services.
+ * Returns information about the configured alarms. Specify an alarm name in your request to
+ * return information about a specific alarm, or specify a monitored resource name to return
+ * information about all alarms for a specific resource.
+ *
+ * An alarm is used to monitor a single metric for one of your resources. When a metric
+ * condition is met, the alarm can notify you by email, SMS text message, and a banner displayed
+ * on the Amazon Lightsail console. For more information, see Alarms
+ * in Amazon Lightsail.
  */
-export const getContainerServices = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContainerServicesRequest,
-    output: ContainerServicesListResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
-/**
- * Returns information about a specific domain recordset.
- */
-export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDomainRequest,
-  output: GetDomainResult,
+export const getAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAlarmsRequest,
+  output: GetAlarmsResult,
   errors: [
     AccessDeniedException,
-    AccountSetupInProgressException,
     InvalidInputException,
     NotFoundException,
     OperationFailureException,
@@ -8031,48 +8113,6 @@ export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific Amazon Lightsail instance, which is a virtual private
- * server.
- */
-export const getInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInstanceRequest,
-  output: GetInstanceResult,
-  errors: [
-    AccessDeniedException,
-    AccountSetupInProgressException,
-    InvalidInputException,
-    NotFoundException,
-    OperationFailureException,
-    RegionSetupInProgressException,
-    ServiceException,
-    UnauthenticatedException,
-  ],
-}));
-/**
- * Returns information about the TLS certificates that are associated with the specified
- * Lightsail load balancer.
- *
- * TLS is just an updated, more secure version of Secure Socket Layer (SSL).
- *
- * You can have a maximum of 2 certificates associated with a Lightsail load balancer. One
- * is active and the other is inactive.
- */
-export const getLoadBalancerTlsCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetLoadBalancerTlsCertificatesRequest,
-    output: GetLoadBalancerTlsCertificatesResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
 /**
  * Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN)
  * distribution and a container service.

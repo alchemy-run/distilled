@@ -155,123 +155,107 @@ const tools = toolkit.toLayer(
       //   return "Discovery session complete.";
       // }),
       CallApi: Effect.fn(function* ({ service, operation, input, region }) {
-        // Resolve to the canonical operation name used in generated code
-        const operationName = (yield* resolveOperationName(
-          service,
-          operation,
-        ))!;
-        const api = yield* getOperation(service, operation);
-        if (!api) {
-          return `Operation '${operation}' not found in service '${service}'`;
-        }
-        const effectiveRegion = region ?? "us-west-2";
+        return yield* Effect.gen(function* () {
+          // Resolve to the canonical operation name used in generated code
+          const operationName = (yield* resolveOperationName(
+            service,
+            operation,
+          ))!;
+          const api = yield* getOperation(service, operation);
+          if (!api) {
+            return `Operation '${operation}' not found in service '${service}'`;
+          }
+          const effectiveRegion = region ?? "us-west-2";
 
-        // Load spec patches to include discovered errors and aliases
-        const specPatches = yield* loadSpec(service);
-        const opPatches = specPatches.operations[operationName];
-        const patchedErrors = opPatches?.errors ?? [];
-        const patchedAliases = opPatches?.aliases ?? [];
+          // Load spec patches to include discovered errors
+          const specPatches = yield* loadSpec(service);
+          const opPatches = specPatches.operations[operationName];
+          const patchedErrors = opPatches?.errors ?? [];
 
-        // Get defined error names to check if discovered error is known
-        // Include both the canonical error names and the aliased (from) names
-        const definedErrorNames = new Set([
-          ...api.errors.map((err) => err._tag),
-          ...COMMON_ERRORS.map((err) => err._tag),
-          ...patchedErrors,
-          ...patchedAliases.map((a) => a.from), // Also treat aliased errors as known
-        ]);
+          // Get defined error names to check if discovered error is known
+          const definedErrorNames = new Set([
+            ...api.errors.map((err) => err._tag),
+            ...COMMON_ERRORS.map((err) => err._tag),
+            ...patchedErrors,
+          ]);
 
-        let json;
-        try {
-          json = JSON.parse(input);
-        } catch (error) {
-          yield* Console.log("Invalid JSON input", input, error);
-          return `Invalid JSON input: ${input}. Error: ${error}`;
-        }
+          let json;
+          try {
+            json = JSON.parse(input);
+          } catch (error) {
+            yield* Console.log("Invalid JSON input", input, error);
+            return `Invalid JSON input: ${input}. Error: ${error}`;
+          }
 
-        return yield* S.decodeUnknown(api.input)(json).pipe(
-          Effect.either,
-          Effect.flatMap(
-            Either.match({
-              onLeft: (error) =>
-                Effect.succeed(
-                  `Input does not match the operation's input schema: ${error.toString()}`,
-                ),
-              onRight: (decodedInput) =>
-                Effect.gen(function* () {
-                  // Log the API call with decoded input and region
-                  yield* Console.log(
-                    `\x1b[34m[${effectiveRegion}] ${service}.${operationName}(${JSON.stringify(decodedInput, null, 2)})\x1b[0m`,
-                  );
+          return yield* S.decodeUnknown(api.input)(json).pipe(
+            Effect.either,
+            Effect.flatMap(
+              Either.match({
+                onLeft: (error) =>
+                  Effect.succeed(
+                    `Input does not match the operation's input schema: ${error.toString()}`,
+                  ),
+                onRight: (decodedInput) =>
+                  Effect.gen(function* () {
+                    // Log the API call with decoded input and region
+                    yield* Console.log(
+                      `\x1b[34m[${effectiveRegion}] ${service}.${operationName}(${JSON.stringify(decodedInput, null, 2)})\x1b[0m`,
+                    );
 
-                  const result = yield* api(decodedInput).pipe(
-                    Effect.provideService(Region, effectiveRegion as AWSRegion),
-                    Effect.map((response) => {
-                      const responseStr = `Success: Operation completed successfully.`;
-                      return { success: true as const, response, responseStr };
-                    }),
-                    Effect.catchAll((err: any) => {
-                      if (err instanceof UnknownAwsError) {
+                    const result = yield* api(decodedInput).pipe(
+                      Effect.provideService(
+                        Region,
+                        effectiveRegion as AWSRegion,
+                      ),
+                      Effect.map((response) => {
+                        const responseStr = `Success: Operation completed successfully.`;
+                        return {
+                          success: true as const,
+                          response,
+                          responseStr,
+                        };
+                      }),
+                      Effect.catchAll((err: any) => {
+                        if (err instanceof UnknownAwsError) {
+                          return Effect.succeed({
+                            success: false as const,
+                            errorTag: err.errorTag,
+                            isKnown: false,
+                            message: err.message,
+                          });
+                        }
+                        const errorTag = err._tag || err.errorTag || "Unknown";
+                        const isKnown = definedErrorNames.has(errorTag);
+                        const message =
+                          err.message || err.errorData?.Message || "";
                         return Effect.succeed({
                           success: false as const,
-                          errorTag: err.errorTag,
-                          isKnown: false,
-                          message: err.message,
+                          errorTag,
+                          isKnown,
+                          message,
                         });
-                      }
-                      const errorTag = err._tag || err.errorTag || "Unknown";
-                      const isKnown = definedErrorNames.has(errorTag);
-                      const message =
-                        err.message || err.errorData?.Message || "";
-                      return Effect.succeed({
-                        success: false as const,
-                        errorTag,
-                        isKnown,
-                        message,
-                      });
-                    }),
-                  );
+                      }),
+                    );
 
-                  if (result.success) {
-                    return result.responseStr;
-                  } else {
-                    if (
-                      result.isKnown ||
-                      // it may have been added recently
-                      definedErrorNames.has(result.errorTag)
-                    ) {
-                      yield* Console.log(
-                        `\x1b[32mEncountered known error: ${result.errorTag}\x1b[0m`,
-                      );
-                      return `Error "${result.errorTag}" (already defined): ${result.message}`;
+                    if (result.success) {
+                      return result.responseStr;
                     } else {
-                      // Check if this error is a variant of a known error (e.g., NoSuchBucketException -> NoSuchBucket)
-                      const canonicalError = findCanonicalError(
-                        result.errorTag,
-                        definedErrorNames,
-                      );
-
-                      const locks = yield* Locks;
-                      const lock = yield* locks.getLock(
-                        `spec/${service.toLowerCase()}.json`,
-                      );
-
-                      if (canonicalError) {
-                        // Record as an alias instead of a new error
-                        yield* lock.withPermits(1)(
-                          recordAlias(
-                            service,
-                            operationName,
-                            result.errorTag,
-                            canonicalError,
-                          ),
-                        );
+                      if (
+                        result.isKnown ||
+                        // it may have been added recently
+                        definedErrorNames.has(result.errorTag)
+                      ) {
                         yield* Console.log(
-                          `\x1b[33m🔄 ALIAS: ${result.errorTag} -> ${canonicalError} (saved to spec/${service.toLowerCase()}.json)\x1b[0m`,
+                          `\x1b[32mEncountered known error: ${result.errorTag}\x1b[0m`,
                         );
-                        return `🔄 ERROR ALIAS DETECTED: "${result.errorTag}" is an alias for "${canonicalError}" - recorded as alias. Message: ${result.message}`;
+                        return `Error "${result.errorTag}" (already defined): ${result.message}`;
                       } else {
                         // Record as a new error
+                        const locks = yield* Locks;
+                        const lock = yield* locks.getLock(
+                          `spec/${service.toLowerCase()}.json`,
+                        );
+
                         definedErrorNames.add(result.errorTag);
                         yield* lock.withPermits(1)(
                           recordError(service, operationName, result.errorTag),
@@ -282,10 +266,20 @@ const tools = toolkit.toLayer(
                         return `⚠️ NEW ERROR DISCOVERED: "${result.errorTag}" - This error is NOT in the defined errors list! Message: ${result.message}`;
                       }
                     }
-                  }
-                }),
-            }),
-          ),
+                  }),
+              }),
+            ),
+          );
+        }).pipe(
+          // Catch any defects (synchronous throws like invalid base64) and return as error message
+          Effect.catchAllDefect((defect) => {
+            const message =
+              defect instanceof Error ? defect.message : String(defect);
+            const name = defect instanceof Error ? defect.name : "Error";
+            return Effect.succeed(
+              `Input validation error (${name}): ${message}. Please check your input values - for binary/blob fields, ensure you provide valid base64-encoded data.`,
+            );
+          }),
         );
       }),
     };
@@ -342,52 +336,6 @@ const recordError = Effect.fn(function* (
     });
   }
 });
-
-/**
- * Record an error alias to the spec file for a service.
- */
-const recordAlias = Effect.fn(function* (
-  service: string,
-  operation: string,
-  from: string,
-  to: string,
-) {
-  const existingSpec = yield* loadSpec(service);
-  const opAliases = existingSpec.operations[operation]?.aliases ?? [];
-  const aliasExists = opAliases.some((a) => a.from === from && a.to === to);
-
-  if (!aliasExists) {
-    yield* saveSpec(service, {
-      operations: {
-        ...existingSpec.operations,
-        [operation]: {
-          ...existingSpec.operations[operation],
-          aliases: [...opAliases, { from, to }],
-        },
-      },
-    });
-  }
-});
-
-/**
- * Check if an error tag is a variant of a known error (with Exception/Error suffix).
- * Returns the canonical error name if it's a variant, otherwise null.
- */
-function findCanonicalError(
-  errorTag: string,
-  knownErrors: Set<string>,
-): string | null {
-  // Check if this error ends with "Exception" or "Error" and the base is known
-  for (const suffix of ["Exception", "Error"]) {
-    if (errorTag.endsWith(suffix)) {
-      const baseName = errorTag.slice(0, -suffix.length);
-      if (knownErrors.has(baseName)) {
-        return baseName;
-      }
-    }
-  }
-  return null;
-}
 
 const getService = Effect.fn(function* (service: string) {
   if (service in AWS) {

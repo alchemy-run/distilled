@@ -2738,33 +2738,21 @@ export class PutRemediationConfigurationsResponse extends S.Class<PutRemediation
 )({ FailedBatches: S.optional(FailedRemediationBatches) }, ns) {}
 
 //# Errors
-export class NoSuchConfigRuleException extends S.TaggedError<NoSuchConfigRuleException>()(
-  "NoSuchConfigRuleException",
-  {},
-) {}
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class NoSuchConfigurationRecorderException extends S.TaggedError<NoSuchConfigurationRecorderException>()(
-  "NoSuchConfigurationRecorderException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
+export class NoSuchConfigRuleException extends S.TaggedError<NoSuchConfigRuleException>()(
+  "NoSuchConfigRuleException",
+  { message: S.optional(S.String) },
 ) {}
 export class NoSuchConfigurationAggregatorException extends S.TaggedError<NoSuchConfigurationAggregatorException>()(
   "NoSuchConfigurationAggregatorException",
   { message: S.optional(S.String) },
 ) {}
-export class UnmodifiableEntityException extends S.TaggedError<UnmodifiableEntityException>()(
-  "UnmodifiableEntityException",
-  {},
+export class NoSuchConfigurationRecorderException extends S.TaggedError<NoSuchConfigurationRecorderException>()(
+  "NoSuchConfigurationRecorderException",
+  { message: S.optional(S.String) },
 ) {}
 export class NoSuchConformancePackException extends S.TaggedError<NoSuchConformancePackException>()(
   "NoSuchConformancePackException",
@@ -2782,10 +2770,6 @@ export class NoSuchOrganizationConformancePackException extends S.TaggedError<No
   "NoSuchOrganizationConformancePackException",
   { message: S.optional(S.String) },
 ) {}
-export class OrganizationAccessDeniedException extends S.TaggedError<OrganizationAccessDeniedException>()(
-  "OrganizationAccessDeniedException",
-  {},
-) {}
 export class InsufficientPermissionsException extends S.TaggedError<InsufficientPermissionsException>()(
   "InsufficientPermissionsException",
   { message: S.optional(S.String) },
@@ -2794,49 +2778,49 @@ export class NoRunningConfigurationRecorderException extends S.TaggedError<NoRun
   "NoRunningConfigurationRecorderException",
   { message: S.optional(S.String) },
 ) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class NoSuchRetentionConfigurationException extends S.TaggedError<NoSuchRetentionConfigurationException>()(
-  "NoSuchRetentionConfigurationException",
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
   { message: S.optional(S.String) },
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class NoSuchDeliveryChannelException extends S.TaggedError<NoSuchDeliveryChannelException>()(
-  "NoSuchDeliveryChannelException",
-  {},
-) {}
-export class InvalidLimitException extends S.TaggedError<InvalidLimitException>()(
-  "InvalidLimitException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
 ) {}
 export class NoAvailableDeliveryChannelException extends S.TaggedError<NoAvailableDeliveryChannelException>()(
   "NoAvailableDeliveryChannelException",
   { message: S.optional(S.String) },
 ) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { message: S.optional(S.String) },
+) {}
+export class UnmodifiableEntityException extends S.TaggedError<UnmodifiableEntityException>()(
+  "UnmodifiableEntityException",
+  { message: S.optional(S.String) },
+) {}
+export class NoSuchDeliveryChannelException extends S.TaggedError<NoSuchDeliveryChannelException>()(
+  "NoSuchDeliveryChannelException",
+  { message: S.optional(S.String) },
+) {}
+export class OrganizationAccessDeniedException extends S.TaggedError<OrganizationAccessDeniedException>()(
+  "OrganizationAccessDeniedException",
+  { message: S.optional(S.String) },
+) {}
 export class NoSuchRemediationConfigurationException extends S.TaggedError<NoSuchRemediationConfigurationException>()(
   "NoSuchRemediationConfigurationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { message: S.optional(S.String) },
 ) {}
 export class NoAvailableConfigurationRecorderException extends S.TaggedError<NoAvailableConfigurationRecorderException>()(
   "NoAvailableConfigurationRecorderException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
+export class InvalidLimitException extends S.TaggedError<InvalidLimitException>()(
+  "InvalidLimitException",
+  { message: S.optional(S.String) },
 ) {}
 export class MaxNumberOfOrganizationConformancePacksExceededException extends S.TaggedError<MaxNumberOfOrganizationConformancePacksExceededException>()(
   "MaxNumberOfOrganizationConformancePacksExceededException",
@@ -2854,16 +2838,24 @@ export class InvalidExpressionException extends S.TaggedError<InvalidExpressionE
   "InvalidExpressionException",
   { message: S.optional(S.String) },
 ) {}
+export class NoSuchRetentionConfigurationException extends S.TaggedError<NoSuchRetentionConfigurationException>()(
+  "NoSuchRetentionConfigurationException",
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { message: S.optional(S.String) },
+) {}
 export class RemediationInProgressException extends S.TaggedError<RemediationInProgressException>()(
   "RemediationInProgressException",
   { message: S.optional(S.String) },
 ) {}
-export class NoSuchConfigRuleInConformancePackException extends S.TaggedError<NoSuchConfigRuleInConformancePackException>()(
-  "NoSuchConfigRuleInConformancePackException",
-  {},
-) {}
-export class InvalidTimeRangeException extends S.TaggedError<InvalidTimeRangeException>()(
-  "InvalidTimeRangeException",
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
   { message: S.optional(S.String) },
 ) {}
 export class ConformancePackTemplateValidationException extends S.TaggedError<ConformancePackTemplateValidationException>()(
@@ -2884,11 +2876,7 @@ export class MaxNumberOfOrganizationConfigRulesExceededException extends S.Tagge
 ) {}
 export class NoAvailableOrganizationException extends S.TaggedError<NoAvailableOrganizationException>()(
   "NoAvailableOrganizationException",
-  {},
-) {}
-export class OrganizationAllFeaturesNotEnabledException extends S.TaggedError<OrganizationAllFeaturesNotEnabledException>()(
-  "OrganizationAllFeaturesNotEnabledException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceConcurrentModificationException extends S.TaggedError<ResourceConcurrentModificationException>()(
   "ResourceConcurrentModificationException",
@@ -2902,13 +2890,13 @@ export class NoSuchRemediationExceptionException extends S.TaggedError<NoSuchRem
   "NoSuchRemediationExceptionException",
   { message: S.optional(S.String) },
 ) {}
+export class NoSuchConfigRuleInConformancePackException extends S.TaggedError<NoSuchConfigRuleInConformancePackException>()(
+  "NoSuchConfigRuleInConformancePackException",
+  { message: S.optional(S.String) },
+) {}
 export class OversizedConfigurationItemException extends S.TaggedError<OversizedConfigurationItemException>()(
   "OversizedConfigurationItemException",
   { message: S.optional(S.String) },
-) {}
-export class ResourceNotDiscoveredException extends S.TaggedError<ResourceNotDiscoveredException>()(
-  "ResourceNotDiscoveredException",
-  {},
 ) {}
 export class MaxNumberOfConfigRulesExceededException extends S.TaggedError<MaxNumberOfConfigRulesExceededException>()(
   "MaxNumberOfConfigRulesExceededException",
@@ -2930,8 +2918,16 @@ export class InvalidDeliveryChannelNameException extends S.TaggedError<InvalidDe
   "InvalidDeliveryChannelNameException",
   { message: S.optional(S.String) },
 ) {}
-export class OrganizationConformancePackTemplateValidationException extends S.TaggedError<OrganizationConformancePackTemplateValidationException>()(
-  "OrganizationConformancePackTemplateValidationException",
+export class OrganizationAllFeaturesNotEnabledException extends S.TaggedError<OrganizationAllFeaturesNotEnabledException>()(
+  "OrganizationAllFeaturesNotEnabledException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTimeRangeException extends S.TaggedError<InvalidTimeRangeException>()(
+  "InvalidTimeRangeException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotDiscoveredException extends S.TaggedError<ResourceNotDiscoveredException>()(
+  "ResourceNotDiscoveredException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidRecordingGroupException extends S.TaggedError<InvalidRecordingGroupException>()(
@@ -2940,6 +2936,10 @@ export class InvalidRecordingGroupException extends S.TaggedError<InvalidRecordi
 ) {}
 export class InvalidS3KeyPrefixException extends S.TaggedError<InvalidS3KeyPrefixException>()(
   "InvalidS3KeyPrefixException",
+  { message: S.optional(S.String) },
+) {}
+export class OrganizationConformancePackTemplateValidationException extends S.TaggedError<OrganizationConformancePackTemplateValidationException>()(
+  "OrganizationConformancePackTemplateValidationException",
   { message: S.optional(S.String) },
 ) {}
 export class MaxNumberOfConfigurationRecordersExceededException extends S.TaggedError<MaxNumberOfConfigurationRecordersExceededException>()(
@@ -2965,16 +2965,6 @@ export class NoSuchBucketException extends S.TaggedError<NoSuchBucketException>(
 
 //# Operations
 /**
- * Deletes pending authorization requests for a specified
- * aggregator account in a specified region.
- */
-export const deletePendingAggregationRequest =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePendingAggregationRequestRequest,
-    output: DeletePendingAggregationRequestResponse,
-    errors: [InvalidParameterValueException],
-  }));
-/**
  * Deletes the authorization granted to the specified
  * configuration aggregator account in a specified region.
  */
@@ -2982,6 +2972,66 @@ export const deleteAggregationAuthorization =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     input: DeleteAggregationAuthorizationRequest,
     output: DeleteAggregationAuthorizationResponse,
+    errors: [InvalidParameterValueException],
+  }));
+/**
+ * Deletes the specified configuration aggregator and the
+ * aggregated data associated with the aggregator.
+ */
+export const deleteConfigurationAggregator =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteConfigurationAggregatorRequest,
+    output: DeleteConfigurationAggregatorResponse,
+    errors: [NoSuchConfigurationAggregatorException],
+  }));
+/**
+ * Returns the details of one or more remediation configurations.
+ */
+export const describeRemediationConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeRemediationConfigurationsRequest,
+    output: DescribeRemediationConfigurationsResponse,
+    errors: [],
+  }));
+/**
+ * Returns the evaluation results for the specified Amazon Web Services resource.
+ * The results indicate which Config rules were used to evaluate
+ * the resource, when each rule was last invoked, and whether the resource
+ * complies with each rule.
+ */
+export const getComplianceDetailsByResource =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetComplianceDetailsByResourceRequest,
+    output: GetComplianceDetailsByResourceResponse,
+    errors: [InvalidParameterValueException],
+  }));
+/**
+ * Returns the policy definition containing the logic for your Config Custom Policy rule.
+ */
+export const getCustomRulePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCustomRulePolicyRequest,
+  output: GetCustomRulePolicyResponse,
+  errors: [NoSuchConfigRuleException],
+}));
+/**
+ * Add or updates the evaluations for process checks.
+ * This API checks if the rule is a process check when the name of the Config rule is provided.
+ */
+export const putExternalEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutExternalEvaluationRequest,
+    output: PutExternalEvaluationResponse,
+    errors: [InvalidParameterValueException, NoSuchConfigRuleException],
+  }),
+);
+/**
+ * Deletes pending authorization requests for a specified
+ * aggregator account in a specified region.
+ */
+export const deletePendingAggregationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeletePendingAggregationRequestRequest,
+    output: DeletePendingAggregationRequestResponse,
     errors: [InvalidParameterValueException],
   }));
 /**
@@ -3015,16 +3065,6 @@ export const deleteConfigRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [NoSuchConfigRuleException, ResourceInUseException],
 }));
 /**
- * Deletes the specified configuration aggregator and the
- * aggregated data associated with the aggregator.
- */
-export const deleteConfigurationAggregator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfigurationAggregatorRequest,
-    output: DeleteConfigurationAggregatorResponse,
-    errors: [NoSuchConfigurationAggregatorException],
-  }));
-/**
  * Deletes the customer managed configuration recorder.
  *
  * This operation does not delete the configuration information that
@@ -3039,422 +3079,6 @@ export const deleteConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: DeleteConfigurationRecorderRequest,
     output: DeleteConfigurationRecorderResponse,
     errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
-  }),
-);
-/**
- * Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that
- * conformance pack.
- *
- * Config sets the conformance pack to `DELETE_IN_PROGRESS` until the deletion is complete.
- * You cannot update a conformance pack while it is in this state.
- *
- * **Recommendation: Consider excluding the `AWS::Config::ResourceCompliance` resource type from recording before deleting rules**
- *
- * Deleting rules creates configuration items (CIs) for `AWS::Config::ResourceCompliance`
- * that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
- * this can lead to a spike in the number of CIs recorded.
- *
- * To avoid the associated costs, you can opt to disable recording
- * for the `AWS::Config::ResourceCompliance` resource type before deleting rules, and re-enable recording after the rules have been deleted.
- *
- * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
- * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
- */
-export const deleteConformancePack = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConformancePackRequest,
-    output: DeleteConformancePackResponse,
-    errors: [NoSuchConformancePackException, ResourceInUseException],
-  }),
-);
-/**
- * Deletes the evaluation results for the specified Config
- * rule. You can specify one Config rule per request. After you
- * delete the evaluation results, you can call the StartConfigRulesEvaluation API to start evaluating
- * your Amazon Web Services resources against the rule.
- */
-export const deleteEvaluationResults = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEvaluationResultsRequest,
-    output: DeleteEvaluationResultsResponse,
-    errors: [NoSuchConfigRuleException, ResourceInUseException],
-  }),
-);
-/**
- * Deletes the specified organization conformance pack and all of the Config rules and remediation actions from
- * all member accounts in that organization.
- *
- * Only a management account or a delegated administrator account can delete an organization conformance pack.
- * When calling this API with a delegated administrator, you must ensure Organizations
- * `ListDelegatedAdministrator` permissions are added.
- *
- * Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete.
- * You cannot update a conformance pack while it is in this state.
- *
- * **Recommendation: Consider excluding the `AWS::Config::ResourceCompliance` resource type from recording before deleting rules**
- *
- * Deleting rules creates configuration items (CIs) for `AWS::Config::ResourceCompliance`
- * that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
- * this can lead to a spike in the number of CIs recorded.
- *
- * To avoid the associated costs, you can opt to disable recording
- * for the `AWS::Config::ResourceCompliance` resource type before deleting rules, and re-enable recording after the rules have been deleted.
- *
- * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
- * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
- */
-export const deleteOrganizationConformancePack =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteOrganizationConformancePackRequest,
-    output: DeleteOrganizationConformancePackResponse,
-    errors: [
-      NoSuchOrganizationConformancePackException,
-      OrganizationAccessDeniedException,
-      ResourceInUseException,
-    ],
-  }));
-/**
- * Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
- */
-export const deleteResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourceConfigRequest,
-    output: DeleteResourceConfigResponse,
-    errors: [NoRunningConfigurationRecorderException, ValidationException],
-  }),
-);
-/**
- * Deletes the retention configuration.
- */
-export const deleteRetentionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRetentionConfigurationRequest,
-    output: DeleteRetentionConfigurationResponse,
-    errors: [
-      InvalidParameterValueException,
-      NoSuchRetentionConfigurationException,
-    ],
-  }));
-/**
- * Deletes an existing service-linked configuration recorder.
- *
- * This operation does not delete the configuration information that was previously recorded. You will be able to access the previously
- * recorded information by using the
- * GetResourceConfigHistory operation, but you will not
- * be able to access this information in the Config console until
- * you have created a new service-linked configuration recorder for the same service.
- *
- * **The recording scope determines if you receive configuration items**
- *
- * The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
- */
-export const deleteServiceLinkedConfigurationRecorder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceLinkedConfigurationRecorderRequest,
-    output: DeleteServiceLinkedConfigurationRecorderResponse,
-    errors: [
-      ConflictException,
-      NoSuchConfigurationRecorderException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
- */
-export const deleteStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStoredQueryRequest,
-  output: DeleteStoredQueryResponse,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
- * Returns details for the configuration recorder you specify.
- *
- * If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the
- * account, if applicable.
- *
- * When making a request to this operation, you can only specify one configuration recorder.
- */
-export const describeConfigurationRecorders =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationRecordersRequest,
-    output: DescribeConfigurationRecordersResponse,
-    errors: [NoSuchConfigurationRecorderException, ValidationException],
-  }));
-/**
- * Returns details about the specified delivery channel. If a
- * delivery channel is not specified, this operation returns the details
- * of all delivery channels associated with the account.
- *
- * Currently, you can specify only one delivery channel per
- * region in your account.
- */
-export const describeDeliveryChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDeliveryChannelsRequest,
-    output: DescribeDeliveryChannelsResponse,
-    errors: [NoSuchDeliveryChannelException],
-  }),
-);
-/**
- * Returns the details of one or more remediation configurations.
- */
-export const describeRemediationConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRemediationConfigurationsRequest,
-    output: DescribeRemediationConfigurationsResponse,
-    errors: [],
-  }));
-/**
- * Removes all resource types specified in the `ResourceTypes` list from the RecordingGroup of configuration recorder and excludes these resource types when recording.
- *
- * For this operation, the configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
- */
-export const disassociateResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateResourceTypesRequest,
-    output: DisassociateResourceTypesResponse,
-    errors: [
-      ConflictException,
-      NoSuchConfigurationRecorderException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns the evaluation results for the specified Amazon Web Services resource.
- * The results indicate which Config rules were used to evaluate
- * the resource, when each rule was last invoked, and whether the resource
- * complies with each rule.
- */
-export const getComplianceDetailsByResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetComplianceDetailsByResourceRequest,
-    output: GetComplianceDetailsByResourceResponse,
-    errors: [InvalidParameterValueException],
-  }));
-/**
- * Returns the policy definition containing the logic for your Config Custom Policy rule.
- */
-export const getCustomRulePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCustomRulePolicyRequest,
-  output: GetCustomRulePolicyResponse,
-  errors: [NoSuchConfigRuleException],
-}));
-/**
- * Returns the policy definition containing the logic for your organization Config Custom Policy rule.
- */
-export const getOrganizationCustomRulePolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOrganizationCustomRulePolicyRequest,
-    output: GetOrganizationCustomRulePolicyResponse,
-    errors: [
-      NoSuchOrganizationConfigRuleException,
-      OrganizationAccessDeniedException,
-    ],
-  }));
-/**
- * Returns the details of a specific stored query.
- */
-export const getStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStoredQueryRequest,
-  output: GetStoredQueryResponse,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
- * Add or updates the evaluations for process checks.
- * This API checks if the rule is a process check when the name of the Config rule is provided.
- */
-export const putExternalEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutExternalEvaluationRequest,
-    output: PutExternalEvaluationResponse,
-    errors: [InvalidParameterValueException, NoSuchConfigRuleException],
-  }),
-);
-/**
- * Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the `ServicePrincipal` you specify.
- *
- * The configuration recorder's `name`, `recordingGroup`, `recordingMode`, and `recordingScope` is set by the service that is linked to the configuration recorder.
- *
- * For more information and a list of supported services/service principals, see
- * **Working with the Configuration Recorder**
- * in the *Config Developer Guide*.
- *
- * This API creates a service-linked role `AWSServiceRoleForConfig` in your account. The service-linked role is created only when the role does not exist in your account.
- *
- * **The recording scope determines if you receive configuration items**
- *
- * The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
- *
- * **Tags are added at creation and cannot be updated with this operation**
- *
- * Use TagResource and UntagResource to update tags after creation.
- */
-export const putServiceLinkedConfigurationRecorder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutServiceLinkedConfigurationRecorderRequest,
-    output: PutServiceLinkedConfigurationRecorderResponse,
-    errors: [
-      ConflictException,
-      InsufficientPermissionsException,
-      LimitExceededException,
-      ValidationException,
-    ],
-  }));
-/**
- * Runs an on-demand evaluation for the specified Config rules
- * against the last known configuration state of the resources. Use
- * `StartConfigRulesEvaluation` when you want to test
- * that a rule you updated is working as expected.
- * `StartConfigRulesEvaluation` does not re-record the
- * latest configuration state for your resources. It re-runs an
- * evaluation against the last known state of your resources.
- *
- * You can specify up to 25 Config rules per request.
- *
- * An existing `StartConfigRulesEvaluation` call for
- * the specified rules must complete before you can call the API again.
- * If you chose to have Config stream to an Amazon SNS topic, you
- * will receive a `ConfigRuleEvaluationStarted` notification
- * when the evaluation starts.
- *
- * You don't need to call the
- * `StartConfigRulesEvaluation` API to run an
- * evaluation for a new rule. When you create a rule, Config
- * evaluates your resources against the rule automatically.
- *
- * The `StartConfigRulesEvaluation` API is useful if
- * you want to run on-demand evaluations, such as the following
- * example:
- *
- * - You have a custom rule that evaluates your IAM
- * resources every 24 hours.
- *
- * - You update your Lambda function to add additional
- * conditions to your rule.
- *
- * - Instead of waiting for the next periodic evaluation,
- * you call the `StartConfigRulesEvaluation`
- * API.
- *
- * - Config invokes your Lambda function and evaluates
- * your IAM resources.
- *
- * - Your custom rule will still run periodic evaluations
- * every 24 hours.
- */
-export const startConfigRulesEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartConfigRulesEvaluationRequest,
-    output: StartConfigRulesEvaluationResponse,
-    errors: [
-      InvalidParameterValueException,
-      LimitExceededException,
-      NoSuchConfigRuleException,
-      ResourceInUseException,
-    ],
-  }),
-);
-/**
- * Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify.
- *
- * You must have created a delivery channel to
- * successfully start the customer managed configuration recorder. You can use the PutDeliveryChannel operation to create a delivery channel.
- */
-export const startConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartConfigurationRecorderRequest,
-    output: StartConfigurationRecorderResponse,
-    errors: [
-      NoAvailableDeliveryChannelException,
-      NoSuchConfigurationRecorderException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
-/**
- * Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous.
- *
- * You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
- */
-export const startRemediationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartRemediationExecutionRequest,
-    output: StartRemediationExecutionResponse,
-    errors: [
-      InsufficientPermissionsException,
-      InvalidParameterValueException,
-      NoSuchRemediationConfigurationException,
-    ],
-  }),
-);
-/**
- * Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
- */
-export const stopConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopConfigurationRecorderRequest,
-    output: StopConfigurationRecorderResponse,
-    errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
-  }),
-);
-/**
- * Associates the specified tags to a resource with the specified `ResourceArn`. If existing tags on a resource are not specified in the request parameters, they are not changed.
- * If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    ResourceNotFoundException,
-    TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes specified tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
- * Adds all resource types specified in the `ResourceTypes` list to the RecordingGroup of specified configuration recorder and includes those resource types when recording.
- *
- * For this operation, the specified configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
- */
-export const associateResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateResourceTypesRequest,
-    output: AssociateResourceTypesResponse,
-    errors: [
-      ConflictException,
-      NoSuchConfigurationRecorderException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns the `BaseConfigurationItem` for one or more requested resources.
- * The operation also returns a list of resources that are
- * not processed in the current request. If there are no unprocessed
- * resources, the operation returns an empty unprocessedResourceKeys
- * list.
- *
- * - The API does not return results for deleted
- * resources.
- *
- * - The API does not return any tags for the requested
- * resources. This information is filtered out of the
- * supplementaryConfiguration section of the API
- * response.
- */
-export const batchGetResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetResourceConfigRequest,
-    output: BatchGetResourceConfigResponse,
-    errors: [NoAvailableConfigurationRecorderException, ValidationException],
   }),
 );
 /**
@@ -3505,6 +3129,16 @@ export const deleteOrganizationConfigRule =
     ],
   }));
 /**
+ * Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
+ */
+export const deleteResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourceConfigRequest,
+    output: DeleteResourceConfigResponse,
+    errors: [NoRunningConfigurationRecorderException, ValidationException],
+  }),
+);
+/**
  * Schedules delivery of a configuration snapshot to the Amazon S3
  * bucket in the specified delivery channel. After the delivery has
  * started, Config sends the following notifications using an
@@ -3530,116 +3164,6 @@ export const deliverConfigSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns a list of authorizations granted to various aggregator
- * accounts and regions.
- */
-export const describeAggregationAuthorizations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAggregationAuthorizationsRequest,
-    output: DescribeAggregationAuthorizationsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Indicates whether the specified Amazon Web Services resources are compliant. If
- * a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with.
- *
- * A resource is compliant if it complies with all the Config
- * rules that evaluate it. It is noncompliant if it does not comply
- * with one or more of these rules.
- *
- * If Config has no current evaluation results for the
- * resource, it returns `INSUFFICIENT_DATA`. This result
- * might indicate one of the following conditions about the rules that
- * evaluate the resource:
- *
- * - Config has never invoked an evaluation for the
- * rule. To check whether it has, use the
- * `DescribeConfigRuleEvaluationStatus` action
- * to get the `LastSuccessfulInvocationTime` and
- * `LastFailedInvocationTime`.
- *
- * - The rule's Lambda function is failing to send
- * evaluation results to Config. Verify that the role that
- * you assigned to your configuration recorder includes the
- * `config:PutEvaluations` permission. If the
- * rule is a custom rule, verify that the Lambda execution
- * role includes the `config:PutEvaluations`
- * permission.
- *
- * - The rule's Lambda function has returned
- * `NOT_APPLICABLE` for all evaluation results.
- * This can occur if the resources were deleted or removed from
- * the rule's scope.
- */
-export const describeComplianceByResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeComplianceByResourceRequest,
-    output: DescribeComplianceByResourceResponse,
-    errors: [InvalidNextTokenException, InvalidParameterValueException],
-  }));
-/**
- * Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke
- * the rule, and the related error for the last failure.
- */
-export const describeConfigRuleEvaluationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigRuleEvaluationStatusRequest,
-    output: DescribeConfigRuleEvaluationStatusResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleException,
-    ],
-  }));
-/**
- * Returns details about your Config rules.
- */
-export const describeConfigRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeConfigRulesRequest,
-  output: DescribeConfigRulesResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    NoSuchConfigRuleException,
-  ],
-}));
-/**
- * Returns the details of one or more configuration aggregators.
- * If the configuration aggregator is not specified, this operation
- * returns the details for all the configuration aggregators associated
- * with the account.
- */
-export const describeConfigurationAggregators =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationAggregatorsRequest,
-    output: DescribeConfigurationAggregatorsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigurationAggregatorException,
-    ],
-  }));
-/**
- * Returns status information for sources within an aggregator.
- * The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
- */
-export const describeConfigurationAggregatorSourcesStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationAggregatorSourcesStatusRequest,
-    output: DescribeConfigurationAggregatorSourcesStatusResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigurationAggregatorException,
-    ],
-  }));
-/**
  * Returns the current status of the configuration
  * recorder you specify as well as the status of the last recording event for the configuration recorders.
  *
@@ -3655,175 +3179,6 @@ export const describeConfigurationRecorderStatus =
     input: DescribeConfigurationRecorderStatusRequest,
     output: DescribeConfigurationRecorderStatusResponse,
     errors: [NoSuchConfigurationRecorderException, ValidationException],
-  }));
-/**
- * Returns a list of one or more conformance packs.
- */
-export const describeConformancePacks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConformancePacksRequest,
-    output: DescribeConformancePacksResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConformancePackException,
-    ],
-  }),
-);
-/**
- * Provides one or more conformance packs deployment status.
- *
- * If there are no conformance packs then you will see an empty result.
- */
-export const describeConformancePackStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConformancePackStatusRequest,
-    output: DescribeConformancePackStatusResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Provides organization Config rule deployment status for an organization.
- *
- * The status is not considered successful until organization Config rule is successfully deployed in all the member
- * accounts with an exception of excluded accounts.
- *
- * When you specify the limit and the next token, you receive a paginated response.
- * Limit and next token are not applicable if you specify organization Config rule names.
- * It is only applicable, when you request all the organization Config rules.
- */
-export const describeOrganizationConfigRuleStatuses =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConfigRuleStatusesRequest,
-    output: DescribeOrganizationConfigRuleStatusesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchOrganizationConfigRuleException,
-      OrganizationAccessDeniedException,
-    ],
-  }));
-/**
- * Returns a list of organization conformance packs.
- *
- * When you specify the limit and the next token, you receive a paginated response.
- *
- * Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable,
- * when you request all the organization conformance packs.
- *
- * *For accounts within an organization*
- *
- * If you deploy an organizational rule or conformance pack in an organization
- * administrator account, and then establish a delegated administrator and deploy an
- * organizational rule or conformance pack in the delegated administrator account, you
- * won't be able to see the organizational rule or conformance pack in the organization
- * administrator account from the delegated administrator account or see the organizational
- * rule or conformance pack in the delegated administrator account from organization
- * administrator account. The `DescribeOrganizationConfigRules` and
- * `DescribeOrganizationConformancePacks` APIs can only see and interact with
- * the organization-related resource that were deployed from within the account calling
- * those APIs.
- */
-export const describeOrganizationConformancePacks =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConformancePacksRequest,
-    output: DescribeOrganizationConformancePacksResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchOrganizationConformancePackException,
-      OrganizationAccessDeniedException,
-    ],
-  }));
-/**
- * Provides organization conformance pack deployment status for an organization.
- *
- * The status is not considered successful until organization conformance pack is successfully
- * deployed in all the member accounts with an exception of excluded accounts.
- *
- * When you specify the limit and the next token, you receive a paginated response.
- * Limit and next token are not applicable if you specify organization conformance pack names.
- * They are only applicable, when you request all the organization conformance packs.
- */
-export const describeOrganizationConformancePackStatuses =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConformancePackStatusesRequest,
-    output: DescribeOrganizationConformancePackStatusesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchOrganizationConformancePackException,
-      OrganizationAccessDeniedException,
-    ],
-  }));
-/**
- * Returns a list of all pending aggregation requests.
- */
-export const describePendingAggregationRequests =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePendingAggregationRequestsRequest,
-    output: DescribePendingAggregationRequestsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-    ],
-  }));
-/**
- * Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted.
- * When you specify the limit and the next token, you receive a paginated response.
- *
- * Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
- * Remediation exceptions blocks auto-remediation until the exception is cleared.
- *
- * When you specify the limit and the next token, you receive a paginated response.
- *
- * Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
- */
-export const describeRemediationExceptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRemediationExceptionsRequest,
-    output: DescribeRemediationExceptionsResponse,
-    errors: [InvalidNextTokenException, InvalidParameterValueException],
-  }));
-/**
- * Returns the details of one or more retention configurations. If
- * the retention configuration name is not specified, this operation
- * returns the details for all the retention configurations for that
- * account.
- *
- * Currently, Config supports only one retention
- * configuration per region in your account.
- */
-export const describeRetentionConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRetentionConfigurationsRequest,
-    output: DescribeRetentionConfigurationsResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchRetentionConfigurationException,
-    ],
-  }));
-/**
- * Returns the evaluation results for the specified Config
- * rule. The results indicate which Amazon Web Services resources were evaluated by the
- * rule, when each resource was last evaluated, and whether each
- * resource complies with the rule.
- */
-export const getComplianceDetailsByConfigRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetComplianceDetailsByConfigRuleRequest,
-    output: GetComplianceDetailsByConfigRuleResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleException,
-    ],
   }));
 /**
  * Returns the number of Config rules that are compliant and
@@ -3848,75 +3203,6 @@ export const getComplianceSummaryByResourceType =
     errors: [InvalidParameterValueException],
   }));
 /**
- * Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
- */
-export const getConformancePackComplianceSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConformancePackComplianceSummaryRequest,
-    output: GetConformancePackComplianceSummaryResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConformancePackException,
-    ],
-  }));
-/**
- * Returns the resource types, the number of each resource type,
- * and the total number of resources that Config is recording in
- * this region for your Amazon Web Services account.
- *
- * **Example**
- *
- * - Config is recording three resource types in the US
- * East (Ohio) Region for your account: 25 EC2 instances, 20
- * IAM users, and 15 S3 buckets.
- *
- * - You make a call to the
- * `GetDiscoveredResourceCounts` action and
- * specify that you want all resource types.
- *
- * - Config returns the following:
- *
- * - The resource types (EC2 instances, IAM users,
- * and S3 buckets).
- *
- * - The number of each resource type (25, 20, and
- * 15).
- *
- * - The total number of all resources
- * (60).
- *
- * The response is paginated. By default, Config lists 100
- * ResourceCount objects on each page. You can
- * customize this number with the `limit` parameter. The
- * response includes a `nextToken` string. To get the next
- * page of results, run the request again and specify the string for
- * the `nextToken` parameter.
- *
- * If you make a call to the GetDiscoveredResourceCounts action, you might
- * not immediately receive resource counts in the following
- * situations:
- *
- * - You are a new Config customer.
- *
- * - You just enabled resource recording.
- *
- * It might take a few minutes for Config to record and
- * count your resources. Wait a few minutes and then retry the
- * GetDiscoveredResourceCounts action.
- */
-export const getDiscoveredResourceCounts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDiscoveredResourceCountsRequest,
-    output: GetDiscoveredResourceCountsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run.
  * The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated,
  * the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules.
@@ -3930,93 +3216,6 @@ export const getResourceEvaluationSummary =
     output: GetResourceEvaluationSummaryResponse,
     errors: [ResourceNotFoundException],
   }));
-/**
- * Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions.
- * A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region.
- * You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region.
- *
- * For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type `AWS::EC2::Instance` then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
- */
-export const listAggregateDiscoveredResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAggregateDiscoveredResourcesRequest,
-    output: ListAggregateDiscoveredResourcesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns a list of resource
- * resource identifiers for the specified resource types for the resources of that type. A *resource identifier*
- * includes the resource type, ID, and (if available) the custom
- * resource name.
- *
- * The results consist of resources that Config has
- * *discovered*, including those that Config is not currently
- * recording. You can narrow the results to include only resources that
- * have specific resource IDs or a resource name.
- *
- * You can specify either resource IDs or a resource name, but
- * not both, in the same request.
- *
- * *CloudFormation stack recording behavior in Config*
- *
- * When a CloudFormation stack fails to create (for example, it enters the `ROLLBACK_FAILED` state),
- * Config does not record a configuration item (CI) for that stack. Configuration items are only recorded for stacks that reach
- * the following states:
- *
- * - `CREATE_COMPLETE`
- *
- * - `UPDATE_COMPLETE`
- *
- * - `UPDATE_ROLLBACK_COMPLETE`
- *
- * - `UPDATE_ROLLBACK_FAILED`
- *
- * - `DELETE_FAILED`
- *
- * - `DELETE_COMPLETE`
- *
- * Because no CI is created for a failed stack creation, you won't see configuration history
- * for that stack in Config, even after the stack is deleted. This helps make sure that Config only
- * tracks resources that were successfully provisioned.
- */
-export const listDiscoveredResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDiscoveredResourcesRequest,
-    output: ListDiscoveredResourcesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoAvailableConfigurationRecorderException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
- */
-export const listStoredQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStoredQueriesRequest,
-  output: ListStoredQueriesResponse,
-  errors: [InvalidNextTokenException, ValidationException],
-}));
-/**
- * List the tags for Config resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InvalidLimitException,
-    InvalidNextTokenException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Authorizes the aggregator account and region to collect data
  * from the source account and region.
@@ -4123,24 +3322,371 @@ export const putRetentionConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Accepts a structured query language (SQL) `SELECT` command, performs the corresponding search, and returns resource configurations matching the properties.
+ * Deletes an existing service-linked configuration recorder.
  *
- * For more information about query components, see the
+ * This operation does not delete the configuration information that was previously recorded. You will be able to access the previously
+ * recorded information by using the
+ * GetResourceConfigHistory operation, but you will not
+ * be able to access this information in the Config console until
+ * you have created a new service-linked configuration recorder for the same service.
  *
- * **Query Components**
- * section in the *Config Developer Guide*.
+ * **The recording scope determines if you receive configuration items**
+ *
+ * The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
  */
-export const selectResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SelectResourceConfigRequest,
-    output: SelectResourceConfigResponse,
+export const deleteServiceLinkedConfigurationRecorder =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteServiceLinkedConfigurationRecorderRequest,
+    output: DeleteServiceLinkedConfigurationRecorderResponse,
     errors: [
-      InvalidExpressionException,
-      InvalidLimitException,
-      InvalidNextTokenException,
+      ConflictException,
+      NoSuchConfigurationRecorderException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Removes all resource types specified in the `ResourceTypes` list from the RecordingGroup of configuration recorder and excludes these resource types when recording.
+ *
+ * For this operation, the configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
+ */
+export const disassociateResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateResourceTypesRequest,
+    output: DisassociateResourceTypesResponse,
+    errors: [
+      ConflictException,
+      NoSuchConfigurationRecorderException,
+      ValidationException,
     ],
   }),
 );
+/**
+ * Deletes the retention configuration.
+ */
+export const deleteRetentionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteRetentionConfigurationRequest,
+    output: DeleteRetentionConfigurationResponse,
+    errors: [
+      InvalidParameterValueException,
+      NoSuchRetentionConfigurationException,
+    ],
+  }));
+/**
+ * Runs an on-demand evaluation for the specified Config rules
+ * against the last known configuration state of the resources. Use
+ * `StartConfigRulesEvaluation` when you want to test
+ * that a rule you updated is working as expected.
+ * `StartConfigRulesEvaluation` does not re-record the
+ * latest configuration state for your resources. It re-runs an
+ * evaluation against the last known state of your resources.
+ *
+ * You can specify up to 25 Config rules per request.
+ *
+ * An existing `StartConfigRulesEvaluation` call for
+ * the specified rules must complete before you can call the API again.
+ * If you chose to have Config stream to an Amazon SNS topic, you
+ * will receive a `ConfigRuleEvaluationStarted` notification
+ * when the evaluation starts.
+ *
+ * You don't need to call the
+ * `StartConfigRulesEvaluation` API to run an
+ * evaluation for a new rule. When you create a rule, Config
+ * evaluates your resources against the rule automatically.
+ *
+ * The `StartConfigRulesEvaluation` API is useful if
+ * you want to run on-demand evaluations, such as the following
+ * example:
+ *
+ * - You have a custom rule that evaluates your IAM
+ * resources every 24 hours.
+ *
+ * - You update your Lambda function to add additional
+ * conditions to your rule.
+ *
+ * - Instead of waiting for the next periodic evaluation,
+ * you call the `StartConfigRulesEvaluation`
+ * API.
+ *
+ * - Config invokes your Lambda function and evaluates
+ * your IAM resources.
+ *
+ * - Your custom rule will still run periodic evaluations
+ * every 24 hours.
+ */
+export const startConfigRulesEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartConfigRulesEvaluationRequest,
+    output: StartConfigRulesEvaluationResponse,
+    errors: [
+      InvalidParameterValueException,
+      LimitExceededException,
+      NoSuchConfigRuleException,
+      ResourceInUseException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that
+ * conformance pack.
+ *
+ * Config sets the conformance pack to `DELETE_IN_PROGRESS` until the deletion is complete.
+ * You cannot update a conformance pack while it is in this state.
+ *
+ * **Recommendation: Consider excluding the `AWS::Config::ResourceCompliance` resource type from recording before deleting rules**
+ *
+ * Deleting rules creates configuration items (CIs) for `AWS::Config::ResourceCompliance`
+ * that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+ * this can lead to a spike in the number of CIs recorded.
+ *
+ * To avoid the associated costs, you can opt to disable recording
+ * for the `AWS::Config::ResourceCompliance` resource type before deleting rules, and re-enable recording after the rules have been deleted.
+ *
+ * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+ * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
+ */
+export const deleteConformancePack = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConformancePackRequest,
+    output: DeleteConformancePackResponse,
+    errors: [NoSuchConformancePackException, ResourceInUseException],
+  }),
+);
+/**
+ * Deletes the evaluation results for the specified Config
+ * rule. You can specify one Config rule per request. After you
+ * delete the evaluation results, you can call the StartConfigRulesEvaluation API to start evaluating
+ * your Amazon Web Services resources against the rule.
+ */
+export const deleteEvaluationResults = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEvaluationResultsRequest,
+    output: DeleteEvaluationResultsResponse,
+    errors: [NoSuchConfigRuleException, ResourceInUseException],
+  }),
+);
+/**
+ * Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify.
+ *
+ * You must have created a delivery channel to
+ * successfully start the customer managed configuration recorder. You can use the PutDeliveryChannel operation to create a delivery channel.
+ */
+export const startConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartConfigurationRecorderRequest,
+    output: StartConfigurationRecorderResponse,
+    errors: [
+      NoAvailableDeliveryChannelException,
+      NoSuchConfigurationRecorderException,
+      UnmodifiableEntityException,
+    ],
+  }),
+);
+/**
+ * Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
+ */
+export const stopConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopConfigurationRecorderRequest,
+    output: StopConfigurationRecorderResponse,
+    errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
+  }),
+);
+/**
+ * Returns details about the specified delivery channel. If a
+ * delivery channel is not specified, this operation returns the details
+ * of all delivery channels associated with the account.
+ *
+ * Currently, you can specify only one delivery channel per
+ * region in your account.
+ */
+export const describeDeliveryChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeDeliveryChannelsRequest,
+    output: DescribeDeliveryChannelsResponse,
+    errors: [NoSuchDeliveryChannelException],
+  }),
+);
+/**
+ * Deletes the specified organization conformance pack and all of the Config rules and remediation actions from
+ * all member accounts in that organization.
+ *
+ * Only a management account or a delegated administrator account can delete an organization conformance pack.
+ * When calling this API with a delegated administrator, you must ensure Organizations
+ * `ListDelegatedAdministrator` permissions are added.
+ *
+ * Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete.
+ * You cannot update a conformance pack while it is in this state.
+ *
+ * **Recommendation: Consider excluding the `AWS::Config::ResourceCompliance` resource type from recording before deleting rules**
+ *
+ * Deleting rules creates configuration items (CIs) for `AWS::Config::ResourceCompliance`
+ * that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+ * this can lead to a spike in the number of CIs recorded.
+ *
+ * To avoid the associated costs, you can opt to disable recording
+ * for the `AWS::Config::ResourceCompliance` resource type before deleting rules, and re-enable recording after the rules have been deleted.
+ *
+ * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+ * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
+ */
+export const deleteOrganizationConformancePack =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteOrganizationConformancePackRequest,
+    output: DeleteOrganizationConformancePackResponse,
+    errors: [
+      NoSuchOrganizationConformancePackException,
+      OrganizationAccessDeniedException,
+      ResourceInUseException,
+    ],
+  }));
+/**
+ * Returns the policy definition containing the logic for your organization Config Custom Policy rule.
+ */
+export const getOrganizationCustomRulePolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetOrganizationCustomRulePolicyRequest,
+    output: GetOrganizationCustomRulePolicyResponse,
+    errors: [
+      NoSuchOrganizationConfigRuleException,
+      OrganizationAccessDeniedException,
+    ],
+  }));
+/**
+ * Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous.
+ *
+ * You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
+ */
+export const startRemediationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartRemediationExecutionRequest,
+    output: StartRemediationExecutionResponse,
+    errors: [
+      InsufficientPermissionsException,
+      InvalidParameterValueException,
+      NoSuchRemediationConfigurationException,
+    ],
+  }),
+);
+/**
+ * Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
+ */
+export const deleteStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStoredQueryRequest,
+  output: DeleteStoredQueryResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Returns details for the configuration recorder you specify.
+ *
+ * If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the
+ * account, if applicable.
+ *
+ * When making a request to this operation, you can only specify one configuration recorder.
+ */
+export const describeConfigurationRecorders =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeConfigurationRecordersRequest,
+    output: DescribeConfigurationRecordersResponse,
+    errors: [NoSuchConfigurationRecorderException, ValidationException],
+  }));
+/**
+ * Returns the details of a specific stored query.
+ */
+export const getStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStoredQueryRequest,
+  output: GetStoredQueryResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Deletes specified tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Adds all resource types specified in the `ResourceTypes` list to the RecordingGroup of specified configuration recorder and includes those resource types when recording.
+ *
+ * For this operation, the specified configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
+ */
+export const associateResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateResourceTypesRequest,
+    output: AssociateResourceTypesResponse,
+    errors: [
+      ConflictException,
+      NoSuchConfigurationRecorderException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Associates the specified tags to a resource with the specified `ResourceArn`. If existing tags on a resource are not specified in the request parameters, they are not changed.
+ * If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ResourceNotFoundException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the `BaseConfigurationItem` for one or more requested resources.
+ * The operation also returns a list of resources that are
+ * not processed in the current request. If there are no unprocessed
+ * resources, the operation returns an empty unprocessedResourceKeys
+ * list.
+ *
+ * - The API does not return results for deleted
+ * resources.
+ *
+ * - The API does not return any tags for the requested
+ * resources. This information is filtered out of the
+ * supplementaryConfiguration section of the API
+ * response.
+ */
+export const batchGetResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchGetResourceConfigRequest,
+    output: BatchGetResourceConfigResponse,
+    errors: [NoAvailableConfigurationRecorderException, ValidationException],
+  }),
+);
+/**
+ * Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the `ServicePrincipal` you specify.
+ *
+ * The configuration recorder's `name`, `recordingGroup`, `recordingMode`, and `recordingScope` is set by the service that is linked to the configuration recorder.
+ *
+ * For more information and a list of supported services/service principals, see
+ * **Working with the Configuration Recorder**
+ * in the *Config Developer Guide*.
+ *
+ * This API creates a service-linked role `AWSServiceRoleForConfig` in your account. The service-linked role is created only when the role does not exist in your account.
+ *
+ * **The recording scope determines if you receive configuration items**
+ *
+ * The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
+ *
+ * **Tags are added at creation and cannot be updated with this operation**
+ *
+ * Use TagResource and UntagResource to update tags after creation.
+ */
+export const putServiceLinkedConfigurationRecorder =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutServiceLinkedConfigurationRecorderRequest,
+    output: PutServiceLinkedConfigurationRecorderResponse,
+    errors: [
+      ConflictException,
+      InsufficientPermissionsException,
+      LimitExceededException,
+      ValidationException,
+    ],
+  }));
 /**
  * Returns the current configuration items for resources that are present in your Config aggregator. The operation also returns a list of resources that are not processed in the current request.
  * If there are no unprocessed resources, the operation returns an empty `unprocessedResourceIdentifiers` list.
@@ -4170,36 +3716,17 @@ export const deleteRemediationConfiguration =
     ],
   }));
 /**
- * Returns a list of compliant and noncompliant rules with the
- * number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results.
+ * Indicates whether the specified Amazon Web Services resources are compliant. If
+ * a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with.
  *
- * The results can return an empty result page, but if you
- * have a `nextToken`, the results are displayed on the next
- * page.
- */
-export const describeAggregateComplianceByConfigRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAggregateComplianceByConfigRulesRequest,
-    output: DescribeAggregateComplianceByConfigRulesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-      ValidationException,
-    ],
-  }));
-/**
- * Indicates whether the specified Config rules are compliant.
- * If a rule is noncompliant, this operation returns the number of Amazon Web Services
- * resources that do not comply with the rule.
+ * A resource is compliant if it complies with all the Config
+ * rules that evaluate it. It is noncompliant if it does not comply
+ * with one or more of these rules.
  *
- * A rule is compliant if all of the evaluated resources comply
- * with it. It is noncompliant if any of these resources do not
- * comply.
- *
- * If Config has no current evaluation results for the rule,
- * it returns `INSUFFICIENT_DATA`. This result might
- * indicate one of the following conditions:
+ * If Config has no current evaluation results for the
+ * resource, it returns `INSUFFICIENT_DATA`. This result
+ * might indicate one of the following conditions about the rules that
+ * evaluate the resource:
  *
  * - Config has never invoked an evaluation for the
  * rule. To check whether it has, use the
@@ -4208,8 +3735,8 @@ export const describeAggregateComplianceByConfigRules =
  * `LastFailedInvocationTime`.
  *
  * - The rule's Lambda function is failing to send
- * evaluation results to Config. Verify that the role you
- * assigned to your configuration recorder includes the
+ * evaluation results to Config. Verify that the role that
+ * you assigned to your configuration recorder includes the
  * `config:PutEvaluations` permission. If the
  * rule is a custom rule, verify that the Lambda execution
  * role includes the `config:PutEvaluations`
@@ -4220,15 +3747,11 @@ export const describeAggregateComplianceByConfigRules =
  * This can occur if the resources were deleted or removed from
  * the rule's scope.
  */
-export const describeComplianceByConfigRule =
+export const describeComplianceByResource =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeComplianceByConfigRuleRequest,
-    output: DescribeComplianceByConfigRuleResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleException,
-    ],
+    input: DescribeComplianceByResourceRequest,
+    output: DescribeComplianceByResourceResponse,
+    errors: [InvalidNextTokenException, InvalidParameterValueException],
   }));
 /**
  * Returns the current status of the specified delivery channel.
@@ -4325,21 +3848,6 @@ export const getAggregateDiscoveredResourceCounts =
       InvalidNextTokenException,
       NoSuchConfigurationAggregatorException,
       ValidationException,
-    ],
-  }));
-/**
- * Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
- */
-export const getConformancePackComplianceDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConformancePackComplianceDetailsRequest,
-    output: GetConformancePackComplianceDetailsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleInConformancePackException,
-      NoSuchConformancePackException,
     ],
   }));
 /**
@@ -4478,6 +3986,483 @@ export const startResourceEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke
+ * the rule, and the related error for the last failure.
+ */
+export const describeConfigRuleEvaluationStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeConfigRuleEvaluationStatusRequest,
+    output: DescribeConfigRuleEvaluationStatusResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      NoSuchConfigRuleException,
+    ],
+  }));
+/**
+ * Returns details about your Config rules.
+ */
+export const describeConfigRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigRulesRequest,
+  output: DescribeConfigRulesResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConfigRuleException,
+  ],
+}));
+/**
+ * Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted.
+ * When you specify the limit and the next token, you receive a paginated response.
+ *
+ * Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
+ * Remediation exceptions blocks auto-remediation until the exception is cleared.
+ *
+ * When you specify the limit and the next token, you receive a paginated response.
+ *
+ * Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
+ */
+export const describeRemediationExceptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeRemediationExceptionsRequest,
+    output: DescribeRemediationExceptionsResponse,
+    errors: [InvalidNextTokenException, InvalidParameterValueException],
+  }));
+/**
+ * Returns the details of one or more retention configurations. If
+ * the retention configuration name is not specified, this operation
+ * returns the details for all the retention configurations for that
+ * account.
+ *
+ * Currently, Config supports only one retention
+ * configuration per region in your account.
+ */
+export const describeRetentionConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeRetentionConfigurationsRequest,
+    output: DescribeRetentionConfigurationsResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      NoSuchRetentionConfigurationException,
+    ],
+  }));
+/**
+ * Returns the evaluation results for the specified Config
+ * rule. The results indicate which Amazon Web Services resources were evaluated by the
+ * rule, when each resource was last evaluated, and whether each
+ * resource complies with the rule.
+ */
+export const getComplianceDetailsByConfigRule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetComplianceDetailsByConfigRuleRequest,
+    output: GetComplianceDetailsByConfigRuleResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      NoSuchConfigRuleException,
+    ],
+  }));
+/**
+ * Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions.
+ * A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region.
+ * You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region.
+ *
+ * For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type `AWS::EC2::Instance` then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
+ */
+export const listAggregateDiscoveredResources =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAggregateDiscoveredResourcesRequest,
+    output: ListAggregateDiscoveredResourcesResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      NoSuchConfigurationAggregatorException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns a list of resource
+ * resource identifiers for the specified resource types for the resources of that type. A *resource identifier*
+ * includes the resource type, ID, and (if available) the custom
+ * resource name.
+ *
+ * The results consist of resources that Config has
+ * *discovered*, including those that Config is not currently
+ * recording. You can narrow the results to include only resources that
+ * have specific resource IDs or a resource name.
+ *
+ * You can specify either resource IDs or a resource name, but
+ * not both, in the same request.
+ *
+ * *CloudFormation stack recording behavior in Config*
+ *
+ * When a CloudFormation stack fails to create (for example, it enters the `ROLLBACK_FAILED` state),
+ * Config does not record a configuration item (CI) for that stack. Configuration items are only recorded for stacks that reach
+ * the following states:
+ *
+ * - `CREATE_COMPLETE`
+ *
+ * - `UPDATE_COMPLETE`
+ *
+ * - `UPDATE_ROLLBACK_COMPLETE`
+ *
+ * - `UPDATE_ROLLBACK_FAILED`
+ *
+ * - `DELETE_FAILED`
+ *
+ * - `DELETE_COMPLETE`
+ *
+ * Because no CI is created for a failed stack creation, you won't see configuration history
+ * for that stack in Config, even after the stack is deleted. This helps make sure that Config only
+ * tracks resources that were successfully provisioned.
+ */
+export const listDiscoveredResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDiscoveredResourcesRequest,
+    output: ListDiscoveredResourcesResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      NoAvailableConfigurationRecorderException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
+ */
+export const listStoredQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStoredQueriesRequest,
+  output: ListStoredQueriesResponse,
+  errors: [InvalidNextTokenException, ValidationException],
+}));
+/**
+ * Accepts a structured query language (SQL) `SELECT` command, performs the corresponding search, and returns resource configurations matching the properties.
+ *
+ * For more information about query components, see the
+ *
+ * **Query Components**
+ * section in the *Config Developer Guide*.
+ */
+export const selectResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SelectResourceConfigRequest,
+    output: SelectResourceConfigResponse,
+    errors: [
+      InvalidExpressionException,
+      InvalidLimitException,
+      InvalidNextTokenException,
+    ],
+  }),
+);
+/**
+ * List the tags for Config resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of authorizations granted to various aggregator
+ * accounts and regions.
+ */
+export const describeAggregationAuthorizations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAggregationAuthorizationsRequest,
+    output: DescribeAggregationAuthorizationsResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Returns the details of one or more configuration aggregators.
+ * If the configuration aggregator is not specified, this operation
+ * returns the details for all the configuration aggregators associated
+ * with the account.
+ */
+export const describeConfigurationAggregators =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeConfigurationAggregatorsRequest,
+    output: DescribeConfigurationAggregatorsResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      NoSuchConfigurationAggregatorException,
+    ],
+  }));
+/**
+ * Returns status information for sources within an aggregator.
+ * The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
+ */
+export const describeConfigurationAggregatorSourcesStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeConfigurationAggregatorSourcesStatusRequest,
+    output: DescribeConfigurationAggregatorSourcesStatusResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      NoSuchConfigurationAggregatorException,
+    ],
+  }));
+/**
+ * Returns a list of one or more conformance packs.
+ */
+export const describeConformancePacks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeConformancePacksRequest,
+    output: DescribeConformancePacksResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      NoSuchConformancePackException,
+    ],
+  }),
+);
+/**
+ * Provides one or more conformance packs deployment status.
+ *
+ * If there are no conformance packs then you will see an empty result.
+ */
+export const describeConformancePackStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeConformancePackStatusRequest,
+    output: DescribeConformancePackStatusResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Provides organization Config rule deployment status for an organization.
+ *
+ * The status is not considered successful until organization Config rule is successfully deployed in all the member
+ * accounts with an exception of excluded accounts.
+ *
+ * When you specify the limit and the next token, you receive a paginated response.
+ * Limit and next token are not applicable if you specify organization Config rule names.
+ * It is only applicable, when you request all the organization Config rules.
+ */
+export const describeOrganizationConfigRuleStatuses =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeOrganizationConfigRuleStatusesRequest,
+    output: DescribeOrganizationConfigRuleStatusesResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      NoSuchOrganizationConfigRuleException,
+      OrganizationAccessDeniedException,
+    ],
+  }));
+/**
+ * Returns a list of organization conformance packs.
+ *
+ * When you specify the limit and the next token, you receive a paginated response.
+ *
+ * Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable,
+ * when you request all the organization conformance packs.
+ *
+ * *For accounts within an organization*
+ *
+ * If you deploy an organizational rule or conformance pack in an organization
+ * administrator account, and then establish a delegated administrator and deploy an
+ * organizational rule or conformance pack in the delegated administrator account, you
+ * won't be able to see the organizational rule or conformance pack in the organization
+ * administrator account from the delegated administrator account or see the organizational
+ * rule or conformance pack in the delegated administrator account from organization
+ * administrator account. The `DescribeOrganizationConfigRules` and
+ * `DescribeOrganizationConformancePacks` APIs can only see and interact with
+ * the organization-related resource that were deployed from within the account calling
+ * those APIs.
+ */
+export const describeOrganizationConformancePacks =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeOrganizationConformancePacksRequest,
+    output: DescribeOrganizationConformancePacksResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      NoSuchOrganizationConformancePackException,
+      OrganizationAccessDeniedException,
+    ],
+  }));
+/**
+ * Provides organization conformance pack deployment status for an organization.
+ *
+ * The status is not considered successful until organization conformance pack is successfully
+ * deployed in all the member accounts with an exception of excluded accounts.
+ *
+ * When you specify the limit and the next token, you receive a paginated response.
+ * Limit and next token are not applicable if you specify organization conformance pack names.
+ * They are only applicable, when you request all the organization conformance packs.
+ */
+export const describeOrganizationConformancePackStatuses =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeOrganizationConformancePackStatusesRequest,
+    output: DescribeOrganizationConformancePackStatusesResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      NoSuchOrganizationConformancePackException,
+      OrganizationAccessDeniedException,
+    ],
+  }));
+/**
+ * Returns a list of all pending aggregation requests.
+ */
+export const describePendingAggregationRequests =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribePendingAggregationRequestsRequest,
+    output: DescribePendingAggregationRequestsResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+    ],
+  }));
+/**
+ * Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
+ */
+export const getConformancePackComplianceSummary =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetConformancePackComplianceSummaryRequest,
+    output: GetConformancePackComplianceSummaryResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      NoSuchConformancePackException,
+    ],
+  }));
+/**
+ * Returns the resource types, the number of each resource type,
+ * and the total number of resources that Config is recording in
+ * this region for your Amazon Web Services account.
+ *
+ * **Example**
+ *
+ * - Config is recording three resource types in the US
+ * East (Ohio) Region for your account: 25 EC2 instances, 20
+ * IAM users, and 15 S3 buckets.
+ *
+ * - You make a call to the
+ * `GetDiscoveredResourceCounts` action and
+ * specify that you want all resource types.
+ *
+ * - Config returns the following:
+ *
+ * - The resource types (EC2 instances, IAM users,
+ * and S3 buckets).
+ *
+ * - The number of each resource type (25, 20, and
+ * 15).
+ *
+ * - The total number of all resources
+ * (60).
+ *
+ * The response is paginated. By default, Config lists 100
+ * ResourceCount objects on each page. You can
+ * customize this number with the `limit` parameter. The
+ * response includes a `nextToken` string. To get the next
+ * page of results, run the request again and specify the string for
+ * the `nextToken` parameter.
+ *
+ * If you make a call to the GetDiscoveredResourceCounts action, you might
+ * not immediately receive resource counts in the following
+ * situations:
+ *
+ * - You are a new Config customer.
+ *
+ * - You just enabled resource recording.
+ *
+ * It might take a few minutes for Config to record and
+ * count your resources. Wait a few minutes and then retry the
+ * GetDiscoveredResourceCounts action.
+ */
+export const getDiscoveredResourceCounts = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDiscoveredResourceCountsRequest,
+    output: GetDiscoveredResourceCountsResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a list of compliant and noncompliant rules with the
+ * number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results.
+ *
+ * The results can return an empty result page, but if you
+ * have a `nextToken`, the results are displayed on the next
+ * page.
+ */
+export const describeAggregateComplianceByConfigRules =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAggregateComplianceByConfigRulesRequest,
+    output: DescribeAggregateComplianceByConfigRulesResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      NoSuchConfigurationAggregatorException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Indicates whether the specified Config rules are compliant.
+ * If a rule is noncompliant, this operation returns the number of Amazon Web Services
+ * resources that do not comply with the rule.
+ *
+ * A rule is compliant if all of the evaluated resources comply
+ * with it. It is noncompliant if any of these resources do not
+ * comply.
+ *
+ * If Config has no current evaluation results for the rule,
+ * it returns `INSUFFICIENT_DATA`. This result might
+ * indicate one of the following conditions:
+ *
+ * - Config has never invoked an evaluation for the
+ * rule. To check whether it has, use the
+ * `DescribeConfigRuleEvaluationStatus` action
+ * to get the `LastSuccessfulInvocationTime` and
+ * `LastFailedInvocationTime`.
+ *
+ * - The rule's Lambda function is failing to send
+ * evaluation results to Config. Verify that the role you
+ * assigned to your configuration recorder includes the
+ * `config:PutEvaluations` permission. If the
+ * rule is a custom rule, verify that the Lambda execution
+ * role includes the `config:PutEvaluations`
+ * permission.
+ *
+ * - The rule's Lambda function has returned
+ * `NOT_APPLICABLE` for all evaluation results.
+ * This can occur if the resources were deleted or removed from
+ * the rule's scope.
+ */
+export const describeComplianceByConfigRule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeComplianceByConfigRuleRequest,
+    output: DescribeComplianceByConfigRuleResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      NoSuchConfigRuleException,
+    ],
+  }));
+/**
  * Deletes one or more remediation exceptions mentioned in the resource keys.
  *
  * Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
@@ -4562,82 +4547,6 @@ export const getAggregateConformancePackComplianceSummary =
     ],
   }));
 /**
- * Returns configuration item that is aggregated for your specific resource in a specific source account and region.
- *
- * The API does not return results for deleted resources.
- */
-export const getAggregateResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAggregateResourceConfigRequest,
-    output: GetAggregateResourceConfigResponse,
-    errors: [
-      NoSuchConfigurationAggregatorException,
-      OversizedConfigurationItemException,
-      ResourceNotDiscoveredException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * For accurate reporting on the compliance status, you must record the `AWS::Config::ResourceCompliance` resource type.
- *
- * For more information, see Recording Amazon Web Services Resources in the *Config Resources Developer Guide*.
- *
- * Returns a list of configurations items (CIs) for the specified resource.
- *
- * **Contents**
- *
- * The list contains details about each state of the resource
- * during the specified time interval. If you specified a retention
- * period to retain your CIs between a
- * minimum of 30 days and a maximum of 7 years (2557 days), Config
- * returns the CIs for the specified
- * retention period.
- *
- * **Pagination**
- *
- * The response is paginated. By default, Config returns a
- * limit of 10 configuration items per page. You can customize this
- * number with the `limit` parameter. The response includes
- * a `nextToken` string. To get the next page of results,
- * run the request again and specify the string for the
- * `nextToken` parameter.
- *
- * Each call to the API is limited to span a duration of seven
- * days. It is likely that the number of records returned is
- * smaller than the specified `limit`. In such cases,
- * you can make another call, using the
- * `nextToken`.
- */
-export const getResourceConfigHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourceConfigHistoryRequest,
-    output: GetResourceConfigHistoryResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidTimeRangeException,
-      NoAvailableConfigurationRecorderException,
-      ResourceNotDiscoveredException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of proactive resource evaluations.
- */
-export const listResourceEvaluations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResourceEvaluationsRequest,
-    output: ListResourceEvaluationsResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      InvalidTimeRangeException,
-    ],
-  }),
-);
-/**
  * Adds or updates an Config rule to evaluate if your
  * Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account,
  * see
@@ -4703,44 +4612,6 @@ export const putConfigRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates and updates the configuration aggregator with the
- * selected source accounts and regions. The source account can be
- * individual account(s) or an organization.
- *
- * `accountIds` that are passed will be replaced with existing accounts.
- * If you want to add additional accounts into the aggregator, call `DescribeConfigurationAggregators` to get the previous accounts and then append new ones.
- *
- * Config should be enabled in source accounts and regions
- * you want to aggregate.
- *
- * If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization.
- * If the caller is a management account, Config calls `EnableAwsServiceAccess` API to enable integration between Config and Organizations.
- * If the caller is a registered delegated administrator, Config calls `ListDelegatedAdministrators` API to verify whether the caller is a valid delegated administrator.
- *
- * To register a delegated administrator, see Register a Delegated Administrator in the *Config developer guide*.
- *
- * **Tags are added at creation and cannot be updated with this operation**
- *
- * `PutConfigurationAggregator` is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different `tags` values,
- * Config will ignore these differences and treat it as an idempotent request of the previous. In this case, `tags` will not be updated, even if they are different.
- *
- * Use TagResource and UntagResource to update tags after creation.
- */
-export const putConfigurationAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutConfigurationAggregatorRequest,
-    output: PutConfigurationAggregatorResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRoleException,
-      LimitExceededException,
-      NoAvailableOrganizationException,
-      OrganizationAccessDeniedException,
-      OrganizationAllFeaturesNotEnabledException,
-    ],
-  }),
-);
-/**
  * Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization.
  * For information on how many conformance packs you can have per account,
  * see
@@ -4774,6 +4645,21 @@ export const putConformancePack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceInUseException,
   ],
 }));
+/**
+ * Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
+ */
+export const getConformancePackComplianceDetails =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetConformancePackComplianceDetailsRequest,
+    output: GetConformancePackComplianceDetailsResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      NoSuchConfigRuleInConformancePackException,
+      NoSuchConformancePackException,
+    ],
+  }));
 /**
  * Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your
  * desired configurations. For information on how many organization Config rules you can have per account,
@@ -4835,6 +4721,75 @@ export const putOrganizationConfigRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Creates and updates the configuration aggregator with the
+ * selected source accounts and regions. The source account can be
+ * individual account(s) or an organization.
+ *
+ * `accountIds` that are passed will be replaced with existing accounts.
+ * If you want to add additional accounts into the aggregator, call `DescribeConfigurationAggregators` to get the previous accounts and then append new ones.
+ *
+ * Config should be enabled in source accounts and regions
+ * you want to aggregate.
+ *
+ * If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization.
+ * If the caller is a management account, Config calls `EnableAwsServiceAccess` API to enable integration between Config and Organizations.
+ * If the caller is a registered delegated administrator, Config calls `ListDelegatedAdministrators` API to verify whether the caller is a valid delegated administrator.
+ *
+ * To register a delegated administrator, see Register a Delegated Administrator in the *Config developer guide*.
+ *
+ * **Tags are added at creation and cannot be updated with this operation**
+ *
+ * `PutConfigurationAggregator` is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different `tags` values,
+ * Config will ignore these differences and treat it as an idempotent request of the previous. In this case, `tags` will not be updated, even if they are different.
+ *
+ * Use TagResource and UntagResource to update tags after creation.
+ */
+export const putConfigurationAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutConfigurationAggregatorRequest,
+    output: PutConfigurationAggregatorResponse,
+    errors: [
+      InvalidParameterValueException,
+      InvalidRoleException,
+      LimitExceededException,
+      NoAvailableOrganizationException,
+      OrganizationAccessDeniedException,
+      OrganizationAllFeaturesNotEnabledException,
+    ],
+  }),
+);
+/**
+ * Returns a list of proactive resource evaluations.
+ */
+export const listResourceEvaluations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListResourceEvaluationsRequest,
+    output: ListResourceEvaluationsResponse,
+    errors: [
+      InvalidNextTokenException,
+      InvalidParameterValueException,
+      InvalidTimeRangeException,
+    ],
+  }),
+);
+/**
+ * Returns configuration item that is aggregated for your specific resource in a specific source account and region.
+ *
+ * The API does not return results for deleted resources.
+ */
+export const getAggregateResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAggregateResourceConfigRequest,
+    output: GetAggregateResourceConfigResponse,
+    errors: [
+      NoSuchConfigurationAggregatorException,
+      OversizedConfigurationItemException,
+      ResourceNotDiscoveredException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account,
  * see
  * **Service Limits**
@@ -4886,6 +4841,51 @@ export const putOrganizationConformancePack =
       ValidationException,
     ],
   }));
+/**
+ * For accurate reporting on the compliance status, you must record the `AWS::Config::ResourceCompliance` resource type.
+ *
+ * For more information, see Recording Amazon Web Services Resources in the *Config Resources Developer Guide*.
+ *
+ * Returns a list of configurations items (CIs) for the specified resource.
+ *
+ * **Contents**
+ *
+ * The list contains details about each state of the resource
+ * during the specified time interval. If you specified a retention
+ * period to retain your CIs between a
+ * minimum of 30 days and a maximum of 7 years (2557 days), Config
+ * returns the CIs for the specified
+ * retention period.
+ *
+ * **Pagination**
+ *
+ * The response is paginated. By default, Config returns a
+ * limit of 10 configuration items per page. You can customize this
+ * number with the `limit` parameter. The response includes
+ * a `nextToken` string. To get the next page of results,
+ * run the request again and specify the string for the
+ * `nextToken` parameter.
+ *
+ * Each call to the API is limited to span a duration of seven
+ * days. It is likely that the number of records returned is
+ * smaller than the specified `limit`. In such cases,
+ * you can make another call, using the
+ * `nextToken`.
+ */
+export const getResourceConfigHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetResourceConfigHistoryRequest,
+    output: GetResourceConfigHistoryResponse,
+    errors: [
+      InvalidLimitException,
+      InvalidNextTokenException,
+      InvalidTimeRangeException,
+      NoAvailableConfigurationRecorderException,
+      ResourceNotDiscoveredException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Creates or updates the customer managed configuration recorder.
  *

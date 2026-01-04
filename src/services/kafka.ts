@@ -2551,64 +2551,101 @@ export class UpdateConnectivityResponse extends S.Class<UpdateConnectivityRespon
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
-  "InternalServerErrorException",
-  {},
+  {
+    InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
+  {
+    InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
+  "InternalServerErrorException",
+  {
+    InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  {
+    InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  {
+    InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  {
+    InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  {
+    InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 
 //# Operations
 /**
- * Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
+ * Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
  */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterRequest,
-  output: DeleteClusterResponse,
+export const putClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutClusterPolicyRequest,
+  output: PutClusterPolicyResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
+    InternalServerErrorException,
+  ],
+}));
+/**
+ * Returns a list of the tags associated with the specified resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
     InternalServerErrorException,
     NotFoundException,
   ],
 }));
 /**
- * Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+ * Returns a list of all the operations that have been performed on the specified MSK cluster.
  */
-export const deleteClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterPolicyRequest,
-  output: DeleteClusterPolicyResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-  ],
-}));
+export const listClusterOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListClusterOperationsRequest,
+    output: ListClusterOperationsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      UnauthorizedException,
+    ],
+  }),
+);
 /**
  * Deletes an MSK Configuration.
  */
@@ -2713,20 +2750,249 @@ export const getClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of all the operations that have been performed on the specified MSK cluster.
+ * Returns a list of all the MSK configurations in this Region.
  */
-export const listClusterOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listConfigurationRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListClusterOperationsRequest,
-    output: ListClusterOperationsResponse,
+    input: ListConfigurationRevisionsRequest,
+    output: ListConfigurationRevisionsResponse,
     errors: [
       BadRequestException,
       ForbiddenException,
       InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
       UnauthorizedException,
     ],
   }),
 );
+/**
+ * Updates the cluster with the configuration that is specified in the request body.
+ */
+export const updateClusterConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateClusterConfigurationRequest,
+    output: UpdateClusterConfigurationResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Updates an MSK configuration.
+ */
+export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationRequest,
+  output: UpdateConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
+ */
+export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterRequest,
+  output: DeleteClusterResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Adds tags to the specified MSK resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Removes the tags associated with the keys that are provided in the query.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+ */
+export const deleteClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterPolicyRequest,
+  output: DeleteClusterPolicyResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Returns partition details of this topic on a MSK cluster.
+ */
+export const describeTopicPartitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTopicPartitionsRequest,
+    output: DescribeTopicPartitionsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
+ */
+export const describeClusterV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeClusterV2Request,
+  output: DescribeClusterV2Response,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Returns a list of the broker nodes in the cluster.
+ */
+export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListNodesRequest,
+  output: ListNodesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Returns a list of all the VPC connections in this Region.
+ */
+export const listVpcConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVpcConnectionsRequest,
+  output: ListVpcConnectionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates the EBS storage associated with MSK brokers.
+ */
+export const updateBrokerStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBrokerStorageRequest,
+  output: UpdateBrokerStorageResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates the number of broker nodes in the cluster.
+ */
+export const updateBrokerCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBrokerCountRequest,
+  output: UpdateBrokerCountResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
+ */
+export const updateMonitoring = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMonitoringRequest,
+  output: UpdateMonitoringResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Returns empty response.
+ */
+export const rejectClientVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RejectClientVpcConnectionRequest,
+    output: RejectClientVpcConnectionResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      ServiceUnavailableException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Returns a list of all the VPC connections in this Region.
+ */
+export const listClientVpcConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListClientVpcConnectionsRequest,
+    output: ListClientVpcConnectionsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      ServiceUnavailableException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Returns a list of all the MSK configurations in this Region.
+ */
+export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConfigurationsRequest,
+  output: ListConfigurationsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns a list of all the MSK clusters in the current Region.
  */
@@ -2754,359 +3020,6 @@ export const listClustersV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of all the MSK configurations in this Region.
- */
-export const listConfigurationRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListConfigurationRevisionsRequest,
-    output: ListConfigurationRevisionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
- */
-export const listScramSecrets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListScramSecretsRequest,
-  output: ListScramSecretsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns a list of the tags associated with the specified resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServerErrorException,
-    NotFoundException,
-  ],
-}));
-/**
- * Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
- */
-export const putClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutClusterPolicyRequest,
-  output: PutClusterPolicyResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-  ],
-}));
-/**
- * Reboots brokers.
- */
-export const rebootBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RebootBrokerRequest,
-  output: RebootBrokerResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns empty response.
- */
-export const rejectClientVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectClientVpcConnectionRequest,
-    output: RejectClientVpcConnectionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Adds tags to the specified MSK resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServerErrorException,
-    NotFoundException,
-  ],
-}));
-/**
- * Removes the tags associated with the keys that are provided in the query.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServerErrorException,
-    NotFoundException,
-  ],
-}));
-/**
- * Updates the number of broker nodes in the cluster.
- */
-export const updateBrokerCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBrokerCountRequest,
-  output: UpdateBrokerCountResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates EC2 instance type.
- */
-export const updateBrokerType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBrokerTypeRequest,
-  output: UpdateBrokerTypeResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates the cluster with the configuration that is specified in the request body.
- */
-export const updateClusterConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClusterConfigurationRequest,
-    output: UpdateClusterConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Updates the Apache Kafka version for the cluster.
- */
-export const updateClusterKafkaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClusterKafkaVersionRequest,
-    output: UpdateClusterKafkaVersionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Updates an MSK configuration.
- */
-export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationRequest,
-  output: UpdateConfigurationResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
- */
-export const updateMonitoring = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateMonitoringRequest,
-  output: UpdateMonitoringResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Use this resource to update the intelligent rebalancing status of an Amazon MSK Provisioned cluster with Express brokers.
- */
-export const updateRebalancing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRebalancingRequest,
-  output: UpdateRebalancingResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
- */
-export const updateSecurity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSecurityRequest,
-  output: UpdateSecurityResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Associates one or more Scram Secrets with an Amazon MSK cluster.
- */
-export const batchAssociateScramSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAssociateScramSecretRequest,
-    output: BatchAssociateScramSecretResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Disassociates one or more Scram Secrets from an Amazon MSK cluster.
- */
-export const batchDisassociateScramSecret =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateScramSecretRequest,
-    output: BatchDisassociateScramSecretResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }));
-/**
- * Creates a new MSK configuration.
- */
-export const createConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateConfigurationRequest,
-  output: CreateConfigurationResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Creates a new MSK VPC connection.
- */
-export const createVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVpcConnectionRequest,
-  output: CreateVpcConnectionResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a replicator.
- */
-export const deleteReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteReplicatorRequest,
-  output: DeleteReplicatorResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describes a replicator.
- */
-export const describeReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeReplicatorRequest,
-  output: DescribeReplicatorResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns partition details of this topic on a MSK cluster.
- */
-export const describeTopicPartitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTopicPartitionsRequest,
-    output: DescribeTopicPartitionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
  * A list of brokers that a client application can use to bootstrap. This list doesn't necessarily include all of the brokers in the cluster. The following Python 3.6 example shows how you can use the Amazon Resource Name (ARN) of a cluster to get its bootstrap brokers. If you don't know the ARN of your cluster, you can use the `ListClusters` operation to get the ARNs of all the clusters in this account and Region.
  */
 export const getBootstrapBrokers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3117,72 +3030,6 @@ export const getBootstrapBrokers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConflictException,
     ForbiddenException,
     InternalServerErrorException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets the Apache Kafka versions to which you can update the MSK cluster.
- */
-export const getCompatibleKafkaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCompatibleKafkaVersionsRequest,
-    output: GetCompatibleKafkaVersionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Returns a list of all the VPC connections in this Region.
- */
-export const listClientVpcConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListClientVpcConnectionsRequest,
-    output: ListClientVpcConnectionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Returns a list of all the operations that have been performed on the specified MSK cluster.
- */
-export const listClusterOperationsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListClusterOperationsV2Request,
-    output: ListClusterOperationsV2Response,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Returns a list of all the MSK configurations in this Region.
- */
-export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListConfigurationsRequest,
-  output: ListConfigurationsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
     UnauthorizedException,
   ],
 }));
@@ -3214,33 +3061,21 @@ export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of all the VPC connections in this Region.
+ * Returns a description of the cluster operation specified by the ARN.
  */
-export const listVpcConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListVpcConnectionsRequest,
-  output: ListVpcConnectionsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates the EBS storage associated with MSK brokers.
- */
-export const updateBrokerStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBrokerStorageRequest,
-  output: UpdateBrokerStorageResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
+export const describeClusterOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeClusterOperationRequest,
+    output: DescribeClusterOperationResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      UnauthorizedException,
+    ],
+  }),
+);
 /**
  * Updates replication info of a replicator.
  */
@@ -3276,32 +3111,206 @@ export const updateStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
+ * Deletes a replicator.
  */
-export const describeClusterV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeClusterV2Request,
-  output: DescribeClusterV2Response,
+export const deleteReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReplicatorRequest,
+  output: DeleteReplicatorResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
 /**
- * Returns a list of the broker nodes in the cluster.
+ * Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
  */
-export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListNodesRequest,
-  output: ListNodesResponse,
+export const listScramSecrets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListScramSecretsRequest,
+  output: ListScramSecretsResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
   ],
 }));
+/**
+ * Reboots brokers.
+ */
+export const rebootBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RebootBrokerRequest,
+  output: RebootBrokerResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates EC2 instance type.
+ */
+export const updateBrokerType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBrokerTypeRequest,
+  output: UpdateBrokerTypeResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates the Apache Kafka version for the cluster.
+ */
+export const updateClusterKafkaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateClusterKafkaVersionRequest,
+    output: UpdateClusterKafkaVersionResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Use this resource to update the intelligent rebalancing status of an Amazon MSK Provisioned cluster with Express brokers.
+ */
+export const updateRebalancing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRebalancingRequest,
+  output: UpdateRebalancingResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
+ */
+export const updateSecurity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityRequest,
+  output: UpdateSecurityResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Disassociates one or more Scram Secrets from an Amazon MSK cluster.
+ */
+export const batchDisassociateScramSecret =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDisassociateScramSecretRequest,
+    output: BatchDisassociateScramSecretResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }));
+/**
+ * Associates one or more Scram Secrets with an Amazon MSK cluster.
+ */
+export const batchAssociateScramSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchAssociateScramSecretRequest,
+    output: BatchAssociateScramSecretResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Describes a replicator.
+ */
+export const describeReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeReplicatorRequest,
+  output: DescribeReplicatorResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets the Apache Kafka versions to which you can update the MSK cluster.
+ */
+export const getCompatibleKafkaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCompatibleKafkaVersionsRequest,
+    output: GetCompatibleKafkaVersionsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Returns a list of all the operations that have been performed on the specified MSK cluster.
+ */
+export const listClusterOperationsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListClusterOperationsV2Request,
+    output: ListClusterOperationsV2Response,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
 /**
  * Lists the replicators.
  */
@@ -3313,6 +3322,37 @@ export const listReplicators = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ForbiddenException,
     InternalServerErrorException,
     NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a new MSK VPC connection.
+ */
+export const createVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcConnectionRequest,
+  output: CreateVpcConnectionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a new MSK configuration.
+ */
+export const createConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfigurationRequest,
+  output: CreateConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
     ServiceUnavailableException,
     TooManyRequestsException,
     UnauthorizedException,
@@ -3367,22 +3407,6 @@ export const createReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthorizedException,
   ],
 }));
-/**
- * Returns a description of the cluster operation specified by the ARN.
- */
-export const describeClusterOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeClusterOperationRequest,
-    output: DescribeClusterOperationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
 /**
  * Returns a description of the cluster operation specified by the ARN.
  */

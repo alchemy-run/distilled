@@ -3904,26 +3904,231 @@ export class CreateSegmentDefinitionResponse extends S.Class<CreateSegmentDefini
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles
+ * resource. Tags can help you organize and categorize your resources. You can also use them
+ * to scope user permissions by granting a user permission to access or change only resources
+ * with certain tag values. In Connect Customer Profiles, domains, profile object types, and
+ * integrations can be tagged.
+ *
+ * Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of
+ * characters.
+ *
+ * You can use the TagResource action with a resource that already has tags. If you specify
+ * a new tag key, this tag is appended to the list of tags associated with the resource. If
+ * you specify a tag key that is already associated with the resource, the new tag value that
+ * you specify replaces the previous value for that tag.
+ *
+ * You can associate as many as 50 tags with a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns a list of available recommender recipes that can be used to create recommenders.
+ */
+export const listRecommenderRecipes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListRecommenderRecipesRequest,
+    output: ListRecommenderRecipesResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      InternalServerException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the properties of a profile. The ProfileId is required for updating a customer
+ * profile.
+ *
+ * When calling the UpdateProfile API, specifying an empty string value means that any
+ * existing value will be removed. Not specifying a string value means that any value already
+ * there will be kept.
+ */
+export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProfileRequest,
+  output: UpdateProfileResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates an existing calculated attribute definition. When updating the Conditions, note
+ * that increasing the date range of a calculated attribute will not trigger inclusion of
+ * historical data greater than the current date range.
+ */
+export const updateCalculatedAttributeDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateCalculatedAttributeDefinitionRequest,
+    output: UpdateCalculatedAttributeDefinitionResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates the properties of a domain, including creating or selecting a dead letter queue
+ * or an encryption key.
+ *
+ * After a domain is created, the name can’t be changed.
+ *
+ * Use this API or CreateDomain to
+ * enable identity
+ * resolution: set `Matching` to true.
+ *
+ * To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should
+ * apply.
+ *
+ * To add or remove tags on an existing Domain, see TagResource/UntagResource.
+ */
+export const updateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainRequest,
+  output: UpdateDomainResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the layout used to view data for a specific domain. This API can only be invoked
+ * from the Amazon Connect admin website.
+ */
+export const updateDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainLayoutRequest,
+  output: UpdateDomainLayoutResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Update the properties of an Event Trigger.
+ */
+export const updateEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEventTriggerRequest,
+  output: UpdateEventTriggerResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the properties of an existing recommender, allowing you to modify its configuration and description.
+ */
+export const updateRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRecommenderRequest,
+  output: UpdateRecommenderResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Delete a DomainObjectType for the given Domain and ObjectType name.
+ */
+export const deleteDomainObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDomainObjectTypeRequest,
+    output: DeleteDomainObjectTypeResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Disables and deletes the specified event stream.
+ */
+export const deleteEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventStreamRequest,
+  output: DeleteEventStreamResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a recommender.
+ */
+export const deleteRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRecommenderRequest,
+  output: DeleteRecommenderResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the specified workflow and all its corresponding resources. This is an async
+ * process.
+ */
+export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkflowRequest,
+  output: DeleteWorkflowResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Starts a recommender that was previously stopped. Starting a recommender resumes its ability to generate recommendations.
  */
@@ -3978,45 +4183,6 @@ export const stopUploadJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
-  ],
-}));
-/**
- * Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles
- * resource. Tags can help you organize and categorize your resources. You can also use them
- * to scope user permissions by granting a user permission to access or change only resources
- * with certain tag values. In Connect Customer Profiles, domains, profile object types, and
- * integrations can be tagged.
- *
- * Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of
- * characters.
- *
- * You can use the TagResource action with a resource that already has tags. If you specify
- * a new tag key, this tag is appended to the list of tags associated with the resource. If
- * you specify a tag key that is already associated with the resource, the new tag value that
- * you specify replaces the previous value for that tag.
- *
- * You can associate as many as 50 tags with a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect
- * Customer Profiles, domains, profile object types, and integrations can be tagged.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
   ],
 }));
 /**
@@ -4087,6 +4253,19 @@ export const createSegmentSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect
+ * Customer Profiles, domains, profile object types, and integrations can be tagged.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
  * Deletes an existing calculated attribute definition. Note that deleting a default
  * calculated attribute is possible, however once deleted, you will be unable to undo that
  * action and will need to recreate it on your own using the
@@ -4126,36 +4305,6 @@ export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const deleteDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainLayoutRequest,
   output: DeleteDomainLayoutResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Delete a DomainObjectType for the given Domain and ObjectType name.
- */
-export const deleteDomainObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDomainObjectTypeRequest,
-    output: DeleteDomainObjectTypeResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Disables and deletes the specified event stream.
- */
-export const deleteEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEventStreamRequest,
-  output: DeleteEventStreamResponse,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4256,20 +4405,6 @@ export const deleteProfileObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a recommender.
- */
-export const deleteRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRecommenderRequest,
-  output: DeleteRecommenderResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Deletes a segment definition from the domain.
  */
 export const deleteSegmentDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -4285,21 +4420,6 @@ export const deleteSegmentDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Deletes the specified workflow and all its corresponding resources. This is an async
- * process.
- */
-export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWorkflowRequest,
-  output: DeleteWorkflowResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
 /**
  * Retrieve a calculated attribute for a customer profile.
  */
@@ -4561,92 +4681,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const putProfileObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutProfileObjectRequest,
   output: PutProfileObjectResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates an existing calculated attribute definition. When updating the Conditions, note
- * that increasing the date range of a calculated attribute will not trigger inclusion of
- * historical data greater than the current date range.
- */
-export const updateCalculatedAttributeDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCalculatedAttributeDefinitionRequest,
-    output: UpdateCalculatedAttributeDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates the properties of a domain, including creating or selecting a dead letter queue
- * or an encryption key.
- *
- * After a domain is created, the name can’t be changed.
- *
- * Use this API or CreateDomain to
- * enable identity
- * resolution: set `Matching` to true.
- *
- * To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should
- * apply.
- *
- * To add or remove tags on an existing Domain, see TagResource/UntagResource.
- */
-export const updateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDomainRequest,
-  output: UpdateDomainResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the layout used to view data for a specific domain. This API can only be invoked
- * from the Amazon Connect admin website.
- */
-export const updateDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDomainLayoutRequest,
-  output: UpdateDomainLayoutResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Update the properties of an Event Trigger.
- */
-export const updateEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEventTriggerRequest,
-  output: UpdateEventTriggerResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the properties of an existing recommender, allowing you to modify its configuration and description.
- */
-export const updateRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRecommenderRequest,
-  output: UpdateRecommenderResponse,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5057,21 +5091,6 @@ export const listProfileObjectTypeTemplates =
     ],
   }));
 /**
- * Returns a list of available recommender recipes that can be used to create recommenders.
- */
-export const listRecommenderRecipes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRecommenderRecipesRequest,
-    output: ListRecommenderRecipesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Returns a list of recommenders in the specified domain.
  */
 export const listRecommenders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5141,25 +5160,6 @@ export const listWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const searchProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProfilesRequest,
   output: SearchProfilesResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the properties of a profile. The ProfileId is required for updating a customer
- * profile.
- *
- * When calling the UpdateProfile API, specifying an empty string value means that any
- * existing value will be removed. Not specifying a string value means that any value already
- * there will be kept.
- */
-export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProfileRequest,
-  output: UpdateProfileResponse,
   errors: [
     AccessDeniedException,
     BadRequestException,

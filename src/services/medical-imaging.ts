@@ -470,10 +470,73 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
 export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
   "UntagResourceResponse",
 )({}) {}
+export const TagMap = S.Record({ key: S.String, value: S.String });
+export class CreateDatastoreRequest extends S.Class<CreateDatastoreRequest>(
+  "CreateDatastoreRequest",
+)(
+  {
+    datastoreName: S.optional(S.String),
+    clientToken: S.String,
+    tags: S.optional(TagMap),
+    kmsKeyArn: S.optional(S.String),
+    lambdaAuthorizerArn: S.optional(S.String),
+    losslessStorageFormat: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/datastore" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetDatastoreRequest extends S.Class<GetDatastoreRequest>(
+  "GetDatastoreRequest",
+)(
+  { datastoreId: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "GET", uri: "/datastore/{datastoreId}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteDatastoreRequest extends S.Class<DeleteDatastoreRequest>(
+  "DeleteDatastoreRequest",
+)(
+  { datastoreId: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "DELETE", uri: "/datastore/{datastoreId}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ListDatastoresRequest extends S.Class<ListDatastoresRequest>(
+  "ListDatastoresRequest",
+)(
+  {
+    datastoreStatus: S.optional(S.String).pipe(T.HttpQuery("datastoreStatus")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/datastore" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export class ImageFrameInformation extends S.Class<ImageFrameInformation>(
   "ImageFrameInformation",
 )({ imageFrameId: S.String }) {}
-export const TagMap = S.Record({ key: S.String, value: S.String });
 export class DeleteImageSetResponse extends S.Class<DeleteImageSetResponse>(
   "DeleteImageSetResponse",
 )({
@@ -536,6 +599,12 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
 export class TagResourceResponse extends S.Class<TagResourceResponse>(
   "TagResourceResponse",
 )({}) {}
+export class CreateDatastoreResponse extends S.Class<CreateDatastoreResponse>(
+  "CreateDatastoreResponse",
+)({ datastoreId: S.String, datastoreStatus: S.String }) {}
+export class DeleteDatastoreResponse extends S.Class<DeleteDatastoreResponse>(
+  "DeleteDatastoreResponse",
+)({ datastoreId: S.String, datastoreStatus: S.String }) {}
 export class CopyDestinationImageSet extends S.Class<CopyDestinationImageSet>(
   "CopyDestinationImageSet",
 )({ imageSetId: S.String, latestVersionId: S.String }) {}
@@ -596,6 +665,30 @@ export const MetadataUpdates = S.Union(
   S.Struct({ DICOMUpdates: DICOMUpdates }),
   S.Struct({ revertToVersionId: S.String }),
 );
+export class DatastoreProperties extends S.Class<DatastoreProperties>(
+  "DatastoreProperties",
+)({
+  datastoreId: S.String,
+  datastoreName: S.String,
+  datastoreStatus: S.String,
+  kmsKeyArn: S.optional(S.String),
+  lambdaAuthorizerArn: S.optional(S.String),
+  losslessStorageFormat: S.optional(S.String),
+  datastoreArn: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+}) {}
+export class DatastoreSummary extends S.Class<DatastoreSummary>(
+  "DatastoreSummary",
+)({
+  datastoreId: S.String,
+  datastoreName: S.String,
+  datastoreStatus: S.String,
+  datastoreArn: S.optional(S.String),
+  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+}) {}
+export const DatastoreSummaries = S.Array(DatastoreSummary);
 export class MetadataCopies extends S.Class<MetadataCopies>("MetadataCopies")({
   copiableAttributes: S.String,
 }) {}
@@ -657,6 +750,15 @@ export class UpdateImageSetMetadataRequest extends S.Class<UpdateImageSetMetadat
     rules,
   ),
 ) {}
+export class GetDatastoreResponse extends S.Class<GetDatastoreResponse>(
+  "GetDatastoreResponse",
+)({ datastoreProperties: DatastoreProperties }) {}
+export class ListDatastoresResponse extends S.Class<ListDatastoresResponse>(
+  "ListDatastoresResponse",
+)({
+  datastoreSummaries: S.optional(DatastoreSummaries),
+  nextToken: S.optional(S.String),
+}) {}
 export class CopySourceImageSetInformation extends S.Class<CopySourceImageSetInformation>(
   "CopySourceImageSetInformation",
 )({ latestVersionId: S.String, DICOMCopies: S.optional(MetadataCopies) }) {}
@@ -815,40 +917,159 @@ export class SearchImageSetsResponse extends S.Class<SearchImageSetsResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.String },
+) {}
 
 //# Operations
+/**
+ * List data stores.
+ */
+export const listDatastores = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDatastoresRequest,
+  output: ListDatastoresResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Create a data store.
+ */
+export const createDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatastoreRequest,
+  output: CreateDatastoreResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Start importing bulk data into an `ACTIVE` data store. The import job imports DICOM P10 files found in the S3 prefix specified by the `inputS3Uri` parameter. The import job stores processing results in the file specified by the `outputS3Uri` parameter.
+ */
+export const startDICOMImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDICOMImportJobRequest,
+  output: StartDICOMImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get data store properties.
+ */
+export const getDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDatastoreRequest,
+  output: GetDatastoreResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all tags associated with a medical imaging resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a user-specifed key and value tag to a medical imaging resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete a data store.
+ *
+ * Before a data store can be deleted, you must first delete all image sets within it.
+ */
+export const deleteDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatastoreRequest,
+  output: DeleteDatastoreResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete an image set.
  */
 export const deleteImageSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImageSetRequest,
   output: DeleteImageSetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get metadata attributes for an image set.
+ */
+export const getImageSetMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImageSetMetadataRequest,
+  output: GetImageSetMetadataResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -906,21 +1127,6 @@ export const getImageSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Get metadata attributes for an image set.
- */
-export const getImageSetMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetImageSetMetadataRequest,
-  output: GetImageSetMetadataResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * List import jobs created for a specific data store.
  */
 export const listDICOMImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -952,50 +1158,6 @@ export const listImageSetVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists all tags associated with a medical imaging resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Start importing bulk data into an `ACTIVE` data store. The import job imports DICOM P10 files found in the S3 prefix specified by the `inputS3Uri` parameter. The import job stores processing results in the file specified by the `outputS3Uri` parameter.
- */
-export const startDICOMImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartDICOMImportJobRequest,
-  output: StartDICOMImportJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a user-specifed key and value tag to a medical imaging resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Removes tags from a medical imaging resource.
  */

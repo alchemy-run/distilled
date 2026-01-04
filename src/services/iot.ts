@@ -8165,127 +8165,131 @@ export class CreateTopicRuleResponse extends S.Class<CreateTopicRuleResponse>(
 //# Errors
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
-) {}
-export class VersionConflictException extends S.TaggedError<VersionConflictException>()(
-  "VersionConflictException",
-  {},
-) {}
-export class CertificateStateException extends S.TaggedError<CertificateStateException>()(
-  "CertificateStateException",
-  {},
-) {}
-export class DeleteConflictException extends S.TaggedError<DeleteConflictException>()(
-  "DeleteConflictException",
-  {},
-) {}
-export class InvalidStateTransitionException extends S.TaggedError<InvalidStateTransitionException>()(
-  "InvalidStateTransitionException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictingResourceUpdateException extends S.TaggedError<ConflictingResourceUpdateException>()(
   "ConflictingResourceUpdateException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class InternalException extends S.TaggedError<InternalException>()(
-  "InternalException",
-  {},
+export class DeleteConflictException extends S.TaggedError<DeleteConflictException>()(
+  "DeleteConflictException",
+  { message: S.optional(S.String) },
+) {}
+export class CertificateStateException extends S.TaggedError<CertificateStateException>()(
+  "CertificateStateException",
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String), resourceId: S.optional(S.String) },
 ) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { message: S.optional(S.String) },
 ) {}
-export class TransferAlreadyCompletedException extends S.TaggedError<TransferAlreadyCompletedException>()(
-  "TransferAlreadyCompletedException",
-  {},
-) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
-) {}
-export class MalformedPolicyException extends S.TaggedError<MalformedPolicyException>()(
-  "MalformedPolicyException",
-  {},
-) {}
-export class VersionsLimitExceededException extends S.TaggedError<VersionsLimitExceededException>()(
-  "VersionsLimitExceededException",
-  {},
+export class InternalException extends S.TaggedError<InternalException>()(
+  "InternalException",
+  { message: S.optional(S.String) },
 ) {}
 export class IndexNotReadyException extends S.TaggedError<IndexNotReadyException>()(
   "IndexNotReadyException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class SqlParseException extends S.TaggedError<SqlParseException>()(
-  "SqlParseException",
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class MalformedPolicyException extends S.TaggedError<MalformedPolicyException>()(
+  "MalformedPolicyException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
+  {
+    message: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+  },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
   { message: S.optional(S.String) },
 ) {}
 export class NotConfiguredException extends S.TaggedError<NotConfiguredException>()(
   "NotConfiguredException",
-  {},
-) {}
-export class CertificateValidationException extends S.TaggedError<CertificateValidationException>()(
-  "CertificateValidationException",
-  {},
-) {}
-export class InvalidAggregationException extends S.TaggedError<InvalidAggregationException>()(
-  "InvalidAggregationException",
-  {},
-) {}
-export class InvalidQueryException extends S.TaggedError<InvalidQueryException>()(
-  "InvalidQueryException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class CertificateConflictException extends S.TaggedError<CertificateConflictException>()(
   "CertificateConflictException",
+  { message: S.optional(S.String) },
+) {}
+export class CertificateValidationException extends S.TaggedError<CertificateValidationException>()(
+  "CertificateValidationException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidQueryException extends S.TaggedError<InvalidQueryException>()(
+  "InvalidQueryException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidAggregationException extends S.TaggedError<InvalidAggregationException>()(
+  "InvalidAggregationException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidStateTransitionException extends S.TaggedError<InvalidStateTransitionException>()(
+  "InvalidStateTransitionException",
+  { message: S.optional(S.String) },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
+) {}
+export class TaskAlreadyExistsException extends S.TaggedError<TaskAlreadyExistsException>()(
+  "TaskAlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class VersionConflictException extends S.TaggedError<VersionConflictException>()(
+  "VersionConflictException",
+  { message: S.optional(S.String) },
+) {}
+export class TransferAlreadyCompletedException extends S.TaggedError<TransferAlreadyCompletedException>()(
+  "TransferAlreadyCompletedException",
+  { message: S.optional(S.String) },
+) {}
+export class SqlParseException extends S.TaggedError<SqlParseException>()(
+  "SqlParseException",
   { message: S.optional(S.String) },
 ) {}
 export class TransferConflictException extends S.TaggedError<TransferConflictException>()(
   "TransferConflictException",
   { message: S.optional(S.String) },
 ) {}
+export class VersionsLimitExceededException extends S.TaggedError<VersionsLimitExceededException>()(
+  "VersionsLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
 export class RegistrationCodeValidationException extends S.TaggedError<RegistrationCodeValidationException>()(
   "RegistrationCodeValidationException",
   { message: S.optional(S.String) },
-) {}
-export class TaskAlreadyExistsException extends S.TaggedError<TaskAlreadyExistsException>()(
-  "TaskAlreadyExistsException",
-  {},
 ) {}
 export class ResourceRegistrationFailureException extends S.TaggedError<ResourceRegistrationFailureException>()(
   "ResourceRegistrationFailureException",
@@ -8297,6 +8301,2381 @@ export class InvalidResponseException extends S.TaggedError<InvalidResponseExcep
 ) {}
 
 //# Operations
+/**
+ * Returns information about a billing group.
+ *
+ * Requires permission to access the DescribeBillingGroup action.
+ */
+export const describeBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeBillingGroupRequest,
+    output: DescribeBillingGroupResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Describes event configurations.
+ *
+ * Requires permission to access the DescribeEventConfigurations action.
+ */
+export const describeEventConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEventConfigurationsRequest,
+    output: DescribeEventConfigurationsResponse,
+    errors: [InternalFailureException, ThrottlingException],
+  }),
+);
+/**
+ * View details of a managed job template.
+ */
+export const describeManagedJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeManagedJobTemplateRequest,
+    output: DescribeManagedJobTemplateResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Describe a thing group.
+ *
+ * Requires permission to access the DescribeThingGroup action.
+ */
+export const describeThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThingGroupRequest,
+  output: DescribeThingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns a Device Defender's ML Detect Security Profile training model's status.
+ *
+ * Requires permission to access the GetBehaviorModelTrainingSummaries action.
+ */
+export const getBehaviorModelTrainingSummaries =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetBehaviorModelTrainingSummariesRequest,
+    output: GetBehaviorModelTrainingSummariesResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Gets the fine grained logging options.
+ *
+ * Requires permission to access the GetV2LoggingOptions action.
+ */
+export const getV2LoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetV2LoggingOptionsRequest,
+  output: GetV2LoggingOptionsResponse,
+  errors: [
+    InternalException,
+    NotConfiguredException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Gets the status of audit mitigation action tasks that were
+ * executed.
+ *
+ * Requires permission to access the ListAuditMitigationActionsExecutions action.
+ */
+export const listAuditMitigationActionsExecutions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAuditMitigationActionsExecutionsRequest,
+    output: ListAuditMitigationActionsExecutionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Gets a list of audit mitigation action tasks that match the specified filters.
+ *
+ * Requires permission to access the ListAuditMitigationActionsTasks action.
+ */
+export const listAuditMitigationActionsTasks =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAuditMitigationActionsTasksRequest,
+    output: ListAuditMitigationActionsTasksResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists your Device Defender audit listings.
+ *
+ * Requires permission to access the ListAuditSuppressions action.
+ */
+export const listAuditSuppressions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAuditSuppressionsRequest,
+    output: ListAuditSuppressionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists the Device Defender audits that have been performed during a given
+ * time period.
+ *
+ * Requires permission to access the ListAuditTasks action.
+ */
+export const listAuditTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAuditTasksRequest,
+  output: ListAuditTasksResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the billing groups you have created.
+ *
+ * Requires permission to access the ListBillingGroups action.
+ */
+export const listBillingGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBillingGroupsRequest,
+  output: ListBillingGroupsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
+ *
+ * Requires permission to access the ListDetectMitigationActionsExecutions action.
+ */
+export const listDetectMitigationActionsExecutions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDetectMitigationActionsExecutionsRequest,
+    output: ListDetectMitigationActionsExecutionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists the job executions for the specified thing.
+ *
+ * Requires permission to access the ListJobExecutionsForThing action.
+ */
+export const listJobExecutionsForThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListJobExecutionsForThingRequest,
+    output: ListJobExecutionsForThingResponse,
+    errors: [
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists jobs.
+ *
+ * Requires permission to access the ListJobs action.
+ */
+export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListJobsRequest,
+  output: ListJobsResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns a list of job templates.
+ *
+ * Requires permission to access the ListJobTemplates action.
+ */
+export const listJobTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListJobTemplatesRequest,
+  output: ListJobTemplatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns a list of managed job templates.
+ */
+export const listManagedJobTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListManagedJobTemplatesRequest,
+    output: ListManagedJobTemplatesResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric)
+ * by the given thing during the specified time period.
+ */
+export const listMetricValues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMetricValuesRequest,
+  output: ListMetricValuesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Gets a list of all mitigation actions that match the specified filter criteria.
+ *
+ * Requires permission to access the ListMitigationActions action.
+ */
+export const listMitigationActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMitigationActionsRequest,
+    output: ListMitigationActionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists all of your scheduled audits.
+ *
+ * Requires permission to access the ListScheduledAudits action.
+ */
+export const listScheduledAudits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListScheduledAuditsRequest,
+  output: ListScheduledAuditsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the Device Defender security profiles
+ * you've
+ * created. You can filter security profiles by dimension or custom metric.
+ *
+ * Requires permission to access the ListSecurityProfiles action.
+ *
+ * `dimensionName` and `metricName` cannot be used in the same request.
+ */
+export const listSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSecurityProfilesRequest,
+    output: ListSecurityProfilesResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists the Device Defender security profiles attached to a target (thing group).
+ *
+ * Requires permission to access the ListSecurityProfilesForTarget action.
+ */
+export const listSecurityProfilesForTarget =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSecurityProfilesForTargetRequest,
+    output: ListSecurityProfilesForTargetResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists the targets (thing groups) associated with a given Device Defender security profile.
+ *
+ * Requires permission to access the ListTargetsForSecurityProfile action.
+ */
+export const listTargetsForSecurityProfile =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListTargetsForSecurityProfileRequest,
+    output: ListTargetsForSecurityProfileResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Lists logging levels.
+ *
+ * Requires permission to access the ListV2LoggingLevels action.
+ */
+export const listV2LoggingLevels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListV2LoggingLevelsRequest,
+  output: ListV2LoggingLevelsResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    NotConfiguredException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Lists the Device Defender security profile violations discovered during the given time period.
+ * You can use filters to limit the results to those alerts issued for a particular security profile,
+ * behavior, or thing (device).
+ *
+ * Requires permission to access the ListViolationEvents action.
+ */
+export const listViolationEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListViolationEventsRequest,
+  output: ListViolationEventsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Validates a Device Defender security profile behaviors specification.
+ *
+ * Requires permission to access the ValidateSecurityProfileBehaviors action.
+ */
+export const validateSecurityProfileBehaviors =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ValidateSecurityProfileBehaviorsRequest,
+    output: ValidateSecurityProfileBehaviorsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes a job and its related job executions.
+ *
+ * Deleting a job may take time, depending on the number of job executions created for
+ * the job and various other factors. While the job is being deleted, the status of the job
+ * will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose
+ * status is already "DELETION_IN_PROGRESS" will result in an error.
+ *
+ * Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a
+ * LimitExceededException will occur.
+ *
+ * Requires permission to access the DeleteJob action.
+ */
+export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJobRequest,
+  output: DeleteJobResponse,
+  errors: [
+    InvalidRequestException,
+    InvalidStateTransitionException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a provisioning template.
+ *
+ * Requires permission to access the UpdateProvisioningTemplate action.
+ */
+export const updateProvisioningTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateProvisioningTemplateRequest,
+    output: UpdateProvisioningTemplateResponse,
+    errors: [
+      ConflictingResourceUpdateException,
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes a logging level.
+ *
+ * Requires permission to access the DeleteV2LoggingLevel action.
+ */
+export const deleteV2LoggingLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteV2LoggingLevelRequest,
+    output: DeleteV2LoggingLevelResponse,
+    errors: [
+      InternalException,
+      InvalidRequestException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Retrieves the encryption configuration for resources and data of your Amazon Web Services account in
+ * Amazon Web Services IoT Core. For more information, see Data encryption at rest in
+ * the *Amazon Web Services IoT Core Developer Guide*.
+ */
+export const describeEncryptionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeEncryptionConfigurationRequest,
+    output: DescribeEncryptionConfigurationResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }));
+/**
+ * List the device certificates signed by the specified CA certificate.
+ *
+ * Requires permission to access the ListCertificatesByCA action.
+ */
+export const listCertificatesByCA = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListCertificatesByCARequest,
+    output: ListCertificatesByCAResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Lists the search indices.
+ *
+ * Requires permission to access the ListIndices action.
+ */
+export const listIndices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIndicesRequest,
+  output: ListIndicesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists your policies.
+ *
+ * Requires permission to access the ListPolicies action.
+ */
+export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPoliciesRequest,
+  output: ListPoliciesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists the role aliases registered in your account.
+ *
+ * Requires permission to access the ListRoleAliases action.
+ */
+export const listRoleAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRoleAliasesRequest,
+  output: ListRoleAliasesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Sets the logging options.
+ *
+ * NOTE: use of this command is not recommended. Use `SetV2LoggingOptions`
+ * instead.
+ *
+ * Requires permission to access the SetLoggingOptions action.
+ */
+export const setLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetLoggingOptionsRequest,
+  output: SetLoggingOptionsResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Sets the logging options for the V2 logging service.
+ *
+ * Requires permission to access the SetV2LoggingOptions action.
+ */
+export const setV2LoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetV2LoggingOptionsRequest,
+  output: SetV2LoggingOptionsResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes a CA certificate registration code.
+ *
+ * Requires permission to access the DeleteRegistrationCode action.
+ */
+export const deleteRegistrationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRegistrationCodeRequest,
+    output: DeleteRegistrationCodeResponse,
+    errors: [
+      InternalFailureException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified domain configuration.
+ *
+ * Requires permission to access the DeleteDomainConfiguration action.
+ */
+export const deleteDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDomainConfigurationRequest,
+    output: DeleteDomainConfigurationResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified thing type. You cannot delete a thing type if it has things
+ * associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and
+ * finally use DeleteThingType to delete the thing type.
+ *
+ * Requires permission to access the DeleteThingType action.
+ */
+export const deleteThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteThingTypeRequest,
+  output: DeleteThingTypeResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deprecates a thing type. You can not associate new things with deprecated thing
+ * type.
+ *
+ * Requires permission to access the DeprecateThingType action.
+ */
+export const deprecateThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprecateThingTypeRequest,
+  output: DeprecateThingTypeResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Removes the specified policy from the specified certificate.
+ *
+ * **Note:** This action is deprecated and works as
+ * expected for backward compatibility, but we won't add enhancements. Use DetachPolicy instead.
+ *
+ * Requires permission to access the DetachPrincipalPolicy action.
+ */
+export const detachPrincipalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DetachPrincipalPolicyRequest,
+    output: DetachPrincipalPolicyResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Detaches the specified principal from the specified thing. A principal can be X.509
+ * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+ * identities.
+ *
+ * This call is asynchronous. It might take several seconds for the detachment to
+ * propagate.
+ *
+ * Requires permission to access the DetachThingPrincipal action.
+ */
+export const detachThingPrincipal = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DetachThingPrincipalRequest,
+    output: DetachThingPrincipalResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Gets a registration code used to register a CA certificate with IoT.
+ *
+ * IoT will create a registration code as part of this API call if the registration
+ * code doesn't exist or has been deleted. If you already have a registration code, this API
+ * call will return the same registration code.
+ *
+ * Requires permission to access the GetRegistrationCode action.
+ */
+export const getRegistrationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRegistrationCodeRequest,
+  output: GetRegistrationCodeResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Sets the specified version of the specified policy as the policy's default
+ * (operative) version. This action affects all certificates to which the policy is attached.
+ * To list the principals the policy is attached to, use the ListPrincipalPolicies
+ * action.
+ *
+ * Requires permission to access the SetDefaultPolicyVersion action.
+ */
+export const setDefaultPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetDefaultPolicyVersionRequest,
+    output: SetDefaultPolicyVersionResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Updates a registered CA certificate.
+ *
+ * Requires permission to access the UpdateCACertificate action.
+ */
+export const updateCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCACertificateRequest,
+  output: UpdateCACertificateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys
+ * from Key Management Service (KMS). With customer managed keys, you create, own, and
+ * manage the KMS keys in your Amazon Web Services account.
+ *
+ * Before using this API, you must set up permissions for Amazon Web Services IoT Core to access KMS. For more information, see Data encryption at rest in the *Amazon Web Services IoT Core Developer Guide*.
+ */
+export const updateEncryptionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateEncryptionConfigurationRequest,
+    output: UpdateEncryptionConfigurationResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }));
+/**
+ * Updates the search configuration.
+ *
+ * Requires permission to access the UpdateIndexingConfiguration action.
+ */
+export const updateIndexingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateIndexingConfigurationRequest,
+    output: UpdateIndexingConfigurationResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Updates supported fields of the specified job.
+ *
+ * Requires permission to access the UpdateJob action.
+ */
+export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateJobRequest,
+  output: UpdateJobResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates a thing type.
+ */
+export const updateThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateThingTypeRequest,
+  output: UpdateThingTypeResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Attaches the specified principal to the specified thing. A principal can be X.509
+ * certificates, Amazon Cognito identities or federated identities.
+ *
+ * Requires permission to access the AttachThingPrincipal action.
+ */
+export const attachThingPrincipal = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AttachThingPrincipalRequest,
+    output: AttachThingPrincipalResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes the rule.
+ *
+ * Requires permission to access the DeleteTopicRule action.
+ */
+export const deleteTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTopicRuleRequest,
+  output: DeleteTopicRuleResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a topic rule destination.
+ *
+ * Requires permission to access the DeleteTopicRuleDestination action.
+ */
+export const deleteTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteTopicRuleDestinationRequest,
+    output: DeleteTopicRuleDestinationResponse,
+    errors: [
+      ConflictingResourceUpdateException,
+      InternalException,
+      InvalidRequestException,
+      ServiceUnavailableException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Disables the rule.
+ *
+ * Requires permission to access the DisableTopicRule action.
+ */
+export const disableTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableTopicRuleRequest,
+  output: DisableTopicRuleResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Enables the rule.
+ *
+ * Requires permission to access the EnableTopicRule action.
+ */
+export const enableTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableTopicRuleRequest,
+  output: EnableTopicRuleResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates a topic rule destination. You use this to change the status, endpoint URL, or
+ * confirmation URL of the destination.
+ *
+ * Requires permission to access the UpdateTopicRuleDestination action.
+ */
+export const updateTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTopicRuleDestinationRequest,
+    output: UpdateTopicRuleDestinationResponse,
+    errors: [
+      ConflictingResourceUpdateException,
+      InternalException,
+      InvalidRequestException,
+      ServiceUnavailableException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes a certificate provider.
+ *
+ * Requires permission to access the DeleteCertificateProvider action.
+ *
+ * If you delete the certificate provider resource, the behavior of
+ * `CreateCertificateFromCsr` will resume, and IoT will create
+ * certificates signed by IoT from a certificate signing request (CSR).
+ */
+export const deleteCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCertificateProviderRequest,
+    output: DeleteCertificateProviderResponse,
+    errors: [
+      DeleteConflictException,
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified policy.
+ *
+ * A policy cannot be deleted if it has non-default versions or it is attached to any
+ * certificate.
+ *
+ * To delete a policy, use the DeletePolicyVersion action to delete all non-default
+ * versions of the policy; use the DetachPolicy action to detach the policy from any
+ * certificate; and then use the DeletePolicy action to delete the policy.
+ *
+ * When a policy is deleted using DeletePolicy, its default version is deleted with
+ * it.
+ *
+ * Because of the distributed nature of Amazon Web Services, it can take up to five minutes after
+ * a policy is detached before it's ready to be deleted.
+ *
+ * Requires permission to access the DeletePolicy action.
+ */
+export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePolicyRequest,
+  output: DeletePolicyResponse,
+  errors: [
+    DeleteConflictException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes the specified version of the specified policy. You cannot delete the default
+ * version of a policy using this action. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default
+ * version, use ListPolicyVersions.
+ *
+ * Requires permission to access the DeletePolicyVersion action.
+ */
+export const deletePolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePolicyVersionRequest,
+  output: DeletePolicyVersionResponse,
+  errors: [
+    DeleteConflictException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a role alias
+ *
+ * Requires permission to access the DeleteRoleAlias action.
+ */
+export const deleteRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRoleAliasRequest,
+  output: DeleteRoleAliasResponse,
+  errors: [
+    DeleteConflictException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a stream.
+ *
+ * Requires permission to access the DeleteStream action.
+ */
+export const deleteStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStreamRequest,
+  output: DeleteStreamResponse,
+  errors: [
+    DeleteConflictException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes the specified certificate.
+ *
+ * A certificate cannot be deleted if it has a policy or IoT thing attached to it or if
+ * its status is set to ACTIVE. To delete a certificate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INACTIVE
+ * status.
+ *
+ * Requires permission to access the DeleteCertificate action.
+ */
+export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCertificateRequest,
+  output: DeleteCertificateResponse,
+  errors: [
+    CertificateStateException,
+    DeleteConflictException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates the status of the specified certificate. This operation is
+ * idempotent.
+ *
+ * Requires permission to access the UpdateCertificate action.
+ *
+ * Certificates must be in the ACTIVE state to authenticate devices that use
+ * a certificate to connect to IoT.
+ *
+ * Within a few minutes of updating a certificate from the ACTIVE state to any other
+ * state, IoT disconnects all devices that used that certificate to connect. Devices cannot
+ * use a certificate that is not in the ACTIVE state to reconnect.
+ */
+export const updateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCertificateRequest,
+  output: UpdateCertificateResponse,
+  errors: [
+    CertificateStateException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets the logging options.
+ *
+ * NOTE: use of this command is not recommended. Use `GetV2LoggingOptions`
+ * instead.
+ *
+ * Requires permission to access the GetLoggingOptions action.
+ */
+export const getLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLoggingOptionsRequest,
+  output: GetLoggingOptionsResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Confirms a topic rule destination. When you create a rule requiring a destination, IoT
+ * sends a confirmation message to the endpoint or base address you specify. The message
+ * includes a token which you pass back when calling `ConfirmTopicRuleDestination`
+ * to confirm that you own or have access to the endpoint.
+ *
+ * Requires permission to access the ConfirmTopicRuleDestination action.
+ */
+export const confirmTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ConfirmTopicRuleDestinationRequest,
+    output: ConfirmTopicRuleDestinationResponse,
+    errors: [
+      ConflictingResourceUpdateException,
+      InternalException,
+      InvalidRequestException,
+      ServiceUnavailableException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Retrieves the live connectivity status per device.
+ */
+export const getThingConnectivityData = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetThingConnectivityDataRequest,
+    output: GetThingConnectivityDataResponse,
+    errors: [
+      IndexNotReadyException,
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Clears the default authorizer.
+ *
+ * Requires permission to access the ClearDefaultAuthorizer action.
+ */
+export const clearDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ClearDefaultAuthorizerRequest,
+    output: ClearDefaultAuthorizerResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Creates a provisioning claim.
+ *
+ * Requires permission to access the CreateProvisioningClaim action.
+ */
+export const createProvisioningClaim = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateProvisioningClaimRequest,
+    output: CreateProvisioningClaimResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes an authorizer.
+ *
+ * Requires permission to access the DeleteAuthorizer action.
+ */
+export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAuthorizerRequest,
+  output: DeleteAuthorizerResponse,
+  errors: [
+    DeleteConflictException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a registered CA certificate.
+ *
+ * Requires permission to access the DeleteCACertificate action.
+ */
+export const deleteCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCACertificateRequest,
+  output: DeleteCACertificateResponse,
+  errors: [
+    CertificateStateException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Describes an authorizer.
+ *
+ * Requires permission to access the DescribeAuthorizer action.
+ */
+export const describeAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAuthorizerRequest,
+  output: DescribeAuthorizerResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Describes a certificate provider.
+ *
+ * Requires permission to access the DescribeCertificateProvider action.
+ */
+export const describeCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCertificateProviderRequest,
+    output: DescribeCertificateProviderResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Describes the default authorizer.
+ *
+ * Requires permission to access the DescribeDefaultAuthorizer action.
+ */
+export const describeDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeDefaultAuthorizerRequest,
+    output: DescribeDefaultAuthorizerResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Gets information about the specified fleet metric.
+ *
+ * Requires permission to access the DescribeFleetMetric action.
+ */
+export const describeFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFleetMetricRequest,
+  output: DescribeFleetMetricResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Describes a search index.
+ *
+ * Requires permission to access the DescribeIndex action.
+ */
+export const describeIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIndexRequest,
+  output: DescribeIndexResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about the specified thing.
+ *
+ * Requires permission to access the DescribeThing action.
+ */
+export const describeThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThingRequest,
+  output: DescribeThingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets a job document.
+ *
+ * Requires permission to access the GetJobDocument action.
+ */
+export const getJobDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJobDocumentRequest,
+  output: GetJobDocumentResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Gets information about the specified policy with the policy document of the default
+ * version.
+ *
+ * Requires permission to access the GetPolicy action.
+ */
+export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPolicyRequest,
+  output: GetPolicyResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about the specified policy version.
+ *
+ * Requires permission to access the GetPolicyVersion action.
+ */
+export const getPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPolicyVersionRequest,
+  output: GetPolicyVersionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists the principals associated with the specified policy.
+ *
+ * **Note:** This action is deprecated and works as
+ * expected for backward compatibility, but we won't add enhancements. Use ListTargetsForPolicy instead.
+ *
+ * Requires permission to access the ListPolicyPrincipals action.
+ */
+export const listPolicyPrincipals = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPolicyPrincipalsRequest,
+    output: ListPolicyPrincipalsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Lists the policies attached to the specified principal. If you use an Cognito
+ * identity, the ID must be in AmazonCognito Identity format.
+ *
+ * **Note:** This action is deprecated and works as
+ * expected for backward compatibility, but we won't add enhancements. Use ListAttachedPolicies instead.
+ *
+ * Requires permission to access the ListPrincipalPolicies action.
+ */
+export const listPrincipalPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPrincipalPoliciesRequest,
+    output: ListPrincipalPoliciesResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Lists the things associated with the specified principal. A principal can be X.509
+ * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+ * identities.
+ *
+ * Requires permission to access the ListPrincipalThings action.
+ */
+export const listPrincipalThings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPrincipalThingsRequest,
+  output: ListPrincipalThingsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists the principals associated with the specified thing. A principal can be X.509
+ * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+ * identities.
+ *
+ * Requires permission to access the ListThingPrincipals action.
+ */
+export const listThingPrincipals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListThingPrincipalsRequest,
+  output: ListThingPrincipalsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates a certificate provider.
+ *
+ * Requires permission to access the UpdateCertificateProvider action.
+ */
+export const updateCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateCertificateProviderRequest,
+    output: UpdateCertificateProviderResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Updates a role alias.
+ *
+ * Requires permission to access the UpdateRoleAlias action.
+ *
+ * The value of
+ * `credentialDurationSeconds`
+ * must be less than or equal to the
+ * maximum session duration of the IAM role that the role alias references. For more
+ * information, see Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services
+ * Identity and Access Management User Guide.
+ */
+export const updateRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoleAliasRequest,
+  output: UpdateRoleAliasResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Use this API to define a
+ * Custom
+ * Metric
+ * published by your devices to Device Defender.
+ *
+ * Requires permission to access the CreateCustomMetric action.
+ */
+export const createCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomMetricRequest,
+  output: CreateCustomMetricResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender.
+ * For example, using a `TOPIC_FILTER` dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.
+ *
+ * Requires permission to access the CreateDimension action.
+ */
+export const createDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDimensionRequest,
+  output: CreateDimensionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a role alias.
+ *
+ * Requires permission to access the CreateRoleAlias action.
+ *
+ * The value of
+ * `credentialDurationSeconds`
+ * must be less than or equal to the maximum session
+ * duration of the IAM role that the role alias references. For more information, see
+ *
+ * Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
+ */
+export const createRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRoleAliasRequest,
+  output: CreateRoleAliasResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a scheduled audit that is run at a specified
+ * time interval.
+ *
+ * Requires permission to access the CreateScheduledAudit action.
+ */
+export const createScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateScheduledAuditRequest,
+    output: CreateScheduledAuditResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * List targets for the specified policy.
+ *
+ * Requires permission to access the ListTargetsForPolicy action.
+ */
+export const listTargetsForPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTargetsForPolicyRequest,
+    output: ListTargetsForPolicyResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Sets the logging level.
+ *
+ * Requires permission to access the SetV2LoggingLevel action.
+ */
+export const setV2LoggingLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetV2LoggingLevelRequest,
+  output: SetV2LoggingLevelResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    LimitExceededException,
+    NotConfiguredException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Starts an on-demand Device Defender audit.
+ *
+ * Requires permission to access the StartOnDemandAuditTask action.
+ */
+export const startOnDemandAuditTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartOnDemandAuditTaskRequest,
+    output: StartOnDemandAuditTaskResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates an authorizer.
+ *
+ * Requires permission to access the UpdateAuthorizer action.
+ */
+export const updateAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAuthorizerRequest,
+  output: UpdateAuthorizerResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Updates an existing stream. The stream version will be incremented by one.
+ *
+ * Requires permission to access the UpdateStream action.
+ */
+export const updateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStreamRequest,
+  output: UpdateStreamResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Detaches a policy from the specified target.
+ *
+ * Because of the distributed nature of Amazon Web Services, it can take up to five minutes after
+ * a policy is detached before it's ready to be deleted.
+ *
+ * Requires permission to access the DetachPolicy action.
+ */
+export const detachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachPolicyRequest,
+  output: DetachPolicyResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Adds to or modifies the tags of the given resource. Tags are metadata which can be
+ * used to manage a resource.
+ *
+ * Requires permission to access the TagResource action.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Attaches the specified policy to the specified principal (certificate or other
+ * credential).
+ *
+ * Requires permission to access the AttachPolicy action.
+ */
+export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachPolicyRequest,
+  output: AttachPolicyResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Attaches the specified policy to the specified principal (certificate or other
+ * credential).
+ *
+ * **Note:** This action is deprecated and works as
+ * expected for backward compatibility, but we won't add enhancements. Use AttachPolicy instead.
+ *
+ * Requires permission to access the AttachPrincipalPolicy action.
+ */
+export const attachPrincipalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AttachPrincipalPolicyRequest,
+    output: AttachPrincipalPolicyResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Associates a group with a continuous job. The following criteria must be met:
+ *
+ * - The job must have been created with the `targetSelection` field
+ * set to "CONTINUOUS".
+ *
+ * - The job status must currently be "IN_PROGRESS".
+ *
+ * - The total number of targets associated with a job must not exceed
+ * 100.
+ *
+ * Requires permission to access the AssociateTargetsWithJob action.
+ */
+export const associateTargetsWithJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateTargetsWithJobRequest,
+    output: AssociateTargetsWithJobResponse,
+    errors: [
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Cancels a job.
+ *
+ * Requires permission to access the CancelJob action.
+ */
+export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelJobRequest,
+  output: CancelJobResponse,
+  errors: [
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a Device Defender audit suppression.
+ *
+ * Requires permission to access the CreateAuditSuppression action.
+ */
+export const createAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAuditSuppressionRequest,
+    output: CreateAuditSuppressionResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates an authorizer.
+ *
+ * Requires permission to access the CreateAuthorizer action.
+ */
+export const createAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAuthorizerRequest,
+  output: CreateAuthorizerResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Sets the default authorizer. This will be used if a websocket connection is made
+ * without specifying an authorizer.
+ *
+ * Requires permission to access the SetDefaultAuthorizer action.
+ */
+export const setDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetDefaultAuthorizerRequest,
+    output: SetDefaultAuthorizerResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceAlreadyExistsException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Creates a billing group. If this call is made multiple times using
+ * the same billing group name and configuration, the call will succeed. If this call is made with
+ * the same billing group name but different configuration a `ResourceAlreadyExistsException` is thrown.
+ *
+ * Requires permission to access the CreateBillingGroup action.
+ */
+export const createBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBillingGroupRequest,
+  output: CreateBillingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to
+ * customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For
+ * more information, see Customizing certificate
+ * signing using Amazon Web Services IoT Core certificate provider from Amazon Web Services IoT Core Developer
+ * Guide.
+ *
+ * Requires permission to access the CreateCertificateProvider action.
+ *
+ * After you create a certificate provider, the behavior of
+ * `CreateCertificateFromCsr` API for fleet provisioning will
+ * change and all API calls to `CreateCertificateFromCsr` will invoke the
+ * certificate provider to create the certificates. It can take up to a few minutes for
+ * this behavior to change after a certificate provider is created.
+ */
+export const createCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateCertificateProviderRequest,
+    output: CreateCertificateProviderResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Creates an IoT policy.
+ *
+ * The created policy is the default version for the policy. This operation creates a
+ * policy version with a version identifier of **1** and sets
+ * **1** as the policy's default version.
+ *
+ * Requires permission to access the CreatePolicy action.
+ */
+export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePolicyRequest,
+  output: CreatePolicyResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    MalformedPolicyException,
+    ResourceAlreadyExistsException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a provisioning template.
+ *
+ * Requires permission to access the CreateProvisioningTemplate action.
+ */
+export const createProvisioningTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateProvisioningTemplateRequest,
+    output: CreateProvisioningTemplateResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data
+ * bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files
+ * associated with a stream.
+ *
+ * Requires permission to access the CreateStream action.
+ */
+export const createStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStreamRequest,
+  output: CreateStreamResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Returns or creates a unique endpoint specific to the Amazon Web Services account making the
+ * call.
+ *
+ * The first time `DescribeEndpoint` is called, an endpoint is created. All subsequent calls to `DescribeEndpoint` return the same endpoint.
+ *
+ * Requires permission to access the DescribeEndpoint action.
+ */
+export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEndpointRequest,
+  output: DescribeEndpointResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about the specified software package's configuration.
+ *
+ * Requires permission to access the GetPackageConfiguration action.
+ */
+export const getPackageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPackageConfigurationRequest,
+    output: GetPackageConfigurationResponse,
+    errors: [InternalServerException, ThrottlingException],
+  }),
+);
+/**
+ * Lists the findings (results) of a Device Defender audit or of the audits
+ * performed during a specified time period. (Findings are retained for 90 days.)
+ *
+ * Requires permission to access the ListAuditFindings action.
+ */
+export const listAuditFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAuditFindingsRequest,
+  output: ListAuditFindingsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists your Device Defender detect custom metrics.
+ *
+ * Requires permission to access the ListCustomMetrics action.
+ */
+export const listCustomMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCustomMetricsRequest,
+  output: ListCustomMetricsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * List of Device Defender ML Detect mitigation actions tasks.
+ *
+ * Requires permission to access the ListDetectMitigationActionsTasks action.
+ */
+export const listDetectMitigationActionsTasks =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDetectMitigationActionsTasksRequest,
+    output: ListDetectMitigationActionsTasksResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * List the set of dimensions that are defined for your Amazon Web Services accounts.
+ *
+ * Requires permission to access the ListDimensions action.
+ */
+export const listDimensions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDimensionsRequest,
+  output: ListDimensionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Information about the thing registration tasks.
+ */
+export const listThingRegistrationTaskReports =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListThingRegistrationTaskReportsRequest,
+    output: ListThingRegistrationTaskReportsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }));
+/**
+ * List bulk thing provisioning tasks.
+ *
+ * Requires permission to access the ListThingRegistrationTasks action.
+ */
+export const listThingRegistrationTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListThingRegistrationTasksRequest,
+    output: ListThingRegistrationTasksResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Creates a bulk thing provisioning task.
+ *
+ * Requires permission to access the StartThingRegistrationTask action.
+ */
+export const startThingRegistrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartThingRegistrationTaskRequest,
+    output: StartThingRegistrationTaskResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Restores the default settings for Device Defender audits for this account. Any
+ * configuration data you entered is deleted and all audit checks are reset to
+ * disabled.
+ *
+ * Requires permission to access the DeleteAccountAuditConfiguration action.
+ */
+export const deleteAccountAuditConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteAccountAuditConfigurationRequest,
+    output: DeleteAccountAuditConfigurationResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes a Device Defender audit suppression.
+ *
+ * Requires permission to access the DeleteAuditSuppression action.
+ */
+export const deleteAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAuditSuppressionRequest,
+    output: DeleteAuditSuppressionResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a Device Defender detect custom metric.
+ *
+ * Requires permission to access the DeleteCustomMetric action.
+ *
+ * Before you can delete a custom metric, you must first remove the custom metric from all
+ * security profiles it's a part of.
+ * The
+ * security
+ * profile associated with the custom metric can be found using the ListSecurityProfiles
+ * API with `metricName` set to your custom metric name.
+ */
+export const deleteCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomMetricRequest,
+  output: DeleteCustomMetricResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Removes the specified dimension from your Amazon Web Services accounts.
+ *
+ * Requires permission to access the DeleteDimension action.
+ */
+export const deleteDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDimensionRequest,
+  output: DeleteDimensionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the specified job template.
+ */
+export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJobTemplateRequest,
+  output: DeleteJobTemplateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a defined mitigation action from your Amazon Web Services accounts.
+ *
+ * Requires permission to access the DeleteMitigationAction action.
+ */
+export const deleteMitigationAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMitigationActionRequest,
+    output: DeleteMitigationActionResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a scheduled audit.
+ *
+ * Requires permission to access the DeleteScheduledAudit action.
+ */
+export const deleteScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteScheduledAuditRequest,
+    output: DeleteScheduledAuditResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Disassociates a Device Defender security profile from a thing group or from this account.
+ *
+ * Requires permission to access the DetachSecurityProfile action.
+ */
+export const detachSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DetachSecurityProfileRequest,
+    output: DetachSecurityProfileResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Set a verification state and provide a description of that verification state on a violation (detect alarm).
+ */
+export const putVerificationStateOnViolation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutVerificationStateOnViolationRequest,
+    output: PutVerificationStateOnViolationResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Removes the given thing from the billing group.
+ *
+ * Requires permission to access the RemoveThingFromBillingGroup action.
+ *
+ * This call is asynchronous. It might take several seconds for the detachment to propagate.
+ */
+export const removeThingFromBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveThingFromBillingGroupRequest,
+    output: RemoveThingFromBillingGroupResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Remove the specified thing from the specified group.
+ *
+ * You must specify either a `thingGroupArn` or a
+ * `thingGroupName` to identify the thing group and
+ * either a `thingArn` or a `thingName` to
+ * identify the thing to remove from the thing group.
+ *
+ * Requires permission to access the RemoveThingFromThingGroup action.
+ */
+export const removeThingFromThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveThingFromThingGroupRequest,
+    output: RemoveThingFromThingGroupResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Cancels a bulk thing provisioning task.
+ *
+ * Requires permission to access the StopThingRegistrationTask action.
+ */
+export const stopThingRegistrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopThingRegistrationTaskRequest,
+    output: StopThingRegistrationTaskResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Removes the given tags (metadata) from the resource.
+ *
+ * Requires permission to access the UntagResource action.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Configures or reconfigures the Device Defender audit settings for this account.
+ * Settings include how audit notifications are sent and which audit checks are
+ * enabled or disabled.
+ *
+ * Requires permission to access the UpdateAccountAuditConfiguration action.
+ */
+export const updateAccountAuditConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateAccountAuditConfigurationRequest,
+    output: UpdateAccountAuditConfigurationResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates a Device Defender audit suppression.
+ */
+export const updateAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAuditSuppressionRequest,
+    output: UpdateAuditSuppressionResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the event configurations.
+ *
+ * Requires permission to access the UpdateEventConfigurations action.
+ */
+export const updateEventConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEventConfigurationsRequest,
+    output: UpdateEventConfigurationsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the groups to which the thing belongs.
+ *
+ * Requires permission to access the UpdateThingGroupsForThing action.
+ */
+export const updateThingGroupsForThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateThingGroupsForThingRequest,
+    output: UpdateThingGroupsForThingResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Adds a thing to a billing group.
+ *
+ * Requires permission to access the AddThingToBillingGroup action.
+ */
+export const addThingToBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AddThingToBillingGroupRequest,
+    output: AddThingToBillingGroupResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Adds a thing to a thing group.
  *
@@ -8364,324 +10743,6 @@ export const cancelDetectMitigationActionsTask =
     ],
   }));
 /**
- * Clears the default authorizer.
- *
- * Requires permission to access the ClearDefaultAuthorizer action.
- */
-export const clearDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ClearDefaultAuthorizerRequest,
-    output: ClearDefaultAuthorizerResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Restores the default settings for Device Defender audits for this account. Any
- * configuration data you entered is deleted and all audit checks are reset to
- * disabled.
- *
- * Requires permission to access the DeleteAccountAuditConfiguration action.
- */
-export const deleteAccountAuditConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAccountAuditConfigurationRequest,
-    output: DeleteAccountAuditConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Deletes a Device Defender audit suppression.
- *
- * Requires permission to access the DeleteAuditSuppression action.
- */
-export const deleteAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAuditSuppressionRequest,
-    output: DeleteAuditSuppressionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes the billing group.
- *
- * Requires permission to access the DeleteBillingGroup action.
- */
-export const deleteBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBillingGroupRequest,
-  output: DeleteBillingGroupResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-    VersionConflictException,
-  ],
-}));
-/**
- * Deletes the specified certificate.
- *
- * A certificate cannot be deleted if it has a policy or IoT thing attached to it or if
- * its status is set to ACTIVE. To delete a certificate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INACTIVE
- * status.
- *
- * Requires permission to access the DeleteCertificate action.
- */
-export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCertificateRequest,
-  output: DeleteCertificateResponse,
-  errors: [
-    CertificateStateException,
-    DeleteConflictException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a certificate provider.
- *
- * Requires permission to access the DeleteCertificateProvider action.
- *
- * If you delete the certificate provider resource, the behavior of
- * `CreateCertificateFromCsr` will resume, and IoT will create
- * certificates signed by IoT from a certificate signing request (CSR).
- */
-export const deleteCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCertificateProviderRequest,
-    output: DeleteCertificateProviderResponse,
-    errors: [
-      DeleteConflictException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes a Device Defender detect custom metric.
- *
- * Requires permission to access the DeleteCustomMetric action.
- *
- * Before you can delete a custom metric, you must first remove the custom metric from all
- * security profiles it's a part of.
- * The
- * security
- * profile associated with the custom metric can be found using the ListSecurityProfiles
- * API with `metricName` set to your custom metric name.
- */
-export const deleteCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCustomMetricRequest,
-  output: DeleteCustomMetricResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes the specified dimension from your Amazon Web Services accounts.
- *
- * Requires permission to access the DeleteDimension action.
- */
-export const deleteDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDimensionRequest,
-  output: DeleteDimensionResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes the specified domain configuration.
- *
- * Requires permission to access the DeleteDomainConfiguration action.
- */
-export const deleteDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDomainConfigurationRequest,
-    output: DeleteDomainConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes a dynamic thing group.
- *
- * Requires permission to access the DeleteDynamicThingGroup action.
- */
-export const deleteDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDynamicThingGroupRequest,
-    output: DeleteDynamicThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
-/**
- * Deletes the specified fleet metric.
- * Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist.
- *
- * Requires permission to access the DeleteFleetMetric action.
- */
-export const deleteFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFleetMetricRequest,
-  output: DeleteFleetMetricResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-    VersionConflictException,
-  ],
-}));
-/**
- * Deletes a job execution.
- *
- * Requires permission to access the DeleteJobExecution action.
- */
-export const deleteJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJobExecutionRequest,
-  output: DeleteJobExecutionResponse,
-  errors: [
-    InvalidRequestException,
-    InvalidStateTransitionException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes the specified job template.
- */
-export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJobTemplateRequest,
-  output: DeleteJobTemplateResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a defined mitigation action from your Amazon Web Services accounts.
- *
- * Requires permission to access the DeleteMitigationAction action.
- */
-export const deleteMitigationAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMitigationActionRequest,
-    output: DeleteMitigationActionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Delete an OTA update.
- *
- * Requires permission to access the DeleteOTAUpdate action.
- */
-export const deleteOTAUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteOTAUpdateRequest,
-  output: DeleteOTAUpdateResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-    VersionConflictException,
-  ],
-}));
-/**
- * Deletes the specified policy.
- *
- * A policy cannot be deleted if it has non-default versions or it is attached to any
- * certificate.
- *
- * To delete a policy, use the DeletePolicyVersion action to delete all non-default
- * versions of the policy; use the DetachPolicy action to detach the policy from any
- * certificate; and then use the DeletePolicy action to delete the policy.
- *
- * When a policy is deleted using DeletePolicy, its default version is deleted with
- * it.
- *
- * Because of the distributed nature of Amazon Web Services, it can take up to five minutes after
- * a policy is detached before it's ready to be deleted.
- *
- * Requires permission to access the DeletePolicy action.
- */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePolicyRequest,
-  output: DeletePolicyResponse,
-  errors: [
-    DeleteConflictException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes the specified version of the specified policy. You cannot delete the default
- * version of a policy using this action. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default
- * version, use ListPolicyVersions.
- *
- * Requires permission to access the DeletePolicyVersion action.
- */
-export const deletePolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePolicyVersionRequest,
-  output: DeletePolicyVersionResponse,
-  errors: [
-    DeleteConflictException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Deletes a provisioning template.
  *
  * Requires permission to access the DeleteProvisioningTemplate action.
@@ -8721,1365 +10782,6 @@ export const deleteProvisioningTemplateVersion =
     ],
   }));
 /**
- * Deletes a CA certificate registration code.
- *
- * Requires permission to access the DeleteRegistrationCode action.
- */
-export const deleteRegistrationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRegistrationCodeRequest,
-    output: DeleteRegistrationCodeResponse,
-    errors: [
-      InternalFailureException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes a role alias
- *
- * Requires permission to access the DeleteRoleAlias action.
- */
-export const deleteRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRoleAliasRequest,
-  output: DeleteRoleAliasResponse,
-  errors: [
-    DeleteConflictException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a scheduled audit.
- *
- * Requires permission to access the DeleteScheduledAudit action.
- */
-export const deleteScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteScheduledAuditRequest,
-    output: DeleteScheduledAuditResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a Device Defender security profile.
- *
- * Requires permission to access the DeleteSecurityProfile action.
- */
-export const deleteSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSecurityProfileRequest,
-    output: DeleteSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
-/**
- * Deletes a stream.
- *
- * Requires permission to access the DeleteStream action.
- */
-export const deleteStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStreamRequest,
-  output: DeleteStreamResponse,
-  errors: [
-    DeleteConflictException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes the specified thing. Returns successfully with no error if the deletion is
- * successful or you specify a thing that doesn't exist.
- *
- * Requires permission to access the DeleteThing action.
- */
-export const deleteThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteThingRequest,
-  output: DeleteThingResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-    VersionConflictException,
-  ],
-}));
-/**
- * Deletes a thing group.
- *
- * Requires permission to access the DeleteThingGroup action.
- */
-export const deleteThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteThingGroupRequest,
-  output: DeleteThingGroupResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-    VersionConflictException,
-  ],
-}));
-/**
- * Deletes the specified thing type. You cannot delete a thing type if it has things
- * associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and
- * finally use DeleteThingType to delete the thing type.
- *
- * Requires permission to access the DeleteThingType action.
- */
-export const deleteThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteThingTypeRequest,
-  output: DeleteThingTypeResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a topic rule destination.
- *
- * Requires permission to access the DeleteTopicRuleDestination action.
- */
-export const deleteTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTopicRuleDestinationRequest,
-    output: DeleteTopicRuleDestinationResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes a logging level.
- *
- * Requires permission to access the DeleteV2LoggingLevel action.
- */
-export const deleteV2LoggingLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteV2LoggingLevelRequest,
-    output: DeleteV2LoggingLevelResponse,
-    errors: [
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Deprecates a thing type. You can not associate new things with deprecated thing
- * type.
- *
- * Requires permission to access the DeprecateThingType action.
- */
-export const deprecateThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeprecateThingTypeRequest,
-  output: DeprecateThingTypeResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Detaches a policy from the specified target.
- *
- * Because of the distributed nature of Amazon Web Services, it can take up to five minutes after
- * a policy is detached before it's ready to be deleted.
- *
- * Requires permission to access the DetachPolicy action.
- */
-export const detachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetachPolicyRequest,
-  output: DetachPolicyResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Removes the specified policy from the specified certificate.
- *
- * **Note:** This action is deprecated and works as
- * expected for backward compatibility, but we won't add enhancements. Use DetachPolicy instead.
- *
- * Requires permission to access the DetachPrincipalPolicy action.
- */
-export const detachPrincipalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachPrincipalPolicyRequest,
-    output: DetachPrincipalPolicyResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Disassociates a Device Defender security profile from a thing group or from this account.
- *
- * Requires permission to access the DetachSecurityProfile action.
- */
-export const detachSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachSecurityProfileRequest,
-    output: DetachSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Detaches the specified principal from the specified thing. A principal can be X.509
- * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
- * identities.
- *
- * This call is asynchronous. It might take several seconds for the detachment to
- * propagate.
- *
- * Requires permission to access the DetachThingPrincipal action.
- */
-export const detachThingPrincipal = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachThingPrincipalRequest,
-    output: DetachThingPrincipalResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Disables the rule.
- *
- * Requires permission to access the DisableTopicRule action.
- */
-export const disableTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableTopicRuleRequest,
-  output: DisableTopicRuleResponse,
-  errors: [
-    ConflictingResourceUpdateException,
-    InternalException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Disassociates the selected software bill of materials (SBOM) from a specific software package version.
- *
- * Requires permission to access the DisassociateSbomWithPackageVersion action.
- */
-export const disassociateSbomFromPackageVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSbomFromPackageVersionRequest,
-    output: DisassociateSbomFromPackageVersionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Enables the rule.
- *
- * Requires permission to access the EnableTopicRule action.
- */
-export const enableTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableTopicRuleRequest,
-  output: EnableTopicRuleResponse,
-  errors: [
-    ConflictingResourceUpdateException,
-    InternalException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets the logging options.
- *
- * NOTE: use of this command is not recommended. Use `GetV2LoggingOptions`
- * instead.
- *
- * Requires permission to access the GetLoggingOptions action.
- */
-export const getLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLoggingOptionsRequest,
-  output: GetLoggingOptionsResponse,
-  errors: [
-    InternalException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Gets a registration code used to register a CA certificate with IoT.
- *
- * IoT will create a registration code as part of this API call if the registration
- * code doesn't exist or has been deleted. If you already have a registration code, this API
- * call will return the same registration code.
- *
- * Requires permission to access the GetRegistrationCode action.
- */
-export const getRegistrationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRegistrationCodeRequest,
-  output: GetRegistrationCodeResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Set a verification state and provide a description of that verification state on a violation (detect alarm).
- */
-export const putVerificationStateOnViolation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutVerificationStateOnViolationRequest,
-    output: PutVerificationStateOnViolationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Rejects a pending certificate transfer. After IoT rejects a certificate transfer,
- * the certificate status changes from **PENDING_TRANSFER** to
- * **INACTIVE**.
- *
- * To check for pending certificate transfers, call ListCertificates
- * to enumerate your certificates.
- *
- * This operation can only be called by the transfer destination. After it is called,
- * the certificate will be returned to the source's account in the INACTIVE state.
- *
- * Requires permission to access the RejectCertificateTransfer action.
- */
-export const rejectCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectCertificateTransferRequest,
-    output: RejectCertificateTransferResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      TransferAlreadyCompletedException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Removes the given thing from the billing group.
- *
- * Requires permission to access the RemoveThingFromBillingGroup action.
- *
- * This call is asynchronous. It might take several seconds for the detachment to propagate.
- */
-export const removeThingFromBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveThingFromBillingGroupRequest,
-    output: RemoveThingFromBillingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Remove the specified thing from the specified group.
- *
- * You must specify either a `thingGroupArn` or a
- * `thingGroupName` to identify the thing group and
- * either a `thingArn` or a `thingName` to
- * identify the thing to remove from the thing group.
- *
- * Requires permission to access the RemoveThingFromThingGroup action.
- */
-export const removeThingFromThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveThingFromThingGroupRequest,
-    output: RemoveThingFromThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Sets the specified version of the specified policy as the policy's default
- * (operative) version. This action affects all certificates to which the policy is attached.
- * To list the principals the policy is attached to, use the ListPrincipalPolicies
- * action.
- *
- * Requires permission to access the SetDefaultPolicyVersion action.
- */
-export const setDefaultPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetDefaultPolicyVersionRequest,
-    output: SetDefaultPolicyVersionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Cancels a bulk thing provisioning task.
- *
- * Requires permission to access the StopThingRegistrationTask action.
- */
-export const stopThingRegistrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopThingRegistrationTaskRequest,
-    output: StopThingRegistrationTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Adds to or modifies the tags of the given resource. Tags are metadata which can be
- * used to manage a resource.
- *
- * Requires permission to access the TagResource action.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes the given tags (metadata) from the resource.
- *
- * Requires permission to access the UntagResource action.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Configures or reconfigures the Device Defender audit settings for this account.
- * Settings include how audit notifications are sent and which audit checks are
- * enabled or disabled.
- *
- * Requires permission to access the UpdateAccountAuditConfiguration action.
- */
-export const updateAccountAuditConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAccountAuditConfigurationRequest,
-    output: UpdateAccountAuditConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Updates a Device Defender audit suppression.
- */
-export const updateAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAuditSuppressionRequest,
-    output: UpdateAuditSuppressionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates a registered CA certificate.
- *
- * Requires permission to access the UpdateCACertificate action.
- */
-export const updateCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCACertificateRequest,
-  output: UpdateCACertificateResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates the status of the specified certificate. This operation is
- * idempotent.
- *
- * Requires permission to access the UpdateCertificate action.
- *
- * Certificates must be in the ACTIVE state to authenticate devices that use
- * a certificate to connect to IoT.
- *
- * Within a few minutes of updating a certificate from the ACTIVE state to any other
- * state, IoT disconnects all devices that used that certificate to connect. Devices cannot
- * use a certificate that is not in the ACTIVE state to reconnect.
- */
-export const updateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCertificateRequest,
-  output: UpdateCertificateResponse,
-  errors: [
-    CertificateStateException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys
- * from Key Management Service (KMS). With customer managed keys, you create, own, and
- * manage the KMS keys in your Amazon Web Services account.
- *
- * Before using this API, you must set up permissions for Amazon Web Services IoT Core to access KMS. For more information, see Data encryption at rest in the *Amazon Web Services IoT Core Developer Guide*.
- */
-export const updateEncryptionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEncryptionConfigurationRequest,
-    output: UpdateEncryptionConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
-/**
- * Updates the event configurations.
- *
- * Requires permission to access the UpdateEventConfigurations action.
- */
-export const updateEventConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEventConfigurationsRequest,
-    output: UpdateEventConfigurationsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the search configuration.
- *
- * Requires permission to access the UpdateIndexingConfiguration action.
- */
-export const updateIndexingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIndexingConfigurationRequest,
-    output: UpdateIndexingConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Updates supported fields of the specified job.
- *
- * Requires permission to access the UpdateJob action.
- */
-export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateJobRequest,
-  output: UpdateJobResponse,
-  errors: [
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the supported fields for a specific software package.
- *
- * Requires permission to access the UpdatePackage and GetIndexingConfiguration actions.
- */
-export const updatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePackageRequest,
-  output: UpdatePackageResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the software package configuration.
- *
- * Requires permission to access the UpdatePackageConfiguration and iam:PassRole actions.
- */
-export const updatePackageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePackageConfigurationRequest,
-    output: UpdatePackageConfigurationResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the supported fields for a specific package version.
- *
- * Requires permission to access the UpdatePackageVersion and GetIndexingConfiguration actions.
- */
-export const updatePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePackageVersionRequest,
-    output: UpdatePackageVersionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a provisioning template.
- *
- * Requires permission to access the UpdateProvisioningTemplate action.
- */
-export const updateProvisioningTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProvisioningTemplateRequest,
-    output: UpdateProvisioningTemplateResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Updates the data for a thing.
- *
- * Requires permission to access the UpdateThing action.
- */
-export const updateThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateThingRequest,
-  output: UpdateThingResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-    VersionConflictException,
-  ],
-}));
-/**
- * Updates the groups to which the thing belongs.
- *
- * Requires permission to access the UpdateThingGroupsForThing action.
- */
-export const updateThingGroupsForThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateThingGroupsForThingRequest,
-    output: UpdateThingGroupsForThingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates a thing type.
- */
-export const updateThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateThingTypeRequest,
-  output: UpdateThingTypeResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates a topic rule destination. You use this to change the status, endpoint URL, or
- * confirmation URL of the destination.
- *
- * Requires permission to access the UpdateTopicRuleDestination action.
- */
-export const updateTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTopicRuleDestinationRequest,
-    output: UpdateTopicRuleDestinationResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Accepts a pending certificate transfer. The default state of the certificate is
- * INACTIVE.
- *
- * To check for pending certificate transfers, call ListCertificates
- * to enumerate your certificates.
- *
- * Requires permission to access the AcceptCertificateTransfer action.
- */
-export const acceptCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptCertificateTransferRequest,
-    output: AcceptCertificateTransferResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      TransferAlreadyCompletedException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Adds a thing to a billing group.
- *
- * Requires permission to access the AddThingToBillingGroup action.
- */
-export const addThingToBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddThingToBillingGroupRequest,
-    output: AddThingToBillingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Associates a group with a continuous job. The following criteria must be met:
- *
- * - The job must have been created with the `targetSelection` field
- * set to "CONTINUOUS".
- *
- * - The job status must currently be "IN_PROGRESS".
- *
- * - The total number of targets associated with a job must not exceed
- * 100.
- *
- * Requires permission to access the AssociateTargetsWithJob action.
- */
-export const associateTargetsWithJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateTargetsWithJobRequest,
-    output: AssociateTargetsWithJobResponse,
-    errors: [
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Attaches the specified policy to the specified principal (certificate or other
- * credential).
- *
- * Requires permission to access the AttachPolicy action.
- */
-export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AttachPolicyRequest,
-  output: AttachPolicyResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Attaches the specified policy to the specified principal (certificate or other
- * credential).
- *
- * **Note:** This action is deprecated and works as
- * expected for backward compatibility, but we won't add enhancements. Use AttachPolicy instead.
- *
- * Requires permission to access the AttachPrincipalPolicy action.
- */
-export const attachPrincipalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachPrincipalPolicyRequest,
-    output: AttachPrincipalPolicyResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Associates a Device Defender security profile with a thing group or this account. Each
- * thing group or account can have up to five security profiles associated with it.
- *
- * Requires permission to access the AttachSecurityProfile action.
- */
-export const attachSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachSecurityProfileRequest,
-    output: AttachSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
-/**
- * Attaches the specified principal to the specified thing. A principal can be X.509
- * certificates, Amazon Cognito identities or federated identities.
- *
- * Requires permission to access the AttachThingPrincipal action.
- */
-export const attachThingPrincipal = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachThingPrincipalRequest,
-    output: AttachThingPrincipalResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Cancels a pending transfer for the specified certificate.
- *
- * **Note** Only the transfer source account can use this
- * operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, IoT returns the
- * certificate to the source account in the INACTIVE state. After the destination account has
- * accepted the transfer, the transfer cannot be cancelled.
- *
- * After a certificate transfer is cancelled, the status of the certificate changes from
- * PENDING_TRANSFER to INACTIVE.
- *
- * Requires permission to access the CancelCertificateTransfer action.
- */
-export const cancelCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelCertificateTransferRequest,
-    output: CancelCertificateTransferResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      TransferAlreadyCompletedException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Cancels a job.
- *
- * Requires permission to access the CancelJob action.
- */
-export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelJobRequest,
-  output: CancelJobResponse,
-  errors: [
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Cancels the execution of a job for a given thing.
- *
- * Requires permission to access the CancelJobExecution action.
- */
-export const cancelJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelJobExecutionRequest,
-  output: CancelJobExecutionResponse,
-  errors: [
-    InvalidRequestException,
-    InvalidStateTransitionException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    VersionConflictException,
-  ],
-}));
-/**
- * Confirms a topic rule destination. When you create a rule requiring a destination, IoT
- * sends a confirmation message to the endpoint or base address you specify. The message
- * includes a token which you pass back when calling `ConfirmTopicRuleDestination`
- * to confirm that you own or have access to the endpoint.
- *
- * Requires permission to access the ConfirmTopicRuleDestination action.
- */
-export const confirmTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ConfirmTopicRuleDestinationRequest,
-    output: ConfirmTopicRuleDestinationResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Creates an X.509 certificate using the specified certificate signing
- * request.
- *
- * Requires permission to access the CreateCertificateFromCsr action.
- *
- * The CSR must include a public key that is either an RSA key with a length of at least
- * 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported
- * certificates, consult Certificate signing algorithms supported by IoT.
- *
- * Reusing the same certificate signing request (CSR)
- * results in a distinct certificate.
- *
- * You can create multiple certificates in a batch by creating a directory, copying
- * multiple `.csr` files into that directory, and then specifying that directory on the command
- * line. The following commands show how to create a batch of certificates given a batch of
- * CSRs. In the following commands, we assume that a set of CSRs are located inside of the
- * directory my-csr-directory:
- *
- * On Linux and OS X, the command is:
- *
- * $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr
- * --certificate-signing-request file://my-csr-directory/{}
- *
- * This command lists all of the CSRs in my-csr-directory and pipes each CSR file name
- * to the `aws iot create-certificate-from-csr` Amazon Web Services CLI command to create a certificate for
- * the corresponding CSR.
- *
- * You can also run the `aws iot create-certificate-from-csr` part of the
- * command in parallel to speed up the certificate creation process:
- *
- * $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr
- * --certificate-signing-request file://my-csr-directory/{}
- *
- * On Windows PowerShell, the command to create certificates for all CSRs in
- * my-csr-directory is:
- *
- * > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr
- * --certificate-signing-request file://my-csr-directory/$_}
- *
- * On a Windows command prompt, the command to create certificates for all CSRs in
- * my-csr-directory is:
- *
- * > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr
- * --certificate-signing-request file://@path"
- */
-export const createCertificateFromCsr = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCertificateFromCsrRequest,
-    output: CreateCertificateFromCsrResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Use this API to define a
- * Custom
- * Metric
- * published by your devices to Device Defender.
- *
- * Requires permission to access the CreateCustomMetric action.
- */
-export const createCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCustomMetricRequest,
-  output: CreateCustomMetricResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender.
- * For example, using a `TOPIC_FILTER` dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.
- *
- * Requires permission to access the CreateDimension action.
- */
-export const createDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDimensionRequest,
-  output: CreateDimensionResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a provisioning claim.
- *
- * Requires permission to access the CreateProvisioningClaim action.
- */
-export const createProvisioningClaim = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProvisioningClaimRequest,
-    output: CreateProvisioningClaimResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Creates a new version of a provisioning template.
- *
- * Requires permission to access the CreateProvisioningTemplateVersion action.
- */
-export const createProvisioningTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateProvisioningTemplateVersionRequest,
-    output: CreateProvisioningTemplateVersionResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      VersionsLimitExceededException,
-    ],
-  }));
-/**
- * Creates a role alias.
- *
- * Requires permission to access the CreateRoleAlias action.
- *
- * The value of
- * `credentialDurationSeconds`
- * must be less than or equal to the maximum session
- * duration of the IAM role that the role alias references. For more information, see
- *
- * Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
- */
-export const createRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRoleAliasRequest,
-  output: CreateRoleAliasResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Creates a scheduled audit that is run at a specified
- * time interval.
- *
- * Requires permission to access the CreateScheduledAudit action.
- */
-export const createScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateScheduledAuditRequest,
-    output: CreateScheduledAuditResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Create a thing group.
- *
- * This is a control plane operation. See Authorization for
- * information about authorizing control plane actions.
- *
- * If the `ThingGroup` that you create has the exact same attributes as an existing
- * `ThingGroup`, you will get a 200 success response.
- *
- * Requires permission to access the CreateThingGroup action.
- */
-export const createThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateThingGroupRequest,
-  output: CreateThingGroupResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceAlreadyExistsException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes an authorizer.
- *
- * Requires permission to access the DeleteAuthorizer action.
- */
-export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAuthorizerRequest,
-  output: DeleteAuthorizerResponse,
-  errors: [
-    DeleteConflictException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a registered CA certificate.
- *
- * Requires permission to access the DeleteCACertificate action.
- */
-export const deleteCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCACertificateRequest,
-  output: DeleteCACertificateResponse,
-  errors: [
-    CertificateStateException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Delete a command resource.
- */
-export const deleteCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCommandRequest,
-  output: DeleteCommandResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Delete a command execution.
- *
- * Only command executions that enter a terminal state can be deleted from
- * your account.
- */
-export const deleteCommandExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCommandExecutionRequest,
-    output: DeleteCommandExecutionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a job and its related job executions.
- *
- * Deleting a job may take time, depending on the number of job executions created for
- * the job and various other factors. While the job is being deleted, the status of the job
- * will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose
- * status is already "DELETION_IN_PROGRESS" will result in an error.
- *
- * Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a
- * LimitExceededException will occur.
- *
- * Requires permission to access the DeleteJob action.
- */
-export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJobRequest,
-  output: DeleteJobResponse,
-  errors: [
-    InvalidRequestException,
-    InvalidStateTransitionException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a specific version from a software package.
- *
- * **Note:** All package versions must be deleted before deleting the software package.
- *
- * Requires permission to access the DeletePackageVersion action.
- */
-export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePackageRequest,
-  output: DeletePackageResponse,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
-}));
-/**
- * Deletes a specific version from a software package.
- *
- * **Note:** If a package version is designated as default, you must remove the designation from the software package using the UpdatePackage action.
- */
-export const deletePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePackageVersionRequest,
-    output: DeletePackageVersionResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-  }),
-);
-/**
- * Deletes the rule.
- *
- * Requires permission to access the DeleteTopicRule action.
- */
-export const deleteTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTopicRuleRequest,
-  output: DeleteTopicRuleResponse,
-  errors: [
-    ConflictingResourceUpdateException,
-    InternalException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Gets information about a Device Defender audit suppression.
  */
 export const describeAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -10091,42 +10793,6 @@ export const describeAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InvalidRequestException,
       ResourceNotFoundException,
       ThrottlingException,
-    ],
-  }),
-);
-/**
- * Describes an authorizer.
- *
- * Requires permission to access the DescribeAuthorizer action.
- */
-export const describeAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAuthorizerRequest,
-  output: DescribeAuthorizerResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describes a certificate provider.
- *
- * Requires permission to access the DescribeCertificateProvider action.
- */
-export const describeCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCertificateProviderRequest,
-    output: DescribeCertificateProviderResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
     ],
   }),
 );
@@ -10148,25 +10814,6 @@ export const describeCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes the default authorizer.
- *
- * Requires permission to access the DescribeDefaultAuthorizer action.
- */
-export const describeDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDefaultAuthorizerRequest,
-    output: DescribeDefaultAuthorizerResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
  * Provides details about a dimension that is defined in your Amazon Web Services accounts.
  *
  * Requires permission to access the DescribeDimension action.
@@ -10179,75 +10826,6 @@ export const describeDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
-  ],
-}));
-/**
- * Retrieves the encryption configuration for resources and data of your Amazon Web Services account in
- * Amazon Web Services IoT Core. For more information, see Data encryption at rest in
- * the *Amazon Web Services IoT Core Developer Guide*.
- */
-export const describeEncryptionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEncryptionConfigurationRequest,
-    output: DescribeEncryptionConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
-/**
- * Returns or creates a unique endpoint specific to the Amazon Web Services account making the
- * call.
- *
- * The first time `DescribeEndpoint` is called, an endpoint is created. All subsequent calls to `DescribeEndpoint` return the same endpoint.
- *
- * Requires permission to access the DescribeEndpoint action.
- */
-export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEndpointRequest,
-  output: DescribeEndpointResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets information about the specified fleet metric.
- *
- * Requires permission to access the DescribeFleetMetric action.
- */
-export const describeFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFleetMetricRequest,
-  output: DescribeFleetMetricResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describes a search index.
- *
- * Requires permission to access the DescribeIndex action.
- */
-export const describeIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeIndexRequest,
-  output: DescribeIndexResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
   ],
 }));
 /**
@@ -10349,23 +10927,6 @@ export const describeSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets information about the specified thing.
- *
- * Requires permission to access the DescribeThing action.
- */
-export const describeThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeThingRequest,
-  output: DescribeThingResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Describes a bulk thing provisioning task.
  *
  * Requires permission to access the DescribeThingRegistrationTask action.
@@ -10383,317 +10944,6 @@ export const describeThingRegistrationTask =
     ],
   }));
 /**
- * Gets information about the specified command.
- */
-export const getCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCommandRequest,
-  output: GetCommandResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets a job document.
- *
- * Requires permission to access the GetJobDocument action.
- */
-export const getJobDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJobDocumentRequest,
-  output: GetJobDocumentResponse,
-  errors: [
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Gets information about the specified software package.
- *
- * Requires permission to access the GetPackage action.
- */
-export const getPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPackageRequest,
-  output: GetPackageResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about the specified software package's configuration.
- *
- * Requires permission to access the GetPackageConfiguration action.
- */
-export const getPackageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPackageConfigurationRequest,
-    output: GetPackageConfigurationResponse,
-    errors: [InternalServerException, ThrottlingException],
-  }),
-);
-/**
- * Gets information about the specified package version.
- *
- * Requires permission to access the GetPackageVersion action.
- */
-export const getPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPackageVersionRequest,
-  output: GetPackageVersionResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about the specified policy with the policy document of the default
- * version.
- *
- * Requires permission to access the GetPolicy action.
- */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPolicyRequest,
-  output: GetPolicyResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets information about the specified policy version.
- *
- * Requires permission to access the GetPolicyVersion action.
- */
-export const getPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPolicyVersionRequest,
-  output: GetPolicyVersionResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Retrieves the live connectivity status per device.
- */
-export const getThingConnectivityData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetThingConnectivityDataRequest,
-    output: GetThingConnectivityDataResponse,
-    errors: [
-      IndexNotReadyException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Lists the findings (results) of a Device Defender audit or of the audits
- * performed during a specified time period. (Findings are retained for 90 days.)
- *
- * Requires permission to access the ListAuditFindings action.
- */
-export const listAuditFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAuditFindingsRequest,
-  output: ListAuditFindingsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * List the device certificates signed by the specified CA certificate.
- *
- * Requires permission to access the ListCertificatesByCA action.
- */
-export const listCertificatesByCA = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCertificatesByCARequest,
-    output: ListCertificatesByCAResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Lists your Device Defender detect custom metrics.
- *
- * Requires permission to access the ListCustomMetrics action.
- */
-export const listCustomMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCustomMetricsRequest,
-  output: ListCustomMetricsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * List of Device Defender ML Detect mitigation actions tasks.
- *
- * Requires permission to access the ListDetectMitigationActionsTasks action.
- */
-export const listDetectMitigationActionsTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDetectMitigationActionsTasksRequest,
-    output: ListDetectMitigationActionsTasksResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * List the set of dimensions that are defined for your Amazon Web Services accounts.
- *
- * Requires permission to access the ListDimensions action.
- */
-export const listDimensions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDimensionsRequest,
-  output: ListDimensionsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists the search indices.
- *
- * Requires permission to access the ListIndices action.
- */
-export const listIndices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListIndicesRequest,
-  output: ListIndicesResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Lists your policies.
- *
- * Requires permission to access the ListPolicies action.
- */
-export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPoliciesRequest,
-  output: ListPoliciesResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Lists the principals associated with the specified policy.
- *
- * **Note:** This action is deprecated and works as
- * expected for backward compatibility, but we won't add enhancements. Use ListTargetsForPolicy instead.
- *
- * Requires permission to access the ListPolicyPrincipals action.
- */
-export const listPolicyPrincipals = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPolicyPrincipalsRequest,
-    output: ListPolicyPrincipalsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Lists the policies attached to the specified principal. If you use an Cognito
- * identity, the ID must be in AmazonCognito Identity format.
- *
- * **Note:** This action is deprecated and works as
- * expected for backward compatibility, but we won't add enhancements. Use ListAttachedPolicies instead.
- *
- * Requires permission to access the ListPrincipalPolicies action.
- */
-export const listPrincipalPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPrincipalPoliciesRequest,
-    output: ListPrincipalPoliciesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Lists the things associated with the specified principal. A principal can be X.509
- * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
- * identities.
- *
- * Requires permission to access the ListPrincipalThings action.
- */
-export const listPrincipalThings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPrincipalThingsRequest,
-  output: ListPrincipalThingsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Lists the role aliases registered in your account.
- *
- * Requires permission to access the ListRoleAliases action.
- */
-export const listRoleAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRoleAliasesRequest,
-  output: ListRoleAliasesResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Lists the tags (metadata) you have assigned to the resource.
  *
  * Requires permission to access the ListTagsForResource action.
@@ -10708,26 +10958,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
-/**
- * List targets for the specified policy.
- *
- * Requires permission to access the ListTargetsForPolicy action.
- */
-export const listTargetsForPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTargetsForPolicyRequest,
-    output: ListTargetsForPolicyResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
 /**
  * List the thing groups in your account.
  *
@@ -10757,56 +10987,6 @@ export const listThingGroupsForThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InvalidRequestException,
       ResourceNotFoundException,
       ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists the principals associated with the specified thing. A principal can be X.509
- * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
- * identities.
- *
- * Requires permission to access the ListThingPrincipals action.
- */
-export const listThingPrincipals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListThingPrincipalsRequest,
-  output: ListThingPrincipalsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Information about the thing registration tasks.
- */
-export const listThingRegistrationTaskReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListThingRegistrationTaskReportsRequest,
-    output: ListThingRegistrationTaskReportsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
-/**
- * List bulk thing provisioning tasks.
- *
- * Requires permission to access the ListThingRegistrationTasks action.
- */
-export const listThingRegistrationTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListThingRegistrationTasksRequest,
-    output: ListThingRegistrationTasksResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      UnauthorizedException,
     ],
   }),
 );
@@ -10845,194 +11025,6 @@ export const listThingsInThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Replaces the rule. You must specify all parameters for the new rule. Creating rules
- * is an administrator-level action. Any user who has permission to create rules will be able
- * to access data processed by the rule.
- *
- * Requires permission to access the ReplaceTopicRule action.
- */
-export const replaceTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReplaceTopicRuleRequest,
-  output: ReplaceTopicRuleResponse,
-  errors: [
-    ConflictingResourceUpdateException,
-    InternalException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    SqlParseException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Sets the default authorizer. This will be used if a websocket connection is made
- * without specifying an authorizer.
- *
- * Requires permission to access the SetDefaultAuthorizer action.
- */
-export const setDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetDefaultAuthorizerRequest,
-    output: SetDefaultAuthorizerResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Sets the logging options.
- *
- * NOTE: use of this command is not recommended. Use `SetV2LoggingOptions`
- * instead.
- *
- * Requires permission to access the SetLoggingOptions action.
- */
-export const setLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetLoggingOptionsRequest,
-  output: SetLoggingOptionsResponse,
-  errors: [
-    InternalException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Sets the logging level.
- *
- * Requires permission to access the SetV2LoggingLevel action.
- */
-export const setV2LoggingLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetV2LoggingLevelRequest,
-  output: SetV2LoggingLevelResponse,
-  errors: [
-    InternalException,
-    InvalidRequestException,
-    LimitExceededException,
-    NotConfiguredException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Sets the logging options for the V2 logging service.
- *
- * Requires permission to access the SetV2LoggingOptions action.
- */
-export const setV2LoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetV2LoggingOptionsRequest,
-  output: SetV2LoggingOptionsResponse,
-  errors: [
-    InternalException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Starts an on-demand Device Defender audit.
- *
- * Requires permission to access the StartOnDemandAuditTask action.
- */
-export const startOnDemandAuditTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartOnDemandAuditTaskRequest,
-    output: StartOnDemandAuditTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates a bulk thing provisioning task.
- *
- * Requires permission to access the StartThingRegistrationTask action.
- */
-export const startThingRegistrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartThingRegistrationTaskRequest,
-    output: StartThingRegistrationTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Updates an authorizer.
- *
- * Requires permission to access the UpdateAuthorizer action.
- */
-export const updateAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAuthorizerRequest,
-  output: UpdateAuthorizerResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates information about the billing group.
- *
- * Requires permission to access the UpdateBillingGroup action.
- */
-export const updateBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBillingGroupRequest,
-  output: UpdateBillingGroupResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    VersionConflictException,
-  ],
-}));
-/**
- * Updates a certificate provider.
- *
- * Requires permission to access the UpdateCertificateProvider action.
- */
-export const updateCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCertificateProviderRequest,
-    output: UpdateCertificateProviderResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Update information about a command or mark a command for deprecation.
- */
-export const updateCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCommandRequest,
-  output: UpdateCommandResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates a
  * Device Defender detect custom metric.
  *
@@ -11069,48 +11061,6 @@ export const updateDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates values stored in the domain configuration. Domain configurations for default
- * endpoints can't be updated.
- *
- * Requires permission to access the UpdateDomainConfiguration action.
- */
-export const updateDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDomainConfigurationRequest,
-    output: UpdateDomainConfigurationResponse,
-    errors: [
-      CertificateValidationException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Updates the data for a fleet metric.
- *
- * Requires permission to access the UpdateFleetMetric action.
- */
-export const updateFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFleetMetricRequest,
-  output: UpdateFleetMetricResponse,
-  errors: [
-    IndexNotReadyException,
-    InternalFailureException,
-    InvalidAggregationException,
-    InvalidQueryException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-    VersionConflictException,
-  ],
-}));
-/**
  * Updates the definition for the specified mitigation action.
  *
  * Requires permission to access the UpdateMitigationAction action.
@@ -11127,30 +11077,6 @@ export const updateMitigationAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Updates a role alias.
- *
- * Requires permission to access the UpdateRoleAlias action.
- *
- * The value of
- * `credentialDurationSeconds`
- * must be less than or equal to the
- * maximum session duration of the IAM role that the role alias references. For more
- * information, see Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services
- * Identity and Access Management User Guide.
- */
-export const updateRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRoleAliasRequest,
-  output: UpdateRoleAliasResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
 /**
  * Updates a scheduled audit, including which checks are performed and
  * how often the audit takes place.
@@ -11170,203 +11096,64 @@ export const updateScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates a Device Defender security profile.
+ * Creates an X.509 certificate using the specified certificate signing
+ * request.
  *
- * Requires permission to access the UpdateSecurityProfile action.
+ * Requires permission to access the CreateCertificateFromCsr action.
+ *
+ * The CSR must include a public key that is either an RSA key with a length of at least
+ * 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported
+ * certificates, consult Certificate signing algorithms supported by IoT.
+ *
+ * Reusing the same certificate signing request (CSR)
+ * results in a distinct certificate.
+ *
+ * You can create multiple certificates in a batch by creating a directory, copying
+ * multiple `.csr` files into that directory, and then specifying that directory on the command
+ * line. The following commands show how to create a batch of certificates given a batch of
+ * CSRs. In the following commands, we assume that a set of CSRs are located inside of the
+ * directory my-csr-directory:
+ *
+ * On Linux and OS X, the command is:
+ *
+ * $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr
+ * --certificate-signing-request file://my-csr-directory/{}
+ *
+ * This command lists all of the CSRs in my-csr-directory and pipes each CSR file name
+ * to the `aws iot create-certificate-from-csr` Amazon Web Services CLI command to create a certificate for
+ * the corresponding CSR.
+ *
+ * You can also run the `aws iot create-certificate-from-csr` part of the
+ * command in parallel to speed up the certificate creation process:
+ *
+ * $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr
+ * --certificate-signing-request file://my-csr-directory/{}
+ *
+ * On Windows PowerShell, the command to create certificates for all CSRs in
+ * my-csr-directory is:
+ *
+ * > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr
+ * --certificate-signing-request file://my-csr-directory/$_}
+ *
+ * On a Windows command prompt, the command to create certificates for all CSRs in
+ * my-csr-directory is:
+ *
+ * > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr
+ * --certificate-signing-request file://@path"
  */
-export const updateSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createCertificateFromCsr = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateSecurityProfileRequest,
-    output: UpdateSecurityProfileResponse,
+    input: CreateCertificateFromCsrRequest,
+    output: CreateCertificateFromCsrResponse,
     errors: [
       InternalFailureException,
       InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
-/**
- * Updates an existing stream. The stream version will be incremented by one.
- *
- * Requires permission to access the UpdateStream action.
- */
-export const updateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateStreamRequest,
-  output: UpdateStreamResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Update a thing group.
- *
- * Requires permission to access the UpdateThingGroup action.
- */
-export const updateThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateThingGroupRequest,
-  output: UpdateThingGroupResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    VersionConflictException,
-  ],
-}));
-/**
- * Creates a Device Defender audit suppression.
- *
- * Requires permission to access the CreateAuditSuppression action.
- */
-export const createAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAuditSuppressionRequest,
-    output: CreateAuditSuppressionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates an authorizer.
- *
- * Requires permission to access the CreateAuthorizer action.
- */
-export const createAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAuthorizerRequest,
-  output: CreateAuthorizerResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Creates a billing group. If this call is made multiple times using
- * the same billing group name and configuration, the call will succeed. If this call is made with
- * the same billing group name but different configuration a `ResourceAlreadyExistsException` is thrown.
- *
- * Requires permission to access the CreateBillingGroup action.
- */
-export const createBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBillingGroupRequest,
-  output: CreateBillingGroupResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceAlreadyExistsException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to
- * customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For
- * more information, see Customizing certificate
- * signing using Amazon Web Services IoT Core certificate provider from Amazon Web Services IoT Core Developer
- * Guide.
- *
- * Requires permission to access the CreateCertificateProvider action.
- *
- * After you create a certificate provider, the behavior of
- * `CreateCertificateFromCsr` API for fleet provisioning will
- * change and all API calls to `CreateCertificateFromCsr` will invoke the
- * certificate provider to create the certificates. It can take up to a few minutes for
- * this behavior to change after a certificate provider is created.
- */
-export const createCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCertificateProviderRequest,
-    output: CreateCertificateProviderResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
       ServiceUnavailableException,
       ThrottlingException,
       UnauthorizedException,
     ],
   }),
 );
-/**
- * Creates a domain configuration.
- *
- * Requires permission to access the CreateDomainConfiguration action.
- */
-export const createDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDomainConfigurationRequest,
-    output: CreateDomainConfigurationResponse,
-    errors: [
-      CertificateValidationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Creates a dynamic thing group.
- *
- * Requires permission to access the CreateDynamicThingGroup action.
- */
-export const createDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDynamicThingGroupRequest,
-    output: CreateDynamicThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidQueryException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates a fleet metric.
- *
- * Requires permission to access the CreateFleetMetric action.
- */
-export const createFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFleetMetricRequest,
-  output: CreateFleetMetricResponse,
-  errors: [
-    IndexNotReadyException,
-    InternalFailureException,
-    InvalidAggregationException,
-    InvalidQueryException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
 /**
  * Creates a job template.
  *
@@ -11408,138 +11195,38 @@ export const createKeysAndCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a new version for an existing IoT software package.
+ * Create a thing group.
  *
- * Requires permission to access the CreatePackageVersion and GetIndexingConfiguration actions.
+ * This is a control plane operation. See Authorization for
+ * information about authorizing control plane actions.
+ *
+ * If the `ThingGroup` that you create has the exact same attributes as an existing
+ * `ThingGroup`, you will get a 200 success response.
+ *
+ * Requires permission to access the CreateThingGroup action.
  */
-export const createPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePackageVersionRequest,
-    output: CreatePackageVersionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates an IoT policy.
- *
- * The created policy is the default version for the policy. This operation creates a
- * policy version with a version identifier of **1** and sets
- * **1** as the policy's default version.
- *
- * Requires permission to access the CreatePolicy action.
- */
-export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePolicyRequest,
-  output: CreatePolicyResponse,
+export const createThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateThingGroupRequest,
+  output: CreateThingGroupResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
-    MalformedPolicyException,
     ResourceAlreadyExistsException,
-    ServiceUnavailableException,
     ThrottlingException,
-    UnauthorizedException,
   ],
 }));
 /**
- * Creates a new version of the specified IoT policy. To update a policy, create a
- * new policy version. A managed policy can have up to five versions. If the policy has five
- * versions, you must use DeletePolicyVersion to delete an existing version
- * before you create a new one.
+ * Updates values stored in the domain configuration. Domain configurations for default
+ * endpoints can't be updated.
  *
- * Optionally, you can set the new version as the policy's default version. The default
- * version is the operative version (that is, the version that is in effect for the
- * certificates to which the policy is attached).
- *
- * Requires permission to access the CreatePolicyVersion action.
+ * Requires permission to access the UpdateDomainConfiguration action.
  */
-export const createPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePolicyVersionRequest,
-  output: CreatePolicyVersionResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    MalformedPolicyException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-    VersionsLimitExceededException,
-  ],
-}));
-/**
- * Creates a provisioning template.
- *
- * Requires permission to access the CreateProvisioningTemplate action.
- */
-export const createProvisioningTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateProvisioningTemplateRequest,
-    output: CreateProvisioningTemplateResponse,
+    input: UpdateDomainConfigurationRequest,
+    output: UpdateDomainConfigurationResponse,
     errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data
- * bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files
- * associated with a stream.
- *
- * Requires permission to access the CreateStream action.
- */
-export const createStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStreamRequest,
-  output: CreateStreamResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns information about a billing group.
- *
- * Requires permission to access the DescribeBillingGroup action.
- */
-export const describeBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBillingGroupRequest,
-    output: DescribeBillingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Gets summary information about a domain configuration.
- *
- * Requires permission to access the DescribeDomainConfiguration action.
- */
-export const describeDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDomainConfigurationRequest,
-    output: DescribeDomainConfigurationResponse,
-    errors: [
+      CertificateValidationException,
       InternalFailureException,
       InvalidRequestException,
       ResourceNotFoundException,
@@ -11550,114 +11237,68 @@ export const describeDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes event configurations.
+ * Creates a domain configuration.
  *
- * Requires permission to access the DescribeEventConfigurations action.
+ * Requires permission to access the CreateDomainConfiguration action.
  */
-export const describeEventConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeEventConfigurationsRequest,
-    output: DescribeEventConfigurationsResponse,
-    errors: [InternalFailureException, ThrottlingException],
-  }),
-);
-/**
- * View details of a managed job template.
- */
-export const describeManagedJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeManagedJobTemplateRequest,
-    output: DescribeManagedJobTemplateResponse,
+    input: CreateDomainConfigurationRequest,
+    output: CreateDomainConfigurationResponse,
     errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Describes a role alias.
- *
- * Requires permission to access the DescribeRoleAlias action.
- */
-export const describeRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeRoleAliasRequest,
-  output: DescribeRoleAliasResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets information about a stream.
- *
- * Requires permission to access the DescribeStream action.
- */
-export const describeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeStreamRequest,
-  output: DescribeStreamResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describe a thing group.
- *
- * Requires permission to access the DescribeThingGroup action.
- */
-export const describeThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeThingGroupRequest,
-  output: DescribeThingGroupResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Gets information about the specified thing type.
- *
- * Requires permission to access the DescribeThingType action.
- */
-export const describeThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeThingTypeRequest,
-  output: DescribeThingTypeResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns a Device Defender's ML Detect Security Profile training model's status.
- *
- * Requires permission to access the GetBehaviorModelTrainingSummaries action.
- */
-export const getBehaviorModelTrainingSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBehaviorModelTrainingSummariesRequest,
-    output: GetBehaviorModelTrainingSummariesResponse,
-    errors: [
+      CertificateValidationException,
       InternalFailureException,
       InvalidRequestException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Registers a device certificate with IoT in the same certificate mode as the signing CA. If you have more than one CA certificate that has the same subject field, you must
+ * specify the CA certificate that was used to sign the device certificate being
+ * registered.
+ *
+ * Requires permission to access the RegisterCertificate action.
+ */
+export const registerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterCertificateRequest,
+  output: RegisterCertificateResponse,
+  errors: [
+    CertificateConflictException,
+    CertificateStateException,
+    CertificateValidationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a dynamic thing group.
+ *
+ * Requires permission to access the CreateDynamicThingGroup action.
+ */
+export const createDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDynamicThingGroupRequest,
+    output: CreateDynamicThingGroupResponse,
+    errors: [
+      InternalFailureException,
+      InvalidQueryException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
       ResourceNotFoundException,
       ThrottlingException,
     ],
-  }));
+  }),
+);
 /**
  * Returns the approximate count of unique values that match the query.
  *
@@ -11679,26 +11320,27 @@ export const getCardinality = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets a list of the policies that have an effect on the authorization behavior of the
- * specified device when it connects to the IoT device gateway.
+ * Creates a fleet metric.
  *
- * Requires permission to access the GetEffectivePolicies action.
+ * Requires permission to access the CreateFleetMetric action.
  */
-export const getEffectivePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEffectivePoliciesRequest,
-    output: GetEffectivePoliciesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFleetMetricRequest,
+  output: CreateFleetMetricResponse,
+  errors: [
+    IndexNotReadyException,
+    InternalFailureException,
+    InvalidAggregationException,
+    InvalidQueryException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Groups the aggregated values that match the query into percentile groupings. The default
  * percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own
@@ -11750,6 +11392,113 @@ export const getStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Deletes a job execution.
+ *
+ * Requires permission to access the DeleteJobExecution action.
+ */
+export const deleteJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJobExecutionRequest,
+  output: DeleteJobExecutionResponse,
+  errors: [
+    InvalidRequestException,
+    InvalidStateTransitionException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Gets summary information about a domain configuration.
+ *
+ * Requires permission to access the DescribeDomainConfiguration action.
+ */
+export const describeDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeDomainConfigurationRequest,
+    output: DescribeDomainConfigurationResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Describes a role alias.
+ *
+ * Requires permission to access the DescribeRoleAlias action.
+ */
+export const describeRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRoleAliasRequest,
+  output: DescribeRoleAliasResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about a stream.
+ *
+ * Requires permission to access the DescribeStream action.
+ */
+export const describeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStreamRequest,
+  output: DescribeStreamResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about the specified thing type.
+ *
+ * Requires permission to access the DescribeThingType action.
+ */
+export const describeThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThingTypeRequest,
+  output: DescribeThingTypeResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets a list of the policies that have an effect on the authorization behavior of the
+ * specified device when it connects to the IoT device gateway.
+ *
+ * Requires permission to access the GetEffectivePolicies action.
+ */
+export const getEffectivePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetEffectivePoliciesRequest,
+    output: GetEffectivePoliciesResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
  * Gets information about the rule.
  *
  * Requires permission to access the GetTopicRule action.
@@ -11762,20 +11511,6 @@ export const getTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     ServiceUnavailableException,
     UnauthorizedException,
-  ],
-}));
-/**
- * Gets the fine grained logging options.
- *
- * Requires permission to access the GetV2LoggingOptions action.
- */
-export const getV2LoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetV2LoggingOptionsRequest,
-  output: GetV2LoggingOptionsResponse,
-  errors: [
-    InternalException,
-    NotConfiguredException,
-    ServiceUnavailableException,
   ],
 }));
 /**
@@ -11799,68 +11534,6 @@ export const listAttachedPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets the status of audit mitigation action tasks that were
- * executed.
- *
- * Requires permission to access the ListAuditMitigationActionsExecutions action.
- */
-export const listAuditMitigationActionsExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAuditMitigationActionsExecutionsRequest,
-    output: ListAuditMitigationActionsExecutionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Gets a list of audit mitigation action tasks that match the specified filters.
- *
- * Requires permission to access the ListAuditMitigationActionsTasks action.
- */
-export const listAuditMitigationActionsTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAuditMitigationActionsTasksRequest,
-    output: ListAuditMitigationActionsTasksResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Lists your Device Defender audit listings.
- *
- * Requires permission to access the ListAuditSuppressions action.
- */
-export const listAuditSuppressions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAuditSuppressionsRequest,
-    output: ListAuditSuppressionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists the Device Defender audits that have been performed during a given
- * time period.
- *
- * Requires permission to access the ListAuditTasks action.
- */
-export const listAuditTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAuditTasksRequest,
-  output: ListAuditTasksResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Lists the authorizers registered in your account.
  *
  * Requires permission to access the ListAuthorizers action.
@@ -11874,21 +11547,6 @@ export const listAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceUnavailableException,
     ThrottlingException,
     UnauthorizedException,
-  ],
-}));
-/**
- * Lists the billing groups you have created.
- *
- * Requires permission to access the ListBillingGroups action.
- */
-export const listBillingGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBillingGroupsRequest,
-  output: ListBillingGroupsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
   ],
 }));
 /**
@@ -11948,29 +11606,6 @@ export const listCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * List all commands in your account.
- */
-export const listCommands = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCommandsRequest,
-  output: ListCommandsResponse,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
-}));
-/**
- * Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
- *
- * Requires permission to access the ListDetectMitigationActionsExecutions action.
- */
-export const listDetectMitigationActionsExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDetectMitigationActionsExecutionsRequest,
-    output: ListDetectMitigationActionsExecutionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
-/**
  * Gets a list of domain configurations for the user. This list is sorted
  * alphabetically by domain configuration name.
  *
@@ -12006,97 +11641,6 @@ export const listFleetMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the job executions for the specified thing.
- *
- * Requires permission to access the ListJobExecutionsForThing action.
- */
-export const listJobExecutionsForThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListJobExecutionsForThingRequest,
-    output: ListJobExecutionsForThingResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists jobs.
- *
- * Requires permission to access the ListJobs action.
- */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListJobsRequest,
-  output: ListJobsResponse,
-  errors: [
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns a list of job templates.
- *
- * Requires permission to access the ListJobTemplates action.
- */
-export const listJobTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListJobTemplatesRequest,
-  output: ListJobTemplatesResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns a list of managed job templates.
- */
-export const listManagedJobTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListManagedJobTemplatesRequest,
-    output: ListManagedJobTemplatesResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric)
- * by the given thing during the specified time period.
- */
-export const listMetricValues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMetricValuesRequest,
-  output: ListMetricValuesResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Gets a list of all mitigation actions that match the specified filter criteria.
- *
- * Requires permission to access the ListMitigationActions action.
- */
-export const listMitigationActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMitigationActionsRequest,
-    output: ListMitigationActionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Lists OTA updates.
  *
  * Requires permission to access the ListOTAUpdates action.
@@ -12130,26 +11674,6 @@ export const listOutgoingCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists the software packages associated to the account.
- *
- * Requires permission to access the ListPackages action.
- */
-export const listPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPackagesRequest,
-  output: ListPackagesResponse,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
-}));
-/**
- * Lists the software package versions associated to the account.
- *
- * Requires permission to access the ListPackageVersions action.
- */
-export const listPackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPackageVersionsRequest,
-  output: ListPackageVersionsResponse,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
-}));
 /**
  * Lists the versions of the specified policy and identifies the default
  * version.
@@ -12223,74 +11747,6 @@ export const listProvisioningTemplateVersions =
     ],
   }));
 /**
- * The validation results for all software bill of materials (SBOM) attached to a specific software package version.
- *
- * Requires permission to access the ListSbomValidationResults action.
- */
-export const listSbomValidationResults = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSbomValidationResultsRequest,
-    output: ListSbomValidationResultsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists all of your scheduled audits.
- *
- * Requires permission to access the ListScheduledAudits action.
- */
-export const listScheduledAudits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListScheduledAuditsRequest,
-  output: ListScheduledAuditsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists the Device Defender security profiles
- * you've
- * created. You can filter security profiles by dimension or custom metric.
- *
- * Requires permission to access the ListSecurityProfiles action.
- *
- * `dimensionName` and `metricName` cannot be used in the same request.
- */
-export const listSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSecurityProfilesRequest,
-    output: ListSecurityProfilesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists the Device Defender security profiles attached to a target (thing group).
- *
- * Requires permission to access the ListSecurityProfilesForTarget action.
- */
-export const listSecurityProfilesForTarget =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSecurityProfilesForTargetRequest,
-    output: ListSecurityProfilesForTargetResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
  * Lists all of the streams in your Amazon Web Services account.
  *
  * Requires permission to access the ListStreams action.
@@ -12306,22 +11762,6 @@ export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthorizedException,
   ],
 }));
-/**
- * Lists the targets (thing groups) associated with a given Device Defender security profile.
- *
- * Requires permission to access the ListTargetsForSecurityProfile action.
- */
-export const listTargetsForSecurityProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListTargetsForSecurityProfileRequest,
-    output: ListTargetsForSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
 /**
  * Lists the principals associated with the specified thing. A principal can be an X.509
  * certificate or an Amazon Cognito ID.
@@ -12396,59 +11836,6 @@ export const listTopicRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists logging levels.
- *
- * Requires permission to access the ListV2LoggingLevels action.
- */
-export const listV2LoggingLevels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListV2LoggingLevelsRequest,
-  output: ListV2LoggingLevelsResponse,
-  errors: [
-    InternalException,
-    InvalidRequestException,
-    NotConfiguredException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Lists the Device Defender security profile violations discovered during the given time period.
- * You can use filters to limit the results to those alerts issued for a particular security profile,
- * behavior, or thing (device).
- *
- * Requires permission to access the ListViolationEvents action.
- */
-export const listViolationEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListViolationEventsRequest,
-  output: ListViolationEventsResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Registers a device certificate with IoT in the same certificate mode as the signing CA. If you have more than one CA certificate that has the same subject field, you must
- * specify the CA certificate that was used to sign the device certificate being
- * registered.
- *
- * Requires permission to access the RegisterCertificate action.
- */
-export const registerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterCertificateRequest,
-  output: RegisterCertificateResponse,
-  errors: [
-    CertificateConflictException,
-    CertificateStateException,
-    CertificateValidationException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceAlreadyExistsException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Register a certificate that does not have a certificate authority (CA).
  * For supported certificates, consult
  * Certificate signing algorithms supported by IoT.
@@ -12466,101 +11853,6 @@ export const registerCertificateWithoutCA =
       ServiceUnavailableException,
       ThrottlingException,
       UnauthorizedException,
-    ],
-  }));
-/**
- * Transfers the specified certificate to the specified Amazon Web Services account.
- *
- * Requires permission to access the TransferCertificate action.
- *
- * You can cancel the transfer until it is accepted by the recipient.
- *
- * No notification is sent to the transfer destination's account. The caller is responsible for notifying the transfer target.
- *
- * The certificate being transferred must not be in the `ACTIVE` state. You can use the
- * UpdateCertificate action to deactivate it.
- *
- * The certificate must not have any policies attached to it. You can use the
- * DetachPolicy action to detach them.
- *
- * **Customer managed key behavior:** When you use a customer managed key to encrypt your data and then transfer
- * the certificate to a customer in a different account using the `TransferCertificate` operation, the certificates will no longer be encrypted by their
- * customer managed key configuration. During the transfer process, certificates are encrypted using Amazon Web Services IoT Core owned keys.
- *
- * While a certificate is in the **PENDING_TRANSFER** state, it's always protected by Amazon Web Services IoT Core owned keys, regardless of the customer managed key configuration of either the source or destination account.
- *
- * Once the transfer is completed through AcceptCertificateTransfer, RejectCertificateTransfer, or
- * CancelCertificateTransfer, the certificate will be protected by the customer managed key configuration of the account that owns
- * the certificate after the transfer operation:
- *
- * - If the transfer is accepted: The certificate is encrypted by the target account's customer managed key configuration.
- *
- * - If the transfer is rejected or cancelled: The certificate is protected by the source account's customer managed key configuration.
- */
-export const transferCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TransferCertificateRequest,
-  output: TransferCertificateResponse,
-  errors: [
-    CertificateStateException,
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    TransferConflictException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates a dynamic thing group.
- *
- * Requires permission to access the UpdateDynamicThingGroup action.
- */
-export const updateDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDynamicThingGroupRequest,
-    output: UpdateDynamicThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidQueryException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
-/**
- * Validates a Device Defender security profile behaviors specification.
- *
- * Requires permission to access the ValidateSecurityProfileBehaviors action.
- */
-export const validateSecurityProfileBehaviors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateSecurityProfileBehaviorsRequest,
-    output: ValidateSecurityProfileBehaviorsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Associates the selected software bill of materials (SBOM) with a specific software package version.
- *
- * Requires permission to access the AssociateSbomWithPackageVersion action.
- */
-export const associateSbomWithPackageVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateSbomWithPackageVersionRequest,
-    output: AssociateSbomWithPackageVersionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
     ],
   }));
 /**
@@ -12582,22 +11874,6 @@ export const createMitigationAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates an IoT software package that can be deployed to your fleet.
- *
- * Requires permission to access the CreatePackage and GetIndexingConfiguration actions.
- */
-export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePackageRequest,
-  output: CreatePackageResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Creates a thing record in the registry. If this call is made multiple times using
  * the same thing name and configuration, the call will succeed. If this call is made with
@@ -12641,6 +11917,18 @@ export const createTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Deletes a specific version from a software package.
+ *
+ * **Note:** All package versions must be deleted before deleting the software package.
+ *
+ * Requires permission to access the DeletePackageVersion action.
+ */
+export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePackageRequest,
+  output: DeletePackageResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
 /**
  * Gets information about the Device Defender audit settings for this account.
  * Settings include how audit notifications are sent and which audit checks are
@@ -12973,6 +12261,442 @@ export const listTopicRuleDestinations = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * The query search index.
+ *
+ * Requires permission to access the SearchIndex action.
+ */
+export const searchIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchIndexRequest,
+  output: SearchIndexResponse,
+  errors: [
+    IndexNotReadyException,
+    InternalFailureException,
+    InvalidQueryException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Starts a Device Defender ML Detect mitigation actions task.
+ *
+ * Requires permission to access the StartDetectMitigationActionsTask action.
+ */
+export const startDetectMitigationActionsTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartDetectMitigationActionsTaskRequest,
+    output: StartDetectMitigationActionsTaskResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      TaskAlreadyExistsException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates a dynamic thing group.
+ *
+ * Requires permission to access the UpdateDynamicThingGroup action.
+ */
+export const updateDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDynamicThingGroupRequest,
+    output: UpdateDynamicThingGroupResponse,
+    errors: [
+      InternalFailureException,
+      InvalidQueryException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      VersionConflictException,
+    ],
+  }),
+);
+/**
+ * Rejects a pending certificate transfer. After IoT rejects a certificate transfer,
+ * the certificate status changes from **PENDING_TRANSFER** to
+ * **INACTIVE**.
+ *
+ * To check for pending certificate transfers, call ListCertificates
+ * to enumerate your certificates.
+ *
+ * This operation can only be called by the transfer destination. After it is called,
+ * the certificate will be returned to the source's account in the INACTIVE state.
+ *
+ * Requires permission to access the RejectCertificateTransfer action.
+ */
+export const rejectCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RejectCertificateTransferRequest,
+    output: RejectCertificateTransferResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      TransferAlreadyCompletedException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Replaces the rule. You must specify all parameters for the new rule. Creating rules
+ * is an administrator-level action. Any user who has permission to create rules will be able
+ * to access data processed by the rule.
+ *
+ * Requires permission to access the ReplaceTopicRule action.
+ */
+export const replaceTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplaceTopicRuleRequest,
+  output: ReplaceTopicRuleResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    SqlParseException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Transfers the specified certificate to the specified Amazon Web Services account.
+ *
+ * Requires permission to access the TransferCertificate action.
+ *
+ * You can cancel the transfer until it is accepted by the recipient.
+ *
+ * No notification is sent to the transfer destination's account. The caller is responsible for notifying the transfer target.
+ *
+ * The certificate being transferred must not be in the `ACTIVE` state. You can use the
+ * UpdateCertificate action to deactivate it.
+ *
+ * The certificate must not have any policies attached to it. You can use the
+ * DetachPolicy action to detach them.
+ *
+ * **Customer managed key behavior:** When you use a customer managed key to encrypt your data and then transfer
+ * the certificate to a customer in a different account using the `TransferCertificate` operation, the certificates will no longer be encrypted by their
+ * customer managed key configuration. During the transfer process, certificates are encrypted using Amazon Web Services IoT Core owned keys.
+ *
+ * While a certificate is in the **PENDING_TRANSFER** state, it's always protected by Amazon Web Services IoT Core owned keys, regardless of the customer managed key configuration of either the source or destination account.
+ *
+ * Once the transfer is completed through AcceptCertificateTransfer, RejectCertificateTransfer, or
+ * CancelCertificateTransfer, the certificate will be protected by the customer managed key configuration of the account that owns
+ * the certificate after the transfer operation:
+ *
+ * - If the transfer is accepted: The certificate is encrypted by the target account's customer managed key configuration.
+ *
+ * - If the transfer is rejected or cancelled: The certificate is protected by the source account's customer managed key configuration.
+ */
+export const transferCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TransferCertificateRequest,
+  output: TransferCertificateResponse,
+  errors: [
+    CertificateStateException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    TransferConflictException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a new version for an existing IoT software package.
+ *
+ * Requires permission to access the CreatePackageVersion and GetIndexingConfiguration actions.
+ */
+export const createPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePackageVersionRequest,
+    output: CreatePackageVersionResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Associates the selected software bill of materials (SBOM) with a specific software package version.
+ *
+ * Requires permission to access the AssociateSbomWithPackageVersion action.
+ */
+export const associateSbomWithPackageVersion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateSbomWithPackageVersionRequest,
+    output: AssociateSbomWithPackageVersionResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a new version of the specified IoT policy. To update a policy, create a
+ * new policy version. A managed policy can have up to five versions. If the policy has five
+ * versions, you must use DeletePolicyVersion to delete an existing version
+ * before you create a new one.
+ *
+ * Optionally, you can set the new version as the policy's default version. The default
+ * version is the operative version (that is, the version that is in effect for the
+ * certificates to which the policy is attached).
+ *
+ * Requires permission to access the CreatePolicyVersion action.
+ */
+export const createPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePolicyVersionRequest,
+  output: CreatePolicyVersionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    MalformedPolicyException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    VersionsLimitExceededException,
+  ],
+}));
+/**
+ * List all commands in your account.
+ */
+export const listCommands = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCommandsRequest,
+  output: ListCommandsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
+/**
+ * Lists the software packages associated to the account.
+ *
+ * Requires permission to access the ListPackages action.
+ */
+export const listPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPackagesRequest,
+  output: ListPackagesResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
+/**
+ * Lists the software package versions associated to the account.
+ *
+ * Requires permission to access the ListPackageVersions action.
+ */
+export const listPackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPackageVersionsRequest,
+  output: ListPackageVersionsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
+/**
+ * The validation results for all software bill of materials (SBOM) attached to a specific software package version.
+ *
+ * Requires permission to access the ListSbomValidationResults action.
+ */
+export const listSbomValidationResults = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSbomValidationResultsRequest,
+    output: ListSbomValidationResultsResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Disassociates the selected software bill of materials (SBOM) from a specific software package version.
+ *
+ * Requires permission to access the DisassociateSbomWithPackageVersion action.
+ */
+export const disassociateSbomFromPackageVersion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateSbomFromPackageVersionRequest,
+    output: DisassociateSbomFromPackageVersionResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates the supported fields for a specific software package.
+ *
+ * Requires permission to access the UpdatePackage and GetIndexingConfiguration actions.
+ */
+export const updatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePackageRequest,
+  output: UpdatePackageResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the software package configuration.
+ *
+ * Requires permission to access the UpdatePackageConfiguration and iam:PassRole actions.
+ */
+export const updatePackageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePackageConfigurationRequest,
+    output: UpdatePackageConfigurationResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the supported fields for a specific package version.
+ *
+ * Requires permission to access the UpdatePackageVersion and GetIndexingConfiguration actions.
+ */
+export const updatePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePackageVersionRequest,
+    output: UpdatePackageVersionResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Delete a command resource.
+ */
+export const deleteCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCommandRequest,
+  output: DeleteCommandResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a specific version from a software package.
+ *
+ * **Note:** If a package version is designated as default, you must remove the designation from the software package using the UpdatePackage action.
+ */
+export const deletePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePackageVersionRequest,
+    output: DeletePackageVersionResponse,
+    errors: [InternalServerException, ThrottlingException, ValidationException],
+  }),
+);
+/**
+ * Delete a command execution.
+ *
+ * Only command executions that enter a terminal state can be deleted from
+ * your account.
+ */
+export const deleteCommandExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCommandExecutionRequest,
+    output: DeleteCommandExecutionResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets information about the specified command.
+ */
+export const getCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCommandRequest,
+  output: GetCommandResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about the specified software package.
+ *
+ * Requires permission to access the GetPackage action.
+ */
+export const getPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPackageRequest,
+  output: GetPackageResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about the specified package version.
+ *
+ * Requires permission to access the GetPackageVersion action.
+ */
+export const getPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPackageVersionRequest,
+  output: GetPackageVersionResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update information about a command or mark a command for deprecation.
+ */
+export const updateCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCommandRequest,
+  output: UpdateCommandResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an IoT software package that can be deployed to your fleet.
+ *
+ * Requires permission to access the CreatePackage and GetIndexingConfiguration actions.
+ */
+export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePackageRequest,
+  output: CreatePackageResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA
  * certificates you can register in your Amazon Web Services account. You can register up to 10 CA
  * certificates with the same `CA subject field` per Amazon Web Services account.
@@ -12998,25 +12722,6 @@ export const registerCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * The query search index.
- *
- * Requires permission to access the SearchIndex action.
- */
-export const searchIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchIndexRequest,
-  output: SearchIndexResponse,
-  errors: [
-    IndexNotReadyException,
-    InternalFailureException,
-    InvalidQueryException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Starts a task that applies a set of mitigation actions to the specified target.
  *
  * Requires permission to access the StartAuditMitigationActionsTask action.
@@ -13034,20 +12739,319 @@ export const startAuditMitigationActionsTask =
     ],
   }));
 /**
- * Starts a Device Defender ML Detect mitigation actions task.
+ * Deletes the specified fleet metric.
+ * Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist.
  *
- * Requires permission to access the StartDetectMitigationActionsTask action.
+ * Requires permission to access the DeleteFleetMetric action.
  */
-export const startDetectMitigationActionsTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDetectMitigationActionsTaskRequest,
-    output: StartDetectMitigationActionsTaskResponse,
+export const deleteFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFleetMetricRequest,
+  output: DeleteFleetMetricResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Delete an OTA update.
+ *
+ * Requires permission to access the DeleteOTAUpdate action.
+ */
+export const deleteOTAUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOTAUpdateRequest,
+  output: DeleteOTAUpdateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Deletes the specified thing. Returns successfully with no error if the deletion is
+ * successful or you specify a thing that doesn't exist.
+ *
+ * Requires permission to access the DeleteThing action.
+ */
+export const deleteThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteThingRequest,
+  output: DeleteThingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Updates the data for a thing.
+ *
+ * Requires permission to access the UpdateThing action.
+ */
+export const updateThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateThingRequest,
+  output: UpdateThingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Associates a Device Defender security profile with a thing group or this account. Each
+ * thing group or account can have up to five security profiles associated with it.
+ *
+ * Requires permission to access the AttachSecurityProfile action.
+ */
+export const attachSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AttachSecurityProfileRequest,
+    output: AttachSecurityProfileResponse,
     errors: [
       InternalFailureException,
       InvalidRequestException,
       LimitExceededException,
-      TaskAlreadyExistsException,
+      ResourceNotFoundException,
       ThrottlingException,
+      VersionConflictException,
+    ],
+  }),
+);
+/**
+ * Deletes the billing group.
+ *
+ * Requires permission to access the DeleteBillingGroup action.
+ */
+export const deleteBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBillingGroupRequest,
+  output: DeleteBillingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Deletes a dynamic thing group.
+ *
+ * Requires permission to access the DeleteDynamicThingGroup action.
+ */
+export const deleteDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDynamicThingGroupRequest,
+    output: DeleteDynamicThingGroupResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+      VersionConflictException,
+    ],
+  }),
+);
+/**
+ * Deletes a Device Defender security profile.
+ *
+ * Requires permission to access the DeleteSecurityProfile action.
+ */
+export const deleteSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSecurityProfileRequest,
+    output: DeleteSecurityProfileResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+      VersionConflictException,
+    ],
+  }),
+);
+/**
+ * Deletes a thing group.
+ *
+ * Requires permission to access the DeleteThingGroup action.
+ */
+export const deleteThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteThingGroupRequest,
+  output: DeleteThingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Updates information about the billing group.
+ *
+ * Requires permission to access the UpdateBillingGroup action.
+ */
+export const updateBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBillingGroupRequest,
+  output: UpdateBillingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Updates a Device Defender security profile.
+ *
+ * Requires permission to access the UpdateSecurityProfile action.
+ */
+export const updateSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSecurityProfileRequest,
+    output: UpdateSecurityProfileResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      VersionConflictException,
+    ],
+  }),
+);
+/**
+ * Update a thing group.
+ *
+ * Requires permission to access the UpdateThingGroup action.
+ */
+export const updateThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateThingGroupRequest,
+  output: UpdateThingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Cancels the execution of a job for a given thing.
+ *
+ * Requires permission to access the CancelJobExecution action.
+ */
+export const cancelJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelJobExecutionRequest,
+  output: CancelJobExecutionResponse,
+  errors: [
+    InvalidRequestException,
+    InvalidStateTransitionException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Updates the data for a fleet metric.
+ *
+ * Requires permission to access the UpdateFleetMetric action.
+ */
+export const updateFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFleetMetricRequest,
+  output: UpdateFleetMetricResponse,
+  errors: [
+    IndexNotReadyException,
+    InternalFailureException,
+    InvalidAggregationException,
+    InvalidQueryException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    VersionConflictException,
+  ],
+}));
+/**
+ * Accepts a pending certificate transfer. The default state of the certificate is
+ * INACTIVE.
+ *
+ * To check for pending certificate transfers, call ListCertificates
+ * to enumerate your certificates.
+ *
+ * Requires permission to access the AcceptCertificateTransfer action.
+ */
+export const acceptCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AcceptCertificateTransferRequest,
+    output: AcceptCertificateTransferResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      TransferAlreadyCompletedException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Cancels a pending transfer for the specified certificate.
+ *
+ * **Note** Only the transfer source account can use this
+ * operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, IoT returns the
+ * certificate to the source account in the INACTIVE state. After the destination account has
+ * accepted the transfer, the transfer cannot be cancelled.
+ *
+ * After a certificate transfer is cancelled, the status of the certificate changes from
+ * PENDING_TRANSFER to INACTIVE.
+ *
+ * Requires permission to access the CancelCertificateTransfer action.
+ */
+export const cancelCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelCertificateTransferRequest,
+    output: CancelCertificateTransferResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      TransferAlreadyCompletedException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Creates a new version of a provisioning template.
+ *
+ * Requires permission to access the CreateProvisioningTemplateVersion action.
+ */
+export const createProvisioningTemplateVersion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateProvisioningTemplateVersionRequest,
+    output: CreateProvisioningTemplateVersionResponse,
+    errors: [
+      ConflictingResourceUpdateException,
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnauthorizedException,
+      VersionsLimitExceededException,
     ],
   }));
 /**

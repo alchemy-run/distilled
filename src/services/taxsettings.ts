@@ -773,10 +773,6 @@ export class SupplementalTaxRegistration extends S.Class<SupplementalTaxRegistra
 export const SupplementalTaxRegistrationList = S.Array(
   SupplementalTaxRegistration,
 );
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class BatchDeleteTaxRegistrationResponse extends S.Class<BatchDeleteTaxRegistrationResponse>(
   "BatchDeleteTaxRegistrationResponse",
 )({ errors: BatchDeleteTaxRegistrationErrors }) {}
@@ -804,6 +800,10 @@ export class TaxInheritanceDetails extends S.Class<TaxInheritanceDetails>(
   parentEntityId: S.optional(S.String),
   inheritanceObtainedReason: S.optional(S.String),
 }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class BrazilAdditionalInfo extends S.Class<BrazilAdditionalInfo>(
   "BrazilAdditionalInfo",
 )({ ccmCode: S.optional(S.String), legalNatureCode: S.optional(S.String) }) {}
@@ -920,23 +920,27 @@ export class BatchPutTaxRegistrationResponse extends S.Class<BatchPutTaxRegistra
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String, errorCode: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String, errorCode: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.String, errorCode: S.String },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    errorCode: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 export class AttachmentUploadException extends S.TaggedError<AttachmentUploadException>()(
   "AttachmentUploadException",
@@ -948,75 +952,6 @@ export class CaseCreationLimitExceededException extends S.TaggedError<CaseCreati
 ) {}
 
 //# Operations
-/**
- * Deletes a supplemental tax registration for a single account.
- */
-export const deleteSupplementalTaxRegistration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteSupplementalTaxRegistrationRequest,
-    output: DeleteSupplementalTaxRegistrationResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes tax registration for a single account.
- *
- * This API operation can't be used to delete your tax registration in Brazil. Use the Payment preferences page in the Billing and Cost Management console instead.
- */
-export const deleteTaxRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTaxRegistrationRequest,
-    output: DeleteTaxRegistrationResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Get supported tax exemption types. The IAM action is `tax:GetExemptions`.
- */
-export const getTaxExemptionTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTaxExemptionTypesRequest,
-    output: GetTaxExemptionTypesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * The get account tax inheritance status.
- */
-export const getTaxInheritance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTaxInheritanceRequest,
-  output: GetTaxInheritanceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is `tax:GetExemptions`.
- */
-export const listTaxExemptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTaxExemptionsRequest,
-  output: ListTaxExemptionsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first.
  *
@@ -1172,6 +1107,18 @@ export const batchDeleteTaxRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * The get account tax inheritance status.
+ */
+export const getTaxInheritance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTaxInheritanceRequest,
+  output: GetTaxInheritanceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
  * Downloads your tax documents to the Amazon S3 bucket that you specify in your
  * request.
  */
@@ -1205,6 +1152,35 @@ export const putSupplementalTaxRegistration =
     errors: [ConflictException, InternalServerException, ValidationException],
   }));
 /**
+ * Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is `tax:GetExemptions`.
+ */
+export const listTaxExemptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTaxExemptionsRequest,
+  output: ListTaxExemptionsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes tax registration for a single account.
+ *
+ * This API operation can't be used to delete your tax registration in Brazil. Use the Payment preferences page in the Billing and Cost Management console instead.
+ */
+export const deleteTaxRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteTaxRegistrationRequest,
+    output: DeleteTaxRegistrationResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * The updated tax inheritance status.
  */
 export const putTaxInheritance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1217,6 +1193,34 @@ export const putTaxInheritance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Deletes a supplemental tax registration for a single account.
+ */
+export const deleteSupplementalTaxRegistration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteSupplementalTaxRegistrationRequest,
+    output: DeleteSupplementalTaxRegistrationResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Get supported tax exemption types. The IAM action is `tax:GetExemptions`.
+ */
+export const getTaxExemptionTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetTaxExemptionTypesRequest,
+    output: GetTaxExemptionTypesResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Get the active tax exemptions for a given list of accounts. The IAM action is `tax:GetExemptions`.
  */

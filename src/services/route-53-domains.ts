@@ -814,26 +814,26 @@ export class RegisterDomainResponse extends S.Class<RegisterDomainResponse>(
 //# Errors
 export class InvalidInput extends S.TaggedError<InvalidInput>()(
   "InvalidInput",
-  {},
-) {}
-export class OperationLimitExceeded extends S.TaggedError<OperationLimitExceeded>()(
-  "OperationLimitExceeded",
-  {},
-) {}
-export class UnsupportedTLD extends S.TaggedError<UnsupportedTLD>()(
-  "UnsupportedTLD",
-  {},
-) {}
-export class DuplicateRequest extends S.TaggedError<DuplicateRequest>()(
-  "DuplicateRequest",
-  {},
-) {}
-export class TLDRulesViolation extends S.TaggedError<TLDRulesViolation>()(
-  "TLDRulesViolation",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DomainLimitExceeded extends S.TaggedError<DomainLimitExceeded>()(
   "DomainLimitExceeded",
+  { message: S.optional(S.String) },
+) {}
+export class DuplicateRequest extends S.TaggedError<DuplicateRequest>()(
+  "DuplicateRequest",
+  { requestId: S.optional(S.String), message: S.optional(S.String) },
+) {}
+export class OperationLimitExceeded extends S.TaggedError<OperationLimitExceeded>()(
+  "OperationLimitExceeded",
+  { message: S.optional(S.String) },
+) {}
+export class UnsupportedTLD extends S.TaggedError<UnsupportedTLD>()(
+  "UnsupportedTLD",
+  { message: S.optional(S.String) },
+) {}
+export class TLDRulesViolation extends S.TaggedError<TLDRulesViolation>()(
+  "TLDRulesViolation",
   { message: S.optional(S.String) },
 ) {}
 export class DnssecLimitExceeded extends S.TaggedError<DnssecLimitExceeded>()(
@@ -842,154 +842,6 @@ export class DnssecLimitExceeded extends S.TaggedError<DnssecLimitExceeded>()(
 ) {}
 
 //# Operations
-/**
- * Resend the form of authorization email for this operation.
- */
-export const resendOperationAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ResendOperationAuthorizationRequest,
-    output: ResendOperationAuthorizationResponse,
-    errors: [InvalidInput],
-  }));
-/**
- * Cancels the transfer of a domain from the current Amazon Web Services account to
- * another Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount.
- *
- * You must cancel the transfer before the other Amazon Web Services account accepts
- * the transfer using AcceptDomainTransferFromAnotherAwsAccount.
- *
- * Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example,
- * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
- */
-export const cancelDomainTransferToAnotherAwsAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelDomainTransferToAnotherAwsAccountRequest,
-    output: CancelDomainTransferToAnotherAwsAccountResponse,
-    errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
-  }));
-/**
- * This operation checks the availability of one domain name. Note that if the
- * availability status of a domain is pending, you must submit another request to determine
- * the availability of the domain name.
- */
-export const checkDomainAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CheckDomainAvailabilityRequest,
-    output: CheckDomainAvailabilityResponse,
-    errors: [InvalidInput, UnsupportedTLD],
-  }),
-);
-/**
- * This operation deletes the specified tags for a domain.
- *
- * All tag operations are eventually consistent; subsequent operations might not
- * immediately represent all issued operations.
- */
-export const deleteTagsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTagsForDomainRequest,
-  output: DeleteTagsForDomainResponse,
-  errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
-}));
-/**
- * This operation disables automatic renewal of domain registration for the specified
- * domain.
- */
-export const disableDomainAutoRenew = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableDomainAutoRenewRequest,
-    output: DisableDomainAutoRenewResponse,
-    errors: [InvalidInput, UnsupportedTLD],
-  }),
-);
-/**
- * This operation removes the transfer lock on the domain (specifically the
- * `clientTransferProhibited` status) to allow domain transfers. We
- * recommend you refrain from performing this action unless you intend to transfer the
- * domain to a different registrar. Successful submission returns an operation ID that you
- * can use to track the progress and completion of the action. If the request is not
- * completed successfully, the domain registrant will be notified by email.
- */
-export const disableDomainTransferLock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableDomainTransferLockRequest,
-    output: DisableDomainTransferLockResponse,
-    errors: [
-      DuplicateRequest,
-      InvalidInput,
-      OperationLimitExceeded,
-      TLDRulesViolation,
-      UnsupportedTLD,
-    ],
-  }),
-);
-/**
- * Deletes a delegation signer (DS) record in the registry zone for this domain
- * name.
- */
-export const disassociateDelegationSignerFromDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDelegationSignerFromDomainRequest,
-    output: DisassociateDelegationSignerFromDomainResponse,
-    errors: [
-      DuplicateRequest,
-      InvalidInput,
-      OperationLimitExceeded,
-      TLDRulesViolation,
-      UnsupportedTLD,
-    ],
-  }));
-/**
- * This operation configures Amazon Route 53 to automatically renew the specified domain
- * before the domain registration expires. The cost of renewing your domain registration is
- * billed to your Amazon Web Services account.
- *
- * The period during which you can renew a domain name varies by TLD. For a list of TLDs
- * and their renewal policies, see Domains That You Can
- * Register with Amazon Route 53 in the Amazon Route 53 Developer
- * Guide. Route 53 requires that you renew before the end of the renewal
- * period so we can complete processing before the deadline.
- */
-export const enableDomainAutoRenew = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableDomainAutoRenewRequest,
-    output: EnableDomainAutoRenewResponse,
-    errors: [InvalidInput, TLDRulesViolation, UnsupportedTLD],
-  }),
-);
-/**
- * This operation sets the transfer lock on the domain (specifically the
- * `clientTransferProhibited` status) to prevent domain transfers.
- * Successful submission returns an operation ID that you can use to track the progress and
- * completion of the action. If the request is not completed successfully, the domain
- * registrant will be notified by email.
- */
-export const enableDomainTransferLock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableDomainTransferLockRequest,
-    output: EnableDomainTransferLockResponse,
-    errors: [
-      DuplicateRequest,
-      InvalidInput,
-      OperationLimitExceeded,
-      TLDRulesViolation,
-      UnsupportedTLD,
-    ],
-  }),
-);
-/**
- * For operations that require confirmation that the email address for the registrant
- * contact is valid, such as registering a new domain, this operation returns information
- * about whether the registrant contact has responded.
- *
- * If you want us to resend the email, use the
- * `ResendContactReachabilityEmail` operation.
- */
-export const getContactReachabilityStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContactReachabilityStatusRequest,
-    output: GetContactReachabilityStatusResponse,
-    errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
-  }));
 /**
  * This operation returns the current status of an operation that is not
  * completed.
@@ -1000,75 +852,25 @@ export const getOperationDetail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidInput],
 }));
 /**
- * This operation returns all of the tags that are associated with the specified
- * domain.
- *
- * All tag operations are eventually consistent; subsequent operations might not
- * immediately represent all issued operations.
+ * Resend the form of authorization email for this operation.
  */
-export const listTagsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForDomainRequest,
-  output: ListTagsForDomainResponse,
-  errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
-}));
-/**
- * Moves a domain from Amazon Web Services to another registrar.
- *
- * Supported actions:
- *
- * - Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means
- * that the domain is ready to be transferred to another registrar.
- */
-export const pushDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PushDomainRequest,
-  output: PushDomainResponse,
-  errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
-}));
-/**
- * Rejects the transfer of a domain from another Amazon Web Services account to the
- * current Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount.
- *
- * Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example,
- * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
- */
-export const rejectDomainTransferFromAnotherAwsAccount =
+export const resendOperationAuthorization =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectDomainTransferFromAnotherAwsAccountRequest,
-    output: RejectDomainTransferFromAnotherAwsAccountResponse,
-    errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+    input: ResendOperationAuthorizationRequest,
+    output: ResendOperationAuthorizationResponse,
+    errors: [InvalidInput],
   }));
 /**
- * This operation renews a domain for the specified number of years. The cost of renewing
- * your domain is billed to your Amazon Web Services account.
+ * Returns information about all of the operations that return an operation ID and that
+ * have ever been performed on domains that were registered by the current account.
  *
- * We recommend that you renew your domain several weeks before the expiration date. Some
- * TLD registries delete domains before the expiration date if you haven't renewed far
- * enough in advance. For more information about renewing domain registration, see Renewing
- * Registration for a Domain in the Amazon Route 53 Developer
- * Guide.
+ * This command runs only in the us-east-1 Region.
  */
-export const renewDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RenewDomainRequest,
-  output: RenewDomainResponse,
-  errors: [
-    DuplicateRequest,
-    InvalidInput,
-    OperationLimitExceeded,
-    TLDRulesViolation,
-    UnsupportedTLD,
-  ],
+export const listOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
+  errors: [InvalidInput],
 }));
-/**
- * For operations that require confirmation that the email address for the registrant
- * contact is valid, such as registering a new domain, this operation resends the
- * confirmation email to the current email address for the registrant contact.
- */
-export const resendContactReachabilityEmail =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ResendContactReachabilityEmailRequest,
-    output: ResendContactReachabilityEmailResponse,
-    errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
-  }));
 /**
  * This operation returns the authorization code for the domain. To transfer a domain to
  * another registrar, you provide this value to the new registrar.
@@ -1080,6 +882,14 @@ export const retrieveDomainAuthCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InvalidInput, UnsupportedTLD],
   }),
 );
+/**
+ * Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
+ */
+export const viewBilling = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ViewBillingRequest,
+  output: ViewBillingResponse,
+  errors: [InvalidInput],
+}));
 /**
  * Transfers a domain from the current Amazon Web Services account to another Amazon Web Services account. Note the following:
  *
@@ -1114,63 +924,73 @@ export const transferDomainToAnotherAwsAccount =
     ],
   }));
 /**
- * This operation updates the specified domain contact's privacy setting. When privacy
- * protection is enabled, your contact information is replaced with contact information for
- * the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of owner."
+ * This operation configures Amazon Route 53 to automatically renew the specified domain
+ * before the domain registration expires. The cost of renewing your domain registration is
+ * billed to your Amazon Web Services account.
  *
- * While some domains may allow different privacy settings per contact, we recommend
- * specifying the same privacy setting for all contacts.
- *
- * This operation affects only the contact information for the specified contact type
- * (administrative, registrant, or technical). If the request succeeds, Amazon Route 53
- * returns an operation ID that you can use with GetOperationDetail to track the progress and completion of the action. If
- * the request doesn't complete successfully, the domain registrant will be notified by
- * email.
- *
- * By disabling the privacy service via API, you consent to the publication of the
- * contact information provided for this domain via the public WHOIS database. You
- * certify that you are the registrant of this domain name and have the authority to
- * make this decision. You may withdraw your consent at any time by enabling privacy
- * protection using either `UpdateDomainContactPrivacy` or the Route 53
- * console. Enabling privacy protection removes the contact information provided for
- * this domain from the WHOIS database. For more information on our privacy practices,
- * see https://aws.amazon.com/privacy/.
+ * The period during which you can renew a domain name varies by TLD. For a list of TLDs
+ * and their renewal policies, see Domains That You Can
+ * Register with Amazon Route 53 in the Amazon Route 53 Developer
+ * Guide. Route 53 requires that you renew before the end of the renewal
+ * period so we can complete processing before the deadline.
  */
-export const updateDomainContactPrivacy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const enableDomainAutoRenew = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateDomainContactPrivacyRequest,
-    output: UpdateDomainContactPrivacyResponse,
-    errors: [
-      DuplicateRequest,
-      InvalidInput,
-      OperationLimitExceeded,
-      TLDRulesViolation,
-      UnsupportedTLD,
-    ],
+    input: EnableDomainAutoRenewRequest,
+    output: EnableDomainAutoRenewResponse,
+    errors: [InvalidInput, TLDRulesViolation, UnsupportedTLD],
   }),
 );
 /**
- * This operation replaces the current set of name servers for the domain with the
- * specified set of name servers. If you use Amazon Route 53 as your DNS service, specify
- * the four name servers in the delegation set for the hosted zone for the domain.
+ * For operations that require confirmation that the email address for the registrant
+ * contact is valid, such as registering a new domain, this operation returns information
+ * about whether the registrant contact has responded.
  *
- * If successful, this operation returns an operation ID that you can use to track the
- * progress and completion of the action. If the request is not completed successfully, the
- * domain registrant will be notified by email.
+ * If you want us to resend the email, use the
+ * `ResendContactReachabilityEmail` operation.
  */
-export const updateDomainNameservers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDomainNameserversRequest,
-    output: UpdateDomainNameserversResponse,
-    errors: [
-      DuplicateRequest,
-      InvalidInput,
-      OperationLimitExceeded,
-      TLDRulesViolation,
-      UnsupportedTLD,
-    ],
-  }),
-);
+export const getContactReachabilityStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetContactReachabilityStatusRequest,
+    output: GetContactReachabilityStatusResponse,
+    errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+  }));
+/**
+ * This operation returns all of the tags that are associated with the specified
+ * domain.
+ *
+ * All tag operations are eventually consistent; subsequent operations might not
+ * immediately represent all issued operations.
+ */
+export const listTagsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForDomainRequest,
+  output: ListTagsForDomainResponse,
+  errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+}));
+/**
+ * Rejects the transfer of a domain from another Amazon Web Services account to the
+ * current Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount.
+ *
+ * Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example,
+ * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
+ */
+export const rejectDomainTransferFromAnotherAwsAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RejectDomainTransferFromAnotherAwsAccountRequest,
+    output: RejectDomainTransferFromAnotherAwsAccountResponse,
+    errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+  }));
+/**
+ * For operations that require confirmation that the email address for the registrant
+ * contact is valid, such as registering a new domain, this operation resends the
+ * confirmation email to the current email address for the registrant contact.
+ */
+export const resendContactReachabilityEmail =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ResendContactReachabilityEmailRequest,
+    output: ResendContactReachabilityEmailResponse,
+    errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+  }));
 /**
  * This operation adds or updates tags for a specified domain.
  *
@@ -1182,6 +1002,35 @@ export const updateTagsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: UpdateTagsForDomainResponse,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
 }));
+/**
+ * Moves a domain from Amazon Web Services to another registrar.
+ *
+ * Supported actions:
+ *
+ * - Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means
+ * that the domain is ready to be transferred to another registrar.
+ */
+export const pushDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PushDomainRequest,
+  output: PushDomainResponse,
+  errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+}));
+/**
+ * Cancels the transfer of a domain from the current Amazon Web Services account to
+ * another Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount.
+ *
+ * You must cancel the transfer before the other Amazon Web Services account accepts
+ * the transfer using AcceptDomainTransferFromAnotherAwsAccount.
+ *
+ * Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example,
+ * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
+ */
+export const cancelDomainTransferToAnotherAwsAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CancelDomainTransferToAnotherAwsAccountRequest,
+    output: CancelDomainTransferToAnotherAwsAccountResponse,
+    errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+  }));
 /**
  * Accepts the transfer of a domain from another Amazon Web Services account to the
  * currentAmazon Web Services account. You initiate a transfer between Amazon Web Services accounts using TransferDomainToAnotherAwsAccount.
@@ -1205,12 +1054,66 @@ export const acceptDomainTransferFromAnotherAwsAccount =
     ],
   }));
 /**
+ * This operation disables automatic renewal of domain registration for the specified
+ * domain.
+ */
+export const disableDomainAutoRenew = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisableDomainAutoRenewRequest,
+    output: DisableDomainAutoRenewResponse,
+    errors: [InvalidInput, UnsupportedTLD],
+  }),
+);
+/**
+ * This operation checks the availability of one domain name. Note that if the
+ * availability status of a domain is pending, you must submit another request to determine
+ * the availability of the domain name.
+ */
+export const checkDomainAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CheckDomainAvailabilityRequest,
+    output: CheckDomainAvailabilityResponse,
+    errors: [InvalidInput, UnsupportedTLD],
+  }),
+);
+/**
  * Checks whether a domain name can be transferred to Amazon Route 53.
  */
 export const checkDomainTransferability = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: CheckDomainTransferabilityRequest,
     output: CheckDomainTransferabilityResponse,
+    errors: [InvalidInput, UnsupportedTLD],
+  }),
+);
+/**
+ * This operation deletes the specified tags for a domain.
+ *
+ * All tag operations are eventually consistent; subsequent operations might not
+ * immediately represent all issued operations.
+ */
+export const deleteTagsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTagsForDomainRequest,
+  output: DeleteTagsForDomainResponse,
+  errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+}));
+/**
+ * This operation returns detailed information about a specified domain that is
+ * associated with the current Amazon Web Services account. Contact information for the
+ * domain is also returned as part of the output.
+ */
+export const getDomainDetail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainDetailRequest,
+  output: GetDomainDetailResponse,
+  errors: [InvalidInput, UnsupportedTLD],
+}));
+/**
+ * The GetDomainSuggestions operation returns a list of suggested domain names.
+ */
+export const getDomainSuggestions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDomainSuggestionsRequest,
+    output: GetDomainSuggestionsResponse,
     errors: [InvalidInput, UnsupportedTLD],
   }),
 );
@@ -1237,37 +1140,6 @@ export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResponse,
   errors: [DuplicateRequest, InvalidInput, TLDRulesViolation, UnsupportedTLD],
-}));
-/**
- * This operation returns detailed information about a specified domain that is
- * associated with the current Amazon Web Services account. Contact information for the
- * domain is also returned as part of the output.
- */
-export const getDomainDetail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDomainDetailRequest,
-  output: GetDomainDetailResponse,
-  errors: [InvalidInput, UnsupportedTLD],
-}));
-/**
- * The GetDomainSuggestions operation returns a list of suggested domain names.
- */
-export const getDomainSuggestions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDomainSuggestionsRequest,
-    output: GetDomainSuggestionsResponse,
-    errors: [InvalidInput, UnsupportedTLD],
-  }),
-);
-/**
- * Returns information about all of the operations that return an operation ID and that
- * have ever been performed on domains that were registered by the current account.
- *
- * This command runs only in the us-east-1 Region.
- */
-export const listOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListOperationsRequest,
-  output: ListOperationsResponse,
-  errors: [InvalidInput],
 }));
 /**
  * Transfers a domain from another registrar to Amazon Route 53.
@@ -1338,13 +1210,141 @@ export const updateDomainContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
+ * This operation removes the transfer lock on the domain (specifically the
+ * `clientTransferProhibited` status) to allow domain transfers. We
+ * recommend you refrain from performing this action unless you intend to transfer the
+ * domain to a different registrar. Successful submission returns an operation ID that you
+ * can use to track the progress and completion of the action. If the request is not
+ * completed successfully, the domain registrant will be notified by email.
  */
-export const viewBilling = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ViewBillingRequest,
-  output: ViewBillingResponse,
-  errors: [InvalidInput],
+export const disableDomainTransferLock = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisableDomainTransferLockRequest,
+    output: DisableDomainTransferLockResponse,
+    errors: [
+      DuplicateRequest,
+      InvalidInput,
+      OperationLimitExceeded,
+      TLDRulesViolation,
+      UnsupportedTLD,
+    ],
+  }),
+);
+/**
+ * Deletes a delegation signer (DS) record in the registry zone for this domain
+ * name.
+ */
+export const disassociateDelegationSignerFromDomain =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateDelegationSignerFromDomainRequest,
+    output: DisassociateDelegationSignerFromDomainResponse,
+    errors: [
+      DuplicateRequest,
+      InvalidInput,
+      OperationLimitExceeded,
+      TLDRulesViolation,
+      UnsupportedTLD,
+    ],
+  }));
+/**
+ * This operation sets the transfer lock on the domain (specifically the
+ * `clientTransferProhibited` status) to prevent domain transfers.
+ * Successful submission returns an operation ID that you can use to track the progress and
+ * completion of the action. If the request is not completed successfully, the domain
+ * registrant will be notified by email.
+ */
+export const enableDomainTransferLock = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: EnableDomainTransferLockRequest,
+    output: EnableDomainTransferLockResponse,
+    errors: [
+      DuplicateRequest,
+      InvalidInput,
+      OperationLimitExceeded,
+      TLDRulesViolation,
+      UnsupportedTLD,
+    ],
+  }),
+);
+/**
+ * This operation renews a domain for the specified number of years. The cost of renewing
+ * your domain is billed to your Amazon Web Services account.
+ *
+ * We recommend that you renew your domain several weeks before the expiration date. Some
+ * TLD registries delete domains before the expiration date if you haven't renewed far
+ * enough in advance. For more information about renewing domain registration, see Renewing
+ * Registration for a Domain in the Amazon Route 53 Developer
+ * Guide.
+ */
+export const renewDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RenewDomainRequest,
+  output: RenewDomainResponse,
+  errors: [
+    DuplicateRequest,
+    InvalidInput,
+    OperationLimitExceeded,
+    TLDRulesViolation,
+    UnsupportedTLD,
+  ],
 }));
+/**
+ * This operation updates the specified domain contact's privacy setting. When privacy
+ * protection is enabled, your contact information is replaced with contact information for
+ * the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of owner."
+ *
+ * While some domains may allow different privacy settings per contact, we recommend
+ * specifying the same privacy setting for all contacts.
+ *
+ * This operation affects only the contact information for the specified contact type
+ * (administrative, registrant, or technical). If the request succeeds, Amazon Route 53
+ * returns an operation ID that you can use with GetOperationDetail to track the progress and completion of the action. If
+ * the request doesn't complete successfully, the domain registrant will be notified by
+ * email.
+ *
+ * By disabling the privacy service via API, you consent to the publication of the
+ * contact information provided for this domain via the public WHOIS database. You
+ * certify that you are the registrant of this domain name and have the authority to
+ * make this decision. You may withdraw your consent at any time by enabling privacy
+ * protection using either `UpdateDomainContactPrivacy` or the Route 53
+ * console. Enabling privacy protection removes the contact information provided for
+ * this domain from the WHOIS database. For more information on our privacy practices,
+ * see https://aws.amazon.com/privacy/.
+ */
+export const updateDomainContactPrivacy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDomainContactPrivacyRequest,
+    output: UpdateDomainContactPrivacyResponse,
+    errors: [
+      DuplicateRequest,
+      InvalidInput,
+      OperationLimitExceeded,
+      TLDRulesViolation,
+      UnsupportedTLD,
+    ],
+  }),
+);
+/**
+ * This operation replaces the current set of name servers for the domain with the
+ * specified set of name servers. If you use Amazon Route 53 as your DNS service, specify
+ * the four name servers in the delegation set for the hosted zone for the domain.
+ *
+ * If successful, this operation returns an operation ID that you can use to track the
+ * progress and completion of the action. If the request is not completed successfully, the
+ * domain registrant will be notified by email.
+ */
+export const updateDomainNameservers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDomainNameserversRequest,
+    output: UpdateDomainNameserversResponse,
+    errors: [
+      DuplicateRequest,
+      InvalidInput,
+      OperationLimitExceeded,
+      TLDRulesViolation,
+      UnsupportedTLD,
+    ],
+  }),
+);
 /**
  * Creates a delegation signer (DS) record in the registry zone for this domain
  * name.

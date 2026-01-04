@@ -1094,27 +1094,27 @@ export class CreateOriginEndpointResponse extends S.Class<CreateOriginEndpointRe
 //# Errors
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 
 //# Operations
@@ -1135,6 +1135,138 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
+ *
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [],
+}));
+/**
+ * Deletes an existing Channel.
+ */
+export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelRequest,
+  output: DeleteChannelResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Gets details about a Channel.
+ */
+export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChannelRequest,
+  output: DescribeChannelResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Gets details about an existing OriginEndpoint.
+ */
+export const describeOriginEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeOriginEndpointRequest,
+    output: DescribeOriginEndpointResponse,
+    errors: [
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Returns a collection of Channels.
+ */
+export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListChannelsRequest,
+  output: ListChannelsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Returns a collection of HarvestJob records.
+ */
+export const listHarvestJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListHarvestJobsRequest,
+  output: ListHarvestJobsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Returns a collection of OriginEndpoint records.
+ */
+export const listOriginEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOriginEndpointsRequest,
+  output: ListOriginEndpointsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Gets details about an existing HarvestJob.
+ */
+export const describeHarvestJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeHarvestJobRequest,
+  output: DescribeHarvestJobResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
+ */
+export const rotateChannelCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RotateChannelCredentialsRequest,
+    output: RotateChannelCredentialsResponse,
+    errors: [
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
  * Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
  */
 export const rotateIngestEndpointCredentials =
@@ -1150,14 +1282,6 @@ export const rotateIngestEndpointCredentials =
       UnprocessableEntityException,
     ],
   }));
-/**
- *
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [],
-}));
 /**
  * Updates an existing Channel.
  */
@@ -1180,6 +1304,23 @@ export const updateOriginEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: UpdateOriginEndpointRequest,
     output: UpdateOriginEndpointResponse,
+    errors: [
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Deletes an existing OriginEndpoint.
+ */
+export const deleteOriginEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteOriginEndpointRequest,
+    output: DeleteOriginEndpointResponse,
     errors: [
       ForbiddenException,
       InternalServerErrorException,
@@ -1235,147 +1376,6 @@ export const createHarvestJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnprocessableEntityException,
   ],
 }));
-/**
- * Deletes an existing Channel.
- */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
-  errors: [
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Deletes an existing OriginEndpoint.
- */
-export const deleteOriginEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOriginEndpointRequest,
-    output: DeleteOriginEndpointResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
- * Gets details about an existing HarvestJob.
- */
-export const describeHarvestJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeHarvestJobRequest,
-  output: DescribeHarvestJobResponse,
-  errors: [
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Returns a collection of Channels.
- */
-export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListChannelsRequest,
-  output: ListChannelsResponse,
-  errors: [
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Returns a collection of HarvestJob records.
- */
-export const listHarvestJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListHarvestJobsRequest,
-  output: ListHarvestJobsResponse,
-  errors: [
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Returns a collection of OriginEndpoint records.
- */
-export const listOriginEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListOriginEndpointsRequest,
-  output: ListOriginEndpointsResponse,
-  errors: [
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
- */
-export const rotateChannelCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RotateChannelCredentialsRequest,
-    output: RotateChannelCredentialsResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
- * Gets details about a Channel.
- */
-export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeChannelRequest,
-  output: DescribeChannelResponse,
-  errors: [
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Gets details about an existing OriginEndpoint.
- */
-export const describeOriginEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOriginEndpointRequest,
-    output: DescribeOriginEndpointResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
 /**
  * Creates a new OriginEndpoint record.
  */

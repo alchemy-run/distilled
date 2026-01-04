@@ -477,10 +477,6 @@ export class Table extends S.Class<Table>("Table")({
   TableProperties: S.optional(TablePropertyDescriptionList),
 }) {}
 export const TableList = S.Array(Table);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class GetTableResponse extends S.Class<GetTableResponse>(
   "GetTableResponse",
 )({
@@ -498,6 +494,10 @@ export class CreateExportRequest extends S.Class<CreateExportRequest>(
   { Export: Export, ResourceTags: S.optional(ResourceTagList) },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, Message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class CreateExportResponse extends S.Class<CreateExportResponse>(
   "CreateExportResponse",
 )({ ExportArn: S.optional(S.String) }) {}
@@ -505,19 +505,27 @@ export class CreateExportResponse extends S.Class<CreateExportResponse>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  {
+    Message: S.String,
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+  },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  {
+    Message: S.String,
+    Reason: S.optional(S.String),
+    Fields: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -532,24 +540,27 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 
 //# Operations
 /**
+ * Lists all data export definitions.
+ */
+export const listExports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListExportsRequest,
+  output: ListExportsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
+/**
+ * Lists all available tables in data exports.
+ */
+export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTablesRequest,
+  output: ListTablesResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
+/**
  * Adds tags for an existing data export definition.
  */
 export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes tags associated with an existing data export definition.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -572,11 +583,37 @@ export const updateExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Deletes tags associated with an existing data export definition.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Deletes an existing data export.
  */
 export const deleteExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExportRequest,
   output: DeleteExportResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List tags associated with an existing data export.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -624,14 +661,6 @@ export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all data export definitions.
- */
-export const listExports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListExportsRequest,
-  output: ListExportsResponse,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
-}));
-/**
  * Returns the metadata for the specified table and table properties. This includes the list
  * of columns in the table schema, their data types, and column descriptions.
  */
@@ -639,27 +668,6 @@ export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRequest,
   output: GetTableResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
-}));
-/**
- * Lists all available tables in data exports.
- */
-export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTablesRequest,
-  output: ListTablesResponse,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
-}));
-/**
- * List tags associated with an existing data export.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
 }));
 /**
  * Creates a data export and specifies the data query, the delivery preference, and any

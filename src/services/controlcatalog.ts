@@ -293,6 +293,35 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export class GetControlRequest extends S.Class<GetControlRequest>(
+  "GetControlRequest",
+)(
+  { ControlArn: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/get-control" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ListDomainsRequest extends S.Class<ListDomainsRequest>(
+  "ListDomainsRequest",
+)(
+  {
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/domains" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export const ControlArnFilterList = S.Array(S.String);
 export const CommonControlArnFilterList = S.Array(S.String);
 export const MappingTypeFilterList = S.Array(S.String);
@@ -303,6 +332,10 @@ export class ControlMappingFilter extends S.Class<ControlMappingFilter>(
   CommonControlArns: S.optional(CommonControlArnFilterList),
   MappingTypes: S.optional(MappingTypeFilterList),
 }) {}
+export const ControlAliases = S.Array(S.String);
+export const GovernedResources = S.Array(S.String);
+export const ImplementationTypeFilterList = S.Array(S.String);
+export const ImplementationIdentifierFilterList = S.Array(S.String);
 export class ListControlMappingsRequest extends S.Class<ListControlMappingsRequest>(
   "ListControlMappingsRequest",
 )(
@@ -320,6 +353,131 @@ export class ListControlMappingsRequest extends S.Class<ListControlMappingsReque
     rules,
   ),
 ) {}
+export class ObjectiveResourceFilter extends S.Class<ObjectiveResourceFilter>(
+  "ObjectiveResourceFilter",
+)({ Arn: S.optional(S.String) }) {}
+export const ObjectiveResourceFilterList = S.Array(ObjectiveResourceFilter);
+export const DeployableRegions = S.Array(S.String);
+export class ImplementationFilter extends S.Class<ImplementationFilter>(
+  "ImplementationFilter",
+)({
+  Types: S.optional(ImplementationTypeFilterList),
+  Identifiers: S.optional(ImplementationIdentifierFilterList),
+}) {}
+export class DomainResourceFilter extends S.Class<DomainResourceFilter>(
+  "DomainResourceFilter",
+)({ Arn: S.optional(S.String) }) {}
+export const DomainResourceFilterList = S.Array(DomainResourceFilter);
+export class CommonControlFilter extends S.Class<CommonControlFilter>(
+  "CommonControlFilter",
+)({ Objectives: S.optional(ObjectiveResourceFilterList) }) {}
+export class RegionConfiguration extends S.Class<RegionConfiguration>(
+  "RegionConfiguration",
+)({ Scope: S.String, DeployableRegions: S.optional(DeployableRegions) }) {}
+export class ImplementationDetails extends S.Class<ImplementationDetails>(
+  "ImplementationDetails",
+)({ Type: S.String, Identifier: S.optional(S.String) }) {}
+export class ControlParameter extends S.Class<ControlParameter>(
+  "ControlParameter",
+)({ Name: S.String }) {}
+export const ControlParameters = S.Array(ControlParameter);
+export class ControlFilter extends S.Class<ControlFilter>("ControlFilter")({
+  Implementations: S.optional(ImplementationFilter),
+}) {}
+export class DomainSummary extends S.Class<DomainSummary>("DomainSummary")({
+  Arn: S.String,
+  Name: S.String,
+  Description: S.String,
+  CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+}) {}
+export const DomainSummaryList = S.Array(DomainSummary);
+export class ObjectiveFilter extends S.Class<ObjectiveFilter>(
+  "ObjectiveFilter",
+)({ Domains: S.optional(DomainResourceFilterList) }) {}
+export class ListCommonControlsRequest extends S.Class<ListCommonControlsRequest>(
+  "ListCommonControlsRequest",
+)(
+  {
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    CommonControlFilter: S.optional(CommonControlFilter),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/common-controls" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetControlResponse extends S.Class<GetControlResponse>(
+  "GetControlResponse",
+)({
+  Arn: S.String,
+  Aliases: S.optional(ControlAliases),
+  Name: S.String,
+  Description: S.String,
+  Behavior: S.String,
+  Severity: S.optional(S.String),
+  RegionConfiguration: RegionConfiguration,
+  Implementation: S.optional(ImplementationDetails),
+  Parameters: S.optional(ControlParameters),
+  CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  GovernedResources: S.optional(GovernedResources),
+}) {}
+export class ListControlsRequest extends S.Class<ListControlsRequest>(
+  "ListControlsRequest",
+)(
+  {
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    Filter: S.optional(ControlFilter),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/list-controls" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ListDomainsResponse extends S.Class<ListDomainsResponse>(
+  "ListDomainsResponse",
+)({ Domains: DomainSummaryList, NextToken: S.optional(S.String) }) {}
+export class ListObjectivesRequest extends S.Class<ListObjectivesRequest>(
+  "ListObjectivesRequest",
+)(
+  {
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    ObjectiveFilter: S.optional(ObjectiveFilter),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/objectives" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class AssociatedDomainSummary extends S.Class<AssociatedDomainSummary>(
+  "AssociatedDomainSummary",
+)({ Arn: S.optional(S.String), Name: S.optional(S.String) }) {}
+export class ObjectiveSummary extends S.Class<ObjectiveSummary>(
+  "ObjectiveSummary",
+)({
+  Arn: S.String,
+  Name: S.String,
+  Description: S.String,
+  Domain: AssociatedDomainSummary,
+  CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+}) {}
+export const ObjectiveSummaryList = S.Array(ObjectiveSummary);
 export class FrameworkMappingDetails extends S.Class<FrameworkMappingDetails>(
   "FrameworkMappingDetails",
 )({ Name: S.String, Item: S.String }) {}
@@ -329,20 +487,62 @@ export class CommonControlMappingDetails extends S.Class<CommonControlMappingDet
 export class RelatedControlMappingDetails extends S.Class<RelatedControlMappingDetails>(
   "RelatedControlMappingDetails",
 )({ ControlArn: S.optional(S.String), RelationType: S.String }) {}
+export class ListObjectivesResponse extends S.Class<ListObjectivesResponse>(
+  "ListObjectivesResponse",
+)({ Objectives: ObjectiveSummaryList, NextToken: S.optional(S.String) }) {}
 export const Mapping = S.Union(
   S.Struct({ Framework: FrameworkMappingDetails }),
   S.Struct({ CommonControl: CommonControlMappingDetails }),
   S.Struct({ RelatedControl: RelatedControlMappingDetails }),
 );
+export class AssociatedObjectiveSummary extends S.Class<AssociatedObjectiveSummary>(
+  "AssociatedObjectiveSummary",
+)({ Arn: S.optional(S.String), Name: S.optional(S.String) }) {}
+export class ImplementationSummary extends S.Class<ImplementationSummary>(
+  "ImplementationSummary",
+)({ Type: S.String, Identifier: S.optional(S.String) }) {}
 export class ControlMapping extends S.Class<ControlMapping>("ControlMapping")({
   ControlArn: S.String,
   MappingType: S.String,
   Mapping: Mapping,
 }) {}
 export const ControlMappings = S.Array(ControlMapping);
+export class CommonControlSummary extends S.Class<CommonControlSummary>(
+  "CommonControlSummary",
+)({
+  Arn: S.String,
+  Name: S.String,
+  Description: S.String,
+  Domain: AssociatedDomainSummary,
+  Objective: AssociatedObjectiveSummary,
+  CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+}) {}
+export const CommonControlSummaryList = S.Array(CommonControlSummary);
+export class ControlSummary extends S.Class<ControlSummary>("ControlSummary")({
+  Arn: S.String,
+  Aliases: S.optional(ControlAliases),
+  Name: S.String,
+  Description: S.String,
+  Behavior: S.optional(S.String),
+  Severity: S.optional(S.String),
+  Implementation: S.optional(ImplementationSummary),
+  CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  GovernedResources: S.optional(GovernedResources),
+}) {}
+export const Controls = S.Array(ControlSummary);
 export class ListControlMappingsResponse extends S.Class<ListControlMappingsResponse>(
   "ListControlMappingsResponse",
 )({ ControlMappings: ControlMappings, NextToken: S.optional(S.String) }) {}
+export class ListCommonControlsResponse extends S.Class<ListCommonControlsResponse>(
+  "ListCommonControlsResponse",
+)({
+  CommonControls: CommonControlSummaryList,
+  NextToken: S.optional(S.String),
+}) {}
+export class ListControlsResponse extends S.Class<ListControlsResponse>(
+  "ListControlsResponse",
+)({ Controls: Controls, NextToken: S.optional(S.String) }) {}
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
@@ -351,6 +551,10 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
@@ -364,11 +568,83 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 
 //# Operations
 /**
+ * Returns a paginated list of objectives from the Control Catalog.
+ *
+ * You can apply an optional filter to see the objectives that belong to a specific domain. If you don’t provide a filter, the operation returns all objectives.
+ */
+export const listObjectives = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListObjectivesRequest,
+  output: ListObjectivesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a paginated list of domains from the Control Catalog.
+ */
+export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDomainsRequest,
+  output: ListDomainsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Returns a paginated list of control mappings from the Control Catalog. Control mappings show relationships between controls and other entities, such as common controls or compliance frameworks.
  */
 export const listControlMappings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListControlMappingsRequest,
   output: ListControlMappingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a paginated list of common controls from the Amazon Web Services Control Catalog.
+ *
+ * You can apply an optional filter to see common controls that have a specific objective. If you don’t provide a filter, the operation returns all common controls.
+ */
+export const listCommonControls = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCommonControlsRequest,
+  output: ListCommonControlsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns details about a specific control, most notably a list of Amazon Web Services Regions where this control is supported. Input a value for the *ControlArn* parameter, in ARN form. `GetControl` accepts *controltower* or *controlcatalog* control ARNs as input. Returns a *controlcatalog* ARN format.
+ *
+ * In the API response, controls that have the value `GLOBAL` in the `Scope` field do not show the `DeployableRegions` field, because it does not apply. Controls that have the value `REGIONAL` in the `Scope` field return a value for the `DeployableRegions` field, as shown in the example.
+ */
+export const getControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetControlRequest,
+  output: GetControlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a paginated list of all available controls in the Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type *controlSummary*. The ARN is returned in the global *controlcatalog* format, as shown in the examples.
+ */
+export const listControls = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListControlsRequest,
+  output: ListControlsResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,

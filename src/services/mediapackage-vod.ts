@@ -860,27 +860,27 @@ export class CreatePackagingConfigurationResponse extends S.Class<CreatePackagin
 //# Errors
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 
 //# Operations
@@ -892,39 +892,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: UntagResourceResponse,
   errors: [],
 }));
-/**
- * Returns a description of a MediaPackage VOD PackagingConfiguration resource.
- */
-export const describePackagingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePackagingConfigurationRequest,
-    output: DescribePackagingConfigurationResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }));
-/**
- * Returns a description of a MediaPackage VOD PackagingGroup resource.
- */
-export const describePackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePackagingGroupRequest,
-    output: DescribePackagingGroupResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
 /**
  * Returns a list of the tags assigned to the specified resource.
  */
@@ -942,70 +909,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
- */
-export const updatePackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePackagingGroupRequest,
-    output: UpdatePackagingGroupResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
- * Changes the packaging group's properities to configure log subscription
- */
-export const configureLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ConfigureLogsRequest,
-  output: ConfigureLogsResponse,
-  errors: [
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Creates a new MediaPackage VOD Asset resource.
- */
-export const createAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAssetRequest,
-  output: CreateAssetResponse,
-  errors: [
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Creates a new MediaPackage VOD PackagingGroup resource.
- */
-export const createPackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePackagingGroupRequest,
-    output: CreatePackagingGroupResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
-/**
  * Deletes an existing MediaPackage VOD Asset resource.
  */
 export const deleteAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1020,39 +923,6 @@ export const deleteAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnprocessableEntityException,
   ],
 }));
-/**
- * Deletes a MediaPackage VOD PackagingConfiguration resource.
- */
-export const deletePackagingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePackagingConfigurationRequest,
-    output: DeletePackagingConfigurationResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }));
-/**
- * Deletes a MediaPackage VOD PackagingGroup resource.
- */
-export const deletePackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePackagingGroupRequest,
-    output: DeletePackagingGroupResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
 /**
  * Returns a description of a MediaPackage VOD Asset resource.
  */
@@ -1115,6 +985,136 @@ export const listPackagingGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnprocessableEntityException,
   ],
 }));
+/**
+ * Returns a description of a MediaPackage VOD PackagingConfiguration resource.
+ */
+export const describePackagingConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribePackagingConfigurationRequest,
+    output: DescribePackagingConfigurationResponse,
+    errors: [
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }));
+/**
+ * Returns a description of a MediaPackage VOD PackagingGroup resource.
+ */
+export const describePackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribePackagingGroupRequest,
+    output: DescribePackagingGroupResponse,
+    errors: [
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
+ */
+export const updatePackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePackagingGroupRequest,
+    output: UpdatePackagingGroupResponse,
+    errors: [
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Deletes a MediaPackage VOD PackagingConfiguration resource.
+ */
+export const deletePackagingConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeletePackagingConfigurationRequest,
+    output: DeletePackagingConfigurationResponse,
+    errors: [
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }));
+/**
+ * Deletes a MediaPackage VOD PackagingGroup resource.
+ */
+export const deletePackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePackagingGroupRequest,
+    output: DeletePackagingGroupResponse,
+    errors: [
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
+/**
+ * Changes the packaging group's properities to configure log subscription
+ */
+export const configureLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfigureLogsRequest,
+  output: ConfigureLogsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Creates a new MediaPackage VOD Asset resource.
+ */
+export const createAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssetRequest,
+  output: CreateAssetResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Creates a new MediaPackage VOD PackagingGroup resource.
+ */
+export const createPackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePackagingGroupRequest,
+    output: CreatePackagingGroupResponse,
+    errors: [
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceUnavailableException,
+      TooManyRequestsException,
+      UnprocessableEntityException,
+    ],
+  }),
+);
 /**
  * Creates a new MediaPackage VOD PackagingConfiguration resource.
  */

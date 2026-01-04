@@ -910,58 +910,144 @@ export class DescribeCanariesResponse extends S.Class<DescribeCanariesResponse>(
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
-  "InternalFailureException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
+  { Message: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.optional(S.String) },
+) {}
+export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
+  "InternalFailureException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { Message: S.optional(S.String) },
+) {}
 export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityTooLargeException>()(
   "RequestEntityTooLargeException",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
   { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Use this operation to run a canary that has already been created.
- * The frequency of the canary runs is determined by the value of the canary's `Schedule`. To see a canary's schedule,
- * use GetCanary.
+ * Use this operation to see information from the most recent run of each canary that you have created.
+ *
+ * This operation supports resource-level authorization using an IAM policy and
+ * the `Names` parameter. If you specify the `Names` parameter, the operation is successful only if you have authorization to view
+ * all the canaries that you specify in your request. If you do not have permission to view any of
+ * the canaries, the request fails with a 403 response.
+ *
+ * You are required to use the `Names` parameter if you are logged on to a user or role that has an
+ * IAM policy that restricts which canaries that you are allowed to view. For more information,
+ * see
+ * Limiting a user to viewing specific canaries.
  */
-export const startCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartCanaryRequest,
-  output: StartCanaryResponse,
+export const describeCanariesLastRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCanariesLastRunRequest,
+    output: DescribeCanariesLastRunResponse,
+    errors: [InternalServerException, ValidationException],
+  }),
+);
+/**
+ * Retrieves a list of runs for a specified canary.
+ */
+export const getCanaryRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCanaryRunsRequest,
+  output: GetCanaryRunsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Use this operation to start a dry run for a canary that has already been created
+ */
+export const startCanaryDryRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCanaryDryRunRequest,
+  output: StartCanaryDryRunResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration of a canary that has already been created.
+ *
+ * For multibrowser canaries, you can add or remove browsers by updating the browserConfig list in the update call. For example:
+ *
+ * - To add Firefox to a canary that currently uses Chrome, specify browserConfigs as [CHROME, FIREFOX]
+ *
+ * - To remove Firefox and keep only Chrome, specify browserConfigs as [CHROME]
+ *
+ * You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use
+ * TagResource.
+ *
+ * When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
+ */
+export const updateCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCanaryRequest,
+  output: UpdateCanaryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestEntityTooLargeException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of the groups that the specified canary is associated with. The canary
+ * that you specify must be in the current Region.
+ */
+export const listAssociatedGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAssociatedGroupsRequest,
+    output: ListAssociatedGroupsResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns information about one group. Groups are a global resource, so you can use this operation from
+ * any Region.
+ */
+export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGroupRequest,
+  output: GetGroupResponse,
   errors: [
     ConflictException,
     InternalServerException,
@@ -970,16 +1056,11 @@ export const startCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Stops the canary to prevent all future runs. If the canary is currently running,the
- * run that is in progress completes on its own, publishes metrics, and uploads artifacts, but
- * it is not recorded in Synthetics as a completed run.
- *
- * You can use `StartCanary` to start it running again
- * with the canary’s current schedule at any point in the future.
+ * This operation returns a list of the ARNs of the canaries that are associated with the specified group.
  */
-export const stopCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopCanaryRequest,
-  output: StopCanaryResponse,
+export const listGroupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupResourcesRequest,
+  output: ListGroupResourcesResponse,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1058,22 +1139,13 @@ export const disassociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves complete information about one canary. You must specify
- * the name of the canary that you want. To get a list of canaries
- * and their names, use DescribeCanaries.
+ * Use this operation to run a canary that has already been created.
+ * The frequency of the canary runs is determined by the value of the canary's `Schedule`. To see a canary's schedule,
+ * use GetCanary.
  */
-export const getCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCanaryRequest,
-  output: GetCanaryResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Returns information about one group. Groups are a global resource, so you can use this operation from
- * any Region.
- */
-export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetGroupRequest,
-  output: GetGroupResponse,
+export const startCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCanaryRequest,
+  output: StartCanaryResponse,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1082,39 +1154,21 @@ export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This operation returns a list of the ARNs of the canaries that are associated with the specified group.
+ * Stops the canary to prevent all future runs. If the canary is currently running,the
+ * run that is in progress completes on its own, publishes metrics, and uploads artifacts, but
+ * it is not recorded in Synthetics as a completed run.
+ *
+ * You can use `StartCanary` to start it running again
+ * with the canary’s current schedule at any point in the future.
  */
-export const listGroupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGroupResourcesRequest,
-  output: ListGroupResourcesResponse,
+export const stopCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopCanaryRequest,
+  output: StopCanaryResponse,
   errors: [
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
-  ],
-}));
-/**
- * Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups
- * from all Regions are returned.
- */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGroupsRequest,
-  output: ListGroupsResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Removes one or more tags from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalFailureException,
-    NotFoundException,
-    TooManyRequestsException,
   ],
 }));
 /**
@@ -1134,6 +1188,37 @@ export const associateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceQuotaExceededException,
     ValidationException,
   ],
+}));
+/**
+ * Returns a list of Synthetics canary runtime versions. For more information,
+ * see
+ * Canary Runtime Versions.
+ */
+export const describeRuntimeVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeRuntimeVersionsRequest,
+    output: DescribeRuntimeVersionsResponse,
+    errors: [InternalServerException, ValidationException],
+  }),
+);
+/**
+ * Retrieves complete information about one canary. You must specify
+ * the name of the canary that you want. To get a list of canaries
+ * and their names, use DescribeCanaries.
+ */
+export const getCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCanaryRequest,
+  output: GetCanaryResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups
+ * from all Regions are returned.
+ */
+export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupsRequest,
+  output: ListGroupsResponse,
+  errors: [InternalServerException, ValidationException],
 }));
 /**
  * Creates a group which you can use to associate canaries with each other, including cross-Region
@@ -1160,122 +1245,6 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Use this operation to see information from the most recent run of each canary that you have created.
- *
- * This operation supports resource-level authorization using an IAM policy and
- * the `Names` parameter. If you specify the `Names` parameter, the operation is successful only if you have authorization to view
- * all the canaries that you specify in your request. If you do not have permission to view any of
- * the canaries, the request fails with a 403 response.
- *
- * You are required to use the `Names` parameter if you are logged on to a user or role that has an
- * IAM policy that restricts which canaries that you are allowed to view. For more information,
- * see
- * Limiting a user to viewing specific canaries.
- */
-export const describeCanariesLastRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCanariesLastRunRequest,
-    output: DescribeCanariesLastRunResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
-/**
- * Returns a list of Synthetics canary runtime versions. For more information,
- * see
- * Canary Runtime Versions.
- */
-export const describeRuntimeVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRuntimeVersionsRequest,
-    output: DescribeRuntimeVersionsResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
-/**
- * Returns a list of the groups that the specified canary is associated with. The canary
- * that you specify must be in the current Region.
- */
-export const listAssociatedGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAssociatedGroupsRequest,
-    output: ListAssociatedGroupsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Displays the tags associated with a canary or group.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalFailureException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Assigns one or more tags (key-value pairs) to the specified canary or group.
- *
- * Tags can help you organize and categorize your
- * resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with
- * certain tag values.
- *
- * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.
- *
- * You can use the `TagResource` action with a resource that already has tags. If you specify a new
- * tag key for the resource,
- * this tag is appended to the list of tags associated
- * with the resource. If you specify a tag key that is already associated with the resource, the new tag
- * value that you specify replaces
- * the previous value for that tag.
- *
- * You can associate as many as 50 tags with a canary or group.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalFailureException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the configuration of a canary that has already been created.
- *
- * For multibrowser canaries, you can add or remove browsers by updating the browserConfig list in the update call. For example:
- *
- * - To add Firefox to a canary that currently uses Chrome, specify browserConfigs as [CHROME, FIREFOX]
- *
- * - To remove Firefox and keep only Chrome, specify browserConfigs as [CHROME]
- *
- * You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use
- * TagResource.
- *
- * When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
- */
-export const updateCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCanaryRequest,
-  output: UpdateCanaryResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    RequestEntityTooLargeException,
-    ResourceNotFoundException,
     ValidationException,
   ],
 }));
@@ -1308,32 +1277,6 @@ export const createCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves a list of runs for a specified canary.
- */
-export const getCanaryRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCanaryRunsRequest,
-  output: GetCanaryRunsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Use this operation to start a dry run for a canary that has already been created
- */
-export const startCanaryDryRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartCanaryDryRunRequest,
-  output: StartCanaryDryRunResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * This operation returns a list of the canaries in your account, along with full details
  * about each canary.
  *
@@ -1351,4 +1294,61 @@ export const describeCanaries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCanariesRequest,
   output: DescribeCanariesResponse,
   errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Assigns one or more tags (key-value pairs) to the specified canary or group.
+ *
+ * Tags can help you organize and categorize your
+ * resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with
+ * certain tag values.
+ *
+ * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.
+ *
+ * You can use the `TagResource` action with a resource that already has tags. If you specify a new
+ * tag key for the resource,
+ * this tag is appended to the list of tags associated
+ * with the resource. If you specify a tag key that is already associated with the resource, the new tag
+ * value that you specify replaces
+ * the previous value for that tag.
+ *
+ * You can associate as many as 50 tags with a canary or group.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Removes one or more tags from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Displays the tags associated with a canary or group.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
 }));

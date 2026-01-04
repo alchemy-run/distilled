@@ -1692,230 +1692,202 @@ export class CreateLicenseAssetRulesetResponse extends S.Class<CreateLicenseAsse
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ServiceAccessDenied", httpResponseCode: 401 }),
 ) {}
 export class AuthorizationException extends S.TaggedError<AuthorizationException>()(
   "AuthorizationException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "AuthorizationFailure", httpResponseCode: 403 }),
-) {}
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
-  "InvalidParameterValueException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidParameterValueProvided",
-    httpResponseCode: 400,
-  }),
-) {}
-export class RateLimitExceededException extends S.TaggedError<RateLimitExceededException>()(
-  "RateLimitExceededException",
-  {},
-  T.AwsQueryError({ code: "RateLimitExceeded", httpResponseCode: 429 }),
-) {}
-export class ServerInternalException extends S.TaggedError<ServerInternalException>()(
-  "ServerInternalException",
-  {},
-  T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
-  "ResourceLimitExceededException",
-  {},
-  T.AwsQueryError({ code: "ResourceLimitExceeded", httpResponseCode: 400 }),
-) {}
-export class RedirectException extends S.TaggedError<RedirectException>()(
-  "RedirectException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-  T.AwsQueryError({ code: "InvalidResource.NotFound", httpResponseCode: 400 }),
-) {}
-export class NoEntitlementsAllowedException extends S.TaggedError<NoEntitlementsAllowedException>()(
-  "NoEntitlementsAllowedException",
-  { Message: S.optional(S.String) },
-) {}
-export class FilterLimitExceededException extends S.TaggedError<FilterLimitExceededException>()(
-  "FilterLimitExceededException",
-  {},
-  T.AwsQueryError({ code: "FilterLimitExceeded", httpResponseCode: 400 }),
-) {}
-export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
-  "InvalidResourceStateException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidResourceState", httpResponseCode: 400 }),
 ) {}
 export class EntitlementNotAllowedException extends S.TaggedError<EntitlementNotAllowedException>()(
   "EntitlementNotAllowedException",
   { Message: S.optional(S.String) },
 ) {}
-export class UnsupportedDigitalSignatureMethodException extends S.TaggedError<UnsupportedDigitalSignatureMethodException>()(
-  "UnsupportedDigitalSignatureMethodException",
-  {},
-) {}
-export class LicenseUsageException extends S.TaggedError<LicenseUsageException>()(
-  "LicenseUsageException",
+export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
+  "InvalidParameterValueException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "LicenseUsageFailure", httpResponseCode: 412 }),
+  T.AwsQueryError({
+    code: "InvalidParameterValueProvided",
+    httpResponseCode: 400,
+  }),
+) {}
+export class FilterLimitExceededException extends S.TaggedError<FilterLimitExceededException>()(
+  "FilterLimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "FilterLimitExceeded", httpResponseCode: 400 }),
+) {}
+export class RateLimitExceededException extends S.TaggedError<RateLimitExceededException>()(
+  "RateLimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "RateLimitExceeded", httpResponseCode: 429 }),
 ) {}
 export class FailedDependencyException extends S.TaggedError<FailedDependencyException>()(
   "FailedDependencyException",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
   T.AwsQueryError({ code: "FailedDependency", httpResponseCode: 424 }),
 ) {}
+export class ServerInternalException extends S.TaggedError<ServerInternalException>()(
+  "ServerInternalException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
+) {}
+export class RedirectException extends S.TaggedError<RedirectException>()(
+  "RedirectException",
+  {
+    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
+    Message: S.optional(S.String),
+  },
+) {}
+export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
+  "InvalidResourceStateException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidResourceState", httpResponseCode: 400 }),
+) {}
+export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
+  "ResourceLimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceLimitExceeded", httpResponseCode: 400 }),
+) {}
+export class NoEntitlementsAllowedException extends S.TaggedError<NoEntitlementsAllowedException>()(
+  "NoEntitlementsAllowedException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidResource.NotFound", httpResponseCode: 400 }),
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class LicenseUsageException extends S.TaggedError<LicenseUsageException>()(
+  "LicenseUsageException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "LicenseUsageFailure", httpResponseCode: 412 }),
+) {}
+export class UnsupportedDigitalSignatureMethodException extends S.TaggedError<UnsupportedDigitalSignatureMethodException>()(
+  "UnsupportedDigitalSignatureMethodException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
 /**
- * Updates License Manager settings for the current Region.
+ * Modifies the attributes of an existing license configuration.
  */
-export const updateServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateServiceSettingsRequest,
-    output: UpdateServiceSettingsResponse,
+    input: UpdateLicenseConfigurationRequest,
+    output: UpdateLicenseConfigurationResponse,
     errors: [
       AccessDeniedException,
       AuthorizationException,
       ConflictException,
       InvalidParameterValueException,
       RateLimitExceededException,
+      ResourceLimitExceededException,
       ServerInternalException,
-      ValidationException,
     ],
   }),
 );
 /**
- * Accepts the specified grant.
+ * Gets detailed information about the specified license configuration.
  */
-export const acceptGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AcceptGrantRequest,
-  output: AcceptGrantResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ResourceLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new version of the specified license.
- */
-export const createLicenseVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateLicenseVersionRequest,
-    output: CreateLicenseVersionResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      ConflictException,
-      RateLimitExceededException,
-      RedirectException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a long-lived token.
- *
- * A refresh token is a JWT token used to get an access token. With an access token,
- * you can call AssumeRoleWithWebIdentity to get role credentials that you can use to
- * call License Manager to manage the specified license.
- */
-export const createToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTokenRequest,
-  output: CreateTokenResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    RateLimitExceededException,
-    RedirectException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified grant.
- */
-export const deleteGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGrantRequest,
-  output: DeleteGrantResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ResourceLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified license.
- */
-export const deleteLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLicenseRequest,
-  output: DeleteLicenseResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    ConflictException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    RedirectException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a license asset group.
- */
-export const deleteLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLicenseAssetGroupRequest,
-    output: DeleteLicenseAssetGroupResponse,
+    input: GetLicenseConfigurationRequest,
+    output: GetLicenseConfigurationResponse,
     errors: [
       AccessDeniedException,
       AuthorizationException,
       InvalidParameterValueException,
       RateLimitExceededException,
       ServerInternalException,
-      ValidationException,
     ],
   }),
 );
 /**
- * Deletes a license asset ruleset.
+ * Lists the license configuration operations that failed.
  */
-export const deleteLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLicenseAssetRulesetRequest,
-    output: DeleteLicenseAssetRulesetResponse,
+export const listFailuresForLicenseConfigurationOperations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListFailuresForLicenseConfigurationOperationsRequest,
+    output: ListFailuresForLicenseConfigurationOperationsResponse,
     errors: [
       AccessDeniedException,
       AuthorizationException,
       InvalidParameterValueException,
       RateLimitExceededException,
       ServerInternalException,
-      ValidationException,
+    ],
+  }));
+/**
+ * Lists the license type conversion tasks for your account.
+ */
+export const listLicenseConversionTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListLicenseConversionTasksRequest,
+    output: ListLicenseConversionTasksResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
     ],
   }),
 );
+/**
+ * Gets information about the specified license type conversion task.
+ */
+export const getLicenseConversionTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetLicenseConversionTaskRequest,
+    output: GetLicenseConversionTaskResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+    ],
+  }),
+);
+/**
+ * Describes the license configurations for the specified resource.
+ */
+export const listLicenseSpecificationsForResource =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListLicenseSpecificationsForResourceRequest,
+    output: ListLicenseSpecificationsForResourceResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+    ],
+  }));
+/**
+ * Lists all versions of the specified license.
+ */
+export const listLicenseVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLicenseVersionsRequest,
+  output: ListLicenseVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Deletes the specified license configuration.
  *
@@ -1935,42 +1907,166 @@ export const deleteLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the specified report generator.
- *
- * This action deletes the report generator, which stops it from generating future reports.
- * The action cannot be reversed. It has no effect on the previous reports from this generator.
+ * Lists the license configurations for your account.
  */
-export const deleteLicenseManagerReportGenerator =
+export const listLicenseConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListLicenseConfigurationsRequest,
+    output: ListLicenseConfigurationsResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      FilterLimitExceededException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+    ],
+  }),
+);
+/**
+ * Lists all license usage records for a license configuration, displaying license
+ * consumption details by resource at a selected point in time. Use this action to audit the
+ * current license consumption for any license inventory and configuration.
+ */
+export const listUsageForLicenseConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLicenseManagerReportGeneratorRequest,
-    output: DeleteLicenseManagerReportGeneratorResponse,
+    input: ListUsageForLicenseConfigurationRequest,
+    output: ListUsageForLicenseConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      FilterLimitExceededException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+    ],
+  }));
+/**
+ * Lists license configurations for an organization.
+ */
+export const listLicenseConfigurationsForOrganization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListLicenseConfigurationsForOrganizationRequest,
+    output: ListLicenseConfigurationsForOrganizationResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      FilterLimitExceededException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+    ],
+  }));
+/**
+ * Lists the resource associations for the specified license configuration.
+ *
+ * Resource associations need not consume licenses from a license configuration.
+ * For example, an AMI or a stopped instance might not consume a license (depending on
+ * the license rules).
+ */
+export const listAssociationsForLicenseConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAssociationsForLicenseConfigurationRequest,
+    output: ListAssociationsForLicenseConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      FilterLimitExceededException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+    ],
+  }));
+/**
+ * Gets the License Manager settings for the current Region.
+ */
+export const getServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceSettingsRequest,
+  output: GetServiceSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
+/**
+ * Lists resources managed using Systems Manager inventory.
+ */
+export const listResourceInventory = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListResourceInventoryRequest,
+    output: ListResourceInventoryResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      FailedDependencyException,
+      FilterLimitExceededException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+    ],
+  }),
+);
+/**
+ * Creates a license configuration.
+ *
+ * A license configuration is an abstraction of a customer license agreement that can be
+ * consumed and enforced by License Manager. Components include specifications for the license
+ * type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy,
+ * Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a
+ * license must be associated with a host), and the number of licenses purchased and used.
+ */
+export const createLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateLicenseConfigurationRequest,
+    output: CreateLicenseConfigurationResponse,
     errors: [
       AccessDeniedException,
       AuthorizationException,
       InvalidParameterValueException,
       RateLimitExceededException,
       ResourceLimitExceededException,
-      ResourceNotFoundException,
       ServerInternalException,
-      ValidationException,
     ],
-  }));
+  }),
+);
 /**
- * Deletes the specified token. Must be called in the license home Region.
+ * Lists your tokens.
  */
-export const deleteToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTokenRequest,
-  output: DeleteTokenResponse,
+export const listTokens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTokensRequest,
+  output: ListTokensResponse,
   errors: [
     AccessDeniedException,
     AuthorizationException,
     RateLimitExceededException,
-    RedirectException,
-    ResourceNotFoundException,
     ServerInternalException,
     ValidationException,
   ],
 }));
+/**
+ * Adds or removes the specified license configurations for the specified Amazon Web Services resource.
+ *
+ * You can update the license specifications of AMIs, instances, and hosts.
+ * You cannot update the license specifications for launch templates and CloudFormation templates,
+ * as they send license configurations to the operation that creates the resource.
+ */
+export const updateLicenseSpecificationsForResource =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateLicenseSpecificationsForResourceRequest,
+    output: UpdateLicenseSpecificationsForResourceResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      ConflictException,
+      InvalidParameterValueException,
+      InvalidResourceStateException,
+      LicenseUsageException,
+      RateLimitExceededException,
+      ServerInternalException,
+    ],
+  }));
 /**
  * Extends the expiration date for license consumption.
  */
@@ -1990,33 +2086,104 @@ export const extendLicenseConsumption = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens
- * are valid for one hour.
+ * Updates License Manager settings for the current Region.
  */
-export const getAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccessTokenRequest,
-  output: GetAccessTokenResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    RateLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about the specified license type conversion task.
- */
-export const getLicenseConversionTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetLicenseConversionTaskRequest,
-    output: GetLicenseConversionTaskResponse,
+    input: UpdateServiceSettingsRequest,
+    output: UpdateServiceSettingsResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      ConflictException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a license asset group.
+ */
+export const createLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateLicenseAssetGroupRequest,
+    output: CreateLicenseAssetGroupResponse,
     errors: [
       AccessDeniedException,
       AuthorizationException,
       InvalidParameterValueException,
       RateLimitExceededException,
       ServerInternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets a license asset group.
+ */
+export const getLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetLicenseAssetGroupRequest,
+    output: GetLicenseAssetGroupResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets a license asset ruleset.
+ */
+export const getLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetLicenseAssetRulesetRequest,
+    output: GetLicenseAssetRulesetResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists assets for a license asset group.
+ */
+export const listAssetsForLicenseAssetGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAssetsForLicenseAssetGroupRequest,
+    output: ListAssetsForLicenseAssetGroupResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes a license asset group.
+ */
+export const deleteLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteLicenseAssetGroupRequest,
+    output: DeleteLicenseAssetGroupResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+      ValidationException,
     ],
   }),
 );
@@ -2055,6 +2222,343 @@ export const listLicenseAssetRulesets = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Lists the licenses for your account.
+ */
+export const listLicenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLicensesRequest,
+  output: ListLicensesResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the tags for the specified resource. For more information about tagging support in
+ * License Manager, see the TagResource operation.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a license asset group.
+ */
+export const updateLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateLicenseAssetGroupRequest,
+    output: UpdateLicenseAssetGroupResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a license asset ruleset.
+ */
+export const updateLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateLicenseAssetRulesetRequest,
+    output: UpdateLicenseAssetRulesetResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a license asset ruleset.
+ */
+export const deleteLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteLicenseAssetRulesetRequest,
+    output: DeleteLicenseAssetRulesetResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Adds the specified tags to the specified resource. The following resources support
+ * tagging in License Manager:
+ *
+ * - Licenses
+ *
+ * - Grants
+ *
+ * - License configurations
+ *
+ * - Report generators
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the specified tags from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens
+ * are valid for one hour.
+ */
+export const getAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccessTokenRequest,
+  output: GetAccessTokenResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new license conversion task.
+ */
+export const createLicenseConversionTaskForResource =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateLicenseConversionTaskForResourceRequest,
+    output: CreateLicenseConversionTaskForResourceResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets detailed information about the specified license.
+ */
+export const getLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLicenseRequest,
+  output: GetLicenseResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets detailed information about the usage of the specified license.
+ */
+export const getLicenseUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLicenseUsageRequest,
+  output: GetLicenseUsageResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified license.
+ */
+export const deleteLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLicenseRequest,
+  output: DeleteLicenseResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    ConflictException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    RedirectException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a long-lived token.
+ *
+ * A refresh token is a JWT token used to get an access token. With an access token,
+ * you can call AssumeRoleWithWebIdentity to get role credentials that you can use to
+ * call License Manager to manage the specified license.
+ */
+export const createToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTokenRequest,
+  output: CreateTokenResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    RateLimitExceededException,
+    RedirectException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified token. Must be called in the license home Region.
+ */
+export const deleteToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTokenRequest,
+  output: DeleteTokenResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    RateLimitExceededException,
+    RedirectException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a license.
+ */
+export const createLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLicenseRequest,
+  output: CreateLicenseResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    RedirectException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new version of the specified grant. For more information, see
+ * Granted licenses in License Manager in the *License Manager User Guide*.
+ */
+export const createGrantVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGrantVersionRequest,
+  output: CreateGrantVersionResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a report generator.
+ */
+export const createLicenseManagerReportGenerator =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateLicenseManagerReportGeneratorRequest,
+    output: CreateLicenseManagerReportGeneratorResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ResourceLimitExceededException,
+      ResourceNotFoundException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets detailed information about the specified grant.
+ */
+export const getGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGrantRequest,
+  output: GetGrantResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the grants distributed for the specified license.
+ */
+export const listDistributedGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDistributedGrantsRequest,
+    output: ListDistributedGrantsResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
+      InvalidParameterValueException,
+      RateLimitExceededException,
+      ResourceLimitExceededException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified grant.
+ */
+export const deleteGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGrantRequest,
+  output: DeleteGrantResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists the report generators for your account.
  */
 export const listLicenseManagerReportGenerators =
@@ -2072,50 +2576,6 @@ export const listLicenseManagerReportGenerators =
       ValidationException,
     ],
   }));
-/**
- * Lists the licenses for your account.
- */
-export const listLicenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLicensesRequest,
-  output: ListLicensesResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Describes the license configurations for the specified resource.
- */
-export const listLicenseSpecificationsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListLicenseSpecificationsForResourceRequest,
-    output: ListLicenseSpecificationsForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
-/**
- * Lists all versions of the specified license.
- */
-export const listLicenseVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLicenseVersionsRequest,
-  output: ListLicenseVersionsResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ServerInternalException,
-  ],
-}));
 /**
  * Lists grants that are received. Received grants are grants created while specifying the
  * recipient as this Amazon Web Services account, your organization, or an organizational unit
@@ -2169,22 +2629,6 @@ export const listReceivedLicensesForOrganization =
     ],
   }));
 /**
- * Lists the tags for the specified resource. For more information about tagging support in
- * License Manager, see the TagResource operation.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
  * Rejects the specified grant.
  */
 export const rejectGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2201,96 +2645,26 @@ export const rejectGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Adds the specified tags to the specified resource. The following resources support
- * tagging in License Manager:
+ * Deletes the specified report generator.
  *
- * - Licenses
- *
- * - Grants
- *
- * - License configurations
- *
- * - Report generators
+ * This action deletes the report generator, which stops it from generating future reports.
+ * The action cannot be reversed. It has no effect on the previous reports from this generator.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the specified tags from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a license asset group.
- */
-export const updateLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLicenseAssetGroupRequest,
-    output: UpdateLicenseAssetGroupResponse,
+export const deleteLicenseManagerReportGenerator =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteLicenseManagerReportGeneratorRequest,
+    output: DeleteLicenseManagerReportGeneratorResponse,
     errors: [
       AccessDeniedException,
       AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a license asset ruleset.
- */
-export const updateLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLicenseAssetRulesetRequest,
-    output: UpdateLicenseAssetRulesetResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Modifies the attributes of an existing license configuration.
- */
-export const updateLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLicenseConfigurationRequest,
-    output: UpdateLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      ConflictException,
       InvalidParameterValueException,
       RateLimitExceededException,
       ResourceLimitExceededException,
+      ResourceNotFoundException,
       ServerInternalException,
+      ValidationException,
     ],
-  }),
-);
+  }));
 /**
  * Updates a report generator.
  *
@@ -2312,18 +2686,17 @@ export const updateLicenseManagerReportGenerator =
     ],
   }));
 /**
- * Checks in the specified license. Check in a license when it is no longer in use.
+ * Accepts the specified grant.
  */
-export const checkInLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CheckInLicenseRequest,
-  output: CheckInLicenseResponse,
+export const acceptGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptGrantRequest,
+  output: AcceptGrantResponse,
   errors: [
     AccessDeniedException,
     AuthorizationException,
-    ConflictException,
     InvalidParameterValueException,
     RateLimitExceededException,
-    ResourceNotFoundException,
+    ResourceLimitExceededException,
     ServerInternalException,
     ValidationException,
   ],
@@ -2347,46 +2720,12 @@ export const createGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a new version of the specified grant. For more information, see
- * Granted licenses in License Manager in the *License Manager User Guide*.
+ * Gets information about the specified report generator.
  */
-export const createGrantVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGrantVersionRequest,
-  output: CreateGrantVersionResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ResourceLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a license asset group.
- */
-export const createLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLicenseAssetGroupRequest,
-    output: CreateLicenseAssetGroupResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a report generator.
- */
-export const createLicenseManagerReportGenerator =
+export const getLicenseManagerReportGenerator =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLicenseManagerReportGeneratorRequest,
-    output: CreateLicenseManagerReportGeneratorResponse,
+    input: GetLicenseManagerReportGeneratorRequest,
+    output: GetLicenseManagerReportGeneratorResponse,
     errors: [
       AccessDeniedException,
       AuthorizationException,
@@ -2399,114 +2738,12 @@ export const createLicenseManagerReportGenerator =
     ],
   }));
 /**
- * Gets detailed information about the specified grant.
+ * Lists received licenses.
  */
-export const getGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetGrantRequest,
-  output: GetGrantResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ResourceLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets a license asset group.
- */
-export const getLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listReceivedLicenses = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetLicenseAssetGroupRequest,
-    output: GetLicenseAssetGroupResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets a license asset ruleset.
- */
-export const getLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLicenseAssetRulesetRequest,
-    output: GetLicenseAssetRulesetResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets detailed information about the specified license configuration.
- */
-export const getLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLicenseConfigurationRequest,
-    output: GetLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
-/**
- * Lists assets for a license asset group.
- */
-export const listAssetsForLicenseAssetGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAssetsForLicenseAssetGroupRequest,
-    output: ListAssetsForLicenseAssetGroupResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the resource associations for the specified license configuration.
- *
- * Resource associations need not consume licenses from a license configuration.
- * For example, an AMI or a stopped instance might not consume a license (depending on
- * the license rules).
- */
-export const listAssociationsForLicenseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAssociationsForLicenseConfigurationRequest,
-    output: ListAssociationsForLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      FilterLimitExceededException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
-/**
- * Lists the grants distributed for the specified license.
- */
-export const listDistributedGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDistributedGrantsRequest,
-    output: ListDistributedGrantsResponse,
+    input: ListReceivedLicensesRequest,
+    output: ListReceivedLicensesResponse,
     errors: [
       AccessDeniedException,
       AuthorizationException,
@@ -2519,101 +2756,58 @@ export const listDistributedGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists the license configuration operations that failed.
+ * Checks in the specified license. Check in a license when it is no longer in use.
  */
-export const listFailuresForLicenseConfigurationOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListFailuresForLicenseConfigurationOperationsRequest,
-    output: ListFailuresForLicenseConfigurationOperationsResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
-/**
- * Lists the license configurations for your account.
- */
-export const listLicenseConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLicenseConfigurationsRequest,
-    output: ListLicenseConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      FilterLimitExceededException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
-/**
- * Lists license configurations for an organization.
- */
-export const listLicenseConfigurationsForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListLicenseConfigurationsForOrganizationRequest,
-    output: ListLicenseConfigurationsForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      FilterLimitExceededException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
-/**
- * Lists the license type conversion tasks for your account.
- */
-export const listLicenseConversionTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLicenseConversionTasksRequest,
-    output: ListLicenseConversionTasksResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
-/**
- * Lists your tokens.
- */
-export const listTokens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTokensRequest,
-  output: ListTokensResponse,
+export const checkInLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CheckInLicenseRequest,
+  output: CheckInLicenseResponse,
   errors: [
     AccessDeniedException,
     AuthorizationException,
+    ConflictException,
+    InvalidParameterValueException,
     RateLimitExceededException,
+    ResourceNotFoundException,
     ServerInternalException,
     ValidationException,
   ],
 }));
 /**
- * Lists all license usage records for a license configuration, displaying license
- * consumption details by resource at a selected point in time. Use this action to audit the
- * current license consumption for any license inventory and configuration.
+ * Creates a new version of the specified license.
  */
-export const listUsageForLicenseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListUsageForLicenseConfigurationRequest,
-    output: ListUsageForLicenseConfigurationResponse,
+export const createLicenseVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateLicenseVersionRequest,
+    output: CreateLicenseVersionResponse,
     errors: [
       AccessDeniedException,
       AuthorizationException,
-      FilterLimitExceededException,
+      ConflictException,
+      RateLimitExceededException,
+      RedirectException,
+      ResourceNotFoundException,
+      ServerInternalException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a license asset ruleset.
+ */
+export const createLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateLicenseAssetRulesetRequest,
+    output: CreateLicenseAssetRulesetResponse,
+    errors: [
+      AccessDeniedException,
+      AuthorizationException,
       InvalidParameterValueException,
       RateLimitExceededException,
       ServerInternalException,
+      ValidationException,
     ],
-  }));
+  }),
+);
 /**
  * Checks out the specified license for offline use.
  */
@@ -2658,194 +2852,3 @@ export const checkoutLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Creates a license.
- */
-export const createLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLicenseRequest,
-  output: CreateLicenseResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    RedirectException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a license configuration.
- *
- * A license configuration is an abstraction of a customer license agreement that can be
- * consumed and enforced by License Manager. Components include specifications for the license
- * type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy,
- * Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a
- * license must be associated with a host), and the number of licenses purchased and used.
- */
-export const createLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLicenseConfigurationRequest,
-    output: CreateLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
-/**
- * Creates a new license conversion task.
- */
-export const createLicenseConversionTaskForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLicenseConversionTaskForResourceRequest,
-    output: CreateLicenseConversionTaskForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets detailed information about the specified license.
- */
-export const getLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLicenseRequest,
-  output: GetLicenseResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about the specified report generator.
- */
-export const getLicenseManagerReportGenerator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetLicenseManagerReportGeneratorRequest,
-    output: GetLicenseManagerReportGeneratorResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets detailed information about the usage of the specified license.
- */
-export const getLicenseUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLicenseUsageRequest,
-  output: GetLicenseUsageResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    InvalidParameterValueException,
-    RateLimitExceededException,
-    ServerInternalException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists received licenses.
- */
-export const listReceivedLicenses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListReceivedLicensesRequest,
-    output: ListReceivedLicensesResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Adds or removes the specified license configurations for the specified Amazon Web Services resource.
- *
- * You can update the license specifications of AMIs, instances, and hosts.
- * You cannot update the license specifications for launch templates and CloudFormation templates,
- * as they send license configurations to the operation that creates the resource.
- */
-export const updateLicenseSpecificationsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateLicenseSpecificationsForResourceRequest,
-    output: UpdateLicenseSpecificationsForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      ConflictException,
-      InvalidParameterValueException,
-      InvalidResourceStateException,
-      LicenseUsageException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
-/**
- * Gets the License Manager settings for the current Region.
- */
-export const getServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetServiceSettingsRequest,
-  output: GetServiceSettingsResponse,
-  errors: [
-    AccessDeniedException,
-    AuthorizationException,
-    RateLimitExceededException,
-    ServerInternalException,
-  ],
-}));
-/**
- * Lists resources managed using Systems Manager inventory.
- */
-export const listResourceInventory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResourceInventoryRequest,
-    output: ListResourceInventoryResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      FailedDependencyException,
-      FilterLimitExceededException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
-/**
- * Creates a license asset ruleset.
- */
-export const createLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLicenseAssetRulesetRequest,
-    output: CreateLicenseAssetRulesetResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);

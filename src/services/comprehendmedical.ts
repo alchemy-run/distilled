@@ -809,84 +809,100 @@ export class InferSNOMEDCTResponse extends S.Class<InferSNOMEDCTResponse>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidEncodingException extends S.TaggedError<InvalidEncodingException>()(
   "InvalidEncodingException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { Message: S.optional(S.String) },
 ) {}
 export class TextSizeLimitExceededException extends S.TaggedError<TextSizeLimitExceededException>()(
   "TextSizeLimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Gets a list of protected health information (PHI) detection jobs you have
- * submitted.
+ * Starts an asynchronous medical entity detection job for a collection of documents. Use the
+ * `DescribeEntitiesDetectionV2Job` operation to track the status of a job.
  */
-export const listPHIDetectionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const startEntitiesDetectionV2Job = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListPHIDetectionJobsRequest,
-    output: ListPHIDetectionJobsResponse,
+    input: StartEntitiesDetectionV2JobRequest,
+    output: StartEntitiesDetectionV2JobResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
+      ResourceNotFoundException,
       TooManyRequestsException,
-      ValidationException,
     ],
   }),
 );
 /**
- * Gets a list of InferRxNorm jobs that you have submitted.
+ * Gets the properties associated with a protected health information (PHI) detection job.
+ * Use this operation to get the status of a detection job.
  */
-export const listRxNormInferenceJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describePHIDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListRxNormInferenceJobsRequest,
-    output: ListRxNormInferenceJobsResponse,
+    input: DescribePHIDetectionJobRequest,
+    output: DescribePHIDetectionJobResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
+      ResourceNotFoundException,
       TooManyRequestsException,
-      ValidationException,
     ],
   }),
 );
 /**
- * Gets a list of InferSNOMEDCT jobs a user has submitted.
+ * Gets the properties associated with an InferRxNorm job. Use this operation to get the
+ * status of an inference job.
  */
-export const listSNOMEDCTInferenceJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeRxNormInferenceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListSNOMEDCTInferenceJobsRequest,
-    output: ListSNOMEDCTInferenceJobsResponse,
+    input: DescribeRxNormInferenceJobRequest,
+    output: DescribeRxNormInferenceJobResponse,
     errors: [
       InternalServerException,
       InvalidRequestException,
+      ResourceNotFoundException,
       TooManyRequestsException,
-      ValidationException,
     ],
   }),
 );
+/**
+ * Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
+ */
+export const describeSNOMEDCTInferenceJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeSNOMEDCTInferenceJobRequest,
+    output: DescribeSNOMEDCTInferenceJobResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
 /**
  * Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM
  * ontology. Use the `DescribeICD10CMInferenceJob` operation to track the status of a
@@ -1053,59 +1069,22 @@ export const describeICD10CMInferenceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets the properties associated with a protected health information (PHI) detection job.
- * Use this operation to get the status of a detection job.
+ * Inspects the clinical text for a variety of medical entities and returns specific
+ * information about them such as entity category, location, and confidence score on that
+ * information. Amazon Comprehend Medical only detects medical entities in English language
+ * texts.
+ *
+ * The `DetectEntitiesV2` operation replaces the DetectEntities
+ * operation. This new action uses a different model for determining the entities in your medical
+ * text and changes the way that some entities are returned in the output. You should use the
+ * `DetectEntitiesV2` operation in all new applications.
+ *
+ * The `DetectEntitiesV2` operation returns the `Acuity` and
+ * `Direction` entities as attributes instead of types.
  */
-export const describePHIDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePHIDetectionJobRequest,
-    output: DescribePHIDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Gets the properties associated with an InferRxNorm job. Use this operation to get the
- * status of an inference job.
- */
-export const describeRxNormInferenceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRxNormInferenceJobRequest,
-    output: DescribeRxNormInferenceJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
- */
-export const describeSNOMEDCTInferenceJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSNOMEDCTInferenceJobRequest,
-    output: DescribeSNOMEDCTInferenceJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Inspects the clinical text for protected health information (PHI) entities and returns
- * the entity category, location, and confidence score for each entity. Amazon Comprehend Medical
- * only detects entities in English language texts.
- */
-export const detectPHI = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectPHIRequest,
-  output: DetectPHIResponse,
+export const detectEntitiesV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectEntitiesV2Request,
+  output: DetectEntitiesV2Response,
   errors: [
     InternalServerException,
     InvalidEncodingException,
@@ -1131,46 +1110,13 @@ export const listEntitiesDetectionV2Jobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets a list of InferICD10CM jobs that you have submitted.
+ * Inspects the clinical text for protected health information (PHI) entities and returns
+ * the entity category, location, and confidence score for each entity. Amazon Comprehend Medical
+ * only detects entities in English language texts.
  */
-export const listICD10CMInferenceJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListICD10CMInferenceJobsRequest,
-    output: ListICD10CMInferenceJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Starts an asynchronous medical entity detection job for a collection of documents. Use the
- * `DescribeEntitiesDetectionV2Job` operation to track the status of a job.
- */
-export const startEntitiesDetectionV2Job = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartEntitiesDetectionV2JobRequest,
-    output: StartEntitiesDetectionV2JobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * The `DetectEntities` operation is deprecated. You should use the DetectEntitiesV2 operation instead.
- *
- * Inspects the clinical text for a variety of medical entities and returns specific
- * information about them such as entity category, location, and confidence score on that
- * information.
- */
-export const detectEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectEntitiesRequest,
-  output: DetectEntitiesResponse,
+export const detectPHI = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectPHIRequest,
+  output: DetectPHIResponse,
   errors: [
     InternalServerException,
     InvalidEncodingException,
@@ -1181,22 +1127,15 @@ export const detectEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * The `DetectEntities` operation is deprecated. You should use the DetectEntitiesV2 operation instead.
+ *
  * Inspects the clinical text for a variety of medical entities and returns specific
  * information about them such as entity category, location, and confidence score on that
- * information. Amazon Comprehend Medical only detects medical entities in English language
- * texts.
- *
- * The `DetectEntitiesV2` operation replaces the DetectEntities
- * operation. This new action uses a different model for determining the entities in your medical
- * text and changes the way that some entities are returned in the output. You should use the
- * `DetectEntitiesV2` operation in all new applications.
- *
- * The `DetectEntitiesV2` operation returns the `Acuity` and
- * `Direction` entities as attributes instead of types.
+ * information.
  */
-export const detectEntitiesV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectEntitiesV2Request,
-  output: DetectEntitiesV2Response,
+export const detectEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectEntitiesRequest,
+  output: DetectEntitiesResponse,
   errors: [
     InternalServerException,
     InvalidEncodingException,
@@ -1256,3 +1195,64 @@ export const inferSNOMEDCT = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
+/**
+ * Gets a list of InferICD10CM jobs that you have submitted.
+ */
+export const listICD10CMInferenceJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListICD10CMInferenceJobsRequest,
+    output: ListICD10CMInferenceJobsResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets a list of protected health information (PHI) detection jobs you have
+ * submitted.
+ */
+export const listPHIDetectionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPHIDetectionJobsRequest,
+    output: ListPHIDetectionJobsResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets a list of InferRxNorm jobs that you have submitted.
+ */
+export const listRxNormInferenceJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListRxNormInferenceJobsRequest,
+    output: ListRxNormInferenceJobsResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets a list of InferSNOMEDCT jobs a user has submitted.
+ */
+export const listSNOMEDCTInferenceJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSNOMEDCTInferenceJobsRequest,
+    output: ListSNOMEDCTInferenceJobsResponse,
+    errors: [
+      InternalServerException,
+      InvalidRequestException,
+      TooManyRequestsException,
+      ValidationException,
+    ],
+  }),
+);

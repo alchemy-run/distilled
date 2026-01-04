@@ -13174,19 +13174,19 @@ export class SearchResponse extends S.Class<SearchResponse>("SearchResponse")(
 //# Errors
 export class ResourceLimitExceeded extends S.TaggedError<ResourceLimitExceeded>()(
   "ResourceLimitExceeded",
-  {},
-) {}
-export class ResourceNotFound extends S.TaggedError<ResourceNotFound>()(
-  "ResourceNotFound",
-  {},
-) {}
-export class ResourceInUse extends S.TaggedError<ResourceInUse>()(
-  "ResourceInUse",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceInUse extends S.TaggedError<ResourceInUse>()(
+  "ResourceInUse",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFound extends S.TaggedError<ResourceNotFound>()(
+  "ResourceNotFound",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -13209,25 +13209,6 @@ export const enableSagemakerServicecatalogPortfolio =
     errors: [],
   }));
 /**
- * Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify.
- */
-export const createEdgePackagingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEdgePackagingJobRequest,
-    output: CreateEdgePackagingJobResponse,
-    errors: [ResourceLimitExceeded],
-  }),
-);
-/**
- * Deletes the cluster policy of the cluster.
- */
-export const deleteClusterSchedulerConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteClusterSchedulerConfigRequest,
-    output: DeleteClusterSchedulerConfigResponse,
-    errors: [ResourceNotFound],
-  }));
-/**
  * Deletes the specified Git repository from your account.
  */
 export const deleteCodeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -13235,63 +13216,6 @@ export const deleteCodeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: DeleteCodeRepositoryInput,
     output: DeleteCodeRepositoryResponse,
     errors: [],
-  }),
-);
-/**
- * Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role.
- *
- * You can delete a compilation job only if its current status is `COMPLETED`, `FAILED`, or `STOPPED`. If the job status is `STARTING` or `INPROGRESS`, stop the job, and then delete it after its status becomes `STOPPED`.
- */
-export const deleteCompilationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCompilationJobRequest,
-    output: DeleteCompilationJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
-/**
- * Deletes the compute allocation from the cluster.
- */
-export const deleteComputeQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteComputeQuotaRequest,
-  output: DeleteComputeQuotaResponse,
-  errors: [ResourceNotFound],
-}));
-/**
- * Deletes a data quality monitoring job definition.
- */
-export const deleteDataQualityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDataQualityJobDefinitionRequest,
-    output: DeleteDataQualityJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
-/**
- * Deletes a fleet.
- */
-export const deleteDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDeviceFleetRequest,
-  output: DeleteDeviceFleetResponse,
-  errors: [ResourceInUse],
-}));
-/**
- * Deletes an edge deployment plan if (and only if) all the stages in the plan are inactive or there are no stages in the plan.
- */
-export const deleteEdgeDeploymentPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEdgeDeploymentPlanRequest,
-    output: DeleteEdgeDeploymentPlanResponse,
-    errors: [ResourceInUse],
-  }),
-);
-/**
- * Delete a stage in an edge deployment plan if (and only if) the stage is inactive.
- */
-export const deleteEdgeDeploymentStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEdgeDeploymentStageRequest,
-    output: DeleteEdgeDeploymentStageResponse,
-    errors: [ResourceInUse],
   }),
 );
 /**
@@ -13319,64 +13243,6 @@ export const deleteEndpointConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Delete the `FeatureGroup` and any data that was written to the `OnlineStore` of the `FeatureGroup`. Data cannot be accessed from the `OnlineStore` immediately after `DeleteFeatureGroup` is called.
- *
- * Data written into the `OfflineStore` will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your `OfflineStore` are not deleted.
- *
- * Note that it can take approximately 10-15 minutes to delete an `OnlineStore` `FeatureGroup` with the `InMemory` `StorageType`.
- */
-export const deleteFeatureGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFeatureGroupRequest,
-  output: DeleteFeatureGroupResponse,
-  errors: [ResourceNotFound],
-}));
-/**
- * Deletes the specified flow definition.
- */
-export const deleteFlowDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFlowDefinitionRequest,
-    output: DeleteFlowDefinitionResponse,
-    errors: [ResourceInUse, ResourceNotFound],
-  }),
-);
-/**
- * Delete a hub.
- */
-export const deleteHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteHubRequest,
-  output: DeleteHubResponse,
-  errors: [ResourceInUse, ResourceNotFound],
-}));
-/**
- * Delete the contents of a hub.
- */
-export const deleteHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteHubContentRequest,
-  output: DeleteHubContentResponse,
-  errors: [ResourceInUse, ResourceNotFound],
-}));
-/**
- * Delete a hub content reference in order to remove a model from a private hub.
- */
-export const deleteHubContentReference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteHubContentReferenceRequest,
-    output: DeleteHubContentReferenceResponse,
-    errors: [ResourceNotFound],
-  }),
-);
-/**
- * Use this operation to delete a human task user interface (worker task template).
- *
- * To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis. When you delete a worker task template, it no longer appears when you call `ListHumanTaskUis`.
- */
-export const deleteHumanTaskUi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteHumanTaskUiRequest,
-  output: DeleteHumanTaskUiResponse,
-  errors: [ResourceNotFound],
-}));
-/**
  * Deletes a hyperparameter tuning job. The `DeleteHyperParameterTuningJob` API deletes only the tuning job entry that was created in SageMaker when you called the `CreateHyperParameterTuningJob` API. It does not delete training jobs, artifacts, or the IAM role that you specified when creating the model.
  */
 export const deleteHyperParameterTuningJob =
@@ -13385,22 +13251,6 @@ export const deleteHyperParameterTuningJob =
     output: DeleteHyperParameterTuningJobResponse,
     errors: [],
   }));
-/**
- * Deletes a SageMaker AI image and all versions of the image. The container images aren't deleted.
- */
-export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImageRequest,
-  output: DeleteImageResponse,
-  errors: [ResourceInUse, ResourceNotFound],
-}));
-/**
- * Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted.
- */
-export const deleteImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImageVersionRequest,
-  output: DeleteImageVersionResponse,
-  errors: [ResourceInUse, ResourceNotFound],
-}));
 /**
  * Deletes an inference component.
  */
@@ -13420,52 +13270,6 @@ export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Deletes an Amazon SageMaker AI model bias job definition.
- */
-export const deleteModelBiasJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteModelBiasJobDefinitionRequest,
-    output: DeleteModelBiasJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
-/**
- * Deletes an Amazon SageMaker Model Card.
- */
-export const deleteModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteModelCardRequest,
-  output: DeleteModelCardResponse,
-  errors: [ConflictException, ResourceNotFound],
-}));
-/**
- * Deletes an Amazon SageMaker AI model explainability job definition.
- */
-export const deleteModelExplainabilityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteModelExplainabilityJobDefinitionRequest,
-    output: DeleteModelExplainabilityJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
-/**
- * Deletes a model package.
- *
- * A model package is used to create SageMaker models or list on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker.
- */
-export const deleteModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteModelPackageInput,
-  output: DeleteModelPackageResponse,
-  errors: [ConflictException],
-}));
-/**
- * Deletes the specified model group.
- */
-export const deleteModelPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteModelPackageGroupInput,
-    output: DeleteModelPackageGroupResponse,
-    errors: [ConflictException],
-  }),
-);
-/**
  * Deletes a model group resource policy.
  */
 export const deleteModelPackageGroupPolicy =
@@ -13474,25 +13278,6 @@ export const deleteModelPackageGroupPolicy =
     output: DeleteModelPackageGroupPolicyResponse,
     errors: [],
   }));
-/**
- * Deletes the secified model quality monitoring job definition.
- */
-export const deleteModelQualityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteModelQualityJobDefinitionRequest,
-    output: DeleteModelQualityJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
-/**
- * Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule.
- */
-export const deleteMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMonitoringScheduleRequest,
-    output: DeleteMonitoringScheduleResponse,
-    errors: [ResourceNotFound],
-  }),
-);
 /**
  * Deletes an SageMaker AI notebook instance. Before you can delete a notebook instance, you must call the `StopNotebookInstance` API.
  *
@@ -13515,50 +13300,6 @@ export const deleteNotebookInstanceLifecycleConfig =
     errors: [],
   }));
 /**
- * Deletes an optimization job.
- */
-export const deleteOptimizationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOptimizationJobRequest,
-    output: DeleteOptimizationJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
-/**
- * Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`). You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another processing job.
- */
-export const deleteProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProcessingJobRequest,
-  output: DeleteProcessingJobResponse,
-  errors: [ResourceInUse, ResourceNotFound],
-}));
-/**
- * Delete the specified project.
- */
-export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProjectInput,
-  output: DeleteProjectResponse,
-  errors: [ConflictException],
-}));
-/**
- * Used to delete a space.
- */
-export const deleteSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSpaceRequest,
-  output: DeleteSpaceResponse,
-  errors: [ResourceInUse, ResourceNotFound],
-}));
-/**
- * Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
- */
-export const deleteStudioLifecycleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStudioLifecycleConfigRequest,
-    output: DeleteStudioLifecycleConfigResponse,
-    errors: [ResourceInUse, ResourceNotFound],
-  }),
-);
-/**
  * Deletes the specified tags from an SageMaker resource.
  *
  * To list a resource's tags, use the `ListTags` API.
@@ -13571,22 +13312,6 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsInput,
   output: DeleteTagsOutput,
   errors: [],
-}));
-/**
- * Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`) and don't retain an `Available` managed warm pool. You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another training job.
- */
-export const deleteTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTrainingJobRequest,
-  output: DeleteTrainingJobResponse,
-  errors: [ResourceInUse, ResourceNotFound],
-}));
-/**
- * Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts.
- */
-export const deleteUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserProfileRequest,
-  output: DeleteUserProfileResponse,
-  errors: [ResourceInUse, ResourceNotFound],
 }));
 /**
  * Use this operation to delete a workforce.
@@ -13628,48 +13353,6 @@ export const startEdgeDeploymentStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Starts a previously stopped monitoring schedule.
- *
- * By default, when you successfully create a new schedule, the status of a monitoring schedule is `scheduled`.
- */
-export const startMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMonitoringScheduleRequest,
-    output: StartMonitoringScheduleResponse,
-    errors: [ResourceNotFound],
-  }),
-);
-/**
- * Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to `InService`. A notebook instance's status must be `InService` before you can connect to your Jupyter notebook.
- */
-export const startNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartNotebookInstanceInput,
-    output: StartNotebookInstanceResponse,
-    errors: [ResourceLimitExceeded],
-  }),
-);
-/**
- * A method for forcing a running job to shut down.
- */
-export const stopAutoMLJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopAutoMLJobRequest,
-  output: StopAutoMLJobResponse,
-  errors: [ResourceNotFound],
-}));
-/**
- * Stops a model compilation job.
- *
- * To stop a job, Amazon SageMaker AI sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal.
- *
- * When it receives a `StopCompilationJob` request, Amazon SageMaker AI changes the `CompilationJobStatus` of the job to `Stopping`. After Amazon SageMaker stops the job, it sets the `CompilationJobStatus` to `Stopped`.
- */
-export const stopCompilationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopCompilationJobRequest,
-  output: StopCompilationJobResponse,
-  errors: [ResourceNotFound],
-}));
-/**
  * Stops a stage in an edge deployment plan.
  */
 export const stopEdgeDeploymentStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -13690,45 +13373,6 @@ export const stopEdgePackagingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched.
- *
- * All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the `Stopped` state, it releases all reserved resources for the tuning job.
- */
-export const stopHyperParameterTuningJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopHyperParameterTuningJobRequest,
-    output: StopHyperParameterTuningJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
-/**
- * Stops an Inference Recommender job.
- */
-export const stopInferenceRecommendationsJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopInferenceRecommendationsJobRequest,
-    output: StopInferenceRecommendationsJobResponse,
-    errors: [ResourceNotFound],
-  }));
-/**
- * Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
- */
-export const stopLabelingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopLabelingJobRequest,
-  output: StopLabelingJobResponse,
-  errors: [ResourceNotFound],
-}));
-/**
- * Stops a previously started monitoring schedule.
- */
-export const stopMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopMonitoringScheduleRequest,
-    output: StopMonitoringScheduleResponse,
-    errors: [ResourceNotFound],
-  }),
-);
-/**
  * Terminates the ML compute instance. Before terminating the instance, SageMaker AI disconnects the ML storage volume from it. SageMaker AI preserves the ML storage volume. SageMaker AI stops charging you for the ML compute instance when you call `StopNotebookInstance`.
  *
  * To access data on the ML storage volume for a notebook instance that has been terminated, call the `StartNotebookInstance` API. `StartNotebookInstance` launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
@@ -13741,113 +13385,12 @@ export const stopNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Ends a running inference optimization job.
- */
-export const stopOptimizationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopOptimizationJobRequest,
-  output: StopOptimizationJobResponse,
-  errors: [ResourceNotFound],
-}));
-/**
- * Stops a processing job.
- */
-export const stopProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopProcessingJobRequest,
-  output: StopProcessingJobResponse,
-  errors: [ResourceNotFound],
-}));
-/**
- * Stops a training job. To stop a job, SageMaker sends the algorithm the `SIGTERM` signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts, so the results of the training is not lost.
- *
- * When it receives a `StopTrainingJob` request, SageMaker changes the status of the job to `Stopping`. After SageMaker stops the job, it sets the status to `Stopped`.
- */
-export const stopTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopTrainingJobRequest,
-  output: StopTrainingJobResponse,
-  errors: [ResourceNotFound],
-}));
-/**
- * Stops a batch transform job.
- *
- * When Amazon SageMaker receives a `StopTransformJob` request, the status of the job changes to `Stopping`. After Amazon SageMaker stops the job, the status is set to `Stopped`. When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
- */
-export const stopTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopTransformJobRequest,
-  output: StopTransformJobResponse,
-  errors: [ResourceNotFound],
-}));
-/**
- * Updates a fleet of devices.
- */
-export const updateDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDeviceFleetRequest,
-  output: UpdateDeviceFleetResponse,
-  errors: [ResourceInUse],
-}));
-/**
  * Updates one or more devices in a fleet.
  */
 export const updateDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDevicesRequest,
   output: UpdateDevicesResponse,
   errors: [],
-}));
-/**
- * Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
- */
-export const updateNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNotebookInstanceInput,
-    output: UpdateNotebookInstanceOutput,
-    errors: [ResourceLimitExceeded],
-  }),
-);
-/**
- * Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.
- */
-export const updateNotebookInstanceLifecycleConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateNotebookInstanceLifecycleConfigInput,
-    output: UpdateNotebookInstanceLifecycleConfigOutput,
-    errors: [ResourceLimitExceeded],
-  }));
-/**
- * Creates an *association* between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see Amazon SageMaker ML Lineage Tracking.
- */
-export const addAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddAssociationRequest,
-  output: AddAssociationResponse,
-  errors: [ResourceLimitExceeded, ResourceNotFound],
-}));
-/**
- * Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
- */
-export const associateTrialComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateTrialComponentRequest,
-    output: AssociateTrialComponentResponse,
-    errors: [ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
-/**
- * Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster.
- *
- * This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
- */
-export const attachClusterNodeVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachClusterNodeVolumeRequest,
-    output: AttachClusterNodeVolumeResponse,
-    errors: [ResourceNotFound],
-  }),
-);
-/**
- * Creates a device fleet.
- */
-export const createDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDeviceFleetRequest,
-  output: CreateDeviceFleetResponse,
-  errors: [ResourceInUse, ResourceLimitExceeded],
 }));
 /**
  * Creates a new stage in an existing edge deployment plan.
@@ -13880,32 +13423,6 @@ export const createExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceLimitExceeded],
 }));
 /**
- * Create a hub content reference in order to add a model in the JumpStart public hub to a private hub.
- */
-export const createHubContentReference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateHubContentReferenceRequest,
-    output: CreateHubContentReferenceResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
-/**
- * Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker AI image.
- */
-export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateImageRequest,
-  output: CreateImageResponse,
-  errors: [ResourceInUse, ResourceLimitExceeded],
-}));
-/**
- * Creates a version of the SageMaker AI image specified by `ImageName`. The version represents the Amazon ECR container image specified by `BaseImage`.
- */
-export const createImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateImageVersionRequest,
-  output: CreateImageVersionResponse,
-  errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
-}));
-/**
  * Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store.
  */
 export const createMlflowApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -13934,52 +13451,6 @@ export const createModelPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a presigned URL to access an Amazon SageMaker Partner AI App.
- */
-export const createPartnerAppPresignedUrl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePartnerAppPresignedUrlRequest,
-    output: CreatePartnerAppPresignedUrlResponse,
-    errors: [ResourceNotFound],
-  }));
-/**
- * Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.
- *
- * The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app.
- *
- * You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker AI Studio Through an Interface VPC Endpoint .
- *
- * - The URL that you get from a call to `CreatePresignedDomainUrl` has a default timeout of 5 minutes. You can configure this value using `ExpiresInSeconds`. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.
- *
- * - The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
- */
-export const createPresignedDomainUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePresignedDomainUrlRequest,
-    output: CreatePresignedDomainUrlResponse,
-    errors: [ResourceNotFound],
-  }),
-);
-/**
- * Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow App. For more information, see Launch the MLflow UI using a presigned URL.
- */
-export const createPresignedMlflowAppUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePresignedMlflowAppUrlRequest,
-    output: CreatePresignedMlflowAppUrlResponse,
-    errors: [ResourceNotFound],
-  }),
-);
-/**
- * Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL.
- */
-export const createPresignedMlflowTrackingServerUrl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePresignedMlflowTrackingServerUrlRequest,
-    output: CreatePresignedMlflowTrackingServerUrlResponse,
-    errors: [ResourceNotFound],
-  }));
-/**
  * Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker AI console, when you choose `Open` next to a notebook instance, SageMaker AI opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page.
  *
  * The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance.
@@ -13995,98 +13466,12 @@ export const createPresignedNotebookInstanceUrl =
     errors: [],
   }));
 /**
- * Creates a new Amazon SageMaker AI Studio Lifecycle Configuration.
- */
-export const createStudioLifecycleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStudioLifecycleConfigRequest,
-    output: CreateStudioLifecycleConfigResponse,
-    errors: [ResourceInUse],
-  }),
-);
-/**
- * Creates a new training plan in SageMaker to reserve compute capacity.
- *
- * Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to computational resources within specific timelines and budgets, without the need to manage underlying infrastructure.
- *
- * **How it works**
- *
- * Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker HyperPod clusters, automatically provisioning resources, setting up infrastructure, executing workloads, and handling infrastructure failures.
- *
- * **Plan creation workflow**
- *
- * - Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration) using the ` SearchTrainingPlanOfferings ` API operation.
- *
- * - They create a plan that best matches their needs using the ID of the plan offering they want to use.
- *
- * - After successful upfront payment, the plan's status becomes `Scheduled`.
- *
- * - The plan can be used to:
- *
- * - Queue training jobs.
- *
- * - Allocate to an instance group of a SageMaker HyperPod cluster.
- *
- * - When the plan start date arrives, it becomes `Active`. Based on available reserved capacity:
- *
- * - Training jobs are launched.
- *
- * - Instance groups are provisioned.
- *
- * **Plan composition**
- *
- * A plan can consist of one or more Reserved Capacities, each defined by a specific instance type, quantity, Availability Zone, duration, and start and end times. For more information about Reserved Capacity, see ` ReservedCapacitySummary `.
- */
-export const createTrainingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTrainingPlanRequest,
-  output: CreateTrainingPlanResponse,
-  errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
-}));
-/**
- * Creates an SageMaker *trial*. A trial is a set of steps called *trial components* that produce a machine learning model. A trial is part of a single SageMaker *experiment*.
- *
- * When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK.
- *
- * You can add tags to a trial and then use the Search API to search for the tags.
- *
- * To get a list of all your trials, call the ListTrials API. To view a trial's properties, call the DescribeTrial API. To create a trial component, call the CreateTrialComponent API.
- */
-export const createTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTrialRequest,
-  output: CreateTrialResponse,
-  errors: [ResourceLimitExceeded, ResourceNotFound],
-}));
-/**
- * Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System home directory.
- */
-export const createUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserProfileRequest,
-  output: CreateUserProfileResponse,
-  errors: [ResourceInUse, ResourceLimitExceeded],
-}));
-/**
- * Deletes an action.
- */
-export const deleteAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteActionRequest,
-  output: DeleteActionResponse,
-  errors: [ResourceNotFound],
-}));
-/**
  * Removes the specified algorithm from your account.
  */
 export const deleteAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlgorithmInput,
   output: DeleteAlgorithmResponse,
   errors: [ConflictException],
-}));
-/**
- * Used to stop and delete an app.
- */
-export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAppRequest,
-  output: DeleteAppResponse,
-  errors: [ResourceInUse, ResourceNotFound],
 }));
 /**
  * Deletes an AppImageConfig.
@@ -15103,6 +14488,621 @@ export const updateWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkteamRequest,
   output: UpdateWorkteamResponse,
   errors: [ResourceLimitExceeded],
+}));
+/**
+ * Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify.
+ */
+export const createEdgePackagingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEdgePackagingJobRequest,
+    output: CreateEdgePackagingJobResponse,
+    errors: [ResourceLimitExceeded],
+  }),
+);
+/**
+ * Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to `InService`. A notebook instance's status must be `InService` before you can connect to your Jupyter notebook.
+ */
+export const startNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartNotebookInstanceInput,
+    output: StartNotebookInstanceResponse,
+    errors: [ResourceLimitExceeded],
+  }),
+);
+/**
+ * Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
+ */
+export const updateNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateNotebookInstanceInput,
+    output: UpdateNotebookInstanceOutput,
+    errors: [ResourceLimitExceeded],
+  }),
+);
+/**
+ * Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.
+ */
+export const updateNotebookInstanceLifecycleConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateNotebookInstanceLifecycleConfigInput,
+    output: UpdateNotebookInstanceLifecycleConfigOutput,
+    errors: [ResourceLimitExceeded],
+  }));
+/**
+ * Creates an *association* between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see Amazon SageMaker ML Lineage Tracking.
+ */
+export const addAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddAssociationRequest,
+  output: AddAssociationResponse,
+  errors: [ResourceLimitExceeded, ResourceNotFound],
+}));
+/**
+ * Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
+ */
+export const associateTrialComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateTrialComponentRequest,
+    output: AssociateTrialComponentResponse,
+    errors: [ResourceLimitExceeded, ResourceNotFound],
+  }),
+);
+/**
+ * Deletes an Amazon SageMaker Model Card.
+ */
+export const deleteModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelCardRequest,
+  output: DeleteModelCardResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
+/**
+ * Deletes a model package.
+ *
+ * A model package is used to create SageMaker models or list on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker.
+ */
+export const deleteModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelPackageInput,
+  output: DeleteModelPackageResponse,
+  errors: [ConflictException],
+}));
+/**
+ * Deletes the specified model group.
+ */
+export const deleteModelPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteModelPackageGroupInput,
+    output: DeleteModelPackageGroupResponse,
+    errors: [ConflictException],
+  }),
+);
+/**
+ * Delete the specified project.
+ */
+export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectInput,
+  output: DeleteProjectResponse,
+  errors: [ConflictException],
+}));
+/**
+ * Deletes a fleet.
+ */
+export const deleteDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeviceFleetRequest,
+  output: DeleteDeviceFleetResponse,
+  errors: [ResourceInUse],
+}));
+/**
+ * Deletes an edge deployment plan if (and only if) all the stages in the plan are inactive or there are no stages in the plan.
+ */
+export const deleteEdgeDeploymentPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEdgeDeploymentPlanRequest,
+    output: DeleteEdgeDeploymentPlanResponse,
+    errors: [ResourceInUse],
+  }),
+);
+/**
+ * Delete a stage in an edge deployment plan if (and only if) the stage is inactive.
+ */
+export const deleteEdgeDeploymentStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEdgeDeploymentStageRequest,
+    output: DeleteEdgeDeploymentStageResponse,
+    errors: [ResourceInUse],
+  }),
+);
+/**
+ * Deletes the specified flow definition.
+ */
+export const deleteFlowDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteFlowDefinitionRequest,
+    output: DeleteFlowDefinitionResponse,
+    errors: [ResourceInUse, ResourceNotFound],
+  }),
+);
+/**
+ * Delete a hub.
+ */
+export const deleteHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHubRequest,
+  output: DeleteHubResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
+/**
+ * Delete the contents of a hub.
+ */
+export const deleteHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHubContentRequest,
+  output: DeleteHubContentResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
+/**
+ * Deletes a SageMaker AI image and all versions of the image. The container images aren't deleted.
+ */
+export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImageRequest,
+  output: DeleteImageResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
+/**
+ * Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted.
+ */
+export const deleteImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImageVersionRequest,
+  output: DeleteImageVersionResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
+/**
+ * Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`). You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another processing job.
+ */
+export const deleteProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProcessingJobRequest,
+  output: DeleteProcessingJobResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
+/**
+ * Used to delete a space.
+ */
+export const deleteSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSpaceRequest,
+  output: DeleteSpaceResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
+/**
+ * Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
+ */
+export const deleteStudioLifecycleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteStudioLifecycleConfigRequest,
+    output: DeleteStudioLifecycleConfigResponse,
+    errors: [ResourceInUse, ResourceNotFound],
+  }),
+);
+/**
+ * Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`) and don't retain an `Available` managed warm pool. You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another training job.
+ */
+export const deleteTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrainingJobRequest,
+  output: DeleteTrainingJobResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
+/**
+ * Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts.
+ */
+export const deleteUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserProfileRequest,
+  output: DeleteUserProfileResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
+/**
+ * Updates a fleet of devices.
+ */
+export const updateDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDeviceFleetRequest,
+  output: UpdateDeviceFleetResponse,
+  errors: [ResourceInUse],
+}));
+/**
+ * Creates a device fleet.
+ */
+export const createDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeviceFleetRequest,
+  output: CreateDeviceFleetResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
+/**
+ * Create a hub content reference in order to add a model in the JumpStart public hub to a private hub.
+ */
+export const createHubContentReference = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateHubContentReferenceRequest,
+    output: CreateHubContentReferenceResponse,
+    errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
+  }),
+);
+/**
+ * Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker AI image.
+ */
+export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateImageRequest,
+  output: CreateImageResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
+/**
+ * Creates a version of the SageMaker AI image specified by `ImageName`. The version represents the Amazon ECR container image specified by `BaseImage`.
+ */
+export const createImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateImageVersionRequest,
+  output: CreateImageVersionResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
+}));
+/**
+ * Creates a new Amazon SageMaker AI Studio Lifecycle Configuration.
+ */
+export const createStudioLifecycleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateStudioLifecycleConfigRequest,
+    output: CreateStudioLifecycleConfigResponse,
+    errors: [ResourceInUse],
+  }),
+);
+/**
+ * Creates a new training plan in SageMaker to reserve compute capacity.
+ *
+ * Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to computational resources within specific timelines and budgets, without the need to manage underlying infrastructure.
+ *
+ * **How it works**
+ *
+ * Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker HyperPod clusters, automatically provisioning resources, setting up infrastructure, executing workloads, and handling infrastructure failures.
+ *
+ * **Plan creation workflow**
+ *
+ * - Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration) using the ` SearchTrainingPlanOfferings ` API operation.
+ *
+ * - They create a plan that best matches their needs using the ID of the plan offering they want to use.
+ *
+ * - After successful upfront payment, the plan's status becomes `Scheduled`.
+ *
+ * - The plan can be used to:
+ *
+ * - Queue training jobs.
+ *
+ * - Allocate to an instance group of a SageMaker HyperPod cluster.
+ *
+ * - When the plan start date arrives, it becomes `Active`. Based on available reserved capacity:
+ *
+ * - Training jobs are launched.
+ *
+ * - Instance groups are provisioned.
+ *
+ * **Plan composition**
+ *
+ * A plan can consist of one or more Reserved Capacities, each defined by a specific instance type, quantity, Availability Zone, duration, and start and end times. For more information about Reserved Capacity, see ` ReservedCapacitySummary `.
+ */
+export const createTrainingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrainingPlanRequest,
+  output: CreateTrainingPlanResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
+}));
+/**
+ * Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System home directory.
+ */
+export const createUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserProfileRequest,
+  output: CreateUserProfileResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
+/**
+ * Deletes the cluster policy of the cluster.
+ */
+export const deleteClusterSchedulerConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteClusterSchedulerConfigRequest,
+    output: DeleteClusterSchedulerConfigResponse,
+    errors: [ResourceNotFound],
+  }));
+/**
+ * Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role.
+ *
+ * You can delete a compilation job only if its current status is `COMPLETED`, `FAILED`, or `STOPPED`. If the job status is `STARTING` or `INPROGRESS`, stop the job, and then delete it after its status becomes `STOPPED`.
+ */
+export const deleteCompilationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCompilationJobRequest,
+    output: DeleteCompilationJobResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * Deletes the compute allocation from the cluster.
+ */
+export const deleteComputeQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteComputeQuotaRequest,
+  output: DeleteComputeQuotaResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Deletes a data quality monitoring job definition.
+ */
+export const deleteDataQualityJobDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteDataQualityJobDefinitionRequest,
+    output: DeleteDataQualityJobDefinitionResponse,
+    errors: [ResourceNotFound],
+  }));
+/**
+ * Delete the `FeatureGroup` and any data that was written to the `OnlineStore` of the `FeatureGroup`. Data cannot be accessed from the `OnlineStore` immediately after `DeleteFeatureGroup` is called.
+ *
+ * Data written into the `OfflineStore` will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your `OfflineStore` are not deleted.
+ *
+ * Note that it can take approximately 10-15 minutes to delete an `OnlineStore` `FeatureGroup` with the `InMemory` `StorageType`.
+ */
+export const deleteFeatureGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFeatureGroupRequest,
+  output: DeleteFeatureGroupResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Delete a hub content reference in order to remove a model from a private hub.
+ */
+export const deleteHubContentReference = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteHubContentReferenceRequest,
+    output: DeleteHubContentReferenceResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * Use this operation to delete a human task user interface (worker task template).
+ *
+ * To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis. When you delete a worker task template, it no longer appears when you call `ListHumanTaskUis`.
+ */
+export const deleteHumanTaskUi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHumanTaskUiRequest,
+  output: DeleteHumanTaskUiResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Deletes an Amazon SageMaker AI model bias job definition.
+ */
+export const deleteModelBiasJobDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteModelBiasJobDefinitionRequest,
+    output: DeleteModelBiasJobDefinitionResponse,
+    errors: [ResourceNotFound],
+  }));
+/**
+ * Deletes an Amazon SageMaker AI model explainability job definition.
+ */
+export const deleteModelExplainabilityJobDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteModelExplainabilityJobDefinitionRequest,
+    output: DeleteModelExplainabilityJobDefinitionResponse,
+    errors: [ResourceNotFound],
+  }));
+/**
+ * Deletes the secified model quality monitoring job definition.
+ */
+export const deleteModelQualityJobDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteModelQualityJobDefinitionRequest,
+    output: DeleteModelQualityJobDefinitionResponse,
+    errors: [ResourceNotFound],
+  }));
+/**
+ * Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule.
+ */
+export const deleteMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMonitoringScheduleRequest,
+    output: DeleteMonitoringScheduleResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * Deletes an optimization job.
+ */
+export const deleteOptimizationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteOptimizationJobRequest,
+    output: DeleteOptimizationJobResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * Starts a previously stopped monitoring schedule.
+ *
+ * By default, when you successfully create a new schedule, the status of a monitoring schedule is `scheduled`.
+ */
+export const startMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartMonitoringScheduleRequest,
+    output: StartMonitoringScheduleResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * A method for forcing a running job to shut down.
+ */
+export const stopAutoMLJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopAutoMLJobRequest,
+  output: StopAutoMLJobResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Stops a model compilation job.
+ *
+ * To stop a job, Amazon SageMaker AI sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal.
+ *
+ * When it receives a `StopCompilationJob` request, Amazon SageMaker AI changes the `CompilationJobStatus` of the job to `Stopping`. After Amazon SageMaker stops the job, it sets the `CompilationJobStatus` to `Stopped`.
+ */
+export const stopCompilationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopCompilationJobRequest,
+  output: StopCompilationJobResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched.
+ *
+ * All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the `Stopped` state, it releases all reserved resources for the tuning job.
+ */
+export const stopHyperParameterTuningJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopHyperParameterTuningJobRequest,
+    output: StopHyperParameterTuningJobResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * Stops an Inference Recommender job.
+ */
+export const stopInferenceRecommendationsJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StopInferenceRecommendationsJobRequest,
+    output: StopInferenceRecommendationsJobResponse,
+    errors: [ResourceNotFound],
+  }));
+/**
+ * Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
+ */
+export const stopLabelingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopLabelingJobRequest,
+  output: StopLabelingJobResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Stops a previously started monitoring schedule.
+ */
+export const stopMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopMonitoringScheduleRequest,
+    output: StopMonitoringScheduleResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * Ends a running inference optimization job.
+ */
+export const stopOptimizationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopOptimizationJobRequest,
+  output: StopOptimizationJobResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Stops a processing job.
+ */
+export const stopProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopProcessingJobRequest,
+  output: StopProcessingJobResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Stops a training job. To stop a job, SageMaker sends the algorithm the `SIGTERM` signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts, so the results of the training is not lost.
+ *
+ * When it receives a `StopTrainingJob` request, SageMaker changes the status of the job to `Stopping`. After SageMaker stops the job, it sets the status to `Stopped`.
+ */
+export const stopTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopTrainingJobRequest,
+  output: StopTrainingJobResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Stops a batch transform job.
+ *
+ * When Amazon SageMaker receives a `StopTransformJob` request, the status of the job changes to `Stopping`. After Amazon SageMaker stops the job, the status is set to `Stopped`. When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
+ */
+export const stopTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopTransformJobRequest,
+  output: StopTransformJobResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster.
+ *
+ * This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
+ */
+export const attachClusterNodeVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AttachClusterNodeVolumeRequest,
+    output: AttachClusterNodeVolumeResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * Creates a presigned URL to access an Amazon SageMaker Partner AI App.
+ */
+export const createPartnerAppPresignedUrl =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreatePartnerAppPresignedUrlRequest,
+    output: CreatePartnerAppPresignedUrlResponse,
+    errors: [ResourceNotFound],
+  }));
+/**
+ * Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.
+ *
+ * The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app.
+ *
+ * You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker AI Studio Through an Interface VPC Endpoint .
+ *
+ * - The URL that you get from a call to `CreatePresignedDomainUrl` has a default timeout of 5 minutes. You can configure this value using `ExpiresInSeconds`. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.
+ *
+ * - The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
+ */
+export const createPresignedDomainUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePresignedDomainUrlRequest,
+    output: CreatePresignedDomainUrlResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow App. For more information, see Launch the MLflow UI using a presigned URL.
+ */
+export const createPresignedMlflowAppUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePresignedMlflowAppUrlRequest,
+    output: CreatePresignedMlflowAppUrlResponse,
+    errors: [ResourceNotFound],
+  }),
+);
+/**
+ * Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL.
+ */
+export const createPresignedMlflowTrackingServerUrl =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreatePresignedMlflowTrackingServerUrlRequest,
+    output: CreatePresignedMlflowTrackingServerUrlResponse,
+    errors: [ResourceNotFound],
+  }));
+/**
+ * Creates an SageMaker *trial*. A trial is a set of steps called *trial components* that produce a machine learning model. A trial is part of a single SageMaker *experiment*.
+ *
+ * When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK.
+ *
+ * You can add tags to a trial and then use the Search API to search for the tags.
+ *
+ * To get a list of all your trials, call the ListTrials API. To view a trial's properties, call the DescribeTrial API. To create a trial component, call the CreateTrialComponent API.
+ */
+export const createTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrialRequest,
+  output: CreateTrialResponse,
+  errors: [ResourceLimitExceeded, ResourceNotFound],
+}));
+/**
+ * Deletes an action.
+ */
+export const deleteAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteActionRequest,
+  output: DeleteActionResponse,
+  errors: [ResourceNotFound],
+}));
+/**
+ * Used to stop and delete an app.
+ */
+export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppRequest,
+  output: DeleteAppResponse,
+  errors: [ResourceInUse, ResourceNotFound],
 }));
 /**
  * Adds or overwrites one or more tags for the specified SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints.

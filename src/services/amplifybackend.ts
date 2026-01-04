@@ -1490,22 +1490,188 @@ export class CreateBackendAuthResponse extends S.Class<CreateBackendAuthResponse
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class GatewayTimeoutException extends S.TaggedError<GatewayTimeoutException>()(
   "GatewayTimeoutException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  {
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+    ResourceType: S.optional(S.String).pipe(T.JsonName("resourceType")),
+  },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  {
+    LimitType: S.optional(S.String).pipe(T.JsonName("limitType")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  },
 ) {}
 
 //# Operations
+/**
+ * This operation clones an existing backend.
+ */
+export const cloneBackend = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CloneBackendRequest,
+  output: CloneBackendResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a new backend API resource.
+ */
+export const createBackendAPI = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBackendAPIRequest,
+  output: CreateBackendAPIResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates an existing backend authentication resource.
+ */
+export const updateBackendAuth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBackendAuthRequest,
+  output: UpdateBackendAuthResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a backend storage resource.
+ */
+export const createBackendStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateBackendStorageRequest,
+    output: CreateBackendStorageResponse,
+    errors: [
+      BadRequestException,
+      GatewayTimeoutException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Gets details for a backend storage resource.
+ */
+export const getBackendStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBackendStorageRequest,
+  output: GetBackendStorageResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Lists the jobs for the backend of an Amplify app.
+ */
+export const listBackendJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBackendJobsRequest,
+  output: ListBackendJobsResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * The list of S3 buckets in your account.
+ */
+export const listS3Buckets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListS3BucketsRequest,
+  output: ListS3BucketsResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the AWS resources required to access the Amplify Admin UI.
+ */
+export const updateBackendConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBackendConfigRequest,
+  output: UpdateBackendConfigResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates an existing backend storage resource.
+ */
+export const updateBackendStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateBackendStorageRequest,
+    output: UpdateBackendStorageResponse,
+    errors: [
+      BadRequestException,
+      GatewayTimeoutException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
+ */
+export const createBackend = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBackendRequest,
+  output: CreateBackendResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a config object for a backend.
+ */
+export const createBackendConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBackendConfigRequest,
+  output: CreateBackendConfigResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
+ */
+export const createToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTokenRequest,
+  output: CreateTokenResponse,
+  errors: [
+    BadRequestException,
+    GatewayTimeoutException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Removes an existing environment from your Amplify project.
  */
@@ -1739,166 +1905,6 @@ export const updateBackendAPI = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const updateBackendJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBackendJobRequest,
   output: UpdateBackendJobResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * This operation clones an existing backend.
- */
-export const cloneBackend = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CloneBackendRequest,
-  output: CloneBackendResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
- */
-export const createBackend = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBackendRequest,
-  output: CreateBackendResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a config object for a backend.
- */
-export const createBackendConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBackendConfigRequest,
-  output: CreateBackendConfigResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
- */
-export const createToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTokenRequest,
-  output: CreateTokenResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets details for a backend storage resource.
- */
-export const getBackendStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBackendStorageRequest,
-  output: GetBackendStorageResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Lists the jobs for the backend of an Amplify app.
- */
-export const listBackendJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBackendJobsRequest,
-  output: ListBackendJobsResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * The list of S3 buckets in your account.
- */
-export const listS3Buckets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListS3BucketsRequest,
-  output: ListS3BucketsResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the AWS resources required to access the Amplify Admin UI.
- */
-export const updateBackendConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBackendConfigRequest,
-  output: UpdateBackendConfigResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates an existing backend storage resource.
- */
-export const updateBackendStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBackendStorageRequest,
-    output: UpdateBackendStorageResponse,
-    errors: [
-      BadRequestException,
-      GatewayTimeoutException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates a backend storage resource.
- */
-export const createBackendStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBackendStorageRequest,
-    output: CreateBackendStorageResponse,
-    errors: [
-      BadRequestException,
-      GatewayTimeoutException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates a new backend API resource.
- */
-export const createBackendAPI = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBackendAPIRequest,
-  output: CreateBackendAPIResponse,
-  errors: [
-    BadRequestException,
-    GatewayTimeoutException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates an existing backend authentication resource.
- */
-export const updateBackendAuth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBackendAuthRequest,
-  output: UpdateBackendAuthResponse,
   errors: [
     BadRequestException,
     GatewayTimeoutException,

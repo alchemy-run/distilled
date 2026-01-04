@@ -429,84 +429,70 @@ export class DescribeEnvironmentsResult extends S.Class<DescribeEnvironmentsResu
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class ConcurrentAccessException extends S.TaggedError<ConcurrentAccessException>()(
-  "ConcurrentAccessException",
-  {},
+  {
+    message: S.optional(S.String),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
-) {}
-export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
-  "ForbiddenException",
-  {},
+  {
+    message: S.optional(S.String),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  },
 ) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
-  {},
+  {
+    message: S.optional(S.String),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  },
 ) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+export class ConcurrentAccessException extends S.TaggedError<ConcurrentAccessException>()(
+  "ConcurrentAccessException",
+  {
+    message: S.optional(S.String),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  },
+) {}
+export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
+  "ForbiddenException",
+  {
+    message: S.optional(S.String),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  {
+    message: S.optional(S.String),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  {
+    message: S.optional(S.String),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  {
+    message: S.optional(S.String),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  },
 ) {}
 
 //# Operations
-/**
- * Gets status information for an Cloud9 development environment.
- *
- * Cloud9 is no longer available to new customers. Existing customers of
- * Cloud9 can continue to use the service as normal.
- * Learn more"
- */
-export const describeEnvironmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEnvironmentStatusRequest,
-    output: DescribeEnvironmentStatusResult,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Gets a list of Cloud9 development environment identifiers.
- *
- * Cloud9 is no longer available to new customers. Existing customers of
- * Cloud9 can continue to use the service as normal.
- * Learn more"
- *
- * Cloud9 is no longer available to new customers. Existing customers of
- * Cloud9 can continue to use the service as normal.
- * Learn more"
- */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEnvironmentsRequest,
-  output: ListEnvironmentsResult,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * Gets a list of the tags associated with an Cloud9 development environment.
  *
@@ -561,15 +547,105 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Changes the settings of an existing Cloud9 development environment.
+ * Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the
+ * environment, also terminates the instance.
  *
  * Cloud9 is no longer available to new customers. Existing customers of
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentRequest,
-  output: UpdateEnvironmentResult,
+export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEnvironmentRequest,
+  output: DeleteEnvironmentResult,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets information about Cloud9 development environments.
+ *
+ * Cloud9 is no longer available to new customers. Existing customers of
+ * Cloud9 can continue to use the service as normal.
+ * Learn more"
+ */
+export const describeEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEnvironmentsRequest,
+    output: DescribeEnvironmentsResult,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Gets information about environment members for an Cloud9 development environment.
+ *
+ * Cloud9 is no longer available to new customers. Existing customers of
+ * Cloud9 can continue to use the service as normal.
+ * Learn more"
+ */
+export const describeEnvironmentMemberships =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeEnvironmentMembershipsRequest,
+    output: DescribeEnvironmentMembershipsResult,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Gets status information for an Cloud9 development environment.
+ *
+ * Cloud9 is no longer available to new customers. Existing customers of
+ * Cloud9 can continue to use the service as normal.
+ * Learn more"
+ */
+export const describeEnvironmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEnvironmentStatusRequest,
+    output: DescribeEnvironmentStatusResult,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Gets a list of Cloud9 development environment identifiers.
+ *
+ * Cloud9 is no longer available to new customers. Existing customers of
+ * Cloud9 can continue to use the service as normal.
+ * Learn more"
+ *
+ * Cloud9 is no longer available to new customers. Existing customers of
+ * Cloud9 can continue to use the service as normal.
+ * Learn more"
+ */
+export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEnvironmentsRequest,
+  output: ListEnvironmentsResult,
   errors: [
     BadRequestException,
     ConflictException,
@@ -604,6 +680,48 @@ export const updateEnvironmentMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deletes an environment member from a development environment.
+ *
+ * Cloud9 is no longer available to new customers. Existing customers of
+ * Cloud9 can continue to use the service as normal.
+ * Learn more"
+ */
+export const deleteEnvironmentMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEnvironmentMembershipRequest,
+    output: DeleteEnvironmentMembershipResult,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Changes the settings of an existing Cloud9 development environment.
+ *
+ * Cloud9 is no longer available to new customers. Existing customers of
+ * Cloud9 can continue to use the service as normal.
+ * Learn more"
+ */
+export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnvironmentRequest,
+  output: UpdateEnvironmentResult,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
  * Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and
  * then connects from the instance to the environment.
  *
@@ -637,92 +755,6 @@ export const createEnvironmentMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: CreateEnvironmentMembershipRequest,
     output: CreateEnvironmentMembershipResult,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the
- * environment, also terminates the instance.
- *
- * Cloud9 is no longer available to new customers. Existing customers of
- * Cloud9 can continue to use the service as normal.
- * Learn more"
- */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentRequest,
-  output: DeleteEnvironmentResult,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes an environment member from a development environment.
- *
- * Cloud9 is no longer available to new customers. Existing customers of
- * Cloud9 can continue to use the service as normal.
- * Learn more"
- */
-export const deleteEnvironmentMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEnvironmentMembershipRequest,
-    output: DeleteEnvironmentMembershipResult,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Gets information about environment members for an Cloud9 development environment.
- *
- * Cloud9 is no longer available to new customers. Existing customers of
- * Cloud9 can continue to use the service as normal.
- * Learn more"
- */
-export const describeEnvironmentMemberships =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEnvironmentMembershipsRequest,
-    output: DescribeEnvironmentMembershipsResult,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Gets information about Cloud9 development environments.
- *
- * Cloud9 is no longer available to new customers. Existing customers of
- * Cloud9 can continue to use the service as normal.
- * Learn more"
- */
-export const describeEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEnvironmentsRequest,
-    output: DescribeEnvironmentsResult,
     errors: [
       BadRequestException,
       ConflictException,

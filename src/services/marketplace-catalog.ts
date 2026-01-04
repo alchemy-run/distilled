@@ -1088,26 +1088,22 @@ export class ListEntitiesResponse extends S.Class<ListEntitiesResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
+  { Message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
   { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotSupportedException extends S.TaggedError<ResourceNotSupportedException>()(
@@ -1118,8 +1114,95 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Deletes a resource-based policy on an entity that is identified by its resource
+ * ARN.
+ */
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyRequest,
+    output: DeleteResourcePolicyResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns the metadata and content of the entity.
+ */
+export const describeEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEntityRequest,
+  output: DescribeEntityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ResourceNotSupportedException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Provides information about a given change set.
+ */
+export const describeChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChangeSetRequest,
+  output: DescribeChangeSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the list of change sets owned by the account being used to make the call. You
+ * can filter this list by providing any combination of `entityId`,
+ * `ChangeSetName`, and status. If you provide more than one filter, the API
+ * operation applies a logical AND between the filters.
+ *
+ * You can describe a change during the 60-day request history retention period for API
+ * calls.
+ */
+export const listChangeSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListChangeSetsRequest,
+  output: ListChangeSetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Used to cancel an open change request. Must be sent before the status of the request
+ * changes to `APPLYING`, the final stage of completing your change request. You
+ * can describe a change during the 60-day request history retention period for API
+ * calls.
+ */
+export const cancelChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelChangeSetRequest,
+  output: CancelChangeSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a resource-based policy of an entity that is identified by its resource
  * ARN.
@@ -1188,89 +1271,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalServiceException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Used to cancel an open change request. Must be sent before the status of the request
- * changes to `APPLYING`, the final stage of completing your change request. You
- * can describe a change during the 60-day request history retention period for API
- * calls.
- */
-export const cancelChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelChangeSetRequest,
-  output: CancelChangeSetResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a resource-based policy on an entity that is identified by its resource
- * ARN.
- */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns the metadata and content of the entity.
- */
-export const describeEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEntityRequest,
-  output: DescribeEntityResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    ResourceNotFoundException,
-    ResourceNotSupportedException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Provides information about a given change set.
- */
-export const describeChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeChangeSetRequest,
-  output: DescribeChangeSetResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the list of change sets owned by the account being used to make the call. You
- * can filter this list by providing any combination of `entityId`,
- * `ChangeSetName`, and status. If you provide more than one filter, the API
- * operation applies a logical AND between the filters.
- *
- * You can describe a change during the 60-day request history retention period for API
- * calls.
- */
-export const listChangeSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListChangeSetsRequest,
-  output: ListChangeSetsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
     ThrottlingException,
     ValidationException,
   ],

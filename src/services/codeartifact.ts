@@ -1653,34 +1653,112 @@ export class CreatePackageGroupResult extends S.Class<CreatePackageGroupResult>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  {
+    message: S.String,
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { message: S.String },
 ) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  {
+    message: S.String,
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    message: S.String,
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.String, reason: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Returns the most closely associated package group to the specified package. This API does not require that the package exist
+ * in any repository in the domain. As such, `GetAssociatedPackageGroup` can be used to see which package group's origin configuration
+ * applies to a package before that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them.
+ *
+ * For information package group association and matching, see
+ * Package group
+ * definition syntax and matching behavior in the *CodeArtifact User Guide*.
+ */
+export const getAssociatedPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAssociatedPackageGroupRequest,
+    output: GetAssociatedPackageGroupResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Removes tags from a resource in CodeArtifact.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResult,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResult,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a
+ * DomainDescription
+ * object that contains information about the requested domain.
+ */
+export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainRequest,
+  output: DescribeDomainResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a PackageGroupDescription object that
  * contains information about the requested package group.
@@ -1713,51 +1791,6 @@ export const describeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Deletes the assets in package versions and sets the package versions' status to `Disposed`.
- * A disposed package version cannot be restored in your repository because its assets are deleted.
- *
- * To view all disposed package versions in a repository, use ListPackageVersions and set the
- * status parameter
- * to `Disposed`.
- *
- * To view information about a disposed package version, use DescribePackageVersion.
- */
-export const disposePackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisposePackageVersionsRequest,
-    output: DisposePackageVersionsResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns the most closely associated package group to the specified package. This API does not require that the package exist
- * in any repository in the domain. As such, `GetAssociatedPackageGroup` can be used to see which package group's origin configuration
- * applies to a package before that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them.
- *
- * For information package group association and matching, see
- * Package group
- * definition syntax and matching behavior in the *CodeArtifact User Guide*.
- */
-export const getAssociatedPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssociatedPackageGroupRequest,
-    output: GetAssociatedPackageGroupResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Generates a temporary authorization token for accessing repositories in the domain.
  * This API requires the `codeartifact:GetAuthorizationToken` and `sts:GetServiceBearerToken` permissions.
@@ -1806,25 +1839,6 @@ export const getDomainPermissionsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
     output: GetDomainPermissionsPolicyResult,
     errors: [
       AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns an asset (or file) that is in a package. For example, for a Maven package version, use
- * `GetPackageVersionAsset` to download a `JAR` file, a `POM` file,
- * or any other assets in the package version.
- */
-export const getPackageVersionAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPackageVersionAssetRequest,
-    output: GetPackageVersionAssetResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -1899,23 +1913,6 @@ export const getRepositoryPermissionsPolicy =
     ],
   }));
 /**
- * Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types
- * and added repository lists, see Package group origin controls in the *CodeArtifact User Guide*.
- */
-export const listAllowedRepositoriesForGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAllowedRepositoriesForGroupRequest,
-    output: ListAllowedRepositoriesForGroupResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
  * Returns a list of
  * PackageSummary
  * objects for packages in a repository that match the request parameters.
@@ -1971,327 +1968,6 @@ export const listSubPackageGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResult,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new package version containing one or more assets (or files).
- *
- * The `unfinished` flag can be used to keep the package version in the
- * `Unfinished` state until all of its assets have been uploaded (see Package version status in the *CodeArtifact user guide*). To set
- * the package version’s status to `Published`, omit the `unfinished` flag
- * when uploading the final asset, or set the status using UpdatePackageVersionStatus. Once a package version’s status is set to
- * `Published`, it cannot change back to `Unfinished`.
- *
- * Only generic packages can be published using this API. For more information, see Using generic
- * packages in the *CodeArtifact User Guide*.
- */
-export const publishPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PublishPackageVersionRequest,
-    output: PublishPackageVersionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Sets a resource policy on a domain that specifies permissions to access it.
- *
- * When you call `PutDomainPermissionsPolicy`, the resource policy on the domain is ignored when evaluting permissions.
- * This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being
- * able to update the resource policy.
- */
-export const putDomainPermissionsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutDomainPermissionsPolicyRequest,
-    output: PutDomainPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Sets the resource policy on a repository that specifies permissions to access it.
- *
- * When you call `PutRepositoryPermissionsPolicy`, the resource policy on the repository is ignored when evaluting permissions.
- * This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being
- * able to update the resource policy.
- */
-export const putRepositoryPermissionsPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutRepositoryPermissionsPolicyRequest,
-    output: PutRepositoryPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Adds or updates tags for a resource in CodeArtifact.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResult,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes tags from a resource in CodeArtifact.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResult,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a
- * package group's origin configuration, use UpdatePackageGroupOriginConfiguration.
- */
-export const updatePackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePackageGroupRequest,
-  output: UpdatePackageGroupResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the status of one or more versions of a package. Using `UpdatePackageVersionsStatus`,
- * you can update the status of package versions to `Archived`, `Published`, or `Unlisted`.
- * To set the status of a package version to `Disposed`, use
- * DisposePackageVersions.
- */
-export const updatePackageVersionsStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePackageVersionsStatusRequest,
-    output: UpdatePackageVersionsStatusResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Update the properties of a repository.
- */
-export const updateRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRepositoryRequest,
-  output: UpdateRepositoryResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Copies package versions from one repository to another repository in the same domain.
- *
- * You must specify `versions` or `versionRevisions`. You cannot specify both.
- */
-export const copyPackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CopyPackageVersionsRequest,
-  output: CopyPackageVersionsResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a domain. CodeArtifact *domains* make it easier to manage multiple repositories across an
- * organization. You can use a domain to apply permissions across many
- * repositories owned by different Amazon Web Services accounts. An asset is stored only once
- * in a domain, even if it's in multiple repositories.
- *
- * Although you can have multiple domains, we recommend a single production domain that contains all
- * published artifacts so that your development teams can find and share packages. You can use a second
- * pre-production domain to test changes to the production domain configuration.
- */
-export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDomainRequest,
-  output: CreateDomainResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a repository.
- */
-export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRepositoryRequest,
-  output: CreateRepositoryResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain
- * with repositories, first delete its repositories.
- */
-export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDomainRequest,
-  output: DeleteDomainResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the resource policy set on a domain.
- */
-export const deleteDomainPermissionsPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDomainPermissionsPolicyRequest,
-    output: DeleteDomainPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes a package group.
- * Deleting a package group does not delete packages or package versions associated with the package group.
- * When a package group is deleted, the direct child package groups will become children of the package
- * group's direct parent package group. Therefore, if any of the child groups are inheriting any settings
- * from the parent, those settings could change.
- */
-export const deletePackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePackageGroupRequest,
-  output: DeletePackageGroupResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a repository.
- */
-export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRepositoryRequest,
-  output: DeleteRepositoryResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the resource policy that is set on a repository. After a resource policy is deleted, the
- * permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate.
- *
- * Use `DeleteRepositoryPermissionsPolicy` with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform
- * the repository actions granted by the deleted policy.
- */
-export const deleteRepositoryPermissionsPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRepositoryPermissionsPolicyRequest,
-    output: DeleteRepositoryPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns a
- * DomainDescription
- * object that contains information about the requested domain.
- */
-export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDomainRequest,
-  output: DescribeDomainResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Returns a
  * PackageDescription
  * object that contains information about the requested package.
@@ -2307,40 +1983,6 @@ export const describePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Removes an existing external connection from a repository.
- */
-export const disassociateExternalConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateExternalConnectionRequest,
-    output: DisassociateExternalConnectionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns a list of packages associated with the requested package group. For information package group association and matching, see
- * Package group
- * definition syntax and matching behavior in the *CodeArtifact User Guide*.
- */
-export const listAssociatedPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAssociatedPackagesRequest,
-    output: ListAssociatedPackagesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes
  * this call. Each returned `DomainSummary` object contains information about a
@@ -2446,26 +2088,114 @@ export const putPackageOriginConfiguration =
     ],
   }));
 /**
- * Adds an existing external connection to a repository. One external connection is allowed
- * per repository.
- *
- * A repository can have one or more upstream repositories, or an external connection.
+ * Deletes a repository.
  */
-export const associateExternalConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateExternalConnectionRequest,
-    output: AssociateExternalConnectionResult,
+export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRepositoryRequest,
+  output: DeleteRepositoryResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the resource policy that is set on a repository. After a resource policy is deleted, the
+ * permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate.
+ *
+ * Use `DeleteRepositoryPermissionsPolicy` with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform
+ * the repository actions granted by the deleted policy.
+ */
+export const deleteRepositoryPermissionsPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteRepositoryPermissionsPolicyRequest,
+    output: DeleteRepositoryPermissionsPolicyResult,
     errors: [
       AccessDeniedException,
       ConflictException,
       InternalServerException,
       ResourceNotFoundException,
-      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes the assets in package versions and sets the package versions' status to `Disposed`.
+ * A disposed package version cannot be restored in your repository because its assets are deleted.
+ *
+ * To view all disposed package versions in a repository, use ListPackageVersions and set the
+ * status parameter
+ * to `Disposed`.
+ *
+ * To view information about a disposed package version, use DescribePackageVersion.
+ */
+export const disposePackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisposePackageVersionsRequest,
+    output: DisposePackageVersionsResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
     ],
   }),
 );
+/**
+ * Returns an asset (or file) that is in a package. For example, for a Maven package version, use
+ * `GetPackageVersionAsset` to download a `JAR` file, a `POM` file,
+ * or any other assets in the package version.
+ */
+export const getPackageVersionAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetPackageVersionAssetRequest,
+    output: GetPackageVersionAssetResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain
+ * with repositories, first delete its repositories.
+ */
+export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainRequest,
+  output: DeleteDomainResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the resource policy set on a domain.
+ */
+export const deleteDomainPermissionsPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteDomainPermissionsPolicyRequest,
+    output: DeleteDomainPermissionsPolicyResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the
  * DeletePackageVersions API.
@@ -2516,6 +2246,291 @@ export const listPackageVersionAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(
       AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Adds or updates tags for a resource in CodeArtifact.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResult,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of packages associated with the requested package group. For information package group association and matching, see
+ * Package group
+ * definition syntax and matching behavior in the *CodeArtifact User Guide*.
+ */
+export const listAssociatedPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAssociatedPackagesRequest,
+    output: ListAssociatedPackagesResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the status of one or more versions of a package. Using `UpdatePackageVersionsStatus`,
+ * you can update the status of package versions to `Archived`, `Published`, or `Unlisted`.
+ * To set the status of a package version to `Disposed`, use
+ * DisposePackageVersions.
+ */
+export const updatePackageVersionsStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePackageVersionsStatusRequest,
+    output: UpdatePackageVersionsStatusResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a
+ * package group's origin configuration, use UpdatePackageGroupOriginConfiguration.
+ */
+export const updatePackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePackageGroupRequest,
+  output: UpdatePackageGroupResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types
+ * and added repository lists, see Package group origin controls in the *CodeArtifact User Guide*.
+ */
+export const listAllowedRepositoriesForGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAllowedRepositoriesForGroupRequest,
+    output: ListAllowedRepositoriesForGroupResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Update the properties of a repository.
+ */
+export const updateRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRepositoryRequest,
+  output: UpdateRepositoryResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a package group.
+ * Deleting a package group does not delete packages or package versions associated with the package group.
+ * When a package group is deleted, the direct child package groups will become children of the package
+ * group's direct parent package group. Therefore, if any of the child groups are inheriting any settings
+ * from the parent, those settings could change.
+ */
+export const deletePackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePackageGroupRequest,
+  output: DeletePackageGroupResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes an existing external connection from a repository.
+ */
+export const disassociateExternalConnection =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateExternalConnectionRequest,
+    output: DisassociateExternalConnectionResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a new package version containing one or more assets (or files).
+ *
+ * The `unfinished` flag can be used to keep the package version in the
+ * `Unfinished` state until all of its assets have been uploaded (see Package version status in the *CodeArtifact user guide*). To set
+ * the package version’s status to `Published`, omit the `unfinished` flag
+ * when uploading the final asset, or set the status using UpdatePackageVersionStatus. Once a package version’s status is set to
+ * `Published`, it cannot change back to `Unfinished`.
+ *
+ * Only generic packages can be published using this API. For more information, see Using generic
+ * packages in the *CodeArtifact User Guide*.
+ */
+export const publishPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PublishPackageVersionRequest,
+    output: PublishPackageVersionResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Sets a resource policy on a domain that specifies permissions to access it.
+ *
+ * When you call `PutDomainPermissionsPolicy`, the resource policy on the domain is ignored when evaluting permissions.
+ * This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being
+ * able to update the resource policy.
+ */
+export const putDomainPermissionsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutDomainPermissionsPolicyRequest,
+    output: PutDomainPermissionsPolicyResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Sets the resource policy on a repository that specifies permissions to access it.
+ *
+ * When you call `PutRepositoryPermissionsPolicy`, the resource policy on the repository is ignored when evaluting permissions.
+ * This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being
+ * able to update the resource policy.
+ */
+export const putRepositoryPermissionsPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutRepositoryPermissionsPolicyRequest,
+    output: PutRepositoryPermissionsPolicyResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Copies package versions from one repository to another repository in the same domain.
+ *
+ * You must specify `versions` or `versionRevisions`. You cannot specify both.
+ */
+export const copyPackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopyPackageVersionsRequest,
+  output: CopyPackageVersionsResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a domain. CodeArtifact *domains* make it easier to manage multiple repositories across an
+ * organization. You can use a domain to apply permissions across many
+ * repositories owned by different Amazon Web Services accounts. An asset is stored only once
+ * in a domain, even if it's in multiple repositories.
+ *
+ * Although you can have multiple domains, we recommend a single production domain that contains all
+ * published artifacts so that your development teams can find and share packages. You can use a second
+ * pre-production domain to test changes to the production domain configuration.
+ */
+export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainRequest,
+  output: CreateDomainResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a repository.
+ */
+export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRepositoryRequest,
+  output: CreateRepositoryResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds an existing external connection to a repository. One external connection is allowed
+ * per repository.
+ *
+ * A repository can have one or more upstream repositories, or an external connection.
+ */
+export const associateExternalConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateExternalConnectionRequest,
+    output: AssociateExternalConnectionResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],

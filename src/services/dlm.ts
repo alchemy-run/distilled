@@ -556,7 +556,6 @@ export class UpdateLifecyclePolicyRequest extends S.Class<UpdateLifecyclePolicyR
 export class UpdateLifecyclePolicyResponse extends S.Class<UpdateLifecyclePolicyResponse>(
   "UpdateLifecyclePolicyResponse",
 )({}) {}
-export const ParameterList = S.Array(S.String);
 export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
   "ListTagsForResourceResponse",
 )({ Tags: S.optional(TagMap) }) {}
@@ -586,6 +585,7 @@ export class LifecyclePolicy extends S.Class<LifecyclePolicy>(
   PolicyArn: S.optional(S.String),
   DefaultPolicy: S.optional(S.Boolean),
 }) {}
+export const ParameterList = S.Array(S.String);
 export class GetLifecyclePoliciesResponse extends S.Class<GetLifecyclePoliciesResponse>(
   "GetLifecyclePoliciesResponse",
 )({ Policies: S.optional(LifecyclePolicySummaryList) }) {}
@@ -625,19 +625,33 @@ export class CreateLifecyclePolicyResponse extends S.Class<CreateLifecyclePolicy
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
-  {},
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  {
+    Message: S.optional(S.String),
+    Code: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
+) {}
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  {
+    Message: S.optional(S.String),
+    Code: S.optional(S.String),
+    RequiredParameters: S.optional(ParameterList),
+    MutuallyExclusiveParameters: S.optional(ParameterList),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  {
+    Message: S.optional(S.String),
+    Code: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceIds: S.optional(PolicyIdList),
+  },
 ) {}
 
 //# Operations
@@ -659,6 +673,18 @@ export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Gets detailed information about the specified lifecycle policy.
+ */
+export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLifecyclePolicyRequest,
+  output: GetLifecyclePolicyResponse,
+  errors: [
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists the tags for the specified resource.
  */
@@ -730,18 +756,6 @@ export const getLifecyclePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Gets detailed information about the specified lifecycle policy.
- */
-export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLifecyclePolicyRequest,
-  output: GetLifecyclePolicyResponse,
-  errors: [
-    InternalServerException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Creates an Amazon Data Lifecycle Manager lifecycle policy. Amazon Data Lifecycle Manager supports the following policy types:
  *

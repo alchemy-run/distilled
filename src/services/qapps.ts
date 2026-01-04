@@ -1374,323 +1374,56 @@ export class CreateQAppOutput extends S.Class<CreateQAppOutput>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ContentTooLargeException extends S.TaggedError<ContentTooLargeException>()(
   "ContentTooLargeException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.String,
+    serviceCode: S.String,
+    quotaCode: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  {
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+    serviceCode: S.String,
+    quotaCode: S.String,
+  },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.String },
 ) {}
 
 //# Operations
-/**
- * Disassociates tags from an Amazon Q Apps resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the verification status of a library item for an Amazon Q App.
- */
-export const updateLibraryItemMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLibraryItemMetadataInput,
-    output: UpdateLibraryItemMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
- */
-export const associateLibraryItemReview = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateLibraryItemReviewInput,
-    output: AssociateLibraryItemReviewResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a *favorite* for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps.
- */
-export const associateQAppWithUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateQAppWithUserInput,
-    output: AssociateQAppWithUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
- */
-export const batchCreateCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchCreateCategoryInput,
-  output: BatchCreateCategoryResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
- */
-export const batchDeleteCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDeleteCategoryInput,
-  output: BatchDeleteCategoryResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
- */
-export const batchUpdateCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchUpdateCategoryInput,
-  output: BatchUpdateCategoryResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
- */
-export const createLibraryItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLibraryItemInput,
-  output: CreateLibraryItemOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
- */
-export const deleteLibraryItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLibraryItemInput,
-  output: DeleteLibraryItemResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library.
- */
-export const deleteQApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteQAppInput,
-  output: DeleteQAppResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a rating or review previously submitted by the user for a library item.
- */
-export const disassociateLibraryItemReview =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateLibraryItemReviewInput,
-    output: DisassociateLibraryItemReviewResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociates a Q App from a user removing the user's access to run the Q App.
- */
-export const disassociateQAppFromUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateQAppFromUserInput,
-    output: DisassociateQAppFromUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Exports the collected data of a Q App data collection session.
- */
-export const exportQAppSessionData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportQAppSessionDataInput,
-    output: ExportQAppSessionDataOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves the current configuration of a Q App session.
- */
-export const getQAppSessionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetQAppSessionMetadataInput,
-    output: GetQAppSessionMetadataOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps.
- */
-export const listCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCategoriesInput,
-  output: ListCategoriesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the tags associated with an Amazon Q Apps resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
- */
-export const stopQAppSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopQAppSessionInput,
-  output: StopQAppSessionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
 /**
  * Associates tags with an Amazon Q Apps resource.
  */
@@ -1706,183 +1439,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Updates the library item for an Amazon Q App.
- */
-export const updateLibraryItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateLibraryItemInput,
-  output: UpdateLibraryItemOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing Amazon Q App, allowing modifications to its title, description, and definition.
- */
-export const updateQApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateQAppInput,
-  output: UpdateQAppOutput,
-  errors: [
-    AccessDeniedException,
-    ContentTooLargeException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the session for a given Q App `sessionId`. This is only valid when at least one card of the session is in the `WAITING` state. Data for each `WAITING` card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the `WAITING` status will be ignored.
- */
-export const updateQAppSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateQAppSessionInput,
-  output: UpdateQAppSessionOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a `FileUploadCard` in a Q App definition or to provide a file for a single Q App run. The `scope` parameter determines how the file will be used, either at the app definition level or the app session level.
- *
- * The IAM permissions are derived from the `qapps:ImportDocument` action. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps.
- */
-export const createPresignedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePresignedUrlInput,
-  output: CreatePresignedUrlOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
- */
-export const getLibraryItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLibraryItemInput,
-  output: GetLibraryItemOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Uploads a file that can then be used either as a default in a `FileUploadCard` from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
- */
-export const importDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportDocumentInput,
-  output: ImportDocumentOutput,
-  errors: [
-    AccessDeniedException,
-    ContentTooLargeException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
- */
-export const listLibraryItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLibraryItemsInput,
-  output: ListLibraryItemsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
- */
-export const listQApps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListQAppsInput,
-  output: ListQAppsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
- */
-export const updateQAppPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQAppPermissionsInput,
-    output: UpdateQAppPermissionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the configuration metadata of a session for a given Q App `sessionId`.
- */
-export const updateQAppSessionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQAppSessionMetadataInput,
-    output: UpdateQAppSessionMetadataOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
- */
-export const describeQAppPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeQAppPermissionsInput,
-    output: DescribeQAppPermissionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Lists the collected data of a Q App data collection session.
  */
@@ -1912,6 +1468,464 @@ export const startQAppSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Uploads a file that can then be used either as a default in a `FileUploadCard` from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
+ */
+export const importDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportDocumentInput,
+  output: ImportDocumentOutput,
+  errors: [
+    AccessDeniedException,
+    ContentTooLargeException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration metadata of a session for a given Q App `sessionId`.
+ */
+export const updateQAppSessionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateQAppSessionMetadataInput,
+    output: UpdateQAppSessionMetadataOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Exports the collected data of a Q App data collection session.
+ */
+export const exportQAppSessionData = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ExportQAppSessionDataInput,
+    output: ExportQAppSessionDataOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Removes a rating or review previously submitted by the user for a library item.
+ */
+export const disassociateLibraryItemReview =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateLibraryItemReviewInput,
+    output: DisassociateLibraryItemReviewResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves the current configuration of a Q App session.
+ */
+export const getQAppSessionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetQAppSessionMetadataInput,
+    output: GetQAppSessionMetadataOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the session for a given Q App `sessionId`. This is only valid when at least one card of the session is in the `WAITING` state. Data for each `WAITING` card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the `WAITING` status will be ignored.
+ */
+export const updateQAppSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQAppSessionInput,
+  output: UpdateQAppSessionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a *favorite* for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps.
+ */
+export const associateQAppWithUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateQAppWithUserInput,
+    output: AssociateQAppWithUserResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
+ */
+export const deleteLibraryItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLibraryItemInput,
+  output: DeleteLibraryItemResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
+ */
+export const stopQAppSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopQAppSessionInput,
+  output: StopQAppSessionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
+ */
+export const associateLibraryItemReview = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateLibraryItemReviewInput,
+    output: AssociateLibraryItemReviewResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
+ */
+export const describeQAppPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeQAppPermissionsInput,
+    output: DescribeQAppPermissionsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
+ */
+export const getLibraryItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLibraryItemInput,
+  output: GetLibraryItemOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
+ */
+export const listLibraryItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLibraryItemsInput,
+  output: ListLibraryItemsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
+ */
+export const updateQAppPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateQAppPermissionsInput,
+    output: UpdateQAppPermissionsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+ */
+export const batchCreateCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateCategoryInput,
+  output: BatchCreateCategoryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+ */
+export const batchUpdateCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateCategoryInput,
+  output: BatchUpdateCategoryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the library item for an Amazon Q App.
+ */
+export const updateLibraryItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLibraryItemInput,
+  output: UpdateLibraryItemOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+ */
+export const batchDeleteCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteCategoryInput,
+  output: BatchDeleteCategoryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the verification status of a library item for an Amazon Q App.
+ */
+export const updateLibraryItemMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateLibraryItemMetadataInput,
+    output: UpdateLibraryItemMetadataResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps.
+ */
+export const listCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCategoriesInput,
+  output: ListCategoriesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library.
+ */
+export const deleteQApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQAppInput,
+  output: DeleteQAppResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Disassociates a Q App from a user removing the user's access to run the Q App.
+ */
+export const disassociateQAppFromUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateQAppFromUserInput,
+    output: DisassociateQAppFromUserResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      UnauthorizedException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates an existing Amazon Q App, allowing modifications to its title, description, and definition.
+ */
+export const updateQApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQAppInput,
+  output: UpdateQAppOutput,
+  errors: [
+    AccessDeniedException,
+    ContentTooLargeException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
+ */
+export const listQApps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListQAppsInput,
+  output: ListQAppsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
+ */
+export const createLibraryItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLibraryItemInput,
+  output: CreateLibraryItemOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the tags associated with an Amazon Q Apps resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Disassociates tags from an Amazon Q Apps resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a `FileUploadCard` in a Q App definition or to provide a file for a single Q App run. The `scope` parameter determines how the file will be used, either at the app definition level or the app session level.
+ *
+ * The IAM permissions are derived from the `qapps:ImportDocument` action. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps.
+ */
+export const createPresignedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePresignedUrlInput,
+  output: CreatePresignedUrlOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
     ThrottlingException,
     UnauthorizedException,
     ValidationException,

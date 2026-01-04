@@ -470,19 +470,19 @@ export class PutMetricPolicyOutput extends S.Class<PutMetricPolicyOutput>(
 //# Errors
 export class ContainerInUseException extends S.TaggedError<ContainerInUseException>()(
   "ContainerInUseException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ContainerNotFoundException extends S.TaggedError<ContainerNotFoundException>()(
   "ContainerNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class PolicyNotFoundException extends S.TaggedError<PolicyNotFoundException>()(
   "PolicyNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class CorsPolicyNotFoundException extends S.TaggedError<CorsPolicyNotFoundException>()(
   "CorsPolicyNotFoundException",
@@ -494,6 +494,72 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 ) {}
 
 //# Operations
+/**
+ * Lists the properties of all containers in AWS Elemental MediaStore.
+ *
+ * You can query to receive all the containers in one response. Or you can include the
+ * `MaxResults` parameter to receive a limited number of containers in each
+ * response. In this case, the response includes a token. To get the next set of containers,
+ * send the command again, this time with the `NextToken` parameter (with the
+ * returned token as its value). The next set of responses appears, with a token if there are
+ * still more containers to receive.
+ *
+ * See also DescribeContainer, which gets the properties of one
+ * container.
+ */
+export const listContainers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListContainersInput,
+  output: ListContainersOutput,
+  errors: [InternalServerError],
+}));
+/**
+ * The metric policy that you want to add to the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the new policy to take effect.
+ */
+export const putMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutMetricPolicyInput,
+  output: PutMetricPolicyOutput,
+  errors: [
+    ContainerInUseException,
+    ContainerNotFoundException,
+    InternalServerError,
+  ],
+}));
+/**
+ * Returns a list of the tags assigned to the specified container.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    ContainerInUseException,
+    ContainerNotFoundException,
+    InternalServerError,
+  ],
+}));
+/**
+ * Sets the cross-origin resource sharing (CORS) configuration on a container so that
+ * the container can service cross-origin requests. For example, you might want to enable a
+ * request whose origin is http://www.example.com to access your AWS Elemental MediaStore
+ * container at my.example.container.com by using the browser's XMLHttpRequest
+ * capability.
+ *
+ * To enable CORS on a container, you attach a CORS policy to the container. In the CORS
+ * policy, you configure rules that identify origins and the HTTP methods that can be executed
+ * on your container. The policy can contain up to 398,000 characters. You can add up to 100
+ * rules to a CORS policy. If more than one rule applies, the service uses the first
+ * applicable rule listed.
+ *
+ * To learn more about CORS, see Cross-Origin Resource Sharing (CORS) in AWS Elemental MediaStore.
+ */
+export const putCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutCorsPolicyInput,
+  output: PutCorsPolicyOutput,
+  errors: [
+    ContainerInUseException,
+    ContainerNotFoundException,
+    InternalServerError,
+  ],
+}));
 /**
  * Creates an access policy for the specified container to restrict the users and
  * clients that can access it. For information about the data that is included in an access
@@ -592,65 +658,18 @@ export const deleteContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes the access policy that is associated with the specified container.
+ * Retrieves the properties of the requested container. This request is commonly used to
+ * retrieve the endpoint of a container. An endpoint is a value assigned by the service when a
+ * new container is created. A container's endpoint does not change after it has been
+ * assigned. The `DescribeContainer` request returns a single
+ * `Container` object based on `ContainerName`. To return all
+ * `Container` objects that are associated with a specified AWS account, use
+ * ListContainers.
  */
-export const deleteContainerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContainerPolicyInput,
-    output: DeleteContainerPolicyOutput,
-    errors: [
-      ContainerInUseException,
-      ContainerNotFoundException,
-      InternalServerError,
-      PolicyNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the cross-origin resource sharing (CORS) configuration information that is
- * set for the container.
- *
- * To use this operation, you must have permission to perform the
- * `MediaStore:DeleteCorsPolicy` action. The container owner has this permission
- * by default and can grant this permission to others.
- */
-export const deleteCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCorsPolicyInput,
-  output: DeleteCorsPolicyOutput,
-  errors: [
-    ContainerInUseException,
-    ContainerNotFoundException,
-    CorsPolicyNotFoundException,
-    InternalServerError,
-  ],
-}));
-/**
- * Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect.
- */
-export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLifecyclePolicyInput,
-    output: DeleteLifecyclePolicyOutput,
-    errors: [
-      ContainerInUseException,
-      ContainerNotFoundException,
-      InternalServerError,
-      PolicyNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes the metric policy that is associated with the specified container. If there is no metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
- */
-export const deleteMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMetricPolicyInput,
-  output: DeleteMetricPolicyOutput,
-  errors: [
-    ContainerInUseException,
-    ContainerNotFoundException,
-    InternalServerError,
-    PolicyNotFoundException,
-  ],
+export const describeContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeContainerInput,
+  output: DescribeContainerOutput,
+  errors: [ContainerNotFoundException, InternalServerError],
 }));
 /**
  * Retrieves the access policy for the specified container. For information about the
@@ -686,6 +705,19 @@ export const getCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Creates a storage container to hold objects. A container is similar to a bucket in
+ * the Amazon S3 service.
+ */
+export const createContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContainerInput,
+  output: CreateContainerOutput,
+  errors: [
+    ContainerInUseException,
+    InternalServerError,
+    LimitExceededException,
+  ],
+}));
+/**
  * Retrieves the object lifecycle policy that is assigned to a container.
  */
 export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -712,95 +744,63 @@ export const getMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the properties of all containers in AWS Elemental MediaStore.
- *
- * You can query to receive all the containers in one response. Or you can include the
- * `MaxResults` parameter to receive a limited number of containers in each
- * response. In this case, the response includes a token. To get the next set of containers,
- * send the command again, this time with the `NextToken` parameter (with the
- * returned token as its value). The next set of responses appears, with a token if there are
- * still more containers to receive.
- *
- * See also DescribeContainer, which gets the properties of one
- * container.
+ * Deletes the access policy that is associated with the specified container.
  */
-export const listContainers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListContainersInput,
-  output: ListContainersOutput,
-  errors: [InternalServerError],
-}));
+export const deleteContainerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteContainerPolicyInput,
+    output: DeleteContainerPolicyOutput,
+    errors: [
+      ContainerInUseException,
+      ContainerNotFoundException,
+      InternalServerError,
+      PolicyNotFoundException,
+    ],
+  }),
+);
 /**
- * Returns a list of the tags assigned to the specified container.
+ * Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteLifecyclePolicyInput,
+    output: DeleteLifecyclePolicyOutput,
+    errors: [
+      ContainerInUseException,
+      ContainerNotFoundException,
+      InternalServerError,
+      PolicyNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes the metric policy that is associated with the specified container. If there is no metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
+ */
+export const deleteMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMetricPolicyInput,
+  output: DeleteMetricPolicyOutput,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
     InternalServerError,
+    PolicyNotFoundException,
   ],
 }));
 /**
- * Sets the cross-origin resource sharing (CORS) configuration on a container so that
- * the container can service cross-origin requests. For example, you might want to enable a
- * request whose origin is http://www.example.com to access your AWS Elemental MediaStore
- * container at my.example.container.com by using the browser's XMLHttpRequest
- * capability.
+ * Deletes the cross-origin resource sharing (CORS) configuration information that is
+ * set for the container.
  *
- * To enable CORS on a container, you attach a CORS policy to the container. In the CORS
- * policy, you configure rules that identify origins and the HTTP methods that can be executed
- * on your container. The policy can contain up to 398,000 characters. You can add up to 100
- * rules to a CORS policy. If more than one rule applies, the service uses the first
- * applicable rule listed.
- *
- * To learn more about CORS, see Cross-Origin Resource Sharing (CORS) in AWS Elemental MediaStore.
+ * To use this operation, you must have permission to perform the
+ * `MediaStore:DeleteCorsPolicy` action. The container owner has this permission
+ * by default and can grant this permission to others.
  */
-export const putCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutCorsPolicyInput,
-  output: PutCorsPolicyOutput,
+export const deleteCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCorsPolicyInput,
+  output: DeleteCorsPolicyOutput,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
+    CorsPolicyNotFoundException,
     InternalServerError,
-  ],
-}));
-/**
- * Retrieves the properties of the requested container. This request is commonly used to
- * retrieve the endpoint of a container. An endpoint is a value assigned by the service when a
- * new container is created. A container's endpoint does not change after it has been
- * assigned. The `DescribeContainer` request returns a single
- * `Container` object based on `ContainerName`. To return all
- * `Container` objects that are associated with a specified AWS account, use
- * ListContainers.
- */
-export const describeContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeContainerInput,
-  output: DescribeContainerOutput,
-  errors: [ContainerNotFoundException, InternalServerError],
-}));
-/**
- * The metric policy that you want to add to the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the new policy to take effect.
- */
-export const putMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutMetricPolicyInput,
-  output: PutMetricPolicyOutput,
-  errors: [
-    ContainerInUseException,
-    ContainerNotFoundException,
-    InternalServerError,
-  ],
-}));
-/**
- * Creates a storage container to hold objects. A container is similar to a bucket in
- * the Amazon S3 service.
- */
-export const createContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateContainerInput,
-  output: CreateContainerOutput,
-  errors: [
-    ContainerInUseException,
-    InternalServerError,
-    LimitExceededException,
   ],
 }));

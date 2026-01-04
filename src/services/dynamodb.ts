@@ -2742,10 +2742,6 @@ export class ItemResponse extends S.Class<ItemResponse>("ItemResponse")({
   Item: S.optional(AttributeMap),
 }) {}
 export const ItemResponseList = S.Array(ItemResponse);
-export class ThrottlingReason extends S.Class<ThrottlingReason>(
-  "ThrottlingReason",
-)({ reason: S.optional(S.String), resource: S.optional(S.String) }) {}
-export const ThrottlingReasonList = S.Array(ThrottlingReason);
 export class ReplicationGroupUpdate extends S.Class<ReplicationGroupUpdate>(
   "ReplicationGroupUpdate",
 )({
@@ -2960,6 +2956,10 @@ export const ItemCollectionMetricsPerTable = S.Record({
   key: S.String,
   value: ItemCollectionMetricsMultiple,
 });
+export class ThrottlingReason extends S.Class<ThrottlingReason>(
+  "ThrottlingReason",
+)({ reason: S.optional(S.String), resource: S.optional(S.String) }) {}
+export const ThrottlingReasonList = S.Array(ThrottlingReason);
 export class BatchExecuteStatementOutput extends S.Class<BatchExecuteStatementOutput>(
   "BatchExecuteStatementOutput",
 )(
@@ -3052,14 +3052,6 @@ export class UpdateGlobalTableSettingsOutput extends S.Class<UpdateGlobalTableSe
 export class UpdateTableOutput extends S.Class<UpdateTableOutput>(
   "UpdateTableOutput",
 )({ TableDescription: S.optional(TableDescription) }, ns) {}
-export class CancellationReason extends S.Class<CancellationReason>(
-  "CancellationReason",
-)({
-  Item: S.optional(AttributeMap),
-  Code: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
-export const CancellationReasonList = S.Array(CancellationReason);
 export class DescribeGlobalTableSettingsOutput extends S.Class<DescribeGlobalTableSettingsOutput>(
   "DescribeGlobalTableSettingsOutput",
 )(
@@ -3069,55 +3061,39 @@ export class DescribeGlobalTableSettingsOutput extends S.Class<DescribeGlobalTab
   },
   ns,
 ) {}
+export class CancellationReason extends S.Class<CancellationReason>(
+  "CancellationReason",
+)({
+  Item: S.optional(AttributeMap),
+  Code: S.optional(S.String),
+  Message: S.optional(S.String),
+}) {}
+export const CancellationReasonList = S.Array(CancellationReason);
 
 //# Errors
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
-  {},
-) {}
-export class InvalidEndpointException extends S.TaggedError<InvalidEndpointException>()(
-  "InvalidEndpointException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class PolicyNotFoundException extends S.TaggedError<PolicyNotFoundException>()(
-  "PolicyNotFoundException",
-  {},
-) {}
-export class BackupInUseException extends S.TaggedError<BackupInUseException>()(
-  "BackupInUseException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class BackupNotFoundException extends S.TaggedError<BackupNotFoundException>()(
   "BackupNotFoundException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidRestoreTimeException extends S.TaggedError<InvalidRestoreTimeException>()(
-  "InvalidRestoreTimeException",
+export class InvalidEndpointException extends S.TaggedError<InvalidEndpointException>()(
+  "InvalidEndpointException",
+  { Message: S.optional(S.String) },
+) {}
+export class BackupInUseException extends S.TaggedError<BackupInUseException>()(
+  "BackupInUseException",
   { message: S.optional(S.String) },
 ) {}
-export class ContinuousBackupsUnavailableException extends S.TaggedError<ContinuousBackupsUnavailableException>()(
-  "ContinuousBackupsUnavailableException",
-  {},
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class GlobalTableAlreadyExistsException extends S.TaggedError<GlobalTableAlreadyExistsException>()(
   "GlobalTableAlreadyExistsException",
   { message: S.optional(S.String) },
-) {}
-export class TableNotFoundException extends S.TaggedError<TableNotFoundException>()(
-  "TableNotFoundException",
-  {},
 ) {}
 export class ExportNotFoundException extends S.TaggedError<ExportNotFoundException>()(
   "ExportNotFoundException",
@@ -3131,62 +3107,37 @@ export class ImportNotFoundException extends S.TaggedError<ImportNotFoundExcepti
   "ImportNotFoundException",
   { message: S.optional(S.String) },
 ) {}
-export class ConditionalCheckFailedException extends S.TaggedError<ConditionalCheckFailedException>()(
-  "ConditionalCheckFailedException",
-  {},
-) {}
 export class ExportConflictException extends S.TaggedError<ExportConflictException>()(
   "ExportConflictException",
   { message: S.optional(S.String) },
 ) {}
-export class ProvisionedThroughputExceededException extends S.TaggedError<ProvisionedThroughputExceededException>()(
-  "ProvisionedThroughputExceededException",
-  {},
-) {}
-export class RequestLimitExceeded extends S.TaggedError<RequestLimitExceeded>()(
-  "RequestLimitExceeded",
-  {},
-) {}
-export class TableAlreadyExistsException extends S.TaggedError<TableAlreadyExistsException>()(
-  "TableAlreadyExistsException",
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class TableInUseException extends S.TaggedError<TableInUseException>()(
-  "TableInUseException",
-  {},
-) {}
-export class PointInTimeRecoveryUnavailableException extends S.TaggedError<PointInTimeRecoveryUnavailableException>()(
-  "PointInTimeRecoveryUnavailableException",
+export class ContinuousBackupsUnavailableException extends S.TaggedError<ContinuousBackupsUnavailableException>()(
+  "ContinuousBackupsUnavailableException",
   { message: S.optional(S.String) },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-  T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
-) {}
-export class ItemCollectionSizeLimitExceededException extends S.TaggedError<ItemCollectionSizeLimitExceededException>()(
-  "ItemCollectionSizeLimitExceededException",
-  {},
-) {}
-export class ReplicatedWriteConflictException extends S.TaggedError<ReplicatedWriteConflictException>()(
-  "ReplicatedWriteConflictException",
-  {},
-) {}
-export class DuplicateItemException extends S.TaggedError<DuplicateItemException>()(
-  "DuplicateItemException",
+export class PolicyNotFoundException extends S.TaggedError<PolicyNotFoundException>()(
+  "PolicyNotFoundException",
   { message: S.optional(S.String) },
 ) {}
-export class TransactionConflictException extends S.TaggedError<TransactionConflictException>()(
-  "TransactionConflictException",
-  {},
+export class InvalidRestoreTimeException extends S.TaggedError<InvalidRestoreTimeException>()(
+  "InvalidRestoreTimeException",
+  { message: S.optional(S.String) },
+) {}
+export class ConditionalCheckFailedException extends S.TaggedError<ConditionalCheckFailedException>()(
+  "ConditionalCheckFailedException",
+  { message: S.optional(S.String), Item: S.optional(AttributeMap) },
+) {}
+export class TableNotFoundException extends S.TaggedError<TableNotFoundException>()(
+  "TableNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
   "IdempotentParameterMismatchException",
   { Message: S.optional(S.String) },
-) {}
-export class TransactionCanceledException extends S.TaggedError<TransactionCanceledException>()(
-  "TransactionCanceledException",
-  {},
 ) {}
 export class InvalidExportTimeException extends S.TaggedError<InvalidExportTimeException>()(
   "InvalidExportTimeException",
@@ -3196,12 +3147,42 @@ export class ImportConflictException extends S.TaggedError<ImportConflictExcepti
   "ImportConflictException",
   { message: S.optional(S.String) },
 ) {}
-export class TransactionInProgressException extends S.TaggedError<TransactionInProgressException>()(
-  "TransactionInProgressException",
-  {},
-) {}
 export class ReplicaAlreadyExistsException extends S.TaggedError<ReplicaAlreadyExistsException>()(
   "ReplicaAlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { message: S.optional(S.String) },
+) {}
+export class PointInTimeRecoveryUnavailableException extends S.TaggedError<PointInTimeRecoveryUnavailableException>()(
+  "PointInTimeRecoveryUnavailableException",
+  { message: S.optional(S.String) },
+) {}
+export class ProvisionedThroughputExceededException extends S.TaggedError<ProvisionedThroughputExceededException>()(
+  "ProvisionedThroughputExceededException",
+  {
+    message: S.optional(S.String),
+    ThrottlingReasons: S.optional(ThrottlingReasonList),
+  },
+) {}
+export class TableAlreadyExistsException extends S.TaggedError<TableAlreadyExistsException>()(
+  "TableAlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class TableInUseException extends S.TaggedError<TableInUseException>()(
+  "TableInUseException",
+  { message: S.optional(S.String) },
+) {}
+export class RequestLimitExceeded extends S.TaggedError<RequestLimitExceeded>()(
+  "RequestLimitExceeded",
+  {
+    message: S.optional(S.String),
+    ThrottlingReasons: S.optional(ThrottlingReasonList),
+  },
+) {}
+export class ItemCollectionSizeLimitExceededException extends S.TaggedError<ItemCollectionSizeLimitExceededException>()(
+  "ItemCollectionSizeLimitExceededException",
   { message: S.optional(S.String) },
 ) {}
 export class ReplicaNotFoundException extends S.TaggedError<ReplicaNotFoundException>()(
@@ -3211,6 +3192,37 @@ export class ReplicaNotFoundException extends S.TaggedError<ReplicaNotFoundExcep
 export class IndexNotFoundException extends S.TaggedError<IndexNotFoundException>()(
   "IndexNotFoundException",
   { message: S.optional(S.String) },
+) {}
+export class DuplicateItemException extends S.TaggedError<DuplicateItemException>()(
+  "DuplicateItemException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.optional(S.String),
+    throttlingReasons: S.optional(ThrottlingReasonList),
+  },
+  T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
+) {}
+export class ReplicatedWriteConflictException extends S.TaggedError<ReplicatedWriteConflictException>()(
+  "ReplicatedWriteConflictException",
+  { message: S.optional(S.String) },
+) {}
+export class TransactionConflictException extends S.TaggedError<TransactionConflictException>()(
+  "TransactionConflictException",
+  { message: S.optional(S.String) },
+) {}
+export class TransactionCanceledException extends S.TaggedError<TransactionCanceledException>()(
+  "TransactionCanceledException",
+  {
+    Message: S.optional(S.String),
+    CancellationReasons: S.optional(CancellationReasonList),
+  },
+) {}
+export class TransactionInProgressException extends S.TaggedError<TransactionInProgressException>()(
+  "TransactionInProgressException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -3294,39 +3306,194 @@ export const describeLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServerError, InvalidEndpointException],
 }));
 /**
- * Stops replication from the DynamoDB table to the Kinesis data stream. This
- * is done without deleting either of the resources.
+ * List DynamoDB backups that are associated with an Amazon Web Services account and
+ * weren't made with Amazon Web Services Backup. To list these backups for a given table,
+ * specify `TableName`. `ListBackups` returns a paginated list of
+ * results with at most 1 MB worth of items in a page. You can also specify a maximum
+ * number of entries to be returned in a page.
+ *
+ * In the request, start time is inclusive, but end time is exclusive. Note that these
+ * boundaries are for the time at which the original backup was requested.
+ *
+ * You can call `ListBackups` a maximum of five times per second.
+ *
+ * If you want to retrieve the complete list of backups made with Amazon Web Services
+ * Backup, use the Amazon Web Services Backup
+ * list API.
  */
-export const disableKinesisStreamingDestination =
+export const listBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBackupsInput,
+  output: ListBackupsOutput,
+  errors: [InternalServerError, InvalidEndpointException],
+}));
+/**
+ * Lists all global tables that have a replica in the specified Region.
+ *
+ * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
+ *
+ * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
+ */
+export const listGlobalTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGlobalTablesInput,
+  output: ListGlobalTablesOutput,
+  errors: [InternalServerError, InvalidEndpointException],
+}));
+/**
+ * Updates the status for contributor insights for a specific table or index. CloudWatch
+ * Contributor Insights for DynamoDB graphs display the partition key and (if applicable)
+ * sort key of frequently accessed items and frequently throttled items in plaintext. If
+ * you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this
+ * table’s partition key and sort key data with an Amazon Web Services managed key or
+ * customer managed key, you should not enable CloudWatch Contributor Insights for DynamoDB
+ * for this table.
+ */
+export const updateContributorInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContributorInsightsInput,
+    output: UpdateContributorInsightsOutput,
+    errors: [InternalServerError, ResourceNotFoundException],
+  }),
+);
+/**
+ * Returns information about the table, including the current status of the table, when
+ * it was created, the primary key schema, and any indexes on the table.
+ *
+ * If you issue a `DescribeTable` request immediately after a
+ * `CreateTable` request, DynamoDB might return a
+ * `ResourceNotFoundException`. This is because
+ * `DescribeTable` uses an eventually consistent query, and the metadata
+ * for your table might not be available at that moment. Wait for a few seconds, and
+ * then try the `DescribeTable` request again.
+ */
+export const describeTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTableInput,
+  output: DescribeTableOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns an array of table names associated with the current account and endpoint. The
+ * output from `ListTables` is paginated, with each page returning a maximum of
+ * 100 table names.
+ */
+export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTablesInput,
+  output: ListTablesOutput,
+  errors: [InternalServerError, InvalidEndpointException],
+}));
+/**
+ * List all tags on an Amazon DynamoDB resource. You can call ListTagsOfResource up to 10
+ * times per second, per account.
+ *
+ * For an overview on tagging DynamoDB resources, see Tagging for DynamoDB
+ * in the *Amazon DynamoDB Developer Guide*.
+ */
+export const listTagsOfResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsOfResourceInput,
+  output: ListTagsOfResourceOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Describes an existing backup of a table.
+ *
+ * You can call `DescribeBackup` at a maximum rate of 10 times per
+ * second.
+ */
+export const describeBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBackupInput,
+  output: DescribeBackupOutput,
+  errors: [
+    BackupNotFoundException,
+    InternalServerError,
+    InvalidEndpointException,
+  ],
+}));
+/**
+ * Returns information about the status of Kinesis streaming.
+ */
+export const describeKinesisStreamingDestination =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: KinesisStreamingDestinationInput,
-    output: KinesisStreamingDestinationOutput,
+    input: DescribeKinesisStreamingDestinationInput,
+    output: DescribeKinesisStreamingDestinationOutput,
     errors: [
       InternalServerError,
       InvalidEndpointException,
-      LimitExceededException,
-      ResourceInUseException,
       ResourceNotFoundException,
     ],
   }));
 /**
- * Starts table data replication to the specified Kinesis data stream at a timestamp
- * chosen during the enable workflow. If this operation doesn't return results immediately,
- * use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream
- * is ACTIVE.
+ * Returns information about contributor insights for a given table or global secondary
+ * index.
  */
-export const enableKinesisStreamingDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: KinesisStreamingDestinationInput,
-    output: KinesisStreamingDestinationOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const describeContributorInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeContributorInsightsInput,
+    output: DescribeContributorInsightsOutput,
+    errors: [InternalServerError, ResourceNotFoundException],
+  }),
+);
+/**
+ * Gives a description of the Time to Live (TTL) status on the specified table.
+ */
+export const describeTimeToLive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTimeToLiveInput,
+  output: DescribeTimeToLiveOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns a list of ContributorInsightsSummary for a table and all its global secondary
+ * indexes.
+ */
+export const listContributorInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListContributorInsightsInput,
+    output: ListContributorInsightsOutput,
+    errors: [InternalServerError, ResourceNotFoundException],
+  }),
+);
+/**
+ * Returns information about the specified global table.
+ *
+ * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
+ *
+ * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
+ */
+export const describeGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGlobalTableInput,
+  output: DescribeGlobalTableOutput,
+  errors: [
+    GlobalTableNotFoundException,
+    InternalServerError,
+    InvalidEndpointException,
+  ],
+}));
+/**
+ * Represents the properties of the import.
+ */
+export const describeImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeImportInput,
+  output: DescribeImportOutput,
+  errors: [ImportNotFoundException],
+}));
+/**
+ * Lists completed exports within the past 90 days.
+ */
+export const listExports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListExportsInput,
+  output: ListExportsOutput,
+  errors: [InternalServerError, LimitExceededException],
+}));
 /**
  * Returns the resource-based policy document attached to the resource, which can be a
  * table or stream, in JSON format.
@@ -3373,31 +3540,293 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns an array of table names associated with the current account and endpoint. The
- * output from `ListTables` is paginated, with each page returning a maximum of
- * 100 table names.
+ * Lists completed imports within the past 90 days.
  */
-export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTablesInput,
-  output: ListTablesOutput,
-  errors: [InternalServerError, InvalidEndpointException],
+export const listImports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListImportsInput,
+  output: ListImportsOutput,
+  errors: [LimitExceededException],
 }));
 /**
- * List all tags on an Amazon DynamoDB resource. You can call ListTagsOfResource up to 10
- * times per second, per account.
- *
- * For an overview on tagging DynamoDB resources, see Tagging for DynamoDB
- * in the *Amazon DynamoDB Developer Guide*.
+ * Describes an existing table export.
  */
-export const listTagsOfResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsOfResourceInput,
-  output: ListTagsOfResourceOutput,
+export const describeExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeExportInput,
+  output: DescribeExportOutput,
+  errors: [
+    ExportNotFoundException,
+    InternalServerError,
+    LimitExceededException,
+  ],
+}));
+/**
+ * Deletes an existing backup of a table.
+ *
+ * You can call `DeleteBackup` at a maximum rate of 10 times per
+ * second.
+ */
+export const deleteBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBackupInput,
+  output: DeleteBackupOutput,
+  errors: [
+    BackupInUseException,
+    BackupNotFoundException,
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+  ],
+}));
+/**
+ * Checks the status of continuous backups and point in time recovery on the specified
+ * table. Continuous backups are `ENABLED` on all tables at table creation. If
+ * point in time recovery is enabled, `PointInTimeRecoveryStatus` will be set to
+ * ENABLED.
+ *
+ * After continuous backups and point in time recovery are enabled, you can restore to
+ * any point in time within `EarliestRestorableDateTime` and
+ * `LatestRestorableDateTime`.
+ *
+ * `LatestRestorableDateTime` is typically 5 minutes before the current time.
+ * You can restore your table to any point in time in the last 35 days. You can set the
+ * recovery period to any value between 1 and 35 days.
+ *
+ * You can call `DescribeContinuousBackups` at a maximum rate of 10 times per
+ * second.
+ */
+export const describeContinuousBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeContinuousBackupsInput,
+    output: DescribeContinuousBackupsOutput,
+    errors: [
+      InternalServerError,
+      InvalidEndpointException,
+      TableNotFoundException,
+    ],
+  }),
+);
+/**
+ * Describes auto scaling settings across replicas of the global table at once.
+ */
+export const describeTableReplicaAutoScaling =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeTableReplicaAutoScalingInput,
+    output: DescribeTableReplicaAutoScalingOutput,
+    errors: [InternalServerError, ResourceNotFoundException],
+  }));
+/**
+ * Updates auto scaling settings on your global tables at once.
+ */
+export const updateTableReplicaAutoScaling =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateTableReplicaAutoScalingInput,
+    output: UpdateTableReplicaAutoScalingOutput,
+    errors: [
+      InternalServerError,
+      LimitExceededException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * `UpdateContinuousBackups` enables or disables point in time recovery for
+ * the specified table. A successful `UpdateContinuousBackups` call returns the
+ * current `ContinuousBackupsDescription`. Continuous backups are
+ * `ENABLED` on all tables at table creation. If point in time recovery is
+ * enabled, `PointInTimeRecoveryStatus` will be set to ENABLED.
+ *
+ * Once continuous backups and point in time recovery are enabled, you can restore to
+ * any point in time within `EarliestRestorableDateTime` and
+ * `LatestRestorableDateTime`.
+ *
+ * `LatestRestorableDateTime` is typically 5 minutes before the current time.
+ * You can restore your table to any point in time in the last 35 days. You can set the
+ * `RecoveryPeriodInDays` to any value between 1 and 35 days.
+ */
+export const updateContinuousBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateContinuousBackupsInput,
+    output: UpdateContinuousBackupsOutput,
+    errors: [
+      ContinuousBackupsUnavailableException,
+      InternalServerError,
+      InvalidEndpointException,
+      TableNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a global table from an existing table. A global table creates a replication
+ * relationship between two or more DynamoDB tables with the same table name in the
+ * provided Regions.
+ *
+ * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
+ *
+ * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
+ *
+ * If you want to add a new replica table to a global table, each of the following
+ * conditions must be true:
+ *
+ * - The table must have the same primary key as all of the other replicas.
+ *
+ * - The table must have the same name as all of the other replicas.
+ *
+ * - The table must have DynamoDB Streams enabled, with the stream containing both
+ * the new and the old images of the item.
+ *
+ * - None of the replica tables in the global table can contain any data.
+ *
+ * If global secondary indexes are specified, then the following conditions must also be
+ * met:
+ *
+ * - The global secondary indexes must have the same name.
+ *
+ * - The global secondary indexes must have the same hash key and sort key (if
+ * present).
+ *
+ * If local secondary indexes are specified, then the following conditions must also be
+ * met:
+ *
+ * - The local secondary indexes must have the same name.
+ *
+ * - The local secondary indexes must have the same hash key and sort key (if
+ * present).
+ *
+ * Write capacity settings should be set consistently across your replica tables and
+ * secondary indexes. DynamoDB strongly recommends enabling auto scaling to manage the
+ * write capacity settings for all of your global tables replicas and indexes.
+ *
+ * If you prefer to manage write capacity settings manually, you should provision
+ * equal replicated write capacity units to your replica tables. You should also
+ * provision equal replicated write capacity units to matching secondary indexes across
+ * your global table.
+ */
+export const createGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGlobalTableInput,
+  output: CreateGlobalTableOutput,
+  errors: [
+    GlobalTableAlreadyExistsException,
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+    TableNotFoundException,
+  ],
+}));
+/**
+ * Creates a backup for an existing table.
+ *
+ * Each time you create an on-demand backup, the entire table data is backed up. There
+ * is no limit to the number of on-demand backups that can be taken.
+ *
+ * When you create an on-demand backup, a time marker of the request is cataloged, and
+ * the backup is created asynchronously, by applying all changes until the time of the
+ * request to the last full table snapshot. Backup requests are processed instantaneously
+ * and become available for restore within minutes.
+ *
+ * You can call `CreateBackup` at a maximum rate of 50 times per
+ * second.
+ *
+ * All backups in DynamoDB work without consuming any provisioned throughput on the
+ * table.
+ *
+ * If you submit a backup request on 2018-12-14 at 14:25:00, the backup is guaranteed to
+ * contain all data committed to the table up to 14:24:00, and data committed after
+ * 14:26:00 will not be. The backup might contain data modifications made between 14:24:00
+ * and 14:26:00. On-demand backup does not support causal consistency.
+ *
+ * Along with data, the following are also included on the backups:
+ *
+ * - Global secondary indexes (GSIs)
+ *
+ * - Local secondary indexes (LSIs)
+ *
+ * - Streams
+ *
+ * - Provisioned read and write capacity
+ */
+export const createBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBackupInput,
+  output: CreateBackupOutput,
+  errors: [
+    BackupInUseException,
+    ContinuousBackupsUnavailableException,
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+    TableInUseException,
+    TableNotFoundException,
+  ],
+}));
+/**
+ * The command to update the Kinesis stream destination.
+ */
+export const updateKinesisStreamingDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateKinesisStreamingDestinationInput,
+    output: UpdateKinesisStreamingDestinationOutput,
+    errors: [
+      InternalServerError,
+      InvalidEndpointException,
+      LimitExceededException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * The `UpdateTimeToLive` method enables or disables Time to Live (TTL) for
+ * the specified table. A successful `UpdateTimeToLive` call returns the current
+ * `TimeToLiveSpecification`. It can take up to one hour for the change to
+ * fully process. Any additional `UpdateTimeToLive` calls for the same table
+ * during this one hour duration result in a `ValidationException`.
+ *
+ * TTL compares the current time in epoch time format to the time stored in the TTL
+ * attribute of an item. If the epoch time value stored in the attribute is less than the
+ * current time, the item is marked as expired and subsequently deleted.
+ *
+ * The epoch time format is the number of seconds elapsed since 12:00:00 AM January
+ * 1, 1970 UTC.
+ *
+ * DynamoDB deletes expired items on a best-effort basis to ensure availability of
+ * throughput for other data operations.
+ *
+ * DynamoDB typically deletes expired items within two days of expiration. The exact
+ * duration within which an item gets deleted after expiration is specific to the
+ * nature of the workload. Items that have expired and not been deleted will still show
+ * up in reads, queries, and scans.
+ *
+ * As items are deleted, they are removed from any local secondary index and global
+ * secondary index immediately in the same eventually consistent way as a standard delete
+ * operation.
+ *
+ * For more information, see Time To Live in the
+ * Amazon DynamoDB Developer Guide.
+ */
+export const updateTimeToLive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTimeToLiveInput,
+  output: UpdateTimeToLiveOutput,
   errors: [
     InternalServerError,
     InvalidEndpointException,
+    LimitExceededException,
+    ResourceInUseException,
     ResourceNotFoundException,
   ],
 }));
+/**
+ * Stops replication from the DynamoDB table to the Kinesis data stream. This
+ * is done without deleting either of the resources.
+ */
+export const disableKinesisStreamingDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: KinesisStreamingDestinationInput,
+    output: KinesisStreamingDestinationOutput,
+    errors: [
+      InternalServerError,
+      InvalidEndpointException,
+      LimitExceededException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }));
 /**
  * Attaches a resource-based policy document to the resource, which can be a table or
  * stream. When you attach a resource-based policy using this API, the policy application
@@ -3432,6 +3861,24 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
   ],
 }));
+/**
+ * Starts table data replication to the specified Kinesis data stream at a timestamp
+ * chosen during the enable workflow. If this operation doesn't return results immediately,
+ * use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream
+ * is ACTIVE.
+ */
+export const enableKinesisStreamingDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: KinesisStreamingDestinationInput,
+    output: KinesisStreamingDestinationOutput,
+    errors: [
+      InternalServerError,
+      InvalidEndpointException,
+      LimitExceededException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }));
 /**
  * Associate a set of tags with an Amazon DynamoDB resource. You can then activate these
  * user-defined tags so that they appear on the Billing and Cost Management console for
@@ -3497,22 +3944,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates the status for contributor insights for a specific table or index. CloudWatch
- * Contributor Insights for DynamoDB graphs display the partition key and (if applicable)
- * sort key of frequently accessed items and frequently throttled items in plaintext. If
- * you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this
- * table’s partition key and sort key data with an Amazon Web Services managed key or
- * customer managed key, you should not enable CloudWatch Contributor Insights for DynamoDB
- * for this table.
- */
-export const updateContributorInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContributorInsightsInput,
-    output: UpdateContributorInsightsOutput,
-    errors: [InternalServerError, ResourceNotFoundException],
-  }),
-);
-/**
  * Deletes the resource-based policy attached to the resource, which can be a table or
  * stream.
  *
@@ -3548,249 +3979,6 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Describes an existing backup of a table.
- *
- * You can call `DescribeBackup` at a maximum rate of 10 times per
- * second.
- */
-export const describeBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBackupInput,
-  output: DescribeBackupOutput,
-  errors: [
-    BackupNotFoundException,
-    InternalServerError,
-    InvalidEndpointException,
-  ],
-}));
-/**
- * Returns information about contributor insights for a given table or global secondary
- * index.
- */
-export const describeContributorInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContributorInsightsInput,
-    output: DescribeContributorInsightsOutput,
-    errors: [InternalServerError, ResourceNotFoundException],
-  }),
-);
-/**
- * Returns information about the status of Kinesis streaming.
- */
-export const describeKinesisStreamingDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeKinesisStreamingDestinationInput,
-    output: DescribeKinesisStreamingDestinationOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Returns information about the table, including the current status of the table, when
- * it was created, the primary key schema, and any indexes on the table.
- *
- * If you issue a `DescribeTable` request immediately after a
- * `CreateTable` request, DynamoDB might return a
- * `ResourceNotFoundException`. This is because
- * `DescribeTable` uses an eventually consistent query, and the metadata
- * for your table might not be available at that moment. Wait for a few seconds, and
- * then try the `DescribeTable` request again.
- */
-export const describeTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTableInput,
-  output: DescribeTableOutput,
-  errors: [
-    InternalServerError,
-    InvalidEndpointException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Gives a description of the Time to Live (TTL) status on the specified table.
- */
-export const describeTimeToLive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTimeToLiveInput,
-  output: DescribeTimeToLiveOutput,
-  errors: [
-    InternalServerError,
-    InvalidEndpointException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * List DynamoDB backups that are associated with an Amazon Web Services account and
- * weren't made with Amazon Web Services Backup. To list these backups for a given table,
- * specify `TableName`. `ListBackups` returns a paginated list of
- * results with at most 1 MB worth of items in a page. You can also specify a maximum
- * number of entries to be returned in a page.
- *
- * In the request, start time is inclusive, but end time is exclusive. Note that these
- * boundaries are for the time at which the original backup was requested.
- *
- * You can call `ListBackups` a maximum of five times per second.
- *
- * If you want to retrieve the complete list of backups made with Amazon Web Services
- * Backup, use the Amazon Web Services Backup
- * list API.
- */
-export const listBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBackupsInput,
-  output: ListBackupsOutput,
-  errors: [InternalServerError, InvalidEndpointException],
-}));
-/**
- * Returns a list of ContributorInsightsSummary for a table and all its global secondary
- * indexes.
- */
-export const listContributorInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListContributorInsightsInput,
-    output: ListContributorInsightsOutput,
-    errors: [InternalServerError, ResourceNotFoundException],
-  }),
-);
-/**
- * Lists completed exports within the past 90 days.
- */
-export const listExports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListExportsInput,
-  output: ListExportsOutput,
-  errors: [InternalServerError, LimitExceededException],
-}));
-/**
- * Lists all global tables that have a replica in the specified Region.
- *
- * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
- *
- * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
- */
-export const listGlobalTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGlobalTablesInput,
-  output: ListGlobalTablesOutput,
-  errors: [InternalServerError, InvalidEndpointException],
-}));
-/**
- * Lists completed imports within the past 90 days.
- */
-export const listImports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListImportsInput,
-  output: ListImportsOutput,
-  errors: [LimitExceededException],
-}));
-/**
- * The command to update the Kinesis stream destination.
- */
-export const updateKinesisStreamingDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateKinesisStreamingDestinationInput,
-    output: UpdateKinesisStreamingDestinationOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * The `UpdateTimeToLive` method enables or disables Time to Live (TTL) for
- * the specified table. A successful `UpdateTimeToLive` call returns the current
- * `TimeToLiveSpecification`. It can take up to one hour for the change to
- * fully process. Any additional `UpdateTimeToLive` calls for the same table
- * during this one hour duration result in a `ValidationException`.
- *
- * TTL compares the current time in epoch time format to the time stored in the TTL
- * attribute of an item. If the epoch time value stored in the attribute is less than the
- * current time, the item is marked as expired and subsequently deleted.
- *
- * The epoch time format is the number of seconds elapsed since 12:00:00 AM January
- * 1, 1970 UTC.
- *
- * DynamoDB deletes expired items on a best-effort basis to ensure availability of
- * throughput for other data operations.
- *
- * DynamoDB typically deletes expired items within two days of expiration. The exact
- * duration within which an item gets deleted after expiration is specific to the
- * nature of the workload. Items that have expired and not been deleted will still show
- * up in reads, queries, and scans.
- *
- * As items are deleted, they are removed from any local secondary index and global
- * secondary index immediately in the same eventually consistent way as a standard delete
- * operation.
- *
- * For more information, see Time To Live in the
- * Amazon DynamoDB Developer Guide.
- */
-export const updateTimeToLive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTimeToLiveInput,
-  output: UpdateTimeToLiveOutput,
-  errors: [
-    InternalServerError,
-    InvalidEndpointException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates a global table from an existing table. A global table creates a replication
- * relationship between two or more DynamoDB tables with the same table name in the
- * provided Regions.
- *
- * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
- *
- * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
- *
- * If you want to add a new replica table to a global table, each of the following
- * conditions must be true:
- *
- * - The table must have the same primary key as all of the other replicas.
- *
- * - The table must have the same name as all of the other replicas.
- *
- * - The table must have DynamoDB Streams enabled, with the stream containing both
- * the new and the old images of the item.
- *
- * - None of the replica tables in the global table can contain any data.
- *
- * If global secondary indexes are specified, then the following conditions must also be
- * met:
- *
- * - The global secondary indexes must have the same name.
- *
- * - The global secondary indexes must have the same hash key and sort key (if
- * present).
- *
- * If local secondary indexes are specified, then the following conditions must also be
- * met:
- *
- * - The local secondary indexes must have the same name.
- *
- * - The local secondary indexes must have the same hash key and sort key (if
- * present).
- *
- * Write capacity settings should be set consistently across your replica tables and
- * secondary indexes. DynamoDB strongly recommends enabling auto scaling to manage the
- * write capacity settings for all of your global tables replicas and indexes.
- *
- * If you prefer to manage write capacity settings manually, you should provision
- * equal replicated write capacity units to your replica tables. You should also
- * provision equal replicated write capacity units to matching secondary indexes across
- * your global table.
- */
-export const createGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGlobalTableInput,
-  output: CreateGlobalTableOutput,
-  errors: [
-    GlobalTableAlreadyExistsException,
-    InternalServerError,
-    InvalidEndpointException,
-    LimitExceededException,
-    TableNotFoundException,
-  ],
-}));
-/**
  * The `CreateTable` operation adds a new table to your account. In an Amazon Web Services account, table names must be unique within each Region. That is, you can
  * have two tables with same name if you create the tables in different Regions.
  *
@@ -3818,102 +4006,98 @@ export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Checks the status of continuous backups and point in time recovery on the specified
- * table. Continuous backups are `ENABLED` on all tables at table creation. If
- * point in time recovery is enabled, `PointInTimeRecoveryStatus` will be set to
- * ENABLED.
+ * The `DeleteTable` operation deletes a table and all of its items. After a
+ * `DeleteTable` request, the specified table is in the
+ * `DELETING` state until DynamoDB completes the deletion. If the table is
+ * in the `ACTIVE` state, you can delete it. If a table is in
+ * `CREATING` or `UPDATING` states, then DynamoDB returns a
+ * `ResourceInUseException`. If the specified table does not exist, DynamoDB
+ * returns a `ResourceNotFoundException`. If table is already in the
+ * `DELETING` state, no error is returned.
  *
- * After continuous backups and point in time recovery are enabled, you can restore to
- * any point in time within `EarliestRestorableDateTime` and
- * `LatestRestorableDateTime`.
+ * DynamoDB might continue to accept data read and write operations, such as
+ * `GetItem` and `PutItem`, on a table in the
+ * `DELETING` state until the table deletion is complete. For the full
+ * list of table states, see TableStatus.
  *
- * `LatestRestorableDateTime` is typically 5 minutes before the current time.
- * You can restore your table to any point in time in the last 35 days. You can set the
- * recovery period to any value between 1 and 35 days.
+ * When you delete a table, any indexes on that table are also deleted.
  *
- * You can call `DescribeContinuousBackups` at a maximum rate of 10 times per
- * second.
+ * If you have DynamoDB Streams enabled on the table, then the corresponding stream on
+ * that table goes into the `DISABLED` state, and the stream is automatically
+ * deleted after 24 hours.
+ *
+ * Use the `DescribeTable` action to check the status of the table.
  */
-export const describeContinuousBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContinuousBackupsInput,
-    output: DescribeContinuousBackupsOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      TableNotFoundException,
-    ],
-  }),
-);
-/**
- * Describes an existing table export.
- */
-export const describeExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeExportInput,
-  output: DescribeExportOutput,
+export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableInput,
+  output: DeleteTableOutput,
   errors: [
-    ExportNotFoundException,
-    InternalServerError,
-    LimitExceededException,
-  ],
-}));
-/**
- * Returns information about the specified global table.
- *
- * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
- *
- * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
- */
-export const describeGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeGlobalTableInput,
-  output: DescribeGlobalTableOutput,
-  errors: [
-    GlobalTableNotFoundException,
     InternalServerError,
     InvalidEndpointException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
   ],
 }));
 /**
- * Represents the properties of the import.
+ * Imports table data from an S3 bucket.
  */
-export const describeImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeImportInput,
-  output: DescribeImportOutput,
-  errors: [ImportNotFoundException],
+export const importTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportTableInput,
+  output: ImportTableOutput,
+  errors: [
+    ImportConflictException,
+    LimitExceededException,
+    ResourceInUseException,
+  ],
 }));
 /**
- * Creates a new table from an existing backup. Any number of users can execute up to 50
- * concurrent restores (any type of restore) in a given account.
+ * Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB
+ * Streams settings for a given table.
  *
- * You can call `RestoreTableFromBackup` at a maximum rate of 10 times per
- * second.
+ * You can only perform one of the following operations at once:
  *
- * You must manually set up the following on the restored table:
+ * - Modify the provisioned throughput settings of the table.
  *
- * - Auto scaling policies
+ * - Remove a global secondary index from the table.
  *
- * - IAM policies
+ * - Create a new global secondary index on the table. After the index begins
+ * backfilling, you can use `UpdateTable` to perform other
+ * operations.
  *
- * - Amazon CloudWatch metrics and alarms
- *
- * - Tags
- *
- * - Stream settings
- *
- * - Time to Live (TTL) settings
+ * `UpdateTable` is an asynchronous operation; while it's executing, the table
+ * status changes from `ACTIVE` to `UPDATING`. While it's
+ * `UPDATING`, you can't issue another `UpdateTable` request.
+ * When the table returns to the `ACTIVE` state, the `UpdateTable`
+ * operation is complete.
  */
-export const restoreTableFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTableInput,
+  output: UpdateTableOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Exports table data to an S3 bucket. The table must have point in time recovery
+ * enabled, and you can export data from any time within the point in time recovery
+ * window.
+ */
+export const exportTableToPointInTime = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: RestoreTableFromBackupInput,
-    output: RestoreTableFromBackupOutput,
+    input: ExportTableToPointInTimeInput,
+    output: ExportTableToPointInTimeOutput,
     errors: [
-      BackupInUseException,
-      BackupNotFoundException,
+      ExportConflictException,
       InternalServerError,
-      InvalidEndpointException,
+      InvalidExportTimeException,
       LimitExceededException,
-      TableAlreadyExistsException,
-      TableInUseException,
+      PointInTimeRecoveryUnavailableException,
+      TableNotFoundException,
     ],
   }),
 );
@@ -3974,103 +4158,121 @@ export const restoreTableToPointInTime = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * The `Scan` operation returns one or more items and item attributes by
- * accessing every item in a table or a secondary index. To have DynamoDB return fewer
- * items, you can provide a `FilterExpression` operation.
+ * Creates a new table from an existing backup. Any number of users can execute up to 50
+ * concurrent restores (any type of restore) in a given account.
  *
- * If the total size of scanned items exceeds the maximum dataset size limit of 1 MB, the
- * scan completes and results are returned to the user. The `LastEvaluatedKey`
- * value is also returned and the requestor can use the `LastEvaluatedKey` to
- * continue the scan in a subsequent operation. Each scan response also includes number of
- * items that were scanned (ScannedCount) as part of the request. If using a
- * `FilterExpression`, a scan result can result in no items meeting the
- * criteria and the `Count` will result in zero. If you did not use a
- * `FilterExpression` in the scan request, then `Count` is the
- * same as `ScannedCount`.
+ * You can call `RestoreTableFromBackup` at a maximum rate of 10 times per
+ * second.
  *
- * `Count` and `ScannedCount` only return the count of items
- * specific to a single scan request and, unless the table is less than 1MB, do not
- * represent the total number of items in the table.
+ * You must manually set up the following on the restored table:
  *
- * A single `Scan` operation first reads up to the maximum number of items set
- * (if using the `Limit` parameter) or a maximum of 1 MB of data and then
- * applies any filtering to the results if a `FilterExpression` is provided. If
- * `LastEvaluatedKey` is present in the response, pagination is required to
- * complete the full table scan. For more information, see Paginating the
- * Results in the *Amazon DynamoDB Developer Guide*.
+ * - Auto scaling policies
  *
- * `Scan` operations proceed sequentially; however, for faster performance on
- * a large table or secondary index, applications can request a parallel `Scan`
- * operation by providing the `Segment` and `TotalSegments`
- * parameters. For more information, see Parallel
- * Scan in the *Amazon DynamoDB Developer Guide*.
+ * - IAM policies
  *
- * By default, a `Scan` uses eventually consistent reads when accessing the
- * items in a table. Therefore, the results from an eventually consistent `Scan`
- * may not include the latest item changes at the time the scan iterates through each item
- * in the table. If you require a strongly consistent read of each item as the scan
- * iterates through the items in the table, you can set the `ConsistentRead`
- * parameter to true. Strong consistency only relates to the consistency of the read at the
- * item level.
+ * - Amazon CloudWatch metrics and alarms
  *
- * DynamoDB does not provide snapshot isolation for a scan operation when the
- * `ConsistentRead` parameter is set to true. Thus, a DynamoDB scan
- * operation does not guarantee that all reads in a scan see a consistent snapshot of
- * the table when the scan operation was requested.
+ * - Tags
+ *
+ * - Stream settings
+ *
+ * - Time to Live (TTL) settings
  */
-export const scan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ScanInput,
-  output: ScanOutput,
-  errors: [
-    InternalServerError,
-    InvalidEndpointException,
-    ProvisionedThroughputExceededException,
-    RequestLimitExceeded,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * `UpdateContinuousBackups` enables or disables point in time recovery for
- * the specified table. A successful `UpdateContinuousBackups` call returns the
- * current `ContinuousBackupsDescription`. Continuous backups are
- * `ENABLED` on all tables at table creation. If point in time recovery is
- * enabled, `PointInTimeRecoveryStatus` will be set to ENABLED.
- *
- * Once continuous backups and point in time recovery are enabled, you can restore to
- * any point in time within `EarliestRestorableDateTime` and
- * `LatestRestorableDateTime`.
- *
- * `LatestRestorableDateTime` is typically 5 minutes before the current time.
- * You can restore your table to any point in time in the last 35 days. You can set the
- * `RecoveryPeriodInDays` to any value between 1 and 35 days.
- */
-export const updateContinuousBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const restoreTableFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateContinuousBackupsInput,
-    output: UpdateContinuousBackupsOutput,
+    input: RestoreTableFromBackupInput,
+    output: RestoreTableFromBackupOutput,
     errors: [
-      ContinuousBackupsUnavailableException,
+      BackupInUseException,
+      BackupNotFoundException,
       InternalServerError,
       InvalidEndpointException,
-      TableNotFoundException,
+      LimitExceededException,
+      TableAlreadyExistsException,
+      TableInUseException,
     ],
   }),
 );
 /**
- * Updates auto scaling settings on your global tables at once.
+ * Describes Region-specific settings for a global table.
+ *
+ * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
+ *
+ * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
-export const updateTableReplicaAutoScaling =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateTableReplicaAutoScalingInput,
-    output: UpdateTableReplicaAutoScalingOutput,
+export const describeGlobalTableSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeGlobalTableSettingsInput,
+    output: DescribeGlobalTableSettingsOutput,
     errors: [
+      GlobalTableNotFoundException,
       InternalServerError,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
+      InvalidEndpointException,
     ],
-  }));
+  }),
+);
+/**
+ * Adds or removes replicas in the specified global table. The global table must already
+ * exist to be able to use this operation. Any replica to be added must be empty, have the
+ * same name as the global table, have the same key schema, have DynamoDB Streams enabled,
+ * and have the same provisioned and maximum write capacity units.
+ *
+ * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
+ *
+ * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
+ *
+ * If you are using global tables Version
+ * 2019.11.21 (Current) you can use UpdateTable instead.
+ *
+ * Although you can use `UpdateGlobalTable` to add replicas and remove
+ * replicas in a single request, for simplicity we recommend that you issue separate
+ * requests for adding or removing replicas.
+ *
+ * If global secondary indexes are specified, then the following conditions must also be
+ * met:
+ *
+ * - The global secondary indexes must have the same name.
+ *
+ * - The global secondary indexes must have the same hash key and sort key (if
+ * present).
+ *
+ * - The global secondary indexes must have the same provisioned and maximum write
+ * capacity units.
+ */
+export const updateGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGlobalTableInput,
+  output: UpdateGlobalTableOutput,
+  errors: [
+    GlobalTableNotFoundException,
+    InternalServerError,
+    InvalidEndpointException,
+    ReplicaAlreadyExistsException,
+    ReplicaNotFoundException,
+    TableNotFoundException,
+  ],
+}));
+/**
+ * Updates settings for a global table.
+ *
+ * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
+ *
+ * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
+ */
+export const updateGlobalTableSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateGlobalTableSettingsInput,
+    output: UpdateGlobalTableSettingsOutput,
+    errors: [
+      GlobalTableNotFoundException,
+      IndexNotFoundException,
+      InternalServerError,
+      InvalidEndpointException,
+      LimitExceededException,
+      ReplicaNotFoundException,
+      ResourceInUseException,
+    ],
+  }),
+);
 /**
  * This operation allows you to perform batch reads or writes on data stored in DynamoDB,
  * using PartiQL. Each read statement in a `BatchExecuteStatement` must specify
@@ -4091,504 +4293,6 @@ export const batchExecuteStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InternalServerError, RequestLimitExceeded, ThrottlingException],
   }),
 );
-/**
- * The `BatchGetItem` operation returns the attributes of one or more items
- * from one or more tables. You identify requested items by primary key.
- *
- * A single operation can retrieve up to 16 MB of data, which can contain as many as 100
- * items. `BatchGetItem` returns a partial result if the response size limit is
- * exceeded, the table's provisioned throughput is exceeded, more than 1MB per partition is
- * requested, or an internal processing failure occurs. If a partial result is returned,
- * the operation returns a value for `UnprocessedKeys`. You can use this value
- * to retry the operation starting with the next item to get.
- *
- * If you request more than 100 items, `BatchGetItem` returns a
- * `ValidationException` with the message "Too many items requested for
- * the BatchGetItem call."
- *
- * For example, if you ask to retrieve 100 items, but each individual item is 300 KB in
- * size, the system returns 52 items (so as not to exceed the 16 MB limit). It also returns
- * an appropriate `UnprocessedKeys` value so you can get the next page of
- * results. If desired, your application can include its own logic to assemble the pages of
- * results into one dataset.
- *
- * If *none* of the items can be processed due to insufficient
- * provisioned throughput on all of the tables in the request, then
- * `BatchGetItem` returns a
- * `ProvisionedThroughputExceededException`. If at least
- * one of the items is successfully processed, then
- * `BatchGetItem` completes successfully, while returning the keys of the
- * unread items in `UnprocessedKeys`.
- *
- * If DynamoDB returns any unprocessed items, you should retry the batch operation on
- * those items. However, we strongly recommend that you use an exponential
- * backoff algorithm. If you retry the batch operation immediately, the
- * underlying read or write requests can still fail due to throttling on the individual
- * tables. If you delay the batch operation using exponential backoff, the individual
- * requests in the batch are much more likely to succeed.
- *
- * For more information, see Batch Operations and Error Handling in the Amazon DynamoDB
- * Developer Guide.
- *
- * By default, `BatchGetItem` performs eventually consistent reads on every
- * table in the request. If you want strongly consistent reads instead, you can set
- * `ConsistentRead` to `true` for any or all tables.
- *
- * In order to minimize response latency, `BatchGetItem` may retrieve items in
- * parallel.
- *
- * When designing your application, keep in mind that DynamoDB does not return items in
- * any particular order. To help parse the response by item, include the primary key values
- * for the items in your request in the `ProjectionExpression` parameter.
- *
- * If a requested item does not exist, it is not returned in the result. Requests for
- * nonexistent items consume the minimum read capacity units according to the type of read.
- * For more information, see Working with Tables in the Amazon DynamoDB Developer
- * Guide.
- *
- * `BatchGetItem` will result in a `ValidationException` if the
- * same key is specified multiple times.
- */
-export const batchGetItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGetItemInput,
-  output: BatchGetItemOutput,
-  errors: [
-    InternalServerError,
-    InvalidEndpointException,
-    ProvisionedThroughputExceededException,
-    RequestLimitExceeded,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a backup for an existing table.
- *
- * Each time you create an on-demand backup, the entire table data is backed up. There
- * is no limit to the number of on-demand backups that can be taken.
- *
- * When you create an on-demand backup, a time marker of the request is cataloged, and
- * the backup is created asynchronously, by applying all changes until the time of the
- * request to the last full table snapshot. Backup requests are processed instantaneously
- * and become available for restore within minutes.
- *
- * You can call `CreateBackup` at a maximum rate of 50 times per
- * second.
- *
- * All backups in DynamoDB work without consuming any provisioned throughput on the
- * table.
- *
- * If you submit a backup request on 2018-12-14 at 14:25:00, the backup is guaranteed to
- * contain all data committed to the table up to 14:24:00, and data committed after
- * 14:26:00 will not be. The backup might contain data modifications made between 14:24:00
- * and 14:26:00. On-demand backup does not support causal consistency.
- *
- * Along with data, the following are also included on the backups:
- *
- * - Global secondary indexes (GSIs)
- *
- * - Local secondary indexes (LSIs)
- *
- * - Streams
- *
- * - Provisioned read and write capacity
- */
-export const createBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBackupInput,
-  output: CreateBackupOutput,
-  errors: [
-    BackupInUseException,
-    ContinuousBackupsUnavailableException,
-    InternalServerError,
-    InvalidEndpointException,
-    LimitExceededException,
-    TableInUseException,
-    TableNotFoundException,
-  ],
-}));
-/**
- * Deletes an existing backup of a table.
- *
- * You can call `DeleteBackup` at a maximum rate of 10 times per
- * second.
- */
-export const deleteBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBackupInput,
-  output: DeleteBackupOutput,
-  errors: [
-    BackupInUseException,
-    BackupNotFoundException,
-    InternalServerError,
-    InvalidEndpointException,
-    LimitExceededException,
-  ],
-}));
-/**
- * The `DeleteTable` operation deletes a table and all of its items. After a
- * `DeleteTable` request, the specified table is in the
- * `DELETING` state until DynamoDB completes the deletion. If the table is
- * in the `ACTIVE` state, you can delete it. If a table is in
- * `CREATING` or `UPDATING` states, then DynamoDB returns a
- * `ResourceInUseException`. If the specified table does not exist, DynamoDB
- * returns a `ResourceNotFoundException`. If table is already in the
- * `DELETING` state, no error is returned.
- *
- * DynamoDB might continue to accept data read and write operations, such as
- * `GetItem` and `PutItem`, on a table in the
- * `DELETING` state until the table deletion is complete. For the full
- * list of table states, see TableStatus.
- *
- * When you delete a table, any indexes on that table are also deleted.
- *
- * If you have DynamoDB Streams enabled on the table, then the corresponding stream on
- * that table goes into the `DISABLED` state, and the stream is automatically
- * deleted after 24 hours.
- *
- * Use the `DescribeTable` action to check the status of the table.
- */
-export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTableInput,
-  output: DeleteTableOutput,
-  errors: [
-    InternalServerError,
-    InvalidEndpointException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Describes auto scaling settings across replicas of the global table at once.
- */
-export const describeTableReplicaAutoScaling =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTableReplicaAutoScalingInput,
-    output: DescribeTableReplicaAutoScalingOutput,
-    errors: [InternalServerError, ResourceNotFoundException],
-  }));
-/**
- * This operation allows you to perform reads and singleton writes on data stored in
- * DynamoDB, using PartiQL.
- *
- * For PartiQL reads (`SELECT` statement), if the total number of processed
- * items exceeds the maximum dataset size limit of 1 MB, the read stops and results are
- * returned to the user as a `LastEvaluatedKey` value to continue the read in a
- * subsequent operation. If the filter criteria in `WHERE` clause does not match
- * any data, the read will return an empty result set.
- *
- * A single `SELECT` statement response can return up to the maximum number of
- * items (if using the Limit parameter) or a maximum of 1 MB of data (and then apply any
- * filtering to the results using `WHERE` clause). If
- * `LastEvaluatedKey` is present in the response, you need to paginate the
- * result set. If `NextToken` is present, you need to paginate the result set
- * and include `NextToken`.
- */
-export const executeStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExecuteStatementInput,
-  output: ExecuteStatementOutput,
-  errors: [
-    ConditionalCheckFailedException,
-    DuplicateItemException,
-    InternalServerError,
-    ItemCollectionSizeLimitExceededException,
-    ProvisionedThroughputExceededException,
-    RequestLimitExceeded,
-    ResourceNotFoundException,
-    ThrottlingException,
-    TransactionConflictException,
-  ],
-}));
-/**
- * Exports table data to an S3 bucket. The table must have point in time recovery
- * enabled, and you can export data from any time within the point in time recovery
- * window.
- */
-export const exportTableToPointInTime = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportTableToPointInTimeInput,
-    output: ExportTableToPointInTimeOutput,
-    errors: [
-      ExportConflictException,
-      InternalServerError,
-      InvalidExportTimeException,
-      LimitExceededException,
-      PointInTimeRecoveryUnavailableException,
-      TableNotFoundException,
-    ],
-  }),
-);
-/**
- * The `GetItem` operation returns a set of attributes for the item with the
- * given primary key. If there is no matching item, `GetItem` does not return
- * any data and there will be no `Item` element in the response.
- *
- * `GetItem` provides an eventually consistent read by default. If your
- * application requires a strongly consistent read, set `ConsistentRead` to
- * `true`. Although a strongly consistent read might take more time than an
- * eventually consistent read, it always returns the last updated value.
- */
-export const getItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetItemInput,
-  output: GetItemOutput,
-  errors: [
-    InternalServerError,
-    InvalidEndpointException,
-    ProvisionedThroughputExceededException,
-    RequestLimitExceeded,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Imports table data from an S3 bucket.
- */
-export const importTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportTableInput,
-  output: ImportTableOutput,
-  errors: [
-    ImportConflictException,
-    LimitExceededException,
-    ResourceInUseException,
-  ],
-}));
-/**
- * Creates a new item, or replaces an old item with a new item. If an item that has the
- * same primary key as the new item already exists in the specified table, the new item
- * completely replaces the existing item. You can perform a conditional put operation (add
- * a new item if one with the specified primary key doesn't exist), or replace an existing
- * item if it has certain attribute values. You can return the item's attribute values in
- * the same operation, using the `ReturnValues` parameter.
- *
- * When you add an item, the primary key attributes are the only required attributes.
- *
- * Empty String and Binary attribute values are allowed. Attribute values of type String
- * and Binary must have a length greater than zero if the attribute is used as a key
- * attribute for a table or index. Set type attributes cannot be empty.
- *
- * Invalid Requests with empty values will be rejected with a
- * `ValidationException` exception.
- *
- * To prevent a new item from replacing an existing item, use a conditional
- * expression that contains the `attribute_not_exists` function with the
- * name of the attribute being used as the partition key for the table. Since every
- * record must contain that attribute, the `attribute_not_exists` function
- * will only succeed if no matching item exists.
- *
- * For more information about `PutItem`, see Working with
- * Items in the *Amazon DynamoDB Developer Guide*.
- */
-export const putItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutItemInput,
-  output: PutItemOutput,
-  errors: [
-    ConditionalCheckFailedException,
-    InternalServerError,
-    InvalidEndpointException,
-    ItemCollectionSizeLimitExceededException,
-    ProvisionedThroughputExceededException,
-    ReplicatedWriteConflictException,
-    RequestLimitExceeded,
-    ResourceNotFoundException,
-    ThrottlingException,
-    TransactionConflictException,
-  ],
-}));
-/**
- * You must provide the name of the partition key attribute and a single value for that
- * attribute. `Query` returns all items with that partition key value.
- * Optionally, you can provide a sort key attribute and use a comparison operator to refine
- * the search results.
- *
- * Use the `KeyConditionExpression` parameter to provide a specific value for
- * the partition key. The `Query` operation will return all of the items from
- * the table or index with that partition key value. You can optionally narrow the scope of
- * the `Query` operation by specifying a sort key value and a comparison
- * operator in `KeyConditionExpression`. To further refine the
- * `Query` results, you can optionally provide a
- * `FilterExpression`. A `FilterExpression` determines which
- * items within the results should be returned to you. All of the other results are
- * discarded.
- *
- * A `Query` operation always returns a result set. If no matching items are
- * found, the result set will be empty. Queries that do not return results consume the
- * minimum number of read capacity units for that type of read operation.
- *
- * DynamoDB calculates the number of read capacity units consumed based on item
- * size, not on the amount of data that is returned to an application. The number of
- * capacity units consumed will be the same whether you request all of the attributes
- * (the default behavior) or just some of them (using a projection expression). The
- * number will also be the same whether or not you use a `FilterExpression`.
- *
- * `Query` results are always sorted by the sort key value. If the data type of
- * the sort key is Number, the results are returned in numeric order; otherwise, the
- * results are returned in order of UTF-8 bytes. By default, the sort order is ascending.
- * To reverse the order, set the `ScanIndexForward` parameter to false.
- *
- * A single `Query` operation will read up to the maximum number of items set
- * (if using the `Limit` parameter) or a maximum of 1 MB of data and then apply
- * any filtering to the results using `FilterExpression`. If
- * `LastEvaluatedKey` is present in the response, you will need to paginate
- * the result set. For more information, see Paginating
- * the Results in the *Amazon DynamoDB Developer Guide*.
- *
- * `FilterExpression` is applied after a `Query` finishes, but before
- * the results are returned. A `FilterExpression` cannot contain partition key
- * or sort key attributes. You need to specify those attributes in the
- * `KeyConditionExpression`.
- *
- * A `Query` operation can return an empty result set and a
- * `LastEvaluatedKey` if all the items read for the page of results are
- * filtered out.
- *
- * You can query a table, a local secondary index, or a global secondary index. For a
- * query on a table or on a local secondary index, you can set the
- * `ConsistentRead` parameter to `true` and obtain a strongly
- * consistent result. Global secondary indexes support eventually consistent reads only, so
- * do not specify `ConsistentRead` when querying a global secondary
- * index.
- */
-export const query = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: QueryInput,
-  output: QueryOutput,
-  errors: [
-    InternalServerError,
-    InvalidEndpointException,
-    ProvisionedThroughputExceededException,
-    RequestLimitExceeded,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * `TransactWriteItems` is a synchronous write operation that groups up to 100
- * action requests. These actions can target items in different tables, but not in
- * different Amazon Web Services accounts or Regions, and no two actions can target the same
- * item. For example, you cannot both `ConditionCheck` and `Update`
- * the same item. The aggregate size of the items in the transaction cannot exceed 4
- * MB.
- *
- * The actions are completed atomically so that either all of them succeed, or all of
- * them fail. They are defined by the following objects:
- *
- * - `Put`  —   Initiates a `PutItem`
- * operation to write a new item. This structure specifies the primary key of the
- * item to be written, the name of the table to write it in, an optional condition
- * expression that must be satisfied for the write to succeed, a list of the item's
- * attributes, and a field indicating whether to retrieve the item's attributes if
- * the condition is not met.
- *
- * - `Update`  —   Initiates an `UpdateItem`
- * operation to update an existing item. This structure specifies the primary key
- * of the item to be updated, the name of the table where it resides, an optional
- * condition expression that must be satisfied for the update to succeed, an
- * expression that defines one or more attributes to be updated, and a field
- * indicating whether to retrieve the item's attributes if the condition is not
- * met.
- *
- * - `Delete`  —   Initiates a `DeleteItem`
- * operation to delete an existing item. This structure specifies the primary key
- * of the item to be deleted, the name of the table where it resides, an optional
- * condition expression that must be satisfied for the deletion to succeed, and a
- * field indicating whether to retrieve the item's attributes if the condition is
- * not met.
- *
- * - `ConditionCheck`  —   Applies a condition to an item
- * that is not being modified by the transaction. This structure specifies the
- * primary key of the item to be checked, the name of the table where it resides, a
- * condition expression that must be satisfied for the transaction to succeed, and
- * a field indicating whether to retrieve the item's attributes if the condition is
- * not met.
- *
- * DynamoDB rejects the entire `TransactWriteItems` request if any of the
- * following is true:
- *
- * - A condition in one of the condition expressions is not met.
- *
- * - An ongoing operation is in the process of updating the same item.
- *
- * - There is insufficient provisioned capacity for the transaction to be
- * completed.
- *
- * - An item size becomes too large (bigger than 400 KB), a local secondary index
- * (LSI) becomes too large, or a similar validation error occurs because of changes
- * made by the transaction.
- *
- * - The aggregate size of the items in the transaction exceeds 4 MB.
- *
- * - There is a user error, such as an invalid data format.
- */
-export const transactWriteItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TransactWriteItemsInput,
-  output: TransactWriteItemsOutput,
-  errors: [
-    IdempotentParameterMismatchException,
-    InternalServerError,
-    InvalidEndpointException,
-    ProvisionedThroughputExceededException,
-    RequestLimitExceeded,
-    ResourceNotFoundException,
-    ThrottlingException,
-    TransactionCanceledException,
-    TransactionInProgressException,
-  ],
-}));
-/**
- * Edits an existing item's attributes, or adds a new item to the table if it does not
- * already exist. You can put, delete, or add attribute values. You can also perform a
- * conditional update on an existing item (insert a new attribute name-value pair if it
- * doesn't exist, or replace an existing name-value pair if it has certain expected
- * attribute values).
- *
- * You can also return the item's attribute values in the same `UpdateItem`
- * operation using the `ReturnValues` parameter.
- */
-export const updateItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateItemInput,
-  output: UpdateItemOutput,
-  errors: [
-    ConditionalCheckFailedException,
-    InternalServerError,
-    InvalidEndpointException,
-    ItemCollectionSizeLimitExceededException,
-    ProvisionedThroughputExceededException,
-    ReplicatedWriteConflictException,
-    RequestLimitExceeded,
-    ResourceNotFoundException,
-    ThrottlingException,
-    TransactionConflictException,
-  ],
-}));
-/**
- * Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB
- * Streams settings for a given table.
- *
- * You can only perform one of the following operations at once:
- *
- * - Modify the provisioned throughput settings of the table.
- *
- * - Remove a global secondary index from the table.
- *
- * - Create a new global secondary index on the table. After the index begins
- * backfilling, you can use `UpdateTable` to perform other
- * operations.
- *
- * `UpdateTable` is an asynchronous operation; while it's executing, the table
- * status changes from `ACTIVE` to `UPDATING`. While it's
- * `UPDATING`, you can't issue another `UpdateTable` request.
- * When the table returns to the `ACTIVE` state, the `UpdateTable`
- * operation is complete.
- */
-export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTableInput,
-  output: UpdateTableOutput,
-  errors: [
-    InternalServerError,
-    InvalidEndpointException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * The `BatchWriteItem` operation puts or deletes multiple items in one or
  * more tables. A single call to `BatchWriteItem` can transmit up to 16MB of
@@ -4690,6 +4394,253 @@ export const batchWriteItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * The `Scan` operation returns one or more items and item attributes by
+ * accessing every item in a table or a secondary index. To have DynamoDB return fewer
+ * items, you can provide a `FilterExpression` operation.
+ *
+ * If the total size of scanned items exceeds the maximum dataset size limit of 1 MB, the
+ * scan completes and results are returned to the user. The `LastEvaluatedKey`
+ * value is also returned and the requestor can use the `LastEvaluatedKey` to
+ * continue the scan in a subsequent operation. Each scan response also includes number of
+ * items that were scanned (ScannedCount) as part of the request. If using a
+ * `FilterExpression`, a scan result can result in no items meeting the
+ * criteria and the `Count` will result in zero. If you did not use a
+ * `FilterExpression` in the scan request, then `Count` is the
+ * same as `ScannedCount`.
+ *
+ * `Count` and `ScannedCount` only return the count of items
+ * specific to a single scan request and, unless the table is less than 1MB, do not
+ * represent the total number of items in the table.
+ *
+ * A single `Scan` operation first reads up to the maximum number of items set
+ * (if using the `Limit` parameter) or a maximum of 1 MB of data and then
+ * applies any filtering to the results if a `FilterExpression` is provided. If
+ * `LastEvaluatedKey` is present in the response, pagination is required to
+ * complete the full table scan. For more information, see Paginating the
+ * Results in the *Amazon DynamoDB Developer Guide*.
+ *
+ * `Scan` operations proceed sequentially; however, for faster performance on
+ * a large table or secondary index, applications can request a parallel `Scan`
+ * operation by providing the `Segment` and `TotalSegments`
+ * parameters. For more information, see Parallel
+ * Scan in the *Amazon DynamoDB Developer Guide*.
+ *
+ * By default, a `Scan` uses eventually consistent reads when accessing the
+ * items in a table. Therefore, the results from an eventually consistent `Scan`
+ * may not include the latest item changes at the time the scan iterates through each item
+ * in the table. If you require a strongly consistent read of each item as the scan
+ * iterates through the items in the table, you can set the `ConsistentRead`
+ * parameter to true. Strong consistency only relates to the consistency of the read at the
+ * item level.
+ *
+ * DynamoDB does not provide snapshot isolation for a scan operation when the
+ * `ConsistentRead` parameter is set to true. Thus, a DynamoDB scan
+ * operation does not guarantee that all reads in a scan see a consistent snapshot of
+ * the table when the scan operation was requested.
+ */
+export const scan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ScanInput,
+  output: ScanOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    ProvisionedThroughputExceededException,
+    RequestLimitExceeded,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * The `GetItem` operation returns a set of attributes for the item with the
+ * given primary key. If there is no matching item, `GetItem` does not return
+ * any data and there will be no `Item` element in the response.
+ *
+ * `GetItem` provides an eventually consistent read by default. If your
+ * application requires a strongly consistent read, set `ConsistentRead` to
+ * `true`. Although a strongly consistent read might take more time than an
+ * eventually consistent read, it always returns the last updated value.
+ */
+export const getItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetItemInput,
+  output: GetItemOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    ProvisionedThroughputExceededException,
+    RequestLimitExceeded,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * You must provide the name of the partition key attribute and a single value for that
+ * attribute. `Query` returns all items with that partition key value.
+ * Optionally, you can provide a sort key attribute and use a comparison operator to refine
+ * the search results.
+ *
+ * Use the `KeyConditionExpression` parameter to provide a specific value for
+ * the partition key. The `Query` operation will return all of the items from
+ * the table or index with that partition key value. You can optionally narrow the scope of
+ * the `Query` operation by specifying a sort key value and a comparison
+ * operator in `KeyConditionExpression`. To further refine the
+ * `Query` results, you can optionally provide a
+ * `FilterExpression`. A `FilterExpression` determines which
+ * items within the results should be returned to you. All of the other results are
+ * discarded.
+ *
+ * A `Query` operation always returns a result set. If no matching items are
+ * found, the result set will be empty. Queries that do not return results consume the
+ * minimum number of read capacity units for that type of read operation.
+ *
+ * DynamoDB calculates the number of read capacity units consumed based on item
+ * size, not on the amount of data that is returned to an application. The number of
+ * capacity units consumed will be the same whether you request all of the attributes
+ * (the default behavior) or just some of them (using a projection expression). The
+ * number will also be the same whether or not you use a `FilterExpression`.
+ *
+ * `Query` results are always sorted by the sort key value. If the data type of
+ * the sort key is Number, the results are returned in numeric order; otherwise, the
+ * results are returned in order of UTF-8 bytes. By default, the sort order is ascending.
+ * To reverse the order, set the `ScanIndexForward` parameter to false.
+ *
+ * A single `Query` operation will read up to the maximum number of items set
+ * (if using the `Limit` parameter) or a maximum of 1 MB of data and then apply
+ * any filtering to the results using `FilterExpression`. If
+ * `LastEvaluatedKey` is present in the response, you will need to paginate
+ * the result set. For more information, see Paginating
+ * the Results in the *Amazon DynamoDB Developer Guide*.
+ *
+ * `FilterExpression` is applied after a `Query` finishes, but before
+ * the results are returned. A `FilterExpression` cannot contain partition key
+ * or sort key attributes. You need to specify those attributes in the
+ * `KeyConditionExpression`.
+ *
+ * A `Query` operation can return an empty result set and a
+ * `LastEvaluatedKey` if all the items read for the page of results are
+ * filtered out.
+ *
+ * You can query a table, a local secondary index, or a global secondary index. For a
+ * query on a table or on a local secondary index, you can set the
+ * `ConsistentRead` parameter to `true` and obtain a strongly
+ * consistent result. Global secondary indexes support eventually consistent reads only, so
+ * do not specify `ConsistentRead` when querying a global secondary
+ * index.
+ */
+export const query = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: QueryInput,
+  output: QueryOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    ProvisionedThroughputExceededException,
+    RequestLimitExceeded,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * The `BatchGetItem` operation returns the attributes of one or more items
+ * from one or more tables. You identify requested items by primary key.
+ *
+ * A single operation can retrieve up to 16 MB of data, which can contain as many as 100
+ * items. `BatchGetItem` returns a partial result if the response size limit is
+ * exceeded, the table's provisioned throughput is exceeded, more than 1MB per partition is
+ * requested, or an internal processing failure occurs. If a partial result is returned,
+ * the operation returns a value for `UnprocessedKeys`. You can use this value
+ * to retry the operation starting with the next item to get.
+ *
+ * If you request more than 100 items, `BatchGetItem` returns a
+ * `ValidationException` with the message "Too many items requested for
+ * the BatchGetItem call."
+ *
+ * For example, if you ask to retrieve 100 items, but each individual item is 300 KB in
+ * size, the system returns 52 items (so as not to exceed the 16 MB limit). It also returns
+ * an appropriate `UnprocessedKeys` value so you can get the next page of
+ * results. If desired, your application can include its own logic to assemble the pages of
+ * results into one dataset.
+ *
+ * If *none* of the items can be processed due to insufficient
+ * provisioned throughput on all of the tables in the request, then
+ * `BatchGetItem` returns a
+ * `ProvisionedThroughputExceededException`. If at least
+ * one of the items is successfully processed, then
+ * `BatchGetItem` completes successfully, while returning the keys of the
+ * unread items in `UnprocessedKeys`.
+ *
+ * If DynamoDB returns any unprocessed items, you should retry the batch operation on
+ * those items. However, we strongly recommend that you use an exponential
+ * backoff algorithm. If you retry the batch operation immediately, the
+ * underlying read or write requests can still fail due to throttling on the individual
+ * tables. If you delay the batch operation using exponential backoff, the individual
+ * requests in the batch are much more likely to succeed.
+ *
+ * For more information, see Batch Operations and Error Handling in the Amazon DynamoDB
+ * Developer Guide.
+ *
+ * By default, `BatchGetItem` performs eventually consistent reads on every
+ * table in the request. If you want strongly consistent reads instead, you can set
+ * `ConsistentRead` to `true` for any or all tables.
+ *
+ * In order to minimize response latency, `BatchGetItem` may retrieve items in
+ * parallel.
+ *
+ * When designing your application, keep in mind that DynamoDB does not return items in
+ * any particular order. To help parse the response by item, include the primary key values
+ * for the items in your request in the `ProjectionExpression` parameter.
+ *
+ * If a requested item does not exist, it is not returned in the result. Requests for
+ * nonexistent items consume the minimum read capacity units according to the type of read.
+ * For more information, see Working with Tables in the Amazon DynamoDB Developer
+ * Guide.
+ *
+ * `BatchGetItem` will result in a `ValidationException` if the
+ * same key is specified multiple times.
+ */
+export const batchGetItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetItemInput,
+  output: BatchGetItemOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    ProvisionedThroughputExceededException,
+    RequestLimitExceeded,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * This operation allows you to perform reads and singleton writes on data stored in
+ * DynamoDB, using PartiQL.
+ *
+ * For PartiQL reads (`SELECT` statement), if the total number of processed
+ * items exceeds the maximum dataset size limit of 1 MB, the read stops and results are
+ * returned to the user as a `LastEvaluatedKey` value to continue the read in a
+ * subsequent operation. If the filter criteria in `WHERE` clause does not match
+ * any data, the read will return an empty result set.
+ *
+ * A single `SELECT` statement response can return up to the maximum number of
+ * items (if using the Limit parameter) or a maximum of 1 MB of data (and then apply any
+ * filtering to the results using `WHERE` clause). If
+ * `LastEvaluatedKey` is present in the response, you need to paginate the
+ * result set. If `NextToken` is present, you need to paginate the result set
+ * and include `NextToken`.
+ */
+export const executeStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteStatementInput,
+  output: ExecuteStatementOutput,
+  errors: [
+    ConditionalCheckFailedException,
+    DuplicateItemException,
+    InternalServerError,
+    ItemCollectionSizeLimitExceededException,
+    ProvisionedThroughputExceededException,
+    RequestLimitExceeded,
+    ResourceNotFoundException,
+    ThrottlingException,
+    TransactionConflictException,
+  ],
+}));
+/**
  * Deletes a single item in a table by primary key. You can perform a conditional delete
  * operation that deletes the item if it exists, or if it has an expected attribute
  * value.
@@ -4722,44 +4673,71 @@ export const deleteItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Describes Region-specific settings for a global table.
+ * Creates a new item, or replaces an old item with a new item. If an item that has the
+ * same primary key as the new item already exists in the specified table, the new item
+ * completely replaces the existing item. You can perform a conditional put operation (add
+ * a new item if one with the specified primary key doesn't exist), or replace an existing
+ * item if it has certain attribute values. You can return the item's attribute values in
+ * the same operation, using the `ReturnValues` parameter.
  *
- * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
+ * When you add an item, the primary key attributes are the only required attributes.
  *
- * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
+ * Empty String and Binary attribute values are allowed. Attribute values of type String
+ * and Binary must have a length greater than zero if the attribute is used as a key
+ * attribute for a table or index. Set type attributes cannot be empty.
+ *
+ * Invalid Requests with empty values will be rejected with a
+ * `ValidationException` exception.
+ *
+ * To prevent a new item from replacing an existing item, use a conditional
+ * expression that contains the `attribute_not_exists` function with the
+ * name of the attribute being used as the partition key for the table. Since every
+ * record must contain that attribute, the `attribute_not_exists` function
+ * will only succeed if no matching item exists.
+ *
+ * For more information about `PutItem`, see Working with
+ * Items in the *Amazon DynamoDB Developer Guide*.
  */
-export const describeGlobalTableSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGlobalTableSettingsInput,
-    output: DescribeGlobalTableSettingsOutput,
-    errors: [
-      GlobalTableNotFoundException,
-      InternalServerError,
-      InvalidEndpointException,
-    ],
-  }),
-);
-/**
- * This operation allows you to perform transactional reads or writes on data stored in
- * DynamoDB, using PartiQL.
- *
- * The entire transaction must consist of either read statements or write statements,
- * you cannot mix both in one transaction. The EXISTS function is an exception and can
- * be used to check the condition of specific attributes of the item in a similar
- * manner to `ConditionCheck` in the TransactWriteItems API.
- */
-export const executeTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExecuteTransactionInput,
-  output: ExecuteTransactionOutput,
+export const putItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutItemInput,
+  output: PutItemOutput,
   errors: [
-    IdempotentParameterMismatchException,
+    ConditionalCheckFailedException,
     InternalServerError,
+    InvalidEndpointException,
+    ItemCollectionSizeLimitExceededException,
     ProvisionedThroughputExceededException,
+    ReplicatedWriteConflictException,
     RequestLimitExceeded,
     ResourceNotFoundException,
     ThrottlingException,
-    TransactionCanceledException,
-    TransactionInProgressException,
+    TransactionConflictException,
+  ],
+}));
+/**
+ * Edits an existing item's attributes, or adds a new item to the table if it does not
+ * already exist. You can put, delete, or add attribute values. You can also perform a
+ * conditional update on an existing item (insert a new attribute name-value pair if it
+ * doesn't exist, or replace an existing name-value pair if it has certain expected
+ * attribute values).
+ *
+ * You can also return the item's attribute values in the same `UpdateItem`
+ * operation using the `ReturnValues` parameter.
+ */
+export const updateItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateItemInput,
+  output: UpdateItemOutput,
+  errors: [
+    ConditionalCheckFailedException,
+    InternalServerError,
+    InvalidEndpointException,
+    ItemCollectionSizeLimitExceededException,
+    ProvisionedThroughputExceededException,
+    ReplicatedWriteConflictException,
+    RequestLimitExceeded,
+    ResourceNotFoundException,
+    ThrottlingException,
+    TransactionConflictException,
   ],
 }));
 /**
@@ -4799,64 +4777,98 @@ export const transactGetItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Adds or removes replicas in the specified global table. The global table must already
- * exist to be able to use this operation. Any replica to be added must be empty, have the
- * same name as the global table, have the same key schema, have DynamoDB Streams enabled,
- * and have the same provisioned and maximum write capacity units.
+ * This operation allows you to perform transactional reads or writes on data stored in
+ * DynamoDB, using PartiQL.
  *
- * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
- *
- * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
- *
- * If you are using global tables Version
- * 2019.11.21 (Current) you can use UpdateTable instead.
- *
- * Although you can use `UpdateGlobalTable` to add replicas and remove
- * replicas in a single request, for simplicity we recommend that you issue separate
- * requests for adding or removing replicas.
- *
- * If global secondary indexes are specified, then the following conditions must also be
- * met:
- *
- * - The global secondary indexes must have the same name.
- *
- * - The global secondary indexes must have the same hash key and sort key (if
- * present).
- *
- * - The global secondary indexes must have the same provisioned and maximum write
- * capacity units.
+ * The entire transaction must consist of either read statements or write statements,
+ * you cannot mix both in one transaction. The EXISTS function is an exception and can
+ * be used to check the condition of specific attributes of the item in a similar
+ * manner to `ConditionCheck` in the TransactWriteItems API.
  */
-export const updateGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateGlobalTableInput,
-  output: UpdateGlobalTableOutput,
+export const executeTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteTransactionInput,
+  output: ExecuteTransactionOutput,
   errors: [
-    GlobalTableNotFoundException,
+    IdempotentParameterMismatchException,
     InternalServerError,
-    InvalidEndpointException,
-    ReplicaAlreadyExistsException,
-    ReplicaNotFoundException,
-    TableNotFoundException,
+    ProvisionedThroughputExceededException,
+    RequestLimitExceeded,
+    ResourceNotFoundException,
+    ThrottlingException,
+    TransactionCanceledException,
+    TransactionInProgressException,
   ],
 }));
 /**
- * Updates settings for a global table.
+ * `TransactWriteItems` is a synchronous write operation that groups up to 100
+ * action requests. These actions can target items in different tables, but not in
+ * different Amazon Web Services accounts or Regions, and no two actions can target the same
+ * item. For example, you cannot both `ConditionCheck` and `Update`
+ * the same item. The aggregate size of the items in the transaction cannot exceed 4
+ * MB.
  *
- * This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
+ * The actions are completed atomically so that either all of them succeed, or all of
+ * them fail. They are defined by the following objects:
  *
- * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
+ * - `Put`  —   Initiates a `PutItem`
+ * operation to write a new item. This structure specifies the primary key of the
+ * item to be written, the name of the table to write it in, an optional condition
+ * expression that must be satisfied for the write to succeed, a list of the item's
+ * attributes, and a field indicating whether to retrieve the item's attributes if
+ * the condition is not met.
+ *
+ * - `Update`  —   Initiates an `UpdateItem`
+ * operation to update an existing item. This structure specifies the primary key
+ * of the item to be updated, the name of the table where it resides, an optional
+ * condition expression that must be satisfied for the update to succeed, an
+ * expression that defines one or more attributes to be updated, and a field
+ * indicating whether to retrieve the item's attributes if the condition is not
+ * met.
+ *
+ * - `Delete`  —   Initiates a `DeleteItem`
+ * operation to delete an existing item. This structure specifies the primary key
+ * of the item to be deleted, the name of the table where it resides, an optional
+ * condition expression that must be satisfied for the deletion to succeed, and a
+ * field indicating whether to retrieve the item's attributes if the condition is
+ * not met.
+ *
+ * - `ConditionCheck`  —   Applies a condition to an item
+ * that is not being modified by the transaction. This structure specifies the
+ * primary key of the item to be checked, the name of the table where it resides, a
+ * condition expression that must be satisfied for the transaction to succeed, and
+ * a field indicating whether to retrieve the item's attributes if the condition is
+ * not met.
+ *
+ * DynamoDB rejects the entire `TransactWriteItems` request if any of the
+ * following is true:
+ *
+ * - A condition in one of the condition expressions is not met.
+ *
+ * - An ongoing operation is in the process of updating the same item.
+ *
+ * - There is insufficient provisioned capacity for the transaction to be
+ * completed.
+ *
+ * - An item size becomes too large (bigger than 400 KB), a local secondary index
+ * (LSI) becomes too large, or a similar validation error occurs because of changes
+ * made by the transaction.
+ *
+ * - The aggregate size of the items in the transaction exceeds 4 MB.
+ *
+ * - There is a user error, such as an invalid data format.
  */
-export const updateGlobalTableSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGlobalTableSettingsInput,
-    output: UpdateGlobalTableSettingsOutput,
-    errors: [
-      GlobalTableNotFoundException,
-      IndexNotFoundException,
-      InternalServerError,
-      InvalidEndpointException,
-      LimitExceededException,
-      ReplicaNotFoundException,
-      ResourceInUseException,
-    ],
-  }),
-);
+export const transactWriteItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TransactWriteItemsInput,
+  output: TransactWriteItemsOutput,
+  errors: [
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidEndpointException,
+    ProvisionedThroughputExceededException,
+    RequestLimitExceeded,
+    ResourceNotFoundException,
+    ThrottlingException,
+    TransactionCanceledException,
+    TransactionInProgressException,
+  ],
+}));

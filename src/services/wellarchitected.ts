@@ -1899,10 +1899,6 @@ export class SelectedPillar extends S.Class<SelectedPillar>("SelectedPillar")({
   SelectedQuestionIds: S.optional(SelectedQuestionIds),
 }) {}
 export const SelectedPillars = S.Array(SelectedPillar);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class Lens extends S.Class<Lens>("Lens")({
   LensArn: S.optional(S.String),
   LensVersion: S.optional(S.String),
@@ -2530,6 +2526,10 @@ export const PillarDifferences = S.Array(PillarDifference);
 export class VersionDifferences extends S.Class<VersionDifferences>(
   "VersionDifferences",
 )({ PillarDifferences: S.optional(PillarDifferences) }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, Message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class GetAnswerOutput extends S.Class<GetAnswerOutput>(
   "GetAnswerOutput",
 )({
@@ -2599,34 +2599,645 @@ export class GetConsolidatedReportOutput extends S.Class<GetConsolidatedReportOu
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { Message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.String },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    Message: S.String,
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    Message: S.String,
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    QuotaCode: S.String,
+    ServiceCode: S.String,
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.String,
+    Reason: S.optional(S.String),
+    Fields: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
+/**
+ * Adds one or more tags to the specified resource.
+ *
+ * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
+/**
+ * Deletes specified tags from a resource.
+ *
+ * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
+ *
+ * To specify multiple tags, use separate **tagKeys** parameters, for example:
+ *
+ * `DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2`
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
+/**
+ * List the tags for a resource.
+ *
+ * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
+/**
+ * Global settings for all workloads.
+ */
+export const getGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGlobalSettingsRequest,
+  output: GetGlobalSettingsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Export an existing lens.
+ *
+ * Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content)
+ * cannot be exported.
+ *
+ * Lenses are defined in JSON. For more information, see JSON format specification
+ * in the *Well-Architected Tool User Guide*.
+ *
+ * **Disclaimer**
+ *
+ * Do not include or gather personal identifiable information (PII) of end users or
+ * other identifiable individuals in or via your custom lenses. If your custom
+ * lens or those shared with you and used in your account do include or collect
+ * PII you are responsible for: ensuring that the included PII is processed in accordance
+ * with applicable law, providing adequate privacy notices, and obtaining necessary
+ * consents for processing such data.
+ */
+export const exportLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportLensInput,
+  output: ExportLensOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associate a lens to a workload.
+ *
+ * Up to 10 lenses can be associated with a workload in a single API operation. A
+ * maximum of 20 lenses can be associated with a workload.
+ *
+ * **Disclaimer**
+ *
+ * By accessing and/or applying custom lenses created by another Amazon Web Services user or account,
+ * you acknowledge that custom lenses created by other users and shared with you are
+ * Third Party Content as defined in the Amazon Web Services Customer Agreement.
+ */
+export const associateLenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateLensesInput,
+  output: AssociateLensesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get an existing lens.
+ */
+export const getLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLensInput,
+  output: GetLensOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get lens review report.
+ */
+export const getLensReviewReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLensReviewReportInput,
+  output: GetLensReviewReportOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get a milestone for an existing workload.
+ */
+export const getMilestone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMilestoneInput,
+  output: GetMilestoneOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get review template answer.
+ */
+export const getReviewTemplateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetReviewTemplateAnswerInput,
+    output: GetReviewTemplateAnswerOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * List of Trusted Advisor check details by account related to the workload.
+ */
+export const listCheckDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCheckDetailsInput,
+  output: ListCheckDetailsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List lens reviews for a particular workload.
+ */
+export const listLensReviews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLensReviewsInput,
+  output: ListLensReviewsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List the lens shares associated with the lens.
+ */
+export const listLensShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLensSharesInput,
+  output: ListLensSharesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List all milestones for an existing workload.
+ */
+export const listMilestones = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMilestonesInput,
+  output: ListMilestonesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List profile shares.
+ */
+export const listProfileShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProfileSharesInput,
+  output: ListProfileSharesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List the answers of a review template.
+ */
+export const listReviewTemplateAnswers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListReviewTemplateAnswersInput,
+    output: ListReviewTemplateAnswersOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * List review template shares.
+ */
+export const listTemplateShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTemplateSharesInput,
+  output: ListTemplateSharesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List the workload shares associated with the workload.
+ */
+export const listWorkloadShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWorkloadSharesInput,
+  output: ListWorkloadSharesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List the available lenses.
+ */
+export const listLenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLensesInput,
+  output: ListLensesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List profile notifications.
+ */
+export const listProfileNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListProfileNotificationsInput,
+    output: ListProfileNotificationsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * List profiles.
+ */
+export const listProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProfilesInput,
+  output: ListProfilesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List review templates.
+ */
+export const listReviewTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListReviewTemplatesInput,
+  output: ListReviewTemplatesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List the share invitations.
+ *
+ * `WorkloadNamePrefix`, `LensNamePrefix`,
+ * `ProfileNamePrefix`, and `TemplateNamePrefix` are mutually
+ * exclusive. Use the parameter that matches your `ShareResourceType`.
+ */
+export const listShareInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListShareInvitationsInput,
+    output: ListShareInvitationsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Paginated list of workloads.
+ */
+export const listWorkloads = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWorkloadsInput,
+  output: ListWorkloadsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update a workload or custom lens share invitation.
+ *
+ * This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
+ */
+export const updateShareInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateShareInvitationInput,
+    output: UpdateShareInvitationOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Update a workload share.
+ */
+export const updateWorkloadShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkloadShareInput,
+  output: UpdateWorkloadShareOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
+ */
+export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateGlobalSettingsInput,
+    output: UpdateGlobalSettingsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Update a profile.
+ */
+export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProfileInput,
+  output: UpdateProfileOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update a review template.
+ */
+export const updateReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateReviewTemplateInput,
+    output: UpdateReviewTemplateOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Update a review template answer.
+ */
+export const updateReviewTemplateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateReviewTemplateAnswerInput,
+    output: UpdateReviewTemplateAnswerOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Update a lens review associated with a review template.
+ */
+export const updateReviewTemplateLensReview =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateReviewTemplateLensReviewInput,
+    output: UpdateReviewTemplateLensReviewOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Update an existing workload.
+ */
+export const updateWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkloadInput,
+  output: UpdateWorkloadOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associate a profile with a workload.
+ */
+export const associateProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateProfilesInput,
+  output: AssociateProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete an existing lens.
+ *
+ * Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users
+ * that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.
+ *
+ * **Disclaimer**
+ *
+ * By sharing your custom lenses with other Amazon Web Services accounts,
+ * you acknowledge that Amazon Web Services will make your custom lenses available to those
+ * other accounts. Those other accounts may continue to access and use your
+ * shared custom lenses even if you delete the custom lenses
+ * from your own Amazon Web Services account or terminate
+ * your Amazon Web Services account.
+ */
+export const deleteLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLensInput,
+  output: DeleteLensResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete a lens share.
+ *
+ * After the lens share is deleted, Amazon Web Services accounts, users, organizations,
+ * and organizational units (OUs)
+ * that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.
+ *
+ * **Disclaimer**
+ *
+ * By sharing your custom lenses with other Amazon Web Services accounts,
+ * you acknowledge that Amazon Web Services will make your custom lenses available to those
+ * other accounts. Those other accounts may continue to access and use your
+ * shared custom lenses even if you delete the custom lenses
+ * from your own Amazon Web Services account or terminate
+ * your Amazon Web Services account.
+ */
+export const deleteLensShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLensShareInput,
+  output: DeleteLensShareResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete a profile.
+ *
+ * **Disclaimer**
+ *
+ * By sharing your profile with other Amazon Web Services accounts,
+ * you acknowledge that Amazon Web Services will make your profile available to those
+ * other accounts. Those other accounts may continue to access and use your
+ * shared profile even if you delete the profile
+ * from your own Amazon Web Services account or terminate
+ * your Amazon Web Services account.
+ */
+export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProfileInput,
+  output: DeleteProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete a profile share.
+ */
+export const deleteProfileShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProfileShareInput,
+  output: DeleteProfileShareResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete a review template.
  *
@@ -2737,30 +3348,6 @@ export const disassociateProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Adds one or more tags to the specified resource.
- *
- * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [InternalServerException, ResourceNotFoundException],
-}));
-/**
- * Deletes specified tags from a resource.
- *
- * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
- *
- * To specify multiple tags, use separate **tagKeys** parameters, for example:
- *
- * `DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2`
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [InternalServerException, ResourceNotFoundException],
-}));
-/**
  * Update integration features.
  */
 export const updateIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2775,24 +3362,6 @@ export const updateIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Upgrade a profile.
- */
-export const upgradeProfileVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpgradeProfileVersionInput,
-    output: UpgradeProfileVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Upgrade the lens review of a review template.
  */
@@ -2810,20 +3379,155 @@ export const upgradeReviewTemplateLensReview =
     ],
   }));
 /**
- * Associate a lens to a workload.
- *
- * Up to 10 lenses can be associated with a workload in a single API operation. A
- * maximum of 20 lenses can be associated with a workload.
- *
- * **Disclaimer**
- *
- * By accessing and/or applying custom lenses created by another Amazon Web Services user or account,
- * you acknowledge that custom lenses created by other users and shared with you are
- * Third Party Content as defined in the Amazon Web Services Customer Agreement.
+ * Create a profile.
  */
-export const associateLenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateLensesInput,
-  output: AssociateLensesResponse,
+export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProfileInput,
+  output: CreateProfileOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get lens review.
+ */
+export const getLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLensReviewInput,
+  output: GetLensReviewOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get profile template.
+ */
+export const getProfileTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileTemplateInput,
+  output: GetProfileTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get review template.
+ */
+export const getReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReviewTemplateInput,
+  output: GetReviewTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get a lens review associated with a review template.
+ */
+export const getReviewTemplateLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetReviewTemplateLensReviewInput,
+    output: GetReviewTemplateLensReviewOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Get an existing workload.
+ */
+export const getWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkloadInput,
+  output: GetWorkloadOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List of answers for a particular workload and lens.
+ */
+export const listAnswers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAnswersInput,
+  output: ListAnswersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List of Trusted Advisor checks summarized for all accounts related to the workload.
+ */
+export const listCheckSummaries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCheckSummariesInput,
+  output: ListCheckSummariesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List the improvements of a particular lens review.
+ */
+export const listLensReviewImprovements = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListLensReviewImprovementsInput,
+    output: ListLensReviewImprovementsOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * List lens notifications.
+ */
+export const listNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListNotificationsInput,
+  output: ListNotificationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update the answer to a specific question in a workload review.
+ */
+export const updateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnswerInput,
+  output: UpdateAnswerOutput,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2834,11 +3538,11 @@ export const associateLenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Associate a profile with a workload.
+ * Update lens review for a particular workload.
  */
-export const associateProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateProfilesInput,
-  output: AssociateProfilesResponse,
+export const updateLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLensReviewInput,
+  output: UpdateLensReviewOutput,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3025,127 +3729,6 @@ export const createWorkloadShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Delete an existing lens.
- *
- * Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users
- * that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.
- *
- * **Disclaimer**
- *
- * By sharing your custom lenses with other Amazon Web Services accounts,
- * you acknowledge that Amazon Web Services will make your custom lenses available to those
- * other accounts. Those other accounts may continue to access and use your
- * shared custom lenses even if you delete the custom lenses
- * from your own Amazon Web Services account or terminate
- * your Amazon Web Services account.
- */
-export const deleteLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLensInput,
-  output: DeleteLensResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Delete a lens share.
- *
- * After the lens share is deleted, Amazon Web Services accounts, users, organizations,
- * and organizational units (OUs)
- * that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.
- *
- * **Disclaimer**
- *
- * By sharing your custom lenses with other Amazon Web Services accounts,
- * you acknowledge that Amazon Web Services will make your custom lenses available to those
- * other accounts. Those other accounts may continue to access and use your
- * shared custom lenses even if you delete the custom lenses
- * from your own Amazon Web Services account or terminate
- * your Amazon Web Services account.
- */
-export const deleteLensShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLensShareInput,
-  output: DeleteLensShareResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Delete a profile.
- *
- * **Disclaimer**
- *
- * By sharing your profile with other Amazon Web Services accounts,
- * you acknowledge that Amazon Web Services will make your profile available to those
- * other accounts. Those other accounts may continue to access and use your
- * shared profile even if you delete the profile
- * from your own Amazon Web Services account or terminate
- * your Amazon Web Services account.
- */
-export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProfileInput,
-  output: DeleteProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Export an existing lens.
- *
- * Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content)
- * cannot be exported.
- *
- * Lenses are defined in JSON. For more information, see JSON format specification
- * in the *Well-Architected Tool User Guide*.
- *
- * **Disclaimer**
- *
- * Do not include or gather personal identifiable information (PII) of end users or
- * other identifiable individuals in or via your custom lenses. If your custom
- * lens or those shared with you and used in your account do include or collect
- * PII you are responsible for: ensuring that the included PII is processed in accordance
- * with applicable law, providing adequate privacy notices, and obtaining necessary
- * consents for processing such data.
- */
-export const exportLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExportLensInput,
-  output: ExportLensOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Global settings for all workloads.
- */
-export const getGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetGlobalSettingsRequest,
-  output: GetGlobalSettingsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Import a new custom lens or update an existing custom lens.
  *
  * To update an existing custom lens, specify its ARN as the `LensAlias`. If
@@ -3183,112 +3766,6 @@ export const importLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * List the tags for a resource.
- *
- * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [InternalServerException, ResourceNotFoundException],
-}));
-/**
- * Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
- */
-export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGlobalSettingsInput,
-    output: UpdateGlobalSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Update a profile.
- */
-export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProfileInput,
-  output: UpdateProfileOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update a review template.
- */
-export const updateReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateReviewTemplateInput,
-    output: UpdateReviewTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Update a review template answer.
- */
-export const updateReviewTemplateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateReviewTemplateAnswerInput,
-    output: UpdateReviewTemplateAnswerOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Update a lens review associated with a review template.
- */
-export const updateReviewTemplateLensReview =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateReviewTemplateLensReviewInput,
-    output: UpdateReviewTemplateLensReviewOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Update an existing workload.
- */
-export const updateWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWorkloadInput,
-  output: UpdateWorkloadOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Upgrade lens review for a particular workload.
  */
 export const upgradeLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3305,20 +3782,23 @@ export const upgradeLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Create a profile.
+ * Upgrade a profile.
  */
-export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProfileInput,
-  output: CreateProfileOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const upgradeProfileVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpgradeProfileVersionInput,
+    output: UpgradeProfileVersionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Create a new workload.
  *
@@ -3354,472 +3834,6 @@ export const createWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Delete a profile share.
- */
-export const deleteProfileShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProfileShareInput,
-  output: DeleteProfileShareResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get an existing lens.
- */
-export const getLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLensInput,
-  output: GetLensOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get lens review report.
- */
-export const getLensReviewReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLensReviewReportInput,
-  output: GetLensReviewReportOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get a milestone for an existing workload.
- */
-export const getMilestone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMilestoneInput,
-  output: GetMilestoneOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get review template answer.
- */
-export const getReviewTemplateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReviewTemplateAnswerInput,
-    output: GetReviewTemplateAnswerOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * List of Trusted Advisor check details by account related to the workload.
- */
-export const listCheckDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCheckDetailsInput,
-  output: ListCheckDetailsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List the available lenses.
- */
-export const listLenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLensesInput,
-  output: ListLensesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List lens reviews for a particular workload.
- */
-export const listLensReviews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLensReviewsInput,
-  output: ListLensReviewsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List the lens shares associated with the lens.
- */
-export const listLensShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLensSharesInput,
-  output: ListLensSharesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List all milestones for an existing workload.
- */
-export const listMilestones = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMilestonesInput,
-  output: ListMilestonesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List profile notifications.
- */
-export const listProfileNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProfileNotificationsInput,
-    output: ListProfileNotificationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * List profiles.
- */
-export const listProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListProfilesInput,
-  output: ListProfilesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List profile shares.
- */
-export const listProfileShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListProfileSharesInput,
-  output: ListProfileSharesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List the answers of a review template.
- */
-export const listReviewTemplateAnswers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListReviewTemplateAnswersInput,
-    output: ListReviewTemplateAnswersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * List review templates.
- */
-export const listReviewTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListReviewTemplatesInput,
-  output: ListReviewTemplatesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List the share invitations.
- *
- * `WorkloadNamePrefix`, `LensNamePrefix`,
- * `ProfileNamePrefix`, and `TemplateNamePrefix` are mutually
- * exclusive. Use the parameter that matches your `ShareResourceType`.
- */
-export const listShareInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListShareInvitationsInput,
-    output: ListShareInvitationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * List review template shares.
- */
-export const listTemplateShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTemplateSharesInput,
-  output: ListTemplateSharesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Paginated list of workloads.
- */
-export const listWorkloads = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListWorkloadsInput,
-  output: ListWorkloadsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List the workload shares associated with the workload.
- */
-export const listWorkloadShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListWorkloadSharesInput,
-  output: ListWorkloadSharesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update a workload or custom lens share invitation.
- *
- * This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
- */
-export const updateShareInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateShareInvitationInput,
-    output: UpdateShareInvitationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Update a workload share.
- */
-export const updateWorkloadShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWorkloadShareInput,
-  output: UpdateWorkloadShareOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get lens review.
- */
-export const getLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLensReviewInput,
-  output: GetLensReviewOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get profile template.
- */
-export const getProfileTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProfileTemplateInput,
-  output: GetProfileTemplateOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get review template.
- */
-export const getReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetReviewTemplateInput,
-  output: GetReviewTemplateOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get a lens review associated with a review template.
- */
-export const getReviewTemplateLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReviewTemplateLensReviewInput,
-    output: GetReviewTemplateLensReviewOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Get an existing workload.
- */
-export const getWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWorkloadInput,
-  output: GetWorkloadOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List of answers for a particular workload and lens.
- */
-export const listAnswers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAnswersInput,
-  output: ListAnswersOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List of Trusted Advisor checks summarized for all accounts related to the workload.
- */
-export const listCheckSummaries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCheckSummariesInput,
-  output: ListCheckSummariesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List the improvements of a particular lens review.
- */
-export const listLensReviewImprovements = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLensReviewImprovementsInput,
-    output: ListLensReviewImprovementsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * List lens notifications.
- */
-export const listNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListNotificationsInput,
-  output: ListNotificationsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update the answer to a specific question in a workload review.
- */
-export const updateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAnswerInput,
-  output: UpdateAnswerOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update lens review for a particular workload.
- */
-export const updateLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateLensReviewInput,
-  output: UpdateLensReviewOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

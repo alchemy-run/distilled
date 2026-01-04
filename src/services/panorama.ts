@@ -894,12 +894,6 @@ export class DeviceJobConfig extends S.Class<DeviceJobConfig>(
 export class PackageImportJobOutputConfig extends S.Class<PackageImportJobOutputConfig>(
   "PackageImportJobOutputConfig",
 )({ PackageVersionOutputConfig: S.optional(PackageVersionOutputConfig) }) {}
-export class ConflictExceptionErrorArgument extends S.Class<ConflictExceptionErrorArgument>(
-  "ConflictExceptionErrorArgument",
-)({ Name: S.String, Value: S.String }) {}
-export const ConflictExceptionErrorArgumentList = S.Array(
-  ConflictExceptionErrorArgument,
-);
 export class ReportedRuntimeContextState extends S.Class<ReportedRuntimeContextState>(
   "ReportedRuntimeContextState",
 )({
@@ -1027,16 +1021,6 @@ export class PackageListItem extends S.Class<PackageListItem>(
   Tags: S.optional(TagMap),
 }) {}
 export const PackageList = S.Array(PackageListItem);
-export class ValidationExceptionErrorArgument extends S.Class<ValidationExceptionErrorArgument>(
-  "ValidationExceptionErrorArgument",
-)({ Name: S.String, Value: S.String }) {}
-export const ValidationExceptionErrorArgumentList = S.Array(
-  ValidationExceptionErrorArgument,
-);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class S3Location extends S.Class<S3Location>("S3Location")({
   Region: S.optional(S.String),
   BucketName: S.String,
@@ -1176,6 +1160,12 @@ export class EthernetPayload extends S.Class<EthernetPayload>(
 export class PackageImportJobInputConfig extends S.Class<PackageImportJobInputConfig>(
   "PackageImportJobInputConfig",
 )({ PackageVersionInputConfig: S.optional(PackageVersionInputConfig) }) {}
+export class ConflictExceptionErrorArgument extends S.Class<ConflictExceptionErrorArgument>(
+  "ConflictExceptionErrorArgument",
+)({ Name: S.String, Value: S.String }) {}
+export const ConflictExceptionErrorArgumentList = S.Array(
+  ConflictExceptionErrorArgument,
+);
 export class NetworkStatus extends S.Class<NetworkStatus>("NetworkStatus")({
   Ethernet0Status: S.optional(EthernetStatus),
   Ethernet1Status: S.optional(EthernetStatus),
@@ -1300,6 +1290,16 @@ export class Job extends S.Class<Job>("Job")({
   DeviceId: S.optional(S.String),
 }) {}
 export const JobList = S.Array(Job);
+export class ValidationExceptionErrorArgument extends S.Class<ValidationExceptionErrorArgument>(
+  "ValidationExceptionErrorArgument",
+)({ Name: S.String, Value: S.String }) {}
+export const ValidationExceptionErrorArgumentList = S.Array(
+  ValidationExceptionErrorArgument,
+);
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, Message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class CreateJobForDevicesResponse extends S.Class<CreateJobForDevicesResponse>(
   "CreateJobForDevicesResponse",
 )({ Jobs: JobList }) {}
@@ -1319,30 +1319,91 @@ export class ProvisionDeviceResponse extends S.Class<ProvisionDeviceResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
+  { Message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  {
+    Message: S.String,
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  {
+    Message: S.String,
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    QuotaCode: S.String,
+    ServiceCode: S.String,
+  },
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  {
+    Message: S.String,
+    ResourceId: S.String,
+    ResourceType: S.String,
+    ErrorId: S.optional(S.String),
+    ErrorArguments: S.optional(ConflictExceptionErrorArgumentList),
+  },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.String,
+    Reason: S.optional(S.String),
+    ErrorId: S.optional(S.String),
+    ErrorArguments: S.optional(ValidationExceptionErrorArgumentList),
+    Fields: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
+/**
+ * Returns a list of application instance dependencies.
+ */
+export const listApplicationInstanceDependencies =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListApplicationInstanceDependenciesRequest,
+    output: ListApplicationInstanceDependenciesResponse,
+    errors: [AccessDeniedException, InternalServerException],
+  }));
+/**
+ * Returns a list of application node instances.
+ */
+export const listApplicationInstanceNodeInstances =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListApplicationInstanceNodeInstancesRequest,
+    output: ListApplicationInstanceNodeInstancesResponse,
+    errors: [AccessDeniedException, InternalServerException],
+  }));
+/**
+ * Returns a list of application instances.
+ */
+export const listApplicationInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListApplicationInstancesRequest,
+    output: ListApplicationInstancesResponse,
+    errors: [AccessDeniedException, InternalServerException],
+  }),
+);
+/**
+ * Tags a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes tags from a resource.
  */
@@ -1356,19 +1417,32 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a device.
+ * Returns a list of tags for a resource.
  */
-export const deleteDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDeviceRequest,
-  output: DeleteDeviceResponse,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
-    AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
   ],
 }));
+/**
+ * Creates an application instance and deploys it to a device.
+ */
+export const createApplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateApplicationInstanceRequest,
+    output: CreateApplicationInstanceResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Deletes a package.
  *
@@ -1386,6 +1460,62 @@ export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Returns information about a device.
+ */
+export const describeDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDeviceRequest,
+  output: DescribeDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a node.
+ */
+export const describeNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNodeRequest,
+  output: DescribeNodeResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a package import job.
+ */
+export const describePackageImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribePackageImportJobRequest,
+    output: DescribePackageImportJobResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Signal camera nodes to stop or resume.
+ */
+export const signalApplicationInstanceNodeInstances =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SignalApplicationInstanceNodeInstancesRequest,
+    output: SignalApplicationInstanceNodeInstancesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ValidationException,
+    ],
+  }));
 /**
  * Returns information about an application instance's configuration manifest.
  */
@@ -1461,17 +1591,37 @@ export const describePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns a list of tags for a resource.
+ * Updates a device's metadata.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
+export const updateDeviceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDeviceMetadataRequest,
+    output: UpdateDeviceMetadataResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deregisters a package version.
+ */
+export const deregisterPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeregisterPackageVersionRequest,
+    output: DeregisterPackageVersionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Registers a package version.
  */
@@ -1504,21 +1654,19 @@ export const removeApplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates a device's metadata.
+ * Deletes a device.
  */
-export const updateDeviceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDeviceMetadataRequest,
-    output: UpdateDeviceMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeviceRequest,
+  output: DeleteDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a camera stream node.
  */
@@ -1548,22 +1696,6 @@ export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deregisters a package version.
- */
-export const deregisterPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterPackageVersionRequest,
-    output: DeregisterPackageVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Returns information about an application instance on a device.
  */
 export const describeApplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1577,34 +1709,6 @@ export const describeApplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ResourceNotFoundException,
       ValidationException,
     ],
-  }),
-);
-/**
- * Returns a list of application instance dependencies.
- */
-export const listApplicationInstanceDependencies =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListApplicationInstanceDependenciesRequest,
-    output: ListApplicationInstanceDependenciesResponse,
-    errors: [AccessDeniedException, InternalServerException],
-  }));
-/**
- * Returns a list of application node instances.
- */
-export const listApplicationInstanceNodeInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListApplicationInstanceNodeInstancesRequest,
-    output: ListApplicationInstanceNodeInstancesResponse,
-    errors: [AccessDeniedException, InternalServerException],
-  }));
-/**
- * Returns a list of application instances.
- */
-export const listApplicationInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListApplicationInstancesRequest,
-    output: ListApplicationInstancesResponse,
-    errors: [AccessDeniedException, InternalServerException],
   }),
 );
 /**
@@ -1686,89 +1790,6 @@ export const listPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Signal camera nodes to stop or resume.
- */
-export const signalApplicationInstanceNodeInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SignalApplicationInstanceNodeInstancesRequest,
-    output: SignalApplicationInstanceNodeInstancesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }));
-/**
- * Tags a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an application instance and deploys it to a device.
- */
-export const createApplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateApplicationInstanceRequest,
-    output: CreateApplicationInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns information about a device.
- */
-export const describeDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDeviceRequest,
-  output: DescribeDeviceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a node.
- */
-export const describeNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeNodeRequest,
-  output: DescribeNodeResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a package import job.
- */
-export const describePackageImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePackageImportJobRequest,
-    output: DescribePackageImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Creates a job to run on a device. A job can update a device's software or reboot it.
  */

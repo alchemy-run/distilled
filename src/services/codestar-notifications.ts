@@ -543,32 +543,32 @@ export class ListNotificationRulesResult extends S.Class<ListNotificationRulesRe
 }) {}
 
 //# Errors
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  {},
-) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
 ) {}
+export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { Message: S.optional(S.String) },
+) {}
 export class ConfigurationException extends S.TaggedError<ConfigurationException>()(
   "ConfigurationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
-) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
   { Message: S.optional(S.String) },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
@@ -586,33 +586,6 @@ export const deleteTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ValidationException],
 }));
 /**
- * Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the
- * associated target can receive notifications when the events described in the rule are
- * triggered.
- */
-export const subscribe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SubscribeRequest,
-  output: SubscribeResult,
-  errors: [
-    ConfigurationException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a set of provided tags with a notification rule.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResult,
-  errors: [
-    ConcurrentModificationException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Removes an association between a notification rule and an Amazon Q Developer in chat applications topic so that
  * subscribers to that topic stop receiving notifications when the events described in the
  * rule are triggered.
@@ -621,6 +594,14 @@ export const unsubscribe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnsubscribeRequest,
   output: UnsubscribeResult,
   errors: [ValidationException],
+}));
+/**
+ * Returns a list of the tags associated with a notification rule.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResult,
+  errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
  * Removes the association between one or more provided tags and a notification
@@ -655,6 +636,30 @@ export const updateNotificationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the
+ * associated target can receive notifications when the events described in the rule are
+ * triggered.
+ */
+export const subscribe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubscribeRequest,
+  output: SubscribeResult,
+  errors: [
+    ConfigurationException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about a specified notification rule.
+ */
+export const describeNotificationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeNotificationRuleRequest,
+    output: DescribeNotificationRuleResult,
+    errors: [ResourceNotFoundException, ValidationException],
+  }),
+);
+/**
  * Deletes a notification rule for a resource.
  */
 export const deleteNotificationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -669,30 +674,17 @@ export const deleteNotificationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns information about a specified notification rule.
+ * Associates a set of provided tags with a notification rule.
  */
-export const describeNotificationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeNotificationRuleRequest,
-    output: DescribeNotificationRuleResult,
-    errors: [ResourceNotFoundException, ValidationException],
-  }),
-);
-/**
- * Returns a list of the tags associated with a notification rule.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResult,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
- * Returns a list of the notification rule targets for an Amazon Web Services account.
- */
-export const listTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTargetsRequest,
-  output: ListTargetsResult,
-  errors: [InvalidNextTokenException, ValidationException],
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResult,
+  errors: [
+    ConcurrentModificationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
 }));
 /**
  * Returns information about the event types available for configuring notifications.
@@ -712,6 +704,14 @@ export const listNotificationRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InvalidNextTokenException, ValidationException],
   }),
 );
+/**
+ * Returns a list of the notification rule targets for an Amazon Web Services account.
+ */
+export const listTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTargetsRequest,
+  output: ListTargetsResult,
+  errors: [InvalidNextTokenException, ValidationException],
+}));
 /**
  * Creates a notification rule for a resource. The rule specifies the events you want
  * notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients configured for Slack) where you want to receive

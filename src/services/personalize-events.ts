@@ -376,30 +376,26 @@ export class PutEventsResponse extends S.Class<PutEventsResponse>(
 //# Errors
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Adds one or more users to a Users dataset. For more information see
- * Importing users individually.
+ * Records item interaction event data. For more information see
+ * Recording item interaction events.
  */
-export const putUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutUsersRequest,
-  output: PutUsersResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+export const putEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutEventsRequest,
+  output: PutEventsResponse,
+  errors: [InvalidInputException],
 }));
 /**
  * Records action interaction event data. An *action interaction* event is an interaction between a user and an *action*.
@@ -433,21 +429,25 @@ export const putActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Records item interaction event data. For more information see
- * Recording item interaction events.
- */
-export const putEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutEventsRequest,
-  output: PutEventsResponse,
-  errors: [InvalidInputException],
-}));
-/**
  * Adds one or more items to an Items dataset. For more information see
  * Importing items individually.
  */
 export const putItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutItemsRequest,
   output: PutItemsResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Adds one or more users to a Users dataset. For more information see
+ * Importing users individually.
+ */
+export const putUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutUsersRequest,
+  output: PutUsersResponse,
   errors: [
     InvalidInputException,
     ResourceInUseException,

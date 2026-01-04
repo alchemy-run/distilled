@@ -405,43 +405,43 @@ export class StartCommandExecutionResponse extends S.Class<StartCommandExecution
 //# Errors
 export class CertificateValidationException extends S.TaggedError<CertificateValidationException>()(
   "CertificateValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class InvalidStateTransitionException extends S.TaggedError<InvalidStateTransitionException>()(
-  "InvalidStateTransitionException",
   { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String), resourceId: S.optional(S.String) },
 ) {}
-export class TerminalStateException extends S.TaggedError<TerminalStateException>()(
-  "TerminalStateException",
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
 ) {}
+export class InvalidStateTransitionException extends S.TaggedError<InvalidStateTransitionException>()(
+  "InvalidStateTransitionException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
+) {}
+export class TerminalStateException extends S.TaggedError<TerminalStateException>()(
+  "TerminalStateException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String), payload: S.optional(T.Blob) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
@@ -449,24 +449,6 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 ) {}
 
 //# Operations
-/**
- * Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a
- * thing.
- *
- * Requires permission to access the StartNextPendingJobExecution action.
- */
-export const startNextPendingJobExecution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartNextPendingJobExecutionRequest,
-    output: StartNextPendingJobExecutionResponse,
-    errors: [
-      CertificateValidationException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
 /**
  * Updates the status of a job execution.
  *
@@ -502,6 +484,24 @@ export const getPendingJobExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a
+ * thing.
+ *
+ * Requires permission to access the StartNextPendingJobExecution action.
+ */
+export const startNextPendingJobExecution =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartNextPendingJobExecutionRequest,
+    output: StartNextPendingJobExecutionResponse,
+    errors: [
+      CertificateValidationException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }));
 /**
  * Gets details of a job execution.
  *

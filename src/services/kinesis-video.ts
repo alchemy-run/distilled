@@ -1096,47 +1096,15 @@ export class StartEdgeConfigurationUpdateOutput extends S.Class<StartEdgeConfigu
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ClientLimitExceededException extends S.TaggedError<ClientLimitExceededException>()(
   "ClientLimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
   "InvalidArgumentException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class InvalidResourceFormatException extends S.TaggedError<InvalidResourceFormatException>()(
-  "InvalidResourceFormatException",
-  {},
-) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
-  "NotAuthorizedException",
-  {},
-) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
-) {}
-export class VersionMismatchException extends S.TaggedError<VersionMismatchException>()(
-  "VersionMismatchException",
-  {},
-) {}
-export class TagsPerResourceExceededLimitException extends S.TaggedError<TagsPerResourceExceededLimitException>()(
-  "TagsPerResourceExceededLimitException",
-  {},
-) {}
-export class StreamEdgeConfigurationNotFoundException extends S.TaggedError<StreamEdgeConfigurationNotFoundException>()(
-  "StreamEdgeConfigurationNotFoundException",
   { Message: S.optional(S.String) },
-) {}
-export class NoDataRetentionException extends S.TaggedError<NoDataRetentionException>()(
-  "NoDataRetentionException",
-  {},
 ) {}
 export class AccountChannelLimitExceededException extends S.TaggedError<AccountChannelLimitExceededException>()(
   "AccountChannelLimitExceededException",
@@ -1146,8 +1114,40 @@ export class AccountStreamLimitExceededException extends S.TaggedError<AccountSt
   "AccountStreamLimitExceededException",
   { Message: S.optional(S.String) },
 ) {}
+export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
+  "NotAuthorizedException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class NoDataRetentionException extends S.TaggedError<NoDataRetentionException>()(
+  "NoDataRetentionException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidResourceFormatException extends S.TaggedError<InvalidResourceFormatException>()(
+  "InvalidResourceFormatException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { Message: S.optional(S.String) },
+) {}
 export class DeviceStreamLimitExceededException extends S.TaggedError<DeviceStreamLimitExceededException>()(
   "DeviceStreamLimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class VersionMismatchException extends S.TaggedError<VersionMismatchException>()(
+  "VersionMismatchException",
+  { Message: S.optional(S.String) },
+) {}
+export class TagsPerResourceExceededLimitException extends S.TaggedError<TagsPerResourceExceededLimitException>()(
+  "TagsPerResourceExceededLimitException",
+  { Message: S.optional(S.String) },
+) {}
+export class StreamEdgeConfigurationNotFoundException extends S.TaggedError<StreamEdgeConfigurationNotFoundException>()(
+  "StreamEdgeConfigurationNotFoundException",
   { Message: S.optional(S.String) },
 ) {}
 export class InvalidDeviceException extends S.TaggedError<InvalidDeviceException>()(
@@ -1157,113 +1157,132 @@ export class InvalidDeviceException extends S.TaggedError<InvalidDeviceException
 
 //# Operations
 /**
- * Removes one or more tags from a signaling channel. In the request, specify only a tag
- * key or keys; don't specify the value. If you specify a tag key that does not exist, it's
- * ignored.
+ * Returns an array of `ChannelInfo` objects. Each object describes a
+ * signaling channel. To retrieve only those channels that satisfy a specific condition,
+ * you can specify a `ChannelNameCondition`.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates stream metadata, such as the device name and media type.
- *
- * You must provide the stream name or the Amazon Resource Name (ARN) of the
- * stream.
- *
- * To make sure that you have the latest version of the stream before updating it, you
- * can specify the stream version. Kinesis Video Streams assigns a version to each stream.
- * When you update a stream, Kinesis Video Streams assigns a new version number. To get the
- * latest stream version, use the `DescribeStream` API.
- *
- * `UpdateStream` is an asynchronous operation, and takes time to
- * complete.
- */
-export const updateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateStreamInput,
-  output: UpdateStreamOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    NotAuthorizedException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    VersionMismatchException,
-  ],
-}));
-/**
- * Updates the storage configuration for an existing Kinesis video stream.
- *
- * This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns.
- *
- * `UpdateStreamStorageConfiguration` is an asynchronous operation.
- *
- * You must have permissions for the `KinesisVideo:UpdateStreamStorageConfiguration` action.
- */
-export const updateStreamStorageConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateStreamStorageConfigurationInput,
-    output: UpdateStreamStorageConfigurationOutput,
-    errors: [
-      AccessDeniedException,
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      VersionMismatchException,
-    ],
-  }));
-/**
- * Deletes a specified signaling channel. `DeleteSignalingChannel` is an
- * asynchronous operation. If you don't specify the channel's current version, the most
- * recent version is deleted.
- */
-export const deleteSignalingChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listSignalingChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteSignalingChannelInput,
-    output: DeleteSignalingChannelOutput,
+    input: ListSignalingChannelsInput,
+    output: ListSignalingChannelsOutput,
     errors: [
       AccessDeniedException,
       ClientLimitExceededException,
       InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      VersionMismatchException,
     ],
   }),
 );
 /**
- * Deletes a Kinesis video stream and the data contained in the stream.
- *
- * This method marks the stream for deletion, and makes the data in the stream
- * inaccessible immediately.
- *
- * To ensure that you have the latest version of the stream before deleting it, you
- * can specify the stream version. Kinesis Video Streams assigns a version to each stream.
- * When you update a stream, Kinesis Video Streams assigns a new version number. To get the
- * latest stream version, use the `DescribeStream` API.
- *
- * This operation requires permission for the `KinesisVideo:DeleteStream`
- * action.
+ * Returns an array of `StreamInfo` objects. Each object describes a
+ * stream. To retrieve only streams that satisfy a specific condition, you can specify a
+ * `StreamNameCondition`.
  */
-export const deleteStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStreamInput,
-  output: DeleteStreamOutput,
+export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStreamsInput,
+  output: ListStreamsOutput,
+  errors: [ClientLimitExceededException, InvalidArgumentException],
+}));
+/**
+ * Returns the most current information about the stream. The `streamName`
+ * or `streamARN` should be provided in the input.
+ */
+export const describeMappedResourceConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeMappedResourceConfigurationInput,
+    output: DescribeMappedResourceConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      ClientLimitExceededException,
+      InvalidArgumentException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Returns a list of tags associated with the specified stream.
+ *
+ * In the request, you must specify either the `StreamName` or the
+ * `StreamARN`.
+ */
+export const listTagsForStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForStreamInput,
+  output: ListTagsForStreamOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    InvalidResourceFormatException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns the most current information about the specified stream. You must specify
+ * either the `StreamName` or the `StreamARN`.
+ */
+export const describeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStreamInput,
+  output: DescribeStreamOutput,
   errors: [
     ClientLimitExceededException,
     InvalidArgumentException,
     NotAuthorizedException,
-    ResourceInUseException,
     ResourceNotFoundException,
-    VersionMismatchException,
   ],
 }));
+/**
+ * Returns an array of edge configurations associated with the specified Edge Agent.
+ *
+ * In the request, you must specify the Edge Agent `HubDeviceArn`.
+ */
+export const listEdgeAgentConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListEdgeAgentConfigurationsInput,
+    output: ListEdgeAgentConfigurationsOutput,
+    errors: [
+      ClientLimitExceededException,
+      InvalidArgumentException,
+      NotAuthorizedException,
+    ],
+  }),
+);
+/**
+ * Gets an endpoint for a specified stream for either reading or writing. Use this
+ * endpoint in your application to read from the specified stream (using the
+ * `GetMedia` or `GetMediaForFragmentList` operations) or write
+ * to it (using the `PutMedia` operation).
+ *
+ * The returned endpoint does not have the API name appended. The client needs to
+ * add the API name to the returned endpoint.
+ *
+ * In the request, specify the stream either by `StreamName` or
+ * `StreamARN`.
+ */
+export const getDataEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataEndpointInput,
+  output: GetDataEndpointOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns the most current information about the signaling channel. You must specify
+ * either the name or the Amazon Resource Name (ARN) of the channel that you want to
+ * describe.
+ */
+export const describeSignalingChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeSignalingChannelInput,
+    output: DescribeSignalingChannelOutput,
+    errors: [
+      AccessDeniedException,
+      ClientLimitExceededException,
+      InvalidArgumentException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
 /**
  * Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
  */
@@ -1326,28 +1345,6 @@ export const describeStreamStorageConfiguration =
     ],
   }));
 /**
- * Gets an endpoint for a specified stream for either reading or writing. Use this
- * endpoint in your application to read from the specified stream (using the
- * `GetMedia` or `GetMediaForFragmentList` operations) or write
- * to it (using the `PutMedia` operation).
- *
- * The returned endpoint does not have the API name appended. The client needs to
- * add the API name to the returned endpoint.
- *
- * In the request, specify the stream either by `StreamName` or
- * `StreamARN`.
- */
-export const getDataEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataEndpointInput,
-  output: GetDataEndpointOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
  * Returns a list of tags associated with the specified signaling channel.
  */
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1361,259 +1358,27 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of tags associated with the specified stream.
- *
- * In the request, you must specify either the `StreamName` or the
- * `StreamARN`.
- */
-export const listTagsForStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForStreamInput,
-  output: ListTagsForStreamOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    InvalidResourceFormatException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Adds one or more tags to a stream. A *tag* is a key-value pair
- * (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify
- * a tag that already exists, the tag value is replaced with the value that you specify in
- * the request. For more information, see Using Cost Allocation
- * Tags in the *Billing and Cost Management and Cost Management User Guide*.
- *
- * You must provide either the `StreamName` or the
- * `StreamARN`.
- *
- * This operation requires permission for the `KinesisVideo:TagStream`
- * action.
- *
- * A Kinesis video stream can support up to 50 tags.
- */
-export const tagStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagStreamInput,
-  output: TagStreamOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    InvalidResourceFormatException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TagsPerResourceExceededLimitException,
-  ],
-}));
-/**
- * Removes one or more tags from a stream. In the request, specify only a tag key or
- * keys; don't specify the value. If you specify a tag key that does not exist, it's
+ * Removes one or more tags from a signaling channel. In the request, specify only a tag
+ * key or keys; don't specify the value. If you specify a tag key that does not exist, it's
  * ignored.
- *
- * In the request, you must provide the `StreamName` or
- * `StreamARN`.
  */
-export const untagStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagStreamInput,
-  output: UntagStreamOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    InvalidResourceFormatException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Increases or decreases the stream's data retention period by the value that you
- * specify. To indicate whether you want to increase or decrease the data retention period,
- * specify the `Operation` parameter in the request body. In the request, you
- * must specify either the `StreamName` or the `StreamARN`.
- *
- * This operation requires permission for the
- * `KinesisVideo:UpdateDataRetention` action.
- *
- * Changing the data retention period affects the data in the stream as
- * follows:
- *
- * - If the data retention period is increased, existing data is retained for
- * the new retention period. For example, if the data retention period is increased
- * from one hour to seven hours, all existing data is retained for seven
- * hours.
- *
- * - If the data retention period is decreased, existing data is retained for
- * the new retention period. For example, if the data retention period is decreased
- * from seven hours to one hour, all existing data is retained for one hour, and
- * any data older than one hour is deleted immediately.
- */
-export const updateDataRetention = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataRetentionInput,
-  output: UpdateDataRetentionOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    NotAuthorizedException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    VersionMismatchException,
-  ],
-}));
-/**
- * Updates the existing signaling channel. This is an asynchronous operation and takes
- * time to complete.
- *
- * If the `MessageTtlSeconds` value is updated (either increased or reduced),
- * it only applies to new messages sent via this channel after it's been updated. Existing
- * messages are still expired as per the previous `MessageTtlSeconds`
- * value.
- */
-export const updateSignalingChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSignalingChannelInput,
-    output: UpdateSignalingChannelOutput,
-    errors: [
-      AccessDeniedException,
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      VersionMismatchException,
-    ],
-  }),
-);
-/**
- * An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent.
- *
- * When you invoke this API, the sync status is set to `DELETING`. A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to `DELETE_FAILED`. You will need to re-try the deletion.
- *
- * When the deletion process has completed successfully, the edge configuration is no longer accessible.
- */
-export const deleteEdgeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEdgeConfigurationInput,
-    output: DeleteEdgeConfigurationOutput,
-    errors: [
-      AccessDeniedException,
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      ResourceNotFoundException,
-      StreamEdgeConfigurationNotFoundException,
-    ],
-  }),
-);
-/**
- * Returns the most current information about the stream. The `streamName`
- * or `streamARN` should be provided in the input.
- */
-export const describeMappedResourceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMappedResourceConfigurationInput,
-    output: DescribeMappedResourceConfigurationOutput,
-    errors: [
-      AccessDeniedException,
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Returns the most current information about the signaling channel. You must specify
- * either the name or the Amazon Resource Name (ARN) of the channel that you want to
- * describe.
- */
-export const describeSignalingChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSignalingChannelInput,
-    output: DescribeSignalingChannelOutput,
-    errors: [
-      AccessDeniedException,
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Returns the most current information about the specified stream. You must specify
- * either the `StreamName` or the `StreamARN`.
- */
-export const describeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeStreamInput,
-  output: DescribeStreamOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns an array of edge configurations associated with the specified Edge Agent.
- *
- * In the request, you must specify the Edge Agent `HubDeviceArn`.
- */
-export const listEdgeAgentConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEdgeAgentConfigurationsInput,
-    output: ListEdgeAgentConfigurationsOutput,
-    errors: [
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      NotAuthorizedException,
-    ],
-  }),
-);
-/**
- * Returns an array of `ChannelInfo` objects. Each object describes a
- * signaling channel. To retrieve only those channels that satisfy a specific condition,
- * you can specify a `ChannelNameCondition`.
- */
-export const listSignalingChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSignalingChannelsInput,
-    output: ListSignalingChannelsOutput,
-    errors: [
-      AccessDeniedException,
-      ClientLimitExceededException,
-      InvalidArgumentException,
-    ],
-  }),
-);
-/**
- * Returns an array of `StreamInfo` objects. Each object describes a
- * stream. To retrieve only streams that satisfy a specific condition, you can specify a
- * `StreamNameCondition`.
- */
-export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStreamsInput,
-  output: ListStreamsOutput,
-  errors: [ClientLimitExceededException, InvalidArgumentException],
-}));
-/**
- * Adds one or more tags to a signaling channel. A *tag* is a
- * key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources.
- * If you specify a tag that already exists, the tag value is replaced with the value that
- * you specify in the request. For more information, see Using Cost Allocation
- * Tags in the Billing and Cost Management and Cost Management User
- * Guide.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
   errors: [
     AccessDeniedException,
     ClientLimitExceededException,
     InvalidArgumentException,
     ResourceNotFoundException,
-    TagsPerResourceExceededLimitException,
   ],
 }));
 /**
- * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
+ * Updates the notification information for a stream.
  */
-export const updateImageGenerationConfiguration =
+export const updateNotificationConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateImageGenerationConfigurationInput,
-    output: UpdateImageGenerationConfigurationOutput,
+    input: UpdateNotificationConfigurationInput,
+    output: UpdateNotificationConfigurationOutput,
     errors: [
       AccessDeniedException,
       ClientLimitExceededException,
@@ -1653,12 +1418,61 @@ export const updateMediaStorageConfiguration =
     ],
   }));
 /**
- * Updates the notification information for a stream.
+ * Removes one or more tags from a stream. In the request, specify only a tag key or
+ * keys; don't specify the value. If you specify a tag key that does not exist, it's
+ * ignored.
+ *
+ * In the request, you must provide the `StreamName` or
+ * `StreamARN`.
  */
-export const updateNotificationConfiguration =
+export const untagStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagStreamInput,
+  output: UntagStreamOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    InvalidResourceFormatException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Provides an endpoint for the specified signaling channel to send and receive messages.
+ * This API uses the `SingleMasterChannelEndpointConfiguration` input parameter,
+ * which consists of the `Protocols` and `Role` properties.
+ *
+ * `Protocols` is used to determine the communication mechanism. For example,
+ * if you specify `WSS` as the protocol, this API produces a secure websocket
+ * endpoint. If you specify `HTTPS` as the protocol, this API generates an HTTPS
+ * endpoint. If you specify `WEBRTC` as the protocol, but the signaling channel isn't
+ * configured for ingestion, you will receive the error
+ * `InvalidArgumentException`.
+ *
+ * `Role` determines the messaging permissions. A `MASTER` role
+ * results in this API generating an endpoint that a client can use to communicate with any
+ * of the viewers on the channel. A `VIEWER` role results in this API generating
+ * an endpoint that a client can use to communicate only with a `MASTER`.
+ */
+export const getSignalingChannelEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetSignalingChannelEndpointInput,
+    output: GetSignalingChannelEndpointOutput,
+    errors: [
+      AccessDeniedException,
+      ClientLimitExceededException,
+      InvalidArgumentException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
+ */
+export const updateImageGenerationConfiguration =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateNotificationConfigurationInput,
-    output: UpdateNotificationConfigurationOutput,
+    input: UpdateImageGenerationConfigurationInput,
+    output: UpdateImageGenerationConfigurationOutput,
     errors: [
       AccessDeniedException,
       ClientLimitExceededException,
@@ -1668,6 +1482,253 @@ export const updateNotificationConfiguration =
       ResourceNotFoundException,
     ],
   }));
+/**
+ * An asynchronous API that updates a stream’s existing edge configuration.
+ * The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass
+ * component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary
+ * and depends on the connectivity of the Hub Device.
+ * The `SyncStatus` will be updated as the edge configuration is acknowledged,
+ * and synced with the Edge Agent.
+ *
+ * If this API is invoked for the first time, a new edge configuration will be created for the stream,
+ * and the sync status will be set to `SYNCING`. You will have to wait for the sync status
+ * to reach a terminal state such as: `IN_SYNC`, or `SYNC_FAILED`, before using this API again.
+ * If you invoke this API during the syncing process, a `ResourceInUseException` will be thrown.
+ * The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes,
+ * the status will transition into the `SYNC_FAILED` state.
+ *
+ * To move an edge configuration from one device to another, use DeleteEdgeConfiguration to delete
+ * the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
+ */
+export const startEdgeConfigurationUpdate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartEdgeConfigurationUpdateInput,
+    output: StartEdgeConfigurationUpdateOutput,
+    errors: [
+      AccessDeniedException,
+      ClientLimitExceededException,
+      InvalidArgumentException,
+      NoDataRetentionException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Deletes a specified signaling channel. `DeleteSignalingChannel` is an
+ * asynchronous operation. If you don't specify the channel's current version, the most
+ * recent version is deleted.
+ */
+export const deleteSignalingChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSignalingChannelInput,
+    output: DeleteSignalingChannelOutput,
+    errors: [
+      AccessDeniedException,
+      ClientLimitExceededException,
+      InvalidArgumentException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      VersionMismatchException,
+    ],
+  }),
+);
+/**
+ * Adds one or more tags to a signaling channel. A *tag* is a
+ * key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources.
+ * If you specify a tag that already exists, the tag value is replaced with the value that
+ * you specify in the request. For more information, see Using Cost Allocation
+ * Tags in the Billing and Cost Management and Cost Management User
+ * Guide.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    TagsPerResourceExceededLimitException,
+  ],
+}));
+/**
+ * An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent.
+ *
+ * When you invoke this API, the sync status is set to `DELETING`. A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to `DELETE_FAILED`. You will need to re-try the deletion.
+ *
+ * When the deletion process has completed successfully, the edge configuration is no longer accessible.
+ */
+export const deleteEdgeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEdgeConfigurationInput,
+    output: DeleteEdgeConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      ClientLimitExceededException,
+      InvalidArgumentException,
+      ResourceNotFoundException,
+      StreamEdgeConfigurationNotFoundException,
+    ],
+  }),
+);
+/**
+ * Increases or decreases the stream's data retention period by the value that you
+ * specify. To indicate whether you want to increase or decrease the data retention period,
+ * specify the `Operation` parameter in the request body. In the request, you
+ * must specify either the `StreamName` or the `StreamARN`.
+ *
+ * This operation requires permission for the
+ * `KinesisVideo:UpdateDataRetention` action.
+ *
+ * Changing the data retention period affects the data in the stream as
+ * follows:
+ *
+ * - If the data retention period is increased, existing data is retained for
+ * the new retention period. For example, if the data retention period is increased
+ * from one hour to seven hours, all existing data is retained for seven
+ * hours.
+ *
+ * - If the data retention period is decreased, existing data is retained for
+ * the new retention period. For example, if the data retention period is decreased
+ * from seven hours to one hour, all existing data is retained for one hour, and
+ * any data older than one hour is deleted immediately.
+ */
+export const updateDataRetention = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataRetentionInput,
+  output: UpdateDataRetentionOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    VersionMismatchException,
+  ],
+}));
+/**
+ * Updates stream metadata, such as the device name and media type.
+ *
+ * You must provide the stream name or the Amazon Resource Name (ARN) of the
+ * stream.
+ *
+ * To make sure that you have the latest version of the stream before updating it, you
+ * can specify the stream version. Kinesis Video Streams assigns a version to each stream.
+ * When you update a stream, Kinesis Video Streams assigns a new version number. To get the
+ * latest stream version, use the `DescribeStream` API.
+ *
+ * `UpdateStream` is an asynchronous operation, and takes time to
+ * complete.
+ */
+export const updateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStreamInput,
+  output: UpdateStreamOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    VersionMismatchException,
+  ],
+}));
+/**
+ * Updates the existing signaling channel. This is an asynchronous operation and takes
+ * time to complete.
+ *
+ * If the `MessageTtlSeconds` value is updated (either increased or reduced),
+ * it only applies to new messages sent via this channel after it's been updated. Existing
+ * messages are still expired as per the previous `MessageTtlSeconds`
+ * value.
+ */
+export const updateSignalingChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSignalingChannelInput,
+    output: UpdateSignalingChannelOutput,
+    errors: [
+      AccessDeniedException,
+      ClientLimitExceededException,
+      InvalidArgumentException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      VersionMismatchException,
+    ],
+  }),
+);
+/**
+ * Updates the storage configuration for an existing Kinesis video stream.
+ *
+ * This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns.
+ *
+ * `UpdateStreamStorageConfiguration` is an asynchronous operation.
+ *
+ * You must have permissions for the `KinesisVideo:UpdateStreamStorageConfiguration` action.
+ */
+export const updateStreamStorageConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateStreamStorageConfigurationInput,
+    output: UpdateStreamStorageConfigurationOutput,
+    errors: [
+      AccessDeniedException,
+      ClientLimitExceededException,
+      InvalidArgumentException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      VersionMismatchException,
+    ],
+  }));
+/**
+ * Deletes a Kinesis video stream and the data contained in the stream.
+ *
+ * This method marks the stream for deletion, and makes the data in the stream
+ * inaccessible immediately.
+ *
+ * To ensure that you have the latest version of the stream before deleting it, you
+ * can specify the stream version. Kinesis Video Streams assigns a version to each stream.
+ * When you update a stream, Kinesis Video Streams assigns a new version number. To get the
+ * latest stream version, use the `DescribeStream` API.
+ *
+ * This operation requires permission for the `KinesisVideo:DeleteStream`
+ * action.
+ */
+export const deleteStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStreamInput,
+  output: DeleteStreamOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    VersionMismatchException,
+  ],
+}));
+/**
+ * Adds one or more tags to a stream. A *tag* is a key-value pair
+ * (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify
+ * a tag that already exists, the tag value is replaced with the value that you specify in
+ * the request. For more information, see Using Cost Allocation
+ * Tags in the *Billing and Cost Management and Cost Management User Guide*.
+ *
+ * You must provide either the `StreamName` or the
+ * `StreamARN`.
+ *
+ * This operation requires permission for the `KinesisVideo:TagStream`
+ * action.
+ *
+ * A Kinesis video stream can support up to 50 tags.
+ */
+export const tagStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagStreamInput,
+  output: TagStreamOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    InvalidResourceFormatException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TagsPerResourceExceededLimitException,
+  ],
+}));
 /**
  * Creates a signaling channel.
  *
@@ -1707,67 +1768,6 @@ export const describeEdgeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Provides an endpoint for the specified signaling channel to send and receive messages.
- * This API uses the `SingleMasterChannelEndpointConfiguration` input parameter,
- * which consists of the `Protocols` and `Role` properties.
- *
- * `Protocols` is used to determine the communication mechanism. For example,
- * if you specify `WSS` as the protocol, this API produces a secure websocket
- * endpoint. If you specify `HTTPS` as the protocol, this API generates an HTTPS
- * endpoint. If you specify `WEBRTC` as the protocol, but the signaling channel isn't
- * configured for ingestion, you will receive the error
- * `InvalidArgumentException`.
- *
- * `Role` determines the messaging permissions. A `MASTER` role
- * results in this API generating an endpoint that a client can use to communicate with any
- * of the viewers on the channel. A `VIEWER` role results in this API generating
- * an endpoint that a client can use to communicate only with a `MASTER`.
- */
-export const getSignalingChannelEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSignalingChannelEndpointInput,
-    output: GetSignalingChannelEndpointOutput,
-    errors: [
-      AccessDeniedException,
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * An asynchronous API that updates a stream’s existing edge configuration.
- * The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass
- * component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary
- * and depends on the connectivity of the Hub Device.
- * The `SyncStatus` will be updated as the edge configuration is acknowledged,
- * and synced with the Edge Agent.
- *
- * If this API is invoked for the first time, a new edge configuration will be created for the stream,
- * and the sync status will be set to `SYNCING`. You will have to wait for the sync status
- * to reach a terminal state such as: `IN_SYNC`, or `SYNC_FAILED`, before using this API again.
- * If you invoke this API during the syncing process, a `ResourceInUseException` will be thrown.
- * The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes,
- * the status will transition into the `SYNC_FAILED` state.
- *
- * To move an edge configuration from one device to another, use DeleteEdgeConfiguration to delete
- * the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
- */
-export const startEdgeConfigurationUpdate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartEdgeConfigurationUpdateInput,
-    output: StartEdgeConfigurationUpdateOutput,
-    errors: [
-      AccessDeniedException,
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      NoDataRetentionException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
 /**
  * Creates a new Kinesis video stream.
  *

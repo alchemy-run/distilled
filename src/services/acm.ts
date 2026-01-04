@@ -571,37 +571,29 @@ export class DescribeCertificateResponse extends S.Class<DescribeCertificateResp
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "AccessDenied", httpResponseCode: 403 }),
 ) {}
 export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
   "InvalidArnException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
-) {}
-export class RequestInProgressException extends S.TaggedError<RequestInProgressException>()(
-  "RequestInProgressException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
 ) {}
-export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
-  "InvalidTagException",
-  {},
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { message: S.optional(S.String) },
+) {}
+export class RequestInProgressException extends S.TaggedError<RequestInProgressException>()(
+  "RequestInProgressException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidDomainValidationOptionsException extends S.TaggedError<InvalidDomainValidationOptionsException>()(
   "InvalidDomainValidationOptionsException",
@@ -609,47 +601,53 @@ export class InvalidDomainValidationOptionsException extends S.TaggedError<Inval
 ) {}
 export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
   "InvalidStateException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class TagPolicyException extends S.TaggedError<TagPolicyException>()(
-  "TagPolicyException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  {},
+export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
+  "InvalidTagException",
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ValidationError", httpResponseCode: 400 }),
 ) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
 export class InvalidArgsException extends S.TaggedError<InvalidArgsException>()(
   "InvalidArgsException",
+  { message: S.optional(S.String) },
+) {}
+export class TagPolicyException extends S.TaggedError<TagPolicyException>()(
+  "TagPolicyException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
   { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM `RequestCertificate` action, or a certificate imported into ACM using the `ImportCertificate` action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use OpenSSL to decode the certificates and inspect individual fields.
+ * Returns the account configuration options associated with an Amazon Web Services account.
  */
-export const getCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCertificateRequest,
-  output: GetCertificateResponse,
-  errors: [
-    InvalidArnException,
-    RequestInProgressException,
-    ResourceNotFoundException,
-  ],
-}));
+export const getAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAccountConfigurationRequest,
+    output: GetAccountConfigurationResponse,
+    errors: [AccessDeniedException, ThrottlingException],
+  }),
+);
 /**
  * Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate action.
  */
@@ -661,11 +659,25 @@ export const listTagsForCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Renews an eligible ACM certificate. In order to renew your Amazon Web Services Private CA certificates with ACM, you must first grant the ACM service principal permission to do so. For more information, see Testing Managed Renewal in the ACM User Guide.
+ * Exports a private certificate issued by a private certificate authority (CA) or public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it.
+ *
+ * For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export a public certificate.
  */
-export const renewCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RenewCertificateRequest,
-  output: RenewCertificateResponse,
+export const exportCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportCertificateRequest,
+  output: ExportCertificateResponse,
+  errors: [
+    InvalidArnException,
+    RequestInProgressException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM `RequestCertificate` action, or a certificate imported into ACM using the `ImportCertificate` action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use OpenSSL to decode the certificates and inspect individual fields.
+ */
+export const getCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCertificateRequest,
+  output: GetCertificateResponse,
   errors: [
     InvalidArnException,
     RequestInProgressException,
@@ -688,18 +700,15 @@ export const resendValidationEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Revokes a public ACM certificate. You can only revoke certificates that have been previously exported.
+ * Renews an eligible ACM certificate. In order to renew your Amazon Web Services Private CA certificates with ACM, you must first grant the ACM service principal permission to do so. For more information, see Testing Managed Renewal in the ACM User Guide.
  */
-export const revokeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokeCertificateRequest,
-  output: RevokeCertificateResponse,
+export const renewCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RenewCertificateRequest,
+  output: RenewCertificateResponse,
   errors: [
-    AccessDeniedException,
-    ConflictException,
     InvalidArnException,
-    ResourceInUseException,
+    RequestInProgressException,
     ResourceNotFoundException,
-    ThrottlingException,
   ],
 }));
 /**
@@ -720,27 +729,109 @@ export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Exports a private certificate issued by a private certificate authority (CA) or public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it.
+ * Adds or modifies account-level configurations in ACM.
  *
- * For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export a public certificate.
+ * The supported configuration option is `DaysBeforeExpiry`. This option specifies the number of days prior to certificate expiration when ACM starts generating `EventBridge` events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
  */
-export const exportCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExportCertificateRequest,
-  output: ExportCertificateResponse,
+export const putAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutAccountConfigurationRequest,
+    output: PutAccountConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Revokes a public ACM certificate. You can only revoke certificates that have been previously exported.
+ */
+export const revokeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeCertificateRequest,
+  output: RevokeCertificateResponse,
   errors: [
+    AccessDeniedException,
+    ConflictException,
     InvalidArnException,
-    RequestInProgressException,
+    ResourceInUseException,
     ResourceNotFoundException,
+    ThrottlingException,
   ],
 }));
 /**
- * Returns the account configuration options associated with an Amazon Web Services account.
+ * Updates a certificate. You can use this function to specify whether to opt in to or out of recording your certificate in a certificate transparency log and exporting. For more information, see Opting Out of Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
  */
-export const getAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateCertificateOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetAccountConfigurationRequest,
-    output: GetAccountConfigurationResponse,
-    errors: [AccessDeniedException, ThrottlingException],
+    input: UpdateCertificateOptionsRequest,
+    output: UpdateCertificateOptionsResponse,
+    errors: [
+      InvalidArnException,
+      InvalidStateException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Returns detailed metadata about the specified ACM certificate.
+ *
+ * If you have just created a certificate using the `RequestCertificate` action, there is a delay of several seconds before you can retrieve information about it.
+ */
+export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCertificateRequest,
+  output: DescribeCertificateResponse,
+  errors: [InvalidArnException, ResourceNotFoundException],
+}));
+/**
+ * Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only `RSA_2048` certificates. For more information, see Filters.
+ */
+export const listCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCertificatesRequest,
+  output: ListCertificatesResponse,
+  errors: [InvalidArgsException, ValidationException],
+}));
+/**
+ * Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value.
+ *
+ * To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action.
+ */
+export const removeTagsFromCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveTagsFromCertificateRequest,
+    output: RemoveTagsFromCertificateResponse,
+    errors: [
+      InvalidArnException,
+      InvalidParameterException,
+      InvalidTagException,
+      ResourceNotFoundException,
+      TagPolicyException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a `key` and an optional `value`. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair.
+ *
+ * You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see Tagging ACM certificates.
+ *
+ * To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action.
+ */
+export const addTagsToCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AddTagsToCertificateRequest,
+    output: AddTagsToCertificateResponse,
+    errors: [
+      InvalidArnException,
+      InvalidParameterException,
+      InvalidTagException,
+      ResourceNotFoundException,
+      TagPolicyException,
+      ThrottlingException,
+      TooManyTagsException,
+    ],
   }),
 );
 /**
@@ -788,42 +879,6 @@ export const importCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Adds or modifies account-level configurations in ACM.
- *
- * The supported configuration option is `DaysBeforeExpiry`. This option specifies the number of days prior to certificate expiration when ACM starts generating `EventBridge` events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
- */
-export const putAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAccountConfigurationRequest,
-    output: PutAccountConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value.
- *
- * To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action.
- */
-export const removeTagsFromCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTagsFromCertificateRequest,
-    output: RemoveTagsFromCertificateResponse,
-    errors: [
-      InvalidArnException,
-      InvalidParameterException,
-      InvalidTagException,
-      ResourceNotFoundException,
-      TagPolicyException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Requests an ACM certificate for use with other Amazon Web Services services. To request an ACM certificate, you must specify a fully qualified domain name (FQDN) in the `DomainName` parameter. You can also specify additional FQDNs in the `SubjectAlternativeNames` parameter.
  *
  * If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. You can use DNS validation or email validation. We recommend that you use DNS validation.
@@ -844,59 +899,4 @@ export const requestCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TagPolicyException,
     TooManyTagsException,
   ],
-}));
-/**
- * Updates a certificate. You can use this function to specify whether to opt in to or out of recording your certificate in a certificate transparency log and exporting. For more information, see Opting Out of Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
- */
-export const updateCertificateOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCertificateOptionsRequest,
-    output: UpdateCertificateOptionsResponse,
-    errors: [
-      InvalidArnException,
-      InvalidStateException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a `key` and an optional `value`. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair.
- *
- * You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see Tagging ACM certificates.
- *
- * To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action.
- */
-export const addTagsToCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddTagsToCertificateRequest,
-    output: AddTagsToCertificateResponse,
-    errors: [
-      InvalidArnException,
-      InvalidParameterException,
-      InvalidTagException,
-      ResourceNotFoundException,
-      TagPolicyException,
-      ThrottlingException,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
- * Returns detailed metadata about the specified ACM certificate.
- *
- * If you have just created a certificate using the `RequestCertificate` action, there is a delay of several seconds before you can retrieve information about it.
- */
-export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeCertificateRequest,
-  output: DescribeCertificateResponse,
-  errors: [InvalidArnException, ResourceNotFoundException],
-}));
-/**
- * Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only `RSA_2048` certificates. For more information, see Filters.
- */
-export const listCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCertificatesRequest,
-  output: ListCertificatesResponse,
-  errors: [InvalidArgsException, ValidationException],
 }));

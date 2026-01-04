@@ -1285,74 +1285,78 @@ export class GetMetricDataOutput extends S.Class<GetMetricDataOutput>(
 ) {}
 
 //# Errors
-export class InternalServiceFault extends S.TaggedError<InternalServiceFault>()(
-  "InternalServiceFault",
-  {},
-  T.AwsQueryError({ code: "InternalServiceError", httpResponseCode: 500 }),
-) {}
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
-  "InvalidParameterValueException",
-  {},
-  T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
-) {}
-export class MissingRequiredParameterException extends S.TaggedError<MissingRequiredParameterException>()(
-  "MissingRequiredParameterException",
-  {},
-  T.AwsQueryError({ code: "MissingParameter", httpResponseCode: 400 }),
-) {}
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  {},
-  T.AwsQueryError({
-    code: "ConcurrentModificationException",
-    httpResponseCode: 429,
-  }),
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
 export class ResourceNotFound extends S.TaggedError<ResourceNotFound>()(
   "ResourceNotFound",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
 ) {}
-export class DashboardNotFoundError extends S.TaggedError<DashboardNotFoundError>()(
-  "DashboardNotFoundError",
-  {},
-  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
-  "InvalidParameterCombinationException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidParameterCombination",
-    httpResponseCode: 400,
-  }),
+export class InternalServiceFault extends S.TaggedError<InternalServiceFault>()(
+  "InternalServiceFault",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InternalServiceError", httpResponseCode: 500 }),
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
+export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
+  "InvalidParameterValueException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
 ) {}
 export class LimitExceededFault extends S.TaggedError<LimitExceededFault>()(
   "LimitExceededFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-  T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 400 }),
 ) {}
 export class InvalidFormatFault extends S.TaggedError<InvalidFormatFault>()(
   "InvalidFormatFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidFormat", httpResponseCode: 400 }),
 ) {}
+export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ConcurrentModificationException",
+    httpResponseCode: 429,
+  }),
+) {}
+export class DashboardNotFoundError extends S.TaggedError<DashboardNotFoundError>()(
+  "DashboardNotFoundError",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
+) {}
+export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
+  "InvalidParameterCombinationException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidParameterCombination",
+    httpResponseCode: 400,
+  }),
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 400 }),
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    Message: S.optional(S.String),
+  },
+  T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
+) {}
+export class MissingRequiredParameterException extends S.TaggedError<MissingRequiredParameterException>()(
+  "MissingRequiredParameterException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "MissingParameter", httpResponseCode: 400 }),
+) {}
 export class InvalidNextToken extends S.TaggedError<InvalidNextToken>()(
   "InvalidNextToken",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
 ) {}
 export class DashboardInvalidInputError extends S.TaggedError<DashboardInvalidInputError>()(
@@ -1381,18 +1385,6 @@ export const enableAlarmActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableAlarmActionsInput,
   output: EnableAlarmActionsResponse,
   errors: [],
-}));
-/**
- * Stops the streaming of metrics for one or more of your metric streams.
- */
-export const stopMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopMetricStreamsInput,
-  output: StopMetricStreamsOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterValueException,
-    MissingRequiredParameterException,
-  ],
 }));
 /**
  * Deletes the specified alarms. You can delete up to 100 alarms in one operation.
@@ -1424,18 +1416,6 @@ export const deleteAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFound],
 }));
 /**
- * Permanently deletes the metric stream that you specify.
- */
-export const deleteMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMetricStreamInput,
-  output: DeleteMetricStreamOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterValueException,
-    MissingRequiredParameterException,
-  ],
-}));
-/**
  * Retrieves the alarms for the specified metric. To filter the results, specify a
  * statistic, period, or unit.
  *
@@ -1450,45 +1430,6 @@ export const describeAlarmsForMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [],
   }),
 );
-/**
- * Disables the specified Contributor Insights rules. When rules are disabled, they do
- * not analyze log groups and do not incur costs.
- */
-export const disableInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableInsightRulesInput,
-  output: DisableInsightRulesOutput,
-  errors: [InvalidParameterValueException, MissingRequiredParameterException],
-}));
-/**
- * Displays the details of the dashboard that you specify.
- *
- * To copy an existing dashboard, use `GetDashboard`, and then use the data
- * returned within `DashboardBody` as the template for the new dashboard when
- * you call `PutDashboard` to create the copy.
- */
-export const getDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDashboardInput,
-  output: GetDashboardOutput,
-  errors: [
-    DashboardNotFoundError,
-    InternalServiceFault,
-    InvalidParameterValueException,
-  ],
-}));
-/**
- * Returns information about the metric stream that you specify.
- */
-export const getMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMetricStreamInput,
-  output: GetMetricStreamOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-    MissingRequiredParameterException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * You can use the `GetMetricWidgetImage` API to retrieve a snapshot graph
  * of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this
@@ -1513,100 +1454,6 @@ export const getMetricWidgetImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [],
   }),
 );
-/**
- * Displays the tags associated with a CloudWatch resource. Currently, alarms and
- * Contributor Insights rules support tagging.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates or updates a *composite alarm*. When you create a composite
- * alarm, you specify a rule expression for the alarm that takes into account the alarm
- * states of other alarms that you have created. The composite alarm goes into ALARM state
- * only if all conditions of the rule are met.
- *
- * The alarms specified in a composite alarm's rule expression can include metric alarms
- * and other composite alarms. The rule expression of a composite alarm can include as many
- * as 100 underlying alarms. Any single alarm can be included in the rule expressions of as
- * many as 150 composite alarms.
- *
- * Using composite alarms can reduce alarm noise. You can create multiple metric alarms,
- * and also create a composite alarm and set up alerts only for the composite alarm. For
- * example, you could create a composite alarm that goes into ALARM state only when more
- * than one of the underlying metric alarms are in ALARM state.
- *
- * Composite alarms can take the following actions:
- *
- * - Notify Amazon SNS topics.
- *
- * - Invoke Lambda functions.
- *
- * - Create OpsItems in Systems Manager Ops Center.
- *
- * - Create incidents in Systems Manager Incident Manager.
- *
- * It is possible to create a loop or cycle of composite alarms, where composite
- * alarm A depends on composite alarm B, and composite alarm B also depends on
- * composite alarm A. In this scenario, you can't delete any composite alarm that is
- * part of the cycle because there is always still a composite alarm that depends on
- * that alarm that you want to delete.
- *
- * To get out of such a situation, you must break the cycle by changing the rule of
- * one of the composite alarms in the cycle to remove a dependency that creates the
- * cycle. The simplest change to make to break a cycle is to change the
- * `AlarmRule` of one of the alarms to `false`.
- *
- * Additionally, the evaluation of composite alarms stops if CloudWatch detects a
- * cycle in the evaluation path.
- *
- * When this operation creates an alarm, the alarm state is immediately set to
- * `INSUFFICIENT_DATA`. The alarm is then evaluated and its state is set
- * appropriately. Any actions associated with the new state are then executed. For a
- * composite alarm, this initial time after creation is the only time that the alarm can be
- * in `INSUFFICIENT_DATA` state.
- *
- * When you update an existing alarm, its state is left unchanged, but the update
- * completely overwrites the previous configuration of the alarm.
- *
- * To use this operation, you must be signed on with the
- * `cloudwatch:PutCompositeAlarm` permission that is scoped to
- * `*`. You can't create a composite alarms if your
- * `cloudwatch:PutCompositeAlarm` permission has a narrower scope.
- *
- * If you are an IAM user, you must have
- * `iam:CreateServiceLinkedRole` to create a composite alarm that has
- * Systems Manager OpsItem actions.
- */
-export const putCompositeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutCompositeAlarmInput,
-  output: PutCompositeAlarmResponse,
-  errors: [LimitExceededFault],
-}));
-/**
- * Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs
- * log group, enabling you to find contributor data for the log events in that log group.
- * For more information, see Using Contributor
- * Insights to Analyze High-Cardinality Data.
- *
- * If you create a rule, delete it, and then re-create it with the same name, historical
- * data from the first time the rule was created might not be available.
- */
-export const putInsightRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutInsightRuleInput,
-  output: PutInsightRuleOutput,
-  errors: [
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingRequiredParameterException,
-  ],
-}));
 /**
  * Creates or updates an alarm and associates it with the specified metric, metric
  * math expression, anomaly detection model, or Metrics Insights query. For more
@@ -1689,80 +1536,68 @@ export const setAlarmState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidFormatFault, ResourceNotFound],
 }));
 /**
- * Starts the streaming of metrics for one or more of your metric streams.
+ * Creates or updates a *composite alarm*. When you create a composite
+ * alarm, you specify a rule expression for the alarm that takes into account the alarm
+ * states of other alarms that you have created. The composite alarm goes into ALARM state
+ * only if all conditions of the rule are met.
+ *
+ * The alarms specified in a composite alarm's rule expression can include metric alarms
+ * and other composite alarms. The rule expression of a composite alarm can include as many
+ * as 100 underlying alarms. Any single alarm can be included in the rule expressions of as
+ * many as 150 composite alarms.
+ *
+ * Using composite alarms can reduce alarm noise. You can create multiple metric alarms,
+ * and also create a composite alarm and set up alerts only for the composite alarm. For
+ * example, you could create a composite alarm that goes into ALARM state only when more
+ * than one of the underlying metric alarms are in ALARM state.
+ *
+ * Composite alarms can take the following actions:
+ *
+ * - Notify Amazon SNS topics.
+ *
+ * - Invoke Lambda functions.
+ *
+ * - Create OpsItems in Systems Manager Ops Center.
+ *
+ * - Create incidents in Systems Manager Incident Manager.
+ *
+ * It is possible to create a loop or cycle of composite alarms, where composite
+ * alarm A depends on composite alarm B, and composite alarm B also depends on
+ * composite alarm A. In this scenario, you can't delete any composite alarm that is
+ * part of the cycle because there is always still a composite alarm that depends on
+ * that alarm that you want to delete.
+ *
+ * To get out of such a situation, you must break the cycle by changing the rule of
+ * one of the composite alarms in the cycle to remove a dependency that creates the
+ * cycle. The simplest change to make to break a cycle is to change the
+ * `AlarmRule` of one of the alarms to `false`.
+ *
+ * Additionally, the evaluation of composite alarms stops if CloudWatch detects a
+ * cycle in the evaluation path.
+ *
+ * When this operation creates an alarm, the alarm state is immediately set to
+ * `INSUFFICIENT_DATA`. The alarm is then evaluated and its state is set
+ * appropriately. Any actions associated with the new state are then executed. For a
+ * composite alarm, this initial time after creation is the only time that the alarm can be
+ * in `INSUFFICIENT_DATA` state.
+ *
+ * When you update an existing alarm, its state is left unchanged, but the update
+ * completely overwrites the previous configuration of the alarm.
+ *
+ * To use this operation, you must be signed on with the
+ * `cloudwatch:PutCompositeAlarm` permission that is scoped to
+ * `*`. You can't create a composite alarms if your
+ * `cloudwatch:PutCompositeAlarm` permission has a narrower scope.
+ *
+ * If you are an IAM user, you must have
+ * `iam:CreateServiceLinkedRole` to create a composite alarm that has
+ * Systems Manager OpsItem actions.
  */
-export const startMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartMetricStreamsInput,
-  output: StartMetricStreamsOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterValueException,
-    MissingRequiredParameterException,
-  ],
+export const putCompositeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutCompositeAlarmInput,
+  output: PutCompositeAlarmResponse,
+  errors: [LimitExceededFault],
 }));
-/**
- * Assigns one or more tags (key-value pairs) to the specified CloudWatch resource.
- * Currently, the only CloudWatch resources that can be tagged are alarms and Contributor
- * Insights rules.
- *
- * Tags can help you organize and categorize your resources. You can also use them to
- * scope user permissions by granting a user permission to access or change only resources
- * with certain tag values.
- *
- * Tags don't have any semantic meaning to Amazon Web Services and are interpreted
- * strictly as strings of characters.
- *
- * You can use the `TagResource` action with an alarm that already has tags.
- * If you specify a new tag key for the alarm, this tag is appended to the list of tags
- * associated with the alarm. If you specify a tag key that is already associated with the
- * alarm, the new tag value that you specify replaces the previous value for that
- * tag.
- *
- * You can associate as many as 50 tags with a CloudWatch resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [
-    ConcurrentModificationException,
-    ConflictException,
-    InternalServiceFault,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Removes one or more tags from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [
-    ConcurrentModificationException,
-    ConflictException,
-    InternalServiceFault,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified anomaly detection model from your account. For more information
- * about how to delete an anomaly detection model, see Deleting an anomaly detection model in the CloudWatch User
- * Guide.
- */
-export const deleteAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAnomalyDetectorInput,
-    output: DeleteAnomalyDetectorOutput,
-    errors: [
-      InternalServiceFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MissingRequiredParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Deletes all dashboards that you specify. You can specify up to 100 dashboards to
  * delete. If there is an error during this call, no dashboards are deleted.
@@ -1775,77 +1610,6 @@ export const deleteDashboards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     DashboardNotFoundError,
     InternalServiceFault,
     InvalidParameterValueException,
-  ],
-}));
-/**
- * Permanently deletes the specified Contributor Insights rules.
- *
- * If you create a rule, delete it, and then re-create it with the same name, historical
- * data from the first time the rule was created might not be available.
- */
-export const deleteInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteInsightRulesInput,
-  output: DeleteInsightRulesOutput,
-  errors: [InvalidParameterValueException, MissingRequiredParameterException],
-}));
-/**
- * Retrieves the specified alarms. You can filter the results by specifying a prefix
- * for the alarm name, the alarm state, or a prefix for any action.
- *
- * To use this operation and return information about composite alarms, you must be
- * signed on with the `cloudwatch:DescribeAlarms` permission that is scoped to
- * `*`. You can't return information about composite alarms if your
- * `cloudwatch:DescribeAlarms` permission has a narrower scope.
- */
-export const describeAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAlarmsInput,
-  output: DescribeAlarmsOutput,
-  errors: [InvalidNextToken],
-}));
-/**
- * Lists the anomaly detection models that you have created in your account. For single
- * metric anomaly detectors, you can list all of the models in your account or filter the
- * results to only the models that are related to a certain namespace, metric name, or
- * metric dimension. For metric math anomaly detectors, you can list them by adding
- * `METRIC_MATH` to the `AnomalyDetectorTypes` array. This will
- * return all metric math anomaly detectors in your account.
- */
-export const describeAnomalyDetectors = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAnomalyDetectorsInput,
-    output: DescribeAnomalyDetectorsOutput,
-    errors: [
-      InternalServiceFault,
-      InvalidNextToken,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-  }),
-);
-/**
- * Returns a list of all the Contributor Insights rules in your account.
- *
- * For more information about Contributor Insights, see Using Contributor
- * Insights to Analyze High-Cardinality Data.
- */
-export const describeInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInsightRulesInput,
-    output: DescribeInsightRulesOutput,
-    errors: [InvalidNextToken],
-  }),
-);
-/**
- * Enables the specified Contributor Insights rules. When rules are enabled, they
- * immediately begin analyzing log data.
- */
-export const enableInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableInsightRulesInput,
-  output: EnableInsightRulesOutput,
-  errors: [
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingRequiredParameterException,
   ],
 }));
 /**
@@ -1885,15 +1649,92 @@ export const listMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InternalServiceFault, InvalidParameterValueException],
 }));
 /**
- * Returns a list of metric streams in this account.
+ * Assigns one or more tags (key-value pairs) to the specified CloudWatch resource.
+ * Currently, the only CloudWatch resources that can be tagged are alarms and Contributor
+ * Insights rules.
+ *
+ * Tags can help you organize and categorize your resources. You can also use them to
+ * scope user permissions by granting a user permission to access or change only resources
+ * with certain tag values.
+ *
+ * Tags don't have any semantic meaning to Amazon Web Services and are interpreted
+ * strictly as strings of characters.
+ *
+ * You can use the `TagResource` action with an alarm that already has tags.
+ * If you specify a new tag key for the alarm, this tag is appended to the list of tags
+ * associated with the alarm. If you specify a tag key that is already associated with the
+ * alarm, the new tag value that you specify replaces the previous value for that
+ * tag.
+ *
+ * You can associate as many as 50 tags with a CloudWatch resource.
  */
-export const listMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMetricStreamsInput,
-  output: ListMetricStreamsOutput,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [
+    ConcurrentModificationException,
+    ConflictException,
+    InternalServiceFault,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Displays the details of the dashboard that you specify.
+ *
+ * To copy an existing dashboard, use `GetDashboard`, and then use the data
+ * returned within `DashboardBody` as the template for the new dashboard when
+ * you call `PutDashboard` to create the copy.
+ */
+export const getDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDashboardInput,
+  output: GetDashboardOutput,
+  errors: [
+    DashboardNotFoundError,
+    InternalServiceFault,
+    InvalidParameterValueException,
+  ],
+}));
+/**
+ * Starts the streaming of metrics for one or more of your metric streams.
+ */
+export const startMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMetricStreamsInput,
+  output: StartMetricStreamsOutput,
   errors: [
     InternalServiceFault,
-    InvalidNextToken,
     InvalidParameterValueException,
+    MissingRequiredParameterException,
+  ],
+}));
+/**
+ * Deletes the specified anomaly detection model from your account. For more information
+ * about how to delete an anomaly detection model, see Deleting an anomaly detection model in the CloudWatch User
+ * Guide.
+ */
+export const deleteAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAnomalyDetectorInput,
+    output: DeleteAnomalyDetectorOutput,
+    errors: [
+      InternalServiceFault,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+      MissingRequiredParameterException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Enables the specified Contributor Insights rules. When rules are enabled, they
+ * immediately begin analyzing log data.
+ */
+export const enableInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableInsightRulesInput,
+  output: EnableInsightRulesOutput,
+  errors: [
+    InvalidParameterValueException,
+    LimitExceededException,
     MissingRequiredParameterException,
   ],
 }));
@@ -1920,6 +1761,109 @@ export const putAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Displays the tags associated with a CloudWatch resource. Currently, alarms and
+ * Contributor Insights rules support tagging.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Removes one or more tags from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [
+    ConcurrentModificationException,
+    ConflictException,
+    InternalServiceFault,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Stops the streaming of metrics for one or more of your metric streams.
+ */
+export const stopMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopMetricStreamsInput,
+  output: StopMetricStreamsOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterValueException,
+    MissingRequiredParameterException,
+  ],
+}));
+/**
+ * Permanently deletes the metric stream that you specify.
+ */
+export const deleteMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMetricStreamInput,
+  output: DeleteMetricStreamOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterValueException,
+    MissingRequiredParameterException,
+  ],
+}));
+/**
+ * Disables the specified Contributor Insights rules. When rules are disabled, they do
+ * not analyze log groups and do not incur costs.
+ */
+export const disableInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableInsightRulesInput,
+  output: DisableInsightRulesOutput,
+  errors: [InvalidParameterValueException, MissingRequiredParameterException],
+}));
+/**
+ * Permanently deletes the specified Contributor Insights rules.
+ *
+ * If you create a rule, delete it, and then re-create it with the same name, historical
+ * data from the first time the rule was created might not be available.
+ */
+export const deleteInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInsightRulesInput,
+  output: DeleteInsightRulesOutput,
+  errors: [InvalidParameterValueException, MissingRequiredParameterException],
+}));
+/**
+ * Returns information about the metric stream that you specify.
+ */
+export const getMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMetricStreamInput,
+  output: GetMetricStreamOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    MissingRequiredParameterException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs
+ * log group, enabling you to find contributor data for the log events in that log group.
+ * For more information, see Using Contributor
+ * Insights to Analyze High-Cardinality Data.
+ *
+ * If you create a rule, delete it, and then re-create it with the same name, historical
+ * data from the first time the rule was created might not be available.
+ */
+export const putInsightRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutInsightRuleInput,
+  output: PutInsightRuleOutput,
+  errors: [
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingRequiredParameterException,
+  ],
+}));
+/**
  * Creates a managed Contributor Insights rule for a specified Amazon Web Services
  * resource. When you enable a managed rule, you create a Contributor Insights rule that
  * collects data from Amazon Web Services services. You cannot edit these rules with
@@ -1934,16 +1878,6 @@ export const putManagedInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: PutManagedInsightRulesInput,
     output: PutManagedInsightRulesOutput,
     errors: [InvalidParameterValueException, MissingRequiredParameterException],
-  }),
-);
-/**
- * Returns the information of the current alarm contributors that are in `ALARM` state. This operation returns details about the individual time series that contribute to the alarm's state.
- */
-export const describeAlarmContributors = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAlarmContributorsInput,
-    output: DescribeAlarmContributorsOutput,
-    errors: [InvalidNextToken, ResourceNotFoundException],
   }),
 );
 /**
@@ -2231,6 +2165,76 @@ export const putMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     MissingRequiredParameterException,
   ],
 }));
+/**
+ * Retrieves the specified alarms. You can filter the results by specifying a prefix
+ * for the alarm name, the alarm state, or a prefix for any action.
+ *
+ * To use this operation and return information about composite alarms, you must be
+ * signed on with the `cloudwatch:DescribeAlarms` permission that is scoped to
+ * `*`. You can't return information about composite alarms if your
+ * `cloudwatch:DescribeAlarms` permission has a narrower scope.
+ */
+export const describeAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAlarmsInput,
+  output: DescribeAlarmsOutput,
+  errors: [InvalidNextToken],
+}));
+/**
+ * Lists the anomaly detection models that you have created in your account. For single
+ * metric anomaly detectors, you can list all of the models in your account or filter the
+ * results to only the models that are related to a certain namespace, metric name, or
+ * metric dimension. For metric math anomaly detectors, you can list them by adding
+ * `METRIC_MATH` to the `AnomalyDetectorTypes` array. This will
+ * return all metric math anomaly detectors in your account.
+ */
+export const describeAnomalyDetectors = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAnomalyDetectorsInput,
+    output: DescribeAnomalyDetectorsOutput,
+    errors: [
+      InternalServiceFault,
+      InvalidNextToken,
+      InvalidParameterCombinationException,
+      InvalidParameterValueException,
+    ],
+  }),
+);
+/**
+ * Returns a list of all the Contributor Insights rules in your account.
+ *
+ * For more information about Contributor Insights, see Using Contributor
+ * Insights to Analyze High-Cardinality Data.
+ */
+export const describeInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeInsightRulesInput,
+    output: DescribeInsightRulesOutput,
+    errors: [InvalidNextToken],
+  }),
+);
+/**
+ * Returns a list of metric streams in this account.
+ */
+export const listMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMetricStreamsInput,
+  output: ListMetricStreamsOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidNextToken,
+    InvalidParameterValueException,
+    MissingRequiredParameterException,
+  ],
+}));
+/**
+ * Returns the information of the current alarm contributors that are in `ALARM` state. This operation returns details about the individual time series that contribute to the alarm's state.
+ */
+export const describeAlarmContributors = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAlarmContributorsInput,
+    output: DescribeAlarmContributorsOutput,
+    errors: [InvalidNextToken, ResourceNotFoundException],
+  }),
+);
 /**
  * You can use the `GetMetricData` API to retrieve CloudWatch metric
  * values. The operation can also include a CloudWatch Metrics Insights query, and

@@ -620,19 +620,19 @@ export class GetEnvironmentOutput extends S.Class<GetEnvironmentOutput>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
 ) {}
 export class RestApiClientException extends S.TaggedError<RestApiClientException>()(
   "RestApiClientException",
@@ -659,6 +659,34 @@ export const createCliToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFoundException],
 }));
 /**
+ * Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
+ */
+export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEnvironmentsInput,
+  output: ListEnvironmentsOutput,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * **Internal only**. Publishes environment health metrics to Amazon CloudWatch.
+ */
+export const publishMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishMetricsInput,
+  output: PublishMetricsOutput,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+ */
+export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnvironmentInput,
+  output: UpdateEnvironmentOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
  * Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
 export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -669,14 +697,6 @@ export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
     ValidationException,
   ],
-}));
-/**
- * Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
- */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEnvironmentsInput,
-  output: ListEnvironmentsOutput,
-  errors: [InternalServerException, ValidationException],
 }));
 /**
  * Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
@@ -728,32 +748,24 @@ export const createWebLoginToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * **Internal only**. Publishes environment health metrics to Amazon CloudWatch.
- */
-export const publishMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PublishMetricsInput,
-  output: PublishMetricsOutput,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
- */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentInput,
-  output: UpdateEnvironmentOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
 export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentInput,
   output: CreateEnvironmentOutput,
   errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+ */
+export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEnvironmentInput,
+  output: GetEnvironmentOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
 }));
 /**
  * Invokes the Apache Airflow REST API on the webserver with the specified inputs. To
@@ -768,18 +780,6 @@ export const invokeRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
     RestApiClientException,
     RestApiServerException,
-    ValidationException,
-  ],
-}));
-/**
- * Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
- */
-export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEnvironmentInput,
-  output: GetEnvironmentOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
     ValidationException,
   ],
 }));

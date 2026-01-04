@@ -724,26 +724,26 @@ export class DescribeSavingsPlansOfferingsResponse extends S.Class<DescribeSavin
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String },
   T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.String },
   T.AwsQueryError({
     code: "ServiceQuotaExceededException",
     httpResponseCode: 402,
   }),
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.String },
+  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 
 //# Operations
@@ -786,18 +786,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes the specified tags from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Creates a Savings Plan.
  */
 export const createSavingsPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -807,6 +795,18 @@ export const createSavingsPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the specified tags from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
     ValidationException,
   ],
 }));

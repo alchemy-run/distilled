@@ -293,32 +293,18 @@ export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenExc
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Retrieves a what-if forecast.
- */
-export const queryWhatIfForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: QueryWhatIfForecastRequest,
-  output: QueryWhatIfForecastResponse,
-  errors: [
-    InvalidInputException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Retrieves a forecast for a single item, filtered by the supplied criteria.
  *
@@ -338,6 +324,20 @@ export const queryWhatIfForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const queryForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryForecastRequest,
   output: QueryForecastResponse,
+  errors: [
+    InvalidInputException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves a what-if forecast.
+ */
+export const queryWhatIfForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: QueryWhatIfForecastRequest,
+  output: QueryWhatIfForecastResponse,
   errors: [
     InvalidInputException,
     InvalidNextTokenException,

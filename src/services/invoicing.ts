@@ -520,10 +520,6 @@ export class InvoiceUnit extends S.Class<InvoiceUnit>("InvoiceUnit")({
   LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
 }) {}
 export const InvoiceUnits = S.Array(InvoiceUnit);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class BatchGetInvoiceProfileResponse extends S.Class<BatchGetInvoiceProfileResponse>(
   "BatchGetInvoiceProfileResponse",
 )({ Profiles: S.optional(ProfileList) }) {}
@@ -552,6 +548,10 @@ export class CurrencyExchangeDetails extends S.Class<CurrencyExchangeDetails>(
   TargetCurrencyCode: S.optional(S.String),
   Rate: S.optional(S.String),
 }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class DiscountsBreakdownAmount extends S.Class<DiscountsBreakdownAmount>(
   "DiscountsBreakdownAmount",
 )({
@@ -629,27 +629,39 @@ export class ListInvoiceSummariesResponse extends S.Class<ListInvoiceSummariesRe
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String), resourceName: S.optional(S.String) },
   T.AwsQueryError({ code: "InvoicingAccessDenied", httpResponseCode: 403 }),
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  {
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+    message: S.optional(S.String),
+  },
   T.AwsQueryError({ code: "InvoicingInternalServer", httpResponseCode: 500 }),
+) {}
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  {
+    message: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
+  T.AwsQueryError({ code: "InvoicingConflict", httpResponseCode: 409 }),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String), resourceName: S.optional(S.String) },
   T.AwsQueryError({ code: "InvoicingResourceNotFound", httpResponseCode: 404 }),
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvoicingThrottling", httpResponseCode: 429 }),
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.String },
   T.AwsQueryError({
     code: "InvoicingServiceQuotaExceeded",
     httpResponseCode: 402,
@@ -657,41 +669,25 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  {
+    message: S.optional(S.String),
+    resourceName: S.optional(S.String),
+    reason: S.optional(S.String),
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
   T.AwsQueryError({ code: "InvoicingValidation", httpResponseCode: 400 }),
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-  T.AwsQueryError({ code: "InvoicingConflict", httpResponseCode: 409 }),
 ) {}
 
 //# Operations
 /**
- * Adds a tag to a resource.
+ * This creates a new invoice unit with the provided definition.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const createInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInvoiceUnitRequest,
+  output: CreateInvoiceUnitResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a tag from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -711,31 +707,15 @@ export const updateInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
+ * Removes a tag from a resource.
  */
-export const updateProcurementPortalPreferenceStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateProcurementPortalPreferenceStatusRequest,
-    output: UpdateProcurementPortalPreferenceStatusResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * This creates a new invoice unit with the provided definition.
- */
-export const createInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInvoiceUnitRequest,
-  output: CreateInvoiceUnitResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -755,27 +735,55 @@ export const deleteInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
- */
-export const deleteProcurementPortalPreference =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteProcurementPortalPreferenceRequest,
-    output: DeleteProcurementPortalPreferenceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
  * This retrieves the invoice unit definition.
  */
 export const getInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvoiceUnitRequest,
   output: GetInvoiceUnitResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the tags for a resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
+ */
+export const batchGetInvoiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchGetInvoiceProfileRequest,
+    output: BatchGetInvoiceProfileResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the `invoicing:GetInvoicePDF` policy action.
+ */
+export const getInvoicePDF = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInvoicePDFRequest,
+  output: GetInvoicePDFResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -801,38 +809,18 @@ export const listProcurementPortalPreferences =
     ],
   }));
 /**
- * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
+ * This fetches a list of all invoice unit definitions for a given account, as of the provided `AsOf` date.
  */
-export const putProcurementPortalPreference =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutProcurementPortalPreferenceRequest,
-    output: PutProcurementPortalPreferenceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
- */
-export const batchGetInvoiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetInvoiceProfileRequest,
-    output: BatchGetInvoiceProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listInvoiceUnits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInvoiceUnitsRequest,
+  output: ListInvoiceUnitsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
  */
@@ -850,19 +838,70 @@ export const createProcurementPortalPreference =
     ],
   }));
 /**
- * Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the `invoicing:GetInvoicePDF` policy action.
+ * Adds a tag to a resource.
  */
-export const getInvoicePDF = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInvoicePDFRequest,
-  output: GetInvoicePDFResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
 }));
+/**
+ * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
+ */
+export const updateProcurementPortalPreferenceStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateProcurementPortalPreferenceStatusRequest,
+    output: UpdateProcurementPortalPreferenceStatusResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
+ */
+export const deleteProcurementPortalPreference =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteProcurementPortalPreferenceRequest,
+    output: DeleteProcurementPortalPreferenceResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
+ */
+export const putProcurementPortalPreference =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutProcurementPortalPreferenceRequest,
+    output: PutProcurementPortalPreferenceResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * Retrieves the details of a specific procurement portal preference configuration.
  */
@@ -880,33 +919,6 @@ export const getProcurementPortalPreference =
       ValidationException,
     ],
   }));
-/**
- * This fetches a list of all invoice unit definitions for a given account, as of the provided `AsOf` date.
- */
-export const listInvoiceUnits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInvoiceUnitsRequest,
-  output: ListInvoiceUnitsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the tags for a resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Retrieves your invoice details programmatically, without line item details.
  */

@@ -327,6 +327,10 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
   "UntagResourceResponse",
 )({}) {}
 export const Tags = S.Record({ key: S.String, value: S.String });
+export class DeploymentParameterInput extends S.Class<DeploymentParameterInput>(
+  "DeploymentParameterInput",
+)({ name: S.String, secretString: S.String }) {}
+export const TagsMap = S.Record({ key: S.String, value: S.String });
 export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
   "ListTagsForResourceResponse",
 )({ tags: S.optional(Tags) }) {}
@@ -346,49 +350,70 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
 export class TagResourceResponse extends S.Class<TagResourceResponse>(
   "TagResourceResponse",
 )({}) {}
+export class PutDeploymentParameterRequest extends S.Class<PutDeploymentParameterRequest>(
+  "PutDeploymentParameterRequest",
+)(
+  {
+    catalog: S.String.pipe(T.HttpLabel()),
+    productId: S.String.pipe(T.HttpLabel()),
+    agreementId: S.String,
+    deploymentParameter: DeploymentParameterInput,
+    tags: S.optional(TagsMap),
+    expirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "POST",
+      uri: "/catalogs/{catalog}/products/{productId}/deployment-parameters",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class PutDeploymentParameterResponse extends S.Class<PutDeploymentParameterResponse>(
+  "PutDeploymentParameterResponse",
+)({
+  resourceArn: S.String,
+  agreementId: S.String,
+  deploymentParameterId: S.String,
+  tags: S.optional(TagsMap),
+}) {}
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String, resourceId: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.String },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.String },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.String, fieldName: S.String },
 ) {}
 
 //# Operations
-/**
- * Removes a tag or list of tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Lists all tags that have been added to a deployment parameter resource.
  */
@@ -404,11 +429,44 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Creates or updates a deployment parameter and is targeted by `catalog` and `agreementId`.
+ */
+export const putDeploymentParameter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutDeploymentParameterRequest,
+    output: PutDeploymentParameterResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Tags a resource.
  */
 export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a tag or list of tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     AccessDeniedException,
     ConflictException,

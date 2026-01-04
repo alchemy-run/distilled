@@ -293,7 +293,67 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export const EmbeddingDomains = S.Array(S.String);
+export class GetBuyerDashboardInput extends S.Class<GetBuyerDashboardInput>(
+  "GetBuyerDashboardInput",
+)(
+  { dashboardIdentifier: S.String, embeddingDomains: EmbeddingDomains },
+  T.all(
+    T.Http({ method: "POST", uri: "/getBuyerDashboard" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetBuyerDashboardOutput extends S.Class<GetBuyerDashboardOutput>(
+  "GetBuyerDashboardOutput",
+)({
+  embedUrl: S.String,
+  dashboardIdentifier: S.String,
+  embeddingDomains: EmbeddingDomains,
+}) {}
 
 //# Errors
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.optional(S.String) },
+) {}
+export class BadRequestException extends S.TaggedError<BadRequestException>()(
+  "BadRequestException",
+  { message: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { message: S.optional(S.String) },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user.
+ *
+ * This API is available only to Amazon Web Services Organization management accounts or
+ * delegated administrators registered for the procurement insights
+ * (`procurement-insights.marketplace.amazonaws.com`) feature.
+ *
+ * The following rules apply to a generated URL:
+ *
+ * - It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again.
+ *
+ * - It has a session lifetime of one hour. The 5-minute validity period runs separately from the session lifetime.
+ */
+export const getBuyerDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBuyerDashboardInput,
+  output: GetBuyerDashboardOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    UnauthorizedException,
+  ],
+}));

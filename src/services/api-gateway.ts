@@ -3212,44 +3212,51 @@ export class TestInvokeAuthorizerResponse extends S.Class<TestInvokeAuthorizerRe
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  {
+    retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
+    message: S.optional(S.String),
+  },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  {
+    retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
+    message: S.optional(S.String),
+  },
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
+  {
+    retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
+    message: S.optional(S.String),
+  },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Deletes a documentation version.
+ * Gets a documentation version.
  */
-export const deleteDocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getDocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteDocumentationVersionRequest,
-    output: DeleteDocumentationVersionResponse,
+    input: GetDocumentationVersionRequest,
+    output: DocumentationVersion,
     errors: [
-      BadRequestException,
-      ConflictException,
       NotFoundException,
       TooManyRequestsException,
       UnauthorizedException,
@@ -3257,46 +3264,89 @@ export const deleteDocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the DomainName resource.
+ * Gets information about a Stage resource.
  */
-export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDomainNameRequest,
-  output: DeleteDomainNameResponse,
+export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStageRequest,
+  output: Stage,
   errors: [
     BadRequestException,
     ConflictException,
+    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
 /**
- * Deletes the DomainNameAccessAssociation resource.
- *
- * Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
+ * Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
  */
-export const deleteDomainNameAccessAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDomainNameAccessAssociationRequest,
-    output: DeleteDomainNameAccessAssociationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }));
+export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainNameRequest,
+  output: DomainName,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
- * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
+ * Get the integration settings.
  */
-export const deleteGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIntegrationRequest,
+  output: Integration,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Describe an existing Method resource.
+ */
+export const getMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMethodRequest,
+  output: Method,
+  errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
+}));
+/**
+ * Gets an SDK type.
+ */
+export const getSdkType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSdkTypeRequest,
+  output: SdkType,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets the usage data of a usage plan in a specified time interval.
+ */
+export const getUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUsageRequest,
+  output: Usage,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
+ */
+export const testInvokeAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteGatewayResponseRequest,
-    output: DeleteGatewayResponseResponse,
+    input: TestInvokeAuthorizerRequest,
+    output: TestInvokeAuthorizerResponse,
     errors: [
       BadRequestException,
-      ConflictException,
       NotFoundException,
       TooManyRequestsException,
       UnauthorizedException,
@@ -3304,29 +3354,76 @@ export const deleteGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Represents a delete integration.
+ * Exports a deployed version of a RestApi in a specified format.
  */
-export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIntegrationRequest,
-  output: DeleteIntegrationResponse,
+export const getExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExportRequest,
+  output: ExportResponse,
   errors: [
     BadRequestException,
     ConflictException,
+    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
 /**
- * Represents a delete integration response.
+ * Generates a client SDK for a RestApi and Stage.
  */
-export const deleteIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getSdk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSdkRequest,
+  output: SdkResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about one or more Stage resources.
+ */
+export const getStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStagesRequest,
+  output: Stages,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Import API keys from an external source, such as a CSV-formatted file.
+ */
+export const importApiKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportApiKeysRequest,
+  output: ApiKeyIds,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Imports documentation parts
+ */
+export const importDocumentationParts = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteIntegrationResponseRequest,
-    output: DeleteIntegrationResponseResponse,
+    input: ImportDocumentationPartsRequest,
+    output: DocumentationPartIds,
     errors: [
       BadRequestException,
       ConflictException,
+      LimitExceededException,
       NotFoundException,
       TooManyRequestsException,
       UnauthorizedException,
@@ -3334,87 +3431,60 @@ export const deleteIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes an existing Method resource.
+ * Sets up a method's integration.
  */
-export const deleteMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMethodRequest,
-  output: DeleteMethodResponse,
+export const putIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutIntegrationRequest,
+  output: Integration,
   errors: [
+    BadRequestException,
     ConflictException,
+    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
 /**
- * Deletes an existing MethodResponse resource.
+ * Add a method to an existing Resource resource.
  */
-export const deleteMethodResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMethodResponseRequest,
-    output: DeleteMethodResponseResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes a model.
- */
-export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteModelRequest,
-  output: DeleteModelResponse,
+export const putMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutMethodRequest,
+  output: Method,
   errors: [
     BadRequestException,
     ConflictException,
+    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
 /**
- * Deletes a RequestValidator of a given RestApi.
+ * Changes information about the current Account resource.
  */
-export const deleteRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRequestValidatorRequest,
-    output: DeleteRequestValidatorResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes a Resource resource.
- */
-export const deleteResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteResourceRequest,
-  output: DeleteResourceResponse,
+export const updateAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountRequest,
+  output: Account,
   errors: [
     BadRequestException,
     ConflictException,
+    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
 /**
- * Deletes the specified API.
+ * Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
  */
-export const deleteRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRestApiRequest,
-  output: DeleteRestApiResponse,
+export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeploymentRequest,
+  output: DeleteDeploymentResponse,
   errors: [
     BadRequestException,
     ConflictException,
+    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
@@ -3430,48 +3500,6 @@ export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     BadRequestException,
     ConflictException,
     LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a usage plan of a given plan Id.
- */
-export const deleteUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUsagePlanRequest,
-  output: DeleteUsagePlanResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a usage plan key and remove the underlying API key from the associated usage plan.
- */
-export const deleteUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUsagePlanKeyRequest,
-  output: DeleteUsagePlanKeyResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes an existing VpcLink of a specified identifier.
- */
-export const deleteVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVpcLinkRequest,
-  output: DeleteVpcLinkResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
@@ -3504,147 +3532,6 @@ export const flushStageCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     BadRequestException,
     ConflictException,
     LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets information about the current Account resource.
- */
-export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountRequest,
-  output: Account,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describe an existing Authorizer resource.
- */
-export const getAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAuthorizerRequest,
-  output: Authorizer,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describe a BasePathMapping resource.
- */
-export const getBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBasePathMappingRequest,
-  output: BasePathMapping,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets information about the current ClientCertificate resource.
- */
-export const getClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetClientCertificateRequest,
-    output: ClientCertificate,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Gets a documentation version.
- */
-export const getDocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDocumentationVersionRequest,
-    output: DocumentationVersion,
-    errors: [
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Describes an existing model defined for a RestApi resource.
- */
-export const getModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetModelRequest,
-  output: Model,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets a RequestValidator of a given RestApi.
- */
-export const getRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRequestValidatorRequest,
-  output: RequestValidator,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Lists information about a resource.
- */
-export const getResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourceRequest,
-  output: Resource,
-  errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
-}));
-/**
- * Lists the RestApi resource in the collection.
- */
-export const getRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRestApiRequest,
-  output: RestApi,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets a usage plan key of a given key identifier.
- */
-export const getUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUsagePlanKeyRequest,
-  output: UsagePlanKey,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets a specified VPC link under the caller's account in a region.
- */
-export const getVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVpcLinkRequest,
-  output: VpcLink,
-  errors: [
-    BadRequestException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
@@ -3728,23 +3615,6 @@ export const putRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthorizedException,
   ],
 }));
-/**
- * Rejects a domain name access association with a private custom domain name.
- *
- * To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
- */
-export const rejectDomainNameAccessAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectDomainNameAccessAssociationRequest,
-    output: RejectDomainNameAccessAssociationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }));
 /**
  * Adds or updates a tag on a given resource.
  */
@@ -3938,20 +3808,6 @@ export const updateIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates an existing Method resource.
- */
-export const updateMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateMethodRequest,
-  output: Method,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Updates an existing MethodResponse resource.
  */
 export const updateMethodResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -4000,20 +3856,6 @@ export const updateRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Changes information about a Resource resource.
- */
-export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateResourceRequest,
-  output: Resource,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
 /**
  * Changes information about the specified API.
  */
@@ -4136,22 +3978,6 @@ export const createBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates a Deployment resource, which makes a specified RestApi callable over the internet.
- */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDeploymentRequest,
-  output: Deployment,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceUnavailableException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
 /**
  * Creates a documentation part.
  */
@@ -4307,71 +4133,11 @@ export const createVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes the ApiKey resource.
+ * Creates a Resource resource.
  */
-export const deleteApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApiKeyRequest,
-  output: DeleteApiKeyResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes an existing Authorizer resource.
- */
-export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAuthorizerRequest,
-  output: DeleteAuthorizerResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes the BasePathMapping resource.
- */
-export const deleteBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBasePathMappingRequest,
-    output: DeleteBasePathMappingResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes the ClientCertificate resource.
- */
-export const deleteClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClientCertificateRequest,
-    output: DeleteClientCertificateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
- */
-export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDeploymentRequest,
-  output: DeleteDeploymentResponse,
+export const createResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceRequest,
+  output: Resource,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4382,104 +4148,20 @@ export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a documentation part
+ * Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
  */
-export const deleteDocumentationPart = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDocumentationPartRequest,
-    output: DeleteDocumentationPartResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Generates a ClientCertificate resource.
- */
-export const generateClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GenerateClientCertificateRequest,
-    output: ClientCertificate,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Gets information about the current ApiKey resource.
- */
-export const getApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApiKeyRequest,
-  output: ApiKey,
+export const createUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUsagePlanRequest,
+  output: UsagePlan,
   errors: [
     BadRequestException,
+    ConflictException,
+    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
-/**
- * Gets information about the current ApiKeys resource.
- */
-export const getApiKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApiKeysRequest,
-  output: ApiKeys,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describe an existing Authorizers resource.
- */
-export const getAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAuthorizersRequest,
-  output: Authorizers,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Represents a collection of BasePathMapping resources.
- */
-export const getBasePathMappings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBasePathMappingsRequest,
-  output: BasePathMappings,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets a collection of ClientCertificate resources.
- */
-export const getClientCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetClientCertificatesRequest,
-    output: ClientCertificates,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
 /**
  * Gets information about a Deployments collection.
  */
@@ -4494,36 +4176,6 @@ export const getDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthorizedException,
   ],
 }));
-/**
- * Gets a documentation part.
- */
-export const getDocumentationPart = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDocumentationPartRequest,
-    output: DocumentationPart,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Gets documentation parts.
- */
-export const getDocumentationParts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDocumentationPartsRequest,
-    output: DocumentationParts,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
 /**
  * Gets documentation versions.
  */
@@ -4561,21 +4213,6 @@ export const getDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DomainNames,
   errors: [
     BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Exports a deployed version of a RestApi in a specified format.
- */
-export const getExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetExportRequest,
-  output: ExportResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
@@ -4698,21 +4335,6 @@ export const getRestApis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Generates a client SDK for a RestApi and Stage.
- */
-export const getSdk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSdkRequest,
-  output: SdkResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Gets SDK types
  */
 export const getSdkTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -4720,21 +4342,6 @@ export const getSdkTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: SdkTypes,
   errors: [
     BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets information about one or more Stage resources.
- */
-export const getStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStagesRequest,
-  output: Stages,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
@@ -4806,68 +4413,6 @@ export const getVpcLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Import API keys from an external source, such as a CSV-formatted file.
- */
-export const importApiKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportApiKeysRequest,
-  output: ApiKeyIds,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Imports documentation parts
- */
-export const importDocumentationParts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportDocumentationPartsRequest,
-    output: DocumentationPartIds,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Sets up a method's integration.
- */
-export const putIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutIntegrationRequest,
-  output: Integration,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Add a method to an existing Resource resource.
- */
-export const putMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutMethodRequest,
-  output: Method,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
  */
 export const testInvokeMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -4881,20 +4426,588 @@ export const testInvokeMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Changes information about the current Account resource.
+ * Deletes an existing Authorizer resource.
  */
-export const updateAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountRequest,
-  output: Account,
+export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAuthorizerRequest,
+  output: DeleteAuthorizerResponse,
   errors: [
     BadRequestException,
     ConflictException,
-    LimitExceededException,
     NotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
   ],
 }));
+/**
+ * Deletes the BasePathMapping resource.
+ */
+export const deleteBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteBasePathMappingRequest,
+    output: DeleteBasePathMappingResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes the ClientCertificate resource.
+ */
+export const deleteClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteClientCertificateRequest,
+    output: DeleteClientCertificateResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes a documentation part
+ */
+export const deleteDocumentationPart = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDocumentationPartRequest,
+    output: DeleteDocumentationPartResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes a documentation version.
+ */
+export const deleteDocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDocumentationVersionRequest,
+    output: DeleteDocumentationVersionResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes the DomainName resource.
+ */
+export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainNameRequest,
+  output: DeleteDomainNameResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes the DomainNameAccessAssociation resource.
+ *
+ * Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
+ */
+export const deleteDomainNameAccessAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteDomainNameAccessAssociationRequest,
+    output: DeleteDomainNameAccessAssociationResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }));
+/**
+ * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
+ */
+export const deleteGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteGatewayResponseRequest,
+    output: DeleteGatewayResponseResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Represents a delete integration.
+ */
+export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntegrationRequest,
+  output: DeleteIntegrationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Represents a delete integration response.
+ */
+export const deleteIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteIntegrationResponseRequest,
+    output: DeleteIntegrationResponseResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes an existing MethodResponse resource.
+ */
+export const deleteMethodResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMethodResponseRequest,
+    output: DeleteMethodResponseResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes a model.
+ */
+export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelRequest,
+  output: DeleteModelResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a RequestValidator of a given RestApi.
+ */
+export const deleteRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRequestValidatorRequest,
+    output: DeleteRequestValidatorResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes a Resource resource.
+ */
+export const deleteResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceRequest,
+  output: DeleteResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes the specified API.
+ */
+export const deleteRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRestApiRequest,
+  output: DeleteRestApiResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a usage plan of a given plan Id.
+ */
+export const deleteUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUsagePlanRequest,
+  output: DeleteUsagePlanResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a usage plan key and remove the underlying API key from the associated usage plan.
+ */
+export const deleteUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUsagePlanKeyRequest,
+  output: DeleteUsagePlanKeyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes an existing VpcLink of a specified identifier.
+ */
+export const deleteVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcLinkRequest,
+  output: DeleteVpcLinkResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about the current Account resource.
+ */
+export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountRequest,
+  output: Account,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Describe an existing Authorizer resource.
+ */
+export const getAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAuthorizerRequest,
+  output: Authorizer,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Describe a BasePathMapping resource.
+ */
+export const getBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBasePathMappingRequest,
+  output: BasePathMapping,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about the current ClientCertificate resource.
+ */
+export const getClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetClientCertificateRequest,
+    output: ClientCertificate,
+    errors: [
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Describes an existing model defined for a RestApi resource.
+ */
+export const getModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetModelRequest,
+  output: Model,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets a RequestValidator of a given RestApi.
+ */
+export const getRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRequestValidatorRequest,
+  output: RequestValidator,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists the RestApi resource in the collection.
+ */
+export const getRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRestApiRequest,
+  output: RestApi,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets a usage plan key of a given key identifier.
+ */
+export const getUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUsagePlanKeyRequest,
+  output: UsagePlanKey,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets a specified VPC link under the caller's account in a region.
+ */
+export const getVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVpcLinkRequest,
+  output: VpcLink,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Rejects a domain name access association with a private custom domain name.
+ *
+ * To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
+ */
+export const rejectDomainNameAccessAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RejectDomainNameAccessAssociationRequest,
+    output: RejectDomainNameAccessAssociationResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }));
+/**
+ * Updates an existing Method resource.
+ */
+export const updateMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMethodRequest,
+  output: Method,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Changes information about a Resource resource.
+ */
+export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceRequest,
+  output: Resource,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes the ApiKey resource.
+ */
+export const deleteApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApiKeyRequest,
+  output: DeleteApiKeyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists information about a resource.
+ */
+export const getResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceRequest,
+  output: Resource,
+  errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
+}));
+/**
+ * Deletes an existing Method resource.
+ */
+export const deleteMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMethodRequest,
+  output: DeleteMethodResponse,
+  errors: [
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about the current ApiKey resource.
+ */
+export const getApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApiKeyRequest,
+  output: ApiKey,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets information about the current ApiKeys resource.
+ */
+export const getApiKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApiKeysRequest,
+  output: ApiKeys,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Describe an existing Authorizers resource.
+ */
+export const getAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAuthorizersRequest,
+  output: Authorizers,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Represents a collection of BasePathMapping resources.
+ */
+export const getBasePathMappings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBasePathMappingsRequest,
+  output: BasePathMappings,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Gets a collection of ClientCertificate resources.
+ */
+export const getClientCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetClientCertificatesRequest,
+    output: ClientCertificates,
+    errors: [
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Gets a documentation part.
+ */
+export const getDocumentationPart = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDocumentationPartRequest,
+    output: DocumentationPart,
+    errors: [
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Gets documentation parts.
+ */
+export const getDocumentationParts = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDocumentationPartsRequest,
+    output: DocumentationParts,
+    errors: [
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Generates a ClientCertificate resource.
+ */
+export const generateClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GenerateClientCertificateRequest,
+    output: ClientCertificate,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      LimitExceededException,
+      TooManyRequestsException,
+      UnauthorizedException,
+    ],
+  }),
+);
 /**
  * Changes information about a Deployment resource.
  */
@@ -4912,121 +5025,17 @@ export const updateDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a Resource resource.
+ * Creates a Deployment resource, which makes a specified RestApi callable over the internet.
  */
-export const createResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateResourceRequest,
-  output: Resource,
+export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeploymentRequest,
+  output: Deployment,
   errors: [
     BadRequestException,
     ConflictException,
     LimitExceededException,
     NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
- */
-export const createUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUsagePlanRequest,
-  output: UsagePlan,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
- */
-export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDomainNameRequest,
-  output: DomainName,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Get the integration settings.
- */
-export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIntegrationRequest,
-  output: Integration,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Describe an existing Method resource.
- */
-export const getMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMethodRequest,
-  output: Method,
-  errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
-}));
-/**
- * Gets an SDK type.
- */
-export const getSdkType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSdkTypeRequest,
-  output: SdkType,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets the usage data of a usage plan in a specified time interval.
- */
-export const getUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUsageRequest,
-  output: Usage,
-  errors: [
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
- */
-export const testInvokeAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TestInvokeAuthorizerRequest,
-    output: TestInvokeAuthorizerResponse,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Gets information about a Stage resource.
- */
-export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStageRequest,
-  output: Stage,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    LimitExceededException,
-    NotFoundException,
+    ServiceUnavailableException,
     TooManyRequestsException,
     UnauthorizedException,
   ],

@@ -1845,27 +1845,27 @@ export class DescribeModelVersionsResult extends S.Class<DescribeModelVersionsRe
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { message: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.String },
 ) {}
 export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
   "ResourceUnavailableException",
@@ -1873,6 +1873,264 @@ export class ResourceUnavailableException extends S.TaggedError<ResourceUnavaila
 ) {}
 
 //# Operations
+/**
+ * Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
+ */
+export const getKMSEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetKMSEncryptionKeyRequest,
+  output: GetKMSEncryptionKeyResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the
+ * response as part of your request. A null pagination token
+ * fetches the records from the beginning.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResult,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
+ */
+export const putExternalModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutExternalModelRequest,
+  output: PutExternalModelResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a rule for use with the specified detector.
+ */
+export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRuleRequest,
+  output: CreateRuleResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a label.
+ *
+ * You cannot delete labels that are included in an event type in Amazon Fraud Detector.
+ *
+ * You cannot delete a label assigned to an event ID. You must first delete the relevant event ID.
+ *
+ * When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
+ */
+export const deleteLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLabelRequest,
+  output: DeleteLabelResult,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the status of a `DeleteEventsByEventType` action.
+ */
+export const getDeleteEventsByEventTypeStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetDeleteEventsByEventTypeStatusRequest,
+    output: GetDeleteEventsByEventTypeStatusResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets a particular detector version.
+ */
+export const getDetectorVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDetectorVersionRequest,
+  output: GetDetectorVersionResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets all the elements in the specified list.
+ */
+export const getListElements = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetListElementsRequest,
+  output: GetListElementsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the details of the specified model version.
+ */
+export const getModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetModelVersionRequest,
+  output: GetModelVersionResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets all of the variables or the specific variable. This is a
+ * paginated API. Providing null `maxSizePerPage` results in retrieving maximum of
+ * 100 records per page. If you provide `maxSizePerPage` the value must be between
+ * 50 and 100. To get the next page result, a provide a pagination token from
+ * `GetVariablesResult` as part of your request. Null pagination token
+ * fetches the records from the beginning.
+ */
+export const getVariables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVariablesRequest,
+  output: GetVariablesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
+ */
+export const putEventType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutEventTypeRequest,
+  output: PutEventTypeResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
+ */
+export const updateModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateModelVersionRequest,
+  output: UpdateModelVersionResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
+ */
+export const updateRuleVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRuleVersionRequest,
+  output: UpdateRuleVersionResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels the specified batch prediction job.
+ */
+export const cancelBatchPredictionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelBatchPredictionJobRequest,
+    output: CancelBatchPredictionJobResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a batch import job.
+ */
+export const createBatchImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateBatchImportJobRequest,
+    output: CreateBatchImportJobResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a batch prediction job.
+ */
+export const createBatchPredictionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateBatchPredictionJobRequest,
+    output: CreateBatchPredictionJobResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a list.
+ *
+ * List is a set of input data for a variable in your event dataset. You use the input data in a rule that's associated with your detector.
+ * For more information, see Lists.
+ */
+export const createList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateListRequest,
+  output: CreateListResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a model using the specified model type.
  */
@@ -1929,6 +2187,22 @@ export const deleteBatchPredictionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector.
+ *
+ * When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
+ */
+export const deleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDetectorRequest,
+  output: DeleteDetectorResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the detector version. You cannot delete detector versions that are in `ACTIVE` status.
  *
@@ -2010,25 +2284,6 @@ export const deleteExternalModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DeleteExternalModelResult,
   errors: [
     AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a label.
- *
- * You cannot delete labels that are included in an event type in Amazon Fraud Detector.
- *
- * You cannot delete a label assigned to an event ID. You must first delete the relevant event ID.
- *
- * When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
- */
-export const deleteLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLabelRequest,
-  output: DeleteLabelResult,
-  errors: [
     ConflictException,
     InternalServerException,
     ThrottlingException,
@@ -2228,32 +2483,6 @@ export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Assigns tags to a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResult,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResult,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a `DRAFT` detector version.
  */
 export const updateDetectorVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2405,115 +2634,6 @@ export const updateVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Cancels an in-progress batch import job.
- */
-export const cancelBatchImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelBatchImportJobRequest,
-    output: CancelBatchImportJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Cancels the specified batch prediction job.
- */
-export const cancelBatchPredictionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelBatchPredictionJobRequest,
-    output: CancelBatchPredictionJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a batch import job.
- */
-export const createBatchImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBatchImportJobRequest,
-    output: CreateBatchImportJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a batch prediction job.
- */
-export const createBatchPredictionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBatchPredictionJobRequest,
-    output: CreateBatchPredictionJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a list.
- *
- * List is a set of input data for a variable in your event dataset. You use the input data in a rule that's associated with your detector.
- * For more information, see Lists.
- */
-export const createList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateListRequest,
-  output: CreateListResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a rule for use with the specified detector.
- */
-export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRuleRequest,
-  output: CreateRuleResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector.
- *
- * When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
- */
-export const deleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDetectorRequest,
-  output: DeleteDetectorResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Deletes all events of a particular event type.
  */
 export const deleteEventsByEventType = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2531,154 +2651,6 @@ export const deleteEventsByEventType = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves the status of a `DeleteEventsByEventType` action.
- */
-export const getDeleteEventsByEventTypeStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDeleteEventsByEventTypeStatusRequest,
-    output: GetDeleteEventsByEventTypeStatusResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets a particular detector version.
- */
-export const getDetectorVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDetectorVersionRequest,
-  output: GetDetectorVersionResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
- */
-export const getKMSEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetKMSEncryptionKeyRequest,
-  output: GetKMSEncryptionKeyResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Gets all the elements in the specified list.
- */
-export const getListElements = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetListElementsRequest,
-  output: GetListElementsResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the details of the specified model version.
- */
-export const getModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetModelVersionRequest,
-  output: GetModelVersionResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets all of the variables or the specific variable. This is a
- * paginated API. Providing null `maxSizePerPage` results in retrieving maximum of
- * 100 records per page. If you provide `maxSizePerPage` the value must be between
- * 50 and 100. To get the next page result, a provide a pagination token from
- * `GetVariablesResult` as part of your request. Null pagination token
- * fetches the records from the beginning.
- */
-export const getVariables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVariablesRequest,
-  output: GetVariablesResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the
- * response as part of your request. A null pagination token
- * fetches the records from the beginning.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResult,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
- */
-export const putEventType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutEventTypeRequest,
-  output: PutEventTypeResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
- */
-export const updateModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateModelVersionRequest,
-  output: UpdateModelVersionResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
- */
-export const updateRuleVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRuleVersionRequest,
-  output: UpdateRuleVersionResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Gets a batch of variables.
  */
 export const batchGetVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2691,6 +2663,48 @@ export const batchGetVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Assigns tags to a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResult,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResult,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels an in-progress batch import job.
+ */
+export const cancelBatchImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelBatchImportJobRequest,
+    output: CancelBatchImportJobResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Creates a detector version. The detector version starts in a `DRAFT` status.
  */
@@ -2896,20 +2910,6 @@ export const getRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
- */
-export const putExternalModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutExternalModelRequest,
-  output: PutExternalModelResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
     ThrottlingException,
     ValidationException,
   ],

@@ -696,47 +696,85 @@ export class CreateMeetingWithAttendeesResponse extends S.Class<CreateMeetingWit
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
-  "ServiceFailureException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
 ) {}
-export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
-  "UnprocessableEntityException",
-  {},
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
+  "ServiceFailureException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+    ResourceName: S.optional(S.String),
+  },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+    RetryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
+  },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
@@ -747,16 +785,25 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
     ResourceName: S.optional(S.String),
   },
 ) {}
+export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
+  "UnprocessableEntityException",
+  {
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+    RequestId: S.optional(S.String),
+  },
+) {}
 
 //# Operations
 /**
- * Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
+ * Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
+ * `JoinToken`. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see
  * Using the Amazon Chime SDK
  * in the *Amazon Chime Developer Guide*.
  */
-export const listAttendees = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAttendeesRequest,
-  output: ListAttendeesResponse,
+export const deleteAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAttendeeRequest,
+  output: DeleteAttendeeResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -768,11 +815,11 @@ export const listAttendees = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of the tags available for the specified resource.
+ * The resource that supports tags.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -781,38 +828,7 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceFailureException,
     ServiceUnavailableException,
     ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you
- * attempt to remove tags from a resource that were already removed. Note the following:
- *
- * - To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information,
- * see the documentation for the service whose resource you want to untag.
- *
- * - You can only tag resources that are located in the specified Amazon Web Services Region for the calling Amazon Web Services account.
- *
- * **Minimum permissions**
- *
- * In addition to the `tag:UntagResources` permission required by this operation, you must also have the remove tags permission defined by the service that created the resource.
- * For example, to remove the tags from an Amazon EC2 instance using the `UntagResources` operation, you must have both of the following permissions:
- *
- * `tag:UntagResource`
- *
- * `ChimeSDKMeetings:DeleteTags`
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottlingException,
+    TooManyTagsException,
     UnauthorizedException,
   ],
 }));
@@ -865,22 +881,76 @@ export const updateAttendeeCapabilities = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
- * Using the Amazon Chime SDK in the *Amazon Chime Developer Guide*.
+ * Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see
+ * Using the Amazon Chime SDK
+ * in the *Amazon Chime Developer Guide*.
  */
-export const batchCreateAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchCreateAttendeeRequest,
-  output: BatchCreateAttendeeResponse,
+export const getAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAttendeeRequest,
+  output: GetAttendeeResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
-    LimitExceededException,
     NotFoundException,
     ServiceFailureException,
     ServiceUnavailableException,
     ThrottlingException,
     UnauthorizedException,
-    UnprocessableEntityException,
+  ],
+}));
+/**
+ * Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see
+ * Using the Amazon Chime SDK
+ * in the *Amazon Chime Developer Guide*.
+ */
+export const getMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMeetingRequest,
+  output: GetMeetingResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
+ * Using the Amazon Chime SDK
+ * in the *Amazon Chime Developer Guide*.
+ */
+export const listAttendees = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAttendeesRequest,
+  output: ListAttendeesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from
+ * joining the meeting. For more information about the Amazon Chime SDK, see
+ * Using the Amazon Chime SDK in the
+ * *Amazon Chime Developer Guide*.
+ */
+export const deleteMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMeetingRequest,
+  output: DeleteMeetingResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
 }));
 /**
@@ -931,39 +1001,78 @@ export const batchUpdateAttendeeCapabilitiesExcept =
     ],
   }));
 /**
- * Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
+ * Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see
+ * Available Regions and
+ * Using meeting Regions, both
+ * in the *Amazon Chime SDK Developer Guide*. For more information about the Amazon Chime SDK, see
  * Using the Amazon Chime SDK
  * in the
- * *Amazon Chime Developer Guide*.
+ * *Amazon Chime SDK Developer Guide*.
+ *
+ * If you use this API in conjuction with the and APIs, and you don't specify the
+ * `MeetingFeatures.Content.MaxResolution` or `MeetingFeatures.Video.MaxResolution` parameters, the following defaults are used:
+ *
+ * - Content.MaxResolution: FHD
+ *
+ * - Video.MaxResolution: HD
  */
-export const createAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAttendeeRequest,
-  output: CreateAttendeeResponse,
+export const createMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMeetingRequest,
+  output: CreateMeetingResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    LimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see
+ * Available Regions and
+ * Using meeting Regions, both
+ * in the *Amazon Chime SDK Developer Guide*. For more information about the Amazon Chime SDK, see
+ * Using the Amazon Chime SDK
+ * in the
+ * *Amazon Chime SDK Developer Guide*.
+ *
+ * If you use this API in conjuction with the and APIs, and you don't specify the
+ * `MeetingFeatures.Content.MaxResolution` or `MeetingFeatures.Video.MaxResolution` parameters, the following defaults are used:
+ *
+ * - Content.MaxResolution: FHD
+ *
+ * - Video.MaxResolution: HD
+ */
+export const createMeetingWithAttendees = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateMeetingWithAttendeesRequest,
+    output: CreateMeetingWithAttendeesResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      LimitExceededException,
+      ServiceFailureException,
+      ServiceUnavailableException,
+      ThrottlingException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Returns a list of the tags available for the specified resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     LimitExceededException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-    UnprocessableEntityException,
-  ],
-}));
-/**
- * Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
- * `JoinToken`. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see
- * Using the Amazon Chime SDK
- * in the *Amazon Chime Developer Guide*.
- */
-export const deleteAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAttendeeRequest,
-  output: DeleteAttendeeResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
+    ResourceNotFoundException,
     ServiceFailureException,
     ServiceUnavailableException,
     ThrottlingException,
@@ -971,54 +1080,31 @@ export const deleteAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from
- * joining the meeting. For more information about the Amazon Chime SDK, see
- * Using the Amazon Chime SDK in the
- * *Amazon Chime Developer Guide*.
+ * Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you
+ * attempt to remove tags from a resource that were already removed. Note the following:
+ *
+ * - To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information,
+ * see the documentation for the service whose resource you want to untag.
+ *
+ * - You can only tag resources that are located in the specified Amazon Web Services Region for the calling Amazon Web Services account.
+ *
+ * **Minimum permissions**
+ *
+ * In addition to the `tag:UntagResources` permission required by this operation, you must also have the remove tags permission defined by the service that created the resource.
+ * For example, to remove the tags from an Amazon EC2 instance using the `UntagResources` operation, you must have both of the following permissions:
+ *
+ * `tag:UntagResource`
+ *
+ * `ChimeSDKMeetings:DeleteTags`
  */
-export const deleteMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMeetingRequest,
-  output: DeleteMeetingResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see
- * Using the Amazon Chime SDK
- * in the *Amazon Chime Developer Guide*.
- */
-export const getAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAttendeeRequest,
-  output: GetAttendeeResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceFailureException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see
- * Using the Amazon Chime SDK
- * in the *Amazon Chime Developer Guide*.
- */
-export const getMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMeetingRequest,
-  output: GetMeetingResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
+    LimitExceededException,
+    ResourceNotFoundException,
     ServiceFailureException,
     ServiceUnavailableException,
     ThrottlingException,
@@ -1088,82 +1174,42 @@ export const stopMeetingTranscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * The resource that supports tags.
+ * Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
+ * Using the Amazon Chime SDK in the *Amazon Chime Developer Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const batchCreateAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateAttendeeRequest,
+  output: BatchCreateAttendeeResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     LimitExceededException,
-    ResourceNotFoundException,
+    NotFoundException,
     ServiceFailureException,
     ServiceUnavailableException,
     ThrottlingException,
-    TooManyTagsException,
     UnauthorizedException,
+    UnprocessableEntityException,
   ],
 }));
 /**
- * Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see
- * Available Regions and
- * Using meeting Regions, both
- * in the *Amazon Chime SDK Developer Guide*. For more information about the Amazon Chime SDK, see
+ * Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
  * Using the Amazon Chime SDK
  * in the
- * *Amazon Chime SDK Developer Guide*.
- *
- * If you use this API in conjuction with the and APIs, and you don't specify the
- * `MeetingFeatures.Content.MaxResolution` or `MeetingFeatures.Video.MaxResolution` parameters, the following defaults are used:
- *
- * - Content.MaxResolution: FHD
- *
- * - Video.MaxResolution: HD
+ * *Amazon Chime Developer Guide*.
  */
-export const createMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateMeetingRequest,
-  output: CreateMeetingResponse,
+export const createAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAttendeeRequest,
+  output: CreateAttendeeResponse,
   errors: [
     BadRequestException,
-    ConflictException,
     ForbiddenException,
     LimitExceededException,
+    NotFoundException,
     ServiceFailureException,
     ServiceUnavailableException,
     ThrottlingException,
     UnauthorizedException,
+    UnprocessableEntityException,
   ],
 }));
-/**
- * Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see
- * Available Regions and
- * Using meeting Regions, both
- * in the *Amazon Chime SDK Developer Guide*. For more information about the Amazon Chime SDK, see
- * Using the Amazon Chime SDK
- * in the
- * *Amazon Chime SDK Developer Guide*.
- *
- * If you use this API in conjuction with the and APIs, and you don't specify the
- * `MeetingFeatures.Content.MaxResolution` or `MeetingFeatures.Video.MaxResolution` parameters, the following defaults are used:
- *
- * - Content.MaxResolution: FHD
- *
- * - Video.MaxResolution: HD
- */
-export const createMeetingWithAttendees = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMeetingWithAttendeesRequest,
-    output: CreateMeetingWithAttendeesResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      LimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);

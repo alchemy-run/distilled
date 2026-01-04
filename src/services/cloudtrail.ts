@@ -1689,179 +1689,124 @@ export class ListInsightsDataResponse extends S.Class<ListInsightsDataResponse>(
 )({ Events: S.optional(EventsList), NextToken: S.optional(S.String) }, ns) {}
 
 //# Errors
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-  T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
-) {}
-export class AccountNotFoundException extends S.TaggedError<AccountNotFoundException>()(
-  "AccountNotFoundException",
-  {},
-  T.AwsQueryError({ code: "AccountNotFound", httpResponseCode: 404 }),
-) {}
 export class ChannelARNInvalidException extends S.TaggedError<ChannelARNInvalidException>()(
   "ChannelARNInvalidException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ChannelARNInvalid", httpResponseCode: 400 }),
 ) {}
-export class CloudTrailARNInvalidException extends S.TaggedError<CloudTrailARNInvalidException>()(
-  "CloudTrailARNInvalidException",
-  {},
-  T.AwsQueryError({ code: "CloudTrailARNInvalid", httpResponseCode: 400 }),
-) {}
-export class EventDataStoreARNInvalidException extends S.TaggedError<EventDataStoreARNInvalidException>()(
-  "EventDataStoreARNInvalidException",
-  {},
-  T.AwsQueryError({ code: "EventDataStoreARNInvalid", httpResponseCode: 400 }),
-) {}
-export class InsufficientDependencyServiceAccessPermissionException extends S.TaggedError<InsufficientDependencyServiceAccessPermissionException>()(
-  "InsufficientDependencyServiceAccessPermissionException",
-  {},
-  T.AwsQueryError({
-    code: "InsufficientDependencyServiceAccessPermission",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ChannelNotFoundException extends S.TaggedError<ChannelNotFoundException>()(
-  "ChannelNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ChannelNotFound", httpResponseCode: 404 }),
-) {}
-export class EventDataStoreNotFoundException extends S.TaggedError<EventDataStoreNotFoundException>()(
-  "EventDataStoreNotFoundException",
-  {},
-  T.AwsQueryError({ code: "EventDataStoreNotFound", httpResponseCode: 404 }),
-) {}
-export class InactiveEventDataStoreException extends S.TaggedError<InactiveEventDataStoreException>()(
-  "InactiveEventDataStoreException",
-  {},
-  T.AwsQueryError({ code: "InactiveEventDataStore", httpResponseCode: 400 }),
-) {}
-export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
-  "OperationNotPermittedException",
-  {},
-  T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
 ) {}
 export class ChannelExistsForEDSException extends S.TaggedError<ChannelExistsForEDSException>()(
   "ChannelExistsForEDSException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ChannelExistsForEDS", httpResponseCode: 400 }),
 ) {}
-export class InvalidHomeRegionException extends S.TaggedError<InvalidHomeRegionException>()(
-  "InvalidHomeRegionException",
-  {},
-  T.AwsQueryError({ code: "InvalidHomeRegion", httpResponseCode: 400 }),
+export class CloudTrailARNInvalidException extends S.TaggedError<CloudTrailARNInvalidException>()(
+  "CloudTrailARNInvalidException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "CloudTrailARNInvalid", httpResponseCode: 400 }),
 ) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  {},
-  T.AwsQueryError({ code: "ResourceAccessDenied", httpResponseCode: 403 }),
+export class AccountNotFoundException extends S.TaggedError<AccountNotFoundException>()(
+  "AccountNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "AccountNotFound", httpResponseCode: 404 }),
 ) {}
 export class CloudTrailAccessNotEnabledException extends S.TaggedError<CloudTrailAccessNotEnabledException>()(
   "CloudTrailAccessNotEnabledException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "CloudTrailAccessNotEnabled",
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidTrailNameException extends S.TaggedError<InvalidTrailNameException>()(
-  "InvalidTrailNameException",
-  {},
-  T.AwsQueryError({ code: "InvalidTrailName", httpResponseCode: 400 }),
-) {}
-export class ResourceARNNotValidException extends S.TaggedError<ResourceARNNotValidException>()(
-  "ResourceARNNotValidException",
-  {},
-  T.AwsQueryError({ code: "ResourceARNNotValid", httpResponseCode: 400 }),
+export class ChannelNotFoundException extends S.TaggedError<ChannelNotFoundException>()(
+  "ChannelNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ChannelNotFound", httpResponseCode: 404 }),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 400 }),
 ) {}
-export class TrailNotFoundException extends S.TaggedError<TrailNotFoundException>()(
-  "TrailNotFoundException",
-  {},
-  T.AwsQueryError({ code: "TrailNotFound", httpResponseCode: 404 }),
+export class EventDataStoreARNInvalidException extends S.TaggedError<EventDataStoreARNInvalidException>()(
+  "EventDataStoreARNInvalidException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "EventDataStoreARNInvalid", httpResponseCode: 400 }),
 ) {}
-export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
-  "UnsupportedOperationException",
-  {},
-  T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
+export class InsufficientDependencyServiceAccessPermissionException extends S.TaggedError<InsufficientDependencyServiceAccessPermissionException>()(
+  "InsufficientDependencyServiceAccessPermissionException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InsufficientDependencyServiceAccessPermission",
+    httpResponseCode: 400,
+  }),
+) {}
+export class AccountNotRegisteredException extends S.TaggedError<AccountNotRegisteredException>()(
+  "AccountNotRegisteredException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "AccountNotRegistered", httpResponseCode: 400 }),
+) {}
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceAccessDenied", httpResponseCode: 403 }),
+) {}
+export class InvalidTrailNameException extends S.TaggedError<InvalidTrailNameException>()(
+  "InvalidTrailNameException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidTrailName", httpResponseCode: 400 }),
+) {}
+export class InsightNotEnabledException extends S.TaggedError<InsightNotEnabledException>()(
+  "InsightNotEnabledException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InsightNotEnabled", httpResponseCode: 400 }),
+) {}
+export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
+  "OperationNotPermittedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
+) {}
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
+) {}
+export class ImportNotFoundException extends S.TaggedError<ImportNotFoundException>()(
+  "ImportNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ImportNotFound", httpResponseCode: 404 }),
+) {}
+export class ChannelAlreadyExistsException extends S.TaggedError<ChannelAlreadyExistsException>()(
+  "ChannelAlreadyExistsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ChannelAlreadyExists", httpResponseCode: 400 }),
+) {}
+export class EventDataStoreNotFoundException extends S.TaggedError<EventDataStoreNotFoundException>()(
+  "EventDataStoreNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "EventDataStoreNotFound", httpResponseCode: 404 }),
 ) {}
 export class AccountRegisteredException extends S.TaggedError<AccountRegisteredException>()(
   "AccountRegisteredException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "AccountRegistered", httpResponseCode: 400 }),
 ) {}
-export class InvalidEventDataStoreCategoryException extends S.TaggedError<InvalidEventDataStoreCategoryException>()(
-  "InvalidEventDataStoreCategoryException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidEventDataStoreCategory",
-    httpResponseCode: 400,
-  }),
-) {}
-export class NoManagementAccountSLRExistsException extends S.TaggedError<NoManagementAccountSLRExistsException>()(
-  "NoManagementAccountSLRExistsException",
-  {},
-  T.AwsQueryError({
-    code: "NoManagementAccountSLRExists",
-    httpResponseCode: 403,
-  }),
-) {}
-export class InvalidEventDataStoreStatusException extends S.TaggedError<InvalidEventDataStoreStatusException>()(
-  "InvalidEventDataStoreStatusException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidEventDataStoreStatus",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-  T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
-) {}
-export class NotOrganizationMasterAccountException extends S.TaggedError<NotOrganizationMasterAccountException>()(
-  "NotOrganizationMasterAccountException",
-  {},
-  T.AwsQueryError({
-    code: "NotOrganizationMasterAccount",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InsufficientEncryptionPolicyException extends S.TaggedError<InsufficientEncryptionPolicyException>()(
-  "InsufficientEncryptionPolicyException",
-  {},
-  T.AwsQueryError({
-    code: "InsufficientEncryptionPolicy",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidTagParameterException extends S.TaggedError<InvalidTagParameterException>()(
-  "InvalidTagParameterException",
-  {},
-  T.AwsQueryError({ code: "InvalidTagParameter", httpResponseCode: 400 }),
-) {}
-export class InactiveQueryException extends S.TaggedError<InactiveQueryException>()(
-  "InactiveQueryException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InactiveQuery", httpResponseCode: 400 }),
-) {}
-export class ChannelAlreadyExistsException extends S.TaggedError<ChannelAlreadyExistsException>()(
-  "ChannelAlreadyExistsException",
-  {},
-  T.AwsQueryError({ code: "ChannelAlreadyExists", httpResponseCode: 400 }),
-) {}
 export class CloudTrailInvalidClientTokenIdException extends S.TaggedError<CloudTrailInvalidClientTokenIdException>()(
   "CloudTrailInvalidClientTokenIdException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "CloudTrailInvalidClientTokenId",
     httpResponseCode: 400,
   }),
+) {}
+export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
+  "UnsupportedOperationException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
 ) {}
 export class EventDataStoreFederationEnabledException extends S.TaggedError<EventDataStoreFederationEnabledException>()(
   "EventDataStoreFederationEnabledException",
@@ -1871,89 +1816,69 @@ export class EventDataStoreFederationEnabledException extends S.TaggedError<Even
     httpResponseCode: 400,
   }),
 ) {}
-export class ResourcePolicyNotFoundException extends S.TaggedError<ResourcePolicyNotFoundException>()(
-  "ResourcePolicyNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourcePolicyNotFound", httpResponseCode: 404 }),
-) {}
-export class ResourceTypeNotSupportedException extends S.TaggedError<ResourceTypeNotSupportedException>()(
-  "ResourceTypeNotSupportedException",
-  {},
-  T.AwsQueryError({ code: "ResourceTypeNotSupported", httpResponseCode: 400 }),
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-  T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
-) {}
-export class AccountNotRegisteredException extends S.TaggedError<AccountNotRegisteredException>()(
-  "AccountNotRegisteredException",
+export class InvalidHomeRegionException extends S.TaggedError<InvalidHomeRegionException>()(
+  "InvalidHomeRegionException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "AccountNotRegistered", httpResponseCode: 400 }),
-) {}
-export class QueryIdNotFoundException extends S.TaggedError<QueryIdNotFoundException>()(
-  "QueryIdNotFoundException",
-  {},
-  T.AwsQueryError({ code: "QueryIdNotFound", httpResponseCode: 404 }),
+  T.AwsQueryError({ code: "InvalidHomeRegion", httpResponseCode: 400 }),
 ) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConcurrentModification", httpResponseCode: 400 }),
 ) {}
-export class OrganizationNotInAllFeaturesModeException extends S.TaggedError<OrganizationNotInAllFeaturesModeException>()(
-  "OrganizationNotInAllFeaturesModeException",
-  {},
+export class NoManagementAccountSLRExistsException extends S.TaggedError<NoManagementAccountSLRExistsException>()(
+  "NoManagementAccountSLRExistsException",
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "OrganizationNotInAllFeaturesMode",
-    httpResponseCode: 400,
+    code: "NoManagementAccountSLRExists",
+    httpResponseCode: 403,
   }),
-) {}
-export class GenerateResponseException extends S.TaggedError<GenerateResponseException>()(
-  "GenerateResponseException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "GenerateResponse", httpResponseCode: 400 }),
-) {}
-export class ImportNotFoundException extends S.TaggedError<ImportNotFoundException>()(
-  "ImportNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ImportNotFound", httpResponseCode: 404 }),
-) {}
-export class InsightNotEnabledException extends S.TaggedError<InsightNotEnabledException>()(
-  "InsightNotEnabledException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InsightNotEnabled", httpResponseCode: 400 }),
 ) {}
 export class InvalidParameterCombinationException extends S.TaggedError<InvalidParameterCombinationException>()(
   "InvalidParameterCombinationException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "InvalidParameterCombinationError",
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidMaxResultsException extends S.TaggedError<InvalidMaxResultsException>()(
-  "InvalidMaxResultsException",
-  {},
-  T.AwsQueryError({ code: "InvalidMaxResults", httpResponseCode: 400 }),
+export class ResourceARNNotValidException extends S.TaggedError<ResourceARNNotValidException>()(
+  "ResourceARNNotValidException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceARNNotValid", httpResponseCode: 400 }),
 ) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
 ) {}
-export class ResourcePolicyNotValidException extends S.TaggedError<ResourcePolicyNotValidException>()(
-  "ResourcePolicyNotValidException",
+export class InvalidMaxResultsException extends S.TaggedError<InvalidMaxResultsException>()(
+  "InvalidMaxResultsException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ResourcePolicyNotValid", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidMaxResults", httpResponseCode: 400 }),
 ) {}
-export class CannotDelegateManagementAccountException extends S.TaggedError<CannotDelegateManagementAccountException>()(
-  "CannotDelegateManagementAccountException",
+export class InvalidTimeRangeException extends S.TaggedError<InvalidTimeRangeException>()(
+  "InvalidTimeRangeException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidTimeRange", httpResponseCode: 400 }),
+) {}
+export class InvalidEventCategoryException extends S.TaggedError<InvalidEventCategoryException>()(
+  "InvalidEventCategoryException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidEventCategory", httpResponseCode: 400 }),
+) {}
+export class InsufficientEncryptionPolicyException extends S.TaggedError<InsufficientEncryptionPolicyException>()(
+  "InsufficientEncryptionPolicyException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "CannotDelegateManagementAccount",
+    code: "InsufficientEncryptionPolicy",
     httpResponseCode: 400,
   }),
+) {}
+export class InactiveEventDataStoreException extends S.TaggedError<InactiveEventDataStoreException>()(
+  "InactiveEventDataStoreException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InactiveEventDataStore", httpResponseCode: 400 }),
 ) {}
 export class EventDataStoreMaxLimitExceededException extends S.TaggedError<EventDataStoreMaxLimitExceededException>()(
   "EventDataStoreMaxLimitExceededException",
@@ -1963,29 +1888,6 @@ export class EventDataStoreMaxLimitExceededException extends S.TaggedError<Event
     httpResponseCode: 400,
   }),
 ) {}
-export class OrganizationsNotInUseException extends S.TaggedError<OrganizationsNotInUseException>()(
-  "OrganizationsNotInUseException",
-  {},
-  T.AwsQueryError({ code: "OrganizationsNotInUse", httpResponseCode: 404 }),
-) {}
-export class InsufficientS3BucketPolicyException extends S.TaggedError<InsufficientS3BucketPolicyException>()(
-  "InsufficientS3BucketPolicyException",
-  {},
-  T.AwsQueryError({
-    code: "InsufficientS3BucketPolicy",
-    httpResponseCode: 403,
-  }),
-) {}
-export class InvalidQueryStatementException extends S.TaggedError<InvalidQueryStatementException>()(
-  "InvalidQueryStatementException",
-  {},
-  T.AwsQueryError({ code: "InvalidQueryStatement", httpResponseCode: 400 }),
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
-  T.AwsQueryError({ code: "ServiceQuotaExceeded", httpResponseCode: 400 }),
-) {}
 export class EventDataStoreAlreadyExistsException extends S.TaggedError<EventDataStoreAlreadyExistsException>()(
   "EventDataStoreAlreadyExistsException",
   { Message: S.optional(S.String) },
@@ -1994,39 +1896,31 @@ export class EventDataStoreAlreadyExistsException extends S.TaggedError<EventDat
     httpResponseCode: 400,
   }),
 ) {}
-export class EventDataStoreHasOngoingImportException extends S.TaggedError<EventDataStoreHasOngoingImportException>()(
-  "EventDataStoreHasOngoingImportException",
-  {},
-  T.AwsQueryError({
-    code: "EventDataStoreHasOngoingImport",
-    httpResponseCode: 400,
-  }),
-) {}
-export class CloudWatchLogsDeliveryUnavailableException extends S.TaggedError<CloudWatchLogsDeliveryUnavailableException>()(
-  "CloudWatchLogsDeliveryUnavailableException",
-  {},
-  T.AwsQueryError({
-    code: "CloudWatchLogsDeliveryUnavailable",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ChannelMaxLimitExceededException extends S.TaggedError<ChannelMaxLimitExceededException>()(
-  "ChannelMaxLimitExceededException",
+export class GenerateResponseException extends S.TaggedError<GenerateResponseException>()(
+  "GenerateResponseException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ChannelMaxLimitExceeded", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "GenerateResponse", httpResponseCode: 400 }),
 ) {}
-export class InvalidEventSelectorsException extends S.TaggedError<InvalidEventSelectorsException>()(
-  "InvalidEventSelectorsException",
-  {},
-  T.AwsQueryError({ code: "InvalidEventSelectors", httpResponseCode: 400 }),
-) {}
-export class InsufficientSnsTopicPolicyException extends S.TaggedError<InsufficientSnsTopicPolicyException>()(
-  "InsufficientSnsTopicPolicyException",
-  {},
+export class InvalidEventDataStoreCategoryException extends S.TaggedError<InvalidEventDataStoreCategoryException>()(
+  "InvalidEventDataStoreCategoryException",
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InsufficientSnsTopicPolicy",
-    httpResponseCode: 403,
+    code: "InvalidEventDataStoreCategory",
+    httpResponseCode: 400,
   }),
+) {}
+export class CannotDelegateManagementAccountException extends S.TaggedError<CannotDelegateManagementAccountException>()(
+  "CannotDelegateManagementAccountException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CannotDelegateManagementAccount",
+    httpResponseCode: 400,
+  }),
+) {}
+export class TrailNotFoundException extends S.TaggedError<TrailNotFoundException>()(
+  "TrailNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TrailNotFound", httpResponseCode: 404 }),
 ) {}
 export class NotOrganizationManagementAccountException extends S.TaggedError<NotOrganizationManagementAccountException>()(
   "NotOrganizationManagementAccountException",
@@ -2036,31 +1930,83 @@ export class NotOrganizationManagementAccountException extends S.TaggedError<Not
     httpResponseCode: 403,
   }),
 ) {}
-export class InvalidTimeRangeException extends S.TaggedError<InvalidTimeRangeException>()(
-  "InvalidTimeRangeException",
+export class ChannelMaxLimitExceededException extends S.TaggedError<ChannelMaxLimitExceededException>()(
+  "ChannelMaxLimitExceededException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidTimeRange", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "ChannelMaxLimitExceeded", httpResponseCode: 400 }),
+) {}
+export class CloudWatchLogsDeliveryUnavailableException extends S.TaggedError<CloudWatchLogsDeliveryUnavailableException>()(
+  "CloudWatchLogsDeliveryUnavailableException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CloudWatchLogsDeliveryUnavailable",
+    httpResponseCode: 400,
+  }),
+) {}
+export class EventDataStoreHasOngoingImportException extends S.TaggedError<EventDataStoreHasOngoingImportException>()(
+  "EventDataStoreHasOngoingImportException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "EventDataStoreHasOngoingImport",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
+) {}
+export class ResourcePolicyNotFoundException extends S.TaggedError<ResourcePolicyNotFoundException>()(
+  "ResourcePolicyNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourcePolicyNotFound", httpResponseCode: 404 }),
 ) {}
 export class InvalidTokenException extends S.TaggedError<InvalidTokenException>()(
   "InvalidTokenException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidToken", httpResponseCode: 400 }),
 ) {}
-export class InvalidDateRangeException extends S.TaggedError<InvalidDateRangeException>()(
-  "InvalidDateRangeException",
+export class InvalidLookupAttributesException extends S.TaggedError<InvalidLookupAttributesException>()(
+  "InvalidLookupAttributesException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidDateRange", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidLookupAttributes", httpResponseCode: 400 }),
 ) {}
-export class InvalidEventCategoryException extends S.TaggedError<InvalidEventCategoryException>()(
-  "InvalidEventCategoryException",
+export class InvalidEventSelectorsException extends S.TaggedError<InvalidEventSelectorsException>()(
+  "InvalidEventSelectorsException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidEventCategory", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidEventSelectors", httpResponseCode: 400 }),
 ) {}
-export class InsufficientIAMAccessPermissionException extends S.TaggedError<InsufficientIAMAccessPermissionException>()(
-  "InsufficientIAMAccessPermissionException",
+export class InsufficientS3BucketPolicyException extends S.TaggedError<InsufficientS3BucketPolicyException>()(
+  "InsufficientS3BucketPolicyException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InsufficientIAMAccessPermission",
+    code: "InsufficientS3BucketPolicy",
+    httpResponseCode: 403,
+  }),
+) {}
+export class AccountHasOngoingImportException extends S.TaggedError<AccountHasOngoingImportException>()(
+  "AccountHasOngoingImportException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "AccountHasOngoingImport", httpResponseCode: 400 }),
+) {}
+export class InvalidQueryStatementException extends S.TaggedError<InvalidQueryStatementException>()(
+  "InvalidQueryStatementException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidQueryStatement", httpResponseCode: 400 }),
+) {}
+export class InvalidEventDataStoreStatusException extends S.TaggedError<InvalidEventDataStoreStatusException>()(
+  "InvalidEventDataStoreStatusException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidEventDataStoreStatus",
+    httpResponseCode: 400,
+  }),
+) {}
+export class NotOrganizationMasterAccountException extends S.TaggedError<NotOrganizationMasterAccountException>()(
+  "NotOrganizationMasterAccountException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "NotOrganizationMasterAccount",
     httpResponseCode: 400,
   }),
 ) {}
@@ -2072,56 +2018,56 @@ export class DelegatedAdminAccountLimitExceededException extends S.TaggedError<D
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidS3BucketNameException extends S.TaggedError<InvalidS3BucketNameException>()(
-  "InvalidS3BucketNameException",
+export class ResourcePolicyNotValidException extends S.TaggedError<ResourcePolicyNotValidException>()(
+  "ResourcePolicyNotValidException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidS3BucketName", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "ResourcePolicyNotValid", httpResponseCode: 400 }),
 ) {}
-export class InvalidInsightSelectorsException extends S.TaggedError<InvalidInsightSelectorsException>()(
-  "InvalidInsightSelectorsException",
-  {},
-  T.AwsQueryError({ code: "InvalidInsightSelectors", httpResponseCode: 400 }),
-) {}
-export class InvalidKmsKeyIdException extends S.TaggedError<InvalidKmsKeyIdException>()(
-  "InvalidKmsKeyIdException",
-  {},
-  T.AwsQueryError({ code: "InvalidKmsKeyId", httpResponseCode: 400 }),
-) {}
-export class InvalidCloudWatchLogsLogGroupArnException extends S.TaggedError<InvalidCloudWatchLogsLogGroupArnException>()(
-  "InvalidCloudWatchLogsLogGroupArnException",
-  {},
+export class OrganizationNotInAllFeaturesModeException extends S.TaggedError<OrganizationNotInAllFeaturesModeException>()(
+  "OrganizationNotInAllFeaturesModeException",
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InvalidCloudWatchLogsLogGroupArn",
+    code: "OrganizationNotInAllFeaturesMode",
     httpResponseCode: 400,
   }),
-) {}
-export class TagsLimitExceededException extends S.TaggedError<TagsLimitExceededException>()(
-  "TagsLimitExceededException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TagsLimitExceeded", httpResponseCode: 400 }),
 ) {}
 export class InvalidSourceException extends S.TaggedError<InvalidSourceException>()(
   "InvalidSourceException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidSource", httpResponseCode: 400 }),
 ) {}
-export class KmsException extends S.TaggedError<KmsException>()(
-  "KmsException",
-  {},
-  T.AwsQueryError({ code: "KmsException", httpResponseCode: 400 }),
+export class InvalidTagParameterException extends S.TaggedError<InvalidTagParameterException>()(
+  "InvalidTagParameterException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidTagParameter", httpResponseCode: 400 }),
 ) {}
-export class InvalidCloudWatchLogsRoleArnException extends S.TaggedError<InvalidCloudWatchLogsRoleArnException>()(
-  "InvalidCloudWatchLogsRoleArnException",
-  {},
+export class InactiveQueryException extends S.TaggedError<InactiveQueryException>()(
+  "InactiveQueryException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InactiveQuery", httpResponseCode: 400 }),
+) {}
+export class QueryIdNotFoundException extends S.TaggedError<QueryIdNotFoundException>()(
+  "QueryIdNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "QueryIdNotFound", httpResponseCode: 404 }),
+) {}
+export class InvalidDateRangeException extends S.TaggedError<InvalidDateRangeException>()(
+  "InvalidDateRangeException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidDateRange", httpResponseCode: 400 }),
+) {}
+export class InsufficientIAMAccessPermissionException extends S.TaggedError<InsufficientIAMAccessPermissionException>()(
+  "InsufficientIAMAccessPermissionException",
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InvalidCloudWatchLogsRoleArn",
+    code: "InsufficientIAMAccessPermission",
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidS3PrefixException extends S.TaggedError<InvalidS3PrefixException>()(
-  "InvalidS3PrefixException",
-  {},
-  T.AwsQueryError({ code: "InvalidS3Prefix", httpResponseCode: 400 }),
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ServiceQuotaExceeded", httpResponseCode: 400 }),
 ) {}
 export class EventDataStoreTerminationProtectedException extends S.TaggedError<EventDataStoreTerminationProtectedException>()(
   "EventDataStoreTerminationProtectedException",
@@ -2131,50 +2077,109 @@ export class EventDataStoreTerminationProtectedException extends S.TaggedError<E
     httpResponseCode: 400,
   }),
 ) {}
+export class ResourceTypeNotSupportedException extends S.TaggedError<ResourceTypeNotSupportedException>()(
+  "ResourceTypeNotSupportedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceTypeNotSupported", httpResponseCode: 400 }),
+) {}
+export class InvalidInsightSelectorsException extends S.TaggedError<InvalidInsightSelectorsException>()(
+  "InvalidInsightSelectorsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidInsightSelectors", httpResponseCode: 400 }),
+) {}
+export class InsufficientSnsTopicPolicyException extends S.TaggedError<InsufficientSnsTopicPolicyException>()(
+  "InsufficientSnsTopicPolicyException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InsufficientSnsTopicPolicy",
+    httpResponseCode: 403,
+  }),
+) {}
+export class OrganizationsNotInUseException extends S.TaggedError<OrganizationsNotInUseException>()(
+  "OrganizationsNotInUseException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "OrganizationsNotInUse", httpResponseCode: 404 }),
+) {}
+export class InvalidKmsKeyIdException extends S.TaggedError<InvalidKmsKeyIdException>()(
+  "InvalidKmsKeyIdException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidKmsKeyId", httpResponseCode: 400 }),
+) {}
+export class InvalidS3BucketNameException extends S.TaggedError<InvalidS3BucketNameException>()(
+  "InvalidS3BucketNameException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidS3BucketName", httpResponseCode: 400 }),
+) {}
 export class InvalidQueryStatusException extends S.TaggedError<InvalidQueryStatusException>()(
   "InvalidQueryStatusException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidQueryStatus", httpResponseCode: 400 }),
-) {}
-export class InvalidLookupAttributesException extends S.TaggedError<InvalidLookupAttributesException>()(
-  "InvalidLookupAttributesException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidLookupAttributes", httpResponseCode: 400 }),
-) {}
-export class AccountHasOngoingImportException extends S.TaggedError<AccountHasOngoingImportException>()(
-  "AccountHasOngoingImportException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "AccountHasOngoingImport", httpResponseCode: 400 }),
-) {}
-export class KmsKeyNotFoundException extends S.TaggedError<KmsKeyNotFoundException>()(
-  "KmsKeyNotFoundException",
-  {},
-  T.AwsQueryError({ code: "KmsKeyNotFound", httpResponseCode: 400 }),
-) {}
-export class InvalidSnsTopicNameException extends S.TaggedError<InvalidSnsTopicNameException>()(
-  "InvalidSnsTopicNameException",
-  {},
-  T.AwsQueryError({ code: "InvalidSnsTopicName", httpResponseCode: 400 }),
-) {}
-export class KmsKeyDisabledException extends S.TaggedError<KmsKeyDisabledException>()(
-  "KmsKeyDisabledException",
-  {},
-  T.AwsQueryError({ code: "KmsKeyDisabled", httpResponseCode: 400 }),
-) {}
-export class S3BucketDoesNotExistException extends S.TaggedError<S3BucketDoesNotExistException>()(
-  "S3BucketDoesNotExistException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "S3BucketDoesNotExist", httpResponseCode: 404 }),
 ) {}
 export class InvalidImportSourceException extends S.TaggedError<InvalidImportSourceException>()(
   "InvalidImportSourceException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidImportSource", httpResponseCode: 400 }),
 ) {}
+export class TagsLimitExceededException extends S.TaggedError<TagsLimitExceededException>()(
+  "TagsLimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TagsLimitExceeded", httpResponseCode: 400 }),
+) {}
+export class KmsException extends S.TaggedError<KmsException>()(
+  "KmsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KmsException", httpResponseCode: 400 }),
+) {}
+export class InvalidCloudWatchLogsLogGroupArnException extends S.TaggedError<InvalidCloudWatchLogsLogGroupArnException>()(
+  "InvalidCloudWatchLogsLogGroupArnException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidCloudWatchLogsLogGroupArn",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidS3PrefixException extends S.TaggedError<InvalidS3PrefixException>()(
+  "InvalidS3PrefixException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidS3Prefix", httpResponseCode: 400 }),
+) {}
+export class S3BucketDoesNotExistException extends S.TaggedError<S3BucketDoesNotExistException>()(
+  "S3BucketDoesNotExistException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "S3BucketDoesNotExist", httpResponseCode: 404 }),
+) {}
+export class InvalidCloudWatchLogsRoleArnException extends S.TaggedError<InvalidCloudWatchLogsRoleArnException>()(
+  "InvalidCloudWatchLogsRoleArnException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidCloudWatchLogsRoleArn",
+    httpResponseCode: 400,
+  }),
+) {}
 export class MaxConcurrentQueriesException extends S.TaggedError<MaxConcurrentQueriesException>()(
   "MaxConcurrentQueriesException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "MaxConcurrentQueries", httpResponseCode: 429 }),
+) {}
+export class KmsKeyNotFoundException extends S.TaggedError<KmsKeyNotFoundException>()(
+  "KmsKeyNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KmsKeyNotFound", httpResponseCode: 400 }),
+) {}
+export class InvalidSnsTopicNameException extends S.TaggedError<InvalidSnsTopicNameException>()(
+  "InvalidSnsTopicNameException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidSnsTopicName", httpResponseCode: 400 }),
+) {}
+export class KmsKeyDisabledException extends S.TaggedError<KmsKeyDisabledException>()(
+  "KmsKeyDisabledException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KmsKeyDisabled", httpResponseCode: 400 }),
+) {}
+export class TrailNotProvidedException extends S.TaggedError<TrailNotProvidedException>()(
+  "TrailNotProvidedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TrailNotProvided", httpResponseCode: 404 }),
 ) {}
 export class MaximumNumberOfTrailsExceededException extends S.TaggedError<MaximumNumberOfTrailsExceededException>()(
   "MaximumNumberOfTrailsExceededException",
@@ -2184,11 +2189,6 @@ export class MaximumNumberOfTrailsExceededException extends S.TaggedError<Maximu
     httpResponseCode: 403,
   }),
 ) {}
-export class TrailNotProvidedException extends S.TaggedError<TrailNotProvidedException>()(
-  "TrailNotProvidedException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TrailNotProvided", httpResponseCode: 404 }),
-) {}
 export class TrailAlreadyExistsException extends S.TaggedError<TrailAlreadyExistsException>()(
   "TrailAlreadyExistsException",
   { Message: S.optional(S.String) },
@@ -2196,60 +2196,6 @@ export class TrailAlreadyExistsException extends S.TaggedError<TrailAlreadyExist
 ) {}
 
 //# Operations
-/**
- * Returns a JSON-formatted list of information about the specified trail. Fields include
- * information on delivery errors, Amazon SNS and Amazon S3 errors, and start
- * and stop logging times for each trail. This operation returns trail status from a single
- * Region. To return trail status from all Regions, you must call the operation on each
- * Region.
- */
-export const getTrailStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTrailStatusRequest,
-  output: GetTrailStatusResponse,
-  errors: [
-    CloudTrailARNInvalidException,
-    InvalidTrailNameException,
-    OperationNotPermittedException,
-    TrailNotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store `Status` must be `ENABLED`
- * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
- */
-export const stopEventDataStoreIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopEventDataStoreIngestionRequest,
-    output: StopEventDataStoreIngestionResponse,
-    errors: [
-      ConflictException,
-      EventDataStoreARNInvalidException,
-      EventDataStoreNotFoundException,
-      InsufficientDependencyServiceAccessPermissionException,
-      InvalidEventDataStoreCategoryException,
-      InvalidEventDataStoreStatusException,
-      InvalidParameterException,
-      NoManagementAccountSLRExistsException,
-      NotOrganizationMasterAccountException,
-      OperationNotPermittedException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Deletes a channel.
- */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
-  errors: [
-    ChannelARNInvalidException,
-    ChannelNotFoundException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
 /**
  * Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
  */
@@ -2263,276 +2209,16 @@ export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
+ * Lists the channels in the current account, and their source names.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      ConflictException,
-      OperationNotPermittedException,
-      ResourceARNNotValidException,
-      ResourceNotFoundException,
-      ResourcePolicyNotFoundException,
-      ResourceTypeNotSupportedException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Deletes a trail. This operation must be called from the Region in which the trail was
- * created. `DeleteTrail` cannot be called on the shadow trails (replicated trails
- * in other Regions) of a trail that is enabled in all Regions.
- *
- * While deleting a CloudTrail trail is an irreversible action, CloudTrail does not
- * delete log files in the Amazon S3 bucket for that trail, the Amazon S3 bucket itself, or the
- * CloudWatchlog group to which the trail delivers events. Deleting a multi-Region trail
- * will stop logging of events in all Amazon Web Services Regions enabled in your Amazon Web Services account. Deleting a
- * single-Region trail will stop logging of events in that Region only. It will not stop
- * logging of events in other Regions even if the trails in those other Regions have
- * identical names to the deleted trail.
- *
- * For information about account closure and deletion of CloudTrail trails, see https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html.
- */
-export const deleteTrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTrailRequest,
-  output: DeleteTrailResponse,
+export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListChannelsRequest,
+  output: ListChannelsResponse,
   errors: [
-    CloudTrailARNInvalidException,
-    ConflictException,
-    InsufficientDependencyServiceAccessPermissionException,
-    InvalidHomeRegionException,
-    InvalidTrailNameException,
-    NoManagementAccountSLRExistsException,
-    NotOrganizationMasterAccountException,
-    OperationNotPermittedException,
-    ThrottlingException,
-    TrailNotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Returns metadata about a query, including query run time in milliseconds, number of
- * events scanned and matched, and query status. If the query results were delivered to an S3 bucket,
- * the response also provides the S3 URI and the delivery status.
- *
- * You must specify either `QueryId` or `QueryAlias`. Specifying the `QueryAlias` parameter
- * returns information about the last query run for the alias. You can provide
- * `RefreshId` along with `QueryAlias` to view the query results
- * of a dashboard query for the specified `RefreshId`.
- */
-export const describeQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeQueryRequest,
-  output: DescribeQueryResponse,
-  errors: [
-    EventDataStoreARNInvalidException,
-    EventDataStoreNotFoundException,
-    InactiveEventDataStoreException,
-    InvalidParameterException,
-    NoManagementAccountSLRExistsException,
-    OperationNotPermittedException,
-    QueryIdNotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Retrieves settings for one or more trails associated with the current Region for your
- * account.
- */
-export const describeTrails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTrailsRequest,
-  output: DescribeTrailsResponse,
-  errors: [
-    CloudTrailARNInvalidException,
-    InvalidTrailNameException,
-    NoManagementAccountSLRExistsException,
+    InvalidNextTokenException,
     OperationNotPermittedException,
     UnsupportedOperationException,
   ],
-}));
-/**
- * Generates a query from a natural language prompt. This operation uses generative artificial intelligence
- * (generative AI) to produce a ready-to-use SQL query from the prompt.
- *
- * The prompt can be a question or a statement about the event data
- * in your event data store. For example, you can enter prompts like "What are my
- * top errors in the past month?" and “Give me a list of users that used SNS.”
- *
- * The prompt must be in English. For information about limitations, permissions, and supported Regions, see
- * Create CloudTrail Lake queries from natural language prompts
- * in the *CloudTrail * user guide.
- *
- * Do not include any personally identifying, confidential, or sensitive information
- * in your prompts.
- *
- * This feature uses generative AI large language models (LLMs); we recommend double-checking the
- * LLM response.
- */
-export const generateQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GenerateQueryRequest,
-  output: GenerateQueryResponse,
-  errors: [
-    EventDataStoreARNInvalidException,
-    EventDataStoreNotFoundException,
-    GenerateResponseException,
-    InactiveEventDataStoreException,
-    InvalidParameterException,
-    NoManagementAccountSLRExistsException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Returns information about a specific channel.
- */
-export const getChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetChannelRequest,
-  output: GetChannelResponse,
-  errors: [
-    ChannelARNInvalidException,
-    ChannelNotFoundException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Returns the specified dashboard.
- */
-export const getDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDashboardRequest,
-  output: GetDashboardResponse,
-  errors: [ResourceNotFoundException, UnsupportedOperationException],
-}));
-/**
- * Returns information about an event data store specified as either an ARN or the ID
- * portion of the ARN.
- */
-export const getEventDataStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEventDataStoreRequest,
-  output: GetEventDataStoreResponse,
-  errors: [
-    EventDataStoreARNInvalidException,
-    EventDataStoreNotFoundException,
-    InvalidParameterException,
-    NoManagementAccountSLRExistsException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Describes the settings for the event selectors that you configured for your trail. The
- * information returned for your event selectors includes the following:
- *
- * - If your event selector includes read-only events, write-only events, or all
- * events. This applies to management events, data events, and network activity events.
- *
- * - If your event selector includes management events.
- *
- * - If your event selector includes network activity events, the event sources
- * for which you are logging network activity events.
- *
- * - If your event selector includes data events, the resources on which you are
- * logging data events.
- *
- * For more information about logging management, data, and network activity events, see the following topics
- * in the *CloudTrail User Guide*:
- *
- * - Logging management events
- *
- * - Logging data events
- *
- * - Logging network activity events
- */
-export const getEventSelectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEventSelectorsRequest,
-  output: GetEventSelectorsResponse,
-  errors: [
-    CloudTrailARNInvalidException,
-    InvalidTrailNameException,
-    NoManagementAccountSLRExistsException,
-    OperationNotPermittedException,
-    TrailNotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Returns information about a specific import.
- */
-export const getImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetImportRequest,
-  output: GetImportResponse,
-  errors: [
-    ImportNotFoundException,
-    InvalidParameterException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Describes the settings for the Insights event selectors that you configured for your
- * trail or event data store. `GetInsightSelectors` shows if CloudTrail Insights logging is enabled
- * and which Insights types are configured with corresponding event categories. If you run
- * `GetInsightSelectors` on a trail or event data store that does not have Insights events enabled,
- * the operation throws the exception `InsightNotEnabledException`
- *
- * Specify either the `EventDataStore` parameter to get Insights event selectors for an event data store,
- * or the `TrailName` parameter to the get Insights event selectors for a trail. You cannot specify these parameters together.
- *
- * For more information, see Working with CloudTrail Insights in the *CloudTrail User Guide*.
- */
-export const getInsightSelectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInsightSelectorsRequest,
-  output: GetInsightSelectorsResponse,
-  errors: [
-    CloudTrailARNInvalidException,
-    InsightNotEnabledException,
-    InvalidParameterCombinationException,
-    InvalidParameterException,
-    InvalidTrailNameException,
-    NoManagementAccountSLRExistsException,
-    OperationNotPermittedException,
-    ThrottlingException,
-    TrailNotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
-  errors: [
-    OperationNotPermittedException,
-    ResourceARNNotValidException,
-    ResourceNotFoundException,
-    ResourcePolicyNotFoundException,
-    ResourceTypeNotSupportedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Returns settings information for a specified trail.
- */
-export const getTrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTrailRequest,
-  output: GetTrailResponse,
-  errors: [
-    CloudTrailARNInvalidException,
-    InvalidTrailNameException,
-    OperationNotPermittedException,
-    TrailNotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Returns information about all dashboards in the account, in the current Region.
- */
-export const listDashboards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDashboardsRequest,
-  output: ListDashboardsResponse,
-  errors: [UnsupportedOperationException],
 }));
 /**
  * Returns information about all event data stores in the account, in the current
@@ -2550,32 +2236,20 @@ export const listEventDataStores = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of failures for the specified import.
+ * Returns the specified dashboard.
  */
-export const listImportFailures = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListImportFailuresRequest,
-  output: ListImportFailuresResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
+export const getDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDashboardRequest,
+  output: GetDashboardResponse,
+  errors: [ResourceNotFoundException, UnsupportedOperationException],
 }));
 /**
- * Returns information on all imports, or a select set of imports by
- * `ImportStatus` or `Destination`.
+ * Returns information about all dashboards in the account, in the current Region.
  */
-export const listImports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListImportsRequest,
-  output: ListImportsResponse,
-  errors: [
-    EventDataStoreARNInvalidException,
-    InvalidNextTokenException,
-    InvalidParameterException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
+export const listDashboards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDashboardsRequest,
+  output: ListDashboardsResponse,
+  errors: [UnsupportedOperationException],
 }));
 /**
  * Returns Insights metrics data for trails that have enabled Insights. The request must include the `EventSource`,
@@ -2620,75 +2294,6 @@ export const listTrails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [OperationNotPermittedException, UnsupportedOperationException],
 }));
 /**
- * Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see
- * CloudTrail resource-based policy examples
- * in the *CloudTrail User Guide*.
- */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
-  errors: [
-    ConflictException,
-    OperationNotPermittedException,
-    ResourceARNNotValidException,
-    ResourceNotFoundException,
-    ResourcePolicyNotValidException,
-    ResourceTypeNotSupportedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Removes the specified tags from a trail, event data store, dashboard, or channel.
- */
-export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTagsRequest,
-  output: RemoveTagsResponse,
-  errors: [
-    ChannelARNInvalidException,
-    ChannelNotFoundException,
-    CloudTrailARNInvalidException,
-    ConflictException,
-    EventDataStoreARNInvalidException,
-    EventDataStoreNotFoundException,
-    InactiveEventDataStoreException,
-    InvalidTagParameterException,
-    InvalidTrailNameException,
-    NoManagementAccountSLRExistsException,
-    NotOrganizationMasterAccountException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-    ResourceTypeNotSupportedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Restores a deleted event data store specified by `EventDataStore`, which
- * accepts an event data store ARN. You can only restore a deleted event data store within the
- * seven-day wait period after deletion. Restoring an event data store can take several
- * minutes, depending on the size of the event data store.
- */
-export const restoreEventDataStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreEventDataStoreRequest,
-    output: RestoreEventDataStoreResponse,
-    errors: [
-      CloudTrailAccessNotEnabledException,
-      EventDataStoreARNInvalidException,
-      EventDataStoreMaxLimitExceededException,
-      EventDataStoreNotFoundException,
-      InsufficientDependencyServiceAccessPermissionException,
-      InvalidEventDataStoreStatusException,
-      InvalidParameterException,
-      NoManagementAccountSLRExistsException,
-      NotOrganizationMasterAccountException,
-      OperationNotPermittedException,
-      OrganizationNotInAllFeaturesModeException,
-      OrganizationsNotInUseException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
  * Searches sample queries and returns a list of sample queries that are sorted by relevance.
  * To search for sample queries, provide a natural language `SearchPhrase` in English.
  */
@@ -2702,27 +2307,363 @@ export const searchSampleQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store `Status` must be `STOPPED_INGESTION`
- * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
+ * Stops a specified import.
  */
-export const startEventDataStoreIngestion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartEventDataStoreIngestionRequest,
-    output: StartEventDataStoreIngestionResponse,
-    errors: [
-      ConflictException,
-      EventDataStoreARNInvalidException,
-      EventDataStoreNotFoundException,
-      InsufficientDependencyServiceAccessPermissionException,
-      InvalidEventDataStoreCategoryException,
-      InvalidEventDataStoreStatusException,
-      InvalidParameterException,
-      NoManagementAccountSLRExistsException,
-      NotOrganizationMasterAccountException,
-      OperationNotPermittedException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const stopImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopImportRequest,
+  output: StopImportResponse,
+  errors: [
+    ImportNotFoundException,
+    InvalidParameterException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Deletes a channel.
+ */
+export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelRequest,
+  output: DeleteChannelResponse,
+  errors: [
+    ChannelARNInvalidException,
+    ChannelNotFoundException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns information about a specific channel.
+ */
+export const getChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChannelRequest,
+  output: GetChannelResponse,
+  errors: [
+    ChannelARNInvalidException,
+    ChannelNotFoundException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns information about a specific import.
+ */
+export const getImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImportRequest,
+  output: GetImportResponse,
+  errors: [
+    ImportNotFoundException,
+    InvalidParameterException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Generates a query from a natural language prompt. This operation uses generative artificial intelligence
+ * (generative AI) to produce a ready-to-use SQL query from the prompt.
+ *
+ * The prompt can be a question or a statement about the event data
+ * in your event data store. For example, you can enter prompts like "What are my
+ * top errors in the past month?" and “Give me a list of users that used SNS.”
+ *
+ * The prompt must be in English. For information about limitations, permissions, and supported Regions, see
+ * Create CloudTrail Lake queries from natural language prompts
+ * in the *CloudTrail * user guide.
+ *
+ * Do not include any personally identifying, confidential, or sensitive information
+ * in your prompts.
+ *
+ * This feature uses generative AI large language models (LLMs); we recommend double-checking the
+ * LLM response.
+ */
+export const generateQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateQueryRequest,
+  output: GenerateQueryResponse,
+  errors: [
+    EventDataStoreARNInvalidException,
+    EventDataStoreNotFoundException,
+    GenerateResponseException,
+    InactiveEventDataStoreException,
+    InvalidParameterException,
+    NoManagementAccountSLRExistsException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns settings information for a specified trail.
+ */
+export const getTrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTrailRequest,
+  output: GetTrailResponse,
+  errors: [
+    CloudTrailARNInvalidException,
+    InvalidTrailNameException,
+    OperationNotPermittedException,
+    TrailNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Retrieves settings for one or more trails associated with the current Region for your
+ * account.
+ */
+export const describeTrails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrailsRequest,
+  output: DescribeTrailsResponse,
+  errors: [
+    CloudTrailARNInvalidException,
+    InvalidTrailNameException,
+    NoManagementAccountSLRExistsException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns information about an event data store specified as either an ARN or the ID
+ * portion of the ARN.
+ */
+export const getEventDataStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEventDataStoreRequest,
+  output: GetEventDataStoreResponse,
+  errors: [
+    EventDataStoreARNInvalidException,
+    EventDataStoreNotFoundException,
+    InvalidParameterException,
+    NoManagementAccountSLRExistsException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns a list of failures for the specified import.
+ */
+export const listImportFailures = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListImportFailuresRequest,
+  output: ListImportFailuresResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns information on all imports, or a select set of imports by
+ * `ImportStatus` or `Destination`.
+ */
+export const listImports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListImportsRequest,
+  output: ListImportsResponse,
+  errors: [
+    EventDataStoreARNInvalidException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Updates a channel specified by a required channel ARN or UUID.
+ */
+export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChannelRequest,
+  output: UpdateChannelResponse,
+  errors: [
+    ChannelAlreadyExistsException,
+    ChannelARNInvalidException,
+    ChannelNotFoundException,
+    EventDataStoreARNInvalidException,
+    EventDataStoreNotFoundException,
+    InactiveEventDataStoreException,
+    InvalidEventDataStoreCategoryException,
+    InvalidParameterException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns a JSON-formatted list of information about the specified trail. Fields include
+ * information on delivery errors, Amazon SNS and Amazon S3 errors, and start
+ * and stop logging times for each trail. This operation returns trail status from a single
+ * Region. To return trail status from all Regions, you must call the operation on each
+ * Region.
+ */
+export const getTrailStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTrailStatusRequest,
+  output: GetTrailStatusResponse,
+  errors: [
+    CloudTrailARNInvalidException,
+    InvalidTrailNameException,
+    OperationNotPermittedException,
+    TrailNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Describes the settings for the event selectors that you configured for your trail. The
+ * information returned for your event selectors includes the following:
+ *
+ * - If your event selector includes read-only events, write-only events, or all
+ * events. This applies to management events, data events, and network activity events.
+ *
+ * - If your event selector includes management events.
+ *
+ * - If your event selector includes network activity events, the event sources
+ * for which you are logging network activity events.
+ *
+ * - If your event selector includes data events, the resources on which you are
+ * logging data events.
+ *
+ * For more information about logging management, data, and network activity events, see the following topics
+ * in the *CloudTrail User Guide*:
+ *
+ * - Logging management events
+ *
+ * - Logging data events
+ *
+ * - Logging network activity events
+ */
+export const getEventSelectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEventSelectorsRequest,
+  output: GetEventSelectorsResponse,
+  errors: [
+    CloudTrailARNInvalidException,
+    InvalidTrailNameException,
+    NoManagementAccountSLRExistsException,
+    OperationNotPermittedException,
+    TrailNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Describes the settings for the Insights event selectors that you configured for your
+ * trail or event data store. `GetInsightSelectors` shows if CloudTrail Insights logging is enabled
+ * and which Insights types are configured with corresponding event categories. If you run
+ * `GetInsightSelectors` on a trail or event data store that does not have Insights events enabled,
+ * the operation throws the exception `InsightNotEnabledException`
+ *
+ * Specify either the `EventDataStore` parameter to get Insights event selectors for an event data store,
+ * or the `TrailName` parameter to the get Insights event selectors for a trail. You cannot specify these parameters together.
+ *
+ * For more information, see Working with CloudTrail Insights in the *CloudTrail User Guide*.
+ */
+export const getInsightSelectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInsightSelectorsRequest,
+  output: GetInsightSelectorsResponse,
+  errors: [
+    CloudTrailARNInvalidException,
+    InsightNotEnabledException,
+    InvalidParameterCombinationException,
+    InvalidParameterException,
+    InvalidTrailNameException,
+    NoManagementAccountSLRExistsException,
+    OperationNotPermittedException,
+    ThrottlingException,
+    TrailNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days.
+ *
+ * ListInsightsData supports the following Dimensions for Insights events:
+ *
+ * - Event ID
+ *
+ * - Event name
+ *
+ * - Event source
+ *
+ * All dimensions are optional. The default number of results returned is 50, with a
+ * maximum of 50 possible. The response includes a token that you can use to get the next page
+ * of results.
+ *
+ * The rate of ListInsightsData requests is limited to two per second, per account, per Region. If
+ * this limit is exceeded, a throttling error occurs.
+ */
+export const listInsightsData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInsightsDataRequest,
+  output: ListInsightsDataResponse,
+  errors: [
+    InvalidParameterException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns all public keys whose private keys were used to sign the digest files within the
+ * specified time range. The public key is needed to validate digest files that were signed
+ * with its corresponding private key.
+ *
+ * CloudTrail uses different private and public key pairs per Region. Each digest
+ * file is signed with a private key unique to its Region. When you validate a digest file
+ * from a specific Region, you must look in the same Region for its corresponding public
+ * key.
+ */
+export const listPublicKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPublicKeysRequest,
+  output: ListPublicKeysResponse,
+  errors: [
+    InvalidTimeRangeException,
+    InvalidTokenException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Looks up management events or CloudTrail Insights events that are captured by CloudTrail.
+ * You can look up events that occurred in a Region within the last 90 days.
+ *
+ * `LookupEvents` returns recent Insights events for trails that enable Insights. To view Insights events for an event data store, you can run queries on your
+ * Insights event data store, and you can also view the Lake dashboard for Insights.
+ *
+ * Lookup supports the following attributes for management events:
+ *
+ * - Amazon Web Services access key
+ *
+ * - Event ID
+ *
+ * - Event name
+ *
+ * - Event source
+ *
+ * - Read only
+ *
+ * - Resource name
+ *
+ * - Resource type
+ *
+ * - User name
+ *
+ * Lookup supports the following attributes for Insights events:
+ *
+ * - Event ID
+ *
+ * - Event name
+ *
+ * - Event source
+ *
+ * All attributes are optional. The default number of results returned is 50, with a
+ * maximum of 50 possible. The response includes a token that you can use to get the next page
+ * of results.
+ *
+ * The rate of lookup requests is limited to two per second, per account, per Region. If
+ * this limit is exceeded, a throttling error occurs.
+ */
+export const lookupEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: LookupEventsRequest,
+  output: LookupEventsResponse,
+  errors: [
+    InvalidEventCategoryException,
+    InvalidLookupAttributesException,
+    InvalidMaxResultsException,
+    InvalidNextTokenException,
+    InvalidTimeRangeException,
+    OperationNotPermittedException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Starts the recording of Amazon Web Services API calls and log file delivery for a trail.
  * For a trail that is enabled in all Regions, this operation must be called from the Region
@@ -2747,104 +2688,22 @@ export const startLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Stops a specified import.
+ * Returns metadata about a query, including query run time in milliseconds, number of
+ * events scanned and matched, and query status. If the query results were delivered to an S3 bucket,
+ * the response also provides the S3 URI and the delivery status.
+ *
+ * You must specify either `QueryId` or `QueryAlias`. Specifying the `QueryAlias` parameter
+ * returns information about the last query run for the alias. You can provide
+ * `RefreshId` along with `QueryAlias` to view the query results
+ * of a dashboard query for the specified `RefreshId`.
  */
-export const stopImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopImportRequest,
-  output: StopImportResponse,
+export const describeQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeQueryRequest,
+  output: DescribeQueryResponse,
   errors: [
-    ImportNotFoundException,
-    InvalidParameterException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Suspends the recording of Amazon Web Services API calls and log file delivery for the
- * specified trail. Under most circumstances, there is no need to use this action. You can
- * update a trail without stopping it first. This action is the only way to stop recording.
- * For a trail enabled in all Regions, this operation must be called from the Region in which
- * the trail was created, or an `InvalidHomeRegionException` will occur. This
- * operation cannot be called on the shadow trails (replicated trails in other Regions) of a
- * trail enabled in all Regions.
- */
-export const stopLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopLoggingRequest,
-  output: StopLoggingResponse,
-  errors: [
-    CloudTrailARNInvalidException,
-    ConflictException,
-    InsufficientDependencyServiceAccessPermissionException,
-    InvalidHomeRegionException,
-    InvalidTrailNameException,
-    NoManagementAccountSLRExistsException,
-    NotOrganizationMasterAccountException,
-    OperationNotPermittedException,
-    ThrottlingException,
-    TrailNotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Updates a channel specified by a required channel ARN or UUID.
- */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateChannelRequest,
-  output: UpdateChannelResponse,
-  errors: [
-    ChannelAlreadyExistsException,
-    ChannelARNInvalidException,
-    ChannelNotFoundException,
     EventDataStoreARNInvalidException,
     EventDataStoreNotFoundException,
     InactiveEventDataStoreException,
-    InvalidEventDataStoreCategoryException,
-    InvalidParameterException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Updates the specified dashboard.
- *
- * To set a refresh schedule, CloudTrail must be granted permissions to run the `StartDashboardRefresh` operation to refresh the dashboard on your behalf. To provide permissions, run the `PutResourcePolicy` operation to attach a resource-based policy to the dashboard. For more information,
- * see
- * Resource-based policy example for a dashboard in the *CloudTrail User Guide*.
- *
- * CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the `StartQuery` operation on your behalf. To provide permissions, run the `PutResourcePolicy` operation to attach a resource-based policy to each event data store. For more information,
- * see Example: Allow CloudTrail to run queries to populate a dashboard in the *CloudTrail User Guide*.
- */
-export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDashboardRequest,
-  output: UpdateDashboardResponse,
-  errors: [
-    ConflictException,
-    EventDataStoreNotFoundException,
-    InactiveEventDataStoreException,
-    InsufficientEncryptionPolicyException,
-    InvalidQueryStatementException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Cancels a query if the query is not in a terminated state, such as
- * `CANCELLED`, `FAILED`, `TIMED_OUT`, or
- * `FINISHED`. You must specify an ARN value for `EventDataStore`.
- * The ID of the query that you want to cancel is also required. When you run
- * `CancelQuery`, the query status might show as `CANCELLED` even if
- * the operation is not yet finished.
- */
-export const cancelQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelQueryRequest,
-  output: CancelQueryResponse,
-  errors: [
-    ConflictException,
-    EventDataStoreARNInvalidException,
-    EventDataStoreNotFoundException,
-    InactiveEventDataStoreException,
-    InactiveQueryException,
     InvalidParameterException,
     NoManagementAccountSLRExistsException,
     OperationNotPermittedException,
@@ -2852,6 +2711,55 @@ export const cancelQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnsupportedOperationException,
   ],
 }));
+/**
+ * Updates the event configuration settings for the specified event data store or trail. This operation supports updating the maximum event size, adding or modifying context key selectors for event data store, and configuring aggregation settings for the trail.
+ */
+export const putEventConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutEventConfigurationRequest,
+    output: PutEventConfigurationResponse,
+    errors: [
+      CloudTrailARNInvalidException,
+      ConflictException,
+      EventDataStoreARNInvalidException,
+      EventDataStoreNotFoundException,
+      InactiveEventDataStoreException,
+      InsufficientDependencyServiceAccessPermissionException,
+      InsufficientIAMAccessPermissionException,
+      InvalidEventDataStoreCategoryException,
+      InvalidEventDataStoreStatusException,
+      InvalidHomeRegionException,
+      InvalidParameterCombinationException,
+      InvalidParameterException,
+      InvalidTrailNameException,
+      NoManagementAccountSLRExistsException,
+      NotOrganizationMasterAccountException,
+      OperationNotPermittedException,
+      ThrottlingException,
+      TrailNotFoundException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Starts a refresh of the specified dashboard.
+ *
+ * Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the `StartQuery` operation on your behalf. To provide permissions, run the `PutResourcePolicy` operation to attach a resource-based policy to each event data store. For more information,
+ * see Example: Allow CloudTrail to run queries to populate a dashboard in the *CloudTrail User Guide*.
+ */
+export const startDashboardRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartDashboardRefreshRequest,
+    output: StartDashboardRefreshResponse,
+    errors: [
+      EventDataStoreNotFoundException,
+      InactiveEventDataStoreException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
 /**
  * Creates a custom dashboard or the Highlights dashboard.
  *
@@ -2886,90 +2794,6 @@ export const createDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes CloudTrail delegated administrator permissions from a member account in
- * an organization.
- */
-export const deregisterOrganizationDelegatedAdmin =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterOrganizationDelegatedAdminRequest,
-    output: DeregisterOrganizationDelegatedAdminResponse,
-    errors: [
-      AccountNotFoundException,
-      AccountNotRegisteredException,
-      CloudTrailAccessNotEnabledException,
-      ConflictException,
-      InsufficientDependencyServiceAccessPermissionException,
-      InvalidParameterException,
-      NotOrganizationManagementAccountException,
-      OperationNotPermittedException,
-      OrganizationNotInAllFeaturesModeException,
-      OrganizationsNotInUseException,
-      UnsupportedOperationException,
-    ],
-  }));
-/**
- * Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail disables
- * the integration with Glue, Lake Formation, and Amazon Athena.
- * After disabling Lake query federation, you can no longer query your event data in Amazon Athena.
- *
- * No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
- */
-export const disableFederation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableFederationRequest,
-  output: DisableFederationResponse,
-  errors: [
-    AccessDeniedException,
-    CloudTrailAccessNotEnabledException,
-    ConcurrentModificationException,
-    EventDataStoreARNInvalidException,
-    EventDataStoreNotFoundException,
-    InactiveEventDataStoreException,
-    InsufficientDependencyServiceAccessPermissionException,
-    InvalidParameterException,
-    NoManagementAccountSLRExistsException,
-    NotOrganizationMasterAccountException,
-    OperationNotPermittedException,
-    OrganizationNotInAllFeaturesModeException,
-    OrganizationsNotInUseException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue
- * Data Catalog and run
- * SQL queries against your event data using Amazon Athena. The table metadata stored in the Glue Data Catalog
- * lets the Athena query engine know how to find, read, and process the data that you want to query.
- *
- * When you enable Lake query federation, CloudTrail
- * creates a managed database named `aws:cloudtrail` (if the database doesn't already exist) and a managed federated table in
- * the Glue Data Catalog. The event data store ID is used for the table name. CloudTrail registers the role ARN and event data store in
- * Lake Formation, the service responsible for allowing fine-grained access control
- * of the federated resources in the Glue Data Catalog.
- *
- * For more information about Lake query federation, see Federate an event data store.
- */
-export const enableFederation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableFederationRequest,
-  output: EnableFederationResponse,
-  errors: [
-    AccessDeniedException,
-    CloudTrailAccessNotEnabledException,
-    ConcurrentModificationException,
-    EventDataStoreARNInvalidException,
-    EventDataStoreFederationEnabledException,
-    EventDataStoreNotFoundException,
-    InactiveEventDataStoreException,
-    InsufficientDependencyServiceAccessPermissionException,
-    InvalidParameterException,
-    NoManagementAccountSLRExistsException,
-    NotOrganizationMasterAccountException,
-    OperationNotPermittedException,
-    OrganizationNotInAllFeaturesModeException,
-    OrganizationsNotInUseException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
  * Retrieves the current event configuration settings for the specified event data store or trail. The response includes maximum event size configuration, the context key selectors configured for the event data store, and any aggregation settings configured for the trail.
  */
 export const getEventConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2993,109 +2817,108 @@ export const getEventConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets event data results of a query. You must specify the `QueryID` value
- * returned by the `StartQuery` operation.
+ * Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store `Status` must be `STOPPED_INGESTION`
+ * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
  */
-export const getQueryResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQueryResultsRequest,
-  output: GetQueryResultsResponse,
-  errors: [
-    EventDataStoreARNInvalidException,
-    EventDataStoreNotFoundException,
-    InactiveEventDataStoreException,
-    InsufficientEncryptionPolicyException,
-    InvalidMaxResultsException,
-    InvalidNextTokenException,
-    InvalidParameterException,
-    NoManagementAccountSLRExistsException,
-    OperationNotPermittedException,
-    QueryIdNotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Lists the channels in the current account, and their source names.
- */
-export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListChannelsRequest,
-  output: ListChannelsResponse,
-  errors: [
-    InvalidNextTokenException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Returns all public keys whose private keys were used to sign the digest files within the
- * specified time range. The public key is needed to validate digest files that were signed
- * with its corresponding private key.
- *
- * CloudTrail uses different private and public key pairs per Region. Each digest
- * file is signed with a private key unique to its Region. When you validate a digest file
- * from a specific Region, you must look in the same Region for its corresponding public
- * key.
- */
-export const listPublicKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPublicKeysRequest,
-  output: ListPublicKeysResponse,
-  errors: [
-    InvalidTimeRangeException,
-    InvalidTokenException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
- */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
-  errors: [
-    ChannelARNInvalidException,
-    CloudTrailARNInvalidException,
-    EventDataStoreARNInvalidException,
-    EventDataStoreNotFoundException,
-    InactiveEventDataStoreException,
-    InvalidTokenException,
-    InvalidTrailNameException,
-    NoManagementAccountSLRExistsException,
-    OperationNotPermittedException,
-    ResourceNotFoundException,
-    ResourceTypeNotSupportedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Updates the event configuration settings for the specified event data store or trail. This operation supports updating the maximum event size, adding or modifying context key selectors for event data store, and configuring aggregation settings for the trail.
- */
-export const putEventConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutEventConfigurationRequest,
-    output: PutEventConfigurationResponse,
+export const startEventDataStoreIngestion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartEventDataStoreIngestionRequest,
+    output: StartEventDataStoreIngestionResponse,
     errors: [
-      CloudTrailARNInvalidException,
       ConflictException,
       EventDataStoreARNInvalidException,
       EventDataStoreNotFoundException,
-      InactiveEventDataStoreException,
       InsufficientDependencyServiceAccessPermissionException,
-      InsufficientIAMAccessPermissionException,
       InvalidEventDataStoreCategoryException,
       InvalidEventDataStoreStatusException,
-      InvalidHomeRegionException,
-      InvalidParameterCombinationException,
       InvalidParameterException,
-      InvalidTrailNameException,
       NoManagementAccountSLRExistsException,
       NotOrganizationMasterAccountException,
       OperationNotPermittedException,
-      ThrottlingException,
-      TrailNotFoundException,
+      UnsupportedOperationException,
+    ],
+  }));
+/**
+ * Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store `Status` must be `ENABLED`
+ * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
+ */
+export const stopEventDataStoreIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopEventDataStoreIngestionRequest,
+    output: StopEventDataStoreIngestionResponse,
+    errors: [
+      ConflictException,
+      EventDataStoreARNInvalidException,
+      EventDataStoreNotFoundException,
+      InsufficientDependencyServiceAccessPermissionException,
+      InvalidEventDataStoreCategoryException,
+      InvalidEventDataStoreStatusException,
+      InvalidParameterException,
+      NoManagementAccountSLRExistsException,
+      NotOrganizationMasterAccountException,
+      OperationNotPermittedException,
       UnsupportedOperationException,
     ],
   }),
 );
+/**
+ * Suspends the recording of Amazon Web Services API calls and log file delivery for the
+ * specified trail. Under most circumstances, there is no need to use this action. You can
+ * update a trail without stopping it first. This action is the only way to stop recording.
+ * For a trail enabled in all Regions, this operation must be called from the Region in which
+ * the trail was created, or an `InvalidHomeRegionException` will occur. This
+ * operation cannot be called on the shadow trails (replicated trails in other Regions) of a
+ * trail enabled in all Regions.
+ */
+export const stopLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopLoggingRequest,
+  output: StopLoggingResponse,
+  errors: [
+    CloudTrailARNInvalidException,
+    ConflictException,
+    InsufficientDependencyServiceAccessPermissionException,
+    InvalidHomeRegionException,
+    InvalidTrailNameException,
+    NoManagementAccountSLRExistsException,
+    NotOrganizationMasterAccountException,
+    OperationNotPermittedException,
+    ThrottlingException,
+    TrailNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Deletes a trail. This operation must be called from the Region in which the trail was
+ * created. `DeleteTrail` cannot be called on the shadow trails (replicated trails
+ * in other Regions) of a trail that is enabled in all Regions.
+ *
+ * While deleting a CloudTrail trail is an irreversible action, CloudTrail does not
+ * delete log files in the Amazon S3 bucket for that trail, the Amazon S3 bucket itself, or the
+ * CloudWatchlog group to which the trail delivers events. Deleting a multi-Region trail
+ * will stop logging of events in all Amazon Web Services Regions enabled in your Amazon Web Services account. Deleting a
+ * single-Region trail will stop logging of events in that Region only. It will not stop
+ * logging of events in other Regions even if the trails in those other Regions have
+ * identical names to the deleted trail.
+ *
+ * For information about account closure and deletion of CloudTrail trails, see https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html.
+ */
+export const deleteTrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrailRequest,
+  output: DeleteTrailResponse,
+  errors: [
+    CloudTrailARNInvalidException,
+    ConflictException,
+    InsufficientDependencyServiceAccessPermissionException,
+    InvalidHomeRegionException,
+    InvalidTrailNameException,
+    NoManagementAccountSLRExistsException,
+    NotOrganizationMasterAccountException,
+    OperationNotPermittedException,
+    ThrottlingException,
+    TrailNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Configures event selectors (also referred to as *basic event selectors*) or advanced event selectors for your trail. You can use
  * either `AdvancedEventSelectors` or `EventSelectors`, but not both. If
@@ -3173,99 +2996,71 @@ export const putEventSelectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Registers an organization’s member account as the CloudTrail delegated administrator.
+ * Gets event data results of a query. You must specify the `QueryID` value
+ * returned by the `StartQuery` operation.
  */
-export const registerOrganizationDelegatedAdmin =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterOrganizationDelegatedAdminRequest,
-    output: RegisterOrganizationDelegatedAdminResponse,
-    errors: [
-      AccountNotFoundException,
-      AccountRegisteredException,
-      CannotDelegateManagementAccountException,
-      CloudTrailAccessNotEnabledException,
-      ConflictException,
-      DelegatedAdminAccountLimitExceededException,
-      InsufficientDependencyServiceAccessPermissionException,
-      InsufficientIAMAccessPermissionException,
-      InvalidParameterException,
-      NotOrganizationManagementAccountException,
-      OperationNotPermittedException,
-      OrganizationNotInAllFeaturesModeException,
-      OrganizationsNotInUseException,
-      UnsupportedOperationException,
-    ],
-  }));
-/**
- * Starts a refresh of the specified dashboard.
- *
- * Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the `StartQuery` operation on your behalf. To provide permissions, run the `PutResourcePolicy` operation to attach a resource-based policy to each event data store. For more information,
- * see Example: Allow CloudTrail to run queries to populate a dashboard in the *CloudTrail User Guide*.
- */
-export const startDashboardRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDashboardRefreshRequest,
-    output: StartDashboardRefreshResponse,
-    errors: [
-      EventDataStoreNotFoundException,
-      InactiveEventDataStoreException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Adds one or more tags to a trail, event data store, dashboard, or channel, up to a limit of 50. Overwrites an
- * existing tag's value when a new value is specified for an existing tag key. Tag key names
- * must be unique; you cannot have two keys with the same name but different
- * values. If you specify a key without a value, the tag will be created with the specified
- * key and a value of null. You can tag a trail or event data store that applies to all
- * Amazon Web Services Regions only from the Region in which the trail or event data store
- * was created (also known as its home Region).
- */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsRequest,
-  output: AddTagsResponse,
+export const getQueryResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueryResultsRequest,
+  output: GetQueryResultsResponse,
   errors: [
-    ChannelARNInvalidException,
-    ChannelNotFoundException,
-    CloudTrailARNInvalidException,
-    ConflictException,
     EventDataStoreARNInvalidException,
     EventDataStoreNotFoundException,
     InactiveEventDataStoreException,
-    InvalidTagParameterException,
-    InvalidTrailNameException,
+    InsufficientEncryptionPolicyException,
+    InvalidMaxResultsException,
+    InvalidNextTokenException,
+    InvalidParameterException,
     NoManagementAccountSLRExistsException,
-    NotOrganizationMasterAccountException,
     OperationNotPermittedException,
-    ResourceNotFoundException,
-    ResourceTypeNotSupportedException,
-    TagsLimitExceededException,
+    QueryIdNotFoundException,
     UnsupportedOperationException,
   ],
 }));
 /**
- * Creates a channel for CloudTrail to ingest events from a partner or external source.
- * After you create a channel, a CloudTrail Lake event data store can log events
- * from the partner or source that you specify.
+ * Cancels a query if the query is not in a terminated state, such as
+ * `CANCELLED`, `FAILED`, `TIMED_OUT`, or
+ * `FINISHED`. You must specify an ARN value for `EventDataStore`.
+ * The ID of the query that you want to cancel is also required. When you run
+ * `CancelQuery`, the query status might show as `CANCELLED` even if
+ * the operation is not yet finished.
  */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateChannelRequest,
-  output: CreateChannelResponse,
+export const cancelQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelQueryRequest,
+  output: CancelQueryResponse,
   errors: [
-    ChannelAlreadyExistsException,
-    ChannelMaxLimitExceededException,
+    ConflictException,
     EventDataStoreARNInvalidException,
     EventDataStoreNotFoundException,
     InactiveEventDataStoreException,
-    InvalidEventDataStoreCategoryException,
+    InactiveQueryException,
     InvalidParameterException,
-    InvalidSourceException,
-    InvalidTagParameterException,
+    NoManagementAccountSLRExistsException,
     OperationNotPermittedException,
-    TagsLimitExceededException,
+    QueryIdNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Updates the specified dashboard.
+ *
+ * To set a refresh schedule, CloudTrail must be granted permissions to run the `StartDashboardRefresh` operation to refresh the dashboard on your behalf. To provide permissions, run the `PutResourcePolicy` operation to attach a resource-based policy to the dashboard. For more information,
+ * see
+ * Resource-based policy example for a dashboard in the *CloudTrail User Guide*.
+ *
+ * CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the `StartQuery` operation on your behalf. To provide permissions, run the `PutResourcePolicy` operation to attach a resource-based policy to each event data store. For more information,
+ * see Example: Allow CloudTrail to run queries to populate a dashboard in the *CloudTrail User Guide*.
+ */
+export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDashboardRequest,
+  output: UpdateDashboardResponse,
+  errors: [
+    ConflictException,
+    EventDataStoreNotFoundException,
+    InactiveEventDataStoreException,
+    InsufficientEncryptionPolicyException,
+    InvalidQueryStatementException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     UnsupportedOperationException,
   ],
 }));
@@ -3306,32 +3101,123 @@ export const deleteEventDataStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days.
- *
- * ListInsightsData supports the following Dimensions for Insights events:
- *
- * - Event ID
- *
- * - Event name
- *
- * - Event source
- *
- * All dimensions are optional. The default number of results returned is 50, with a
- * maximum of 50 possible. The response includes a token that you can use to get the next page
- * of results.
- *
- * The rate of ListInsightsData requests is limited to two per second, per account, per Region. If
- * this limit is exceeded, a throttling error occurs.
+ * Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
  */
-export const listInsightsData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInsightsDataRequest,
-  output: ListInsightsDataResponse,
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
   errors: [
-    InvalidParameterException,
     OperationNotPermittedException,
+    ResourceARNNotValidException,
+    ResourceNotFoundException,
+    ResourcePolicyNotFoundException,
+    ResourceTypeNotSupportedException,
     UnsupportedOperationException,
   ],
 }));
+/**
+ * Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see
+ * CloudTrail resource-based policy examples
+ * in the *CloudTrail User Guide*.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
+  errors: [
+    ConflictException,
+    OperationNotPermittedException,
+    ResourceARNNotValidException,
+    ResourceNotFoundException,
+    ResourcePolicyNotValidException,
+    ResourceTypeNotSupportedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
+ */
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyRequest,
+    output: DeleteResourcePolicyResponse,
+    errors: [
+      ConflictException,
+      OperationNotPermittedException,
+      ResourceARNNotValidException,
+      ResourceNotFoundException,
+      ResourcePolicyNotFoundException,
+      ResourceTypeNotSupportedException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
+ */
+export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsRequest,
+  output: ListTagsResponse,
+  errors: [
+    ChannelARNInvalidException,
+    CloudTrailARNInvalidException,
+    EventDataStoreARNInvalidException,
+    EventDataStoreNotFoundException,
+    InactiveEventDataStoreException,
+    InvalidTokenException,
+    InvalidTrailNameException,
+    NoManagementAccountSLRExistsException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+    ResourceTypeNotSupportedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Removes the specified tags from a trail, event data store, dashboard, or channel.
+ */
+export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsRequest,
+  output: RemoveTagsResponse,
+  errors: [
+    ChannelARNInvalidException,
+    ChannelNotFoundException,
+    CloudTrailARNInvalidException,
+    ConflictException,
+    EventDataStoreARNInvalidException,
+    EventDataStoreNotFoundException,
+    InactiveEventDataStoreException,
+    InvalidTagParameterException,
+    InvalidTrailNameException,
+    NoManagementAccountSLRExistsException,
+    NotOrganizationMasterAccountException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+    ResourceTypeNotSupportedException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Removes CloudTrail delegated administrator permissions from a member account in
+ * an organization.
+ */
+export const deregisterOrganizationDelegatedAdmin =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeregisterOrganizationDelegatedAdminRequest,
+    output: DeregisterOrganizationDelegatedAdminResponse,
+    errors: [
+      AccountNotFoundException,
+      AccountNotRegisteredException,
+      CloudTrailAccessNotEnabledException,
+      ConflictException,
+      InsufficientDependencyServiceAccessPermissionException,
+      InvalidParameterException,
+      NotOrganizationManagementAccountException,
+      OperationNotPermittedException,
+      OrganizationNotInAllFeaturesModeException,
+      OrganizationsNotInUseException,
+      UnsupportedOperationException,
+    ],
+  }));
 /**
  * Returns a list of queries and query statuses for the past seven days. You must specify
  * an ARN value for `EventDataStore`. Optionally, to shorten the list of results,
@@ -3359,132 +3245,210 @@ export const listQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Looks up management events or CloudTrail Insights events that are captured by CloudTrail.
- * You can look up events that occurred in a Region within the last 90 days.
+ * Starts an import of logged trail events from a source S3 bucket to a destination event
+ * data store. By default, CloudTrail only imports events contained in the S3 bucket's
+ * `CloudTrail` prefix and the prefixes inside the `CloudTrail` prefix, and does not check prefixes for other Amazon Web Services
+ * services. If you want to import CloudTrail events contained in another prefix, you
+ * must include the prefix in the `S3LocationUri`. For more considerations about
+ * importing trail events, see Considerations for copying trail events in the *CloudTrail User Guide*.
  *
- * `LookupEvents` returns recent Insights events for trails that enable Insights. To view Insights events for an event data store, you can run queries on your
- * Insights event data store, and you can also view the Lake dashboard for Insights.
+ * When you start a new import, the `Destinations` and
+ * `ImportSource` parameters are required. Before starting a new import, disable
+ * any access control lists (ACLs) attached to the source S3 bucket. For more information
+ * about disabling ACLs, see Controlling ownership of
+ * objects and disabling ACLs for your bucket.
  *
- * Lookup supports the following attributes for management events:
+ * When you retry an import, the `ImportID` parameter is required.
  *
- * - Amazon Web Services access key
- *
- * - Event ID
- *
- * - Event name
- *
- * - Event source
- *
- * - Read only
- *
- * - Resource name
- *
- * - Resource type
- *
- * - User name
- *
- * Lookup supports the following attributes for Insights events:
- *
- * - Event ID
- *
- * - Event name
- *
- * - Event source
- *
- * All attributes are optional. The default number of results returned is 50, with a
- * maximum of 50 possible. The response includes a token that you can use to get the next page
- * of results.
- *
- * The rate of lookup requests is limited to two per second, per account, per Region. If
- * this limit is exceeded, a throttling error occurs.
+ * If the destination event data store is for an organization, you must use the
+ * management account to import trail events. You cannot use the delegated administrator
+ * account for the organization.
  */
-export const lookupEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: LookupEventsRequest,
-  output: LookupEventsResponse,
+export const startImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartImportRequest,
+  output: StartImportResponse,
   errors: [
-    InvalidEventCategoryException,
-    InvalidLookupAttributesException,
-    InvalidMaxResultsException,
-    InvalidNextTokenException,
-    InvalidTimeRangeException,
+    AccountHasOngoingImportException,
+    EventDataStoreARNInvalidException,
+    EventDataStoreNotFoundException,
+    ImportNotFoundException,
+    InactiveEventDataStoreException,
+    InsufficientEncryptionPolicyException,
+    InvalidEventDataStoreCategoryException,
+    InvalidEventDataStoreStatusException,
+    InvalidImportSourceException,
+    InvalidParameterException,
     OperationNotPermittedException,
     UnsupportedOperationException,
   ],
 }));
 /**
- * Updates an event data store. The required `EventDataStore` value is an ARN or
- * the ID portion of the ARN. Other parameters are optional, but at least one optional
- * parameter must be specified, or CloudTrail throws an error.
- * `RetentionPeriod` is in days, and valid values are integers between 7 and
- * 3653 if the `BillingMode` is set to `EXTENDABLE_RETENTION_PRICING`, or between 7 and 2557 if `BillingMode` is set to `FIXED_RETENTION_PRICING`. By default, `TerminationProtection` is enabled.
+ * Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue
+ * Data Catalog and run
+ * SQL queries against your event data using Amazon Athena. The table metadata stored in the Glue Data Catalog
+ * lets the Athena query engine know how to find, read, and process the data that you want to query.
  *
- * For event data stores for CloudTrail events, `AdvancedEventSelectors`
- * includes or excludes management, data, or network activity events in your event data store. For more
- * information about `AdvancedEventSelectors`, see AdvancedEventSelectors.
+ * When you enable Lake query federation, CloudTrail
+ * creates a managed database named `aws:cloudtrail` (if the database doesn't already exist) and a managed federated table in
+ * the Glue Data Catalog. The event data store ID is used for the table name. CloudTrail registers the role ARN and event data store in
+ * Lake Formation, the service responsible for allowing fine-grained access control
+ * of the federated resources in the Glue Data Catalog.
  *
- * For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events,
- * `AdvancedEventSelectors` includes events of that type in your event data store.
+ * For more information about Lake query federation, see Federate an event data store.
  */
-export const updateEventDataStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const enableFederation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableFederationRequest,
+  output: EnableFederationResponse,
+  errors: [
+    AccessDeniedException,
+    CloudTrailAccessNotEnabledException,
+    ConcurrentModificationException,
+    EventDataStoreARNInvalidException,
+    EventDataStoreFederationEnabledException,
+    EventDataStoreNotFoundException,
+    InactiveEventDataStoreException,
+    InsufficientDependencyServiceAccessPermissionException,
+    InvalidParameterException,
+    NoManagementAccountSLRExistsException,
+    NotOrganizationMasterAccountException,
+    OperationNotPermittedException,
+    OrganizationNotInAllFeaturesModeException,
+    OrganizationsNotInUseException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail disables
+ * the integration with Glue, Lake Formation, and Amazon Athena.
+ * After disabling Lake query federation, you can no longer query your event data in Amazon Athena.
+ *
+ * No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
+ */
+export const disableFederation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableFederationRequest,
+  output: DisableFederationResponse,
+  errors: [
+    AccessDeniedException,
+    CloudTrailAccessNotEnabledException,
+    ConcurrentModificationException,
+    EventDataStoreARNInvalidException,
+    EventDataStoreNotFoundException,
+    InactiveEventDataStoreException,
+    InsufficientDependencyServiceAccessPermissionException,
+    InvalidParameterException,
+    NoManagementAccountSLRExistsException,
+    NotOrganizationMasterAccountException,
+    OperationNotPermittedException,
+    OrganizationNotInAllFeaturesModeException,
+    OrganizationsNotInUseException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Restores a deleted event data store specified by `EventDataStore`, which
+ * accepts an event data store ARN. You can only restore a deleted event data store within the
+ * seven-day wait period after deletion. Restoring an event data store can take several
+ * minutes, depending on the size of the event data store.
+ */
+export const restoreEventDataStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateEventDataStoreRequest,
-    output: UpdateEventDataStoreResponse,
+    input: RestoreEventDataStoreRequest,
+    output: RestoreEventDataStoreResponse,
     errors: [
       CloudTrailAccessNotEnabledException,
-      ConflictException,
-      EventDataStoreAlreadyExistsException,
       EventDataStoreARNInvalidException,
-      EventDataStoreHasOngoingImportException,
+      EventDataStoreMaxLimitExceededException,
       EventDataStoreNotFoundException,
-      InactiveEventDataStoreException,
       InsufficientDependencyServiceAccessPermissionException,
-      InsufficientEncryptionPolicyException,
-      InvalidEventSelectorsException,
-      InvalidInsightSelectorsException,
-      InvalidKmsKeyIdException,
+      InvalidEventDataStoreStatusException,
       InvalidParameterException,
-      KmsException,
-      KmsKeyNotFoundException,
       NoManagementAccountSLRExistsException,
       NotOrganizationMasterAccountException,
       OperationNotPermittedException,
       OrganizationNotInAllFeaturesModeException,
       OrganizationsNotInUseException,
-      ThrottlingException,
       UnsupportedOperationException,
     ],
   }),
 );
 /**
- * Creates a new event data store.
+ * Registers an organization’s member account as the CloudTrail delegated administrator.
  */
-export const createEventDataStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEventDataStoreRequest,
-    output: CreateEventDataStoreResponse,
+export const registerOrganizationDelegatedAdmin =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RegisterOrganizationDelegatedAdminRequest,
+    output: RegisterOrganizationDelegatedAdminResponse,
     errors: [
+      AccountNotFoundException,
+      AccountRegisteredException,
+      CannotDelegateManagementAccountException,
       CloudTrailAccessNotEnabledException,
       ConflictException,
-      EventDataStoreAlreadyExistsException,
-      EventDataStoreMaxLimitExceededException,
+      DelegatedAdminAccountLimitExceededException,
       InsufficientDependencyServiceAccessPermissionException,
-      InsufficientEncryptionPolicyException,
-      InvalidEventSelectorsException,
-      InvalidKmsKeyIdException,
+      InsufficientIAMAccessPermissionException,
       InvalidParameterException,
-      InvalidTagParameterException,
-      KmsException,
-      KmsKeyNotFoundException,
-      NoManagementAccountSLRExistsException,
-      NotOrganizationMasterAccountException,
+      NotOrganizationManagementAccountException,
       OperationNotPermittedException,
       OrganizationNotInAllFeaturesModeException,
       OrganizationsNotInUseException,
-      ThrottlingException,
       UnsupportedOperationException,
     ],
-  }),
-);
+  }));
+/**
+ * Creates a channel for CloudTrail to ingest events from a partner or external source.
+ * After you create a channel, a CloudTrail Lake event data store can log events
+ * from the partner or source that you specify.
+ */
+export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChannelRequest,
+  output: CreateChannelResponse,
+  errors: [
+    ChannelAlreadyExistsException,
+    ChannelMaxLimitExceededException,
+    EventDataStoreARNInvalidException,
+    EventDataStoreNotFoundException,
+    InactiveEventDataStoreException,
+    InvalidEventDataStoreCategoryException,
+    InvalidParameterException,
+    InvalidSourceException,
+    InvalidTagParameterException,
+    OperationNotPermittedException,
+    TagsLimitExceededException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Adds one or more tags to a trail, event data store, dashboard, or channel, up to a limit of 50. Overwrites an
+ * existing tag's value when a new value is specified for an existing tag key. Tag key names
+ * must be unique; you cannot have two keys with the same name but different
+ * values. If you specify a key without a value, the tag will be created with the specified
+ * key and a value of null. You can tag a trail or event data store that applies to all
+ * Amazon Web Services Regions only from the Region in which the trail or event data store
+ * was created (also known as its home Region).
+ */
+export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsRequest,
+  output: AddTagsResponse,
+  errors: [
+    ChannelARNInvalidException,
+    ChannelNotFoundException,
+    CloudTrailARNInvalidException,
+    ConflictException,
+    EventDataStoreARNInvalidException,
+    EventDataStoreNotFoundException,
+    InactiveEventDataStoreException,
+    InvalidTagParameterException,
+    InvalidTrailNameException,
+    NoManagementAccountSLRExistsException,
+    NotOrganizationMasterAccountException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+    ResourceTypeNotSupportedException,
+    TagsLimitExceededException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you
  * want to enable on an existing trail or event data store. You also use `PutInsightSelectors` to turn
@@ -3537,44 +3501,6 @@ export const putInsightSelectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts an import of logged trail events from a source S3 bucket to a destination event
- * data store. By default, CloudTrail only imports events contained in the S3 bucket's
- * `CloudTrail` prefix and the prefixes inside the `CloudTrail` prefix, and does not check prefixes for other Amazon Web Services
- * services. If you want to import CloudTrail events contained in another prefix, you
- * must include the prefix in the `S3LocationUri`. For more considerations about
- * importing trail events, see Considerations for copying trail events in the *CloudTrail User Guide*.
- *
- * When you start a new import, the `Destinations` and
- * `ImportSource` parameters are required. Before starting a new import, disable
- * any access control lists (ACLs) attached to the source S3 bucket. For more information
- * about disabling ACLs, see Controlling ownership of
- * objects and disabling ACLs for your bucket.
- *
- * When you retry an import, the `ImportID` parameter is required.
- *
- * If the destination event data store is for an organization, you must use the
- * management account to import trail events. You cannot use the delegated administrator
- * account for the organization.
- */
-export const startImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartImportRequest,
-  output: StartImportResponse,
-  errors: [
-    AccountHasOngoingImportException,
-    EventDataStoreARNInvalidException,
-    EventDataStoreNotFoundException,
-    ImportNotFoundException,
-    InactiveEventDataStoreException,
-    InsufficientEncryptionPolicyException,
-    InvalidEventDataStoreCategoryException,
-    InvalidEventDataStoreStatusException,
-    InvalidImportSourceException,
-    InvalidParameterException,
-    OperationNotPermittedException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
  * Starts a CloudTrail Lake query. Use the `QueryStatement`
  * parameter to provide your SQL query, enclosed in single quotation marks. Use the optional
  * `DeliveryS3Uri` parameter to deliver the query results to an S3
@@ -3603,6 +3529,80 @@ export const startQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnsupportedOperationException,
   ],
 }));
+/**
+ * Creates a new event data store.
+ */
+export const createEventDataStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEventDataStoreRequest,
+    output: CreateEventDataStoreResponse,
+    errors: [
+      CloudTrailAccessNotEnabledException,
+      ConflictException,
+      EventDataStoreAlreadyExistsException,
+      EventDataStoreMaxLimitExceededException,
+      InsufficientDependencyServiceAccessPermissionException,
+      InsufficientEncryptionPolicyException,
+      InvalidEventSelectorsException,
+      InvalidKmsKeyIdException,
+      InvalidParameterException,
+      InvalidTagParameterException,
+      KmsException,
+      KmsKeyNotFoundException,
+      NoManagementAccountSLRExistsException,
+      NotOrganizationMasterAccountException,
+      OperationNotPermittedException,
+      OrganizationNotInAllFeaturesModeException,
+      OrganizationsNotInUseException,
+      ThrottlingException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Updates an event data store. The required `EventDataStore` value is an ARN or
+ * the ID portion of the ARN. Other parameters are optional, but at least one optional
+ * parameter must be specified, or CloudTrail throws an error.
+ * `RetentionPeriod` is in days, and valid values are integers between 7 and
+ * 3653 if the `BillingMode` is set to `EXTENDABLE_RETENTION_PRICING`, or between 7 and 2557 if `BillingMode` is set to `FIXED_RETENTION_PRICING`. By default, `TerminationProtection` is enabled.
+ *
+ * For event data stores for CloudTrail events, `AdvancedEventSelectors`
+ * includes or excludes management, data, or network activity events in your event data store. For more
+ * information about `AdvancedEventSelectors`, see AdvancedEventSelectors.
+ *
+ * For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events,
+ * `AdvancedEventSelectors` includes events of that type in your event data store.
+ */
+export const updateEventDataStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEventDataStoreRequest,
+    output: UpdateEventDataStoreResponse,
+    errors: [
+      CloudTrailAccessNotEnabledException,
+      ConflictException,
+      EventDataStoreAlreadyExistsException,
+      EventDataStoreARNInvalidException,
+      EventDataStoreHasOngoingImportException,
+      EventDataStoreNotFoundException,
+      InactiveEventDataStoreException,
+      InsufficientDependencyServiceAccessPermissionException,
+      InsufficientEncryptionPolicyException,
+      InvalidEventSelectorsException,
+      InvalidInsightSelectorsException,
+      InvalidKmsKeyIdException,
+      InvalidParameterException,
+      KmsException,
+      KmsKeyNotFoundException,
+      NoManagementAccountSLRExistsException,
+      NotOrganizationMasterAccountException,
+      OperationNotPermittedException,
+      OrganizationNotInAllFeaturesModeException,
+      OrganizationsNotInUseException,
+      ThrottlingException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
 /**
  * Updates trail settings that control what events you are logging, and how to handle log
  * files. Changes to a trail do not require stopping the CloudTrail service. Use this

@@ -94,11 +94,19 @@ export const make = <Op extends Operation>(
     // Build full URL with query string
     const queryString = Object.entries(resolvedRequest.query)
       .filter(([_, v]) => v !== undefined)
-      .map(([k, v]) =>
-        v
+      .flatMap(([k, v]) => {
+        // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
+        if (Array.isArray(v)) {
+          return v.map((item) =>
+            item
+              ? `${encodeURIComponent(k)}=${encodeURIComponent(item)}`
+              : encodeURIComponent(k),
+          );
+        }
+        return v
           ? `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
-          : encodeURIComponent(k),
-      )
+          : encodeURIComponent(k);
+      })
       .join("&");
 
     const fullPath = queryString

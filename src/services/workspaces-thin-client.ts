@@ -688,10 +688,6 @@ export class SoftwareSetSummary extends S.Class<SoftwareSetSummary>(
   arn: S.optional(S.String),
 }) {}
 export const SoftwareSetList = S.Array(SoftwareSetSummary);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class CreateEnvironmentResponse extends S.Class<CreateEnvironmentResponse>(
   "CreateEnvironmentResponse",
 )({ environment: S.optional(EnvironmentSummary) }) {}
@@ -733,31 +729,47 @@ export class SoftwareSet extends S.Class<SoftwareSet>("SoftwareSet")({
 export class GetSoftwareSetResponse extends S.Class<GetSoftwareSetResponse>(
   "GetSoftwareSetResponse",
 )({ softwareSet: S.optional(SoftwareSet) }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    message: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  {
+    message: S.optional(S.String),
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  {
+    message: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    message: S.optional(S.String),
+    serviceCode: S.optional(S.String),
+    quotaCode: S.optional(S.String),
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -769,14 +781,35 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
     quotaCode: S.optional(S.String),
   },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.optional(S.String),
+    reason: S.optional(S.String),
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
+) {}
 
 //# Operations
 /**
- * Deletes a thin client device.
+ * Returns a list of thin client devices.
  */
-export const deleteDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDeviceRequest,
-  output: DeleteDeviceResponse,
+export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDevicesRequest,
+  output: ListDevicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an environment.
+ */
+export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnvironmentRequest,
+  output: UpdateEnvironmentResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -810,20 +843,6 @@ export const deregisterDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of tags for a resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -875,11 +894,25 @@ export const updateDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates an environment.
+ * Updates a software set.
  */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentRequest,
-  output: UpdateEnvironmentResponse,
+export const updateSoftwareSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSoftwareSetRequest,
+  output: UpdateSoftwareSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a thin client device.
+ */
+export const deleteDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeviceRequest,
+  output: DeleteDeviceResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -918,14 +951,15 @@ export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of thin client devices.
+ * Returns information for a software set.
  */
-export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDevicesRequest,
-  output: ListDevicesResponse,
+export const getSoftwareSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSoftwareSetRequest,
+  output: GetSoftwareSetResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -957,11 +991,11 @@ export const listSoftwareSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a software set.
+ * Returns a list of tags for a resource.
  */
-export const updateSoftwareSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSoftwareSetRequest,
-  output: UpdateSoftwareSetResponse,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -982,20 +1016,6 @@ export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information for a software set.
- */
-export const getSoftwareSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSoftwareSetRequest,
-  output: GetSoftwareSetResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

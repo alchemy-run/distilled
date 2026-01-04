@@ -1564,20 +1564,10 @@ export class CreateDBInstanceResult extends S.Class<CreateDBInstanceResult>(
 )({ DBInstance: S.optional(DBInstance) }, ns) {}
 
 //# Errors
-export class DBClusterNotFoundFault extends S.TaggedError<DBClusterNotFoundFault>()(
-  "DBClusterNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "DBClusterNotFoundFault", httpResponseCode: 404 }),
-) {}
 export class DBParameterGroupNotFoundFault extends S.TaggedError<DBParameterGroupNotFoundFault>()(
   "DBParameterGroupNotFoundFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "DBParameterGroupNotFound", httpResponseCode: 404 }),
-) {}
-export class DBInstanceNotFoundFault extends S.TaggedError<DBInstanceNotFoundFault>()(
-  "DBInstanceNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "DBInstanceNotFound", httpResponseCode: 404 }),
 ) {}
 export class DBSubnetGroupNotFoundFault extends S.TaggedError<DBSubnetGroupNotFoundFault>()(
   "DBSubnetGroupNotFoundFault",
@@ -1587,128 +1577,47 @@ export class DBSubnetGroupNotFoundFault extends S.TaggedError<DBSubnetGroupNotFo
     httpResponseCode: 404,
   }),
 ) {}
-export class DBClusterSnapshotNotFoundFault extends S.TaggedError<DBClusterSnapshotNotFoundFault>()(
-  "DBClusterSnapshotNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "DBClusterSnapshotNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class GlobalClusterNotFoundFault extends S.TaggedError<GlobalClusterNotFoundFault>()(
-  "GlobalClusterNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "GlobalClusterNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidDBClusterStateFault extends S.TaggedError<InvalidDBClusterStateFault>()(
-  "InvalidDBClusterStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidDBClusterStateFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidDBParameterGroupStateFault extends S.TaggedError<InvalidDBParameterGroupStateFault>()(
-  "InvalidDBParameterGroupStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidDBParameterGroupState",
-    httpResponseCode: 400,
-  }),
-) {}
-export class EventSubscriptionQuotaExceededFault extends S.TaggedError<EventSubscriptionQuotaExceededFault>()(
-  "EventSubscriptionQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "EventSubscriptionQuotaExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidGlobalClusterStateFault extends S.TaggedError<InvalidGlobalClusterStateFault>()(
-  "InvalidGlobalClusterStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidGlobalClusterStateFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class DBSnapshotNotFoundFault extends S.TaggedError<DBSnapshotNotFoundFault>()(
-  "DBSnapshotNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "DBSnapshotNotFound", httpResponseCode: 404 }),
-) {}
-export class DBClusterAlreadyExistsFault extends S.TaggedError<DBClusterAlreadyExistsFault>()(
-  "DBClusterAlreadyExistsFault",
-  {},
-  T.AwsQueryError({
-    code: "DBClusterAlreadyExistsFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidDBInstanceStateFault extends S.TaggedError<InvalidDBInstanceStateFault>()(
-  "InvalidDBInstanceStateFault",
-  {},
-  T.AwsQueryError({ code: "InvalidDBInstanceState", httpResponseCode: 400 }),
-) {}
-export class SourceNotFoundFault extends S.TaggedError<SourceNotFoundFault>()(
-  "SourceNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "SourceNotFound", httpResponseCode: 404 }),
-) {}
-export class SubscriptionNotFoundFault extends S.TaggedError<SubscriptionNotFoundFault>()(
-  "SubscriptionNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "SubscriptionNotFound", httpResponseCode: 404 }),
+export class DBClusterNotFoundFault extends S.TaggedError<DBClusterNotFoundFault>()(
+  "DBClusterNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DBClusterNotFoundFault", httpResponseCode: 404 }),
 ) {}
 export class DBParameterGroupAlreadyExistsFault extends S.TaggedError<DBParameterGroupAlreadyExistsFault>()(
   "DBParameterGroupAlreadyExistsFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "DBParameterGroupAlreadyExists",
     httpResponseCode: 400,
   }),
 ) {}
-export class DBClusterSnapshotAlreadyExistsFault extends S.TaggedError<DBClusterSnapshotAlreadyExistsFault>()(
-  "DBClusterSnapshotAlreadyExistsFault",
-  {},
-  T.AwsQueryError({
-    code: "DBClusterSnapshotAlreadyExistsFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidDBClusterSnapshotStateFault extends S.TaggedError<InvalidDBClusterSnapshotStateFault>()(
-  "InvalidDBClusterSnapshotStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidDBClusterSnapshotStateFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class DBParameterGroupQuotaExceededFault extends S.TaggedError<DBParameterGroupQuotaExceededFault>()(
-  "DBParameterGroupQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "DBParameterGroupQuotaExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class SNSInvalidTopicFault extends S.TaggedError<SNSInvalidTopicFault>()(
-  "SNSInvalidTopicFault",
-  {},
-  T.AwsQueryError({ code: "SNSInvalidTopic", httpResponseCode: 400 }),
-) {}
-export class DBSnapshotAlreadyExistsFault extends S.TaggedError<DBSnapshotAlreadyExistsFault>()(
-  "DBSnapshotAlreadyExistsFault",
+export class EventSubscriptionQuotaExceededFault extends S.TaggedError<EventSubscriptionQuotaExceededFault>()(
+  "EventSubscriptionQuotaExceededFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DBSnapshotAlreadyExists", httpResponseCode: 400 }),
+  T.AwsQueryError({
+    code: "EventSubscriptionQuotaExceeded",
+    httpResponseCode: 400,
+  }),
 ) {}
-export class SnapshotQuotaExceededFault extends S.TaggedError<SnapshotQuotaExceededFault>()(
-  "SnapshotQuotaExceededFault",
-  {},
-  T.AwsQueryError({ code: "SnapshotQuotaExceeded", httpResponseCode: 400 }),
+export class InvalidDBParameterGroupStateFault extends S.TaggedError<InvalidDBParameterGroupStateFault>()(
+  "InvalidDBParameterGroupStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidDBParameterGroupState",
+    httpResponseCode: 400,
+  }),
+) {}
+export class DBClusterSnapshotNotFoundFault extends S.TaggedError<DBClusterSnapshotNotFoundFault>()(
+  "DBClusterSnapshotNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "DBClusterSnapshotNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
+export class DBInstanceNotFoundFault extends S.TaggedError<DBInstanceNotFoundFault>()(
+  "DBInstanceNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DBInstanceNotFound", httpResponseCode: 404 }),
 ) {}
 export class InvalidDBSubnetGroupStateFault extends S.TaggedError<InvalidDBSubnetGroupStateFault>()(
   "InvalidDBSubnetGroupStateFault",
@@ -1726,18 +1635,23 @@ export class InvalidEventSubscriptionStateFault extends S.TaggedError<InvalidEve
     httpResponseCode: 400,
   }),
 ) {}
+export class GlobalClusterNotFoundFault extends S.TaggedError<GlobalClusterNotFoundFault>()(
+  "GlobalClusterNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "GlobalClusterNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
+export class SubscriptionNotFoundFault extends S.TaggedError<SubscriptionNotFoundFault>()(
+  "SubscriptionNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubscriptionNotFound", httpResponseCode: 404 }),
+) {}
 export class ResourceNotFoundFault extends S.TaggedError<ResourceNotFoundFault>()(
   "ResourceNotFoundFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceNotFoundFault", httpResponseCode: 404 }),
-) {}
-export class DBClusterParameterGroupNotFoundFault extends S.TaggedError<DBClusterParameterGroupNotFoundFault>()(
-  "DBClusterParameterGroupNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "DBClusterParameterGroupNotFound",
-    httpResponseCode: 404,
-  }),
 ) {}
 export class AuthorizationNotFoundFault extends S.TaggedError<AuthorizationNotFoundFault>()(
   "AuthorizationNotFoundFault",
@@ -1752,66 +1666,142 @@ export class DBSubnetGroupDoesNotCoverEnoughAZs extends S.TaggedError<DBSubnetGr
     httpResponseCode: 400,
   }),
 ) {}
-export class SNSNoAuthorizationFault extends S.TaggedError<SNSNoAuthorizationFault>()(
-  "SNSNoAuthorizationFault",
-  {},
-  T.AwsQueryError({ code: "SNSNoAuthorization", httpResponseCode: 400 }),
-) {}
-export class DBClusterQuotaExceededFault extends S.TaggedError<DBClusterQuotaExceededFault>()(
-  "DBClusterQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "DBClusterQuotaExceededFault",
-    httpResponseCode: 403,
-  }),
-) {}
-export class InsufficientDBClusterCapacityFault extends S.TaggedError<InsufficientDBClusterCapacityFault>()(
-  "InsufficientDBClusterCapacityFault",
-  {},
-  T.AwsQueryError({
-    code: "InsufficientDBClusterCapacityFault",
-    httpResponseCode: 403,
-  }),
-) {}
-export class KMSKeyNotAccessibleFault extends S.TaggedError<KMSKeyNotAccessibleFault>()(
-  "KMSKeyNotAccessibleFault",
+export class SourceNotFoundFault extends S.TaggedError<SourceNotFoundFault>()(
+  "SourceNotFoundFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KMSKeyNotAccessibleFault", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "SourceNotFound", httpResponseCode: 404 }),
 ) {}
-export class InsufficientStorageClusterCapacityFault extends S.TaggedError<InsufficientStorageClusterCapacityFault>()(
-  "InsufficientStorageClusterCapacityFault",
-  {},
+export class DBClusterAlreadyExistsFault extends S.TaggedError<DBClusterAlreadyExistsFault>()(
+  "DBClusterAlreadyExistsFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InsufficientStorageClusterCapacity",
+    code: "DBClusterAlreadyExistsFault",
     httpResponseCode: 400,
   }),
 ) {}
-export class SNSTopicArnNotFoundFault extends S.TaggedError<SNSTopicArnNotFoundFault>()(
-  "SNSTopicArnNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "SNSTopicArnNotFound", httpResponseCode: 404 }),
+export class InvalidDBClusterStateFault extends S.TaggedError<InvalidDBClusterStateFault>()(
+  "InvalidDBClusterStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidDBClusterStateFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class DBClusterSnapshotAlreadyExistsFault extends S.TaggedError<DBClusterSnapshotAlreadyExistsFault>()(
+  "DBClusterSnapshotAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "DBClusterSnapshotAlreadyExistsFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class DBParameterGroupQuotaExceededFault extends S.TaggedError<DBParameterGroupQuotaExceededFault>()(
+  "DBParameterGroupQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "DBParameterGroupQuotaExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class SNSInvalidTopicFault extends S.TaggedError<SNSInvalidTopicFault>()(
+  "SNSInvalidTopicFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SNSInvalidTopic", httpResponseCode: 400 }),
+) {}
+export class InvalidDBClusterSnapshotStateFault extends S.TaggedError<InvalidDBClusterSnapshotStateFault>()(
+  "InvalidDBClusterSnapshotStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidDBClusterSnapshotStateFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class DBSnapshotAlreadyExistsFault extends S.TaggedError<DBSnapshotAlreadyExistsFault>()(
+  "DBSnapshotAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DBSnapshotAlreadyExists", httpResponseCode: 400 }),
 ) {}
 export class InvalidDBSubnetStateFault extends S.TaggedError<InvalidDBSubnetStateFault>()(
   "InvalidDBSubnetStateFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidDBSubnetStateFault", httpResponseCode: 400 }),
 ) {}
-export class CertificateNotFoundFault extends S.TaggedError<CertificateNotFoundFault>()(
-  "CertificateNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "CertificateNotFound", httpResponseCode: 404 }),
-) {}
-export class InvalidDBSecurityGroupStateFault extends S.TaggedError<InvalidDBSecurityGroupStateFault>()(
-  "InvalidDBSecurityGroupStateFault",
+export class InvalidGlobalClusterStateFault extends S.TaggedError<InvalidGlobalClusterStateFault>()(
+  "InvalidGlobalClusterStateFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InvalidDBSecurityGroupState",
+    code: "InvalidGlobalClusterStateFault",
     httpResponseCode: 400,
   }),
 ) {}
+export class CertificateNotFoundFault extends S.TaggedError<CertificateNotFoundFault>()(
+  "CertificateNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "CertificateNotFound", httpResponseCode: 404 }),
+) {}
+export class DBSubnetQuotaExceededFault extends S.TaggedError<DBSubnetQuotaExceededFault>()(
+  "DBSubnetQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "DBSubnetQuotaExceededFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class DBClusterQuotaExceededFault extends S.TaggedError<DBClusterQuotaExceededFault>()(
+  "DBClusterQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "DBClusterQuotaExceededFault",
+    httpResponseCode: 403,
+  }),
+) {}
+export class InvalidDBInstanceStateFault extends S.TaggedError<InvalidDBInstanceStateFault>()(
+  "InvalidDBInstanceStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidDBInstanceState", httpResponseCode: 400 }),
+) {}
+export class DBSnapshotNotFoundFault extends S.TaggedError<DBSnapshotNotFoundFault>()(
+  "DBSnapshotNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DBSnapshotNotFound", httpResponseCode: 404 }),
+) {}
+export class DBClusterParameterGroupNotFoundFault extends S.TaggedError<DBClusterParameterGroupNotFoundFault>()(
+  "DBClusterParameterGroupNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "DBClusterParameterGroupNotFound",
+    httpResponseCode: 404,
+  }),
+) {}
+export class DBSubnetGroupAlreadyExistsFault extends S.TaggedError<DBSubnetGroupAlreadyExistsFault>()(
+  "DBSubnetGroupAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "DBSubnetGroupAlreadyExists",
+    httpResponseCode: 400,
+  }),
+) {}
+export class SNSNoAuthorizationFault extends S.TaggedError<SNSNoAuthorizationFault>()(
+  "SNSNoAuthorizationFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SNSNoAuthorization", httpResponseCode: 400 }),
+) {}
+export class GlobalClusterAlreadyExistsFault extends S.TaggedError<GlobalClusterAlreadyExistsFault>()(
+  "GlobalClusterAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "GlobalClusterAlreadyExistsFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class DBInstanceAlreadyExistsFault extends S.TaggedError<DBInstanceAlreadyExistsFault>()(
+  "DBInstanceAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DBInstanceAlreadyExists", httpResponseCode: 400 }),
+) {}
 export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
   "InvalidSubnet",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
 ) {}
 export class SharedSnapshotQuotaExceededFault extends S.TaggedError<SharedSnapshotQuotaExceededFault>()(
@@ -1822,85 +1812,39 @@ export class SharedSnapshotQuotaExceededFault extends S.TaggedError<SharedSnapsh
     httpResponseCode: 400,
   }),
 ) {}
-export class DBSubnetQuotaExceededFault extends S.TaggedError<DBSubnetQuotaExceededFault>()(
-  "DBSubnetQuotaExceededFault",
+export class SnapshotQuotaExceededFault extends S.TaggedError<SnapshotQuotaExceededFault>()(
+  "SnapshotQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SnapshotQuotaExceeded", httpResponseCode: 400 }),
+) {}
+export class KMSKeyNotAccessibleFault extends S.TaggedError<KMSKeyNotAccessibleFault>()(
+  "KMSKeyNotAccessibleFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSKeyNotAccessibleFault", httpResponseCode: 400 }),
+) {}
+export class InsufficientStorageClusterCapacityFault extends S.TaggedError<InsufficientStorageClusterCapacityFault>()(
+  "InsufficientStorageClusterCapacityFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "DBSubnetQuotaExceededFault",
+    code: "InsufficientStorageClusterCapacity",
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidDBSnapshotStateFault extends S.TaggedError<InvalidDBSnapshotStateFault>()(
-  "InvalidDBSnapshotStateFault",
-  {},
-  T.AwsQueryError({ code: "InvalidDBSnapshotState", httpResponseCode: 400 }),
-) {}
-export class InvalidVPCNetworkStateFault extends S.TaggedError<InvalidVPCNetworkStateFault>()(
-  "InvalidVPCNetworkStateFault",
-  {},
+export class InsufficientDBClusterCapacityFault extends S.TaggedError<InsufficientDBClusterCapacityFault>()(
+  "InsufficientDBClusterCapacityFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InvalidVPCNetworkStateFault",
+    code: "InsufficientDBClusterCapacityFault",
+    httpResponseCode: 403,
+  }),
+) {}
+export class InvalidDBSecurityGroupStateFault extends S.TaggedError<InvalidDBSecurityGroupStateFault>()(
+  "InvalidDBSecurityGroupStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidDBSecurityGroupState",
     httpResponseCode: 400,
   }),
-) {}
-export class DBInstanceAlreadyExistsFault extends S.TaggedError<DBInstanceAlreadyExistsFault>()(
-  "DBInstanceAlreadyExistsFault",
-  {},
-  T.AwsQueryError({ code: "DBInstanceAlreadyExists", httpResponseCode: 400 }),
-) {}
-export class DBSubnetGroupAlreadyExistsFault extends S.TaggedError<DBSubnetGroupAlreadyExistsFault>()(
-  "DBSubnetGroupAlreadyExistsFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "DBSubnetGroupAlreadyExists",
-    httpResponseCode: 400,
-  }),
-) {}
-export class SubscriptionAlreadyExistFault extends S.TaggedError<SubscriptionAlreadyExistFault>()(
-  "SubscriptionAlreadyExistFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubscriptionAlreadyExist", httpResponseCode: 400 }),
-) {}
-export class SubscriptionCategoryNotFoundFault extends S.TaggedError<SubscriptionCategoryNotFoundFault>()(
-  "SubscriptionCategoryNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "SubscriptionCategoryNotFound",
-    httpResponseCode: 404,
-  }),
-) {}
-export class GlobalClusterAlreadyExistsFault extends S.TaggedError<GlobalClusterAlreadyExistsFault>()(
-  "GlobalClusterAlreadyExistsFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "GlobalClusterAlreadyExistsFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class NetworkTypeNotSupported extends S.TaggedError<NetworkTypeNotSupported>()(
-  "NetworkTypeNotSupported",
-  {},
-  T.AwsQueryError({ code: "NetworkTypeNotSupported", httpResponseCode: 400 }),
-) {}
-export class DBSecurityGroupNotFoundFault extends S.TaggedError<DBSecurityGroupNotFoundFault>()(
-  "DBSecurityGroupNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "DBSecurityGroupNotFound", httpResponseCode: 404 }),
-) {}
-export class SubnetAlreadyInUse extends S.TaggedError<SubnetAlreadyInUse>()(
-  "SubnetAlreadyInUse",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubnetAlreadyInUse", httpResponseCode: 400 }),
-) {}
-export class InvalidRestoreFault extends S.TaggedError<InvalidRestoreFault>()(
-  "InvalidRestoreFault",
-  {},
-  T.AwsQueryError({ code: "InvalidRestoreFault", httpResponseCode: 400 }),
-) {}
-export class StorageQuotaExceededFault extends S.TaggedError<StorageQuotaExceededFault>()(
-  "StorageQuotaExceededFault",
-  {},
-  T.AwsQueryError({ code: "StorageQuotaExceeded", httpResponseCode: 400 }),
 ) {}
 export class DBSubnetGroupQuotaExceededFault extends S.TaggedError<DBSubnetGroupQuotaExceededFault>()(
   "DBSubnetGroupQuotaExceededFault",
@@ -1910,6 +1854,11 @@ export class DBSubnetGroupQuotaExceededFault extends S.TaggedError<DBSubnetGroup
     httpResponseCode: 400,
   }),
 ) {}
+export class SNSTopicArnNotFoundFault extends S.TaggedError<SNSTopicArnNotFoundFault>()(
+  "SNSTopicArnNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SNSTopicArnNotFound", httpResponseCode: 404 }),
+) {}
 export class GlobalClusterQuotaExceededFault extends S.TaggedError<GlobalClusterQuotaExceededFault>()(
   "GlobalClusterQuotaExceededFault",
   { message: S.optional(S.String) },
@@ -1917,6 +1866,34 @@ export class GlobalClusterQuotaExceededFault extends S.TaggedError<GlobalCluster
     code: "GlobalClusterQuotaExceededFault",
     httpResponseCode: 400,
   }),
+) {}
+export class DBSecurityGroupNotFoundFault extends S.TaggedError<DBSecurityGroupNotFoundFault>()(
+  "DBSecurityGroupNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DBSecurityGroupNotFound", httpResponseCode: 404 }),
+) {}
+export class SubnetAlreadyInUse extends S.TaggedError<SubnetAlreadyInUse>()(
+  "SubnetAlreadyInUse",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubnetAlreadyInUse", httpResponseCode: 400 }),
+) {}
+export class InvalidVPCNetworkStateFault extends S.TaggedError<InvalidVPCNetworkStateFault>()(
+  "InvalidVPCNetworkStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidVPCNetworkStateFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidDBSnapshotStateFault extends S.TaggedError<InvalidDBSnapshotStateFault>()(
+  "InvalidDBSnapshotStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidDBSnapshotState", httpResponseCode: 400 }),
+) {}
+export class SubscriptionAlreadyExistFault extends S.TaggedError<SubscriptionAlreadyExistFault>()(
+  "SubscriptionAlreadyExistFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubscriptionAlreadyExist", httpResponseCode: 400 }),
 ) {}
 export class DBUpgradeDependencyFailureFault extends S.TaggedError<DBUpgradeDependencyFailureFault>()(
   "DBUpgradeDependencyFailureFault",
@@ -1926,22 +1903,45 @@ export class DBUpgradeDependencyFailureFault extends S.TaggedError<DBUpgradeDepe
     httpResponseCode: 400,
   }),
 ) {}
+export class SubscriptionCategoryNotFoundFault extends S.TaggedError<SubscriptionCategoryNotFoundFault>()(
+  "SubscriptionCategoryNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SubscriptionCategoryNotFound",
+    httpResponseCode: 404,
+  }),
+) {}
 export class InstanceQuotaExceededFault extends S.TaggedError<InstanceQuotaExceededFault>()(
   "InstanceQuotaExceededFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InstanceQuotaExceeded", httpResponseCode: 400 }),
 ) {}
+export class NetworkTypeNotSupported extends S.TaggedError<NetworkTypeNotSupported>()(
+  "NetworkTypeNotSupported",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NetworkTypeNotSupported", httpResponseCode: 400 }),
+) {}
+export class InvalidRestoreFault extends S.TaggedError<InvalidRestoreFault>()(
+  "InvalidRestoreFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidRestoreFault", httpResponseCode: 400 }),
+) {}
 export class InsufficientDBInstanceCapacityFault extends S.TaggedError<InsufficientDBInstanceCapacityFault>()(
   "InsufficientDBInstanceCapacityFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "InsufficientDBInstanceCapacity",
     httpResponseCode: 400,
   }),
 ) {}
+export class StorageQuotaExceededFault extends S.TaggedError<StorageQuotaExceededFault>()(
+  "StorageQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "StorageQuotaExceeded", httpResponseCode: 400 }),
+) {}
 export class StorageTypeNotSupportedFault extends S.TaggedError<StorageTypeNotSupportedFault>()(
   "StorageTypeNotSupportedFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "StorageTypeNotSupported", httpResponseCode: 400 }),
 ) {}
 
@@ -1967,6 +1967,17 @@ export const describeDBClusterParameters = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Returns a list of `DBSubnetGroup` descriptions. If a
+ * `DBSubnetGroupName` is specified, the list will contain only the descriptions of the specified `DBSubnetGroup`.
+ */
+export const describeDBSubnetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeDBSubnetGroupsMessage,
+    output: DBSubnetGroupMessage,
+    errors: [DBSubnetGroupNotFoundFault],
+  }),
+);
+/**
  * Returns information about provisioned Amazon DocumentDB clusters. This API
  * operation supports pagination. For certain management features
  * such as cluster and instance lifecycle management, Amazon DocumentDB leverages
@@ -1980,229 +1991,6 @@ export const describeDBClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [DBClusterNotFoundFault],
 }));
 /**
- * Returns information about cluster snapshots. This API operation supports pagination.
- */
-export const describeDBClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDBClusterSnapshotsMessage,
-    output: DBClusterSnapshotMessage,
-    errors: [DBClusterSnapshotNotFoundFault],
-  }),
-);
-/**
- * Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
- */
-export const describeDBInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDBInstancesMessage,
-  output: DBInstanceMessage,
-  errors: [DBInstanceNotFoundFault],
-}));
-/**
- * Returns a list of `DBSubnetGroup` descriptions. If a
- * `DBSubnetGroupName` is specified, the list will contain only the descriptions of the specified `DBSubnetGroup`.
- */
-export const describeDBSubnetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDBSubnetGroupsMessage,
-    output: DBSubnetGroupMessage,
-    errors: [DBSubnetGroupNotFoundFault],
-  }),
-);
-/**
- * Returns information about Amazon DocumentDB global clusters. This API supports pagination.
- *
- * This action only applies to Amazon DocumentDB clusters.
- */
-export const describeGlobalClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGlobalClustersMessage,
-    output: GlobalClustersMessage,
-    errors: [GlobalClusterNotFoundFault],
-  }),
-);
-/**
- * Modifies the parameters of a cluster parameter group. To modify more than one
- * parameter, submit a list of the following: `ParameterName`,
- * `ParameterValue`, and `ApplyMethod`. A maximum of 20
- * parameters can be modified in a single request.
- *
- * Changes to dynamic parameters are applied immediately. Changes to static
- * parameters require a reboot or maintenance window
- *
- * before the change can take effect.
- *
- * After you create a cluster parameter group, you should wait at least 5 minutes
- * before creating your first cluster that uses that cluster parameter group as
- * the default parameter group. This allows Amazon DocumentDB to fully complete the create action
- * before the parameter group is used as the default for a new cluster. This step is
- * especially important for parameters that are critical when creating the default
- * database for a cluster, such as the character set for the default database
- * defined by the `character_set_database` parameter.
- */
-export const modifyDBClusterParameterGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyDBClusterParameterGroupMessage,
-    output: DBClusterParameterGroupNameMessage,
-    errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
-  }));
-/**
- * Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request.
- *
- * This action only applies to Amazon DocumentDB clusters.
- */
-export const modifyGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyGlobalClusterMessage,
-  output: ModifyGlobalClusterResult,
-  errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
-}));
-/**
- * Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region.
- *
- * This action only applies to Amazon DocumentDB clusters.
- */
-export const removeFromGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveFromGlobalClusterMessage,
-    output: RemoveFromGlobalClusterResult,
-    errors: [
-      DBClusterNotFoundFault,
-      GlobalClusterNotFoundFault,
-      InvalidGlobalClusterStateFault,
-    ],
-  }),
-);
-/**
- * Removes metadata tags from an Amazon DocumentDB resource.
- */
-export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTagsFromResourceMessage,
-    output: RemoveTagsFromResourceResponse,
-    errors: [
-      DBClusterNotFoundFault,
-      DBInstanceNotFoundFault,
-      DBSnapshotNotFoundFault,
-    ],
-  }),
-);
-/**
- * Modifies the parameters of a cluster parameter group to the default value. To
- * reset specific parameters, submit a list of the following: `ParameterName`
- * and `ApplyMethod`. To reset the entire cluster parameter group, specify
- * the `DBClusterParameterGroupName` and `ResetAllParameters`
- * parameters.
- *
- * When you reset the entire group, dynamic parameters are updated immediately and
- * static parameters are set to `pending-reboot` to take effect on the next DB
- * instance reboot.
- */
-export const resetDBClusterParameterGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ResetDBClusterParameterGroupMessage,
-    output: DBClusterParameterGroupNameMessage,
-    errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
-  }));
-/**
- * Restarts the stopped cluster that is specified by `DBClusterIdentifier`.
- * For more information, see Stopping and
- * Starting an Amazon DocumentDB Cluster.
- */
-export const startDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartDBClusterMessage,
-  output: StartDBClusterResult,
-  errors: [
-    DBClusterNotFoundFault,
-    InvalidDBClusterStateFault,
-    InvalidDBInstanceStateFault,
-  ],
-}));
-/**
- * Stops the running cluster that is specified by `DBClusterIdentifier`. The
- * cluster must be in the *available* state. For more information, see
- * Stopping and
- * Starting an Amazon DocumentDB Cluster.
- */
-export const stopDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopDBClusterMessage,
-  output: StopDBClusterResult,
-  errors: [
-    DBClusterNotFoundFault,
-    InvalidDBClusterStateFault,
-    InvalidDBInstanceStateFault,
-  ],
-}));
-/**
- * Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
- */
-export const switchoverGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SwitchoverGlobalClusterMessage,
-    output: SwitchoverGlobalClusterResult,
-    errors: [
-      DBClusterNotFoundFault,
-      GlobalClusterNotFoundFault,
-      InvalidDBClusterStateFault,
-      InvalidGlobalClusterStateFault,
-    ],
-  }),
-);
-/**
- * Adds a source identifier to an existing event notification
- * subscription.
- */
-export const addSourceIdentifierToSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddSourceIdentifierToSubscriptionMessage,
-    output: AddSourceIdentifierToSubscriptionResult,
-    errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
-  }));
-/**
- * Adds metadata tags to an Amazon DocumentDB resource. You can use these tags
- * with cost allocation reporting to track costs that are associated
- * with Amazon DocumentDB resources or in a `Condition` statement in
- * an Identity and Access Management (IAM) policy for Amazon DocumentDB.
- */
-export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsToResourceMessage,
-  output: AddTagsToResourceResponse,
-  errors: [
-    DBClusterNotFoundFault,
-    DBInstanceNotFoundFault,
-    DBSnapshotNotFoundFault,
-  ],
-}));
-/**
- * Creates a new cluster parameter group.
- *
- * Parameters in a cluster parameter group apply to all of the
- * instances in a cluster.
- *
- * A cluster parameter group is initially created with the default
- * parameters for the database engine used by instances in the cluster.
- * In Amazon DocumentDB, you cannot make modifications directly to the
- * `default.docdb3.6` cluster parameter group. If your
- * Amazon DocumentDB cluster is using the default cluster parameter group and you
- * want to modify a value in it, you must first
- * create a new parameter group
- * or
- * copy an existing parameter group,
- * modify it, and then apply the modified parameter group to your
- * cluster. For the new cluster parameter group and associated settings
- * to take effect, you must then reboot the instances in the cluster
- * without failover. For more information,
- * see
- * Modifying Amazon DocumentDB Cluster Parameter Groups.
- */
-export const createDBClusterParameterGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDBClusterParameterGroupMessage,
-    output: CreateDBClusterParameterGroupResult,
-    errors: [
-      DBParameterGroupAlreadyExistsFault,
-      DBParameterGroupQuotaExceededFault,
-    ],
-  }));
-/**
  * Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't be associated with any clusters.
  */
 export const deleteDBClusterParameterGroup =
@@ -2211,55 +1999,6 @@ export const deleteDBClusterParameterGroup =
     output: DeleteDBClusterParameterGroupResponse,
     errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
   }));
-/**
- * Deletes a cluster snapshot. If the snapshot is being copied, the copy operation is terminated.
- *
- * The cluster snapshot must be in the `available` state to be deleted.
- */
-export const deleteDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDBClusterSnapshotMessage,
-    output: DeleteDBClusterSnapshotResult,
-    errors: [
-      DBClusterSnapshotNotFoundFault,
-      InvalidDBClusterSnapshotStateFault,
-    ],
-  }),
-);
-/**
- * Deletes a previously provisioned instance.
- */
-export const deleteDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDBInstanceMessage,
-  output: DeleteDBInstanceResult,
-  errors: [
-    DBInstanceNotFoundFault,
-    DBSnapshotAlreadyExistsFault,
-    InvalidDBClusterStateFault,
-    InvalidDBInstanceStateFault,
-    SnapshotQuotaExceededFault,
-  ],
-}));
-/**
- * Deletes an Amazon DocumentDB event notification subscription.
- */
-export const deleteEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventSubscriptionMessage,
-    output: DeleteEventSubscriptionResult,
-    errors: [InvalidEventSubscriptionStateFault, SubscriptionNotFoundFault],
-  }),
-);
-/**
- * Deletes a global cluster. The primary and secondary clusters must already be detached or deleted before attempting to delete a global cluster.
- *
- * This action only applies to Amazon DocumentDB clusters.
- */
-export const deleteGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGlobalClusterMessage,
-  output: DeleteGlobalClusterResult,
-  errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
-}));
 /**
  * Returns the default engine and system parameter information for the cluster database
  * engine.
@@ -2312,68 +2051,6 @@ export const describePendingMaintenanceActions =
     errors: [ResourceNotFoundFault],
   }));
 /**
- * Forces a failover for a cluster.
- *
- * A failover for a cluster promotes one of the Amazon DocumentDB replicas (read-only instances) in the cluster to be the primary instance (the cluster writer).
- *
- * If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
- */
-export const failoverDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: FailoverDBClusterMessage,
-  output: FailoverDBClusterResult,
-  errors: [
-    DBClusterNotFoundFault,
-    InvalidDBClusterStateFault,
-    InvalidDBInstanceStateFault,
-  ],
-}));
-/**
- * Promotes the specified secondary DB cluster to be the primary DB cluster in the global cluster when failing over a global cluster occurs.
- *
- * Use this operation to respond to an unplanned event, such as a regional disaster in the primary region.
- * Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred.
- * However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
- */
-export const failoverGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: FailoverGlobalClusterMessage,
-    output: FailoverGlobalClusterResult,
-    errors: [
-      DBClusterNotFoundFault,
-      GlobalClusterNotFoundFault,
-      InvalidDBClusterStateFault,
-      InvalidGlobalClusterStateFault,
-    ],
-  }),
-);
-/**
- * Lists all tags on an Amazon DocumentDB resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceMessage,
-  output: TagListMessage,
-  errors: [
-    DBClusterNotFoundFault,
-    DBInstanceNotFoundFault,
-    DBSnapshotNotFoundFault,
-  ],
-}));
-/**
- * You might need to reboot your instance, usually for maintenance reasons. For
- * example, if you make certain changes, or if you change the cluster parameter group
- * that is associated with the instance, you must reboot the instance for the changes to
- * take effect.
- *
- * Rebooting an instance restarts the database engine service. Rebooting an instance
- * results in a momentary outage, during which the instance status is set to
- * *rebooting*.
- */
-export const rebootDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RebootDBInstanceMessage,
-  output: RebootDBInstanceResult,
-  errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
-}));
-/**
  * Removes a source identifier from an existing Amazon DocumentDB event notification
  * subscription.
  */
@@ -2384,91 +2061,143 @@ export const removeSourceIdentifierFromSubscription =
     errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
   }));
 /**
- * Applies a pending maintenance action to a resource (for example,
- * to an Amazon DocumentDB instance).
+ * Modifies the parameters of a cluster parameter group. To modify more than one
+ * parameter, submit a list of the following: `ParameterName`,
+ * `ParameterValue`, and `ApplyMethod`. A maximum of 20
+ * parameters can be modified in a single request.
+ *
+ * Changes to dynamic parameters are applied immediately. Changes to static
+ * parameters require a reboot or maintenance window
+ *
+ * before the change can take effect.
+ *
+ * After you create a cluster parameter group, you should wait at least 5 minutes
+ * before creating your first cluster that uses that cluster parameter group as
+ * the default parameter group. This allows Amazon DocumentDB to fully complete the create action
+ * before the parameter group is used as the default for a new cluster. This step is
+ * especially important for parameters that are critical when creating the default
+ * database for a cluster, such as the character set for the default database
+ * defined by the `character_set_database` parameter.
  */
-export const applyPendingMaintenanceAction =
+export const modifyDBClusterParameterGroup =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ApplyPendingMaintenanceActionMessage,
-    output: ApplyPendingMaintenanceActionResult,
+    input: ModifyDBClusterParameterGroupMessage,
+    output: DBClusterParameterGroupNameMessage,
+    errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+  }));
+/**
+ * Modifies the parameters of a cluster parameter group to the default value. To
+ * reset specific parameters, submit a list of the following: `ParameterName`
+ * and `ApplyMethod`. To reset the entire cluster parameter group, specify
+ * the `DBClusterParameterGroupName` and `ResetAllParameters`
+ * parameters.
+ *
+ * When you reset the entire group, dynamic parameters are updated immediately and
+ * static parameters are set to `pending-reboot` to take effect on the next DB
+ * instance reboot.
+ */
+export const resetDBClusterParameterGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ResetDBClusterParameterGroupMessage,
+    output: DBClusterParameterGroupNameMessage,
+    errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+  }));
+/**
+ * Returns information about cluster snapshots. This API operation supports pagination.
+ */
+export const describeDBClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeDBClusterSnapshotsMessage,
+    output: DBClusterSnapshotMessage,
+    errors: [DBClusterSnapshotNotFoundFault],
+  }),
+);
+/**
+ * Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
+ */
+export const describeDBInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDBInstancesMessage,
+  output: DBInstanceMessage,
+  errors: [DBInstanceNotFoundFault],
+}));
+/**
+ * Returns information about Amazon DocumentDB global clusters. This API supports pagination.
+ *
+ * This action only applies to Amazon DocumentDB clusters.
+ */
+export const describeGlobalClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeGlobalClustersMessage,
+    output: GlobalClustersMessage,
+    errors: [GlobalClusterNotFoundFault],
+  }),
+);
+/**
+ * Deletes an Amazon DocumentDB event notification subscription.
+ */
+export const deleteEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEventSubscriptionMessage,
+    output: DeleteEventSubscriptionResult,
+    errors: [InvalidEventSubscriptionStateFault, SubscriptionNotFoundFault],
+  }),
+);
+/**
+ * Adds a source identifier to an existing event notification
+ * subscription.
+ */
+export const addSourceIdentifierToSubscription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AddSourceIdentifierToSubscriptionMessage,
+    output: AddSourceIdentifierToSubscriptionResult,
+    errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
+  }));
+/**
+ * Creates a new cluster parameter group.
+ *
+ * Parameters in a cluster parameter group apply to all of the
+ * instances in a cluster.
+ *
+ * A cluster parameter group is initially created with the default
+ * parameters for the database engine used by instances in the cluster.
+ * In Amazon DocumentDB, you cannot make modifications directly to the
+ * `default.docdb3.6` cluster parameter group. If your
+ * Amazon DocumentDB cluster is using the default cluster parameter group and you
+ * want to modify a value in it, you must first
+ * create a new parameter group
+ * or
+ * copy an existing parameter group,
+ * modify it, and then apply the modified parameter group to your
+ * cluster. For the new cluster parameter group and associated settings
+ * to take effect, you must then reboot the instances in the cluster
+ * without failover. For more information,
+ * see
+ * Modifying Amazon DocumentDB Cluster Parameter Groups.
+ */
+export const createDBClusterParameterGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateDBClusterParameterGroupMessage,
+    output: CreateDBClusterParameterGroupResult,
     errors: [
-      InvalidDBClusterStateFault,
-      InvalidDBInstanceStateFault,
-      ResourceNotFoundFault,
+      DBParameterGroupAlreadyExistsFault,
+      DBParameterGroupQuotaExceededFault,
     ],
   }));
 /**
- * Copies the specified cluster parameter group.
- */
-export const copyDBClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CopyDBClusterParameterGroupMessage,
-    output: CopyDBClusterParameterGroupResult,
-    errors: [
-      DBParameterGroupAlreadyExistsFault,
-      DBParameterGroupNotFoundFault,
-      DBParameterGroupQuotaExceededFault,
-    ],
-  }),
-);
-/**
- * Copies a snapshot of a cluster.
+ * Deletes a cluster snapshot. If the snapshot is being copied, the copy operation is terminated.
  *
- * To copy a cluster snapshot from a shared manual cluster snapshot,
- * `SourceDBClusterSnapshotIdentifier` must be the Amazon
- * Resource Name (ARN) of the shared cluster snapshot. You can only
- * copy a shared DB cluster snapshot, whether encrypted or not, in the
- * same Amazon Web Services Region.
- *
- * To cancel the copy operation after it is in progress, delete the
- * target cluster snapshot identified by
- * `TargetDBClusterSnapshotIdentifier` while that cluster
- * snapshot is in the *copying* status.
+ * The cluster snapshot must be in the `available` state to be deleted.
  */
-export const copyDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CopyDBClusterSnapshotMessage,
-    output: CopyDBClusterSnapshotResult,
+    input: DeleteDBClusterSnapshotMessage,
+    output: DeleteDBClusterSnapshotResult,
     errors: [
-      DBClusterSnapshotAlreadyExistsFault,
       DBClusterSnapshotNotFoundFault,
       InvalidDBClusterSnapshotStateFault,
-      InvalidDBClusterStateFault,
-      KMSKeyNotAccessibleFault,
-      SnapshotQuotaExceededFault,
     ],
   }),
 );
-/**
- * Creates a snapshot of a cluster.
- */
-export const createDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDBClusterSnapshotMessage,
-    output: CreateDBClusterSnapshotResult,
-    errors: [
-      DBClusterNotFoundFault,
-      DBClusterSnapshotAlreadyExistsFault,
-      InvalidDBClusterSnapshotStateFault,
-      InvalidDBClusterStateFault,
-      SnapshotQuotaExceededFault,
-    ],
-  }),
-);
-/**
- * Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted.
- */
-export const deleteDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDBClusterMessage,
-  output: DeleteDBClusterResult,
-  errors: [
-    DBClusterNotFoundFault,
-    DBClusterSnapshotAlreadyExistsFault,
-    InvalidDBClusterSnapshotStateFault,
-    InvalidDBClusterStateFault,
-    SnapshotQuotaExceededFault,
-  ],
-}));
 /**
  * Deletes a subnet group.
  *
@@ -2485,15 +2214,15 @@ export const deleteDBSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
+ * Deletes a global cluster. The primary and secondary clusters must already be detached or deleted before attempting to delete a global cluster.
+ *
+ * This action only applies to Amazon DocumentDB clusters.
  */
-export const describeCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCertificatesMessage,
-    output: CertificateMessage,
-    errors: [CertificateNotFoundFault],
-  }),
-);
+export const deleteGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGlobalClusterMessage,
+  output: DeleteGlobalClusterResult,
+  errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
+}));
 /**
  * Returns a list of cluster snapshot attribute names and values for a manual DB
  * cluster snapshot.
@@ -2527,6 +2256,205 @@ export const describeOrderableDBInstanceOptions =
     errors: [],
   }));
 /**
+ * Restarts the stopped cluster that is specified by `DBClusterIdentifier`.
+ * For more information, see Stopping and
+ * Starting an Amazon DocumentDB Cluster.
+ */
+export const startDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDBClusterMessage,
+  output: StartDBClusterResult,
+  errors: [
+    DBClusterNotFoundFault,
+    InvalidDBClusterStateFault,
+    InvalidDBInstanceStateFault,
+  ],
+}));
+/**
+ * Copies the specified cluster parameter group.
+ */
+export const copyDBClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CopyDBClusterParameterGroupMessage,
+    output: CopyDBClusterParameterGroupResult,
+    errors: [
+      DBParameterGroupAlreadyExistsFault,
+      DBParameterGroupNotFoundFault,
+      DBParameterGroupQuotaExceededFault,
+    ],
+  }),
+);
+/**
+ * Removes metadata tags from an Amazon DocumentDB resource.
+ */
+export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveTagsFromResourceMessage,
+    output: RemoveTagsFromResourceResponse,
+    errors: [
+      DBClusterNotFoundFault,
+      DBInstanceNotFoundFault,
+      DBSnapshotNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request.
+ *
+ * This action only applies to Amazon DocumentDB clusters.
+ */
+export const modifyGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyGlobalClusterMessage,
+  output: ModifyGlobalClusterResult,
+  errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
+}));
+/**
+ * Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
+ */
+export const switchoverGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SwitchoverGlobalClusterMessage,
+    output: SwitchoverGlobalClusterResult,
+    errors: [
+      DBClusterNotFoundFault,
+      GlobalClusterNotFoundFault,
+      InvalidDBClusterStateFault,
+      InvalidGlobalClusterStateFault,
+    ],
+  }),
+);
+/**
+ * Promotes the specified secondary DB cluster to be the primary DB cluster in the global cluster when failing over a global cluster occurs.
+ *
+ * Use this operation to respond to an unplanned event, such as a regional disaster in the primary region.
+ * Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred.
+ * However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
+ */
+export const failoverGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: FailoverGlobalClusterMessage,
+    output: FailoverGlobalClusterResult,
+    errors: [
+      DBClusterNotFoundFault,
+      GlobalClusterNotFoundFault,
+      InvalidDBClusterStateFault,
+      InvalidGlobalClusterStateFault,
+    ],
+  }),
+);
+/**
+ * Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region.
+ *
+ * This action only applies to Amazon DocumentDB clusters.
+ */
+export const removeFromGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveFromGlobalClusterMessage,
+    output: RemoveFromGlobalClusterResult,
+    errors: [
+      DBClusterNotFoundFault,
+      GlobalClusterNotFoundFault,
+      InvalidGlobalClusterStateFault,
+    ],
+  }),
+);
+/**
+ * Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
+ */
+export const describeCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeCertificatesMessage,
+    output: CertificateMessage,
+    errors: [CertificateNotFoundFault],
+  }),
+);
+/**
+ * You might need to reboot your instance, usually for maintenance reasons. For
+ * example, if you make certain changes, or if you change the cluster parameter group
+ * that is associated with the instance, you must reboot the instance for the changes to
+ * take effect.
+ *
+ * Rebooting an instance restarts the database engine service. Rebooting an instance
+ * results in a momentary outage, during which the instance status is set to
+ * *rebooting*.
+ */
+export const rebootDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RebootDBInstanceMessage,
+  output: RebootDBInstanceResult,
+  errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
+}));
+/**
+ * Stops the running cluster that is specified by `DBClusterIdentifier`. The
+ * cluster must be in the *available* state. For more information, see
+ * Stopping and
+ * Starting an Amazon DocumentDB Cluster.
+ */
+export const stopDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDBClusterMessage,
+  output: StopDBClusterResult,
+  errors: [
+    DBClusterNotFoundFault,
+    InvalidDBClusterStateFault,
+    InvalidDBInstanceStateFault,
+  ],
+}));
+/**
+ * Forces a failover for a cluster.
+ *
+ * A failover for a cluster promotes one of the Amazon DocumentDB replicas (read-only instances) in the cluster to be the primary instance (the cluster writer).
+ *
+ * If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
+ */
+export const failoverDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: FailoverDBClusterMessage,
+  output: FailoverDBClusterResult,
+  errors: [
+    DBClusterNotFoundFault,
+    InvalidDBClusterStateFault,
+    InvalidDBInstanceStateFault,
+  ],
+}));
+/**
+ * Applies a pending maintenance action to a resource (for example,
+ * to an Amazon DocumentDB instance).
+ */
+export const applyPendingMaintenanceAction =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ApplyPendingMaintenanceActionMessage,
+    output: ApplyPendingMaintenanceActionResult,
+    errors: [
+      InvalidDBClusterStateFault,
+      InvalidDBInstanceStateFault,
+      ResourceNotFoundFault,
+    ],
+  }));
+/**
+ * Adds metadata tags to an Amazon DocumentDB resource. You can use these tags
+ * with cost allocation reporting to track costs that are associated
+ * with Amazon DocumentDB resources or in a `Condition` statement in
+ * an Identity and Access Management (IAM) policy for Amazon DocumentDB.
+ */
+export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsToResourceMessage,
+  output: AddTagsToResourceResponse,
+  errors: [
+    DBClusterNotFoundFault,
+    DBInstanceNotFoundFault,
+    DBSnapshotNotFoundFault,
+  ],
+}));
+/**
+ * Lists all tags on an Amazon DocumentDB resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceMessage,
+  output: TagListMessage,
+  errors: [
+    DBClusterNotFoundFault,
+    DBInstanceNotFoundFault,
+    DBSnapshotNotFoundFault,
+  ],
+}));
+/**
  * Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot.
  *
  * To share a manual cluster snapshot with other Amazon Web Services accounts, specify `restore` as the `AttributeName`, and use the `ValuesToAdd` parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value `all` to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Do not add the `all` value for any manual cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the `ValuesToAdd` parameter. You can't use `all` as a value for that parameter in this case.
@@ -2542,142 +2470,75 @@ export const modifyDBClusterSnapshotAttribute =
     ],
   }));
 /**
- * Creates an Amazon DocumentDB event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console.
- *
- * You can specify the type of source (`SourceType`) that you want to be notified of. You can also provide a list of Amazon DocumentDB sources (`SourceIds`) that trigger the events, and you can provide a list of event categories (`EventCategories`) for events that you want to be notified of. For example, you can specify `SourceType = db-instance`, `SourceIds = mydbinstance1, mydbinstance2` and `EventCategories = Availability, Backup`.
- *
- * If you specify both the `SourceType` and `SourceIds` (such as `SourceType = db-instance` and `SourceIdentifier = myDBInstance1`), you are notified of all the `db-instance` events for the specified source. If you specify a `SourceType` but do not specify a `SourceIdentifier`, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the `SourceType` or the `SourceIdentifier`, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
+ * Creates a snapshot of a cluster.
  */
-export const createEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateEventSubscriptionMessage,
-    output: CreateEventSubscriptionResult,
+    input: CreateDBClusterSnapshotMessage,
+    output: CreateDBClusterSnapshotResult,
     errors: [
-      EventSubscriptionQuotaExceededFault,
-      SNSInvalidTopicFault,
-      SNSNoAuthorizationFault,
-      SNSTopicArnNotFoundFault,
-      SourceNotFoundFault,
-      SubscriptionAlreadyExistFault,
-      SubscriptionCategoryNotFoundFault,
+      DBClusterNotFoundFault,
+      DBClusterSnapshotAlreadyExistsFault,
+      InvalidDBClusterSnapshotStateFault,
+      InvalidDBClusterStateFault,
+      SnapshotQuotaExceededFault,
     ],
   }),
 );
 /**
- * Modifies an existing subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
+ * Copies a snapshot of a cluster.
+ *
+ * To copy a cluster snapshot from a shared manual cluster snapshot,
+ * `SourceDBClusterSnapshotIdentifier` must be the Amazon
+ * Resource Name (ARN) of the shared cluster snapshot. You can only
+ * copy a shared DB cluster snapshot, whether encrypted or not, in the
+ * same Amazon Web Services Region.
+ *
+ * To cancel the copy operation after it is in progress, delete the
+ * target cluster snapshot identified by
+ * `TargetDBClusterSnapshotIdentifier` while that cluster
+ * snapshot is in the *copying* status.
  */
-export const modifyDBSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyDBSubnetGroupMessage,
-  output: ModifyDBSubnetGroupResult,
+export const copyDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CopyDBClusterSnapshotMessage,
+    output: CopyDBClusterSnapshotResult,
+    errors: [
+      DBClusterSnapshotAlreadyExistsFault,
+      DBClusterSnapshotNotFoundFault,
+      InvalidDBClusterSnapshotStateFault,
+      InvalidDBClusterStateFault,
+      KMSKeyNotAccessibleFault,
+      SnapshotQuotaExceededFault,
+    ],
+  }),
+);
+/**
+ * Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted.
+ */
+export const deleteDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDBClusterMessage,
+  output: DeleteDBClusterResult,
   errors: [
-    DBSubnetGroupDoesNotCoverEnoughAZs,
-    DBSubnetGroupNotFoundFault,
-    DBSubnetQuotaExceededFault,
-    InvalidSubnet,
-    SubnetAlreadyInUse,
+    DBClusterNotFoundFault,
+    DBClusterSnapshotAlreadyExistsFault,
+    InvalidDBClusterSnapshotStateFault,
+    InvalidDBClusterStateFault,
+    SnapshotQuotaExceededFault,
   ],
 }));
 /**
- * Modifies an existing Amazon DocumentDB event notification subscription.
+ * Deletes a previously provisioned instance.
  */
-export const modifyEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyEventSubscriptionMessage,
-    output: ModifyEventSubscriptionResult,
-    errors: [
-      EventSubscriptionQuotaExceededFault,
-      SNSInvalidTopicFault,
-      SNSNoAuthorizationFault,
-      SNSTopicArnNotFoundFault,
-      SubscriptionCategoryNotFoundFault,
-      SubscriptionNotFoundFault,
-    ],
-  }),
-);
-/**
- * Creates a new cluster from a snapshot or cluster snapshot.
- *
- * If a snapshot is specified, the target cluster is created from the source DB snapshot with a default configuration and default security group.
- *
- * If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
- */
-export const restoreDBClusterFromSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreDBClusterFromSnapshotMessage,
-    output: RestoreDBClusterFromSnapshotResult,
-    errors: [
-      DBClusterAlreadyExistsFault,
-      DBClusterQuotaExceededFault,
-      DBClusterSnapshotNotFoundFault,
-      DBSnapshotNotFoundFault,
-      DBSubnetGroupNotFoundFault,
-      InsufficientDBClusterCapacityFault,
-      InsufficientStorageClusterCapacityFault,
-      InvalidDBClusterSnapshotStateFault,
-      InvalidDBSnapshotStateFault,
-      InvalidRestoreFault,
-      InvalidSubnet,
-      InvalidVPCNetworkStateFault,
-      KMSKeyNotAccessibleFault,
-      NetworkTypeNotSupported,
-      StorageQuotaExceededFault,
-    ],
-  }));
-/**
- * Restores a cluster to an arbitrary point in time. Users can restore to any point in
- * time before `LatestRestorableTime` for up to
- * `BackupRetentionPeriod` days. The target cluster is created from the
- * source cluster with the same configuration as the original cluster, except that
- * the new cluster is created with the default security group.
- */
-export const restoreDBClusterToPointInTime =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreDBClusterToPointInTimeMessage,
-    output: RestoreDBClusterToPointInTimeResult,
-    errors: [
-      DBClusterAlreadyExistsFault,
-      DBClusterNotFoundFault,
-      DBClusterQuotaExceededFault,
-      DBClusterSnapshotNotFoundFault,
-      DBSubnetGroupNotFoundFault,
-      InsufficientDBClusterCapacityFault,
-      InsufficientStorageClusterCapacityFault,
-      InvalidDBClusterSnapshotStateFault,
-      InvalidDBClusterStateFault,
-      InvalidDBSnapshotStateFault,
-      InvalidRestoreFault,
-      InvalidSubnet,
-      InvalidVPCNetworkStateFault,
-      KMSKeyNotAccessibleFault,
-      NetworkTypeNotSupported,
-      StorageQuotaExceededFault,
-    ],
-  }));
-/**
- * Creates a new Amazon DocumentDB cluster.
- */
-export const createDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDBClusterMessage,
-  output: CreateDBClusterResult,
+export const deleteDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDBInstanceMessage,
+  output: DeleteDBInstanceResult,
   errors: [
-    DBClusterAlreadyExistsFault,
-    DBClusterNotFoundFault,
-    DBClusterParameterGroupNotFoundFault,
-    DBClusterQuotaExceededFault,
     DBInstanceNotFoundFault,
-    DBSubnetGroupDoesNotCoverEnoughAZs,
-    DBSubnetGroupNotFoundFault,
-    GlobalClusterNotFoundFault,
-    InsufficientStorageClusterCapacityFault,
+    DBSnapshotAlreadyExistsFault,
     InvalidDBClusterStateFault,
     InvalidDBInstanceStateFault,
-    InvalidDBSubnetGroupStateFault,
-    InvalidGlobalClusterStateFault,
-    InvalidSubnet,
-    InvalidVPCNetworkStateFault,
-    KMSKeyNotAccessibleFault,
-    NetworkTypeNotSupported,
-    StorageQuotaExceededFault,
+    SnapshotQuotaExceededFault,
   ],
 }));
 /**
@@ -2715,6 +2576,116 @@ export const createGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Modifies an existing subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
+ */
+export const modifyDBSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyDBSubnetGroupMessage,
+  output: ModifyDBSubnetGroupResult,
+  errors: [
+    DBSubnetGroupDoesNotCoverEnoughAZs,
+    DBSubnetGroupNotFoundFault,
+    DBSubnetQuotaExceededFault,
+    InvalidSubnet,
+    SubnetAlreadyInUse,
+  ],
+}));
+/**
+ * Modifies an existing Amazon DocumentDB event notification subscription.
+ */
+export const modifyEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyEventSubscriptionMessage,
+    output: ModifyEventSubscriptionResult,
+    errors: [
+      EventSubscriptionQuotaExceededFault,
+      SNSInvalidTopicFault,
+      SNSNoAuthorizationFault,
+      SNSTopicArnNotFoundFault,
+      SubscriptionCategoryNotFoundFault,
+      SubscriptionNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Creates an Amazon DocumentDB event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console.
+ *
+ * You can specify the type of source (`SourceType`) that you want to be notified of. You can also provide a list of Amazon DocumentDB sources (`SourceIds`) that trigger the events, and you can provide a list of event categories (`EventCategories`) for events that you want to be notified of. For example, you can specify `SourceType = db-instance`, `SourceIds = mydbinstance1, mydbinstance2` and `EventCategories = Availability, Backup`.
+ *
+ * If you specify both the `SourceType` and `SourceIds` (such as `SourceType = db-instance` and `SourceIdentifier = myDBInstance1`), you are notified of all the `db-instance` events for the specified source. If you specify a `SourceType` but do not specify a `SourceIdentifier`, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the `SourceType` or the `SourceIdentifier`, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
+ */
+export const createEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEventSubscriptionMessage,
+    output: CreateEventSubscriptionResult,
+    errors: [
+      EventSubscriptionQuotaExceededFault,
+      SNSInvalidTopicFault,
+      SNSNoAuthorizationFault,
+      SNSTopicArnNotFoundFault,
+      SourceNotFoundFault,
+      SubscriptionAlreadyExistFault,
+      SubscriptionCategoryNotFoundFault,
+    ],
+  }),
+);
+/**
+ * Creates a new Amazon DocumentDB cluster.
+ */
+export const createDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDBClusterMessage,
+  output: CreateDBClusterResult,
+  errors: [
+    DBClusterAlreadyExistsFault,
+    DBClusterNotFoundFault,
+    DBClusterParameterGroupNotFoundFault,
+    DBClusterQuotaExceededFault,
+    DBInstanceNotFoundFault,
+    DBSubnetGroupDoesNotCoverEnoughAZs,
+    DBSubnetGroupNotFoundFault,
+    GlobalClusterNotFoundFault,
+    InsufficientStorageClusterCapacityFault,
+    InvalidDBClusterStateFault,
+    InvalidDBInstanceStateFault,
+    InvalidDBSubnetGroupStateFault,
+    InvalidGlobalClusterStateFault,
+    InvalidSubnet,
+    InvalidVPCNetworkStateFault,
+    KMSKeyNotAccessibleFault,
+    NetworkTypeNotSupported,
+    StorageQuotaExceededFault,
+  ],
+}));
+/**
+ * Restores a cluster to an arbitrary point in time. Users can restore to any point in
+ * time before `LatestRestorableTime` for up to
+ * `BackupRetentionPeriod` days. The target cluster is created from the
+ * source cluster with the same configuration as the original cluster, except that
+ * the new cluster is created with the default security group.
+ */
+export const restoreDBClusterToPointInTime =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RestoreDBClusterToPointInTimeMessage,
+    output: RestoreDBClusterToPointInTimeResult,
+    errors: [
+      DBClusterAlreadyExistsFault,
+      DBClusterNotFoundFault,
+      DBClusterQuotaExceededFault,
+      DBClusterSnapshotNotFoundFault,
+      DBSubnetGroupNotFoundFault,
+      InsufficientDBClusterCapacityFault,
+      InsufficientStorageClusterCapacityFault,
+      InvalidDBClusterSnapshotStateFault,
+      InvalidDBClusterStateFault,
+      InvalidDBSnapshotStateFault,
+      InvalidRestoreFault,
+      InvalidSubnet,
+      InvalidVPCNetworkStateFault,
+      KMSKeyNotAccessibleFault,
+      NetworkTypeNotSupported,
+      StorageQuotaExceededFault,
+    ],
+  }));
+/**
  * Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database
  * configuration parameters by specifying these parameters and the new values in the
  * request.
@@ -2737,6 +2708,35 @@ export const modifyDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     StorageQuotaExceededFault,
   ],
 }));
+/**
+ * Creates a new cluster from a snapshot or cluster snapshot.
+ *
+ * If a snapshot is specified, the target cluster is created from the source DB snapshot with a default configuration and default security group.
+ *
+ * If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
+ */
+export const restoreDBClusterFromSnapshot =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RestoreDBClusterFromSnapshotMessage,
+    output: RestoreDBClusterFromSnapshotResult,
+    errors: [
+      DBClusterAlreadyExistsFault,
+      DBClusterQuotaExceededFault,
+      DBClusterSnapshotNotFoundFault,
+      DBSnapshotNotFoundFault,
+      DBSubnetGroupNotFoundFault,
+      InsufficientDBClusterCapacityFault,
+      InsufficientStorageClusterCapacityFault,
+      InvalidDBClusterSnapshotStateFault,
+      InvalidDBSnapshotStateFault,
+      InvalidRestoreFault,
+      InvalidSubnet,
+      InvalidVPCNetworkStateFault,
+      KMSKeyNotAccessibleFault,
+      NetworkTypeNotSupported,
+      StorageQuotaExceededFault,
+    ],
+  }));
 /**
  * Modifies settings for an instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
  */

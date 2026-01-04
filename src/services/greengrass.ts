@@ -2854,16 +2854,184 @@ export class CreateResourceDefinitionVersionResponse extends S.Class<CreateResou
 }) {}
 
 //# Errors
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
-  "BadRequestException",
-  {},
-) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
-  {},
+  { ErrorDetails: S.optional(ErrorDetails), Message: S.optional(S.String) },
+) {}
+export class BadRequestException extends S.TaggedError<BadRequestException>()(
+  "BadRequestException",
+  { ErrorDetails: S.optional(ErrorDetails), Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Disassociates the service role from your account. Without a service role, deployments will not work.
+ */
+export const disassociateServiceRoleFromAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateServiceRoleFromAccountRequest,
+    output: DisassociateServiceRoleFromAccountResponse,
+    errors: [InternalServerErrorException],
+  }));
+/**
+ * Retrieves a list of core definitions.
+ */
+export const listCoreDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCoreDefinitionsRequest,
+  output: ListCoreDefinitionsResponse,
+  errors: [],
+}));
+/**
+ * Retrieves a list of device definitions.
+ */
+export const listDeviceDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDeviceDefinitionsRequest,
+    output: ListDeviceDefinitionsResponse,
+    errors: [],
+  }),
+);
+/**
+ * Retrieves a list of Lambda function definitions.
+ */
+export const listFunctionDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListFunctionDefinitionsRequest,
+    output: ListFunctionDefinitionsResponse,
+    errors: [],
+  }),
+);
+/**
+ * Retrieves a list of logger definitions.
+ */
+export const listLoggerDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListLoggerDefinitionsRequest,
+    output: ListLoggerDefinitionsResponse,
+    errors: [],
+  }),
+);
+/**
+ * Retrieves a list of resource definitions.
+ */
+export const listResourceDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListResourceDefinitionsRequest,
+    output: ListResourceDefinitionsResponse,
+    errors: [],
+  }),
+);
+/**
+ * Retrieves a list of subscription definitions.
+ */
+export const listSubscriptionDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSubscriptionDefinitionsRequest,
+    output: ListSubscriptionDefinitionsResponse,
+    errors: [],
+  }),
+);
+/**
+ * Retrieves the service role that is attached to your account.
+ */
+export const getServiceRoleForAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetServiceRoleForAccountRequest,
+    output: GetServiceRoleForAccountResponse,
+    errors: [InternalServerErrorException],
+  }),
+);
+/**
+ * Deletes a connector definition.
+ */
+export const deleteConnectorDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConnectorDefinitionRequest,
+    output: DeleteConnectorDefinitionResponse,
+    errors: [BadRequestException],
+  }),
+);
+/**
+ * Returns the status of a bulk deployment.
+ */
+export const getBulkDeploymentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetBulkDeploymentStatusRequest,
+    output: GetBulkDeploymentStatusResponse,
+    errors: [BadRequestException],
+  }),
+);
+/**
+ * Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
+ */
+export const listBulkDeploymentDetailedReports =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListBulkDeploymentDetailedReportsRequest,
+    output: ListBulkDeploymentDetailedReportsResponse,
+    errors: [BadRequestException],
+  }));
+/**
+ * Returns a list of bulk deployments.
+ */
+export const listBulkDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBulkDeploymentsRequest,
+  output: ListBulkDeploymentsResponse,
+  errors: [BadRequestException],
+}));
+/**
+ * Retrieves a list of connector definitions.
+ */
+export const listConnectorDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListConnectorDefinitionsRequest,
+    output: ListConnectorDefinitionsResponse,
+    errors: [],
+  }),
+);
+/**
+ * Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
+ */
+export const listConnectorDefinitionVersions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListConnectorDefinitionVersionsRequest,
+    output: ListConnectorDefinitionVersionsResponse,
+    errors: [BadRequestException],
+  }));
+/**
+ * Returns a history of deployments for the group.
+ */
+export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDeploymentsRequest,
+  output: ListDeploymentsResponse,
+  errors: [BadRequestException],
+}));
+/**
+ * Retrieves the current CAs for a group.
+ */
+export const listGroupCertificateAuthorities =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListGroupCertificateAuthoritiesRequest,
+    output: ListGroupCertificateAuthoritiesResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }));
+/**
+ * Retrieves a list of groups.
+ */
+export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupsRequest,
+  output: ListGroupsResponse,
+  errors: [],
+}));
+/**
+ * Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
+ */
+export const updateConnectivityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConnectivityInfoRequest,
+    output: UpdateConnectivityInfoResponse,
+    errors: [BadRequestException, InternalServerErrorException],
+  }),
+);
 /**
  * Deletes a core definition.
  */
@@ -2931,16 +3099,6 @@ export const deleteSubscriptionDefinition =
     output: DeleteSubscriptionDefinitionResponse,
     errors: [BadRequestException],
   }));
-/**
- * Retrieves the service role that is attached to your account.
- */
-export const getServiceRoleForAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetServiceRoleForAccountRequest,
-    output: GetServiceRoleForAccountResponse,
-    errors: [InternalServerErrorException],
-  }),
-);
 /**
  * Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
  */
@@ -3106,15 +3264,6 @@ export const disassociateRoleFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [BadRequestException, InternalServerErrorException],
   }),
 );
-/**
- * Disassociates the service role from your account. Without a service role, deployments will not work.
- */
-export const disassociateServiceRoleFromAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateServiceRoleFromAccountRequest,
-    output: DisassociateServiceRoleFromAccountResponse,
-    errors: [InternalServerErrorException],
-  }));
 /**
  * Retrieves the role associated with a particular group.
  */
@@ -3304,14 +3453,6 @@ export const getSubscriptionDefinitionVersion =
     errors: [BadRequestException],
   }));
 /**
- * Retrieves a list of core definitions.
- */
-export const listCoreDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCoreDefinitionsRequest,
-  output: ListCoreDefinitionsResponse,
-  errors: [],
-}));
-/**
  * Lists the versions of a core definition.
  */
 export const listCoreDefinitionVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -3319,16 +3460,6 @@ export const listCoreDefinitionVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: ListCoreDefinitionVersionsRequest,
     output: ListCoreDefinitionVersionsResponse,
     errors: [BadRequestException],
-  }),
-);
-/**
- * Retrieves a list of device definitions.
- */
-export const listDeviceDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDeviceDefinitionsRequest,
-    output: ListDeviceDefinitionsResponse,
-    errors: [],
   }),
 );
 /**
@@ -3340,16 +3471,6 @@ export const listDeviceDefinitionVersions =
     output: ListDeviceDefinitionVersionsResponse,
     errors: [BadRequestException],
   }));
-/**
- * Retrieves a list of Lambda function definitions.
- */
-export const listFunctionDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListFunctionDefinitionsRequest,
-    output: ListFunctionDefinitionsResponse,
-    errors: [],
-  }),
-);
 /**
  * Lists the versions of a Lambda function definition.
  */
@@ -3368,16 +3489,6 @@ export const listGroupVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [BadRequestException],
 }));
 /**
- * Retrieves a list of logger definitions.
- */
-export const listLoggerDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLoggerDefinitionsRequest,
-    output: ListLoggerDefinitionsResponse,
-    errors: [],
-  }),
-);
-/**
  * Lists the versions of a logger definition.
  */
 export const listLoggerDefinitionVersions =
@@ -3387,16 +3498,6 @@ export const listLoggerDefinitionVersions =
     errors: [BadRequestException],
   }));
 /**
- * Retrieves a list of resource definitions.
- */
-export const listResourceDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResourceDefinitionsRequest,
-    output: ListResourceDefinitionsResponse,
-    errors: [],
-  }),
-);
-/**
  * Lists the versions of a resource definition.
  */
 export const listResourceDefinitionVersions =
@@ -3405,16 +3506,6 @@ export const listResourceDefinitionVersions =
     output: ListResourceDefinitionVersionsResponse,
     errors: [BadRequestException],
   }));
-/**
- * Retrieves a list of subscription definitions.
- */
-export const listSubscriptionDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSubscriptionDefinitionsRequest,
-    output: ListSubscriptionDefinitionsResponse,
-    errors: [],
-  }),
-);
 /**
  * Lists the versions of a subscription definition.
  */
@@ -3580,97 +3671,6 @@ export const createSubscriptionDefinitionVersion =
     output: CreateSubscriptionDefinitionVersionResponse,
     errors: [BadRequestException],
   }));
-/**
- * Deletes a connector definition.
- */
-export const deleteConnectorDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectorDefinitionRequest,
-    output: DeleteConnectorDefinitionResponse,
-    errors: [BadRequestException],
-  }),
-);
-/**
- * Returns the status of a bulk deployment.
- */
-export const getBulkDeploymentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBulkDeploymentStatusRequest,
-    output: GetBulkDeploymentStatusResponse,
-    errors: [BadRequestException],
-  }),
-);
-/**
- * Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
- */
-export const listBulkDeploymentDetailedReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListBulkDeploymentDetailedReportsRequest,
-    output: ListBulkDeploymentDetailedReportsResponse,
-    errors: [BadRequestException],
-  }));
-/**
- * Returns a list of bulk deployments.
- */
-export const listBulkDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBulkDeploymentsRequest,
-  output: ListBulkDeploymentsResponse,
-  errors: [BadRequestException],
-}));
-/**
- * Retrieves a list of connector definitions.
- */
-export const listConnectorDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListConnectorDefinitionsRequest,
-    output: ListConnectorDefinitionsResponse,
-    errors: [],
-  }),
-);
-/**
- * Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
- */
-export const listConnectorDefinitionVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListConnectorDefinitionVersionsRequest,
-    output: ListConnectorDefinitionVersionsResponse,
-    errors: [BadRequestException],
-  }));
-/**
- * Returns a history of deployments for the group.
- */
-export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDeploymentsRequest,
-  output: ListDeploymentsResponse,
-  errors: [BadRequestException],
-}));
-/**
- * Retrieves the current CAs for a group.
- */
-export const listGroupCertificateAuthorities =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListGroupCertificateAuthoritiesRequest,
-    output: ListGroupCertificateAuthoritiesResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }));
-/**
- * Retrieves a list of groups.
- */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListGroupsRequest,
-  output: ListGroupsResponse,
-  errors: [],
-}));
-/**
- * Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
- */
-export const updateConnectivityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectivityInfoRequest,
-    output: UpdateConnectivityInfoResponse,
-    errors: [BadRequestException, InternalServerErrorException],
-  }),
-);
 /**
  * Creates a version of a connector definition which has already been defined.
  */

@@ -1333,44 +1333,117 @@ export class GetJobResult extends S.Class<GetJobResult>("GetJobResult")(
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class DependentServiceFailureException extends S.TaggedError<DependentServiceFailureException>()(
   "DependentServiceFailureException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { code: S.String, message: S.String },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Returns the artifact info that corresponds to an artifact id.
+ * Tags the resource with a tag key and value.
  */
-export const getArtifactUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetArtifactUrlRequest,
-  output: GetArtifactUrlResult,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
     BadRequestException,
     InternalFailureException,
-    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns a list of the existing Amplify apps.
+ */
+export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAppsRequest,
+  output: ListAppsResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Untags a resource with a specified Amazon Resource Name (ARN).
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns a list of tags for a specified Amazon Resource Name (ARN).
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates an existing Amplify app.
+ */
+export const updateApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAppRequest,
+  output: UpdateAppResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Returns the website access logs for a specific time range using a presigned URL.
+ */
+export const generateAccessLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateAccessLogsRequest,
+  output: GenerateAccessLogsResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Returns an existing Amplify app specified by an app ID.
+ */
+export const getApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAppRequest,
+  output: GetAppResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
     NotFoundException,
     UnauthorizedException,
   ],
@@ -1425,6 +1498,116 @@ export const getDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Creates a new domain association for an Amplify app.
+ */
+export const updateDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDomainAssociationRequest,
+    output: UpdateDomainAssociationResult,
+    errors: [
+      BadRequestException,
+      DependentServiceFailureException,
+      InternalFailureException,
+      NotFoundException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Updates a webhook.
+ */
+export const updateWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWebhookRequest,
+  output: UpdateWebhookResult,
+  errors: [
+    BadRequestException,
+    DependentServiceFailureException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a backend environment for an Amplify app.
+ *
+ * This API is available only to Amplify Gen 1 applications where the
+ * backend is created using Amplify Studio or the Amplify
+ * command line interface (CLI). This API isn’t available to Amplify Gen 2
+ * applications. When you deploy an application with Amplify Gen 2, you provision the app's
+ * backend infrastructure using Typescript code.
+ */
+export const deleteBackendEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteBackendEnvironmentRequest,
+    output: DeleteBackendEnvironmentResult,
+    errors: [
+      BadRequestException,
+      DependentServiceFailureException,
+      InternalFailureException,
+      NotFoundException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes a branch for an Amplify app.
+ */
+export const deleteBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBranchRequest,
+  output: DeleteBranchResult,
+  errors: [
+    BadRequestException,
+    DependentServiceFailureException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes an existing Amplify app specified by an app ID.
+ */
+export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppRequest,
+  output: DeleteAppResult,
+  errors: [
+    BadRequestException,
+    DependentServiceFailureException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a domain association for an Amplify app.
+ */
+export const deleteDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDomainAssociationRequest,
+    output: DeleteDomainAssociationResult,
+    errors: [
+      BadRequestException,
+      DependentServiceFailureException,
+      InternalFailureException,
+      NotFoundException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Returns the artifact info that corresponds to an artifact id.
+ */
+export const getArtifactUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetArtifactUrlRequest,
+  output: GetArtifactUrlResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
  * Returns the webhook information that corresponds to a specified webhook ID.
  */
 export const getWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1438,64 +1621,6 @@ export const getWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthorizedException,
   ],
 }));
-/**
- * Returns a list of the existing Amplify apps.
- */
-export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAppsRequest,
-  output: ListAppsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Lists the backend environments for an Amplify app.
- *
- * This API is available only to Amplify Gen 1 applications where the
- * backend is created using Amplify Studio or the Amplify
- * command line interface (CLI). This API isn’t available to Amplify Gen 2
- * applications. When you deploy an application with Amplify Gen 2, you provision the app's
- * backend infrastructure using Typescript code.
- */
-export const listBackendEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBackendEnvironmentsRequest,
-    output: ListBackendEnvironmentsResult,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Lists the branches of an Amplify app.
- */
-export const listBranches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBranchesRequest,
-  output: ListBranchesResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns the domain associations for an Amplify app.
- */
-export const listDomainAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDomainAssociationsRequest,
-    output: ListDomainAssociationsResult,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      UnauthorizedException,
-    ],
-  }),
-);
 /**
  * Lists the jobs for a branch of an Amplify app.
  */
@@ -1571,101 +1696,6 @@ export const stopJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Tags the resource with a tag key and value.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Untags a resource with a specified Amazon Resource Name (ARN).
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates an existing Amplify app.
- */
-export const updateApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAppRequest,
-  output: UpdateAppResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Updates a branch for an Amplify app.
- */
-export const updateBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBranchRequest,
-  output: UpdateBranchResult,
-  errors: [
-    BadRequestException,
-    DependentServiceFailureException,
-    InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Creates a new domain association for an Amplify app.
- */
-export const updateDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDomainAssociationRequest,
-    output: UpdateDomainAssociationResult,
-    errors: [
-      BadRequestException,
-      DependentServiceFailureException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Updates a webhook.
- */
-export const updateWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWebhookRequest,
-  output: UpdateWebhookResult,
-  errors: [
-    BadRequestException,
-    DependentServiceFailureException,
-    InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Creates a new Amplify app.
- */
-export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAppRequest,
-  output: CreateAppResult,
-  errors: [
-    BadRequestException,
-    DependentServiceFailureException,
-    InternalFailureException,
-    LimitExceededException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Creates a new backend environment for an Amplify app.
  *
  * This API is available only to Amplify Gen 1 applications where the
@@ -1687,6 +1717,54 @@ export const createBackendEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Deletes a job for a branch of an Amplify app.
+ */
+export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJobRequest,
+  output: DeleteJobResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Returns a list of end-to-end testing artifacts for a specified app, branch, and
+ * job.
+ *
+ * To return the build artifacts, use the GetJob API.
+ *
+ * For more information about Amplify testing support, see Setting up
+ * end-to-end Cypress tests for your Amplify application in the
+ * *Amplify Hosting User Guide*.
+ */
+export const listArtifacts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListArtifactsRequest,
+  output: ListArtifactsResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a new Amplify app.
+ */
+export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAppRequest,
+  output: CreateAppResult,
+  errors: [
+    BadRequestException,
+    DependentServiceFailureException,
+    InternalFailureException,
+    LimitExceededException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a new branch for an Amplify app.
  */
@@ -1736,128 +1814,6 @@ export const createWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a backend environment for an Amplify app.
- *
- * This API is available only to Amplify Gen 1 applications where the
- * backend is created using Amplify Studio or the Amplify
- * command line interface (CLI). This API isn’t available to Amplify Gen 2
- * applications. When you deploy an application with Amplify Gen 2, you provision the app's
- * backend infrastructure using Typescript code.
- */
-export const deleteBackendEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBackendEnvironmentRequest,
-    output: DeleteBackendEnvironmentResult,
-    errors: [
-      BadRequestException,
-      DependentServiceFailureException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes a branch for an Amplify app.
- */
-export const deleteBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBranchRequest,
-  output: DeleteBranchResult,
-  errors: [
-    BadRequestException,
-    DependentServiceFailureException,
-    InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a job for a branch of an Amplify app.
- */
-export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJobRequest,
-  output: DeleteJobResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a webhook.
- */
-export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWebhookRequest,
-  output: DeleteWebhookResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns the website access logs for a specific time range using a presigned URL.
- */
-export const generateAccessLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GenerateAccessLogsRequest,
-  output: GenerateAccessLogsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns an existing Amplify app specified by an app ID.
- */
-export const getApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAppRequest,
-  output: GetAppResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns a list of end-to-end testing artifacts for a specified app, branch, and
- * job.
- *
- * To return the build artifacts, use the GetJob API.
- *
- * For more information about Amplify testing support, see Setting up
- * end-to-end Cypress tests for your Amplify application in the
- * *Amplify Hosting User Guide*.
- */
-export const listArtifacts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListArtifactsRequest,
-  output: ListArtifactsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Returns a list of tags for a specified Amazon Resource Name (ARN).
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
  * Creates a deployment for a manually deployed Amplify app. Manually deployed apps are
  * not connected to a Git repository.
  *
@@ -1877,11 +1833,57 @@ export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes an existing Amplify app specified by an app ID.
+ * Lists the backend environments for an Amplify app.
+ *
+ * This API is available only to Amplify Gen 1 applications where the
+ * backend is created using Amplify Studio or the Amplify
+ * command line interface (CLI). This API isn’t available to Amplify Gen 2
+ * applications. When you deploy an application with Amplify Gen 2, you provision the app's
+ * backend infrastructure using Typescript code.
  */
-export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAppRequest,
-  output: DeleteAppResult,
+export const listBackendEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListBackendEnvironmentsRequest,
+    output: ListBackendEnvironmentsResult,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Lists the branches of an Amplify app.
+ */
+export const listBranches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBranchesRequest,
+  output: ListBranchesResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Returns the domain associations for an Amplify app.
+ */
+export const listDomainAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDomainAssociationsRequest,
+    output: ListDomainAssociationsResult,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Updates a branch for an Amplify app.
+ */
+export const updateBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBranchRequest,
+  output: UpdateBranchResult,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -1891,21 +1893,19 @@ export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a domain association for an Amplify app.
+ * Deletes a webhook.
  */
-export const deleteDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDomainAssociationRequest,
-    output: DeleteDomainAssociationResult,
-    errors: [
-      BadRequestException,
-      DependentServiceFailureException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWebhookRequest,
+  output: DeleteWebhookResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns a job for a branch of an Amplify app.
  */

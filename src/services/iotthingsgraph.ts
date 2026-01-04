@@ -844,139 +844,34 @@ export class GetSystemInstanceResponse extends S.Class<GetSystemInstanceResponse
 //# Errors
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
-) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+  "ResourceInUseException",
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Deletes a system. New deployments can't contain the system after its deletion.
- * Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
- */
-export const deleteSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSystemTemplateRequest,
-    output: DeleteSystemTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deprecates the specified system.
- */
-export const deprecateSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprecateSystemTemplateRequest,
-    output: DeprecateSystemTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Dissociates a device entity from a concrete thing. The action takes only the type of the entity that you need to dissociate because only
- * one entity of a particular type can be associated with a thing.
- */
-export const dissociateEntityFromThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DissociateEntityFromThingRequest,
-    output: DissociateEntityFromThingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Gets the status of a namespace deletion task.
- */
-export const getNamespaceDeletionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetNamespaceDeletionStatusRequest,
-    output: GetNamespaceDeletionStatusResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Removes a tag from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceAlreadyExistsException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Associates a device with a concrete thing that is in the user's registry.
- *
- * A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
- */
-export const associateEntityToThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateEntityToThingRequest,
-    output: AssociateEntityToThingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a workflow. Any new system or deployment that contains this workflow will fail to update or deploy.
- * Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
- */
-export const deleteFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFlowTemplateRequest,
-  output: DeleteFlowTemplateResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ThrottlingException,
-  ],
-}));
 /**
  * Deletes the specified namespace. This action deletes all of the entities in the namespace. Delete the systems and flows that use entities in the namespace before performing this action. This action takes no
  * request parameters.
@@ -986,152 +881,6 @@ export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DeleteNamespaceResponse,
   errors: [InternalFailureException, ThrottlingException],
 }));
-/**
- * Deletes a system instance.
- * Only system instances that have never been deployed, or that have been undeployed can be deleted.
- *
- * Users can create a new system instance that has the same ID as a deleted system instance.
- */
-export const deleteSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSystemInstanceRequest,
-    output: DeleteSystemInstanceResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
- */
-export const deprecateFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprecateFlowTemplateRequest,
-    output: DeprecateFlowTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Gets the latest version of the user's namespace and the public version that it is tracking.
- */
-export const describeNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeNamespaceRequest,
-  output: DescribeNamespaceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return
- * the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
- */
-export const getSystemTemplateRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSystemTemplateRevisionsRequest,
-    output: GetSystemTemplateRevisionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Gets the status of the specified upload.
- */
-export const getUploadStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUploadStatusRequest,
-  output: GetUploadStatusResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists all tags on an AWS IoT Things Graph resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceAlreadyExistsException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates a tag for the specified resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceAlreadyExistsException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes a system instance from its target (Cloud or Greengrass).
- */
-export const undeploySystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UndeploySystemInstanceRequest,
-    output: UndeploySystemInstanceResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates the specified workflow. All deployed systems and system instances that use the workflow will see the changes in the flow when it is redeployed. If you don't want this
- * behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
- */
-export const updateFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFlowTemplateRequest,
-  output: UpdateFlowTemplateResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
- */
-export const updateSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSystemTemplateRequest,
-    output: UpdateSystemTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Asynchronously uploads one or more entity definitions to the user's namespace. The `document` parameter is required if
  * `syncWithPublicNamespace` and `deleteExistingEntites` are false. If the `syncWithPublicNamespace` parameter is set to
@@ -1159,29 +908,84 @@ export const uploadEntityDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a system instance.
- *
- * This action validates the system instance, prepares the deployment-related resources. For Greengrass deployments, it updates the Greengrass group that is
- * specified by the `greengrassGroupName` parameter. It also adds a file to the S3 bucket specified by the `s3BucketName` parameter. You need to
- * call `DeploySystemInstance` after running this action.
- *
- * For Greengrass deployments, since this action modifies and adds resources to a Greengrass group and an S3 bucket on the caller's behalf, the calling identity must have write permissions
- * to both the specified Greengrass group and S3 bucket. Otherwise, the call will fail with an authorization error.
- *
- * For cloud deployments, this action requires a `flowActionsRoleArn` value. This is an IAM role
- * that has permissions to access AWS services, such as AWS Lambda and AWS IoT, that the flow uses when it executes.
- *
- * If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
+ * Gets the status of a namespace deletion task.
  */
-export const createSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getNamespaceDeletionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateSystemInstanceRequest,
-    output: CreateSystemInstanceResponse,
+    input: GetNamespaceDeletionStatusRequest,
+    output: GetNamespaceDeletionStatusResponse,
     errors: [
       InternalFailureException,
       InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
+ */
+export const searchEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchEntitiesRequest,
+  output: SearchEntitiesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Searches for summary information about workflows.
+ */
+export const searchFlowTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchFlowTemplatesRequest,
+  output: SearchFlowTemplatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Searches for system instances in the user's account.
+ */
+export const searchSystemInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchSystemInstancesRequest,
+    output: SearchSystemInstancesResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
+ */
+export const searchSystemTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchSystemTemplatesRequest,
+    output: SearchSystemTemplatesResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Associates a device with a concrete thing that is in the user's registry.
+ *
+ * A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
+ */
+export const associateEntityToThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateEntityToThingRequest,
+    output: AssociateEntityToThingResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
       ThrottlingException,
     ],
   }),
@@ -1230,6 +1034,19 @@ export const deploySystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Gets a system instance.
+ */
+export const getSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSystemInstanceRequest,
+  output: GetSystemInstanceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets definitions of the specified entities. Uses the latest version of the user's namespace by default. This API returns the
  * following TDM entities.
@@ -1322,18 +1139,6 @@ export const listFlowExecutionMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
- */
-export const searchEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchEntitiesRequest,
-  output: SearchEntitiesResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
  * Searches for AWS IoT Things Graph workflow execution instances.
  */
 export const searchFlowExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1344,46 +1149,6 @@ export const searchFlowExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InternalFailureException,
       InvalidRequestException,
       ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Searches for summary information about workflows.
- */
-export const searchFlowTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchFlowTemplatesRequest,
-  output: SearchFlowTemplatesResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Searches for system instances in the user's account.
- */
-export const searchSystemInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchSystemInstancesRequest,
-    output: SearchSystemInstancesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
- */
-export const searchSystemTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchSystemTemplatesRequest,
-    output: SearchSystemTemplatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
       ThrottlingException,
     ],
   }),
@@ -1407,6 +1172,190 @@ export const searchThings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Gets the latest version of the user's namespace and the public version that it is tracking.
+ */
+export const describeNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNamespaceRequest,
+  output: DescribeNamespaceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return
+ * the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
+ */
+export const getSystemTemplateRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetSystemTemplateRevisionsRequest,
+    output: GetSystemTemplateRevisionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Gets the status of the specified upload.
+ */
+export const getUploadStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUploadStatusRequest,
+  output: GetUploadStatusResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the specified workflow. All deployed systems and system instances that use the workflow will see the changes in the flow when it is redeployed. If you don't want this
+ * behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
+ */
+export const updateFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFlowTemplateRequest,
+  output: UpdateFlowTemplateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
+ */
+export const updateSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSystemTemplateRequest,
+    output: UpdateSystemTemplateResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
+ */
+export const deprecateFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeprecateFlowTemplateRequest,
+    output: DeprecateFlowTemplateResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deprecates the specified system.
+ */
+export const deprecateSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeprecateSystemTemplateRequest,
+    output: DeprecateSystemTemplateResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Dissociates a device entity from a concrete thing. The action takes only the type of the entity that you need to dissociate because only
+ * one entity of a particular type can be associated with a thing.
+ */
+export const dissociateEntityFromThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DissociateEntityFromThingRequest,
+    output: DissociateEntityFromThingResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a system instance.
+ *
+ * This action validates the system instance, prepares the deployment-related resources. For Greengrass deployments, it updates the Greengrass group that is
+ * specified by the `greengrassGroupName` parameter. It also adds a file to the S3 bucket specified by the `s3BucketName` parameter. You need to
+ * call `DeploySystemInstance` after running this action.
+ *
+ * For Greengrass deployments, since this action modifies and adds resources to a Greengrass group and an S3 bucket on the caller's behalf, the calling identity must have write permissions
+ * to both the specified Greengrass group and S3 bucket. Otherwise, the call will fail with an authorization error.
+ *
+ * For cloud deployments, this action requires a `flowActionsRoleArn` value. This is an IAM role
+ * that has permissions to access AWS services, such as AWS Lambda and AWS IoT, that the flow uses when it executes.
+ *
+ * If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
+ */
+export const createSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateSystemInstanceRequest,
+    output: CreateSystemInstanceResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Lists all tags on an AWS IoT Things Graph resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a tag for the specified resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Removes a tag from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Creates a workflow template. Workflows can be created only in the user's namespace. (The public namespace contains only
  * entities.) The workflow can contain only entities in the specified namespace. The workflow is validated against the entities in the
  * latest version of the user's namespace unless another namespace version is specified in the request.
@@ -1423,15 +1372,66 @@ export const createFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets a system instance.
+ * Removes a system instance from its target (Cloud or Greengrass).
  */
-export const getSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSystemInstanceRequest,
-  output: GetSystemInstanceResponse,
+export const undeploySystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UndeploySystemInstanceRequest,
+    output: UndeploySystemInstanceResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a workflow. Any new system or deployment that contains this workflow will fail to update or deploy.
+ * Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
+ */
+export const deleteFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFlowTemplateRequest,
+  output: DeleteFlowTemplateResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
-    ResourceNotFoundException,
+    ResourceInUseException,
     ThrottlingException,
   ],
 }));
+/**
+ * Deletes a system instance.
+ * Only system instances that have never been deployed, or that have been undeployed can be deleted.
+ *
+ * Users can create a new system instance that has the same ID as a deleted system instance.
+ */
+export const deleteSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSystemInstanceRequest,
+    output: DeleteSystemInstanceResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a system. New deployments can't contain the system after its deletion.
+ * Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
+ */
+export const deleteSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSystemTemplateRequest,
+    output: DeleteSystemTemplateResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ThrottlingException,
+    ],
+  }),
+);

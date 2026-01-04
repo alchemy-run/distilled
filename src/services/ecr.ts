@@ -2523,74 +2523,42 @@ export class DescribeImageScanFindingsResponse extends S.Class<DescribeImageScan
 //# Errors
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
-) {}
-export class InvalidTagParameterException extends S.TaggedError<InvalidTagParameterException>()(
-  "InvalidTagParameterException",
-  {},
-) {}
-export class RegistryPolicyNotFoundException extends S.TaggedError<RegistryPolicyNotFoundException>()(
-  "RegistryPolicyNotFoundException",
-  {},
-) {}
-export class ServerException extends S.TaggedError<ServerException>()(
-  "ServerException",
-  {},
-) {}
-export class RepositoryNotFoundException extends S.TaggedError<RepositoryNotFoundException>()(
-  "RepositoryNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class LifecyclePolicyNotFoundException extends S.TaggedError<LifecyclePolicyNotFoundException>()(
-  "LifecyclePolicyNotFoundException",
-  {},
-) {}
-export class RepositoryPolicyNotFoundException extends S.TaggedError<RepositoryPolicyNotFoundException>()(
-  "RepositoryPolicyNotFoundException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  {},
-) {}
-export class PullThroughCacheRuleNotFoundException extends S.TaggedError<PullThroughCacheRuleNotFoundException>()(
-  "PullThroughCacheRuleNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class EmptyUploadException extends S.TaggedError<EmptyUploadException>()(
   "EmptyUploadException",
   { message: S.optional(S.String) },
 ) {}
-export class KmsException extends S.TaggedError<KmsException>()(
-  "KmsException",
-  {},
+export class RegistryPolicyNotFoundException extends S.TaggedError<RegistryPolicyNotFoundException>()(
+  "RegistryPolicyNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
-export class TemplateNotFoundException extends S.TaggedError<TemplateNotFoundException>()(
-  "TemplateNotFoundException",
-  {},
+export class RepositoryNotFoundException extends S.TaggedError<RepositoryNotFoundException>()(
+  "RepositoryNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class ExclusionNotFoundException extends S.TaggedError<ExclusionNotFoundException>()(
   "ExclusionNotFoundException",
   { message: S.optional(S.String) },
 ) {}
-export class ImageNotFoundException extends S.TaggedError<ImageNotFoundException>()(
-  "ImageNotFoundException",
-  {},
+export class ServerException extends S.TaggedError<ServerException>()(
+  "ServerException",
+  { message: S.optional(S.String) },
 ) {}
 export class LayerInaccessibleException extends S.TaggedError<LayerInaccessibleException>()(
   "LayerInaccessibleException",
   { message: S.optional(S.String) },
 ) {}
-export class SigningConfigurationNotFoundException extends S.TaggedError<SigningConfigurationNotFoundException>()(
-  "SigningConfigurationNotFoundException",
+export class LifecyclePolicyNotFoundException extends S.TaggedError<LifecyclePolicyNotFoundException>()(
+  "LifecyclePolicyNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class KmsException extends S.TaggedError<KmsException>()(
+  "KmsException",
+  { message: S.optional(S.String), kmsError: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
   { message: S.optional(S.String) },
 ) {}
 export class ImageAlreadyExistsException extends S.TaggedError<ImageAlreadyExistsException>()(
@@ -2605,12 +2573,12 @@ export class ImageArchivedException extends S.TaggedError<ImageArchivedException
   "ImageArchivedException",
   { message: S.optional(S.String) },
 ) {}
-export class LifecyclePolicyPreviewInProgressException extends S.TaggedError<LifecyclePolicyPreviewInProgressException>()(
-  "LifecyclePolicyPreviewInProgressException",
+export class ImageNotFoundException extends S.TaggedError<ImageNotFoundException>()(
+  "ImageNotFoundException",
   { message: S.optional(S.String) },
 ) {}
-export class SecretNotFoundException extends S.TaggedError<SecretNotFoundException>()(
-  "SecretNotFoundException",
+export class PullThroughCacheRuleNotFoundException extends S.TaggedError<PullThroughCacheRuleNotFoundException>()(
+  "PullThroughCacheRuleNotFoundException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidLayerPartException extends S.TaggedError<InvalidLayerPartException>()(
@@ -2623,32 +2591,20 @@ export class InvalidLayerPartException extends S.TaggedError<InvalidLayerPartExc
     message: S.optional(S.String),
   },
 ) {}
-export class UnableToGetUpstreamImageException extends S.TaggedError<UnableToGetUpstreamImageException>()(
-  "UnableToGetUpstreamImageException",
+export class InvalidTagParameterException extends S.TaggedError<InvalidTagParameterException>()(
+  "InvalidTagParameterException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidLayerException extends S.TaggedError<InvalidLayerException>()(
   "InvalidLayerException",
   { message: S.optional(S.String) },
 ) {}
-export class PullThroughCacheRuleAlreadyExistsException extends S.TaggedError<PullThroughCacheRuleAlreadyExistsException>()(
-  "PullThroughCacheRuleAlreadyExistsException",
+export class RepositoryPolicyNotFoundException extends S.TaggedError<RepositoryPolicyNotFoundException>()(
+  "RepositoryPolicyNotFoundException",
   { message: S.optional(S.String) },
 ) {}
-export class UnableToAccessSecretException extends S.TaggedError<UnableToAccessSecretException>()(
-  "UnableToAccessSecretException",
-  {},
-) {}
-export class RepositoryAlreadyExistsException extends S.TaggedError<RepositoryAlreadyExistsException>()(
-  "RepositoryAlreadyExistsException",
-  { message: S.optional(S.String) },
-) {}
-export class TemplateAlreadyExistsException extends S.TaggedError<TemplateAlreadyExistsException>()(
-  "TemplateAlreadyExistsException",
-  { message: S.optional(S.String) },
-) {}
-export class RepositoryNotEmptyException extends S.TaggedError<RepositoryNotEmptyException>()(
-  "RepositoryNotEmptyException",
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { message: S.optional(S.String) },
 ) {}
 export class LayersNotFoundException extends S.TaggedError<LayersNotFoundException>()(
@@ -2659,20 +2615,56 @@ export class ImageDigestDoesNotMatchException extends S.TaggedError<ImageDigestD
   "ImageDigestDoesNotMatchException",
   { message: S.optional(S.String) },
 ) {}
-export class UnsupportedImageTypeException extends S.TaggedError<UnsupportedImageTypeException>()(
-  "UnsupportedImageTypeException",
-  { message: S.optional(S.String) },
-) {}
 export class ImageStorageClassUpdateNotSupportedException extends S.TaggedError<ImageStorageClassUpdateNotSupportedException>()(
   "ImageStorageClassUpdateNotSupportedException",
   { message: S.optional(S.String) },
 ) {}
-export class UnableToDecryptSecretValueException extends S.TaggedError<UnableToDecryptSecretValueException>()(
-  "UnableToDecryptSecretValueException",
-  {},
+export class SecretNotFoundException extends S.TaggedError<SecretNotFoundException>()(
+  "SecretNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class UploadNotFoundException extends S.TaggedError<UploadNotFoundException>()(
   "UploadNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { message: S.optional(S.String) },
+) {}
+export class TemplateNotFoundException extends S.TaggedError<TemplateNotFoundException>()(
+  "TemplateNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class SigningConfigurationNotFoundException extends S.TaggedError<SigningConfigurationNotFoundException>()(
+  "SigningConfigurationNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class LifecyclePolicyPreviewInProgressException extends S.TaggedError<LifecyclePolicyPreviewInProgressException>()(
+  "LifecyclePolicyPreviewInProgressException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryNotEmptyException extends S.TaggedError<RepositoryNotEmptyException>()(
+  "RepositoryNotEmptyException",
+  { message: S.optional(S.String) },
+) {}
+export class PullThroughCacheRuleAlreadyExistsException extends S.TaggedError<PullThroughCacheRuleAlreadyExistsException>()(
+  "PullThroughCacheRuleAlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class UnableToGetUpstreamImageException extends S.TaggedError<UnableToGetUpstreamImageException>()(
+  "UnableToGetUpstreamImageException",
+  { message: S.optional(S.String) },
+) {}
+export class TemplateAlreadyExistsException extends S.TaggedError<TemplateAlreadyExistsException>()(
+  "TemplateAlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class UnsupportedImageTypeException extends S.TaggedError<UnsupportedImageTypeException>()(
+  "UnsupportedImageTypeException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryAlreadyExistsException extends S.TaggedError<RepositoryAlreadyExistsException>()(
+  "RepositoryAlreadyExistsException",
   { message: S.optional(S.String) },
 ) {}
 export class LayerAlreadyExistsException extends S.TaggedError<LayerAlreadyExistsException>()(
@@ -2691,12 +2683,12 @@ export class BlockedByOrganizationPolicyException extends S.TaggedError<BlockedB
   "BlockedByOrganizationPolicyException",
   { message: S.optional(S.String) },
 ) {}
-export class LayerPartTooSmallException extends S.TaggedError<LayerPartTooSmallException>()(
-  "LayerPartTooSmallException",
+export class UnableToAccessSecretException extends S.TaggedError<UnableToAccessSecretException>()(
+  "UnableToAccessSecretException",
   { message: S.optional(S.String) },
 ) {}
-export class UnsupportedUpstreamRegistryException extends S.TaggedError<UnsupportedUpstreamRegistryException>()(
-  "UnsupportedUpstreamRegistryException",
+export class LayerPartTooSmallException extends S.TaggedError<LayerPartTooSmallException>()(
+  "LayerPartTooSmallException",
   { message: S.optional(S.String) },
 ) {}
 export class LifecyclePolicyPreviewNotFoundException extends S.TaggedError<LifecyclePolicyPreviewNotFoundException>()(
@@ -2707,12 +2699,77 @@ export class ReferencedImagesNotFoundException extends S.TaggedError<ReferencedI
   "ReferencedImagesNotFoundException",
   { message: S.optional(S.String) },
 ) {}
+export class UnableToDecryptSecretValueException extends S.TaggedError<UnableToDecryptSecretValueException>()(
+  "UnableToDecryptSecretValueException",
+  { message: S.optional(S.String) },
+) {}
+export class UnsupportedUpstreamRegistryException extends S.TaggedError<UnsupportedUpstreamRegistryException>()(
+  "UnsupportedUpstreamRegistryException",
+  { message: S.optional(S.String) },
+) {}
 export class ScanNotFoundException extends S.TaggedError<ScanNotFoundException>()(
   "ScanNotFoundException",
   { message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Retrieves an authorization token. An authorization token represents your IAM
+ * authentication credentials and can be used to access any Amazon ECR registry that your IAM
+ * principal has access to. The authorization token is valid for 12 hours.
+ *
+ * The `authorizationToken` returned is a base64 encoded string that can be
+ * decoded and used in a `docker login` command to authenticate to a registry.
+ * The CLI offers an `get-login-password` command that simplifies the login
+ * process. For more information, see Registry
+ * authentication in the *Amazon Elastic Container Registry User Guide*.
+ */
+export const getAuthorizationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAuthorizationTokenRequest,
+    output: GetAuthorizationTokenResponse,
+    errors: [InvalidParameterException, ServerException],
+  }),
+);
+/**
+ * Notifies Amazon ECR that you intend to upload an image layer.
+ *
+ * When an image is pushed, the InitiateLayerUpload API is called once per image layer
+ * that has not already been uploaded. Whether or not an image layer has been uploaded is
+ * determined by the BatchCheckLayerAvailability API action.
+ *
+ * This operation is used by the Amazon ECR proxy and is not generally used by
+ * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
+ */
+export const initiateLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InitiateLayerUploadRequest,
+  output: InitiateLayerUploadResponse,
+  errors: [
+    InvalidParameterException,
+    KmsException,
+    RepositoryNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Lists all the image IDs for the specified repository.
+ *
+ * You can filter images based on whether or not they are tagged by using the
+ * `tagStatus` filter and specifying either `TAGGED`,
+ * `UNTAGGED` or `ANY`. For example, you can filter your results
+ * to return only `UNTAGGED` images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your
+ * results to return only `TAGGED` images to list all of the tags in your
+ * repository.
+ */
+export const listImages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListImagesRequest,
+  output: ListImagesResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Describes image repositories in a registry.
  */
@@ -2723,6 +2780,103 @@ export const describeRepositories = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [
       InvalidParameterException,
       RepositoryNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * List the tags for an Amazon ECR resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Updates the image tag mutability settings for the specified repository. For more
+ * information, see Image tag
+ * mutability in the *Amazon Elastic Container Registry User Guide*.
+ */
+export const putImageTagMutability = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutImageTagMutabilityRequest,
+    output: PutImageTagMutabilityResponse,
+    errors: [
+      InvalidParameterException,
+      RepositoryNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Applies a repository policy to the specified repository to control access permissions.
+ * For more information, see Amazon ECR Repository
+ * policies in the *Amazon Elastic Container Registry User Guide*.
+ */
+export const setRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetRepositoryPolicyRequest,
+  output: SetRepositoryPolicyResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Checks the availability of one or more image layers in a repository.
+ *
+ * When an image is pushed to a repository, each image layer is checked to verify if it
+ * has been uploaded before. If it has been uploaded, then the image layer is
+ * skipped.
+ *
+ * This operation is used by the Amazon ECR proxy and is not generally used by
+ * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
+ */
+export const batchCheckLayerAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchCheckLayerAvailabilityRequest,
+    output: BatchCheckLayerAvailabilityResponse,
+    errors: [
+      InvalidParameterException,
+      RepositoryNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Deletes a list of specified images within a repository. Images are specified with
+ * either an `imageTag` or `imageDigest`.
+ *
+ * You can remove a tag from an image by specifying the image's tag in your request. When
+ * you remove the last tag from an image, the image is deleted from your repository.
+ *
+ * You can completely delete an image (and all of its tags) by specifying the image's
+ * digest in your request.
+ */
+export const batchDeleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteImageRequest,
+  output: BatchDeleteImageResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Deletes the repository policy associated with the specified repository.
+ */
+export const deleteRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRepositoryPolicyRequest,
+    output: DeleteRepositoryPolicyResponse,
+    errors: [
+      InvalidParameterException,
+      RepositoryNotFoundException,
+      RepositoryPolicyNotFoundException,
       ServerException,
     ],
   }),
@@ -2739,13 +2893,106 @@ export const describeRepositoryCreationTemplates =
     errors: [InvalidParameterException, ServerException, ValidationException],
   }));
 /**
- * Retrieves the account setting value for the specified setting name.
+ * Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard.
  */
-export const getAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountSettingRequest,
-  output: GetAccountSettingResponse,
-  errors: [InvalidParameterException, ServerException, ValidationException],
+export const updateImageStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateImageStorageClassRequest,
+    output: UpdateImageStorageClassResponse,
+    errors: [
+      ImageNotFoundException,
+      ImageStorageClassUpdateNotSupportedException,
+      InvalidParameterException,
+      RepositoryNotFoundException,
+      ServerException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Uploads an image layer part to Amazon ECR.
+ *
+ * When an image is pushed, each new image layer is uploaded in parts. The maximum size
+ * of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart API
+ * is called once per each new image layer part.
+ *
+ * This operation is used by the Amazon ECR proxy and is not generally used by
+ * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
+ */
+export const uploadLayerPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UploadLayerPartRequest,
+  output: UploadLayerPartResponse,
+  errors: [
+    InvalidLayerPartException,
+    InvalidParameterException,
+    KmsException,
+    LimitExceededException,
+    RepositoryNotFoundException,
+    ServerException,
+    UploadNotFoundException,
+  ],
 }));
+/**
+ * Adds specified tags to a resource with the specified ARN. Existing tags on a resource
+ * are not changed if they are not specified in the request parameters.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidTagParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Retrieves the repository policy for the specified repository.
+ */
+export const getRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRepositoryPolicyRequest,
+  output: GetRepositoryPolicyResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    RepositoryPolicyNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Updates an existing repository creation template.
+ */
+export const updateRepositoryCreationTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateRepositoryCreationTemplateRequest,
+    output: UpdateRepositoryCreationTemplateResponse,
+    errors: [
+      InvalidParameterException,
+      ServerException,
+      TemplateNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves the registry's signing configuration, which defines
+ * rules for automatically signing images using Amazon Web Services Signer.
+ *
+ * For more information, see Managed signing in the
+ * *Amazon Elastic Container Registry User Guide*.
+ */
+export const getSigningConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetSigningConfigurationRequest,
+    output: GetSigningConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      ServerException,
+      SigningConfigurationNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Retrieves the lifecycle policy for the specified repository.
  */
@@ -2758,41 +3005,6 @@ export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     RepositoryNotFoundException,
     ServerException,
     ValidationException,
-  ],
-}));
-/**
- * Retrieves the permissions policy for a registry.
- */
-export const getRegistryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRegistryPolicyRequest,
-  output: GetRegistryPolicyResponse,
-  errors: [
-    InvalidParameterException,
-    RegistryPolicyNotFoundException,
-    ServerException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the scanning configuration for a registry.
- */
-export const getRegistryScanningConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRegistryScanningConfigurationRequest,
-    output: GetRegistryScanningConfigurationResponse,
-    errors: [InvalidParameterException, ServerException, ValidationException],
-  }));
-/**
- * Retrieves the repository policy for the specified repository.
- */
-export const getRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRepositoryPolicyRequest,
-  output: GetRepositoryPolicyResponse,
-  errors: [
-    InvalidParameterException,
-    RepositoryNotFoundException,
-    RepositoryPolicyNotFoundException,
-    ServerException,
   ],
 }));
 /**
@@ -2810,26 +3022,29 @@ export const listPullTimeUpdateExclusions =
     ],
   }));
 /**
- * List the tags for an Amazon ECR resource.
+ * Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InvalidParameterException,
-    RepositoryNotFoundException,
-    ServerException,
-  ],
-}));
+export const registerPullTimeUpdateExclusion =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RegisterPullTimeUpdateExclusionRequest,
+    output: RegisterPullTimeUpdateExclusionResponse,
+    errors: [
+      ExclusionAlreadyExistsException,
+      InvalidParameterException,
+      LimitExceededException,
+      ServerException,
+      ValidationException,
+    ],
+  }));
 /**
- * Allows you to change the basic scan type version or registry policy scope.
+ * Retrieves the permissions policy for a registry.
  */
-export const putAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutAccountSettingRequest,
-  output: PutAccountSettingResponse,
+export const getRegistryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRegistryPolicyRequest,
+  output: GetRegistryPolicyResponse,
   errors: [
     InvalidParameterException,
-    LimitExceededException,
+    RegistryPolicyNotFoundException,
     ServerException,
     ValidationException,
   ],
@@ -2853,22 +3068,6 @@ export const putImageScanningConfiguration =
     ],
   }));
 /**
- * Updates the image tag mutability settings for the specified repository. For more
- * information, see Image tag
- * mutability in the *Amazon Elastic Container Registry User Guide*.
- */
-export const putImageTagMutability = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutImageTagMutabilityRequest,
-    output: PutImageTagMutabilityResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-    ],
-  }),
-);
-/**
  * Creates or updates the lifecycle policy for the specified repository. For more
  * information, see Lifecycle policy
  * template.
@@ -2883,6 +3082,37 @@ export const putLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Gets the scanning configuration for one or more repositories.
+ */
+export const batchGetRepositoryScanningConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchGetRepositoryScanningConfigurationRequest,
+    output: BatchGetRepositoryScanningConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      RepositoryNotFoundException,
+      ServerException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves the account setting value for the specified setting name.
+ */
+export const getAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountSettingRequest,
+  output: GetAccountSettingResponse,
+  errors: [InvalidParameterException, ServerException, ValidationException],
+}));
+/**
+ * Retrieves the scanning configuration for a registry.
+ */
+export const getRegistryScanningConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRegistryScanningConfigurationRequest,
+    output: GetRegistryScanningConfigurationResponse,
+    errors: [InvalidParameterException, ServerException, ValidationException],
+  }));
 /**
  * Creates or updates the permissions policy for your registry.
  *
@@ -2932,104 +3162,20 @@ export const putSigningConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Applies a repository policy to the specified repository to control access permissions.
- * For more information, see Amazon ECR Repository
- * policies in the *Amazon Elastic Container Registry User Guide*.
+ * Deletes the registry permissions policy.
  */
-export const setRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetRepositoryPolicyRequest,
-  output: SetRepositoryPolicyResponse,
-  errors: [
-    InvalidParameterException,
-    RepositoryNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Deletes specified tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidParameterException,
-    InvalidTagParameterException,
-    RepositoryNotFoundException,
-    ServerException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Validates an existing pull through cache rule for an upstream registry that requires
- * authentication. This will retrieve the contents of the Amazon Web Services Secrets Manager secret, verify the
- * syntax, and then validate that authentication to the upstream registry is
- * successful.
- */
-export const validatePullThroughCacheRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidatePullThroughCacheRuleRequest,
-    output: ValidatePullThroughCacheRuleResponse,
+export const deleteRegistryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRegistryPolicyRequest,
+    output: DeleteRegistryPolicyResponse,
     errors: [
       InvalidParameterException,
-      PullThroughCacheRuleNotFoundException,
+      RegistryPolicyNotFoundException,
       ServerException,
       ValidationException,
-    ],
-  }));
-/**
- * Checks the availability of one or more image layers in a repository.
- *
- * When an image is pushed to a repository, each image layer is checked to verify if it
- * has been uploaded before. If it has been uploaded, then the image layer is
- * skipped.
- *
- * This operation is used by the Amazon ECR proxy and is not generally used by
- * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
- */
-export const batchCheckLayerAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchCheckLayerAvailabilityRequest,
-    output: BatchCheckLayerAvailabilityResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
     ],
   }),
 );
-/**
- * Deletes a list of specified images within a repository. Images are specified with
- * either an `imageTag` or `imageDigest`.
- *
- * You can remove a tag from an image by specifying the image's tag in your request. When
- * you remove the last tag from an image, the image is deleted from your repository.
- *
- * You can completely delete an image (and all of its tags) by specifying the image's
- * digest in your request.
- */
-export const batchDeleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDeleteImageRequest,
-  output: BatchDeleteImageResponse,
-  errors: [
-    InvalidParameterException,
-    RepositoryNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Gets the scanning configuration for one or more repositories.
- */
-export const batchGetRepositoryScanningConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetRepositoryScanningConfigurationRequest,
-    output: BatchGetRepositoryScanningConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
 /**
  * Deletes the lifecycle policy associated with the specified repository.
  */
@@ -3047,64 +3193,18 @@ export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a pull through cache rule.
+ * Allows you to change the basic scan type version or registry policy scope.
  */
-export const deletePullThroughCacheRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePullThroughCacheRuleRequest,
-    output: DeletePullThroughCacheRuleResponse,
-    errors: [
-      InvalidParameterException,
-      PullThroughCacheRuleNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes the registry permissions policy.
- */
-export const deleteRegistryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRegistryPolicyRequest,
-    output: DeleteRegistryPolicyResponse,
-    errors: [
-      InvalidParameterException,
-      RegistryPolicyNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a repository creation template.
- */
-export const deleteRepositoryCreationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRepositoryCreationTemplateRequest,
-    output: DeleteRepositoryCreationTemplateResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      TemplateNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes the repository policy associated with the specified repository.
- */
-export const deleteRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRepositoryPolicyRequest,
-    output: DeleteRepositoryPolicyResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      RepositoryPolicyNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const putAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAccountSettingRequest,
+  output: PutAccountSettingResponse,
+  errors: [
+    InvalidParameterException,
+    LimitExceededException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image.
  */
@@ -3157,6 +3257,38 @@ export const describeImageSigningStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Validates an existing pull through cache rule for an upstream registry that requires
+ * authentication. This will retrieve the contents of the Amazon Web Services Secrets Manager secret, verify the
+ * syntax, and then validate that authentication to the upstream registry is
+ * successful.
+ */
+export const validatePullThroughCacheRule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ValidatePullThroughCacheRuleRequest,
+    output: ValidatePullThroughCacheRuleResponse,
+    errors: [
+      InvalidParameterException,
+      PullThroughCacheRuleNotFoundException,
+      ServerException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes a pull through cache rule.
+ */
+export const deletePullThroughCacheRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePullThroughCacheRuleRequest,
+    output: DeletePullThroughCacheRuleResponse,
+    errors: [
+      InvalidParameterException,
+      PullThroughCacheRuleNotFoundException,
+      ServerException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Returns the pull through cache rules for a registry.
  */
 export const describePullThroughCacheRules =
@@ -3171,96 +3303,15 @@ export const describePullThroughCacheRules =
     ],
   }));
 /**
- * Retrieves an authorization token. An authorization token represents your IAM
- * authentication credentials and can be used to access any Amazon ECR registry that your IAM
- * principal has access to. The authorization token is valid for 12 hours.
- *
- * The `authorizationToken` returned is a base64 encoded string that can be
- * decoded and used in a `docker login` command to authenticate to a registry.
- * The CLI offers an `get-login-password` command that simplifies the login
- * process. For more information, see Registry
- * authentication in the *Amazon Elastic Container Registry User Guide*.
+ * Describes the settings for a registry. The replication configuration for a repository
+ * can be created or updated with the PutReplicationConfiguration API
+ * action.
  */
-export const getAuthorizationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAuthorizationTokenRequest,
-    output: GetAuthorizationTokenResponse,
-    errors: [InvalidParameterException, ServerException],
-  }),
-);
-/**
- * Retrieves the registry's signing configuration, which defines
- * rules for automatically signing images using Amazon Web Services Signer.
- *
- * For more information, see Managed signing in the
- * *Amazon Elastic Container Registry User Guide*.
- */
-export const getSigningConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSigningConfigurationRequest,
-    output: GetSigningConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      SigningConfigurationNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Notifies Amazon ECR that you intend to upload an image layer.
- *
- * When an image is pushed, the InitiateLayerUpload API is called once per image layer
- * that has not already been uploaded. Whether or not an image layer has been uploaded is
- * determined by the BatchCheckLayerAvailability API action.
- *
- * This operation is used by the Amazon ECR proxy and is not generally used by
- * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
- */
-export const initiateLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InitiateLayerUploadRequest,
-  output: InitiateLayerUploadResponse,
-  errors: [
-    InvalidParameterException,
-    KmsException,
-    RepositoryNotFoundException,
-    ServerException,
-  ],
+export const describeRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRegistryRequest,
+  output: DescribeRegistryResponse,
+  errors: [InvalidParameterException, ServerException, ValidationException],
 }));
-/**
- * Lists all the image IDs for the specified repository.
- *
- * You can filter images based on whether or not they are tagged by using the
- * `tagStatus` filter and specifying either `TAGGED`,
- * `UNTAGGED` or `ANY`. For example, you can filter your results
- * to return only `UNTAGGED` images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your
- * results to return only `TAGGED` images to list all of the tags in your
- * repository.
- */
-export const listImages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListImagesRequest,
-  output: ListImagesResponse,
-  errors: [
-    InvalidParameterException,
-    RepositoryNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image.
- */
-export const registerPullTimeUpdateExclusion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterPullTimeUpdateExclusionRequest,
-    output: RegisterPullTimeUpdateExclusionResponse,
-    errors: [
-      ExclusionAlreadyExistsException,
-      InvalidParameterException,
-      LimitExceededException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
 /**
  * Starts a preview of a lifecycle policy for the specified repository. This allows you
  * to see the results before associating the lifecycle policy with the repository.
@@ -3280,34 +3331,21 @@ export const startLifecyclePolicyPreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Adds specified tags to a resource with the specified ARN. Existing tags on a resource
- * are not changed if they are not specified in the request parameters.
+ * Deletes a repository. If the repository isn't empty, you must either delete the
+ * contents of the repository or use the `force` option to delete the repository
+ * and have Amazon ECR delete all of its contents on your behalf.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRepositoryRequest,
+  output: DeleteRepositoryResponse,
   errors: [
     InvalidParameterException,
-    InvalidTagParameterException,
+    KmsException,
+    RepositoryNotEmptyException,
     RepositoryNotFoundException,
     ServerException,
-    TooManyTagsException,
   ],
 }));
-/**
- * Updates an existing repository creation template.
- */
-export const updateRepositoryCreationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRepositoryCreationTemplateRequest,
-    output: UpdateRepositoryCreationTemplateResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      TemplateNotFoundException,
-      ValidationException,
-    ],
-  }));
 /**
  * Gets detailed information for an image. Images are specified with either an
  * `imageTag` or `imageDigest`.
@@ -3324,23 +3362,6 @@ export const batchGetImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     RepositoryNotFoundException,
     ServerException,
     UnableToGetUpstreamImageException,
-  ],
-}));
-/**
- * Creates a repository. For more information, see Amazon ECR repositories in the
- * *Amazon Elastic Container Registry User Guide*.
- */
-export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRepositoryRequest,
-  output: CreateRepositoryResponse,
-  errors: [
-    InvalidParameterException,
-    InvalidTagParameterException,
-    KmsException,
-    LimitExceededException,
-    RepositoryAlreadyExistsException,
-    ServerException,
-    TooManyTagsException,
   ],
 }));
 /**
@@ -3362,52 +3383,6 @@ export const createRepositoryCreationTemplate =
       ValidationException,
     ],
   }));
-/**
- * Deletes a repository. If the repository isn't empty, you must either delete the
- * contents of the repository or use the `force` option to delete the repository
- * and have Amazon ECR delete all of its contents on your behalf.
- */
-export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRepositoryRequest,
-  output: DeleteRepositoryResponse,
-  errors: [
-    InvalidParameterException,
-    KmsException,
-    RepositoryNotEmptyException,
-    RepositoryNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Deletes the registry's signing configuration. Images pushed after deletion of the signing
- * configuration will no longer be automatically signed.
- *
- * For more information, see Managed signing in the
- * *Amazon Elastic Container Registry User Guide*.
- *
- * Deleting the signing configuration does not affect existing image signatures.
- */
-export const deleteSigningConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSigningConfigurationRequest,
-    output: DeleteSigningConfigurationResponse,
-    errors: [
-      ServerException,
-      SigningConfigurationNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Describes the settings for a registry. The replication configuration for a repository
- * can be created or updated with the PutReplicationConfiguration API
- * action.
- */
-export const describeRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeRegistryRequest,
-  output: DescribeRegistryResponse,
-  errors: [InvalidParameterException, ServerException, ValidationException],
-}));
 /**
  * Starts a basic image vulnerability scan.
  *
@@ -3431,63 +3406,70 @@ export const startImageScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard.
+ * Creates a repository. For more information, see Amazon ECR repositories in the
+ * *Amazon Elastic Container Registry User Guide*.
  */
-export const updateImageStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateImageStorageClassRequest,
-    output: UpdateImageStorageClassResponse,
-    errors: [
-      ImageNotFoundException,
-      ImageStorageClassUpdateNotSupportedException,
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates an existing pull through cache rule.
- */
-export const updatePullThroughCacheRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePullThroughCacheRuleRequest,
-    output: UpdatePullThroughCacheRuleResponse,
-    errors: [
-      InvalidParameterException,
-      PullThroughCacheRuleNotFoundException,
-      SecretNotFoundException,
-      ServerException,
-      UnableToAccessSecretException,
-      UnableToDecryptSecretValueException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Uploads an image layer part to Amazon ECR.
- *
- * When an image is pushed, each new image layer is uploaded in parts. The maximum size
- * of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart API
- * is called once per each new image layer part.
- *
- * This operation is used by the Amazon ECR proxy and is not generally used by
- * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
- */
-export const uploadLayerPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UploadLayerPartRequest,
-  output: UploadLayerPartResponse,
+export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRepositoryRequest,
+  output: CreateRepositoryResponse,
   errors: [
-    InvalidLayerPartException,
     InvalidParameterException,
+    InvalidTagParameterException,
     KmsException,
     LimitExceededException,
-    RepositoryNotFoundException,
+    RepositoryAlreadyExistsException,
     ServerException,
-    UploadNotFoundException,
+    TooManyTagsException,
   ],
 }));
+/**
+ * Deletes specified tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidTagParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Deletes a repository creation template.
+ */
+export const deleteRepositoryCreationTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteRepositoryCreationTemplateRequest,
+    output: DeleteRepositoryCreationTemplateResponse,
+    errors: [
+      InvalidParameterException,
+      ServerException,
+      TemplateNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes the registry's signing configuration. Images pushed after deletion of the signing
+ * configuration will no longer be automatically signed.
+ *
+ * For more information, see Managed signing in the
+ * *Amazon Elastic Container Registry User Guide*.
+ *
+ * Deleting the signing configuration does not affect existing image signatures.
+ */
+export const deleteSigningConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSigningConfigurationRequest,
+    output: DeleteSigningConfigurationResponse,
+    errors: [
+      ServerException,
+      SigningConfigurationNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Returns metadata about the images in a repository.
  *
@@ -3590,29 +3572,6 @@ export const completeLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a pull through cache rule. A pull through cache rule provides a way to cache
- * images from an upstream registry source in your Amazon ECR private registry. For more
- * information, see Using pull through cache
- * rules in the *Amazon Elastic Container Registry User Guide*.
- */
-export const createPullThroughCacheRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePullThroughCacheRuleRequest,
-    output: CreatePullThroughCacheRuleResponse,
-    errors: [
-      InvalidParameterException,
-      LimitExceededException,
-      PullThroughCacheRuleAlreadyExistsException,
-      SecretNotFoundException,
-      ServerException,
-      UnableToAccessSecretException,
-      UnableToDecryptSecretValueException,
-      UnsupportedUpstreamRegistryException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Retrieves the results of the lifecycle policy preview request for the specified
  * repository.
  */
@@ -3655,6 +3614,47 @@ export const putImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServerException,
   ],
 }));
+/**
+ * Updates an existing pull through cache rule.
+ */
+export const updatePullThroughCacheRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePullThroughCacheRuleRequest,
+    output: UpdatePullThroughCacheRuleResponse,
+    errors: [
+      InvalidParameterException,
+      PullThroughCacheRuleNotFoundException,
+      SecretNotFoundException,
+      ServerException,
+      UnableToAccessSecretException,
+      UnableToDecryptSecretValueException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a pull through cache rule. A pull through cache rule provides a way to cache
+ * images from an upstream registry source in your Amazon ECR private registry. For more
+ * information, see Using pull through cache
+ * rules in the *Amazon Elastic Container Registry User Guide*.
+ */
+export const createPullThroughCacheRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePullThroughCacheRuleRequest,
+    output: CreatePullThroughCacheRuleResponse,
+    errors: [
+      InvalidParameterException,
+      LimitExceededException,
+      PullThroughCacheRuleAlreadyExistsException,
+      SecretNotFoundException,
+      ServerException,
+      UnableToAccessSecretException,
+      UnableToDecryptSecretValueException,
+      UnsupportedUpstreamRegistryException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Returns the scan findings for the specified image.
  */

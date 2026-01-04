@@ -4755,34 +4755,34 @@ export class PutEventsResponse extends S.Class<PutEventsResponse>(
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Message: S.optional(S.String), RequestID: S.optional(S.String) },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
-) {}
-export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
-  "InternalServerErrorException",
-  {},
-) {}
-export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
-  "MethodNotAllowedException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeException>()(
-  "PayloadTooLargeException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String), RequestID: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
+  { Message: S.optional(S.String), RequestID: S.optional(S.String) },
+) {}
+export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
+  "InternalServerErrorException",
+  { Message: S.optional(S.String), RequestID: S.optional(S.String) },
+) {}
+export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
+  "MethodNotAllowedException",
+  { Message: S.optional(S.String), RequestID: S.optional(S.String) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { Message: S.optional(S.String), RequestID: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { Message: S.optional(S.String), RequestID: S.optional(S.String) },
+) {}
+export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeException>()(
+  "PayloadTooLargeException",
   { Message: S.optional(S.String), RequestID: S.optional(S.String) },
 ) {}
 
@@ -4794,350 +4794,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [],
-}));
-/**
- * Retrieves information about the status and settings of the APNs VoIP channel for an application.
- */
-export const getApnsVoipChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApnsVoipChannelRequest,
-  output: GetApnsVoipChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
- */
-export const getApnsVoipSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApnsVoipSandboxChannelRequest,
-    output: GetApnsVoipSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves information about an application.
- */
-export const getApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAppRequest,
-  output: GetAppResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the Baidu channel for an application.
- */
-export const getBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBaiduChannelRequest,
-  output: GetBaiduChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status, configuration, and other settings for a campaign.
- */
-export const getCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCampaignRequest,
-  output: GetCampaignResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
- */
-export const getCampaignVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCampaignVersionRequest,
-  output: GetCampaignVersionResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status, configuration, and other settings for all versions of a campaign.
- */
-export const getCampaignVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCampaignVersionsRequest,
-  output: GetCampaignVersionsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the email channel for an application.
- */
-export const getEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEmailChannelRequest,
-  output: GetEmailChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the settings and attributes of a specific endpoint for an application.
- */
-export const getEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEndpointRequest,
-  output: GetEndpointResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the event stream settings for an application.
- */
-export const getEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEventStreamRequest,
-  output: GetEventStreamResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the GCM channel for an application.
- */
-export const getGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetGcmChannelRequest,
-  output: GetGcmChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status, configuration, and other settings for a journey.
- */
-export const getJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJourneyRequest,
-  output: GetJourneyResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about an Amazon Pinpoint configuration for a recommender model.
- */
-export const getRecommenderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRecommenderConfigurationRequest,
-    output: GetRecommenderConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
- */
-export const getSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSegmentRequest,
-  output: GetSegmentResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the export jobs for a segment.
- */
-export const getSegmentExportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSegmentExportJobsRequest,
-    output: GetSegmentExportJobsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves information about the status and settings of the import jobs for a segment.
- */
-export const getSegmentImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSegmentImportJobsRequest,
-    output: GetSegmentImportJobsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
- */
-export const getSegmentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSegmentVersionRequest,
-  output: GetSegmentVersionResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
- */
-export const getSegmentVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSegmentVersionsRequest,
-  output: GetSegmentVersionsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the SMS channel for an application.
- */
-export const getSmsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSmsChannelRequest,
-  output: GetSmsChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about all the endpoints that are associated with a specific user ID.
- */
-export const getUserEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUserEndpointsRequest,
-  output: GetUserEndpointsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the voice channel for an application.
- */
-export const getVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVoiceChannelRequest,
-  output: GetVoiceChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
 }));
 /**
  * Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
@@ -5156,166 +4812,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Updates the configuration and other settings for a campaign.
+ * Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
  */
-export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCampaignRequest,
-  output: UpdateCampaignResponse,
+export const listTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTemplatesRequest,
+  output: ListTemplatesResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing message template for messages that are sent through the email channel.
- */
-export const updateEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEmailTemplateRequest,
-  output: UpdateEmailTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates an existing message template for messages sent through the in-app message channel.
- */
-export const updateInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateInAppTemplateRequest,
-  output: UpdateInAppTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates an existing message template for messages that are sent through a push notification channel.
- */
-export const updatePushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePushTemplateRequest,
-  output: UpdatePushTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
- */
-export const updateSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSegmentRequest,
-  output: UpdateSegmentResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates an existing message template for messages that are sent through the SMS channel.
- */
-export const updateSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSmsTemplateRequest,
-  output: UpdateSmsTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates an existing message template for messages that are sent through the voice channel.
- */
-export const updateVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateVoiceTemplateRequest,
-  output: UpdateVoiceTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates an export job for an application.
- */
-export const createExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateExportJobRequest,
-  output: CreateExportJobResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates an import job for an application.
- */
-export const createImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateImportJobRequest,
-  output: CreateImportJobResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates an Amazon Pinpoint configuration for a recommender model.
- */
-export const createRecommenderConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRecommenderConfigurationRequest,
-    output: CreateRecommenderConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
 /**
  * Creates a message template for messages that are sent through the voice channel.
  */
@@ -5331,199 +4840,58 @@ export const createVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Disables the ADM channel for an application and deletes any existing settings for the channel.
+ * Creates a message template for messages that are sent through the email channel.
  */
-export const deleteAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAdmChannelRequest,
-  output: DeleteAdmChannelResponse,
+export const createEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEmailTemplateRequest,
+  output: CreateEmailTemplateResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
     TooManyRequestsException,
   ],
 }));
 /**
- * Disables the APNs channel for an application and deletes any existing settings for the channel.
+ * Creates a message template for messages that are sent through a push notification channel.
  */
-export const deleteApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApnsChannelRequest,
-  output: DeleteApnsChannelResponse,
+export const createPushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePushTemplateRequest,
+  output: CreatePushTemplateResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
     TooManyRequestsException,
   ],
 }));
 /**
- * Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
+ * Creates a message template for messages that are sent through the SMS channel.
  */
-export const deleteApnsSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApnsSandboxChannelRequest,
-    output: DeleteApnsSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
- */
-export const deleteApnsVoipChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApnsVoipChannelRequest,
-    output: DeleteApnsVoipChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
- */
-export const deleteApnsVoipSandboxChannel =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApnsVoipSandboxChannelRequest,
-    output: DeleteApnsVoipSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Deletes an application.
- */
-export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAppRequest,
-  output: DeleteAppResponse,
+export const createSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSmsTemplateRequest,
+  output: CreateSmsTemplateResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
     TooManyRequestsException,
   ],
 }));
 /**
- * Disables the Baidu channel for an application and deletes any existing settings for the channel.
+ * Creates a new message template for messages using the in-app message channel.
  */
-export const deleteBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBaiduChannelRequest,
-  output: DeleteBaiduChannelResponse,
+export const createInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInAppTemplateRequest,
+  output: CreateInAppTemplateResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
     InternalServerErrorException,
     MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Disables the email channel for an application and deletes any existing settings for the channel.
- */
-export const deleteEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEmailChannelRequest,
-  output: DeleteEmailChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes a message template for messages that were sent through the email channel.
- */
-export const deleteEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEmailTemplateRequest,
-  output: DeleteEmailTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes an endpoint from an application.
- */
-export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEndpointRequest,
-  output: DeleteEndpointResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes the event stream for an application.
- */
-export const deleteEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEventStreamRequest,
-  output: DeleteEventStreamResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Disables the GCM channel for an application and deletes any existing settings for the channel.
- */
-export const deleteGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGcmChannelRequest,
-  output: DeleteGcmChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
     TooManyRequestsException,
   ],
 }));
@@ -5544,11 +4912,11 @@ export const deleteInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a journey from an application.
+ * Creates and sends a direct message.
  */
-export const deleteJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJourneyRequest,
-  output: DeleteJourneyResponse,
+export const sendMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendMessagesRequest,
+  output: SendMessagesResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -5560,11 +4928,310 @@ export const deleteJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a message template for messages that were sent through a push notification channel.
+ * Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
  */
-export const deletePushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePushTemplateRequest,
-  output: DeletePushTemplateResponse,
+export const getApplicationDateRangeKpi = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetApplicationDateRangeKpiRequest,
+    output: GetApplicationDateRangeKpiResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Send an OTP message
+ */
+export const sendOTPMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendOTPMessageRequest,
+  output: SendOTPMessageResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a segment from an application.
+ */
+export const deleteSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSegmentRequest,
+  output: DeleteSegmentResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the history and status of each channel for an application.
+ */
+export const getChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChannelsRequest,
+  output: GetChannelsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves the in-app messages targeted for the provided endpoint ID.
+ */
+export const getInAppMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInAppMessagesRequest,
+  output: GetInAppMessagesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates and sends a message to a list of users.
+ */
+export const sendUsersMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendUsersMessagesRequest,
+  output: SendUsersMessagesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about all the activities for a campaign.
+ */
+export const getCampaignActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCampaignActivitiesRequest,
+    output: GetCampaignActivitiesResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about the status and settings of a specific export job for an application.
+ */
+export const getExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExportJobRequest,
+  output: GetExportJobResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of a specific import job for an application.
+ */
+export const getImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImportJobRequest,
+  output: GetImportJobResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Provides information about the runs of a journey.
+ */
+export const getJourneyRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJourneyRunsRequest,
+  output: GetJourneyRunsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about all the versions of a specific message template.
+ */
+export const listTemplateVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTemplateVersionsRequest,
+    output: ListTemplateVersionsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about a phone number.
+ */
+export const phoneNumberValidate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PhoneNumberValidateRequest,
+  output: PhoneNumberValidateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
+ */
+export const removeAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveAttributesRequest,
+  output: RemoveAttributesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the settings for an application.
+ */
+export const updateApplicationSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateApplicationSettingsRequest,
+    output: UpdateApplicationSettingsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
+ */
+export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEndpointRequest,
+  output: UpdateEndpointResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
+ */
+export const updateEndpointsBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEndpointsBatchRequest,
+    output: UpdateEndpointsBatchResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Verify an OTP
+ */
+export const verifyOTPMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyOTPMessageRequest,
+  output: VerifyOTPMessageResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the configuration and other settings for a journey.
+ */
+export const updateJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateJourneyRequest,
+  output: UpdateJourneyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a journey from an application.
+ */
+export const deleteJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJourneyRequest,
+  output: DeleteJourneyResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -5609,22 +5276,6 @@ export const deleteSmsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a message template for messages that were sent through the SMS channel.
- */
-export const deleteSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSmsTemplateRequest,
-  output: DeleteSmsTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Deletes all the endpoints that are associated with a specific user ID.
  */
 export const deleteUserEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5656,72 +5307,6 @@ export const deleteVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes a message template for messages that were sent through the voice channel.
- */
-export const deleteVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVoiceTemplateRequest,
-  output: DeleteVoiceTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the ADM channel for an application.
- */
-export const getAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAdmChannelRequest,
-  output: GetAdmChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the APNs channel for an application.
- */
-export const getApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApnsChannelRequest,
-  output: GetApnsChannelResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of the APNs sandbox channel for an application.
- */
-export const getApnsSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApnsSandboxChannelRequest,
-    output: GetApnsSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
 /**
  * Retrieves information about the settings for an application.
  */
@@ -6188,23 +5773,6 @@ export const updateGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates the configuration and other settings for a journey.
- */
-export const updateJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateJourneyRequest,
-  output: UpdateJourneyResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Cancels (stops) an active journey.
  */
 export const updateJourneyState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -6288,6 +5856,806 @@ export const updateVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Deletes a message template for messages that were sent through a push notification channel.
+ */
+export const deletePushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePushTemplateRequest,
+  output: DeletePushTemplateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a message template for messages that were sent through the SMS channel.
+ */
+export const deleteSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSmsTemplateRequest,
+  output: DeleteSmsTemplateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a message template for messages that were sent through the voice channel.
+ */
+export const deleteVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVoiceTemplateRequest,
+  output: DeleteVoiceTemplateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the ADM channel for an application.
+ */
+export const getAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAdmChannelRequest,
+  output: GetAdmChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the APNs channel for an application.
+ */
+export const getApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApnsChannelRequest,
+  output: GetApnsChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the APNs sandbox channel for an application.
+ */
+export const getApnsSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetApnsSandboxChannelRequest,
+    output: GetApnsSandboxChannelResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about the status and settings of the APNs VoIP channel for an application.
+ */
+export const getApnsVoipChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApnsVoipChannelRequest,
+  output: GetApnsVoipChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
+ */
+export const getApnsVoipSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetApnsVoipSandboxChannelRequest,
+    output: GetApnsVoipSandboxChannelResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about an application.
+ */
+export const getApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAppRequest,
+  output: GetAppResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the Baidu channel for an application.
+ */
+export const getBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBaiduChannelRequest,
+  output: GetBaiduChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status, configuration, and other settings for a campaign.
+ */
+export const getCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCampaignRequest,
+  output: GetCampaignResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
+ */
+export const getCampaignVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCampaignVersionRequest,
+  output: GetCampaignVersionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status, configuration, and other settings for all versions of a campaign.
+ */
+export const getCampaignVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCampaignVersionsRequest,
+  output: GetCampaignVersionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the email channel for an application.
+ */
+export const getEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEmailChannelRequest,
+  output: GetEmailChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the settings and attributes of a specific endpoint for an application.
+ */
+export const getEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEndpointRequest,
+  output: GetEndpointResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the event stream settings for an application.
+ */
+export const getEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEventStreamRequest,
+  output: GetEventStreamResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the GCM channel for an application.
+ */
+export const getGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGcmChannelRequest,
+  output: GetGcmChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status, configuration, and other settings for a journey.
+ */
+export const getJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJourneyRequest,
+  output: GetJourneyResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about an Amazon Pinpoint configuration for a recommender model.
+ */
+export const getRecommenderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetRecommenderConfigurationRequest,
+    output: GetRecommenderConfigurationResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
+ */
+export const getSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSegmentRequest,
+  output: GetSegmentResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the export jobs for a segment.
+ */
+export const getSegmentExportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetSegmentExportJobsRequest,
+    output: GetSegmentExportJobsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about the status and settings of the import jobs for a segment.
+ */
+export const getSegmentImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetSegmentImportJobsRequest,
+    output: GetSegmentImportJobsResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
+ */
+export const getSegmentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSegmentVersionRequest,
+  output: GetSegmentVersionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
+ */
+export const getSegmentVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSegmentVersionsRequest,
+  output: GetSegmentVersionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the SMS channel for an application.
+ */
+export const getSmsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSmsChannelRequest,
+  output: GetSmsChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about all the endpoints that are associated with a specific user ID.
+ */
+export const getUserEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserEndpointsRequest,
+  output: GetUserEndpointsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieves information about the status and settings of the voice channel for an application.
+ */
+export const getVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVoiceChannelRequest,
+  output: GetVoiceChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the configuration and other settings for a campaign.
+ */
+export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCampaignRequest,
+  output: UpdateCampaignResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates an existing message template for messages that are sent through the email channel.
+ */
+export const updateEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEmailTemplateRequest,
+  output: UpdateEmailTemplateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates an existing message template for messages sent through the in-app message channel.
+ */
+export const updateInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInAppTemplateRequest,
+  output: UpdateInAppTemplateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates an existing message template for messages that are sent through a push notification channel.
+ */
+export const updatePushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePushTemplateRequest,
+  output: UpdatePushTemplateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
+ */
+export const updateSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSegmentRequest,
+  output: UpdateSegmentResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates an existing message template for messages that are sent through the SMS channel.
+ */
+export const updateSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSmsTemplateRequest,
+  output: UpdateSmsTemplateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates an existing message template for messages that are sent through the voice channel.
+ */
+export const updateVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVoiceTemplateRequest,
+  output: UpdateVoiceTemplateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates an export job for an application.
+ */
+export const createExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateExportJobRequest,
+  output: CreateExportJobResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates an import job for an application.
+ */
+export const createImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateImportJobRequest,
+  output: CreateImportJobResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates an Amazon Pinpoint configuration for a recommender model.
+ */
+export const createRecommenderConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateRecommenderConfigurationRequest,
+    output: CreateRecommenderConfigurationResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Disables the ADM channel for an application and deletes any existing settings for the channel.
+ */
+export const deleteAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAdmChannelRequest,
+  output: DeleteAdmChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Disables the APNs channel for an application and deletes any existing settings for the channel.
+ */
+export const deleteApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApnsChannelRequest,
+  output: DeleteApnsChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
+ */
+export const deleteApnsSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteApnsSandboxChannelRequest,
+    output: DeleteApnsSandboxChannelResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
+ */
+export const deleteApnsVoipChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteApnsVoipChannelRequest,
+    output: DeleteApnsVoipChannelResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
+ */
+export const deleteApnsVoipSandboxChannel =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteApnsVoipSandboxChannelRequest,
+    output: DeleteApnsVoipSandboxChannelResponse,
+    errors: [
+      BadRequestException,
+      ForbiddenException,
+      InternalServerErrorException,
+      MethodNotAllowedException,
+      NotFoundException,
+      PayloadTooLargeException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Deletes an application.
+ */
+export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppRequest,
+  output: DeleteAppResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Disables the Baidu channel for an application and deletes any existing settings for the channel.
+ */
+export const deleteBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBaiduChannelRequest,
+  output: DeleteBaiduChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Disables the email channel for an application and deletes any existing settings for the channel.
+ */
+export const deleteEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEmailChannelRequest,
+  output: DeleteEmailChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes a message template for messages that were sent through the email channel.
+ */
+export const deleteEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEmailTemplateRequest,
+  output: DeleteEmailTemplateResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes an endpoint from an application.
+ */
+export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEndpointRequest,
+  output: DeleteEndpointResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Deletes the event stream for an application.
+ */
+export const deleteEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventStreamRequest,
+  output: DeleteEventStreamResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Disables the GCM channel for an application and deletes any existing settings for the channel.
+ */
+export const deleteGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGcmChannelRequest,
+  output: DeleteGcmChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
+/**
  * Creates an application.
  */
 export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -6304,315 +6672,11 @@ export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a message template for messages that are sent through the email channel.
- */
-export const createEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEmailTemplateRequest,
-  output: CreateEmailTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a message template for messages that are sent through a push notification channel.
- */
-export const createPushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePushTemplateRequest,
-  output: CreatePushTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a message template for messages that are sent through the SMS channel.
- */
-export const createSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSmsTemplateRequest,
-  output: CreateSmsTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Deletes a campaign from an application.
  */
 export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
   output: DeleteCampaignResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about all the activities for a campaign.
- */
-export const getCampaignActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCampaignActivitiesRequest,
-    output: GetCampaignActivitiesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves information about the status and settings of a specific export job for an application.
- */
-export const getExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetExportJobRequest,
-  output: GetExportJobResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the status and settings of a specific import job for an application.
- */
-export const getImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetImportJobRequest,
-  output: GetImportJobResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Provides information about the runs of a journey.
- */
-export const getJourneyRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJourneyRunsRequest,
-  output: GetJourneyRunsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
- */
-export const listTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTemplatesRequest,
-  output: ListTemplatesResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about all the versions of a specific message template.
- */
-export const listTemplateVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTemplateVersionsRequest,
-    output: ListTemplateVersionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves information about a phone number.
- */
-export const phoneNumberValidate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PhoneNumberValidateRequest,
-  output: PhoneNumberValidateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
- */
-export const removeAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveAttributesRequest,
-  output: RemoveAttributesResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the settings for an application.
- */
-export const updateApplicationSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateApplicationSettingsRequest,
-    output: UpdateApplicationSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
- */
-export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEndpointRequest,
-  output: UpdateEndpointResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
- */
-export const updateEndpointsBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEndpointsBatchRequest,
-    output: UpdateEndpointsBatchResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Verify an OTP
- */
-export const verifyOTPMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: VerifyOTPMessageRequest,
-  output: VerifyOTPMessageResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes a segment from an application.
- */
-export const deleteSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSegmentRequest,
-  output: DeleteSegmentResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves information about the history and status of each channel for an application.
- */
-export const getChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetChannelsRequest,
-  output: GetChannelsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieves the in-app messages targeted for the provided endpoint ID.
- */
-export const getInAppMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInAppMessagesRequest,
-  output: GetInAppMessagesResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates and sends a message to a list of users.
- */
-export const sendUsersMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendUsersMessagesRequest,
-  output: SendUsersMessagesResponse,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -6640,75 +6704,11 @@ export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
- */
-export const getApplicationDateRangeKpi = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApplicationDateRangeKpiRequest,
-    output: GetApplicationDateRangeKpiResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Send an OTP message
- */
-export const sendOTPMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendOTPMessageRequest,
-  output: SendOTPMessageResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a new message template for messages using the in-app message channel.
- */
-export const createInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInAppTemplateRequest,
-  output: CreateInAppTemplateResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
 export const createSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSegmentRequest,
   output: CreateSegmentResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MethodNotAllowedException,
-    NotFoundException,
-    PayloadTooLargeException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates and sends a direct message.
- */
-export const sendMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendMessagesRequest,
-  output: SendMessagesResponse,
   errors: [
     BadRequestException,
     ForbiddenException,

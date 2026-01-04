@@ -1401,57 +1401,55 @@ export class CreateDeliveryStreamOutput extends S.Class<CreateDeliveryStreamOutp
 )({ DeliveryStreamARN: S.optional(S.String) }, ns) {}
 
 //# Errors
-export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
-  "InvalidArgumentException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
+  "InvalidArgumentException",
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidKMSResourceException extends S.TaggedError<InvalidKMSResourceException>()(
   "InvalidKMSResourceException",
-  {},
-) {}
-export class InvalidSourceException extends S.TaggedError<InvalidSourceException>()(
-  "InvalidSourceException",
-  {},
+  { code: S.optional(S.String), message: S.optional(S.String) },
 ) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
   { message: S.optional(S.String) },
 ) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidSourceException extends S.TaggedError<InvalidSourceException>()(
+  "InvalidSourceException",
+  { code: S.optional(S.String), message: S.optional(S.String) },
+) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Removes tags from the specified Firehose stream. Removed tags are deleted, and you
- * can't recover them after this operation successfully completes.
+ * Lists your Firehose streams in alphabetical order of their names.
  *
- * If you specify a tag that doesn't exist, the operation ignores it.
- *
- * This operation has a limit of five transactions per second per account.
+ * The number of Firehose streams might be too large to return using a single call to
+ * `ListDeliveryStreams`. You can limit the number of Firehose streams returned,
+ * using the `Limit` parameter. To determine whether there are more delivery
+ * streams to list, check the value of `HasMoreDeliveryStreams` in the output. If
+ * there are more Firehose streams to list, you can request them by calling this operation
+ * again and setting the `ExclusiveStartDeliveryStreamName` parameter to the name
+ * of the last Firehose stream returned in the last call.
  */
-export const untagDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagDeliveryStreamInput,
-  output: UntagDeliveryStreamOutput,
-  errors: [
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+export const listDeliveryStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDeliveryStreamsInput,
+  output: ListDeliveryStreamsOutput,
+  errors: [],
 }));
 /**
  * Deletes a Firehose stream and its data.
@@ -1479,36 +1477,45 @@ export const deleteDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists your Firehose streams in alphabetical order of their names.
+ * Updates the specified destination of the specified Firehose stream.
  *
- * The number of Firehose streams might be too large to return using a single call to
- * `ListDeliveryStreams`. You can limit the number of Firehose streams returned,
- * using the `Limit` parameter. To determine whether there are more delivery
- * streams to list, check the value of `HasMoreDeliveryStreams` in the output. If
- * there are more Firehose streams to list, you can request them by calling this operation
- * again and setting the `ExclusiveStartDeliveryStreamName` parameter to the name
- * of the last Firehose stream returned in the last call.
+ * Use this operation to change the destination type (for example, to replace the Amazon
+ * S3 destination with Amazon Redshift) or change the parameters associated with a destination
+ * (for example, to change the bucket name of the Amazon S3 destination). The update might not
+ * occur immediately. The target Firehose stream remains active while the configurations are
+ * updated, so data writes to the Firehose stream can continue during this process. The
+ * updated configurations are usually effective within a few minutes.
+ *
+ * Switching between Amazon OpenSearch Service and other services is not supported. For
+ * an Amazon OpenSearch Service destination, you can only update to another Amazon OpenSearch
+ * Service destination.
+ *
+ * If the destination type is the same, Firehose merges the configuration
+ * parameters specified with the destination configuration that already exists on the delivery
+ * stream. If any of the parameters are not specified in the call, the existing values are
+ * retained. For example, in the Amazon S3 destination, if EncryptionConfiguration is not specified, then the existing
+ * `EncryptionConfiguration` is maintained on the destination.
+ *
+ * If the destination type is not the same, for example, changing the destination from
+ * Amazon S3 to Amazon Redshift, Firehose does not merge any parameters. In this
+ * case, all parameters must be specified.
+ *
+ * Firehose uses `CurrentDeliveryStreamVersionId` to avoid race
+ * conditions and conflicting merges. This is a required field, and the service updates the
+ * configuration only if the existing configuration has a version ID that matches. After the
+ * update is applied successfully, the version ID is updated, and can be retrieved using DescribeDeliveryStream. Use the new version ID to set
+ * `CurrentDeliveryStreamVersionId` in the next call.
  */
-export const listDeliveryStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDeliveryStreamsInput,
-  output: ListDeliveryStreamsOutput,
-  errors: [],
+export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDestinationInput,
+  output: UpdateDestinationOutput,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
 }));
-/**
- * Lists the tags for the specified Firehose stream. This operation has a limit of five
- * transactions per second per account.
- */
-export const listTagsForDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTagsForDeliveryStreamInput,
-    output: ListTagsForDeliveryStreamOutput,
-    errors: [
-      InvalidArgumentException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
 /**
  * Disables server-side encryption (SSE) for the Firehose stream.
  *
@@ -1570,6 +1577,39 @@ export const tagDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Removes tags from the specified Firehose stream. Removed tags are deleted, and you
+ * can't recover them after this operation successfully completes.
+ *
+ * If you specify a tag that doesn't exist, the operation ignores it.
+ *
+ * This operation has a limit of five transactions per second per account.
+ */
+export const untagDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagDeliveryStreamInput,
+  output: UntagDeliveryStreamOutput,
+  errors: [
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Lists the tags for the specified Firehose stream. This operation has a limit of five
+ * transactions per second per account.
+ */
+export const listTagsForDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTagsForDeliveryStreamInput,
+    output: ListTagsForDeliveryStreamOutput,
+    errors: [
+      InvalidArgumentException,
+      LimitExceededException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
  * Enables server-side encryption (SSE) for the Firehose stream.
  *
  * This operation is asynchronous. It returns immediately. When you invoke it, Firehose first sets the encryption status of the stream to `ENABLING`, and then
@@ -1629,46 +1669,6 @@ export const startDeliveryStreamEncryption =
       ResourceNotFoundException,
     ],
   }));
-/**
- * Updates the specified destination of the specified Firehose stream.
- *
- * Use this operation to change the destination type (for example, to replace the Amazon
- * S3 destination with Amazon Redshift) or change the parameters associated with a destination
- * (for example, to change the bucket name of the Amazon S3 destination). The update might not
- * occur immediately. The target Firehose stream remains active while the configurations are
- * updated, so data writes to the Firehose stream can continue during this process. The
- * updated configurations are usually effective within a few minutes.
- *
- * Switching between Amazon OpenSearch Service and other services is not supported. For
- * an Amazon OpenSearch Service destination, you can only update to another Amazon OpenSearch
- * Service destination.
- *
- * If the destination type is the same, Firehose merges the configuration
- * parameters specified with the destination configuration that already exists on the delivery
- * stream. If any of the parameters are not specified in the call, the existing values are
- * retained. For example, in the Amazon S3 destination, if EncryptionConfiguration is not specified, then the existing
- * `EncryptionConfiguration` is maintained on the destination.
- *
- * If the destination type is not the same, for example, changing the destination from
- * Amazon S3 to Amazon Redshift, Firehose does not merge any parameters. In this
- * case, all parameters must be specified.
- *
- * Firehose uses `CurrentDeliveryStreamVersionId` to avoid race
- * conditions and conflicting merges. This is a required field, and the service updates the
- * configuration only if the existing configuration has a version ID that matches. After the
- * update is applied successfully, the version ID is updated, and can be retrieved using DescribeDeliveryStream. Use the new version ID to set
- * `CurrentDeliveryStreamVersionId` in the next call.
- */
-export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDestinationInput,
-  output: UpdateDestinationOutput,
-  errors: [
-    ConcurrentModificationException,
-    InvalidArgumentException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Writes a single data record into an Firehose stream. To
  * write multiple data records into a Firehose stream, use PutRecordBatch.

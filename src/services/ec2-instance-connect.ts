@@ -272,33 +272,38 @@ export class SendSSHPublicKeyResponse extends S.Class<SendSSHPublicKeyResponse>(
 //# Errors
 export class AuthException extends S.TaggedError<AuthException>()(
   "AuthException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "Forbidden", httpResponseCode: 403 }),
 ) {}
 export class EC2InstanceNotFoundException extends S.TaggedError<EC2InstanceNotFoundException>()(
   "EC2InstanceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "EC2InstanceNotFound", httpResponseCode: 404 }),
 ) {}
 export class EC2InstanceStateInvalidException extends S.TaggedError<EC2InstanceStateInvalidException>()(
   "EC2InstanceStateInvalidException",
-  {},
-  T.AwsQueryError({ code: "EC2InstanceStateInvalid", httpResponseCode: 400 }),
-) {}
-export class EC2InstanceUnavailableException extends S.TaggedError<EC2InstanceUnavailableException>()(
-  "EC2InstanceUnavailableException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "EC2InstanceUnavailable", httpResponseCode: 503 }),
+  T.AwsQueryError({ code: "EC2InstanceStateInvalid", httpResponseCode: 400 }),
 ) {}
 export class EC2InstanceTypeInvalidException extends S.TaggedError<EC2InstanceTypeInvalidException>()(
   "EC2InstanceTypeInvalidException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "EC2InstanceTypeInvalid", httpResponseCode: 400 }),
 ) {}
+export class EC2InstanceUnavailableException extends S.TaggedError<EC2InstanceUnavailableException>()(
+  "EC2InstanceUnavailableException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "EC2InstanceUnavailable", httpResponseCode: 503 }),
+) {}
 export class InvalidArgsException extends S.TaggedError<InvalidArgsException>()(
   "InvalidArgsException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidArguments", httpResponseCode: 400 }),
+) {}
+export class ServiceException extends S.TaggedError<ServiceException>()(
+  "ServiceException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
 ) {}
 export class SerialConsoleAccessDisabledException extends S.TaggedError<SerialConsoleAccessDisabledException>()(
   "SerialConsoleAccessDisabledException",
@@ -308,10 +313,10 @@ export class SerialConsoleAccessDisabledException extends S.TaggedError<SerialCo
     httpResponseCode: 403,
   }),
 ) {}
-export class ServiceException extends S.TaggedError<ServiceException>()(
-  "ServiceException",
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
+  T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
 ) {}
 export class SerialConsoleSessionLimitExceededException extends S.TaggedError<SerialConsoleSessionLimitExceededException>()(
   "SerialConsoleSessionLimitExceededException",
@@ -320,11 +325,6 @@ export class SerialConsoleSessionLimitExceededException extends S.TaggedError<Se
     code: "SerialConsoleSessionLimitExceeded",
     httpResponseCode: 400,
   }),
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
 ) {}
 export class SerialConsoleSessionUnavailableException extends S.TaggedError<SerialConsoleSessionUnavailableException>()(
   "SerialConsoleSessionUnavailableException",

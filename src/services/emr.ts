@@ -2000,46 +2000,16 @@ export class InternalServerError extends S.TaggedError<InternalServerError>()(
   {},
   T.AwsQueryError({ code: "InternalFailure", httpResponseCode: 500 }),
 ) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Removes an Amazon EMR Studio from the Studio metadata store.
- */
-export const deleteStudio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStudioInput,
-  output: DeleteStudioResponse,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Removes a user or group from an Amazon EMR Studio.
- */
-export const deleteStudioSessionMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStudioSessionMappingInput,
-    output: DeleteStudioSessionMappingResponse,
-    errors: [InternalServerError, InvalidRequestException],
-  }),
-);
-/**
- * Creates or updates an Amazon EMR block public access configuration for your
- * Amazon Web Services account in the current Region. For more information see Configure Block
- * Public Access for Amazon EMR in the Amazon EMR
- * Management Guide.
- */
-export const putBlockPublicAccessConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBlockPublicAccessConfigurationInput,
-    output: PutBlockPublicAccessConfigurationOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }));
 /**
  * Removes an automatic scaling policy from a specified instance group within an Amazon EMR cluster.
  */
@@ -2070,19 +2040,6 @@ export const removeManagedScalingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [],
   }),
 );
-/**
- * Removes tags from an Amazon EMR resource, such as a cluster or Amazon EMR Studio. Tags make it easier to associate resources in various ways, such as grouping
- * clusters to track your Amazon EMR resource allocation costs. For more information,
- * see Tag
- * Clusters.
- *
- * The following example removes the stack tag with value Prod from a cluster:
- */
-export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTagsInput,
-  output: RemoveTagsOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
 /**
  * You can use the `SetKeepJobFlowAliveWhenNoSteps` to configure a cluster (job flow) to terminate after the step execution, i.e., all your
  * steps are executed. If you want a transient cluster that shuts down after the last of the current executing steps are completed,
@@ -2171,16 +2128,6 @@ export const setVisibleToAllUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Stops a notebook execution.
- */
-export const stopNotebookExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopNotebookExecutionInput,
-    output: StopNotebookExecutionResponse,
-    errors: [InternalServerError, InvalidRequestException],
-  }),
-);
-/**
  * TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut
  * down, any step not yet completed is canceled and the Amazon EC2 instances on which
  * the cluster is running are stopped. Any log files not already saved are uploaded to Amazon S3 if a LogUri was specified when the cluster was created.
@@ -2194,56 +2141,6 @@ export const terminateJobFlows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateJobFlowsInput,
   output: TerminateJobFlowsResponse,
   errors: [InternalServerError],
-}));
-/**
- * Updates an Amazon EMR Studio configuration, including attributes such as name,
- * description, and subnets.
- */
-export const updateStudio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateStudioInput,
-  output: UpdateStudioResponse,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
- */
-export const updateStudioSessionMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStudioSessionMappingInput,
-    output: UpdateStudioSessionMappingResponse,
-    errors: [InternalServerError, InvalidRequestException],
-  }),
-);
-/**
- * Adds tags to an Amazon EMR resource, such as a cluster or an Amazon EMR
- * Studio. Tags make it easier to associate resources in various ways, such as grouping
- * clusters to track your Amazon EMR resource allocation costs. For more information,
- * see Tag
- * Clusters.
- */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsInput,
-  output: AddTagsOutput,
-  errors: [InternalServerException, InvalidRequestException],
-}));
-/**
- * Creates a security configuration, which is stored in the service and can be specified
- * when a cluster is created.
- */
-export const createSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSecurityConfigurationInput,
-    output: CreateSecurityConfigurationOutput,
-    errors: [InternalServerException, InvalidRequestException],
-  }),
-);
-/**
- * Creates a new Amazon EMR Studio.
- */
-export const createStudio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStudioInput,
-  output: CreateStudioOutput,
-  errors: [InternalServerException, InvalidRequestException],
 }));
 /**
  * Maps a user or group to the Amazon EMR Studio specified by
@@ -2356,6 +2253,109 @@ export const putAutoTerminationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [],
   }),
 );
+/**
+ * Removes a user or group from an Amazon EMR Studio.
+ */
+export const deleteStudioSessionMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteStudioSessionMappingInput,
+    output: DeleteStudioSessionMappingResponse,
+    errors: [InternalServerError, InvalidRequestException],
+  }),
+);
+/**
+ * Stops a notebook execution.
+ */
+export const stopNotebookExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopNotebookExecutionInput,
+    output: StopNotebookExecutionResponse,
+    errors: [InternalServerError, InvalidRequestException],
+  }),
+);
+/**
+ * Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
+ */
+export const updateStudioSessionMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateStudioSessionMappingInput,
+    output: UpdateStudioSessionMappingResponse,
+    errors: [InternalServerError, InvalidRequestException],
+  }),
+);
+/**
+ * Removes an Amazon EMR Studio from the Studio metadata store.
+ */
+export const deleteStudio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStudioInput,
+  output: DeleteStudioResponse,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Creates or updates an Amazon EMR block public access configuration for your
+ * Amazon Web Services account in the current Region. For more information see Configure Block
+ * Public Access for Amazon EMR in the Amazon EMR
+ * Management Guide.
+ */
+export const putBlockPublicAccessConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutBlockPublicAccessConfigurationInput,
+    output: PutBlockPublicAccessConfigurationOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }));
+/**
+ * Removes tags from an Amazon EMR resource, such as a cluster or Amazon EMR Studio. Tags make it easier to associate resources in various ways, such as grouping
+ * clusters to track your Amazon EMR resource allocation costs. For more information,
+ * see Tag
+ * Clusters.
+ *
+ * The following example removes the stack tag with value Prod from a cluster:
+ */
+export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsInput,
+  output: RemoveTagsOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Updates an Amazon EMR Studio configuration, including attributes such as name,
+ * description, and subnets.
+ */
+export const updateStudio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStudioInput,
+  output: UpdateStudioResponse,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Adds tags to an Amazon EMR resource, such as a cluster or an Amazon EMR
+ * Studio. Tags make it easier to associate resources in various ways, such as grouping
+ * clusters to track your Amazon EMR resource allocation costs. For more information,
+ * see Tag
+ * Clusters.
+ */
+export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsInput,
+  output: AddTagsOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
+/**
+ * Creates a security configuration, which is stored in the service and can be specified
+ * when a cluster is created.
+ */
+export const createSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateSecurityConfigurationInput,
+    output: CreateSecurityConfigurationOutput,
+    errors: [InternalServerException, InvalidRequestException],
+  }),
+);
+/**
+ * Creates a new Amazon EMR Studio.
+ */
+export const createStudio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStudioInput,
+  output: CreateStudioOutput,
+  errors: [InternalServerException, InvalidRequestException],
+}));
 /**
  * Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in
  * each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee

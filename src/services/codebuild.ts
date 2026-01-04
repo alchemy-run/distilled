@@ -1730,30 +1730,107 @@ export class BatchGetBuildBatchesOutput extends S.Class<BatchGetBuildBatchesOutp
 //# Errors
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class OAuthProviderException extends S.TaggedError<OAuthProviderException>()(
-  "OAuthProviderException",
   { message: S.optional(S.String) },
 ) {}
 export class AccountLimitExceededException extends S.TaggedError<AccountLimitExceededException>()(
   "AccountLimitExceededException",
-  {},
-) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
-  "ResourceAlreadyExistsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class AccountSuspendedException extends S.TaggedError<AccountSuspendedException>()(
   "AccountSuspendedException",
   { message: S.optional(S.String) },
 ) {}
+export class OAuthProviderException extends S.TaggedError<OAuthProviderException>()(
+  "OAuthProviderException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+  "ResourceAlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
+ */
+export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFleetInput,
+  output: DeleteFleetOutput,
+  errors: [InvalidInputException],
+}));
+/**
+ * Gets a list of build IDs, with each build ID representing a single build.
+ */
+export const listBuilds = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBuildsInput,
+  output: ListBuildsOutput,
+  errors: [InvalidInputException],
+}));
+/**
+ * Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
+ */
+export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFleetsInput,
+  output: ListFleetsOutput,
+  errors: [InvalidInputException],
+}));
+/**
+ * Gets a list of build project names, with each build project name representing a single
+ * build project.
+ */
+export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProjectsInput,
+  output: ListProjectsOutput,
+  errors: [InvalidInputException],
+}));
+/**
+ * Gets a list ARNs for the report groups in the current Amazon Web Services account.
+ */
+export const listReportGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListReportGroupsInput,
+  output: ListReportGroupsOutput,
+  errors: [InvalidInputException],
+}));
+/**
+ * Gets a list of sandboxes.
+ */
+export const listSandboxes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSandboxesInput,
+  output: ListSandboxesOutput,
+  errors: [InvalidInputException],
+}));
+/**
+ * Gets a list of projects that are shared with other Amazon Web Services accounts or users.
+ */
+export const listSharedProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSharedProjectsInput,
+  output: ListSharedProjectsOutput,
+  errors: [InvalidInputException],
+}));
+/**
+ * Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
+ */
+export const listSharedReportGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSharedReportGroupsInput,
+    output: ListSharedReportGroupsOutput,
+    errors: [InvalidInputException],
+  }),
+);
+/**
+ * Returns a list of `SourceCredentialsInfo` objects.
+ */
+export const listSourceCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSourceCredentialsInput,
+    output: ListSourceCredentialsOutput,
+    errors: [InvalidInputException],
+  }),
+);
 /**
  * Deletes a build project. When you delete a project, its builds are not deleted.
  */
@@ -1797,310 +1874,6 @@ export const deleteBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidInputException],
 }));
 /**
- * Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
- */
-export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFleetInput,
-  output: DeleteFleetOutput,
-  errors: [InvalidInputException],
-}));
-/**
- * Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
- */
-export const deleteSourceCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSourceCredentialsInput,
-    output: DeleteSourceCredentialsOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
-/**
- * For an existing CodeBuild build project that has its source code stored in a GitHub or
- * Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code
- * change is pushed to the repository.
- */
-export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWebhookInput,
-  output: DeleteWebhookOutput,
-  errors: [
-    InvalidInputException,
-    OAuthProviderException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Gets a resource policy that is identified by its resource ARN.
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyInput,
-  output: GetResourcePolicyOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Resets the cache for a project.
- */
-export const invalidateProjectCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: InvalidateProjectCacheInput,
-    output: InvalidateProjectCacheOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
-/**
- * Retrieves the identifiers of the build batches for a specific project.
- */
-export const listBuildBatchesForProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBuildBatchesForProjectInput,
-    output: ListBuildBatchesForProjectOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
-/**
- * Gets a list of build IDs, with each build ID representing a single build.
- */
-export const listBuilds = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBuildsInput,
-  output: ListBuildsOutput,
-  errors: [InvalidInputException],
-}));
-/**
- * Gets a list of build identifiers for the specified build project, with each build
- * identifier representing a single build.
- */
-export const listBuildsForProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBuildsForProjectInput,
-    output: ListBuildsForProjectOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
-/**
- * Gets a list of command executions for a sandbox.
- */
-export const listCommandExecutionsForSandbox =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCommandExecutionsForSandboxInput,
-    output: ListCommandExecutionsForSandboxOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }));
-/**
- * Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
- */
-export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFleetsInput,
-  output: ListFleetsOutput,
-  errors: [InvalidInputException],
-}));
-/**
- * Gets a list of build project names, with each build project name representing a single
- * build project.
- */
-export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListProjectsInput,
-  output: ListProjectsOutput,
-  errors: [InvalidInputException],
-}));
-/**
- * Gets a list ARNs for the report groups in the current Amazon Web Services account.
- */
-export const listReportGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListReportGroupsInput,
-  output: ListReportGroupsOutput,
-  errors: [InvalidInputException],
-}));
-/**
- * Returns a list of ARNs for the reports that belong to a `ReportGroup`.
- */
-export const listReportsForReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListReportsForReportGroupInput,
-    output: ListReportsForReportGroupOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
-/**
- * Gets a list of sandboxes.
- */
-export const listSandboxes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSandboxesInput,
-  output: ListSandboxesOutput,
-  errors: [InvalidInputException],
-}));
-/**
- * Gets a list of sandboxes for a given project.
- */
-export const listSandboxesForProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSandboxesForProjectInput,
-    output: ListSandboxesForProjectOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
-/**
- * Gets a list of projects that are shared with other Amazon Web Services accounts or users.
- */
-export const listSharedProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSharedProjectsInput,
-  output: ListSharedProjectsOutput,
-  errors: [InvalidInputException],
-}));
-/**
- * Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
- */
-export const listSharedReportGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSharedReportGroupsInput,
-    output: ListSharedReportGroupsOutput,
-    errors: [InvalidInputException],
-  }),
-);
-/**
- * Returns a list of `SourceCredentialsInfo` objects.
- */
-export const listSourceCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSourceCredentialsInput,
-    output: ListSourceCredentialsOutput,
-    errors: [InvalidInputException],
-  }),
-);
-/**
- * Stores a resource policy for the ARN of a `Project` or
- * `ReportGroup` object.
- */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyInput,
-  output: PutResourcePolicyOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Restarts a build.
- */
-export const retryBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RetryBuildInput,
-  output: RetryBuildOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Restarts a failed batch build. Only batch builds that have failed can be retried.
- */
-export const retryBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RetryBuildBatchInput,
-  output: RetryBuildBatchOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Starts a batch build for a project.
- */
-export const startBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartBuildBatchInput,
-  output: StartBuildBatchOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Starts a command execution.
- */
-export const startCommandExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCommandExecutionInput,
-    output: StartCommandExecutionOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
-/**
- * Attempts to stop running a build.
- */
-export const stopBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopBuildInput,
-  output: StopBuildOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Stops a running batch build.
- */
-export const stopBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopBuildBatchInput,
-  output: StopBuildBatchOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Stops a sandbox.
- */
-export const stopSandbox = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopSandboxInput,
-  output: StopSandboxOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Updates a compute fleet.
- */
-export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFleetInput,
-  output: UpdateFleetOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Changes the settings of a build project.
- */
-export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProjectInput,
-  output: UpdateProjectOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Changes the public visibility for a project. The project's build results, logs, and
- * artifacts are available to the general public. For more information, see Public build
- * projects in the *CodeBuild User Guide*.
- *
- * The following should be kept in mind when making your projects public:
- *
- * - All of a project's build results, logs, and artifacts, including builds that were run
- * when the project was private, are available to the general public.
- *
- * - All build logs and artifacts are available to the public. Environment variables, source
- * code, and other sensitive information may have been output to the build logs and artifacts.
- * You must be careful about what information is output to the build logs. Some best practice
- * are:
- *
- * - Do not store sensitive values in environment variables. We recommend that you use an Amazon EC2 Systems Manager Parameter Store
- * or Secrets Manager to store sensitive values.
- *
- * - Follow Best
- * practices for using webhooks in the CodeBuild User
- * Guide to limit which entities can trigger a build, and do
- * not store the buildspec in the project itself, to ensure that your webhooks are as
- * secure as possible.
- *
- * - A malicious user can use public builds to distribute malicious artifacts. We recommend
- * that you review all pull requests to verify that the pull request is a legitimate change. We
- * also recommend that you validate any artifacts with their checksums to make sure that the
- * correct artifacts are being downloaded.
- */
-export const updateProjectVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProjectVisibilityInput,
-    output: UpdateProjectVisibilityOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
-/**
- * Updates a report group.
- */
-export const updateReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateReportGroupInput,
-  output: UpdateReportGroupOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
  * Deletes one or more builds.
  */
 export const batchDeleteBuilds = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2129,6 +1902,16 @@ export const batchGetReportGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
+ */
+export const deleteSourceCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSourceCredentialsInput,
+    output: DeleteSourceCredentialsOutput,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
  * Retrieves one or more code coverage reports.
  */
 export const describeCodeCoverages = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2146,21 +1929,6 @@ export const getReportGroupTrend = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetReportGroupTrendOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
-/**
- * Imports the source repository credentials for an CodeBuild project that has its
- * source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
- */
-export const importSourceCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportSourceCredentialsInput,
-    output: ImportSourceCredentialsOutput,
-    errors: [
-      AccountLimitExceededException,
-      InvalidInputException,
-      ResourceAlreadyExistsException,
-    ],
-  }),
-);
 /**
  * Retrieves the identifiers of your build batches in the current region.
  */
@@ -2216,6 +1984,223 @@ export const startSandboxConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * For an existing CodeBuild build project that has its source code stored in a GitHub or
+ * Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code
+ * change is pushed to the repository.
+ */
+export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWebhookInput,
+  output: DeleteWebhookOutput,
+  errors: [
+    InvalidInputException,
+    OAuthProviderException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Gets a resource policy that is identified by its resource ARN.
+ */
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyInput,
+  output: GetResourcePolicyOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Retrieves the identifiers of the build batches for a specific project.
+ */
+export const listBuildBatchesForProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListBuildBatchesForProjectInput,
+    output: ListBuildBatchesForProjectOutput,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Gets a list of build identifiers for the specified build project, with each build
+ * identifier representing a single build.
+ */
+export const listBuildsForProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListBuildsForProjectInput,
+    output: ListBuildsForProjectOutput,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Gets a list of command executions for a sandbox.
+ */
+export const listCommandExecutionsForSandbox =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCommandExecutionsForSandboxInput,
+    output: ListCommandExecutionsForSandboxOutput,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }));
+/**
+ * Returns a list of ARNs for the reports that belong to a `ReportGroup`.
+ */
+export const listReportsForReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListReportsForReportGroupInput,
+    output: ListReportsForReportGroupOutput,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Gets a list of sandboxes for a given project.
+ */
+export const listSandboxesForProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSandboxesForProjectInput,
+    output: ListSandboxesForProjectOutput,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Stores a resource policy for the ARN of a `Project` or
+ * `ReportGroup` object.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyInput,
+  output: PutResourcePolicyOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Restarts a failed batch build. Only batch builds that have failed can be retried.
+ */
+export const retryBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetryBuildBatchInput,
+  output: RetryBuildBatchOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Starts a batch build for a project.
+ */
+export const startBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartBuildBatchInput,
+  output: StartBuildBatchOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Starts a command execution.
+ */
+export const startCommandExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartCommandExecutionInput,
+    output: StartCommandExecutionOutput,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Attempts to stop running a build.
+ */
+export const stopBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopBuildInput,
+  output: StopBuildOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Stops a running batch build.
+ */
+export const stopBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopBuildBatchInput,
+  output: StopBuildBatchOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Stops a sandbox.
+ */
+export const stopSandbox = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopSandboxInput,
+  output: StopSandboxOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Changes the settings of a build project.
+ */
+export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProjectInput,
+  output: UpdateProjectOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Changes the public visibility for a project. The project's build results, logs, and
+ * artifacts are available to the general public. For more information, see Public build
+ * projects in the *CodeBuild User Guide*.
+ *
+ * The following should be kept in mind when making your projects public:
+ *
+ * - All of a project's build results, logs, and artifacts, including builds that were run
+ * when the project was private, are available to the general public.
+ *
+ * - All build logs and artifacts are available to the public. Environment variables, source
+ * code, and other sensitive information may have been output to the build logs and artifacts.
+ * You must be careful about what information is output to the build logs. Some best practice
+ * are:
+ *
+ * - Do not store sensitive values in environment variables. We recommend that you use an Amazon EC2 Systems Manager Parameter Store
+ * or Secrets Manager to store sensitive values.
+ *
+ * - Follow Best
+ * practices for using webhooks in the CodeBuild User
+ * Guide to limit which entities can trigger a build, and do
+ * not store the buildspec in the project itself, to ensure that your webhooks are as
+ * secure as possible.
+ *
+ * - A malicious user can use public builds to distribute malicious artifacts. We recommend
+ * that you review all pull requests to verify that the pull request is a legitimate change. We
+ * also recommend that you validate any artifacts with their checksums to make sure that the
+ * correct artifacts are being downloaded.
+ */
+export const updateProjectVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateProjectVisibilityInput,
+    output: UpdateProjectVisibilityOutput,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Updates a report group.
+ */
+export const updateReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReportGroupInput,
+  output: UpdateReportGroupOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Resets the cache for a project.
+ */
+export const invalidateProjectCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: InvalidateProjectCacheInput,
+    output: InvalidateProjectCacheOutput,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }),
+);
+/**
+ * Restarts a build.
+ */
+export const retryBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetryBuildInput,
+  output: RetryBuildOutput,
+  errors: [
+    AccountLimitExceededException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates a compute fleet.
+ */
+export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFleetInput,
+  output: UpdateFleetOutput,
+  errors: [
+    AccountLimitExceededException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
  * Updates the webhook associated with an CodeBuild build project.
  *
  * If you use Bitbucket for your repository, `rotateSecret` is ignored.
@@ -2254,29 +2239,37 @@ export const batchGetProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidInputException],
 }));
 /**
- * Creates a compute fleet.
+ * Returns a list of details about test cases for a report.
  */
-export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFleetInput,
-  output: CreateFleetOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceAlreadyExistsException,
-  ],
+export const describeTestCases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTestCasesInput,
+  output: DescribeTestCasesOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
 }));
 /**
- * Creates a report group. A report group contains a collection of reports.
+ * Imports the source repository credentials for an CodeBuild project that has its
+ * source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
  */
-export const createReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateReportGroupInput,
-  output: CreateReportGroupOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceAlreadyExistsException,
-  ],
-}));
+export const importSourceCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ImportSourceCredentialsInput,
+    output: ImportSourceCredentialsOutput,
+    errors: [
+      AccountLimitExceededException,
+      InvalidInputException,
+      ResourceAlreadyExistsException,
+    ],
+  }),
+);
+/**
+ * Gets information about Docker images that are managed by CodeBuild.
+ */
+export const listCuratedEnvironmentImages =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCuratedEnvironmentImagesInput,
+    output: ListCuratedEnvironmentImagesOutput,
+    errors: [],
+  }));
 /**
  * For an existing CodeBuild build project that has its source code stored in a GitHub or
  * Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a
@@ -2300,22 +2293,29 @@ export const createWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of details about test cases for a report.
+ * Creates a compute fleet.
  */
-export const describeTestCases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTestCasesInput,
-  output: DescribeTestCasesOutput,
-  errors: [InvalidInputException, ResourceNotFoundException],
+export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFleetInput,
+  output: CreateFleetOutput,
+  errors: [
+    AccountLimitExceededException,
+    InvalidInputException,
+    ResourceAlreadyExistsException,
+  ],
 }));
 /**
- * Gets information about Docker images that are managed by CodeBuild.
+ * Creates a report group. A report group contains a collection of reports.
  */
-export const listCuratedEnvironmentImages =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCuratedEnvironmentImagesInput,
-    output: ListCuratedEnvironmentImagesOutput,
-    errors: [],
-  }));
+export const createReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReportGroupInput,
+  output: CreateReportGroupOutput,
+  errors: [
+    AccountLimitExceededException,
+    InvalidInputException,
+    ResourceAlreadyExistsException,
+  ],
+}));
 /**
  * Returns an array of reports.
  */

@@ -709,27 +709,27 @@ export class CreateTableResponse extends S.Class<CreateTableResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "AccessDeniedException", httpResponseCode: 403 }),
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String), resourceArn: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ServiceQuotaExceededException",
     httpResponseCode: 402,
@@ -737,11 +737,74 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 
 //# Operations
+/**
+ * The `CreateKeyspace` operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.
+ *
+ * `CreateKeyspace` is an asynchronous operation. You can monitor the creation status of the new keyspace by using the `GetKeyspace` operation.
+ *
+ * For more information, see Create a keyspace in the *Amazon Keyspaces Developer Guide*.
+ */
+export const createKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateKeyspaceRequest,
+  output: CreateKeyspaceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * The `ListKeyspaces` operation returns a list of keyspaces.
+ */
+export const listKeyspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListKeyspacesRequest,
+  output: ListKeyspacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * The `ListTables` operation returns a list of tables for a specified keyspace.
+ *
+ * To read keyspace metadata using `ListTables`, the IAM principal needs `Select` action permissions for the system keyspace.
+ */
+export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTablesRequest,
+  output: ListTablesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
+ */
+export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTableRequest,
+  output: UpdateTableResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * The `DeleteType` operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT.
  *
@@ -753,54 +816,6 @@ export const deleteType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * The `GetType` operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.
- *
- * To read keyspace metadata using `GetType`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
- */
-export const getType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTypeRequest,
-  output: GetTypeResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of all tags associated with the specified Amazon Keyspaces resource.
- *
- * To read keyspace metadata using `ListTagsForResource`, the IAM principal needs `Select` action permissions for the specified resource and the system keyspace.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * The `ListTypes` operation returns a list of types for a specified keyspace.
- *
- * To read keyspace metadata using `ListTypes`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
- */
-export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTypesRequest,
-  output: ListTypesResponse,
-  errors: [
-    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
@@ -839,38 +854,6 @@ export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const restoreTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreTableRequest,
   output: RestoreTableResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the *Amazon Keyspaces Developer Guide*.
- *
- * For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the *Amazon Keyspaces Developer Guide*.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the association of tags from a Amazon Keyspaces resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -936,19 +919,48 @@ export const updateKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * The `CreateKeyspace` operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.
- *
- * `CreateKeyspace` is an asynchronous operation. You can monitor the creation status of the new keyspace by using the `GetKeyspace` operation.
- *
- * For more information, see Create a keyspace in the *Amazon Keyspaces Developer Guide*.
+ * The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable` request is received, the specified table is in the `DELETING` state until Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is returned.
  */
-export const createKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateKeyspaceRequest,
-  output: CreateKeyspaceResponse,
+export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableRequest,
+  output: DeleteTableResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the *Amazon Keyspaces Developer Guide*.
+ *
+ * For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the *Amazon Keyspaces Developer Guide*.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the association of tags from a Amazon Keyspaces resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
   ],
@@ -973,14 +985,15 @@ export const createType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
+ * Returns a list of all tags associated with the specified Amazon Keyspaces resource.
+ *
+ * To read keyspace metadata using `ListTagsForResource`, the IAM principal needs `Select` action permissions for the specified resource and the system keyspace.
  */
-export const deleteKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteKeyspaceRequest,
-  output: DeleteKeyspaceResponse,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
@@ -988,11 +1001,27 @@ export const deleteKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable` request is received, the specified table is in the `DELETING` state until Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is returned.
+ * The `ListTypes` operation returns a list of types for a specified keyspace.
+ *
+ * To read keyspace metadata using `ListTypes`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
-export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTableRequest,
-  output: DeleteTableResponse,
+export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTypesRequest,
+  output: ListTypesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
+ */
+export const deleteKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteKeyspaceRequest,
+  output: DeleteKeyspaceResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1059,44 +1088,15 @@ export const getTableAutoScalingSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * The `ListKeyspaces` operation returns a list of keyspaces.
- */
-export const listKeyspaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListKeyspacesRequest,
-  output: ListKeyspacesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * The `ListTables` operation returns a list of tables for a specified keyspace.
+ * The `GetType` operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.
  *
- * To read keyspace metadata using `ListTables`, the IAM principal needs `Select` action permissions for the system keyspace.
+ * To read keyspace metadata using `GetType`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
-export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTablesRequest,
-  output: ListTablesResponse,
+export const getType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTypeRequest,
+  output: GetTypeResponse,
   errors: [
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
- */
-export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTableRequest,
-  output: UpdateTableResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,

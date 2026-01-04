@@ -1698,65 +1698,77 @@ export class SearchResourcesResponse extends S.Class<SearchResourcesResponse>(
 )({ Items: S.optional(ResponseItemsList), Marker: S.optional(S.String) }, ns) {}
 
 //# Errors
-export class EntityNotExistsException extends S.TaggedError<EntityNotExistsException>()(
-  "EntityNotExistsException",
-  {},
-) {}
-export class FailedDependencyException extends S.TaggedError<FailedDependencyException>()(
-  "FailedDependencyException",
-  {},
-) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class ConflictingOperationException extends S.TaggedError<ConflictingOperationException>()(
-  "ConflictingOperationException",
-  {},
-) {}
-export class ProhibitedStateException extends S.TaggedError<ProhibitedStateException>()(
-  "ProhibitedStateException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class UnauthorizedOperationException extends S.TaggedError<UnauthorizedOperationException>()(
-  "UnauthorizedOperationException",
-  {},
-) {}
-export class UnauthorizedResourceAccessException extends S.TaggedError<UnauthorizedResourceAccessException>()(
-  "UnauthorizedResourceAccessException",
-  {},
-) {}
-export class InvalidOperationException extends S.TaggedError<InvalidOperationException>()(
-  "InvalidOperationException",
-  {},
-) {}
-export class EntityAlreadyExistsException extends S.TaggedError<EntityAlreadyExistsException>()(
-  "EntityAlreadyExistsException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+export class EntityNotExistsException extends S.TaggedError<EntityNotExistsException>()(
+  "EntityNotExistsException",
+  { Message: S.optional(S.String), EntityIds: S.optional(EntityIdList) },
 ) {}
 export class DocumentLockedForCommentsException extends S.TaggedError<DocumentLockedForCommentsException>()(
   "DocumentLockedForCommentsException",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
-  "InvalidArgumentException",
-  {},
+export class ConflictingOperationException extends S.TaggedError<ConflictingOperationException>()(
+  "ConflictingOperationException",
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidPasswordException extends S.TaggedError<InvalidPasswordException>()(
-  "InvalidPasswordException",
-  {},
+export class FailedDependencyException extends S.TaggedError<FailedDependencyException>()(
+  "FailedDependencyException",
+  { Message: S.optional(S.String) },
 ) {}
 export class CustomMetadataLimitExceededException extends S.TaggedError<CustomMetadataLimitExceededException>()(
   "CustomMetadataLimitExceededException",
   { Message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { Message: S.optional(S.String) },
+) {}
+export class DeactivatingLastSystemUserException extends S.TaggedError<DeactivatingLastSystemUserException>()(
+  "DeactivatingLastSystemUserException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidOperationException extends S.TaggedError<InvalidOperationException>()(
+  "InvalidOperationException",
+  { Message: S.optional(S.String) },
+) {}
+export class EntityAlreadyExistsException extends S.TaggedError<EntityAlreadyExistsException>()(
+  "EntityAlreadyExistsException",
+  { Message: S.optional(S.String) },
+) {}
+export class ProhibitedStateException extends S.TaggedError<ProhibitedStateException>()(
+  "ProhibitedStateException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
+  "InvalidArgumentException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidPasswordException extends S.TaggedError<InvalidPasswordException>()(
+  "InvalidPasswordException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidCommentOperationException extends S.TaggedError<InvalidCommentOperationException>()(
+  "InvalidCommentOperationException",
+  { Message: S.optional(S.String) },
+) {}
+export class UnauthorizedResourceAccessException extends S.TaggedError<UnauthorizedResourceAccessException>()(
+  "UnauthorizedResourceAccessException",
+  { Message: S.optional(S.String) },
+) {}
+export class IllegalUserStateException extends S.TaggedError<IllegalUserStateException>()(
+  "IllegalUserStateException",
+  { Message: S.optional(S.String) },
+) {}
+export class UnauthorizedOperationException extends S.TaggedError<UnauthorizedOperationException>()(
+  "UnauthorizedOperationException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
 ) {}
 export class TooManyLabelsException extends S.TaggedError<TooManyLabelsException>()(
   "TooManyLabelsException",
@@ -1766,20 +1778,8 @@ export class RequestedEntityTooLargeException extends S.TaggedError<RequestedEnt
   "RequestedEntityTooLargeException",
   { Message: S.optional(S.String) },
 ) {}
-export class DeactivatingLastSystemUserException extends S.TaggedError<DeactivatingLastSystemUserException>()(
-  "DeactivatingLastSystemUserException",
-  { Message: S.optional(S.String), Code: S.optional(S.String) },
-) {}
-export class InvalidCommentOperationException extends S.TaggedError<InvalidCommentOperationException>()(
-  "InvalidCommentOperationException",
-  { Message: S.optional(S.String) },
-) {}
 export class TooManySubscriptionsException extends S.TaggedError<TooManySubscriptionsException>()(
   "TooManySubscriptionsException",
-  { Message: S.optional(S.String) },
-) {}
-export class IllegalUserStateException extends S.TaggedError<IllegalUserStateException>()(
-  "IllegalUserStateException",
   { Message: S.optional(S.String) },
 ) {}
 export class DraftUploadOutOfSyncException extends S.TaggedError<DraftUploadOutOfSyncException>()(
@@ -1801,6 +1801,118 @@ export class StorageLimitWillExceedException extends S.TaggedError<StorageLimitW
 
 //# Operations
 /**
+ * Lists the specified notification subscriptions.
+ */
+export const describeNotificationSubscriptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeNotificationSubscriptionsRequest,
+    output: DescribeNotificationSubscriptionsResponse,
+    errors: [
+      EntityNotExistsException,
+      ServiceUnavailableException,
+      UnauthorizedResourceAccessException,
+    ],
+  }));
+/**
+ * Deletes custom metadata from the specified resource.
+ */
+export const deleteCustomMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCustomMetadataRequest,
+    output: DeleteCustomMetadataResponse,
+    errors: [
+      EntityNotExistsException,
+      FailedDependencyException,
+      ProhibitedStateException,
+      ServiceUnavailableException,
+      UnauthorizedOperationException,
+      UnauthorizedResourceAccessException,
+    ],
+  }),
+);
+/**
+ * Adds the specified list of labels to the given resource (a document or
+ * folder)
+ */
+export const createLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLabelsRequest,
+  output: CreateLabelsResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    ServiceUnavailableException,
+    TooManyLabelsException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Deletes the specified subscription from the specified organization.
+ */
+export const deleteNotificationSubscription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteNotificationSubscriptionRequest,
+    output: DeleteNotificationSubscriptionResponse,
+    errors: [
+      EntityNotExistsException,
+      ProhibitedStateException,
+      ServiceUnavailableException,
+      UnauthorizedResourceAccessException,
+    ],
+  }));
+/**
+ * Describes the contents of the specified folder, including its documents and
+ * subfolders.
+ *
+ * By default, Amazon WorkDocs returns the first 100 active document and folder
+ * metadata items. If there are more results, the response includes a marker that you can
+ * use to request the next set of results. You can also request initialized
+ * documents.
+ */
+export const describeFolderContents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeFolderContentsRequest,
+    output: DescribeFolderContentsResponse,
+    errors: [
+      EntityNotExistsException,
+      FailedDependencyException,
+      InvalidArgumentException,
+      ProhibitedStateException,
+      ServiceUnavailableException,
+      UnauthorizedResourceAccessException,
+    ],
+  }),
+);
+/**
+ * Removes all the permissions from the specified resource.
+ */
+export const removeAllResourcePermissions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RemoveAllResourcePermissionsRequest,
+    output: RemoveAllResourcePermissionsResponse,
+    errors: [
+      FailedDependencyException,
+      ServiceUnavailableException,
+      UnauthorizedOperationException,
+      UnauthorizedResourceAccessException,
+    ],
+  }));
+/**
+ * Deactivates the specified user, which revokes the user's access to Amazon
+ * WorkDocs.
+ */
+export const deactivateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivateUserRequest,
+  output: DeactivateUserResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
  * Deletes the specified user from a Simple AD or Microsoft AD directory.
  *
  * Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
@@ -1817,20 +1929,6 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes all the permissions from the specified resource.
- */
-export const removeAllResourcePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveAllResourcePermissionsRequest,
-    output: RemoveAllResourcePermissionsResponse,
-    errors: [
-      FailedDependencyException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }));
-/**
  * Removes the permission for the specified principal from the specified
  * resource.
  */
@@ -1846,6 +1944,118 @@ export const removeResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Retrieves details of the current user for whom the authentication token was
+ * generated. This is not a valid action for SigV4 (administrative API) clients.
+ *
+ * This action requires an authentication token. To get an authentication token,
+ * register an application with Amazon WorkDocs. For more information, see Authentication and Access
+ * Control for User Applications in the
+ * Amazon
+ * WorkDocs Developer Guide.
+ */
+export const getCurrentUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCurrentUserRequest,
+  output: GetCurrentUserResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Retrieves the path information (the hierarchy from the root folder) for the
+ * specified folder.
+ *
+ * By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the
+ * requested folder and only includes the IDs of the parent folders in the path. You can
+ * limit the maximum number of levels. You can also request the parent folder
+ * names.
+ */
+export const getFolderPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFolderPathRequest,
+  output: GetFolderPathResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Describes the groups specified by the query. Groups are defined by the underlying
+ * Active Directory.
+ */
+export const describeGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGroupsRequest,
+  output: DescribeGroupsResponse,
+  errors: [
+    FailedDependencyException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Describes the current user's special folders; the `RootFolder` and the
+ * `RecycleBin`. `RootFolder` is the root of user's files and
+ * folders and `RecycleBin` is the root of recycled items. This is not a valid
+ * action for SigV4 (administrative API) clients.
+ *
+ * This action requires an authentication token. To get an authentication token,
+ * register an application with Amazon WorkDocs. For more information, see Authentication and Access
+ * Control for User Applications in the
+ * Amazon
+ * WorkDocs Developer Guide.
+ */
+export const describeRootFolders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRootFoldersRequest,
+  output: DescribeRootFoldersResponse,
+  errors: [
+    FailedDependencyException,
+    InvalidArgumentException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Retrieves version metadata for the specified document.
+ */
+export const getDocumentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentVersionRequest,
+  output: GetDocumentVersionResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    InvalidPasswordException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Permanently deletes the specified folder and its contents.
+ */
+export const deleteFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFolderRequest,
+  output: DeleteFolderResponse,
+  errors: [
+    ConcurrentModificationException,
+    ConflictingOperationException,
+    EntityNotExistsException,
+    FailedDependencyException,
+    LimitExceededException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Recovers a deleted version of an Amazon WorkDocs document.
  */
@@ -1909,6 +2119,55 @@ export const updateFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Creates a folder with the specified name and parent folder.
+ */
+export const createFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFolderRequest,
+  output: CreateFolderResponse,
+  errors: [
+    ConcurrentModificationException,
+    ConflictingOperationException,
+    EntityAlreadyExistsException,
+    EntityNotExistsException,
+    FailedDependencyException,
+    LimitExceededException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Creates a user in a Simple AD or Microsoft AD directory. The status of a newly
+ * created user is "ACTIVE". New users can access Amazon WorkDocs.
+ */
+export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserRequest,
+  output: CreateUserResponse,
+  errors: [
+    EntityAlreadyExistsException,
+    FailedDependencyException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Deletes the specified list of labels from a resource.
+ */
+export const deleteLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLabelsRequest,
+  output: DeleteLabelsResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
  * Aborts the upload of the specified document version that was previously initiated
  * by InitiateDocumentVersionUpload. The client should make this call
  * only when it no longer intends to upload the document version, or fails to do
@@ -1930,21 +2189,6 @@ export const abortDocumentVersionUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deactivates the specified user, which revokes the user's access to Amazon
- * WorkDocs.
- */
-export const deactivateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeactivateUserRequest,
-  output: DeactivateUserResponse,
-  errors: [
-    EntityNotExistsException,
-    FailedDependencyException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
  * Deletes the specified comment from the document version.
  */
 export const deleteComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1961,13 +2205,48 @@ export const deleteComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes custom metadata from the specified resource.
+ * Deletes the contents of the specified folder.
  */
-export const deleteCustomMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteFolderContents = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteCustomMetadataRequest,
-    output: DeleteCustomMetadataResponse,
+    input: DeleteFolderContentsRequest,
+    output: DeleteFolderContentsResponse,
     errors: [
+      ConflictingOperationException,
+      EntityNotExistsException,
+      FailedDependencyException,
+      ProhibitedStateException,
+      ServiceUnavailableException,
+      UnauthorizedOperationException,
+      UnauthorizedResourceAccessException,
+    ],
+  }),
+);
+/**
+ * List all the comments for the specified document version.
+ */
+export const describeComments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCommentsRequest,
+  output: DescribeCommentsResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Adds one or more custom properties to the specified resource (a folder, document,
+ * or version).
+ */
+export const createCustomMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateCustomMetadataRequest,
+    output: CreateCustomMetadataResponse,
+    errors: [
+      CustomMetadataLimitExceededException,
       EntityNotExistsException,
       FailedDependencyException,
       ProhibitedStateException,
@@ -2015,14 +2294,16 @@ export const deleteDocumentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Permanently deletes the specified folder and its contents.
+ * Updates the specified attributes of a document. The user must have access to both
+ * the document and its parent folder, if applicable.
  */
-export const deleteFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFolderRequest,
-  output: DeleteFolderResponse,
+export const updateDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDocumentRequest,
+  output: UpdateDocumentResponse,
   errors: [
     ConcurrentModificationException,
     ConflictingOperationException,
+    EntityAlreadyExistsException,
     EntityNotExistsException,
     FailedDependencyException,
     LimitExceededException,
@@ -2033,112 +2314,16 @@ export const deleteFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes the contents of the specified folder.
+ * Retrieves details of a document.
  */
-export const deleteFolderContents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFolderContentsRequest,
-    output: DeleteFolderContentsResponse,
-    errors: [
-      ConflictingOperationException,
-      EntityNotExistsException,
-      FailedDependencyException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
-/**
- * Deletes the specified list of labels from a resource.
- */
-export const deleteLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLabelsRequest,
-  output: DeleteLabelsResponse,
+export const getDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentRequest,
+  output: GetDocumentResponse,
   errors: [
     EntityNotExistsException,
     FailedDependencyException,
-    ProhibitedStateException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Deletes the specified subscription from the specified organization.
- */
-export const deleteNotificationSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNotificationSubscriptionRequest,
-    output: DeleteNotificationSubscriptionResponse,
-    errors: [
-      EntityNotExistsException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedResourceAccessException,
-    ],
-  }));
-/**
- * List all the comments for the specified document version.
- */
-export const describeComments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeCommentsRequest,
-  output: DescribeCommentsResponse,
-  errors: [
-    EntityNotExistsException,
-    FailedDependencyException,
-    ProhibitedStateException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Lists the specified notification subscriptions.
- */
-export const describeNotificationSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeNotificationSubscriptionsRequest,
-    output: DescribeNotificationSubscriptionsResponse,
-    errors: [
-      EntityNotExistsException,
-      ServiceUnavailableException,
-      UnauthorizedResourceAccessException,
-    ],
-  }));
-/**
- * Retrieves details of the current user for whom the authentication token was
- * generated. This is not a valid action for SigV4 (administrative API) clients.
- *
- * This action requires an authentication token. To get an authentication token,
- * register an application with Amazon WorkDocs. For more information, see Authentication and Access
- * Control for User Applications in the
- * Amazon
- * WorkDocs Developer Guide.
- */
-export const getCurrentUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCurrentUserRequest,
-  output: GetCurrentUserResponse,
-  errors: [
-    EntityNotExistsException,
-    FailedDependencyException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Retrieves version metadata for the specified document.
- */
-export const getDocumentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDocumentVersionRequest,
-  output: GetDocumentVersionResponse,
-  errors: [
-    EntityNotExistsException,
-    FailedDependencyException,
+    InvalidArgumentException,
     InvalidPasswordException,
-    ProhibitedStateException,
     ServiceUnavailableException,
     UnauthorizedOperationException,
     UnauthorizedResourceAccessException,
@@ -2161,26 +2346,6 @@ export const getFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves the path information (the hierarchy from the root folder) for the
- * specified folder.
- *
- * By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the
- * requested folder and only includes the IDs of the parent folders in the path. You can
- * limit the maximum number of levels. You can also request the parent folder
- * names.
- */
-export const getFolderPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFolderPathRequest,
-  output: GetFolderPathResponse,
-  errors: [
-    EntityNotExistsException,
-    FailedDependencyException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
  * Retrieves a collection of resources, including folders and documents. The only
  * `CollectionType` supported is `SHARED_WITH_ME`.
  */
@@ -2190,192 +2355,6 @@ export const getResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     FailedDependencyException,
     InvalidArgumentException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Updates the specified attributes of a document. The user must have access to both
- * the document and its parent folder, if applicable.
- */
-export const updateDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDocumentRequest,
-  output: UpdateDocumentResponse,
-  errors: [
-    ConcurrentModificationException,
-    ConflictingOperationException,
-    EntityAlreadyExistsException,
-    EntityNotExistsException,
-    FailedDependencyException,
-    LimitExceededException,
-    ProhibitedStateException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Adds one or more custom properties to the specified resource (a folder, document,
- * or version).
- */
-export const createCustomMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomMetadataRequest,
-    output: CreateCustomMetadataResponse,
-    errors: [
-      CustomMetadataLimitExceededException,
-      EntityNotExistsException,
-      FailedDependencyException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
-/**
- * Creates a folder with the specified name and parent folder.
- */
-export const createFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFolderRequest,
-  output: CreateFolderResponse,
-  errors: [
-    ConcurrentModificationException,
-    ConflictingOperationException,
-    EntityAlreadyExistsException,
-    EntityNotExistsException,
-    FailedDependencyException,
-    LimitExceededException,
-    ProhibitedStateException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Adds the specified list of labels to the given resource (a document or
- * folder)
- */
-export const createLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLabelsRequest,
-  output: CreateLabelsResponse,
-  errors: [
-    EntityNotExistsException,
-    FailedDependencyException,
-    ServiceUnavailableException,
-    TooManyLabelsException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Creates a user in a Simple AD or Microsoft AD directory. The status of a newly
- * created user is "ACTIVE". New users can access Amazon WorkDocs.
- */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResponse,
-  errors: [
-    EntityAlreadyExistsException,
-    FailedDependencyException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Describes the contents of the specified folder, including its documents and
- * subfolders.
- *
- * By default, Amazon WorkDocs returns the first 100 active document and folder
- * metadata items. If there are more results, the response includes a marker that you can
- * use to request the next set of results. You can also request initialized
- * documents.
- */
-export const describeFolderContents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFolderContentsRequest,
-    output: DescribeFolderContentsResponse,
-    errors: [
-      EntityNotExistsException,
-      FailedDependencyException,
-      InvalidArgumentException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
-/**
- * Describes the groups specified by the query. Groups are defined by the underlying
- * Active Directory.
- */
-export const describeGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeGroupsRequest,
-  output: DescribeGroupsResponse,
-  errors: [
-    FailedDependencyException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Describes the current user's special folders; the `RootFolder` and the
- * `RecycleBin`. `RootFolder` is the root of user's files and
- * folders and `RecycleBin` is the root of recycled items. This is not a valid
- * action for SigV4 (administrative API) clients.
- *
- * This action requires an authentication token. To get an authentication token,
- * register an application with Amazon WorkDocs. For more information, see Authentication and Access
- * Control for User Applications in the
- * Amazon
- * WorkDocs Developer Guide.
- */
-export const describeRootFolders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeRootFoldersRequest,
-  output: DescribeRootFoldersResponse,
-  errors: [
-    FailedDependencyException,
-    InvalidArgumentException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Describes the specified users. You can describe all users or filter the results
- * (for example, by status or organization).
- *
- * By default, Amazon WorkDocs returns the first 24 active or pending users. If there
- * are more results, the response includes a marker that you can use to request the next
- * set of results.
- */
-export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUsersRequest,
-  output: DescribeUsersResponse,
-  errors: [
-    EntityNotExistsException,
-    FailedDependencyException,
-    InvalidArgumentException,
-    RequestedEntityTooLargeException,
-    ServiceUnavailableException,
-    UnauthorizedOperationException,
-    UnauthorizedResourceAccessException,
-  ],
-}));
-/**
- * Retrieves details of a document.
- */
-export const getDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDocumentRequest,
-  output: GetDocumentResponse,
-  errors: [
-    EntityNotExistsException,
-    FailedDependencyException,
-    InvalidArgumentException,
-    InvalidPasswordException,
     ServiceUnavailableException,
     UnauthorizedOperationException,
     UnauthorizedResourceAccessException,
@@ -2431,24 +2410,6 @@ export const createComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthorizedResourceAccessException,
   ],
 }));
-/**
- * Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a
- * confirmation message, and must confirm the subscription.
- *
- * For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer
- * Guide.
- */
-export const createNotificationSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateNotificationSubscriptionRequest,
-    output: CreateNotificationSubscriptionResponse,
-    errors: [
-      InvalidArgumentException,
-      ServiceUnavailableException,
-      TooManySubscriptionsException,
-      UnauthorizedResourceAccessException,
-    ],
-  }));
 /**
  * Describes the user activities in a specified time period.
  */
@@ -2539,6 +2500,45 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnauthorizedResourceAccessException,
   ],
 }));
+/**
+ * Describes the specified users. You can describe all users or filter the results
+ * (for example, by status or organization).
+ *
+ * By default, Amazon WorkDocs returns the first 24 active or pending users. If there
+ * are more results, the response includes a marker that you can use to request the next
+ * set of results.
+ */
+export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUsersRequest,
+  output: DescribeUsersResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    InvalidArgumentException,
+    RequestedEntityTooLargeException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
+/**
+ * Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a
+ * confirmation message, and must confirm the subscription.
+ *
+ * For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer
+ * Guide.
+ */
+export const createNotificationSubscription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateNotificationSubscriptionRequest,
+    output: CreateNotificationSubscriptionResponse,
+    errors: [
+      InvalidArgumentException,
+      ServiceUnavailableException,
+      TooManySubscriptionsException,
+      UnauthorizedResourceAccessException,
+    ],
+  }));
 /**
  * Searches metadata and the content of folders, documents, document versions, and comments.
  */

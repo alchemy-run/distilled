@@ -6328,35 +6328,115 @@ export class CreateDistributionResult extends S.Class<CreateDistributionResult>(
 //# Errors
 export class AccessDenied extends S.TaggedError<AccessDenied>()(
   "AccessDenied",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class CannotDeleteEntityWhileInUse extends S.TaggedError<CannotDeleteEntityWhileInUse>()(
-  "CannotDeleteEntityWhileInUse",
-  {},
-) {}
-export class EntityNotFound extends S.TaggedError<EntityNotFound>()(
-  "EntityNotFound",
-  {},
+export class FunctionInUse extends S.TaggedError<FunctionInUse>()(
+  "FunctionInUse",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidIfMatchVersion extends S.TaggedError<InvalidIfMatchVersion>()(
   "InvalidIfMatchVersion",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class PreconditionFailed extends S.TaggedError<PreconditionFailed>()(
-  "PreconditionFailed",
-  {},
+export class IllegalUpdate extends S.TaggedError<IllegalUpdate>()(
+  "IllegalUpdate",
+  { Message: S.optional(S.String) },
 ) {}
-export class IllegalDelete extends S.TaggedError<IllegalDelete>()(
-  "IllegalDelete",
-  {},
+export class EntityNotFound extends S.TaggedError<EntityNotFound>()(
+  "EntityNotFound",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchResource extends S.TaggedError<NoSuchResource>()(
+  "NoSuchResource",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchFunctionExists extends S.TaggedError<NoSuchFunctionExists>()(
+  "NoSuchFunctionExists",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchCachePolicy extends S.TaggedError<NoSuchCachePolicy>()(
+  "NoSuchCachePolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchCloudFrontOriginAccessIdentity extends S.TaggedError<NoSuchCloudFrontOriginAccessIdentity>()(
+  "NoSuchCloudFrontOriginAccessIdentity",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchContinuousDeploymentPolicy extends S.TaggedError<NoSuchContinuousDeploymentPolicy>()(
+  "NoSuchContinuousDeploymentPolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchDistribution extends S.TaggedError<NoSuchDistribution>()(
+  "NoSuchDistribution",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchFieldLevelEncryptionConfig extends S.TaggedError<NoSuchFieldLevelEncryptionConfig>()(
+  "NoSuchFieldLevelEncryptionConfig",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchFieldLevelEncryptionProfile extends S.TaggedError<NoSuchFieldLevelEncryptionProfile>()(
+  "NoSuchFieldLevelEncryptionProfile",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchOriginAccessControl extends S.TaggedError<NoSuchOriginAccessControl>()(
+  "NoSuchOriginAccessControl",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchOriginRequestPolicy extends S.TaggedError<NoSuchOriginRequestPolicy>()(
+  "NoSuchOriginRequestPolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchPublicKey extends S.TaggedError<NoSuchPublicKey>()(
+  "NoSuchPublicKey",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchResponseHeadersPolicy extends S.TaggedError<NoSuchResponseHeadersPolicy>()(
+  "NoSuchResponseHeadersPolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchStreamingDistribution extends S.TaggedError<NoSuchStreamingDistribution>()(
+  "NoSuchStreamingDistribution",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidArgument extends S.TaggedError<InvalidArgument>()(
   "InvalidArgument",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class UnsupportedOperation extends S.TaggedError<UnsupportedOperation>()(
-  "UnsupportedOperation",
-  {},
+export class CachePolicyAlreadyExists extends S.TaggedError<CachePolicyAlreadyExists>()(
+  "CachePolicyAlreadyExists",
+  { Message: S.optional(S.String) },
+) {}
+export class EntityAlreadyExists extends S.TaggedError<EntityAlreadyExists>()(
+  "EntityAlreadyExists",
+  { Message: S.optional(S.String) },
+) {}
+export class InconsistentQuantities extends S.TaggedError<InconsistentQuantities>()(
+  "InconsistentQuantities",
+  { Message: S.optional(S.String) },
+) {}
+export class CNAMEAlreadyExists extends S.TaggedError<CNAMEAlreadyExists>()(
+  "CNAMEAlreadyExists",
+  { Message: S.optional(S.String) },
+) {}
+export class FieldLevelEncryptionProfileAlreadyExists extends S.TaggedError<FieldLevelEncryptionProfileAlreadyExists>()(
+  "FieldLevelEncryptionProfileAlreadyExists",
+  { Message: S.optional(S.String) },
+) {}
+export class FunctionSizeLimitExceeded extends S.TaggedError<FunctionSizeLimitExceeded>()(
+  "FunctionSizeLimitExceeded",
+  { Message: S.optional(S.String) },
+) {}
+export class CannotChangeImmutablePublicKeyFields extends S.TaggedError<CannotChangeImmutablePublicKeyFields>()(
+  "CannotChangeImmutablePublicKeyFields",
+  { Message: S.optional(S.String) },
+) {}
+export class CannotUpdateEntityWhileInUse extends S.TaggedError<CannotUpdateEntityWhileInUse>()(
+  "CannotUpdateEntityWhileInUse",
+  { Message: S.optional(S.String) },
+) {}
+export class CannotDeleteEntityWhileInUse extends S.TaggedError<CannotDeleteEntityWhileInUse>()(
+  "CannotDeleteEntityWhileInUse",
+  { Message: S.optional(S.String) },
 ) {}
 export class CachePolicyInUse extends S.TaggedError<CachePolicyInUse>()(
   "CachePolicyInUse",
@@ -6374,14 +6454,6 @@ export class DistributionNotDisabled extends S.TaggedError<DistributionNotDisabl
   "DistributionNotDisabled",
   { Message: S.optional(S.String) },
 ) {}
-export class NoSuchDistribution extends S.TaggedError<NoSuchDistribution>()(
-  "NoSuchDistribution",
-  {},
-) {}
-export class ResourceNotDisabled extends S.TaggedError<ResourceNotDisabled>()(
-  "ResourceNotDisabled",
-  {},
-) {}
 export class FieldLevelEncryptionConfigInUse extends S.TaggedError<FieldLevelEncryptionConfigInUse>()(
   "FieldLevelEncryptionConfigInUse",
   { Message: S.optional(S.String) },
@@ -6390,289 +6462,108 @@ export class FieldLevelEncryptionProfileInUse extends S.TaggedError<FieldLevelEn
   "FieldLevelEncryptionProfileInUse",
   { Message: S.optional(S.String) },
 ) {}
-export class FunctionInUse extends S.TaggedError<FunctionInUse>()(
-  "FunctionInUse",
-  { Message: S.optional(S.String) },
-) {}
-export class NoSuchResource extends S.TaggedError<NoSuchResource>()(
-  "NoSuchResource",
-  { Message: S.optional(S.String) },
-) {}
-export class ResourceInUse extends S.TaggedError<ResourceInUse>()(
-  "ResourceInUse",
-  {},
-) {}
-export class NoSuchOriginAccessControl extends S.TaggedError<NoSuchOriginAccessControl>()(
-  "NoSuchOriginAccessControl",
-  { Message: S.optional(S.String) },
-) {}
-export class NoSuchPublicKey extends S.TaggedError<NoSuchPublicKey>()(
-  "NoSuchPublicKey",
-  { Message: S.optional(S.String) },
-) {}
-export class NoSuchResponseHeadersPolicy extends S.TaggedError<NoSuchResponseHeadersPolicy>()(
-  "NoSuchResponseHeadersPolicy",
-  { Message: S.optional(S.String) },
-) {}
-export class NoSuchStreamingDistribution extends S.TaggedError<NoSuchStreamingDistribution>()(
-  "NoSuchStreamingDistribution",
-  { Message: S.optional(S.String) },
-) {}
-export class NoSuchFunctionExists extends S.TaggedError<NoSuchFunctionExists>()(
-  "NoSuchFunctionExists",
-  {},
-) {}
-export class NoSuchCachePolicy extends S.TaggedError<NoSuchCachePolicy>()(
-  "NoSuchCachePolicy",
-  {},
-) {}
-export class NoSuchCloudFrontOriginAccessIdentity extends S.TaggedError<NoSuchCloudFrontOriginAccessIdentity>()(
-  "NoSuchCloudFrontOriginAccessIdentity",
-  {},
-) {}
-export class NoSuchContinuousDeploymentPolicy extends S.TaggedError<NoSuchContinuousDeploymentPolicy>()(
-  "NoSuchContinuousDeploymentPolicy",
-  {},
-) {}
-export class NoSuchFieldLevelEncryptionConfig extends S.TaggedError<NoSuchFieldLevelEncryptionConfig>()(
-  "NoSuchFieldLevelEncryptionConfig",
-  {},
-) {}
-export class NoSuchFieldLevelEncryptionProfile extends S.TaggedError<NoSuchFieldLevelEncryptionProfile>()(
-  "NoSuchFieldLevelEncryptionProfile",
-  {},
-) {}
-export class NoSuchInvalidation extends S.TaggedError<NoSuchInvalidation>()(
-  "NoSuchInvalidation",
-  {},
-) {}
-export class NoSuchMonitoringSubscription extends S.TaggedError<NoSuchMonitoringSubscription>()(
-  "NoSuchMonitoringSubscription",
-  {},
-) {}
-export class NoSuchOriginRequestPolicy extends S.TaggedError<NoSuchOriginRequestPolicy>()(
-  "NoSuchOriginRequestPolicy",
-  {},
-) {}
-export class InvalidTagging extends S.TaggedError<InvalidTagging>()(
-  "InvalidTagging",
-  {},
-) {}
-export class IllegalUpdate extends S.TaggedError<IllegalUpdate>()(
-  "IllegalUpdate",
-  {},
-) {}
-export class InconsistentQuantities extends S.TaggedError<InconsistentQuantities>()(
-  "InconsistentQuantities",
-  {},
-) {}
-export class CNAMEAlreadyExists extends S.TaggedError<CNAMEAlreadyExists>()(
-  "CNAMEAlreadyExists",
-  {},
-) {}
-export class EntityAlreadyExists extends S.TaggedError<EntityAlreadyExists>()(
-  "EntityAlreadyExists",
-  {},
-) {}
-export class NoSuchRealtimeLogConfig extends S.TaggedError<NoSuchRealtimeLogConfig>()(
-  "NoSuchRealtimeLogConfig",
-  {},
-) {}
-export class EntityLimitExceeded extends S.TaggedError<EntityLimitExceeded>()(
-  "EntityLimitExceeded",
-  {},
-) {}
-export class KeyGroupAlreadyExists extends S.TaggedError<KeyGroupAlreadyExists>()(
-  "KeyGroupAlreadyExists",
-  {},
-) {}
-export class EntitySizeLimitExceeded extends S.TaggedError<EntitySizeLimitExceeded>()(
-  "EntitySizeLimitExceeded",
-  {},
-) {}
-export class OriginAccessControlAlreadyExists extends S.TaggedError<OriginAccessControlAlreadyExists>()(
-  "OriginAccessControlAlreadyExists",
-  {},
-) {}
-export class OriginAccessControlInUse extends S.TaggedError<OriginAccessControlInUse>()(
-  "OriginAccessControlInUse",
-  { Message: S.optional(S.String) },
-) {}
-export class PublicKeyInUse extends S.TaggedError<PublicKeyInUse>()(
-  "PublicKeyInUse",
-  { Message: S.optional(S.String) },
-) {}
-export class ResponseHeadersPolicyInUse extends S.TaggedError<ResponseHeadersPolicyInUse>()(
-  "ResponseHeadersPolicyInUse",
-  { Message: S.optional(S.String) },
-) {}
-export class StreamingDistributionNotDisabled extends S.TaggedError<StreamingDistributionNotDisabled>()(
-  "StreamingDistributionNotDisabled",
-  { Message: S.optional(S.String) },
-) {}
-export class InvalidWebACLId extends S.TaggedError<InvalidWebACLId>()(
-  "InvalidWebACLId",
-  { Message: S.optional(S.String) },
-) {}
-export class TestFunctionFailed extends S.TaggedError<TestFunctionFailed>()(
-  "TestFunctionFailed",
-  {},
-) {}
-export class CachePolicyAlreadyExists extends S.TaggedError<CachePolicyAlreadyExists>()(
-  "CachePolicyAlreadyExists",
-  { Message: S.optional(S.String) },
-) {}
-export class StagingDistributionInUse extends S.TaggedError<StagingDistributionInUse>()(
-  "StagingDistributionInUse",
-  { Message: S.optional(S.String) },
-) {}
-export class IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior extends S.TaggedError<IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior>()(
-  "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior",
-  {},
-) {}
-export class QueryArgProfileEmpty extends S.TaggedError<QueryArgProfileEmpty>()(
-  "QueryArgProfileEmpty",
-  { Message: S.optional(S.String) },
-) {}
-export class FieldLevelEncryptionProfileAlreadyExists extends S.TaggedError<FieldLevelEncryptionProfileAlreadyExists>()(
-  "FieldLevelEncryptionProfileAlreadyExists",
-  { Message: S.optional(S.String) },
-) {}
-export class FunctionSizeLimitExceeded extends S.TaggedError<FunctionSizeLimitExceeded>()(
-  "FunctionSizeLimitExceeded",
-  { Message: S.optional(S.String) },
-) {}
-export class OriginRequestPolicyAlreadyExists extends S.TaggedError<OriginRequestPolicyAlreadyExists>()(
-  "OriginRequestPolicyAlreadyExists",
-  { Message: S.optional(S.String) },
-) {}
-export class CannotChangeImmutablePublicKeyFields extends S.TaggedError<CannotChangeImmutablePublicKeyFields>()(
-  "CannotChangeImmutablePublicKeyFields",
-  { Message: S.optional(S.String) },
-) {}
-export class ResponseHeadersPolicyAlreadyExists extends S.TaggedError<ResponseHeadersPolicyAlreadyExists>()(
-  "ResponseHeadersPolicyAlreadyExists",
-  { Message: S.optional(S.String) },
-) {}
-export class InvalidOriginAccessControl extends S.TaggedError<InvalidOriginAccessControl>()(
-  "InvalidOriginAccessControl",
-  { Message: S.optional(S.String) },
-) {}
-export class CannotUpdateEntityWhileInUse extends S.TaggedError<CannotUpdateEntityWhileInUse>()(
-  "CannotUpdateEntityWhileInUse",
-  { Message: S.optional(S.String) },
-) {}
-export class TooManyDistributionCNAMEs extends S.TaggedError<TooManyDistributionCNAMEs>()(
-  "TooManyDistributionCNAMEs",
+export class IllegalDelete extends S.TaggedError<IllegalDelete>()(
+  "IllegalDelete",
   { Message: S.optional(S.String) },
 ) {}
 export class CloudFrontOriginAccessIdentityAlreadyExists extends S.TaggedError<CloudFrontOriginAccessIdentityAlreadyExists>()(
   "CloudFrontOriginAccessIdentityAlreadyExists",
   { Message: S.optional(S.String) },
 ) {}
-export class MissingBody extends S.TaggedError<MissingBody>()(
-  "MissingBody",
-  {},
-) {}
-export class InvalidAssociation extends S.TaggedError<InvalidAssociation>()(
-  "InvalidAssociation",
-  {},
-) {}
-export class DistributionAlreadyExists extends S.TaggedError<DistributionAlreadyExists>()(
-  "DistributionAlreadyExists",
-  { Message: S.optional(S.String) },
-) {}
-export class IllegalOriginAccessConfiguration extends S.TaggedError<IllegalOriginAccessConfiguration>()(
-  "IllegalOriginAccessConfiguration",
-  {},
-) {}
-export class InvalidDefaultRootObject extends S.TaggedError<InvalidDefaultRootObject>()(
-  "InvalidDefaultRootObject",
-  {},
-) {}
 export class BatchTooLarge extends S.TaggedError<BatchTooLarge>()(
   "BatchTooLarge",
-  {},
-) {}
-export class TooManyInvalidationsInProgress extends S.TaggedError<TooManyInvalidationsInProgress>()(
-  "TooManyInvalidationsInProgress",
-  {},
-) {}
-export class TooManyKeyGroups extends S.TaggedError<TooManyKeyGroups>()(
-  "TooManyKeyGroups",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyPublicKeysInKeyGroup extends S.TaggedError<TooManyPublicKeysInKeyGroup>()(
-  "TooManyPublicKeysInKeyGroup",
-  {},
-) {}
-export class TooManyOriginAccessControls extends S.TaggedError<TooManyOriginAccessControls>()(
-  "TooManyOriginAccessControls",
+export class PreconditionFailed extends S.TaggedError<PreconditionFailed>()(
+  "PreconditionFailed",
   { Message: S.optional(S.String) },
 ) {}
-export class PublicKeyAlreadyExists extends S.TaggedError<PublicKeyAlreadyExists>()(
-  "PublicKeyAlreadyExists",
+export class UnsupportedOperation extends S.TaggedError<UnsupportedOperation>()(
+  "UnsupportedOperation",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidOrigin extends S.TaggedError<InvalidOrigin>()(
-  "InvalidOrigin",
-  {},
-) {}
-export class InvalidOriginAccessIdentity extends S.TaggedError<InvalidOriginAccessIdentity>()(
-  "InvalidOriginAccessIdentity",
-  {},
-) {}
-export class StreamingDistributionAlreadyExists extends S.TaggedError<StreamingDistributionAlreadyExists>()(
-  "StreamingDistributionAlreadyExists",
-  {},
-) {}
-export class OriginRequestPolicyInUse extends S.TaggedError<OriginRequestPolicyInUse>()(
-  "OriginRequestPolicyInUse",
+export class NoSuchRealtimeLogConfig extends S.TaggedError<NoSuchRealtimeLogConfig>()(
+  "NoSuchRealtimeLogConfig",
   { Message: S.optional(S.String) },
 ) {}
-export class RealtimeLogConfigInUse extends S.TaggedError<RealtimeLogConfigInUse>()(
-  "RealtimeLogConfigInUse",
+export class TestFunctionFailed extends S.TaggedError<TestFunctionFailed>()(
+  "TestFunctionFailed",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyCookiesInCachePolicy extends S.TaggedError<TooManyCookiesInCachePolicy>()(
-  "TooManyCookiesInCachePolicy",
-  { Message: S.optional(S.String) },
-) {}
-export class InvalidDomainNameForOriginAccessControl extends S.TaggedError<InvalidDomainNameForOriginAccessControl>()(
-  "InvalidDomainNameForOriginAccessControl",
-  {},
-) {}
-export class InvalidErrorCode extends S.TaggedError<InvalidErrorCode>()(
-  "InvalidErrorCode",
-  {},
-) {}
-export class TooManyFieldLevelEncryptionContentTypeProfiles extends S.TaggedError<TooManyFieldLevelEncryptionContentTypeProfiles>()(
-  "TooManyFieldLevelEncryptionContentTypeProfiles",
+export class EntityLimitExceeded extends S.TaggedError<EntityLimitExceeded>()(
+  "EntityLimitExceeded",
   { Message: S.optional(S.String) },
 ) {}
 export class FieldLevelEncryptionProfileSizeExceeded extends S.TaggedError<FieldLevelEncryptionProfileSizeExceeded>()(
   "FieldLevelEncryptionProfileSizeExceeded",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyCookiesInOriginRequestPolicy extends S.TaggedError<TooManyCookiesInOriginRequestPolicy>()(
-  "TooManyCookiesInOriginRequestPolicy",
+export class OriginRequestPolicyInUse extends S.TaggedError<OriginRequestPolicyInUse>()(
+  "OriginRequestPolicyInUse",
   { Message: S.optional(S.String) },
 ) {}
-export class TooLongCSPInResponseHeadersPolicy extends S.TaggedError<TooLongCSPInResponseHeadersPolicy>()(
-  "TooLongCSPInResponseHeadersPolicy",
+export class MissingBody extends S.TaggedError<MissingBody>()("MissingBody", {
+  Message: S.optional(S.String),
+}) {}
+export class OriginAccessControlAlreadyExists extends S.TaggedError<OriginAccessControlAlreadyExists>()(
+  "OriginAccessControlAlreadyExists",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyStreamingDistributionCNAMEs extends S.TaggedError<TooManyStreamingDistributionCNAMEs>()(
-  "TooManyStreamingDistributionCNAMEs",
-  {},
-) {}
-export class TooManyCloudFrontOriginAccessIdentities extends S.TaggedError<TooManyCloudFrontOriginAccessIdentities>()(
-  "TooManyCloudFrontOriginAccessIdentities",
+export class OriginRequestPolicyAlreadyExists extends S.TaggedError<OriginRequestPolicyAlreadyExists>()(
+  "OriginRequestPolicyAlreadyExists",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidForwardCookies extends S.TaggedError<InvalidForwardCookies>()(
-  "InvalidForwardCookies",
-  {},
+export class NoSuchInvalidation extends S.TaggedError<NoSuchInvalidation>()(
+  "NoSuchInvalidation",
+  { Message: S.optional(S.String) },
+) {}
+export class EntitySizeLimitExceeded extends S.TaggedError<EntitySizeLimitExceeded>()(
+  "EntitySizeLimitExceeded",
+  { Message: S.optional(S.String) },
+) {}
+export class NoSuchMonitoringSubscription extends S.TaggedError<NoSuchMonitoringSubscription>()(
+  "NoSuchMonitoringSubscription",
+  { Message: S.optional(S.String) },
+) {}
+export class OriginAccessControlInUse extends S.TaggedError<OriginAccessControlInUse>()(
+  "OriginAccessControlInUse",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidWebACLId extends S.TaggedError<InvalidWebACLId>()(
+  "InvalidWebACLId",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidTagging extends S.TaggedError<InvalidTagging>()(
+  "InvalidTagging",
+  { Message: S.optional(S.String) },
+) {}
+export class KeyGroupAlreadyExists extends S.TaggedError<KeyGroupAlreadyExists>()(
+  "KeyGroupAlreadyExists",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyDistributionCNAMEs extends S.TaggedError<TooManyDistributionCNAMEs>()(
+  "TooManyDistributionCNAMEs",
+  { Message: S.optional(S.String) },
+) {}
+export class PublicKeyAlreadyExists extends S.TaggedError<PublicKeyAlreadyExists>()(
+  "PublicKeyAlreadyExists",
+  { Message: S.optional(S.String) },
+) {}
+export class IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior extends S.TaggedError<IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior>()(
+  "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidOriginAccessControl extends S.TaggedError<InvalidOriginAccessControl>()(
+  "InvalidOriginAccessControl",
+  { Message: S.optional(S.String) },
+) {}
+export class DistributionAlreadyExists extends S.TaggedError<DistributionAlreadyExists>()(
+  "DistributionAlreadyExists",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidOrigin extends S.TaggedError<InvalidOrigin>()(
+  "InvalidOrigin",
+  { Message: S.optional(S.String) },
 ) {}
 export class FunctionAlreadyExists extends S.TaggedError<FunctionAlreadyExists>()(
   "FunctionAlreadyExists",
@@ -6682,448 +6573,368 @@ export class MonitoringSubscriptionAlreadyExists extends S.TaggedError<Monitorin
   "MonitoringSubscriptionAlreadyExists",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyHeadersInOriginRequestPolicy extends S.TaggedError<TooManyHeadersInOriginRequestPolicy>()(
-  "TooManyHeadersInOriginRequestPolicy",
-  {},
-) {}
-export class TooManyPublicKeys extends S.TaggedError<TooManyPublicKeys>()(
-  "TooManyPublicKeys",
-  { Message: S.optional(S.String) },
-) {}
 export class RealtimeLogConfigAlreadyExists extends S.TaggedError<RealtimeLogConfigAlreadyExists>()(
   "RealtimeLogConfigAlreadyExists",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyCustomHeadersInResponseHeadersPolicy extends S.TaggedError<TooManyCustomHeadersInResponseHeadersPolicy>()(
-  "TooManyCustomHeadersInResponseHeadersPolicy",
-  {},
-) {}
-export class TooManyStreamingDistributions extends S.TaggedError<TooManyStreamingDistributions>()(
-  "TooManyStreamingDistributions",
-  {},
-) {}
-export class TooManyTrustedSigners extends S.TaggedError<TooManyTrustedSigners>()(
-  "TooManyTrustedSigners",
-  {},
-) {}
-export class TooManyHeadersInCachePolicy extends S.TaggedError<TooManyHeadersInCachePolicy>()(
-  "TooManyHeadersInCachePolicy",
-  { Message: S.optional(S.String) },
-) {}
-export class InvalidFunctionAssociation extends S.TaggedError<InvalidFunctionAssociation>()(
-  "InvalidFunctionAssociation",
-  {},
-) {}
-export class InvalidGeoRestrictionParameter extends S.TaggedError<InvalidGeoRestrictionParameter>()(
-  "InvalidGeoRestrictionParameter",
-  {},
-) {}
-export class TooManyFieldLevelEncryptionQueryArgProfiles extends S.TaggedError<TooManyFieldLevelEncryptionQueryArgProfiles>()(
-  "TooManyFieldLevelEncryptionQueryArgProfiles",
+export class ResourceInUse extends S.TaggedError<ResourceInUse>()(
+  "ResourceInUse",
   { Message: S.optional(S.String) },
 ) {}
 export class TooManyFieldLevelEncryptionEncryptionEntities extends S.TaggedError<TooManyFieldLevelEncryptionEncryptionEntities>()(
   "TooManyFieldLevelEncryptionEncryptionEntities",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyRemoveHeadersInResponseHeadersPolicy extends S.TaggedError<TooManyRemoveHeadersInResponseHeadersPolicy>()(
-  "TooManyRemoveHeadersInResponseHeadersPolicy",
-  {},
+export class TooManyCookiesInOriginRequestPolicy extends S.TaggedError<TooManyCookiesInOriginRequestPolicy>()(
+  "TooManyCookiesInOriginRequestPolicy",
+  { Message: S.optional(S.String) },
 ) {}
-export class TrustedSignerDoesNotExist extends S.TaggedError<TrustedSignerDoesNotExist>()(
-  "TrustedSignerDoesNotExist",
-  {},
+export class TooManyInvalidationsInProgress extends S.TaggedError<TooManyInvalidationsInProgress>()(
+  "TooManyInvalidationsInProgress",
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidHeadersForS3Origin extends S.TaggedError<InvalidHeadersForS3Origin>()(
-  "InvalidHeadersForS3Origin",
-  {},
+export class StagingDistributionInUse extends S.TaggedError<StagingDistributionInUse>()(
+  "StagingDistributionInUse",
+  { Message: S.optional(S.String) },
+) {}
+export class QueryArgProfileEmpty extends S.TaggedError<QueryArgProfileEmpty>()(
+  "QueryArgProfileEmpty",
+  { Message: S.optional(S.String) },
+) {}
+export class ResponseHeadersPolicyAlreadyExists extends S.TaggedError<ResponseHeadersPolicyAlreadyExists>()(
+  "ResponseHeadersPolicyAlreadyExists",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotDisabled extends S.TaggedError<ResourceNotDisabled>()(
+  "ResourceNotDisabled",
+  { Message: S.optional(S.String) },
+) {}
+export class PublicKeyInUse extends S.TaggedError<PublicKeyInUse>()(
+  "PublicKeyInUse",
+  { Message: S.optional(S.String) },
+) {}
+export class StreamingDistributionNotDisabled extends S.TaggedError<StreamingDistributionNotDisabled>()(
+  "StreamingDistributionNotDisabled",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyCookiesInCachePolicy extends S.TaggedError<TooManyCookiesInCachePolicy>()(
+  "TooManyCookiesInCachePolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class ResponseHeadersPolicyInUse extends S.TaggedError<ResponseHeadersPolicyInUse>()(
+  "ResponseHeadersPolicyInUse",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyPublicKeysInKeyGroup extends S.TaggedError<TooManyPublicKeysInKeyGroup>()(
+  "TooManyPublicKeysInKeyGroup",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyPublicKeys extends S.TaggedError<TooManyPublicKeys>()(
+  "TooManyPublicKeys",
+  { Message: S.optional(S.String) },
+) {}
+export class RealtimeLogConfigInUse extends S.TaggedError<RealtimeLogConfigInUse>()(
+  "RealtimeLogConfigInUse",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidAssociation extends S.TaggedError<InvalidAssociation>()(
+  "InvalidAssociation",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidDefaultRootObject extends S.TaggedError<InvalidDefaultRootObject>()(
+  "InvalidDefaultRootObject",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidOriginAccessIdentity extends S.TaggedError<InvalidOriginAccessIdentity>()(
+  "InvalidOriginAccessIdentity",
+  { Message: S.optional(S.String) },
+) {}
+export class IllegalOriginAccessConfiguration extends S.TaggedError<IllegalOriginAccessConfiguration>()(
+  "IllegalOriginAccessConfiguration",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyCloudFrontOriginAccessIdentities extends S.TaggedError<TooManyCloudFrontOriginAccessIdentities>()(
+  "TooManyCloudFrontOriginAccessIdentities",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyOriginAccessControls extends S.TaggedError<TooManyOriginAccessControls>()(
+  "TooManyOriginAccessControls",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyKeyGroups extends S.TaggedError<TooManyKeyGroups>()(
+  "TooManyKeyGroups",
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyCachePolicies extends S.TaggedError<TooManyCachePolicies>()(
   "TooManyCachePolicies",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyQueryStringsInCachePolicy extends S.TaggedError<TooManyQueryStringsInCachePolicy>()(
-  "TooManyQueryStringsInCachePolicy",
-  {},
-) {}
-export class InvalidLambdaFunctionAssociation extends S.TaggedError<InvalidLambdaFunctionAssociation>()(
-  "InvalidLambdaFunctionAssociation",
-  {},
-) {}
-export class TooManyFieldLevelEncryptionFieldPatterns extends S.TaggedError<TooManyFieldLevelEncryptionFieldPatterns>()(
-  "TooManyFieldLevelEncryptionFieldPatterns",
-  {},
-) {}
 export class TooManyFunctions extends S.TaggedError<TooManyFunctions>()(
   "TooManyFunctions",
   { Message: S.optional(S.String) },
-) {}
-export class TooManyOriginRequestPolicies extends S.TaggedError<TooManyOriginRequestPolicies>()(
-  "TooManyOriginRequestPolicies",
-  { Message: S.optional(S.String) },
-) {}
-export class TooManyQueryStringsInOriginRequestPolicy extends S.TaggedError<TooManyQueryStringsInOriginRequestPolicy>()(
-  "TooManyQueryStringsInOriginRequestPolicy",
-  {},
 ) {}
 export class TooManyRealtimeLogConfigs extends S.TaggedError<TooManyRealtimeLogConfigs>()(
   "TooManyRealtimeLogConfigs",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidLocationCode extends S.TaggedError<InvalidLocationCode>()(
-  "InvalidLocationCode",
-  {},
+export class TooManyFieldLevelEncryptionFieldPatterns extends S.TaggedError<TooManyFieldLevelEncryptionFieldPatterns>()(
+  "TooManyFieldLevelEncryptionFieldPatterns",
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidMinimumProtocolVersion extends S.TaggedError<InvalidMinimumProtocolVersion>()(
-  "InvalidMinimumProtocolVersion",
-  {},
+export class TooManyHeadersInOriginRequestPolicy extends S.TaggedError<TooManyHeadersInOriginRequestPolicy>()(
+  "TooManyHeadersInOriginRequestPolicy",
+  { Message: S.optional(S.String) },
 ) {}
-export class InvalidOriginKeepaliveTimeout extends S.TaggedError<InvalidOriginKeepaliveTimeout>()(
-  "InvalidOriginKeepaliveTimeout",
-  {},
+export class TooManyFieldLevelEncryptionContentTypeProfiles extends S.TaggedError<TooManyFieldLevelEncryptionContentTypeProfiles>()(
+  "TooManyFieldLevelEncryptionContentTypeProfiles",
+  { Message: S.optional(S.String) },
+) {}
+export class TooLongCSPInResponseHeadersPolicy extends S.TaggedError<TooLongCSPInResponseHeadersPolicy>()(
+  "TooLongCSPInResponseHeadersPolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyHeadersInCachePolicy extends S.TaggedError<TooManyHeadersInCachePolicy>()(
+  "TooManyHeadersInCachePolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidErrorCode extends S.TaggedError<InvalidErrorCode>()(
+  "InvalidErrorCode",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyStreamingDistributionCNAMEs extends S.TaggedError<TooManyStreamingDistributionCNAMEs>()(
+  "TooManyStreamingDistributionCNAMEs",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidDomainNameForOriginAccessControl extends S.TaggedError<InvalidDomainNameForOriginAccessControl>()(
+  "InvalidDomainNameForOriginAccessControl",
+  { Message: S.optional(S.String) },
+) {}
+export class StreamingDistributionAlreadyExists extends S.TaggedError<StreamingDistributionAlreadyExists>()(
+  "StreamingDistributionAlreadyExists",
+  { Message: S.optional(S.String) },
 ) {}
 export class ContinuousDeploymentPolicyAlreadyExists extends S.TaggedError<ContinuousDeploymentPolicyAlreadyExists>()(
   "ContinuousDeploymentPolicyAlreadyExists",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidOriginReadTimeout extends S.TaggedError<InvalidOriginReadTimeout>()(
-  "InvalidOriginReadTimeout",
-  {},
-) {}
-export class InvalidProtocolSettings extends S.TaggedError<InvalidProtocolSettings>()(
-  "InvalidProtocolSettings",
-  {},
-) {}
 export class FieldLevelEncryptionConfigAlreadyExists extends S.TaggedError<FieldLevelEncryptionConfigAlreadyExists>()(
   "FieldLevelEncryptionConfigAlreadyExists",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyQueryStringsInOriginRequestPolicy extends S.TaggedError<TooManyQueryStringsInOriginRequestPolicy>()(
+  "TooManyQueryStringsInOriginRequestPolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyFieldLevelEncryptionQueryArgProfiles extends S.TaggedError<TooManyFieldLevelEncryptionQueryArgProfiles>()(
+  "TooManyFieldLevelEncryptionQueryArgProfiles",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyCustomHeadersInResponseHeadersPolicy extends S.TaggedError<TooManyCustomHeadersInResponseHeadersPolicy>()(
+  "TooManyCustomHeadersInResponseHeadersPolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyQueryStringsInCachePolicy extends S.TaggedError<TooManyQueryStringsInCachePolicy>()(
+  "TooManyQueryStringsInCachePolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidForwardCookies extends S.TaggedError<InvalidForwardCookies>()(
+  "InvalidForwardCookies",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyTrustedSigners extends S.TaggedError<TooManyTrustedSigners>()(
+  "TooManyTrustedSigners",
   { Message: S.optional(S.String) },
 ) {}
 export class TooManyFieldLevelEncryptionProfiles extends S.TaggedError<TooManyFieldLevelEncryptionProfiles>()(
   "TooManyFieldLevelEncryptionProfiles",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyResponseHeadersPolicies extends S.TaggedError<TooManyResponseHeadersPolicies>()(
-  "TooManyResponseHeadersPolicies",
+export class TooManyOriginRequestPolicies extends S.TaggedError<TooManyOriginRequestPolicies>()(
+  "TooManyOriginRequestPolicies",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidQueryStringParameters extends S.TaggedError<InvalidQueryStringParameters>()(
-  "InvalidQueryStringParameters",
-  {},
-) {}
-export class InvalidRelativePath extends S.TaggedError<InvalidRelativePath>()(
-  "InvalidRelativePath",
-  {},
-) {}
-export class InvalidRequiredProtocol extends S.TaggedError<InvalidRequiredProtocol>()(
-  "InvalidRequiredProtocol",
-  {},
+export class TooManyStreamingDistributions extends S.TaggedError<TooManyStreamingDistributions>()(
+  "TooManyStreamingDistributions",
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyContinuousDeploymentPolicies extends S.TaggedError<TooManyContinuousDeploymentPolicies>()(
   "TooManyContinuousDeploymentPolicies",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidResponseCode extends S.TaggedError<InvalidResponseCode>()(
-  "InvalidResponseCode",
-  {},
-) {}
-export class InvalidTTLOrder extends S.TaggedError<InvalidTTLOrder>()(
-  "InvalidTTLOrder",
-  {},
-) {}
 export class TooManyFieldLevelEncryptionConfigs extends S.TaggedError<TooManyFieldLevelEncryptionConfigs>()(
   "TooManyFieldLevelEncryptionConfigs",
   { Message: S.optional(S.String) },
 ) {}
+export class TooManyRemoveHeadersInResponseHeadersPolicy extends S.TaggedError<TooManyRemoveHeadersInResponseHeadersPolicy>()(
+  "TooManyRemoveHeadersInResponseHeadersPolicy",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidFunctionAssociation extends S.TaggedError<InvalidFunctionAssociation>()(
+  "InvalidFunctionAssociation",
+  { Message: S.optional(S.String) },
+) {}
+export class TrustedSignerDoesNotExist extends S.TaggedError<TrustedSignerDoesNotExist>()(
+  "TrustedSignerDoesNotExist",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidGeoRestrictionParameter extends S.TaggedError<InvalidGeoRestrictionParameter>()(
+  "InvalidGeoRestrictionParameter",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyResponseHeadersPolicies extends S.TaggedError<TooManyResponseHeadersPolicies>()(
+  "TooManyResponseHeadersPolicies",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidHeadersForS3Origin extends S.TaggedError<InvalidHeadersForS3Origin>()(
+  "InvalidHeadersForS3Origin",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidLambdaFunctionAssociation extends S.TaggedError<InvalidLambdaFunctionAssociation>()(
+  "InvalidLambdaFunctionAssociation",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidLocationCode extends S.TaggedError<InvalidLocationCode>()(
+  "InvalidLocationCode",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidMinimumProtocolVersion extends S.TaggedError<InvalidMinimumProtocolVersion>()(
+  "InvalidMinimumProtocolVersion",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidOriginKeepaliveTimeout extends S.TaggedError<InvalidOriginKeepaliveTimeout>()(
+  "InvalidOriginKeepaliveTimeout",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidOriginReadTimeout extends S.TaggedError<InvalidOriginReadTimeout>()(
+  "InvalidOriginReadTimeout",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidQueryStringParameters extends S.TaggedError<InvalidQueryStringParameters>()(
+  "InvalidQueryStringParameters",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidProtocolSettings extends S.TaggedError<InvalidProtocolSettings>()(
+  "InvalidProtocolSettings",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidRelativePath extends S.TaggedError<InvalidRelativePath>()(
+  "InvalidRelativePath",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidRequiredProtocol extends S.TaggedError<InvalidRequiredProtocol>()(
+  "InvalidRequiredProtocol",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidResponseCode extends S.TaggedError<InvalidResponseCode>()(
+  "InvalidResponseCode",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidTTLOrder extends S.TaggedError<InvalidTTLOrder>()(
+  "InvalidTTLOrder",
+  { Message: S.optional(S.String) },
+) {}
 export class InvalidViewerCertificate extends S.TaggedError<InvalidViewerCertificate>()(
   "InvalidViewerCertificate",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class NoSuchOrigin extends S.TaggedError<NoSuchOrigin>()(
   "NoSuchOrigin",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class RealtimeLogConfigOwnerMismatch extends S.TaggedError<RealtimeLogConfigOwnerMismatch>()(
   "RealtimeLogConfigOwnerMismatch",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyCacheBehaviors extends S.TaggedError<TooManyCacheBehaviors>()(
   "TooManyCacheBehaviors",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyCertificates extends S.TaggedError<TooManyCertificates>()(
   "TooManyCertificates",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyCookieNamesInWhiteList extends S.TaggedError<TooManyCookieNamesInWhiteList>()(
   "TooManyCookieNamesInWhiteList",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributionsAssociatedToCachePolicy extends S.TaggedError<TooManyDistributionsAssociatedToCachePolicy>()(
   "TooManyDistributionsAssociatedToCachePolicy",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributions extends S.TaggedError<TooManyDistributions>()(
   "TooManyDistributions",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributionsAssociatedToFieldLevelEncryptionConfig extends S.TaggedError<TooManyDistributionsAssociatedToFieldLevelEncryptionConfig>()(
   "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributionsAssociatedToKeyGroup extends S.TaggedError<TooManyDistributionsAssociatedToKeyGroup>()(
   "TooManyDistributionsAssociatedToKeyGroup",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributionsAssociatedToOriginAccessControl extends S.TaggedError<TooManyDistributionsAssociatedToOriginAccessControl>()(
   "TooManyDistributionsAssociatedToOriginAccessControl",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributionsAssociatedToOriginRequestPolicy extends S.TaggedError<TooManyDistributionsAssociatedToOriginRequestPolicy>()(
   "TooManyDistributionsAssociatedToOriginRequestPolicy",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributionsAssociatedToResponseHeadersPolicy extends S.TaggedError<TooManyDistributionsAssociatedToResponseHeadersPolicy>()(
   "TooManyDistributionsAssociatedToResponseHeadersPolicy",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributionsWithFunctionAssociations extends S.TaggedError<TooManyDistributionsWithFunctionAssociations>()(
   "TooManyDistributionsWithFunctionAssociations",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributionsWithLambdaAssociations extends S.TaggedError<TooManyDistributionsWithLambdaAssociations>()(
   "TooManyDistributionsWithLambdaAssociations",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyDistributionsWithSingleFunctionARN extends S.TaggedError<TooManyDistributionsWithSingleFunctionARN>()(
   "TooManyDistributionsWithSingleFunctionARN",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyFunctionAssociations extends S.TaggedError<TooManyFunctionAssociations>()(
   "TooManyFunctionAssociations",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyHeadersInForwardedValues extends S.TaggedError<TooManyHeadersInForwardedValues>()(
   "TooManyHeadersInForwardedValues",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyKeyGroupsAssociatedToDistribution extends S.TaggedError<TooManyKeyGroupsAssociatedToDistribution>()(
   "TooManyKeyGroupsAssociatedToDistribution",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyLambdaFunctionAssociations extends S.TaggedError<TooManyLambdaFunctionAssociations>()(
   "TooManyLambdaFunctionAssociations",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyOriginCustomHeaders extends S.TaggedError<TooManyOriginCustomHeaders>()(
   "TooManyOriginCustomHeaders",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyOriginGroupsPerDistribution extends S.TaggedError<TooManyOriginGroupsPerDistribution>()(
   "TooManyOriginGroupsPerDistribution",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyOrigins extends S.TaggedError<TooManyOrigins>()(
   "TooManyOrigins",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyQueryStringParameters extends S.TaggedError<TooManyQueryStringParameters>()(
   "TooManyQueryStringParameters",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TrustedKeyGroupDoesNotExist extends S.TaggedError<TrustedKeyGroupDoesNotExist>()(
   "TrustedKeyGroupDoesNotExist",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Deletes the resource policy attached to the CloudFront resource.
- */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      IllegalDelete,
-      InvalidArgument,
-      PreconditionFailed,
-      UnsupportedOperation,
-    ],
-  }),
-);
-/**
- * Deletes a trust store.
- */
-export const deleteTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTrustStoreRequest,
-  output: DeleteTrustStoreResponse,
-  errors: [
-    AccessDenied,
-    CannotDeleteEntityWhileInUse,
-    EntityNotFound,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    PreconditionFailed,
-  ],
-}));
-/**
- * Associates the WAF web ACL with a distribution tenant.
- */
-export const associateDistributionTenantWebACL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateDistributionTenantWebACLRequest,
-    output: AssociateDistributionTenantWebACLResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }));
-/**
- * Associates the WAF web ACL with a distribution.
- */
-export const associateDistributionWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDistributionWebACLRequest,
-    output: AssociateDistributionWebACLResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }),
-);
-/**
- * Deletes an Anycast static IP list.
- */
-export const deleteAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAnycastIpListRequest,
-  output: DeleteAnycastIpListResponse,
-  errors: [
-    AccessDenied,
-    CannotDeleteEntityWhileInUse,
-    EntityNotFound,
-    IllegalDelete,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Deletes a connection function.
- */
-export const deleteConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectionFunctionRequest,
-    output: DeleteConnectionFunctionResponse,
-    errors: [
-      AccessDenied,
-      CannotDeleteEntityWhileInUse,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      UnsupportedOperation,
-    ],
-  }),
-);
-/**
- * Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail.
- *
- * To delete a distribution tenant, you must first disable the distribution tenant by using the `UpdateDistributionTenant` API operation.
- */
-export const deleteDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDistributionTenantRequest,
-    output: DeleteDistributionTenantResponse,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      ResourceNotDisabled,
-    ],
-  }),
-);
-/**
- * Deletes a key group.
- *
- * You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group.
- *
- * To delete a key group, you must provide the key group's identifier and version. To get these values, use `ListKeyGroups` followed by `GetKeyGroup` or `GetKeyGroupConfig`.
- */
-export const deleteKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteKeyGroupRequest,
-  output: DeleteKeyGroupResponse,
-  errors: [
-    InvalidIfMatchVersion,
-    NoSuchResource,
-    PreconditionFailed,
-    ResourceInUse,
-  ],
-}));
-/**
- * Specifies the key value store to delete.
- */
-export const deleteKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteKeyValueStoreRequest,
-  output: DeleteKeyValueStoreResponse,
-  errors: [
-    AccessDenied,
-    CannotDeleteEntityWhileInUse,
-    EntityNotFound,
-    InvalidIfMatchVersion,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use `GetFunction`.
- *
- * To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
- */
-export const describeFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeFunctionRequest,
-  output: DescribeFunctionResult,
-  errors: [NoSuchFunctionExists, UnsupportedOperation],
-}));
-/**
- * Disassociates a distribution tenant from the WAF web ACL.
- */
-export const disassociateDistributionTenantWebACL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDistributionTenantWebACLRequest,
-    output: DisassociateDistributionTenantWebACLResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }));
-/**
- * Disassociates a distribution from the WAF web ACL.
- */
-export const disassociateDistributionWebACL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDistributionWebACLRequest,
-    output: DisassociateDistributionWebACLResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }));
 /**
  * Gets a cache policy configuration.
  *
@@ -7146,33 +6957,6 @@ export const getCloudFrontOriginAccessIdentityConfig =
     errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
   }));
 /**
- * Gets a connection function.
- */
-export const getConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConnectionFunctionRequest,
-    output: GetConnectionFunctionResult,
-    errors: [AccessDenied, EntityNotFound, UnsupportedOperation],
-  }),
-);
-/**
- * Gets information about a connection group.
- */
-export const getConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConnectionGroupRequest,
-  output: GetConnectionGroupResult,
-  errors: [AccessDenied, EntityNotFound],
-}));
-/**
- * Gets information about a connection group by using the endpoint that you specify.
- */
-export const getConnectionGroupByRoutingEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConnectionGroupByRoutingEndpointRequest,
-    output: GetConnectionGroupByRoutingEndpointResult,
-    errors: [AccessDenied, EntityNotFound],
-  }));
-/**
  * Gets configuration information about a continuous deployment policy.
  */
 export const getContinuousDeploymentPolicyConfig =
@@ -7189,25 +6973,6 @@ export const getDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetDistributionResult,
   errors: [AccessDenied, NoSuchDistribution],
 }));
-/**
- * Get the configuration information about a distribution.
- */
-export const getDistributionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDistributionConfigRequest,
-    output: GetDistributionConfigResult,
-    errors: [AccessDenied, NoSuchDistribution],
-  }),
-);
-/**
- * Gets information about a distribution tenant by the associated domain.
- */
-export const getDistributionTenantByDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDistributionTenantByDomainRequest,
-    output: GetDistributionTenantByDomainResult,
-    errors: [AccessDenied, EntityNotFound],
-  }));
 /**
  * Get the field-level encryption configuration information.
  */
@@ -7227,49 +6992,15 @@ export const getFieldLevelEncryptionProfileConfig =
     errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
   }));
 /**
- * Gets the code of a CloudFront function. To get configuration information and metadata about a function, use `DescribeFunction`.
+ * Gets a key group, including the date and time when the key group was last modified.
  *
- * To get a function's code, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
+ * To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
  */
-export const getFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFunctionRequest,
-  output: GetFunctionResult,
-  errors: [NoSuchFunctionExists, UnsupportedOperation],
-}));
-/**
- * Gets information about a specific invalidation for a distribution tenant.
- */
-export const getInvalidationForDistributionTenant =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetInvalidationForDistributionTenantRequest,
-    output: GetInvalidationForDistributionTenantResult,
-    errors: [AccessDenied, EntityNotFound, NoSuchInvalidation],
-  }));
-/**
- * Gets a key group configuration.
- *
- * To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
- */
-export const getKeyGroupConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetKeyGroupConfigRequest,
-  output: GetKeyGroupConfigResult,
+export const getKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetKeyGroupRequest,
+  output: GetKeyGroupResult,
   errors: [NoSuchResource],
 }));
-/**
- * Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
- */
-export const getMonitoringSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMonitoringSubscriptionRequest,
-    output: GetMonitoringSubscriptionResult,
-    errors: [
-      AccessDenied,
-      NoSuchDistribution,
-      NoSuchMonitoringSubscription,
-      UnsupportedOperation,
-    ],
-  }),
-);
 /**
  * Gets a CloudFront origin access control configuration.
  */
@@ -7299,14 +7030,6 @@ export const getPublicKeyConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [AccessDenied, NoSuchPublicKey],
 }));
 /**
- * Retrieves the resource policy for the specified CloudFront resource that you own and have shared.
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResult,
-  errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
-}));
-/**
  * Gets a response headers policy configuration.
  *
  * To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
@@ -7327,36 +7050,80 @@ export const getStreamingDistributionConfig =
     errors: [AccessDenied, NoSuchStreamingDistribution],
   }));
 /**
- * Get the details of an Amazon CloudFront VPC origin.
+ * Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy.
+ *
+ * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const getVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVpcOriginRequest,
-  output: GetVpcOriginResult,
-  errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
-}));
+export const listDistributionsByCachePolicyId =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDistributionsByCachePolicyIdRequest,
+    output: ListDistributionsByCachePolicyIdResult,
+    errors: [AccessDenied, InvalidArgument, NoSuchCachePolicy],
+  }));
 /**
- * Lists connection functions.
+ * Lists the distribution tenants in your Amazon Web Services account.
  */
-export const listConnectionFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listDistributionTenants = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListConnectionFunctionsRequest,
-    output: ListConnectionFunctionsResult,
-    errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
+    input: ListDistributionTenantsRequest,
+    output: ListDistributionTenantsResult,
+    errors: [AccessDenied, EntityNotFound, InvalidArgument],
   }),
 );
 /**
- * Lists the distributions in your account that are associated with the specified `AnycastIpListId`.
+ * Lists distribution tenants by the customization that you specify.
+ *
+ * You must specify either the `CertificateArn` parameter or `WebACLArn` parameter, but not both in the same request.
  */
-export const listDistributionsByAnycastIpListId =
+export const listDistributionTenantsByCustomization =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByAnycastIpListIdRequest,
-    output: ListDistributionsByAnycastIpListIdResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      UnsupportedOperation,
-    ],
+    input: ListDistributionTenantsByCustomizationRequest,
+    output: ListDistributionTenantsByCustomizationResult,
+    errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  }));
+/**
+ * Lists trust stores.
+ */
+export const listTrustStores = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTrustStoresRequest,
+  output: ListTrustStoresResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+}));
+/**
+ * Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
+ */
+export const verifyDnsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: VerifyDnsConfigurationRequest,
+    output: VerifyDnsConfigurationResult,
+    errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  }),
+);
+/**
+ * Gets information about a connection group.
+ */
+export const getConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionGroupRequest,
+  output: GetConnectionGroupResult,
+  errors: [AccessDenied, EntityNotFound],
+}));
+/**
+ * Gets information about a connection group by using the endpoint that you specify.
+ */
+export const getConnectionGroupByRoutingEndpoint =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetConnectionGroupByRoutingEndpointRequest,
+    output: GetConnectionGroupByRoutingEndpointResult,
+    errors: [AccessDenied, EntityNotFound],
+  }));
+/**
+ * Gets information about a distribution tenant by the associated domain.
+ */
+export const getDistributionTenantByDomain =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetDistributionTenantByDomainRequest,
+    output: GetDistributionTenantByDomainResult,
+    errors: [AccessDenied, EntityNotFound],
   }));
 /**
  * Lists distributions by connection function.
@@ -7367,6 +7134,151 @@ export const listDistributionsByConnectionFunction =
     output: ListDistributionsByConnectionFunctionResult,
     errors: [AccessDenied, EntityNotFound, InvalidArgument],
   }));
+/**
+ * Lists distributions by trust store.
+ */
+export const listDistributionsByTrustStore =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDistributionsByTrustStoreRequest,
+    output: ListDistributionsByTrustStoreResult,
+    errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  }));
+/**
+ * Lists the invalidations for a distribution tenant.
+ */
+export const listInvalidationsForDistributionTenant =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListInvalidationsForDistributionTenantRequest,
+    output: ListInvalidationsForDistributionTenantResult,
+    errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  }));
+/**
+ * Gets a key group configuration.
+ *
+ * To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
+ */
+export const getKeyGroupConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetKeyGroupConfigRequest,
+  output: GetKeyGroupConfigResult,
+  errors: [NoSuchResource],
+}));
+/**
+ * Gets a cache policy, including the following metadata:
+ *
+ * - The policy's identifier.
+ *
+ * - The date and time when the policy was last modified.
+ *
+ * To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
+ */
+export const getCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCachePolicyRequest,
+  output: GetCachePolicyResult,
+  errors: [AccessDenied, NoSuchCachePolicy],
+}));
+/**
+ * Get the information about an origin access identity.
+ */
+export const getCloudFrontOriginAccessIdentity =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetCloudFrontOriginAccessIdentityRequest,
+    output: GetCloudFrontOriginAccessIdentityResult,
+    errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
+  }));
+/**
+ * Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
+ */
+export const getContinuousDeploymentPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetContinuousDeploymentPolicyRequest,
+    output: GetContinuousDeploymentPolicyResult,
+    errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
+  }));
+/**
+ * Get the configuration information about a distribution.
+ */
+export const getDistributionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDistributionConfigRequest,
+    output: GetDistributionConfigResult,
+    errors: [AccessDenied, NoSuchDistribution],
+  }),
+);
+/**
+ * Get the field-level encryption configuration information.
+ */
+export const getFieldLevelEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetFieldLevelEncryptionRequest,
+    output: GetFieldLevelEncryptionResult,
+    errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
+  }),
+);
+/**
+ * Get the field-level encryption profile information.
+ */
+export const getFieldLevelEncryptionProfile =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetFieldLevelEncryptionProfileRequest,
+    output: GetFieldLevelEncryptionProfileResult,
+    errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
+  }));
+/**
+ * Gets a CloudFront origin access control, including its unique identifier.
+ */
+export const getOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetOriginAccessControlRequest,
+    output: GetOriginAccessControlResult,
+    errors: [AccessDenied, NoSuchOriginAccessControl],
+  }),
+);
+/**
+ * Gets an origin request policy, including the following metadata:
+ *
+ * - The policy's identifier.
+ *
+ * - The date and time when the policy was last modified.
+ *
+ * To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
+ */
+export const getOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetOriginRequestPolicyRequest,
+    output: GetOriginRequestPolicyResult,
+    errors: [AccessDenied, NoSuchOriginRequestPolicy],
+  }),
+);
+/**
+ * Gets a public key.
+ */
+export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPublicKeyRequest,
+  output: GetPublicKeyResult,
+  errors: [AccessDenied, NoSuchPublicKey],
+}));
+/**
+ * Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
+ *
+ * To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
+ */
+export const getResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetResponseHeadersPolicyRequest,
+    output: GetResponseHeadersPolicyResult,
+    errors: [AccessDenied, NoSuchResponseHeadersPolicy],
+  }),
+);
+/**
+ * Gets information about a specified RTMP distribution, including the distribution configuration.
+ */
+export const getStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetStreamingDistributionRequest,
+    output: GetStreamingDistributionResult,
+    errors: [AccessDenied, NoSuchStreamingDistribution],
+  }),
+);
 /**
  * Lists the distributions by the connection mode that you specify.
  */
@@ -7424,652 +7336,6 @@ export const listDistributionsByResponseHeadersPolicyId =
     errors: [AccessDenied, InvalidArgument, NoSuchResponseHeadersPolicy],
   }));
 /**
- * Lists distributions by trust store.
- */
-export const listDistributionsByTrustStore =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByTrustStoreRequest,
-    output: ListDistributionsByTrustStoreResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-  }));
-/**
- * List CloudFront distributions by their VPC origin ID.
- */
-export const listDistributionsByVpcOriginId =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByVpcOriginIdRequest,
-    output: ListDistributionsByVpcOriginIdResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      UnsupportedOperation,
-    ],
-  }));
-/**
- * Lists the invalidations for a distribution tenant.
- */
-export const listInvalidationsForDistributionTenant =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListInvalidationsForDistributionTenantRequest,
-    output: ListInvalidationsForDistributionTenantResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-  }));
-/**
- * List tags for a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResult,
-  errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
-}));
-/**
- * Publishes a connection function.
- */
-export const publishConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PublishConnectionFunctionRequest,
-    output: PublishConnectionFunctionResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      UnsupportedOperation,
-    ],
-  }),
-);
-/**
- * Publishes a CloudFront function by copying the function code from the `DEVELOPMENT` stage to `LIVE`. This automatically updates all cache behaviors that are using this function to use the newly published copy in the `LIVE` stage.
- *
- * When a function is published to the `LIVE` stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN).
- *
- * To publish a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
- */
-export const publishFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PublishFunctionRequest,
-  output: PublishFunctionResult,
-  errors: [
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    NoSuchFunctionExists,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Creates a resource control policy for a given CloudFront resource.
- */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResult,
-  errors: [
-    AccessDenied,
-    EntityNotFound,
-    IllegalUpdate,
-    InvalidArgument,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Add tags to a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
-}));
-/**
- * Remove tags from a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
-}));
-/**
- * Updates an Anycast static IP list.
- */
-export const updateAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAnycastIpListRequest,
-  output: UpdateAnycastIpListResult,
-  errors: [
-    AccessDenied,
-    EntityNotFound,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * We recommend that you use the `UpdateDomainAssociation` API operation to move a domain association, as it supports both standard distributions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions.
- *
- * Moves a domain from its current standard distribution or distribution tenant to another one.
- *
- * You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domain to another target distribution (standard distribution or distribution tenant).
- *
- * To use this operation, specify the domain and the ID of the target resource (standard distribution or distribution tenant). For more information, including how to set up the target resource, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
- */
-export const updateDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDomainAssociationRequest,
-    output: UpdateDomainAssociationResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      IllegalUpdate,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }),
-);
-/**
- * Specifies the key value store to update.
- */
-export const updateKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateKeyValueStoreRequest,
-  output: UpdateKeyValueStoreResult,
-  errors: [
-    AccessDenied,
-    EntityNotFound,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Updates a real-time log configuration.
- *
- * When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration:
- *
- * - Call `GetRealtimeLogConfig` to get the current real-time log configuration.
- *
- * - Locally modify the parameters in the real-time log configuration that you want to update.
- *
- * - Call this API (`UpdateRealtimeLogConfig`) by providing the entire real-time log configuration, including the parameters that you modified and those that you didn't.
- *
- * You cannot update a real-time log configuration's `Name` or `ARN`.
- */
-export const updateRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRealtimeLogConfigRequest,
-    output: UpdateRealtimeLogConfigResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
-  }),
-);
-/**
- * Updates a trust store.
- */
-export const updateTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTrustStoreRequest,
-  output: UpdateTrustStoreResult,
-  errors: [
-    AccessDenied,
-    EntityNotFound,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    PreconditionFailed,
-  ],
-}));
-/**
- * Creates a connection group.
- */
-export const createConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConnectionGroupRequest,
-    output: CreateConnectionGroupResult,
-    errors: [
-      AccessDenied,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidTagging,
-    ],
-  }),
-);
-/**
- * Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid `ImportSource` that you own.
- */
-export const createKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateKeyValueStoreRequest,
-  output: CreateKeyValueStoreResult,
-  errors: [
-    AccessDenied,
-    EntityAlreadyExists,
-    EntityLimitExceeded,
-    EntitySizeLimitExceeded,
-    InvalidArgument,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Deletes a cache policy.
- *
- * You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy.
- *
- * To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use `ListCachePolicies` or `GetCachePolicy`.
- */
-export const deleteCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCachePolicyRequest,
-  output: DeleteCachePolicyResponse,
-  errors: [
-    AccessDenied,
-    CachePolicyInUse,
-    IllegalDelete,
-    InvalidIfMatchVersion,
-    NoSuchCachePolicy,
-    PreconditionFailed,
-  ],
-}));
-/**
- * Delete an origin access identity.
- */
-export const deleteCloudFrontOriginAccessIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCloudFrontOriginAccessIdentityRequest,
-    output: DeleteCloudFrontOriginAccessIdentityResponse,
-    errors: [
-      AccessDenied,
-      CloudFrontOriginAccessIdentityInUse,
-      InvalidIfMatchVersion,
-      NoSuchCloudFrontOriginAccessIdentity,
-      PreconditionFailed,
-    ],
-  }));
-/**
- * Deletes a connection group.
- */
-export const deleteConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectionGroupRequest,
-    output: DeleteConnectionGroupResponse,
-    errors: [
-      AccessDenied,
-      CannotDeleteEntityWhileInUse,
-      EntityNotFound,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      ResourceNotDisabled,
-    ],
-  }),
-);
-/**
- * Deletes a continuous deployment policy.
- *
- * You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
- */
-export const deleteContinuousDeploymentPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteContinuousDeploymentPolicyRequest,
-    output: DeleteContinuousDeploymentPolicyResponse,
-    errors: [
-      AccessDenied,
-      ContinuousDeploymentPolicyInUse,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchContinuousDeploymentPolicy,
-      PreconditionFailed,
-    ],
-  }));
-/**
- * Delete a distribution.
- *
- * Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered.
- */
-export const deleteDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDistributionRequest,
-  output: DeleteDistributionResponse,
-  errors: [
-    AccessDenied,
-    DistributionNotDisabled,
-    InvalidIfMatchVersion,
-    NoSuchDistribution,
-    PreconditionFailed,
-    ResourceInUse,
-  ],
-}));
-/**
- * Remove a field-level encryption configuration.
- */
-export const deleteFieldLevelEncryptionConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteFieldLevelEncryptionConfigRequest,
-    output: DeleteFieldLevelEncryptionConfigResponse,
-    errors: [
-      AccessDenied,
-      FieldLevelEncryptionConfigInUse,
-      InvalidIfMatchVersion,
-      NoSuchFieldLevelEncryptionConfig,
-      PreconditionFailed,
-    ],
-  }));
-/**
- * Remove a field-level encryption profile.
- */
-export const deleteFieldLevelEncryptionProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteFieldLevelEncryptionProfileRequest,
-    output: DeleteFieldLevelEncryptionProfileResponse,
-    errors: [
-      AccessDenied,
-      FieldLevelEncryptionProfileInUse,
-      InvalidIfMatchVersion,
-      NoSuchFieldLevelEncryptionProfile,
-      PreconditionFailed,
-    ],
-  }));
-/**
- * Deletes a CloudFront function.
- *
- * You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function.
- *
- * To delete a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
- */
-export const deleteFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFunctionRequest,
-  output: DeleteFunctionResponse,
-  errors: [
-    FunctionInUse,
-    InvalidIfMatchVersion,
-    NoSuchFunctionExists,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Disables additional CloudWatch metrics for the specified CloudFront distribution.
- */
-export const deleteMonitoringSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMonitoringSubscriptionRequest,
-    output: DeleteMonitoringSubscriptionResult,
-    errors: [
-      AccessDenied,
-      NoSuchDistribution,
-      NoSuchMonitoringSubscription,
-      UnsupportedOperation,
-    ],
-  }));
-/**
- * Deletes a CloudFront origin access control.
- *
- * You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
- */
-export const deleteOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOriginAccessControlRequest,
-    output: DeleteOriginAccessControlResponse,
-    errors: [
-      AccessDenied,
-      InvalidIfMatchVersion,
-      NoSuchOriginAccessControl,
-      OriginAccessControlInUse,
-      PreconditionFailed,
-    ],
-  }),
-);
-/**
- * Remove a public key you previously added to CloudFront.
- */
-export const deletePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePublicKeyRequest,
-  output: DeletePublicKeyResponse,
-  errors: [
-    AccessDenied,
-    InvalidIfMatchVersion,
-    NoSuchPublicKey,
-    PreconditionFailed,
-    PublicKeyInUse,
-  ],
-}));
-/**
- * Deletes a response headers policy.
- *
- * You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy.
- *
- * To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use `ListResponseHeadersPolicies` or `GetResponseHeadersPolicy`.
- */
-export const deleteResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResponseHeadersPolicyRequest,
-    output: DeleteResponseHeadersPolicyResponse,
-    errors: [
-      AccessDenied,
-      IllegalDelete,
-      InvalidIfMatchVersion,
-      NoSuchResponseHeadersPolicy,
-      PreconditionFailed,
-      ResponseHeadersPolicyInUse,
-    ],
-  }),
-);
-/**
- * Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.
- *
- * **To delete an RTMP distribution using the CloudFront API**:
- *
- * - Disable the RTMP distribution.
- *
- * - Submit a `GET Streaming Distribution Config` request to get the current configuration and the `Etag` header for the distribution.
- *
- * - Update the XML document that was returned in the response to your `GET Streaming Distribution Config` request to change the value of `Enabled` to `false`.
- *
- * - Submit a `PUT Streaming Distribution Config` request to update the configuration for your distribution. In the request body, include the XML document that you updated in Step 3. Then set the value of the HTTP `If-Match` header to the value of the `ETag` header that CloudFront returned when you submitted the `GET Streaming Distribution Config` request in Step 2.
- *
- * - Review the response to the `PUT Streaming Distribution Config` request to confirm that the distribution was successfully disabled.
- *
- * - Submit a `GET Streaming Distribution Config` request to confirm that your changes have propagated. When propagation is complete, the value of `Status` is `Deployed`.
- *
- * - Submit a `DELETE Streaming Distribution` request. Set the value of the HTTP `If-Match` header to the value of the `ETag` header that CloudFront returned when you submitted the `GET Streaming Distribution Config` request in Step 2.
- *
- * - Review the response to your `DELETE Streaming Distribution` request to confirm that the distribution was successfully deleted.
- *
- * For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the *Amazon CloudFront Developer Guide*.
- */
-export const deleteStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStreamingDistributionRequest,
-    output: DeleteStreamingDistributionResponse,
-    errors: [
-      AccessDenied,
-      InvalidIfMatchVersion,
-      NoSuchStreamingDistribution,
-      PreconditionFailed,
-      StreamingDistributionNotDisabled,
-    ],
-  }),
-);
-/**
- * Delete an Amazon CloudFront VPC origin.
- */
-export const deleteVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVpcOriginRequest,
-  output: DeleteVpcOriginResult,
-  errors: [
-    AccessDenied,
-    CannotDeleteEntityWhileInUse,
-    EntityNotFound,
-    IllegalDelete,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Describes a connection function.
- */
-export const describeConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConnectionFunctionRequest,
-    output: DescribeConnectionFunctionResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      UnsupportedOperation,
-    ],
-  }),
-);
-/**
- * Specifies the key value store and its configuration.
- */
-export const describeKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeKeyValueStoreRequest,
-    output: DescribeKeyValueStoreResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      UnsupportedOperation,
-    ],
-  }),
-);
-/**
- * Gets a cache policy, including the following metadata:
- *
- * - The policy's identifier.
- *
- * - The date and time when the policy was last modified.
- *
- * To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
- */
-export const getCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCachePolicyRequest,
-  output: GetCachePolicyResult,
-  errors: [AccessDenied, NoSuchCachePolicy],
-}));
-/**
- * Get the information about an origin access identity.
- */
-export const getCloudFrontOriginAccessIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCloudFrontOriginAccessIdentityRequest,
-    output: GetCloudFrontOriginAccessIdentityResult,
-    errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
-  }));
-/**
- * Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
- */
-export const getContinuousDeploymentPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContinuousDeploymentPolicyRequest,
-    output: GetContinuousDeploymentPolicyResult,
-    errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
-  }));
-/**
- * Get the field-level encryption configuration information.
- */
-export const getFieldLevelEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetFieldLevelEncryptionRequest,
-    output: GetFieldLevelEncryptionResult,
-    errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
-  }),
-);
-/**
- * Get the field-level encryption profile information.
- */
-export const getFieldLevelEncryptionProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetFieldLevelEncryptionProfileRequest,
-    output: GetFieldLevelEncryptionProfileResult,
-    errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
-  }));
-/**
- * Get the information about an invalidation.
- */
-export const getInvalidation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInvalidationRequest,
-  output: GetInvalidationResult,
-  errors: [AccessDenied, NoSuchDistribution, NoSuchInvalidation],
-}));
-/**
- * Gets a key group, including the date and time when the key group was last modified.
- *
- * To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
- */
-export const getKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetKeyGroupRequest,
-  output: GetKeyGroupResult,
-  errors: [NoSuchResource],
-}));
-/**
- * Gets a CloudFront origin access control, including its unique identifier.
- */
-export const getOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOriginAccessControlRequest,
-    output: GetOriginAccessControlResult,
-    errors: [AccessDenied, NoSuchOriginAccessControl],
-  }),
-);
-/**
- * Gets an origin request policy, including the following metadata:
- *
- * - The policy's identifier.
- *
- * - The date and time when the policy was last modified.
- *
- * To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
- */
-export const getOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOriginRequestPolicyRequest,
-    output: GetOriginRequestPolicyResult,
-    errors: [AccessDenied, NoSuchOriginRequestPolicy],
-  }),
-);
-/**
- * Gets a public key.
- */
-export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPublicKeyRequest,
-  output: GetPublicKeyResult,
-  errors: [AccessDenied, NoSuchPublicKey],
-}));
-/**
- * Gets a real-time log configuration.
- *
- * To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
- */
-export const getRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRealtimeLogConfigRequest,
-    output: GetRealtimeLogConfigResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
-  }),
-);
-/**
- * Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
- *
- * To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
- */
-export const getResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResponseHeadersPolicyRequest,
-    output: GetResponseHeadersPolicyResult,
-    errors: [AccessDenied, NoSuchResponseHeadersPolicy],
-  }),
-);
-/**
- * Gets information about a specified RTMP distribution, including the distribution configuration.
- */
-export const getStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetStreamingDistributionRequest,
-    output: GetStreamingDistributionResult,
-    errors: [AccessDenied, NoSuchStreamingDistribution],
-  }),
-);
-/**
  * Gets a trust store.
  */
 export const getTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -8078,427 +7344,15 @@ export const getTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
 }));
 /**
- * Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy.
+ * Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use `GetFunction`.
  *
- * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
+ * To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
  */
-export const listDistributionsByCachePolicyId =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByCachePolicyIdRequest,
-    output: ListDistributionsByCachePolicyIdResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchCachePolicy],
-  }));
-/**
- * List the distributions that are associated with a specified WAF web ACL.
- */
-export const listDistributionsByWebACLId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDistributionsByWebACLIdRequest,
-    output: ListDistributionsByWebACLIdResult,
-    errors: [InvalidArgument, InvalidWebACLId],
-  }),
-);
-/**
- * Lists the distribution tenants in your Amazon Web Services account.
- */
-export const listDistributionTenants = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDistributionTenantsRequest,
-    output: ListDistributionTenantsResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-  }),
-);
-/**
- * Lists distribution tenants by the customization that you specify.
- *
- * You must specify either the `CertificateArn` parameter or `WebACLArn` parameter, but not both in the same request.
- */
-export const listDistributionTenantsByCustomization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionTenantsByCustomizationRequest,
-    output: ListDistributionTenantsByCustomizationResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-  }));
-/**
- * Gets a list of all CloudFront functions in your Amazon Web Services account.
- *
- * You can optionally apply a filter to return only the functions that are in the specified stage, either `DEVELOPMENT` or `LIVE`.
- *
- * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
- */
-export const listFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFunctionsRequest,
-  output: ListFunctionsResult,
-  errors: [InvalidArgument, UnsupportedOperation],
+export const describeFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFunctionRequest,
+  output: DescribeFunctionResult,
+  errors: [NoSuchFunctionExists, UnsupportedOperation],
 }));
-/**
- * Specifies the key value stores to list.
- */
-export const listKeyValueStores = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListKeyValueStoresRequest,
-  output: ListKeyValueStoresResult,
-  errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
-}));
-/**
- * Gets a list of real-time log configurations.
- *
- * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
- */
-export const listRealtimeLogConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRealtimeLogConfigsRequest,
-    output: ListRealtimeLogConfigsResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
-  }),
-);
-/**
- * Lists trust stores.
- */
-export const listTrustStores = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTrustStoresRequest,
-  output: ListTrustStoresResult,
-  errors: [AccessDenied, EntityNotFound, InvalidArgument],
-}));
-/**
- * Tests a CloudFront function.
- *
- * To test a function, you provide an *event object* that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see Testing functions in the *Amazon CloudFront Developer Guide*.
- *
- * To test a function, you provide the function's name and version (`ETag` value) along with the event object. To get the function's name and version, you can use `ListFunctions` and `DescribeFunction`.
- */
-export const testFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestFunctionRequest,
-  output: TestFunctionResult,
-  errors: [
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    NoSuchFunctionExists,
-    TestFunctionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Updates a connection function.
- */
-export const updateConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectionFunctionRequest,
-    output: UpdateConnectionFunctionResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      EntitySizeLimitExceeded,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      UnsupportedOperation,
-    ],
-  }),
-);
-/**
- * Updates a connection group.
- */
-export const updateConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectionGroupRequest,
-    output: UpdateConnectionGroupResult,
-    errors: [
-      AccessDenied,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      ResourceInUse,
-    ],
-  }),
-);
-/**
- * Updates a continuous deployment policy. You can update a continuous deployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to.
- *
- * When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a continuous deployment policy configuration:
- *
- * - Use `GetContinuousDeploymentPolicyConfig` to get the current configuration.
- *
- * - Locally modify the fields in the continuous deployment policy configuration that you want to update.
- *
- * - Use `UpdateContinuousDeploymentPolicy`, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
- */
-export const updateContinuousDeploymentPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContinuousDeploymentPolicyRequest,
-    output: UpdateContinuousDeploymentPolicyResult,
-    errors: [
-      AccessDenied,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchContinuousDeploymentPolicy,
-      PreconditionFailed,
-      StagingDistributionInUse,
-    ],
-  }));
-/**
- * Updates a CloudFront function.
- *
- * You can update a function's code or the comment that describes the function. You cannot update a function's name.
- *
- * To update a function, you provide the function's name and version (`ETag` value) along with the updated function code. To get the name and version, you can use `ListFunctions` and `DescribeFunction`.
- */
-export const updateFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFunctionRequest,
-  output: UpdateFunctionResult,
-  errors: [
-    FunctionSizeLimitExceeded,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    NoSuchFunctionExists,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Updates a CloudFront origin access control.
- */
-export const updateOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateOriginAccessControlRequest,
-    output: UpdateOriginAccessControlResult,
-    errors: [
-      AccessDenied,
-      IllegalUpdate,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchOriginAccessControl,
-      OriginAccessControlAlreadyExists,
-      PreconditionFailed,
-    ],
-  }),
-);
-/**
- * Update public key information. Note that the only value you can change is the comment.
- */
-export const updatePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePublicKeyRequest,
-  output: UpdatePublicKeyResult,
-  errors: [
-    AccessDenied,
-    CannotChangeImmutablePublicKeyFields,
-    IllegalUpdate,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    NoSuchPublicKey,
-    PreconditionFailed,
-  ],
-}));
-/**
- * Update an Amazon CloudFront VPC origin in your account.
- */
-export const updateVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateVpcOriginRequest,
-  output: UpdateVpcOriginResult,
-  errors: [
-    AccessDenied,
-    CannotUpdateEntityWhileInUse,
-    EntityAlreadyExists,
-    EntityLimitExceeded,
-    EntityNotFound,
-    IllegalUpdate,
-    InconsistentQuantities,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    PreconditionFailed,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
- */
-export const verifyDnsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: VerifyDnsConfigurationRequest,
-    output: VerifyDnsConfigurationResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-  }),
-);
-/**
- * The `AssociateAlias` API operation only supports standard distributions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead.
- *
- * Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name.
- *
- * With this operation, you can move an alias that's already used for a standard distribution to a different standard distribution. This prevents the downtime that could occur if you first remove the alias from one standard distribution and then separately add the alias to another standard distribution.
- *
- * To use this operation, specify the alias and the ID of the target standard distribution.
- *
- * For more information, including how to set up the target standard distribution, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
- */
-export const associateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateAliasRequest,
-  output: AssociateAliasResponse,
-  errors: [
-    AccessDenied,
-    IllegalUpdate,
-    InvalidArgument,
-    NoSuchDistribution,
-    TooManyDistributionCNAMEs,
-  ],
-}));
-/**
- * Creates an Anycast static IP list.
- */
-export const createAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAnycastIpListRequest,
-  output: CreateAnycastIpListResult,
-  errors: [
-    AccessDenied,
-    EntityAlreadyExists,
-    EntityLimitExceeded,
-    InvalidArgument,
-    InvalidTagging,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Creates a distribution tenant.
- */
-export const createDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDistributionTenantRequest,
-    output: CreateDistributionTenantResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidAssociation,
-      InvalidTagging,
-    ],
-  }),
-);
-/**
- * Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
- */
-export const createInvalidationForDistributionTenant =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateInvalidationForDistributionTenantRequest,
-    output: CreateInvalidationForDistributionTenantResult,
-    errors: [
-      AccessDenied,
-      BatchTooLarge,
-      EntityNotFound,
-      InconsistentQuantities,
-      InvalidArgument,
-      MissingBody,
-      TooManyInvalidationsInProgress,
-    ],
-  }));
-/**
- * Creates a key group that you can use with CloudFront signed URLs and signed cookies.
- *
- * To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the *Amazon CloudFront Developer Guide*.
- */
-export const createKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateKeyGroupRequest,
-  output: CreateKeyGroupResult,
-  errors: [
-    InvalidArgument,
-    KeyGroupAlreadyExists,
-    TooManyKeyGroups,
-    TooManyPublicKeysInKeyGroup,
-  ],
-}));
-/**
- * Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin.
- *
- * This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront.
- *
- * For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the *Amazon CloudFront Developer Guide*.
- */
-export const createOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOriginAccessControlRequest,
-    output: CreateOriginAccessControlResult,
-    errors: [
-      InvalidArgument,
-      OriginAccessControlAlreadyExists,
-      TooManyOriginAccessControls,
-    ],
-  }),
-);
-/**
- * Creates a trust store.
- */
-export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTrustStoreRequest,
-  output: CreateTrustStoreResult,
-  errors: [
-    AccessDenied,
-    EntityAlreadyExists,
-    EntityLimitExceeded,
-    EntityNotFound,
-    InvalidArgument,
-    InvalidTagging,
-  ],
-}));
-/**
- * Create an Amazon CloudFront VPC origin.
- */
-export const createVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVpcOriginRequest,
-  output: CreateVpcOriginResult,
-  errors: [
-    AccessDenied,
-    EntityAlreadyExists,
-    EntityLimitExceeded,
-    InconsistentQuantities,
-    InvalidArgument,
-    InvalidTagging,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Deletes an origin request policy.
- *
- * You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy.
- *
- * To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use `ListOriginRequestPolicies` or `GetOriginRequestPolicy`.
- */
-export const deleteOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOriginRequestPolicyRequest,
-    output: DeleteOriginRequestPolicyResponse,
-    errors: [
-      AccessDenied,
-      IllegalDelete,
-      InvalidIfMatchVersion,
-      NoSuchOriginRequestPolicy,
-      OriginRequestPolicyInUse,
-      PreconditionFailed,
-    ],
-  }),
-);
-/**
- * Deletes a real-time log configuration.
- *
- * You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration.
- *
- * To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
- */
-export const deleteRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRealtimeLogConfigRequest,
-    output: DeleteRealtimeLogConfigResponse,
-    errors: [
-      AccessDenied,
-      InvalidArgument,
-      NoSuchRealtimeLogConfig,
-      RealtimeLogConfigInUse,
-    ],
-  }),
-);
 /**
  * Gets an Anycast static IP list.
  */
@@ -8715,6 +7569,18 @@ export const listPublicKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidArgument],
 }));
 /**
+ * Gets a list of real-time log configurations.
+ *
+ * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
+ */
+export const listRealtimeLogConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListRealtimeLogConfigsRequest,
+    output: ListRealtimeLogConfigsResult,
+    errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
+  }),
+);
+/**
  * Gets a list of response headers policies.
  *
  * You can optionally apply a filter to get only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account.
@@ -8747,19 +7613,41 @@ export const listVpcOrigins = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
 }));
 /**
- * Tests a connection function.
+ * Tests a CloudFront function.
+ *
+ * To test a function, you provide an *event object* that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see Testing functions in the *Amazon CloudFront Developer Guide*.
+ *
+ * To test a function, you provide the function's name and version (`ETag` value) along with the event object. To get the function's name and version, you can use `ListFunctions` and `DescribeFunction`.
  */
-export const testConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const testFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestFunctionRequest,
+  output: TestFunctionResult,
+  errors: [
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchFunctionExists,
+    TestFunctionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Deletes an origin request policy.
+ *
+ * You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy.
+ *
+ * To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use `ListOriginRequestPolicies` or `GetOriginRequestPolicy`.
+ */
+export const deleteOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: TestConnectionFunctionRequest,
-    output: TestConnectionFunctionResult,
+    input: DeleteOriginRequestPolicyRequest,
+    output: DeleteOriginRequestPolicyResponse,
     errors: [
-      EntityNotFound,
-      InvalidArgument,
+      AccessDenied,
+      IllegalDelete,
       InvalidIfMatchVersion,
+      NoSuchOriginRequestPolicy,
+      OriginRequestPolicyInUse,
       PreconditionFailed,
-      TestFunctionFailed,
-      UnsupportedOperation,
     ],
   }),
 );
@@ -8782,25 +7670,1061 @@ export const updateCloudFrontOriginAccessIdentity =
     ],
   }));
 /**
- * Updates a distribution tenant.
+ * Updates a CloudFront origin access control.
  */
-export const updateDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateDistributionTenantRequest,
-    output: UpdateDistributionTenantResult,
+    input: UpdateOriginAccessControlRequest,
+    output: UpdateOriginAccessControlResult,
     errors: [
       AccessDenied,
-      CNAMEAlreadyExists,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
+      IllegalUpdate,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      NoSuchOriginAccessControl,
+      OriginAccessControlAlreadyExists,
+      PreconditionFailed,
+    ],
+  }),
+);
+/**
+ * Gets information about a specific invalidation for a distribution tenant.
+ */
+export const getInvalidationForDistributionTenant =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetInvalidationForDistributionTenantRequest,
+    output: GetInvalidationForDistributionTenantResult,
+    errors: [AccessDenied, EntityNotFound, NoSuchInvalidation],
+  }));
+/**
+ * Updates a connection function.
+ */
+export const updateConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConnectionFunctionRequest,
+    output: UpdateConnectionFunctionResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      EntitySizeLimitExceeded,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Tests a connection function.
+ */
+export const testConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: TestConnectionFunctionRequest,
+    output: TestConnectionFunctionResult,
+    errors: [
       EntityNotFound,
       InvalidArgument,
-      InvalidAssociation,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+      TestFunctionFailed,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Updates a CloudFront function.
+ *
+ * You can update a function's code or the comment that describes the function. You cannot update a function's name.
+ *
+ * To update a function, you provide the function's name and version (`ETag` value) along with the updated function code. To get the name and version, you can use `ListFunctions` and `DescribeFunction`.
+ */
+export const updateFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFunctionRequest,
+  output: UpdateFunctionResult,
+  errors: [
+    FunctionSizeLimitExceeded,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchFunctionExists,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Update public key information. Note that the only value you can change is the comment.
+ */
+export const updatePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePublicKeyRequest,
+  output: UpdatePublicKeyResult,
+  errors: [
+    AccessDenied,
+    CannotChangeImmutablePublicKeyFields,
+    IllegalUpdate,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchPublicKey,
+    PreconditionFailed,
+  ],
+}));
+/**
+ * Delete an origin access identity.
+ */
+export const deleteCloudFrontOriginAccessIdentity =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteCloudFrontOriginAccessIdentityRequest,
+    output: DeleteCloudFrontOriginAccessIdentityResponse,
+    errors: [
+      AccessDenied,
+      CloudFrontOriginAccessIdentityInUse,
+      InvalidIfMatchVersion,
+      NoSuchCloudFrontOriginAccessIdentity,
+      PreconditionFailed,
+    ],
+  }));
+/**
+ * Deletes a continuous deployment policy.
+ *
+ * You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
+ */
+export const deleteContinuousDeploymentPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteContinuousDeploymentPolicyRequest,
+    output: DeleteContinuousDeploymentPolicyResponse,
+    errors: [
+      AccessDenied,
+      ContinuousDeploymentPolicyInUse,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      NoSuchContinuousDeploymentPolicy,
+      PreconditionFailed,
+    ],
+  }));
+/**
+ * Remove a field-level encryption configuration.
+ */
+export const deleteFieldLevelEncryptionConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteFieldLevelEncryptionConfigRequest,
+    output: DeleteFieldLevelEncryptionConfigResponse,
+    errors: [
+      AccessDenied,
+      FieldLevelEncryptionConfigInUse,
+      InvalidIfMatchVersion,
+      NoSuchFieldLevelEncryptionConfig,
+      PreconditionFailed,
+    ],
+  }));
+/**
+ * Remove a field-level encryption profile.
+ */
+export const deleteFieldLevelEncryptionProfile =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteFieldLevelEncryptionProfileRequest,
+    output: DeleteFieldLevelEncryptionProfileResponse,
+    errors: [
+      AccessDenied,
+      FieldLevelEncryptionProfileInUse,
+      InvalidIfMatchVersion,
+      NoSuchFieldLevelEncryptionProfile,
+      PreconditionFailed,
+    ],
+  }));
+/**
+ * Associates the WAF web ACL with a distribution.
+ */
+export const associateDistributionWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateDistributionWebACLRequest,
+    output: AssociateDistributionWebACLResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidArgument,
       InvalidIfMatchVersion,
       PreconditionFailed,
     ],
   }),
 );
+/**
+ * Disassociates a distribution tenant from the WAF web ACL.
+ */
+export const disassociateDistributionTenantWebACL =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateDistributionTenantWebACLRequest,
+    output: DisassociateDistributionTenantWebACLResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+    ],
+  }));
+/**
+ * Disassociates a distribution from the WAF web ACL.
+ */
+export const disassociateDistributionWebACL =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateDistributionWebACLRequest,
+    output: DisassociateDistributionWebACLResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+    ],
+  }));
+/**
+ * Publishes a connection function.
+ */
+export const publishConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PublishConnectionFunctionRequest,
+    output: PublishConnectionFunctionResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Creates a resource control policy for a given CloudFront resource.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    IllegalUpdate,
+    InvalidArgument,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Updates an Anycast static IP list.
+ */
+export const updateAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnycastIpListRequest,
+  output: UpdateAnycastIpListResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * We recommend that you use the `UpdateDomainAssociation` API operation to move a domain association, as it supports both standard distributions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions.
+ *
+ * Moves a domain from its current standard distribution or distribution tenant to another one.
+ *
+ * You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domain to another target distribution (standard distribution or distribution tenant).
+ *
+ * To use this operation, specify the domain and the ID of the target resource (standard distribution or distribution tenant). For more information, including how to set up the target resource, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
+ */
+export const updateDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDomainAssociationRequest,
+    output: UpdateDomainAssociationResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      IllegalUpdate,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+    ],
+  }),
+);
+/**
+ * Specifies the key value store to update.
+ */
+export const updateKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateKeyValueStoreRequest,
+  output: UpdateKeyValueStoreResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Updates a trust store.
+ */
+export const updateTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTrustStoreRequest,
+  output: UpdateTrustStoreResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+  ],
+}));
+/**
+ * Deletes the resource policy attached to the CloudFront resource.
+ */
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyRequest,
+    output: DeleteResourcePolicyResponse,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      IllegalDelete,
+      InvalidArgument,
+      PreconditionFailed,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Deletes a CloudFront function.
+ *
+ * You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function.
+ *
+ * To delete a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
+ */
+export const deleteFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFunctionRequest,
+  output: DeleteFunctionResponse,
+  errors: [
+    FunctionInUse,
+    InvalidIfMatchVersion,
+    NoSuchFunctionExists,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Publishes a CloudFront function by copying the function code from the `DEVELOPMENT` stage to `LIVE`. This automatically updates all cache behaviors that are using this function to use the newly published copy in the `LIVE` stage.
+ *
+ * When a function is published to the `LIVE` stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN).
+ *
+ * To publish a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
+ */
+export const publishFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishFunctionRequest,
+  output: PublishFunctionResult,
+  errors: [
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchFunctionExists,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Associates the WAF web ACL with a distribution tenant.
+ */
+export const associateDistributionTenantWebACL =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateDistributionTenantWebACLRequest,
+    output: AssociateDistributionTenantWebACLResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+    ],
+  }));
+/**
+ * Deletes a connection function.
+ */
+export const deleteConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConnectionFunctionRequest,
+    output: DeleteConnectionFunctionResponse,
+    errors: [
+      AccessDenied,
+      CannotDeleteEntityWhileInUse,
+      EntityNotFound,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Specifies the key value store to delete.
+ */
+export const deleteKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteKeyValueStoreRequest,
+  output: DeleteKeyValueStoreResponse,
+  errors: [
+    AccessDenied,
+    CannotDeleteEntityWhileInUse,
+    EntityNotFound,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Deletes a trust store.
+ */
+export const deleteTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrustStoreRequest,
+  output: DeleteTrustStoreResponse,
+  errors: [
+    AccessDenied,
+    CannotDeleteEntityWhileInUse,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+  ],
+}));
+/**
+ * Delete an Amazon CloudFront VPC origin.
+ */
+export const deleteVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcOriginRequest,
+  output: DeleteVpcOriginResult,
+  errors: [
+    AccessDenied,
+    CannotDeleteEntityWhileInUse,
+    EntityNotFound,
+    IllegalDelete,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Deletes an Anycast static IP list.
+ */
+export const deleteAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnycastIpListRequest,
+  output: DeleteAnycastIpListResponse,
+  errors: [
+    AccessDenied,
+    CannotDeleteEntityWhileInUse,
+    EntityNotFound,
+    IllegalDelete,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Deletes a cache policy.
+ *
+ * You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy.
+ *
+ * To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use `ListCachePolicies` or `GetCachePolicy`.
+ */
+export const deleteCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCachePolicyRequest,
+  output: DeleteCachePolicyResponse,
+  errors: [
+    AccessDenied,
+    CachePolicyInUse,
+    IllegalDelete,
+    InvalidIfMatchVersion,
+    NoSuchCachePolicy,
+    PreconditionFailed,
+  ],
+}));
+/**
+ * Lists connection functions.
+ */
+export const listConnectionFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListConnectionFunctionsRequest,
+    output: ListConnectionFunctionsResult,
+    errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
+  }),
+);
+/**
+ * Gets a list of all CloudFront functions in your Amazon Web Services account.
+ *
+ * You can optionally apply a filter to return only the functions that are in the specified stage, either `DEVELOPMENT` or `LIVE`.
+ *
+ * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
+ */
+export const listFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFunctionsRequest,
+  output: ListFunctionsResult,
+  errors: [InvalidArgument, UnsupportedOperation],
+}));
+/**
+ * Specifies the key value stores to list.
+ */
+export const listKeyValueStores = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListKeyValueStoresRequest,
+  output: ListKeyValueStoresResult,
+  errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
+}));
+/**
+ * Gets a connection function.
+ */
+export const getConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetConnectionFunctionRequest,
+    output: GetConnectionFunctionResult,
+    errors: [AccessDenied, EntityNotFound, UnsupportedOperation],
+  }),
+);
+/**
+ * Retrieves the resource policy for the specified CloudFront resource that you own and have shared.
+ */
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+}));
+/**
+ * Get the details of an Amazon CloudFront VPC origin.
+ */
+export const getVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVpcOriginRequest,
+  output: GetVpcOriginResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+}));
+/**
+ * Lists the distributions in your account that are associated with the specified `AnycastIpListId`.
+ */
+export const listDistributionsByAnycastIpListId =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDistributionsByAnycastIpListIdRequest,
+    output: ListDistributionsByAnycastIpListIdResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidArgument,
+      UnsupportedOperation,
+    ],
+  }));
+/**
+ * List CloudFront distributions by their VPC origin ID.
+ */
+export const listDistributionsByVpcOriginId =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDistributionsByVpcOriginIdRequest,
+    output: ListDistributionsByVpcOriginIdResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidArgument,
+      UnsupportedOperation,
+    ],
+  }));
+/**
+ * Gets the code of a CloudFront function. To get configuration information and metadata about a function, use `DescribeFunction`.
+ *
+ * To get a function's code, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
+ */
+export const getFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFunctionRequest,
+  output: GetFunctionResult,
+  errors: [NoSuchFunctionExists, UnsupportedOperation],
+}));
+/**
+ * Describes a connection function.
+ */
+export const describeConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeConnectionFunctionRequest,
+    output: DescribeConnectionFunctionResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidArgument,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Specifies the key value store and its configuration.
+ */
+export const describeKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeKeyValueStoreRequest,
+    output: DescribeKeyValueStoreResult,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidArgument,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
+ */
+export const getMonitoringSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMonitoringSubscriptionRequest,
+    output: GetMonitoringSubscriptionResult,
+    errors: [
+      AccessDenied,
+      NoSuchDistribution,
+      NoSuchMonitoringSubscription,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Deletes a CloudFront origin access control.
+ *
+ * You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
+ */
+export const deleteOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteOriginAccessControlRequest,
+    output: DeleteOriginAccessControlResponse,
+    errors: [
+      AccessDenied,
+      InvalidIfMatchVersion,
+      NoSuchOriginAccessControl,
+      OriginAccessControlInUse,
+      PreconditionFailed,
+    ],
+  }),
+);
+/**
+ * List the distributions that are associated with a specified WAF web ACL.
+ */
+export const listDistributionsByWebACLId = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDistributionsByWebACLIdRequest,
+    output: ListDistributionsByWebACLIdResult,
+    errors: [InvalidArgument, InvalidWebACLId],
+  }),
+);
+/**
+ * List tags for a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResult,
+  errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
+}));
+/**
+ * The `AssociateAlias` API operation only supports standard distributions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead.
+ *
+ * Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name.
+ *
+ * With this operation, you can move an alias that's already used for a standard distribution to a different standard distribution. This prevents the downtime that could occur if you first remove the alias from one standard distribution and then separately add the alias to another standard distribution.
+ *
+ * To use this operation, specify the alias and the ID of the target standard distribution.
+ *
+ * For more information, including how to set up the target standard distribution, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
+ */
+export const associateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAliasRequest,
+  output: AssociateAliasResponse,
+  errors: [
+    AccessDenied,
+    IllegalUpdate,
+    InvalidArgument,
+    NoSuchDistribution,
+    TooManyDistributionCNAMEs,
+  ],
+}));
+/**
+ * Updates a real-time log configuration.
+ *
+ * When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration:
+ *
+ * - Call `GetRealtimeLogConfig` to get the current real-time log configuration.
+ *
+ * - Locally modify the parameters in the real-time log configuration that you want to update.
+ *
+ * - Call this API (`UpdateRealtimeLogConfig`) by providing the entire real-time log configuration, including the parameters that you modified and those that you didn't.
+ *
+ * You cannot update a real-time log configuration's `Name` or `ARN`.
+ */
+export const updateRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRealtimeLogConfigRequest,
+    output: UpdateRealtimeLogConfigResult,
+    errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
+  }),
+);
+/**
+ * Gets a real-time log configuration.
+ *
+ * To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
+ */
+export const getRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetRealtimeLogConfigRequest,
+    output: GetRealtimeLogConfigResult,
+    errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
+  }),
+);
+/**
+ * Update an Amazon CloudFront VPC origin in your account.
+ */
+export const updateVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVpcOriginRequest,
+  output: UpdateVpcOriginResult,
+  errors: [
+    AccessDenied,
+    CannotUpdateEntityWhileInUse,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    EntityNotFound,
+    IllegalUpdate,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Creates a connection group.
+ */
+export const createConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateConnectionGroupRequest,
+    output: CreateConnectionGroupResult,
+    errors: [
+      AccessDenied,
+      EntityAlreadyExists,
+      EntityLimitExceeded,
+      EntityNotFound,
+      InvalidArgument,
+      InvalidTagging,
+    ],
+  }),
+);
+/**
+ * Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid `ImportSource` that you own.
+ */
+export const createKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateKeyValueStoreRequest,
+  output: CreateKeyValueStoreResult,
+  errors: [
+    AccessDenied,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    EntitySizeLimitExceeded,
+    InvalidArgument,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Creates an Anycast static IP list.
+ */
+export const createAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnycastIpListRequest,
+  output: CreateAnycastIpListResult,
+  errors: [
+    AccessDenied,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    InvalidArgument,
+    InvalidTagging,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Creates a trust store.
+ */
+export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrustStoreRequest,
+  output: CreateTrustStoreResult,
+  errors: [
+    AccessDenied,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidTagging,
+  ],
+}));
+/**
+ * Create an Amazon CloudFront VPC origin.
+ */
+export const createVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcOriginRequest,
+  output: CreateVpcOriginResult,
+  errors: [
+    AccessDenied,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidTagging,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Get the information about an invalidation.
+ */
+export const getInvalidation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInvalidationRequest,
+  output: GetInvalidationResult,
+  errors: [AccessDenied, NoSuchDistribution, NoSuchInvalidation],
+}));
+/**
+ * Disables additional CloudWatch metrics for the specified CloudFront distribution.
+ */
+export const deleteMonitoringSubscription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteMonitoringSubscriptionRequest,
+    output: DeleteMonitoringSubscriptionResult,
+    errors: [
+      AccessDenied,
+      NoSuchDistribution,
+      NoSuchMonitoringSubscription,
+      UnsupportedOperation,
+    ],
+  }));
+/**
+ * Remove tags from a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
+}));
+/**
+ * Add tags to a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
+}));
+/**
+ * Creates a connection function.
+ */
+export const createConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateConnectionFunctionRequest,
+    output: CreateConnectionFunctionResult,
+    errors: [
+      AccessDenied,
+      EntityAlreadyExists,
+      EntityLimitExceeded,
+      EntitySizeLimitExceeded,
+      InvalidArgument,
+      InvalidTagging,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost.
+ *
+ * For more information, see Viewing additional CloudFront distribution metrics in the *Amazon CloudFront Developer Guide*.
+ */
+export const createMonitoringSubscription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateMonitoringSubscriptionRequest,
+    output: CreateMonitoringSubscriptionResult,
+    errors: [
+      AccessDenied,
+      MonitoringSubscriptionAlreadyExists,
+      NoSuchDistribution,
+      UnsupportedOperation,
+    ],
+  }));
+/**
+ * Deletes a key group.
+ *
+ * You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group.
+ *
+ * To delete a key group, you must provide the key group's identifier and version. To get these values, use `ListKeyGroups` followed by `GetKeyGroup` or `GetKeyGroupConfig`.
+ */
+export const deleteKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteKeyGroupRequest,
+  output: DeleteKeyGroupResponse,
+  errors: [
+    InvalidIfMatchVersion,
+    NoSuchResource,
+    PreconditionFailed,
+    ResourceInUse,
+  ],
+}));
+/**
+ * Create a new invalidation. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
+ */
+export const createInvalidation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInvalidationRequest,
+  output: CreateInvalidationResult,
+  errors: [
+    AccessDenied,
+    BatchTooLarge,
+    InconsistentQuantities,
+    InvalidArgument,
+    MissingBody,
+    NoSuchDistribution,
+    TooManyInvalidationsInProgress,
+  ],
+}));
+/**
+ * Updates a continuous deployment policy. You can update a continuous deployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to.
+ *
+ * When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a continuous deployment policy configuration:
+ *
+ * - Use `GetContinuousDeploymentPolicyConfig` to get the current configuration.
+ *
+ * - Locally modify the fields in the continuous deployment policy configuration that you want to update.
+ *
+ * - Use `UpdateContinuousDeploymentPolicy`, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
+ */
+export const updateContinuousDeploymentPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateContinuousDeploymentPolicyRequest,
+    output: UpdateContinuousDeploymentPolicyResult,
+    errors: [
+      AccessDenied,
+      InconsistentQuantities,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      NoSuchContinuousDeploymentPolicy,
+      PreconditionFailed,
+      StagingDistributionInUse,
+    ],
+  }));
+/**
+ * Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail.
+ *
+ * To delete a distribution tenant, you must first disable the distribution tenant by using the `UpdateDistributionTenant` API operation.
+ */
+export const deleteDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDistributionTenantRequest,
+    output: DeleteDistributionTenantResponse,
+    errors: [
+      AccessDenied,
+      EntityNotFound,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+      ResourceNotDisabled,
+    ],
+  }),
+);
+/**
+ * Remove a public key you previously added to CloudFront.
+ */
+export const deletePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePublicKeyRequest,
+  output: DeletePublicKeyResponse,
+  errors: [
+    AccessDenied,
+    InvalidIfMatchVersion,
+    NoSuchPublicKey,
+    PreconditionFailed,
+    PublicKeyInUse,
+  ],
+}));
+/**
+ * Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.
+ *
+ * **To delete an RTMP distribution using the CloudFront API**:
+ *
+ * - Disable the RTMP distribution.
+ *
+ * - Submit a `GET Streaming Distribution Config` request to get the current configuration and the `Etag` header for the distribution.
+ *
+ * - Update the XML document that was returned in the response to your `GET Streaming Distribution Config` request to change the value of `Enabled` to `false`.
+ *
+ * - Submit a `PUT Streaming Distribution Config` request to update the configuration for your distribution. In the request body, include the XML document that you updated in Step 3. Then set the value of the HTTP `If-Match` header to the value of the `ETag` header that CloudFront returned when you submitted the `GET Streaming Distribution Config` request in Step 2.
+ *
+ * - Review the response to the `PUT Streaming Distribution Config` request to confirm that the distribution was successfully disabled.
+ *
+ * - Submit a `GET Streaming Distribution Config` request to confirm that your changes have propagated. When propagation is complete, the value of `Status` is `Deployed`.
+ *
+ * - Submit a `DELETE Streaming Distribution` request. Set the value of the HTTP `If-Match` header to the value of the `ETag` header that CloudFront returned when you submitted the `GET Streaming Distribution Config` request in Step 2.
+ *
+ * - Review the response to your `DELETE Streaming Distribution` request to confirm that the distribution was successfully deleted.
+ *
+ * For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the *Amazon CloudFront Developer Guide*.
+ */
+export const deleteStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteStreamingDistributionRequest,
+    output: DeleteStreamingDistributionResponse,
+    errors: [
+      AccessDenied,
+      InvalidIfMatchVersion,
+      NoSuchStreamingDistribution,
+      PreconditionFailed,
+      StreamingDistributionNotDisabled,
+    ],
+  }),
+);
+/**
+ * Deletes a response headers policy.
+ *
+ * You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy.
+ *
+ * To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use `ListResponseHeadersPolicies` or `GetResponseHeadersPolicy`.
+ */
+export const deleteResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResponseHeadersPolicyRequest,
+    output: DeleteResponseHeadersPolicyResponse,
+    errors: [
+      AccessDenied,
+      IllegalDelete,
+      InvalidIfMatchVersion,
+      NoSuchResponseHeadersPolicy,
+      PreconditionFailed,
+      ResponseHeadersPolicyInUse,
+    ],
+  }),
+);
+/**
+ * Updates a connection group.
+ */
+export const updateConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateConnectionGroupRequest,
+    output: UpdateConnectionGroupResult,
+    errors: [
+      AccessDenied,
+      EntityAlreadyExists,
+      EntityLimitExceeded,
+      EntityNotFound,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+      ResourceInUse,
+    ],
+  }),
+);
+/**
+ * Delete a distribution.
+ *
+ * Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered.
+ */
+export const deleteDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDistributionRequest,
+  output: DeleteDistributionResponse,
+  errors: [
+    AccessDenied,
+    DistributionNotDisabled,
+    InvalidIfMatchVersion,
+    NoSuchDistribution,
+    PreconditionFailed,
+    ResourceInUse,
+  ],
+}));
 /**
  * Updates a key group.
  *
@@ -8825,6 +8749,53 @@ export const updateKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Uploads a public key to CloudFront that you can use with signed URLs and signed cookies, or with field-level encryption.
+ */
+export const createPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePublicKeyRequest,
+  output: CreatePublicKeyResult,
+  errors: [InvalidArgument, PublicKeyAlreadyExists, TooManyPublicKeys],
+}));
+/**
+ * Deletes a real-time log configuration.
+ *
+ * You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration.
+ *
+ * To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
+ */
+export const deleteRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRealtimeLogConfigRequest,
+    output: DeleteRealtimeLogConfigResponse,
+    errors: [
+      AccessDenied,
+      InvalidArgument,
+      NoSuchRealtimeLogConfig,
+      RealtimeLogConfigInUse,
+    ],
+  }),
+);
+/**
+ * Updates a distribution tenant.
+ */
+export const updateDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDistributionTenantRequest,
+    output: UpdateDistributionTenantResult,
+    errors: [
+      AccessDenied,
+      CNAMEAlreadyExists,
+      EntityAlreadyExists,
+      EntityLimitExceeded,
+      EntityNotFound,
+      InvalidArgument,
+      InvalidAssociation,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+    ],
+  }),
+);
+/**
  * Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the *Amazon CloudFront Developer Guide*.
  */
 export const createCloudFrontOriginAccessIdentity =
@@ -8840,63 +8811,182 @@ export const createCloudFrontOriginAccessIdentity =
     ],
   }));
 /**
- * Creates a connection function.
+ * Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin.
+ *
+ * This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront.
+ *
+ * For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the *Amazon CloudFront Developer Guide*.
  */
-export const createConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateConnectionFunctionRequest,
-    output: CreateConnectionFunctionResult,
+    input: CreateOriginAccessControlRequest,
+    output: CreateOriginAccessControlResult,
     errors: [
-      AccessDenied,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
-      EntitySizeLimitExceeded,
       InvalidArgument,
-      InvalidTagging,
-      UnsupportedOperation,
+      OriginAccessControlAlreadyExists,
+      TooManyOriginAccessControls,
     ],
   }),
 );
 /**
- * Create a new invalidation. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
+ * Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
  */
-export const createInvalidation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInvalidationRequest,
-  output: CreateInvalidationResult,
-  errors: [
-    AccessDenied,
-    BatchTooLarge,
-    InconsistentQuantities,
-    InvalidArgument,
-    MissingBody,
-    NoSuchDistribution,
-    TooManyInvalidationsInProgress,
-  ],
-}));
-/**
- * Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost.
- *
- * For more information, see Viewing additional CloudFront distribution metrics in the *Amazon CloudFront Developer Guide*.
- */
-export const createMonitoringSubscription =
+export const createInvalidationForDistributionTenant =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateMonitoringSubscriptionRequest,
-    output: CreateMonitoringSubscriptionResult,
+    input: CreateInvalidationForDistributionTenantRequest,
+    output: CreateInvalidationForDistributionTenantResult,
     errors: [
       AccessDenied,
-      MonitoringSubscriptionAlreadyExists,
-      NoSuchDistribution,
-      UnsupportedOperation,
+      BatchTooLarge,
+      EntityNotFound,
+      InconsistentQuantities,
+      InvalidArgument,
+      MissingBody,
+      TooManyInvalidationsInProgress,
     ],
   }));
 /**
- * Uploads a public key to CloudFront that you can use with signed URLs and signed cookies, or with field-level encryption.
+ * Deletes a connection group.
  */
-export const createPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePublicKeyRequest,
-  output: CreatePublicKeyResult,
-  errors: [InvalidArgument, PublicKeyAlreadyExists, TooManyPublicKeys],
+export const deleteConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConnectionGroupRequest,
+    output: DeleteConnectionGroupResponse,
+    errors: [
+      AccessDenied,
+      CannotDeleteEntityWhileInUse,
+      EntityNotFound,
+      InvalidIfMatchVersion,
+      PreconditionFailed,
+      ResourceNotDisabled,
+    ],
+  }),
+);
+/**
+ * Creates a key group that you can use with CloudFront signed URLs and signed cookies.
+ *
+ * To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the *Amazon CloudFront Developer Guide*.
+ */
+export const createKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateKeyGroupRequest,
+  output: CreateKeyGroupResult,
+  errors: [
+    InvalidArgument,
+    KeyGroupAlreadyExists,
+    TooManyKeyGroups,
+    TooManyPublicKeysInKeyGroup,
+  ],
 }));
+/**
+ * Creates a distribution tenant.
+ */
+export const createDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDistributionTenantRequest,
+    output: CreateDistributionTenantResult,
+    errors: [
+      AccessDenied,
+      CNAMEAlreadyExists,
+      EntityAlreadyExists,
+      EntityLimitExceeded,
+      EntityNotFound,
+      InvalidArgument,
+      InvalidAssociation,
+      InvalidTagging,
+    ],
+  }),
+);
+/**
+ * Creates a CloudFront function.
+ *
+ * To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function.
+ *
+ * When you create a function, it's in the `DEVELOPMENT` stage. In this stage, you can test the function with `TestFunction`, and update it with `UpdateFunction`.
+ *
+ * When you're ready to use your function with a CloudFront distribution, use `PublishFunction` to copy the function from the `DEVELOPMENT` stage to `LIVE`. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
+ */
+export const createFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFunctionRequest,
+  output: CreateFunctionResult,
+  errors: [
+    FunctionAlreadyExists,
+    FunctionSizeLimitExceeded,
+    InvalidArgument,
+    TooManyFunctions,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Creates a real-time log configuration.
+ *
+ * After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream.
+ *
+ * For more information about real-time log configurations, see Real-time logs in the *Amazon CloudFront Developer Guide*.
+ */
+export const createRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRealtimeLogConfigRequest,
+    output: CreateRealtimeLogConfigResult,
+    errors: [
+      AccessDenied,
+      InvalidArgument,
+      RealtimeLogConfigAlreadyExists,
+      TooManyRealtimeLogConfigs,
+    ],
+  }),
+);
+/**
+ * Update a field-level encryption profile.
+ */
+export const updateFieldLevelEncryptionProfile =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateFieldLevelEncryptionProfileRequest,
+    output: UpdateFieldLevelEncryptionProfileResult,
+    errors: [
+      AccessDenied,
+      FieldLevelEncryptionProfileAlreadyExists,
+      FieldLevelEncryptionProfileSizeExceeded,
+      IllegalUpdate,
+      InconsistentQuantities,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      NoSuchFieldLevelEncryptionProfile,
+      NoSuchPublicKey,
+      PreconditionFailed,
+      TooManyFieldLevelEncryptionEncryptionEntities,
+      TooManyFieldLevelEncryptionFieldPatterns,
+    ],
+  }));
+/**
+ * Updates an origin request policy configuration.
+ *
+ * When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration:
+ *
+ * - Use `GetOriginRequestPolicyConfig` to get the current configuration.
+ *
+ * - Locally modify the fields in the origin request policy configuration that you want to update.
+ *
+ * - Call `UpdateOriginRequestPolicy` by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
+ */
+export const updateOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateOriginRequestPolicyRequest,
+    output: UpdateOriginRequestPolicyResult,
+    errors: [
+      AccessDenied,
+      IllegalUpdate,
+      InconsistentQuantities,
+      InvalidArgument,
+      InvalidIfMatchVersion,
+      NoSuchOriginRequestPolicy,
+      OriginRequestPolicyAlreadyExists,
+      PreconditionFailed,
+      TooManyCookiesInOriginRequestPolicy,
+      TooManyHeadersInOriginRequestPolicy,
+      TooManyQueryStringsInOriginRequestPolicy,
+    ],
+  }),
+);
 /**
  * Update a field-level encryption configuration.
  */
@@ -8914,6 +9004,152 @@ export const updateFieldLevelEncryptionConfig =
       NoSuchFieldLevelEncryptionProfile,
       PreconditionFailed,
       QueryArgProfileEmpty,
+      TooManyFieldLevelEncryptionContentTypeProfiles,
+      TooManyFieldLevelEncryptionQueryArgProfiles,
+    ],
+  }));
+/**
+ * Updates a cache policy configuration.
+ *
+ * When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:
+ *
+ * - Use `GetCachePolicyConfig` to get the current configuration.
+ *
+ * - Locally modify the fields in the cache policy configuration that you want to update.
+ *
+ * - Call `UpdateCachePolicy` by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.
+ *
+ * If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the origin headers.
+ */
+export const updateCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCachePolicyRequest,
+  output: UpdateCachePolicyResult,
+  errors: [
+    AccessDenied,
+    CachePolicyAlreadyExists,
+    IllegalUpdate,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchCachePolicy,
+    PreconditionFailed,
+    TooManyCookiesInCachePolicy,
+    TooManyHeadersInCachePolicy,
+    TooManyQueryStringsInCachePolicy,
+  ],
+}));
+/**
+ * Create a field-level encryption profile.
+ */
+export const createFieldLevelEncryptionProfile =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateFieldLevelEncryptionProfileRequest,
+    output: CreateFieldLevelEncryptionProfileResult,
+    errors: [
+      FieldLevelEncryptionProfileAlreadyExists,
+      FieldLevelEncryptionProfileSizeExceeded,
+      InconsistentQuantities,
+      InvalidArgument,
+      NoSuchPublicKey,
+      TooManyFieldLevelEncryptionEncryptionEntities,
+      TooManyFieldLevelEncryptionFieldPatterns,
+      TooManyFieldLevelEncryptionProfiles,
+    ],
+  }));
+/**
+ * Creates an origin request policy.
+ *
+ * After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:
+ *
+ * - The request body and the URL path (without the domain name) from the viewer request.
+ *
+ * - The headers that CloudFront automatically includes in every origin request, including `Host`, `User-Agent`, and `X-Amz-Cf-Id`.
+ *
+ * - All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.
+ *
+ * CloudFront sends a request when it can't find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use `CachePolicy`.
+ *
+ * For more information about origin request policies, see Controlling origin requests in the *Amazon CloudFront Developer Guide*.
+ */
+export const createOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateOriginRequestPolicyRequest,
+    output: CreateOriginRequestPolicyResult,
+    errors: [
+      AccessDenied,
+      InconsistentQuantities,
+      InvalidArgument,
+      OriginRequestPolicyAlreadyExists,
+      TooManyCookiesInOriginRequestPolicy,
+      TooManyHeadersInOriginRequestPolicy,
+      TooManyOriginRequestPolicies,
+      TooManyQueryStringsInOriginRequestPolicy,
+    ],
+  }),
+);
+/**
+ * Creates a cache policy.
+ *
+ * After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:
+ *
+ * - The values that CloudFront includes in the *cache key*. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.
+ *
+ * - The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.
+ *
+ * If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the origin headers.
+ *
+ * The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but *not* include them in the cache key, use `OriginRequestPolicy`.
+ *
+ * For more information about cache policies, see Controlling the cache key in the *Amazon CloudFront Developer Guide*.
+ */
+export const createCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCachePolicyRequest,
+  output: CreateCachePolicyResult,
+  errors: [
+    AccessDenied,
+    CachePolicyAlreadyExists,
+    InconsistentQuantities,
+    InvalidArgument,
+    TooManyCachePolicies,
+    TooManyCookiesInCachePolicy,
+    TooManyHeadersInCachePolicy,
+    TooManyQueryStringsInCachePolicy,
+  ],
+}));
+/**
+ * Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions.
+ *
+ * To use a continuous deployment policy, first use `CopyDistribution` to create a staging distribution, then use `UpdateDistribution` to modify the staging distribution's configuration.
+ *
+ * After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
+ */
+export const createContinuousDeploymentPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateContinuousDeploymentPolicyRequest,
+    output: CreateContinuousDeploymentPolicyResult,
+    errors: [
+      AccessDenied,
+      ContinuousDeploymentPolicyAlreadyExists,
+      InconsistentQuantities,
+      InvalidArgument,
+      StagingDistributionInUse,
+      TooManyContinuousDeploymentPolicies,
+    ],
+  }));
+/**
+ * Create a new field-level encryption configuration.
+ */
+export const createFieldLevelEncryptionConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateFieldLevelEncryptionConfigRequest,
+    output: CreateFieldLevelEncryptionConfigResult,
+    errors: [
+      FieldLevelEncryptionConfigAlreadyExists,
+      InconsistentQuantities,
+      InvalidArgument,
+      NoSuchFieldLevelEncryptionProfile,
+      QueryArgProfileEmpty,
+      TooManyFieldLevelEncryptionConfigs,
       TooManyFieldLevelEncryptionContentTypeProfiles,
       TooManyFieldLevelEncryptionQueryArgProfiles,
     ],
@@ -8974,129 +9210,6 @@ export const updateStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a cache policy.
- *
- * After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:
- *
- * - The values that CloudFront includes in the *cache key*. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.
- *
- * - The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.
- *
- * If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the origin headers.
- *
- * The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but *not* include them in the cache key, use `OriginRequestPolicy`.
- *
- * For more information about cache policies, see Controlling the cache key in the *Amazon CloudFront Developer Guide*.
- */
-export const createCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCachePolicyRequest,
-  output: CreateCachePolicyResult,
-  errors: [
-    AccessDenied,
-    CachePolicyAlreadyExists,
-    InconsistentQuantities,
-    InvalidArgument,
-    TooManyCachePolicies,
-    TooManyCookiesInCachePolicy,
-    TooManyHeadersInCachePolicy,
-    TooManyQueryStringsInCachePolicy,
-  ],
-}));
-/**
- * Creates a CloudFront function.
- *
- * To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function.
- *
- * When you create a function, it's in the `DEVELOPMENT` stage. In this stage, you can test the function with `TestFunction`, and update it with `UpdateFunction`.
- *
- * When you're ready to use your function with a CloudFront distribution, use `PublishFunction` to copy the function from the `DEVELOPMENT` stage to `LIVE`. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
- */
-export const createFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFunctionRequest,
-  output: CreateFunctionResult,
-  errors: [
-    FunctionAlreadyExists,
-    FunctionSizeLimitExceeded,
-    InvalidArgument,
-    TooManyFunctions,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Creates an origin request policy.
- *
- * After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:
- *
- * - The request body and the URL path (without the domain name) from the viewer request.
- *
- * - The headers that CloudFront automatically includes in every origin request, including `Host`, `User-Agent`, and `X-Amz-Cf-Id`.
- *
- * - All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.
- *
- * CloudFront sends a request when it can't find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use `CachePolicy`.
- *
- * For more information about origin request policies, see Controlling origin requests in the *Amazon CloudFront Developer Guide*.
- */
-export const createOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOriginRequestPolicyRequest,
-    output: CreateOriginRequestPolicyResult,
-    errors: [
-      AccessDenied,
-      InconsistentQuantities,
-      InvalidArgument,
-      OriginRequestPolicyAlreadyExists,
-      TooManyCookiesInOriginRequestPolicy,
-      TooManyHeadersInOriginRequestPolicy,
-      TooManyOriginRequestPolicies,
-      TooManyQueryStringsInOriginRequestPolicy,
-    ],
-  }),
-);
-/**
- * Creates a real-time log configuration.
- *
- * After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream.
- *
- * For more information about real-time log configurations, see Real-time logs in the *Amazon CloudFront Developer Guide*.
- */
-export const createRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRealtimeLogConfigRequest,
-    output: CreateRealtimeLogConfigResult,
-    errors: [
-      AccessDenied,
-      InvalidArgument,
-      RealtimeLogConfigAlreadyExists,
-      TooManyRealtimeLogConfigs,
-    ],
-  }),
-);
-/**
- * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
- */
-export const createStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStreamingDistributionRequest,
-    output: CreateStreamingDistributionResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidOrigin,
-      InvalidOriginAccessControl,
-      InvalidOriginAccessIdentity,
-      MissingBody,
-      StreamingDistributionAlreadyExists,
-      TooManyStreamingDistributionCNAMEs,
-      TooManyStreamingDistributions,
-      TooManyTrustedSigners,
-      TrustedSignerDoesNotExist,
-    ],
-  }),
-);
-/**
  * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
 export const createStreamingDistributionWithTags =
@@ -9121,105 +9234,29 @@ export const createStreamingDistributionWithTags =
     ],
   }));
 /**
- * Updates a cache policy configuration.
- *
- * When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:
- *
- * - Use `GetCachePolicyConfig` to get the current configuration.
- *
- * - Locally modify the fields in the cache policy configuration that you want to update.
- *
- * - Call `UpdateCachePolicy` by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.
- *
- * If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the origin headers.
+ * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
-export const updateCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCachePolicyRequest,
-  output: UpdateCachePolicyResult,
-  errors: [
-    AccessDenied,
-    CachePolicyAlreadyExists,
-    IllegalUpdate,
-    InconsistentQuantities,
-    InvalidArgument,
-    InvalidIfMatchVersion,
-    NoSuchCachePolicy,
-    PreconditionFailed,
-    TooManyCookiesInCachePolicy,
-    TooManyHeadersInCachePolicy,
-    TooManyQueryStringsInCachePolicy,
-  ],
-}));
-/**
- * Update a field-level encryption profile.
- */
-export const updateFieldLevelEncryptionProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateFieldLevelEncryptionProfileRequest,
-    output: UpdateFieldLevelEncryptionProfileResult,
-    errors: [
-      AccessDenied,
-      FieldLevelEncryptionProfileAlreadyExists,
-      FieldLevelEncryptionProfileSizeExceeded,
-      IllegalUpdate,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchFieldLevelEncryptionProfile,
-      NoSuchPublicKey,
-      PreconditionFailed,
-      TooManyFieldLevelEncryptionEncryptionEntities,
-      TooManyFieldLevelEncryptionFieldPatterns,
-    ],
-  }));
-/**
- * Updates an origin request policy configuration.
- *
- * When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration:
- *
- * - Use `GetOriginRequestPolicyConfig` to get the current configuration.
- *
- * - Locally modify the fields in the origin request policy configuration that you want to update.
- *
- * - Call `UpdateOriginRequestPolicy` by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
- */
-export const updateOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateOriginRequestPolicyRequest,
-    output: UpdateOriginRequestPolicyResult,
+    input: CreateStreamingDistributionRequest,
+    output: CreateStreamingDistributionResult,
     errors: [
       AccessDenied,
-      IllegalUpdate,
+      CNAMEAlreadyExists,
       InconsistentQuantities,
       InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchOriginRequestPolicy,
-      OriginRequestPolicyAlreadyExists,
-      PreconditionFailed,
-      TooManyCookiesInOriginRequestPolicy,
-      TooManyHeadersInOriginRequestPolicy,
-      TooManyQueryStringsInOriginRequestPolicy,
+      InvalidOrigin,
+      InvalidOriginAccessControl,
+      InvalidOriginAccessIdentity,
+      MissingBody,
+      StreamingDistributionAlreadyExists,
+      TooManyStreamingDistributionCNAMEs,
+      TooManyStreamingDistributions,
+      TooManyTrustedSigners,
+      TrustedSignerDoesNotExist,
     ],
   }),
 );
-/**
- * Create a field-level encryption profile.
- */
-export const createFieldLevelEncryptionProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateFieldLevelEncryptionProfileRequest,
-    output: CreateFieldLevelEncryptionProfileResult,
-    errors: [
-      FieldLevelEncryptionProfileAlreadyExists,
-      FieldLevelEncryptionProfileSizeExceeded,
-      InconsistentQuantities,
-      InvalidArgument,
-      NoSuchPublicKey,
-      TooManyFieldLevelEncryptionEncryptionEntities,
-      TooManyFieldLevelEncryptionFieldPatterns,
-      TooManyFieldLevelEncryptionProfiles,
-    ],
-  }));
 /**
  * Creates a response headers policy.
  *
@@ -9246,41 +9283,83 @@ export const createResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions.
+ * Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its `Aliases` (also known as alternate domain names or CNAMEs) and `ContinuousDeploymentPolicyId` value, but otherwise its configuration is overwritten to match the staging distribution.
  *
- * To use a continuous deployment policy, first use `CopyDistribution` to create a staging distribution, then use `UpdateDistribution` to modify the staging distribution's configuration.
+ * You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution.
  *
- * After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
+ * This API operation requires the following IAM permissions:
+ *
+ * - GetDistribution
+ *
+ * - UpdateDistribution
  */
-export const createContinuousDeploymentPolicy =
+export const updateDistributionWithStagingConfig =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContinuousDeploymentPolicyRequest,
-    output: CreateContinuousDeploymentPolicyResult,
+    input: UpdateDistributionWithStagingConfigRequest,
+    output: UpdateDistributionWithStagingConfigResult,
     errors: [
       AccessDenied,
-      ContinuousDeploymentPolicyAlreadyExists,
+      CNAMEAlreadyExists,
+      EntityNotFound,
+      IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior,
+      IllegalUpdate,
       InconsistentQuantities,
       InvalidArgument,
-      StagingDistributionInUse,
-      TooManyContinuousDeploymentPolicies,
-    ],
-  }));
-/**
- * Create a new field-level encryption configuration.
- */
-export const createFieldLevelEncryptionConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateFieldLevelEncryptionConfigRequest,
-    output: CreateFieldLevelEncryptionConfigResult,
-    errors: [
-      FieldLevelEncryptionConfigAlreadyExists,
-      InconsistentQuantities,
-      InvalidArgument,
-      NoSuchFieldLevelEncryptionProfile,
-      QueryArgProfileEmpty,
-      TooManyFieldLevelEncryptionConfigs,
-      TooManyFieldLevelEncryptionContentTypeProfiles,
-      TooManyFieldLevelEncryptionQueryArgProfiles,
+      InvalidDefaultRootObject,
+      InvalidErrorCode,
+      InvalidForwardCookies,
+      InvalidFunctionAssociation,
+      InvalidGeoRestrictionParameter,
+      InvalidHeadersForS3Origin,
+      InvalidIfMatchVersion,
+      InvalidLambdaFunctionAssociation,
+      InvalidLocationCode,
+      InvalidMinimumProtocolVersion,
+      InvalidOriginAccessControl,
+      InvalidOriginAccessIdentity,
+      InvalidOriginKeepaliveTimeout,
+      InvalidOriginReadTimeout,
+      InvalidQueryStringParameters,
+      InvalidRelativePath,
+      InvalidRequiredProtocol,
+      InvalidResponseCode,
+      InvalidTTLOrder,
+      InvalidViewerCertificate,
+      InvalidWebACLId,
+      MissingBody,
+      NoSuchCachePolicy,
+      NoSuchDistribution,
+      NoSuchFieldLevelEncryptionConfig,
+      NoSuchOrigin,
+      NoSuchOriginRequestPolicy,
+      NoSuchRealtimeLogConfig,
+      NoSuchResponseHeadersPolicy,
+      PreconditionFailed,
+      RealtimeLogConfigOwnerMismatch,
+      TooManyCacheBehaviors,
+      TooManyCertificates,
+      TooManyCookieNamesInWhiteList,
+      TooManyDistributionCNAMEs,
+      TooManyDistributionsAssociatedToCachePolicy,
+      TooManyDistributionsAssociatedToFieldLevelEncryptionConfig,
+      TooManyDistributionsAssociatedToKeyGroup,
+      TooManyDistributionsAssociatedToOriginAccessControl,
+      TooManyDistributionsAssociatedToOriginRequestPolicy,
+      TooManyDistributionsAssociatedToResponseHeadersPolicy,
+      TooManyDistributionsWithFunctionAssociations,
+      TooManyDistributionsWithLambdaAssociations,
+      TooManyDistributionsWithSingleFunctionARN,
+      TooManyFunctionAssociations,
+      TooManyHeadersInForwardedValues,
+      TooManyKeyGroupsAssociatedToDistribution,
+      TooManyLambdaFunctionAssociations,
+      TooManyOriginCustomHeaders,
+      TooManyOriginGroupsPerDistribution,
+      TooManyOrigins,
+      TooManyQueryStringParameters,
+      TooManyTrustedSigners,
+      TrustedKeyGroupDoesNotExist,
+      TrustedSignerDoesNotExist,
     ],
   }));
 /**
@@ -9455,86 +9534,6 @@ export const updateDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     TrustedSignerDoesNotExist,
   ],
 }));
-/**
- * Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its `Aliases` (also known as alternate domain names or CNAMEs) and `ContinuousDeploymentPolicyId` value, but otherwise its configuration is overwritten to match the staging distribution.
- *
- * You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution.
- *
- * This API operation requires the following IAM permissions:
- *
- * - GetDistribution
- *
- * - UpdateDistribution
- */
-export const updateDistributionWithStagingConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDistributionWithStagingConfigRequest,
-    output: UpdateDistributionWithStagingConfigResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      EntityNotFound,
-      IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior,
-      IllegalUpdate,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidDefaultRootObject,
-      InvalidErrorCode,
-      InvalidForwardCookies,
-      InvalidFunctionAssociation,
-      InvalidGeoRestrictionParameter,
-      InvalidHeadersForS3Origin,
-      InvalidIfMatchVersion,
-      InvalidLambdaFunctionAssociation,
-      InvalidLocationCode,
-      InvalidMinimumProtocolVersion,
-      InvalidOriginAccessControl,
-      InvalidOriginAccessIdentity,
-      InvalidOriginKeepaliveTimeout,
-      InvalidOriginReadTimeout,
-      InvalidQueryStringParameters,
-      InvalidRelativePath,
-      InvalidRequiredProtocol,
-      InvalidResponseCode,
-      InvalidTTLOrder,
-      InvalidViewerCertificate,
-      InvalidWebACLId,
-      MissingBody,
-      NoSuchCachePolicy,
-      NoSuchDistribution,
-      NoSuchFieldLevelEncryptionConfig,
-      NoSuchOrigin,
-      NoSuchOriginRequestPolicy,
-      NoSuchRealtimeLogConfig,
-      NoSuchResponseHeadersPolicy,
-      PreconditionFailed,
-      RealtimeLogConfigOwnerMismatch,
-      TooManyCacheBehaviors,
-      TooManyCertificates,
-      TooManyCookieNamesInWhiteList,
-      TooManyDistributionCNAMEs,
-      TooManyDistributionsAssociatedToCachePolicy,
-      TooManyDistributionsAssociatedToFieldLevelEncryptionConfig,
-      TooManyDistributionsAssociatedToKeyGroup,
-      TooManyDistributionsAssociatedToOriginAccessControl,
-      TooManyDistributionsAssociatedToOriginRequestPolicy,
-      TooManyDistributionsAssociatedToResponseHeadersPolicy,
-      TooManyDistributionsWithFunctionAssociations,
-      TooManyDistributionsWithLambdaAssociations,
-      TooManyDistributionsWithSingleFunctionARN,
-      TooManyFunctionAssociations,
-      TooManyHeadersInForwardedValues,
-      TooManyKeyGroupsAssociatedToDistribution,
-      TooManyLambdaFunctionAssociations,
-      TooManyOriginCustomHeaders,
-      TooManyOriginGroupsPerDistribution,
-      TooManyOrigins,
-      TooManyQueryStringParameters,
-      TooManyTrustedSigners,
-      TrustedKeyGroupDoesNotExist,
-      TrustedSignerDoesNotExist,
-    ],
-  }));
 /**
  * Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow.
  *

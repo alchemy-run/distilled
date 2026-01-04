@@ -653,49 +653,49 @@ export class TranslateTextResponse extends S.Class<TranslateTextResponse>(
 }) {}
 
 //# Errors
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  {},
-) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidFilterException extends S.TaggedError<InvalidFilterException>()(
+  "InvalidFilterException",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { message: S.optional(S.String), ResourceArn: S.optional(S.String) },
 ) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
 export class UnsupportedDisplayLanguageCodeException extends S.TaggedError<UnsupportedDisplayLanguageCodeException>()(
   "UnsupportedDisplayLanguageCodeException",
   { Message: S.optional(S.String), DisplayLanguageCode: S.optional(S.String) },
-) {}
-export class InvalidFilterException extends S.TaggedError<InvalidFilterException>()(
-  "InvalidFilterException",
-  { Message: S.optional(S.String) },
 ) {}
 export class UnsupportedLanguagePairException extends S.TaggedError<UnsupportedLanguagePairException>()(
   "UnsupportedLanguagePairException",
@@ -720,18 +720,6 @@ export class TextSizeLimitExceededException extends S.TaggedError<TextSizeLimitE
 
 //# Operations
 /**
- * Provides a list of your parallel data resources in Amazon Translate.
- */
-export const listParallelData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListParallelDataRequest,
-  output: ListParallelDataResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterValueException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Lists all tags associated with a given Amazon Translate resource.
  * For more information, see
  * Tagging your resources.
@@ -746,15 +734,35 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Provides a list of custom terminologies associated with your account.
+ * Removes a specific tag associated with an Amazon Translate resource.
+ * For more information, see
+ * Tagging your resources.
  */
-export const listTerminologies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTerminologiesRequest,
-  output: ListTerminologiesResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
+    ConcurrentModificationException,
     InternalServerException,
     InvalidParameterValueException,
-    TooManyRequestsException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Associates a specific tag with a resource. A tag is a key-value pair
+ * that adds as a metadata to a resource.
+ * For more information, see
+ * Tagging your resources.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalServerException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    TooManyTagsException,
   ],
 }));
 /**
@@ -780,18 +788,27 @@ export const stopTextTranslationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Removes a specific tag associated with an Amazon Translate resource.
- * For more information, see
- * Tagging your resources.
+ * Provides a list of your parallel data resources in Amazon Translate.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const listParallelData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListParallelDataRequest,
+  output: ListParallelDataResponse,
   errors: [
-    ConcurrentModificationException,
     InternalServerException,
     InvalidParameterValueException,
-    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Provides a list of custom terminologies associated with your account.
+ */
+export const listTerminologies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTerminologiesRequest,
+  output: ListTerminologiesResponse,
+  errors: [
+    InternalServerException,
+    InvalidParameterValueException,
+    TooManyRequestsException,
   ],
 }));
 /**
@@ -847,19 +864,40 @@ export const getTerminology = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Associates a specific tag with a resource. A tag is a key-value pair
- * that adds as a metadata to a resource.
- * For more information, see
- * Tagging your resources.
+ * Gets the properties associated with an asynchronous batch translation job including name,
+ * ID, status, source and target languages, input/output S3 buckets, and so on.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const describeTextTranslationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTextTranslationJobRequest,
+    output: DescribeTextTranslationJobResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Creates or updates a custom terminology, depending on whether one already exists for the
+ * given terminology name. Importing a terminology with the same name as an existing one will
+ * merge the terminologies based on the chosen merge strategy. The only supported merge strategy
+ * is OVERWRITE, where the imported terminology overwrites the existing terminology of the same
+ * name.
+ *
+ * If you import a terminology that overwrites an existing one, the new terminology takes up
+ * to 10 minutes to fully propagate. After that, translations have access to the new
+ * terminology.
+ */
+export const importTerminology = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportTerminologyRequest,
+  output: ImportTerminologyResponse,
   errors: [
     ConcurrentModificationException,
     InternalServerException,
     InvalidParameterValueException,
-    ResourceNotFoundException,
+    LimitExceededException,
+    TooManyRequestsException,
     TooManyTagsException,
   ],
 }));
@@ -902,57 +940,6 @@ export const createParallelData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets the properties associated with an asynchronous batch translation job including name,
- * ID, status, source and target languages, input/output S3 buckets, and so on.
- */
-export const describeTextTranslationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTextTranslationJobRequest,
-    output: DescribeTextTranslationJobResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates or updates a custom terminology, depending on whether one already exists for the
- * given terminology name. Importing a terminology with the same name as an existing one will
- * merge the terminologies based on the chosen merge strategy. The only supported merge strategy
- * is OVERWRITE, where the imported terminology overwrites the existing terminology of the same
- * name.
- *
- * If you import a terminology that overwrites an existing one, the new terminology takes up
- * to 10 minutes to fully propagate. After that, translations have access to the new
- * terminology.
- */
-export const importTerminology = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportTerminologyRequest,
-  output: ImportTerminologyResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalServerException,
-    InvalidParameterValueException,
-    LimitExceededException,
-    TooManyRequestsException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
- */
-export const listLanguages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLanguagesRequest,
-  output: ListLanguagesResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterValueException,
-    TooManyRequestsException,
-    UnsupportedDisplayLanguageCodeException,
-  ],
-}));
-/**
  * Gets a list of the batch translation jobs that you have submitted.
  */
 export const listTextTranslationJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -967,6 +954,19 @@ export const listTextTranslationJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
+ */
+export const listLanguages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLanguagesRequest,
+  output: ListLanguagesResponse,
+  errors: [
+    InternalServerException,
+    InvalidParameterValueException,
+    TooManyRequestsException,
+    UnsupportedDisplayLanguageCodeException,
+  ],
+}));
 /**
  * Starts an asynchronous batch translation job. Use batch translation jobs to
  * translate large volumes of text across multiple documents at once.

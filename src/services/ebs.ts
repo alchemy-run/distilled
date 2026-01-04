@@ -445,82 +445,38 @@ export class StartSnapshotResponse extends S.Class<StartSnapshotResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String), Reason: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class RequestThrottledException extends S.TaggedError<RequestThrottledException>()(
-  "RequestThrottledException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConcurrentLimitExceededException extends S.TaggedError<ConcurrentLimitExceededException>()(
   "ConcurrentLimitExceededException",
   { Message: S.optional(S.String) },
 ) {}
+export class RequestThrottledException extends S.TaggedError<RequestThrottledException>()(
+  "RequestThrottledException",
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
 ) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Returns information about the blocks in an Amazon Elastic Block Store snapshot.
- *
- * You should always retry requests that receive server (`5xx`)
- * error responses, and `ThrottlingException` and `RequestThrottledException`
- * client error responses. For more information see Error retries in the
- * *Amazon Elastic Compute Cloud User Guide*.
- */
-export const listSnapshotBlocks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSnapshotBlocksRequest,
-  output: ListSnapshotBlocksResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    RequestThrottledException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Writes a block of data to a snapshot. If the specified block contains
- * data, the existing data is overwritten. The target snapshot must be in the
- * `pending` state.
- *
- * Data written to a snapshot must be aligned with 512-KiB sectors.
- *
- * You should always retry requests that receive server (`5xx`)
- * error responses, and `ThrottlingException` and `RequestThrottledException`
- * client error responses. For more information see Error retries in the
- * *Amazon Elastic Compute Cloud User Guide*.
- */
-export const putSnapshotBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutSnapshotBlockRequest,
-  output: PutSnapshotBlockResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    RequestThrottledException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
 /**
  * Seals and completes the snapshot after all of the required blocks of data have been
  * written to it. Completing the snapshot changes the status to `completed`. You
@@ -534,6 +490,73 @@ export const putSnapshotBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const completeSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteSnapshotRequest,
   output: CompleteSnapshotResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestThrottledException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new Amazon EBS snapshot. The new snapshot enters the `pending` state
+ * after the request completes.
+ *
+ * After creating the snapshot, use PutSnapshotBlock to
+ * write blocks of data to the snapshot.
+ *
+ * You should always retry requests that receive server (`5xx`)
+ * error responses, and `ThrottlingException` and `RequestThrottledException`
+ * client error responses. For more information see Error retries in the
+ * *Amazon Elastic Compute Cloud User Guide*.
+ */
+export const startSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSnapshotRequest,
+  output: StartSnapshotResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentLimitExceededException,
+    ConflictException,
+    InternalServerException,
+    RequestThrottledException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about the blocks that are different between two
+ * Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
+ *
+ * You should always retry requests that receive server (`5xx`)
+ * error responses, and `ThrottlingException` and `RequestThrottledException`
+ * client error responses. For more information see Error retries in the
+ * *Amazon Elastic Compute Cloud User Guide*.
+ */
+export const listChangedBlocks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListChangedBlocksRequest,
+  output: ListChangedBlocksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestThrottledException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns information about the blocks in an Amazon Elastic Block Store snapshot.
+ *
+ * You should always retry requests that receive server (`5xx`)
+ * error responses, and `ThrottlingException` and `RequestThrottledException`
+ * client error responses. For more information see Error retries in the
+ * *Amazon Elastic Compute Cloud User Guide*.
+ */
+export const listSnapshotBlocks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSnapshotBlocksRequest,
+  output: ListSnapshotBlocksResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -564,45 +587,22 @@ export const getSnapshotBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about the blocks that are different between two
- * Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
+ * Writes a block of data to a snapshot. If the specified block contains
+ * data, the existing data is overwritten. The target snapshot must be in the
+ * `pending` state.
+ *
+ * Data written to a snapshot must be aligned with 512-KiB sectors.
  *
  * You should always retry requests that receive server (`5xx`)
  * error responses, and `ThrottlingException` and `RequestThrottledException`
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const listChangedBlocks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListChangedBlocksRequest,
-  output: ListChangedBlocksResponse,
+export const putSnapshotBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSnapshotBlockRequest,
+  output: PutSnapshotBlockResponse,
   errors: [
     AccessDeniedException,
-    InternalServerException,
-    RequestThrottledException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new Amazon EBS snapshot. The new snapshot enters the `pending` state
- * after the request completes.
- *
- * After creating the snapshot, use PutSnapshotBlock to
- * write blocks of data to the snapshot.
- *
- * You should always retry requests that receive server (`5xx`)
- * error responses, and `ThrottlingException` and `RequestThrottledException`
- * client error responses. For more information see Error retries in the
- * *Amazon Elastic Compute Cloud User Guide*.
- */
-export const startSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartSnapshotRequest,
-  output: StartSnapshotResponse,
-  errors: [
-    AccessDeniedException,
-    ConcurrentLimitExceededException,
-    ConflictException,
     InternalServerException,
     RequestThrottledException,
     ResourceNotFoundException,

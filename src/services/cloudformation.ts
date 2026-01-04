@@ -2661,12 +2661,12 @@ export class DescribeChangeSetOutput extends S.Class<DescribeChangeSetOutput>(
 //# Errors
 export class InvalidOperationException extends S.TaggedError<InvalidOperationException>()(
   "InvalidOperationException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidOperationException", httpResponseCode: 400 }),
 ) {}
 export class OperationNotFoundException extends S.TaggedError<OperationNotFoundException>()(
   "OperationNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "OperationNotFoundException",
     httpResponseCode: 404,
@@ -2674,7 +2674,7 @@ export class OperationNotFoundException extends S.TaggedError<OperationNotFoundE
 ) {}
 export class TokenAlreadyExistsException extends S.TaggedError<TokenAlreadyExistsException>()(
   "TokenAlreadyExistsException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "TokenAlreadyExistsException",
     httpResponseCode: 400,
@@ -2682,13 +2682,8 @@ export class TokenAlreadyExistsException extends S.TaggedError<TokenAlreadyExist
 ) {}
 export class CFNRegistryException extends S.TaggedError<CFNRegistryException>()(
   "CFNRegistryException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "CFNRegistryException", httpResponseCode: 400 }),
-) {}
-export class TypeNotFoundException extends S.TaggedError<TypeNotFoundException>()(
-  "TypeNotFoundException",
-  {},
-  T.AwsQueryError({ code: "TypeNotFoundException", httpResponseCode: 404 }),
 ) {}
 export class InvalidChangeSetStatusException extends S.TaggedError<InvalidChangeSetStatusException>()(
   "InvalidChangeSetStatusException",
@@ -2711,20 +2706,10 @@ export class OperationInProgressException extends S.TaggedError<OperationInProgr
     httpResponseCode: 409,
   }),
 ) {}
-export class StackSetNotFoundException extends S.TaggedError<StackSetNotFoundException>()(
-  "StackSetNotFoundException",
-  {},
-  T.AwsQueryError({ code: "StackSetNotFoundException", httpResponseCode: 404 }),
-) {}
 export class ChangeSetNotFoundException extends S.TaggedError<ChangeSetNotFoundException>()(
   "ChangeSetNotFoundException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ChangeSetNotFound", httpResponseCode: 404 }),
-) {}
-export class GeneratedTemplateNotFoundException extends S.TaggedError<GeneratedTemplateNotFoundException>()(
-  "GeneratedTemplateNotFoundException",
-  {},
-  T.AwsQueryError({ code: "GeneratedTemplateNotFound", httpResponseCode: 404 }),
 ) {}
 export class InvalidStateTransitionException extends S.TaggedError<InvalidStateTransitionException>()(
   "InvalidStateTransitionException",
@@ -2733,42 +2718,26 @@ export class InvalidStateTransitionException extends S.TaggedError<InvalidStateT
 ) {}
 export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
   "AlreadyExistsException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "AlreadyExistsException", httpResponseCode: 400 }),
 ) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-  T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 400 }),
+export class TypeNotFoundException extends S.TaggedError<TypeNotFoundException>()(
+  "TypeNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TypeNotFoundException", httpResponseCode: 404 }),
 ) {}
-export class InsufficientCapabilitiesException extends S.TaggedError<InsufficientCapabilitiesException>()(
-  "InsufficientCapabilitiesException",
-  {},
-  T.AwsQueryError({
-    code: "InsufficientCapabilitiesException",
-    httpResponseCode: 400,
-  }),
+export class GeneratedTemplateNotFoundException extends S.TaggedError<GeneratedTemplateNotFoundException>()(
+  "GeneratedTemplateNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "GeneratedTemplateNotFound", httpResponseCode: 404 }),
 ) {}
 export class OperationIdAlreadyExistsException extends S.TaggedError<OperationIdAlreadyExistsException>()(
   "OperationIdAlreadyExistsException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "OperationIdAlreadyExistsException",
     httpResponseCode: 409,
   }),
-) {}
-export class StackInstanceNotFoundException extends S.TaggedError<StackInstanceNotFoundException>()(
-  "StackInstanceNotFoundException",
-  {},
-  T.AwsQueryError({
-    code: "StackInstanceNotFoundException",
-    httpResponseCode: 404,
-  }),
-) {}
-export class StaleRequestException extends S.TaggedError<StaleRequestException>()(
-  "StaleRequestException",
-  {},
-  T.AwsQueryError({ code: "StaleRequestException", httpResponseCode: 409 }),
 ) {}
 export class StackSetNotEmptyException extends S.TaggedError<StackSetNotEmptyException>()(
   "StackSetNotEmptyException",
@@ -2788,20 +2757,28 @@ export class StackRefactorNotFoundException extends S.TaggedError<StackRefactorN
     httpResponseCode: 404,
   }),
 ) {}
-export class HookResultNotFoundException extends S.TaggedError<HookResultNotFoundException>()(
-  "HookResultNotFoundException",
-  {},
-  T.AwsQueryError({ code: "HookResultNotFound", httpResponseCode: 404 }),
+export class StackSetNotFoundException extends S.TaggedError<StackSetNotFoundException>()(
+  "StackSetNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "StackSetNotFoundException", httpResponseCode: 404 }),
+) {}
+export class InsufficientCapabilitiesException extends S.TaggedError<InsufficientCapabilitiesException>()(
+  "InsufficientCapabilitiesException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InsufficientCapabilitiesException",
+    httpResponseCode: 400,
+  }),
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 400 }),
 ) {}
 export class OperationStatusCheckFailedException extends S.TaggedError<OperationStatusCheckFailedException>()(
   "OperationStatusCheckFailedException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConditionalCheckFailed", httpResponseCode: 400 }),
-) {}
-export class ResourceScanInProgressException extends S.TaggedError<ResourceScanInProgressException>()(
-  "ResourceScanInProgressException",
-  {},
-  T.AwsQueryError({ code: "ResourceScanInProgress", httpResponseCode: 400 }),
 ) {}
 export class CreatedButModifiedException extends S.TaggedError<CreatedButModifiedException>()(
   "CreatedButModifiedException",
@@ -2811,15 +2788,33 @@ export class CreatedButModifiedException extends S.TaggedError<CreatedButModifie
     httpResponseCode: 409,
   }),
 ) {}
+export class HookResultNotFoundException extends S.TaggedError<HookResultNotFoundException>()(
+  "HookResultNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "HookResultNotFound", httpResponseCode: 404 }),
+) {}
 export class StackNotFoundException extends S.TaggedError<StackNotFoundException>()(
   "StackNotFoundException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "StackNotFoundException", httpResponseCode: 404 }),
 ) {}
-export class ResourceScanLimitExceededException extends S.TaggedError<ResourceScanLimitExceededException>()(
-  "ResourceScanLimitExceededException",
+export class ResourceScanInProgressException extends S.TaggedError<ResourceScanInProgressException>()(
+  "ResourceScanInProgressException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ResourceScanLimitExceeded", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "ResourceScanInProgress", httpResponseCode: 400 }),
+) {}
+export class StackInstanceNotFoundException extends S.TaggedError<StackInstanceNotFoundException>()(
+  "StackInstanceNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "StackInstanceNotFoundException",
+    httpResponseCode: 404,
+  }),
+) {}
+export class StaleRequestException extends S.TaggedError<StaleRequestException>()(
+  "StaleRequestException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "StaleRequestException", httpResponseCode: 409 }),
 ) {}
 export class TypeConfigurationNotFoundException extends S.TaggedError<TypeConfigurationNotFoundException>()(
   "TypeConfigurationNotFoundException",
@@ -2837,67 +2832,13 @@ export class NameAlreadyExistsException extends S.TaggedError<NameAlreadyExistsE
     httpResponseCode: 409,
   }),
 ) {}
+export class ResourceScanLimitExceededException extends S.TaggedError<ResourceScanLimitExceededException>()(
+  "ResourceScanLimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceScanLimitExceeded", httpResponseCode: 400 }),
+) {}
 
 //# Operations
-/**
- * Activate trusted access with Organizations. With trusted access between StackSets
- * and Organizations activated, the management account has permissions to create
- * and manage StackSets for your organization.
- */
-export const activateOrganizationsAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ActivateOrganizationsAccessInput,
-    output: ActivateOrganizationsAccessOutput,
-    errors: [InvalidOperationException, OperationNotFoundException],
-  }),
-);
-/**
- * Continues rolling back a stack from `UPDATE_ROLLBACK_FAILED` to
- * `UPDATE_ROLLBACK_COMPLETE` state. Depending on the cause of the failure, you can
- * manually fix the error and continue the rollback. By continuing the rollback, you can return
- * your stack to a working state (the `UPDATE_ROLLBACK_COMPLETE` state) and then try
- * to update the stack again.
- *
- * A stack enters the `UPDATE_ROLLBACK_FAILED` state when CloudFormation can't roll
- * back all changes after a failed stack update. For example, this might occur when a stack
- * attempts to roll back to an old database that was deleted outside of CloudFormation. Because
- * CloudFormation doesn't know the instance was deleted, it assumes the instance still exists and
- * attempts to roll back to it, causing the update rollback to fail.
- *
- * For more information, see Continue rolling back an update in the *CloudFormation User Guide*. For
- * information for troubleshooting a failed update rollback, see Update rollback failed.
- */
-export const continueUpdateRollback = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ContinueUpdateRollbackInput,
-    output: ContinueUpdateRollbackOutput,
-    errors: [TokenAlreadyExistsException],
-  }),
-);
-/**
- * Deactivates trusted access with Organizations. If trusted access is deactivated,
- * the management account does not have permissions to create and manage
- * service-managed StackSets for your organization.
- */
-export const deactivateOrganizationsAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeactivateOrganizationsAccessInput,
-    output: DeactivateOrganizationsAccessOutput,
-    errors: [InvalidOperationException, OperationNotFoundException],
-  }));
-/**
- * Deletes a specified stack. Once the call completes successfully, stack deletion starts.
- * Deleted stacks don't show up in the DescribeStacks operation if the deletion
- * has been completed successfully.
- *
- * For more information about deleting a stack, see Delete a stack from
- * the CloudFormation console in the *CloudFormation User Guide*.
- */
-export const deleteStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStackInput,
-  output: DeleteStackResponse,
-  errors: [TokenAlreadyExistsException],
-}));
 /**
  * Executes the stack refactor operation.
  */
@@ -2917,17 +2858,6 @@ export const setStackPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Specify the default version of an extension. The default version of an extension will be
- * used in CloudFormation operations.
- */
-export const setTypeDefaultVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetTypeDefaultVersionInput,
-    output: SetTypeDefaultVersionOutput,
-    errors: [CFNRegistryException, TypeNotFoundException],
-  }),
-);
-/**
  * Sends a signal to the specified resource with a success or failure status. You can use the
  * `SignalResource` operation in conjunction with a creation policy or update
  * policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the
@@ -2941,6 +2871,18 @@ export const signalResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
+ * Activate trusted access with Organizations. With trusted access between StackSets
+ * and Organizations activated, the management account has permissions to create
+ * and manage StackSets for your organization.
+ */
+export const activateOrganizationsAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ActivateOrganizationsAccessInput,
+    output: ActivateOrganizationsAccessOutput,
+    errors: [InvalidOperationException, OperationNotFoundException],
+  }),
+);
+/**
  * Cancels an update on the specified stack. If the call completes successfully, the stack
  * rolls back the update and reverts to the previous stack configuration.
  *
@@ -2950,25 +2892,6 @@ export const cancelUpdateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelUpdateStackInput,
   output: CancelUpdateStackResponse,
   errors: [TokenAlreadyExistsException],
-}));
-/**
- * Deactivates a public third-party extension, such as a resource or module, or a CloudFormation
- * Hook when you no longer use it.
- *
- * Deactivating an extension deletes the configuration details that are associated with it.
- * To temporarily disable a CloudFormation Hook instead, you can use SetTypeConfiguration.
- *
- * Once deactivated, an extension can't be used in any CloudFormation operation. This includes
- * stack update operations where the stack template includes the extension, even if no updates
- * are being made to the extension. In addition, deactivated extensions aren't automatically
- * updated if a new version of the extension is released.
- *
- * To see which extensions are currently activated, use ListTypes.
- */
-export const deactivateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeactivateTypeInput,
-  output: DeactivateTypeOutput,
-  errors: [CFNRegistryException, TypeNotFoundException],
 }));
 /**
  * Deletes the specified change set. Deleting change sets ensures that no one executes the
@@ -2985,31 +2908,6 @@ export const deleteChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChangeSetInput,
   output: DeleteChangeSetOutput,
   errors: [InvalidChangeSetStatusException],
-}));
-/**
- * Marks an extension or extension version as `DEPRECATED` in the CloudFormation
- * registry, removing it from active use. Deprecated extensions or extension versions cannot be
- * used in CloudFormation operations.
- *
- * To deregister an entire extension, you must individually deregister all active versions of
- * that extension. If an extension has only a single active version, deregistering that version
- * results in the extension itself being deregistered and marked as deprecated in the
- * registry.
- *
- * You can't deregister the default version of an extension if there are other active version
- * of that extension. If you do deregister the default version of an extension, the extension
- * type itself is deregistered as well and marked as deprecated.
- *
- * To view the deprecation status of an extension or extension version, use DescribeType.
- *
- * For more information, see Remove
- * third-party private extensions from your account in the
- * *CloudFormation User Guide*.
- */
-export const deregisterType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeregisterTypeInput,
-  output: DeregisterTypeOutput,
-  errors: [CFNRegistryException, TypeNotFoundException],
 }));
 /**
  * Retrieves information about the account's `OrganizationAccess` status. This API
@@ -3140,47 +3038,6 @@ export const detectStackResourceDrift = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Detect drift on a StackSet. When CloudFormation performs drift detection on a StackSet, it
- * performs drift detection on the stack associated with each stack instance in the StackSet. For
- * more information, see Performing drift detection on
- * CloudFormation StackSets.
- *
- * `DetectStackSetDrift` returns the `OperationId` of the StackSet
- * drift detection operation. Use this operation id with DescribeStackSetOperation to monitor the progress of the drift detection
- * operation. The drift detection operation may take some time, depending on the number of stack
- * instances included in the StackSet, in addition to the number of resources included in each
- * stack.
- *
- * Once the operation has completed, use the following actions to return drift
- * information:
- *
- * - Use DescribeStackSet to return detailed information about the stack
- * set, including detailed information about the last *completed* drift
- * operation performed on the StackSet. (Information about drift operations that are in
- * progress isn't included.)
- *
- * - Use ListStackInstances to return a list of stack instances belonging
- * to the StackSet, including the drift status and last drift time checked of each
- * instance.
- *
- * - Use DescribeStackInstance to return detailed information about a
- * specific stack instance, including its drift status and last drift time checked.
- *
- * You can only run a single drift detection operation on a given StackSet at one
- * time.
- *
- * To stop a drift detection StackSet operation, use StopStackSetOperation.
- */
-export const detectStackSetDrift = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetectStackSetDriftInput,
-  output: DetectStackSetDriftOutput,
-  errors: [
-    InvalidOperationException,
-    OperationInProgressException,
-    StackSetNotFoundException,
-  ],
-}));
-/**
  * Returns the estimated monthly cost of a template. The return value is an Amazon Web Services Simple
  * Monthly Calculator URL with a query string that describes the resources required to run the
  * template.
@@ -3190,19 +3047,6 @@ export const estimateTemplateCost = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: EstimateTemplateCostInput,
     output: EstimateTemplateCostOutput,
     errors: [],
-  }),
-);
-/**
- * Retrieves a generated template. If the template is in an `InProgress` or
- * `Pending` status then the template returned will be the template when the
- * template was last in a `Complete` status. If the template has not yet been in a
- * `Complete` status then an empty template will be returned.
- */
-export const getGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetGeneratedTemplateInput,
-    output: GetGeneratedTemplateOutput,
-    errors: [GeneratedTemplateNotFoundException],
   }),
 );
 /**
@@ -3250,21 +3094,6 @@ export const listTypeRegistrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [CFNRegistryException],
   }),
 );
-/**
- * Publishes the specified extension to the CloudFormation registry as a public extension in this
- * Region. Public extensions are available for use by all CloudFormation users. For more information
- * about publishing extensions, see Publishing extensions to
- * make them available for public use in the
- * *CloudFormation Command Line Interface (CLI) User Guide*.
- *
- * To publish an extension, you must be registered as a publisher with CloudFormation. For more
- * information, see RegisterPublisher.
- */
-export const publishType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PublishTypeInput,
-  output: PublishTypeOutput,
-  errors: [CFNRegistryException, TypeNotFoundException],
-}));
 /**
  * Registers your account as a publisher of public extensions in the CloudFormation registry.
  * Public extensions are available for use by all CloudFormation users. This publisher ID applies to
@@ -3339,114 +3168,6 @@ export const rollbackStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [TokenAlreadyExistsException],
 }));
 /**
- * Specifies the configuration data for a CloudFormation extension, such as a resource or Hook,
- * in the given account and Region.
- *
- * For more information, see Edit configuration
- * data for extensions in your account in the
- * *CloudFormation User Guide*.
- *
- * To view the current configuration data for an extension, refer to the
- * `ConfigurationSchema` element of DescribeType.
- *
- * It's strongly recommended that you use dynamic references to restrict sensitive
- * configuration definitions, such as third-party credentials. For more information, see Specify values stored in other services using dynamic references in the
- * *CloudFormation User Guide*.
- *
- * For more information about setting the configuration data for resource types, see Defining the account-level configuration of an extension in the
- * *CloudFormation Command Line Interface (CLI) User Guide*. For more information about setting the configuration
- * data for Hooks, see the CloudFormation Hooks User Guide.
- */
-export const setTypeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetTypeConfigurationInput,
-    output: SetTypeConfigurationOutput,
-    errors: [CFNRegistryException, TypeNotFoundException],
-  }),
-);
-/**
- * Stops an in-progress operation on a StackSet and its associated stack instances. StackSets
- * will cancel all the unstarted stack instance deployments and wait for those are in-progress to
- * complete.
- */
-export const stopStackSetOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopStackSetOperationInput,
-    output: StopStackSetOperationOutput,
-    errors: [
-      InvalidOperationException,
-      OperationNotFoundException,
-      StackSetNotFoundException,
-    ],
-  }),
-);
-/**
- * Tests a registered extension to make sure it meets all necessary requirements for being
- * published in the CloudFormation registry.
- *
- * - For resource types, this includes passing all contracts tests defined for the
- * type.
- *
- * - For modules, this includes determining if the module's model meets all necessary
- * requirements.
- *
- * For more information, see Testing your public extension before publishing in the
- * *CloudFormation Command Line Interface (CLI) User Guide*.
- *
- * If you don't specify a version, CloudFormation uses the default version of the extension in
- * your account and Region for testing.
- *
- * To perform testing, CloudFormation assumes the execution role specified when the type was
- * registered. For more information, see RegisterType.
- *
- * Once you've initiated testing on an extension using `TestType`, you can pass
- * the returned `TypeVersionArn` into DescribeType to
- * monitor the current test status and test status description for the extension.
- *
- * An extension must have a test status of `PASSED` before it can be published.
- * For more information, see Publishing extensions
- * to make them available for public use in the
- * *CloudFormation Command Line Interface (CLI) User Guide*.
- */
-export const testType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestTypeInput,
-  output: TestTypeOutput,
-  errors: [CFNRegistryException, TypeNotFoundException],
-}));
-/**
- * Updates a generated template. This can be used to change the name, add and remove
- * resources, refresh resources, and change the `DeletionPolicy` and
- * `UpdateReplacePolicy` settings. You can check the status of the update to the
- * generated template using the `DescribeGeneratedTemplate` API action.
- */
-export const updateGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGeneratedTemplateInput,
-    output: UpdateGeneratedTemplateOutput,
-    errors: [
-      AlreadyExistsException,
-      GeneratedTemplateNotFoundException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Updates a stack as specified in the template. After the call completes successfully, the
- * stack update starts. You can check the status of the stack through the DescribeStacks action.
- *
- * To get a copy of the template for an existing stack, you can use the GetTemplate action.
- *
- * For more information about updating a stack and monitoring the progress of the update, see
- * Managing
- * Amazon Web Services resources as a single unit with CloudFormation stacks in the
- * *CloudFormation User Guide*.
- */
-export const updateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateStackInput,
-  output: UpdateStackOutput,
-  errors: [InsufficientCapabilitiesException, TokenAlreadyExistsException],
-}));
-/**
  * Updates termination protection for the specified stack. If a user attempts to delete a
  * stack with termination protection enabled, the operation fails and the stack remains
  * unchanged. For more information, see Protect a CloudFormation
@@ -3464,92 +3185,71 @@ export const updateTerminationProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Activates a public third-party extension, such as a resource or module, to make it
- * available for use in stack templates in your current account and Region. It can also create
- * CloudFormation Hooks, which allow you to evaluate resource configurations before CloudFormation
- * provisions them. Hooks integrate with both CloudFormation and Cloud Control API operations.
- *
- * After you activate an extension, you can use SetTypeConfiguration to set specific properties for the extension.
- *
- * To see which extensions have been activated, use ListTypes. To see
- * configuration details for an extension, use DescribeType.
- *
- * For more information, see Activate a
- * third-party public extension in your account in the
- * *CloudFormation User Guide*. For information about creating Hooks, see the
- * CloudFormation Hooks User Guide.
+ * Deactivates trusted access with Organizations. If trusted access is deactivated,
+ * the management account does not have permissions to create and manage
+ * service-managed StackSets for your organization.
  */
-export const activateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ActivateTypeInput,
-  output: ActivateTypeOutput,
+export const deactivateOrganizationsAccess =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeactivateOrganizationsAccessInput,
+    output: DeactivateOrganizationsAccessOutput,
+    errors: [InvalidOperationException, OperationNotFoundException],
+  }));
+/**
+ * Continues rolling back a stack from `UPDATE_ROLLBACK_FAILED` to
+ * `UPDATE_ROLLBACK_COMPLETE` state. Depending on the cause of the failure, you can
+ * manually fix the error and continue the rollback. By continuing the rollback, you can return
+ * your stack to a working state (the `UPDATE_ROLLBACK_COMPLETE` state) and then try
+ * to update the stack again.
+ *
+ * A stack enters the `UPDATE_ROLLBACK_FAILED` state when CloudFormation can't roll
+ * back all changes after a failed stack update. For example, this might occur when a stack
+ * attempts to roll back to an old database that was deleted outside of CloudFormation. Because
+ * CloudFormation doesn't know the instance was deleted, it assumes the instance still exists and
+ * attempts to roll back to it, causing the update rollback to fail.
+ *
+ * For more information, see Continue rolling back an update in the *CloudFormation User Guide*. For
+ * information for troubleshooting a failed update rollback, see Update rollback failed.
+ */
+export const continueUpdateRollback = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ContinueUpdateRollbackInput,
+    output: ContinueUpdateRollbackOutput,
+    errors: [TokenAlreadyExistsException],
+  }),
+);
+/**
+ * Deletes a specified stack. Once the call completes successfully, stack deletion starts.
+ * Deleted stacks don't show up in the DescribeStacks operation if the deletion
+ * has been completed successfully.
+ *
+ * For more information about deleting a stack, see Delete a stack from
+ * the CloudFormation console in the *CloudFormation User Guide*.
+ */
+export const deleteStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStackInput,
+  output: DeleteStackResponse,
+  errors: [TokenAlreadyExistsException],
+}));
+/**
+ * Deactivates a public third-party extension, such as a resource or module, or a CloudFormation
+ * Hook when you no longer use it.
+ *
+ * Deactivating an extension deletes the configuration details that are associated with it.
+ * To temporarily disable a CloudFormation Hook instead, you can use SetTypeConfiguration.
+ *
+ * Once deactivated, an extension can't be used in any CloudFormation operation. This includes
+ * stack update operations where the stack template includes the extension, even if no updates
+ * are being made to the extension. In addition, deactivated extensions aren't automatically
+ * updated if a new version of the extension is released.
+ *
+ * To see which extensions are currently activated, use ListTypes.
+ */
+export const deactivateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivateTypeInput,
+  output: DeactivateTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
-/**
- * Creates a template from existing resources that are not already managed with CloudFormation.
- * You can check the status of the template generation using the
- * `DescribeGeneratedTemplate` API action.
- */
-export const createGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateGeneratedTemplateInput,
-    output: CreateGeneratedTemplateOutput,
-    errors: [
-      AlreadyExistsException,
-      ConcurrentResourcesLimitExceededException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates a stack as specified in the template. After the call completes successfully, the
- * stack creation starts. You can check the status of the stack through the DescribeStacks operation.
- *
- * For more information about creating a stack and monitoring stack progress, see Managing Amazon Web Services
- * resources as a single unit with CloudFormation stacks in the
- * *CloudFormation User Guide*.
- */
-export const createStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStackInput,
-  output: CreateStackOutput,
-  errors: [
-    AlreadyExistsException,
-    InsufficientCapabilitiesException,
-    LimitExceededException,
-    TokenAlreadyExistsException,
-  ],
-}));
-/**
- * Creates stack instances for the specified accounts, within the specified Amazon Web Services Regions. A
- * stack instance refers to a stack in a specific account and Region. You must specify at least
- * one value for either `Accounts` or `DeploymentTargets`, and you must
- * specify at least one value for `Regions`.
- *
- * The maximum number of organizational unit (OUs) supported by a
- * `CreateStackInstances` operation is 50.
- *
- * If you need more than 50, consider the following options:
- *
- * - *Batch processing:* If you don't want to expose your OU
- * hierarchy, split up the operations into multiple calls with less than 50 OUs
- * each.
- *
- * - *Parent OU strategy:* If you don't mind exposing the OU
- * hierarchy, target a parent OU that contains all desired child OUs.
- */
-export const createStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStackInstancesInput,
-    output: CreateStackInstancesOutput,
-    errors: [
-      InvalidOperationException,
-      LimitExceededException,
-      OperationIdAlreadyExistsException,
-      OperationInProgressException,
-      StackSetNotFoundException,
-      StaleRequestException,
-    ],
-  }),
-);
 /**
  * Deleted a generated template.
  */
@@ -3560,34 +3260,6 @@ export const deleteGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [
       ConcurrentResourcesLimitExceededException,
       GeneratedTemplateNotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes stack instances for the specified accounts, in the specified Amazon Web Services Regions.
- *
- * The maximum number of organizational unit (OUs) supported by a
- * `DeleteStackInstances` operation is 50.
- *
- * If you need more than 50, consider the following options:
- *
- * - *Batch processing:* If you don't want to expose your OU
- * hierarchy, split up the operations into multiple calls with less than 50 OUs
- * each.
- *
- * - *Parent OU strategy:* If you don't mind exposing the OU
- * hierarchy, target a parent OU that contains all desired child OUs.
- */
-export const deleteStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStackInstancesInput,
-    output: DeleteStackInstancesOutput,
-    errors: [
-      InvalidOperationException,
-      OperationIdAlreadyExistsException,
-      OperationInProgressException,
-      StackSetNotFoundException,
-      StaleRequestException,
     ],
   }),
 );
@@ -3689,6 +3361,47 @@ export const describeType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
 /**
+ * Detect drift on a StackSet. When CloudFormation performs drift detection on a StackSet, it
+ * performs drift detection on the stack associated with each stack instance in the StackSet. For
+ * more information, see Performing drift detection on
+ * CloudFormation StackSets.
+ *
+ * `DetectStackSetDrift` returns the `OperationId` of the StackSet
+ * drift detection operation. Use this operation id with DescribeStackSetOperation to monitor the progress of the drift detection
+ * operation. The drift detection operation may take some time, depending on the number of stack
+ * instances included in the StackSet, in addition to the number of resources included in each
+ * stack.
+ *
+ * Once the operation has completed, use the following actions to return drift
+ * information:
+ *
+ * - Use DescribeStackSet to return detailed information about the stack
+ * set, including detailed information about the last *completed* drift
+ * operation performed on the StackSet. (Information about drift operations that are in
+ * progress isn't included.)
+ *
+ * - Use ListStackInstances to return a list of stack instances belonging
+ * to the StackSet, including the drift status and last drift time checked of each
+ * instance.
+ *
+ * - Use DescribeStackInstance to return detailed information about a
+ * specific stack instance, including its drift status and last drift time checked.
+ *
+ * You can only run a single drift detection operation on a given StackSet at one
+ * time.
+ *
+ * To stop a drift detection StackSet operation, use StopStackSetOperation.
+ */
+export const detectStackSetDrift = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectStackSetDriftInput,
+  output: DetectStackSetDriftOutput,
+  errors: [
+    InvalidOperationException,
+    OperationInProgressException,
+    StackSetNotFoundException,
+  ],
+}));
+/**
  * Updates a stack using the input information that was provided when the specified change
  * set was created. After the call successfully completes, CloudFormation starts updating the stack.
  * Use the DescribeStacks action to view the status of the update.
@@ -3746,27 +3459,6 @@ export const listGeneratedTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns summaries of invoked Hooks. For more information, see View invocation
- * summaries for CloudFormation Hooks in the *CloudFormation Hooks User Guide*.
- *
- * This operation supports the following parameter combinations:
- *
- * - No parameters: Returns all Hook invocation summaries.
- *
- * - `TypeArn` only: Returns summaries for a specific Hook.
- *
- * - `TypeArn` and `Status`: Returns summaries for a specific Hook
- * filtered by status.
- *
- * - `TargetId` and `TargetType`: Returns summaries for a specific
- * Hook invocation target.
- */
-export const listHookResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListHookResultsInput,
-  output: ListHookResultsOutput,
-  errors: [HookResultNotFoundException],
-}));
-/**
  * List the resource scans from newest to oldest. By default it will return up to 10 resource
  * scans.
  */
@@ -3775,23 +3467,6 @@ export const listResourceScans = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: ListResourceScansOutput,
   errors: [],
 }));
-/**
- * Returns drift information for resources in a stack instance.
- *
- * `ListStackInstanceResourceDrifts` returns drift information for the most
- * recent drift detection operation. If an operation is in progress, it may only return partial
- * results.
- */
-export const listStackInstanceResourceDrifts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListStackInstanceResourceDriftsInput,
-    output: ListStackInstanceResourceDriftsOutput,
-    errors: [
-      OperationNotFoundException,
-      StackInstanceNotFoundException,
-      StackSetNotFoundException,
-    ],
-  }));
 /**
  * Lists the stack refactor actions that will be taken after calling the ExecuteStackRefactor action.
  */
@@ -3881,84 +3556,6 @@ export const recordHandlerProgress = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the parameter values for stack instances for the specified accounts, within the
- * specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and
- * Region.
- *
- * You can only update stack instances in Amazon Web Services Regions and accounts where they already
- * exist; to create additional stack instances, use CreateStackInstances.
- *
- * During StackSet updates, any parameters overridden for a stack instance aren't updated,
- * but retain their overridden value.
- *
- * You can only update the parameter *values* that are specified in the
- * StackSet. To add or delete a parameter itself, use UpdateStackSet
- * to update the StackSet template. If you add a parameter to a template, before you can override
- * the parameter value specified in the StackSet you must first use UpdateStackSet
- * to update all stack instances with the updated template and parameter value specified in the
- * StackSet. Once a stack instance has been updated with the new parameter, you can then override
- * the parameter value using `UpdateStackInstances`.
- *
- * The maximum number of organizational unit (OUs) supported by a
- * `UpdateStackInstances` operation is 50.
- *
- * If you need more than 50, consider the following options:
- *
- * - *Batch processing:* If you don't want to expose your OU
- * hierarchy, split up the operations into multiple calls with less than 50 OUs
- * each.
- *
- * - *Parent OU strategy:* If you don't mind exposing the OU
- * hierarchy, target a parent OU that contains all desired child OUs.
- */
-export const updateStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStackInstancesInput,
-    output: UpdateStackInstancesOutput,
-    errors: [
-      InvalidOperationException,
-      OperationIdAlreadyExistsException,
-      OperationInProgressException,
-      StackInstanceNotFoundException,
-      StackSetNotFoundException,
-      StaleRequestException,
-    ],
-  }),
-);
-/**
- * Updates the StackSet and associated stack instances in the specified accounts and
- * Amazon Web Services Regions.
- *
- * Even if the StackSet operation created by updating the StackSet fails (completely or
- * partially, below or above a specified failure tolerance), the StackSet is updated with your
- * changes. Subsequent CreateStackInstances calls on the specified StackSet use
- * the updated StackSet.
- *
- * The maximum number of organizational unit (OUs) supported by a
- * `UpdateStackSet` operation is 50.
- *
- * If you need more than 50, consider the following options:
- *
- * - *Batch processing:* If you don't want to expose your OU
- * hierarchy, split up the operations into multiple calls with less than 50 OUs
- * each.
- *
- * - *Parent OU strategy:* If you don't mind exposing the OU
- * hierarchy, target a parent OU that contains all desired child OUs.
- */
-export const updateStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateStackSetInput,
-  output: UpdateStackSetOutput,
-  errors: [
-    InvalidOperationException,
-    OperationIdAlreadyExistsException,
-    OperationInProgressException,
-    StackInstanceNotFoundException,
-    StackSetNotFoundException,
-    StaleRequestException,
-  ],
-}));
-/**
  * Validates a specified template. CloudFormation first checks if the template is valid JSON. If
  * it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail,
  * CloudFormation returns a template validation error.
@@ -3967,6 +3564,233 @@ export const validateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateTemplateInput,
   output: ValidateTemplateOutput,
   errors: [],
+}));
+/**
+ * Updates a generated template. This can be used to change the name, add and remove
+ * resources, refresh resources, and change the `DeletionPolicy` and
+ * `UpdateReplacePolicy` settings. You can check the status of the update to the
+ * generated template using the `DescribeGeneratedTemplate` API action.
+ */
+export const updateGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateGeneratedTemplateInput,
+    output: UpdateGeneratedTemplateOutput,
+    errors: [
+      AlreadyExistsException,
+      GeneratedTemplateNotFoundException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a template from existing resources that are not already managed with CloudFormation.
+ * You can check the status of the template generation using the
+ * `DescribeGeneratedTemplate` API action.
+ */
+export const createGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateGeneratedTemplateInput,
+    output: CreateGeneratedTemplateOutput,
+    errors: [
+      AlreadyExistsException,
+      ConcurrentResourcesLimitExceededException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Publishes the specified extension to the CloudFormation registry as a public extension in this
+ * Region. Public extensions are available for use by all CloudFormation users. For more information
+ * about publishing extensions, see Publishing extensions to
+ * make them available for public use in the
+ * *CloudFormation Command Line Interface (CLI) User Guide*.
+ *
+ * To publish an extension, you must be registered as a publisher with CloudFormation. For more
+ * information, see RegisterPublisher.
+ */
+export const publishType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishTypeInput,
+  output: PublishTypeOutput,
+  errors: [CFNRegistryException, TypeNotFoundException],
+}));
+/**
+ * Specifies the configuration data for a CloudFormation extension, such as a resource or Hook,
+ * in the given account and Region.
+ *
+ * For more information, see Edit configuration
+ * data for extensions in your account in the
+ * *CloudFormation User Guide*.
+ *
+ * To view the current configuration data for an extension, refer to the
+ * `ConfigurationSchema` element of DescribeType.
+ *
+ * It's strongly recommended that you use dynamic references to restrict sensitive
+ * configuration definitions, such as third-party credentials. For more information, see Specify values stored in other services using dynamic references in the
+ * *CloudFormation User Guide*.
+ *
+ * For more information about setting the configuration data for resource types, see Defining the account-level configuration of an extension in the
+ * *CloudFormation Command Line Interface (CLI) User Guide*. For more information about setting the configuration
+ * data for Hooks, see the CloudFormation Hooks User Guide.
+ */
+export const setTypeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetTypeConfigurationInput,
+    output: SetTypeConfigurationOutput,
+    errors: [CFNRegistryException, TypeNotFoundException],
+  }),
+);
+/**
+ * Tests a registered extension to make sure it meets all necessary requirements for being
+ * published in the CloudFormation registry.
+ *
+ * - For resource types, this includes passing all contracts tests defined for the
+ * type.
+ *
+ * - For modules, this includes determining if the module's model meets all necessary
+ * requirements.
+ *
+ * For more information, see Testing your public extension before publishing in the
+ * *CloudFormation Command Line Interface (CLI) User Guide*.
+ *
+ * If you don't specify a version, CloudFormation uses the default version of the extension in
+ * your account and Region for testing.
+ *
+ * To perform testing, CloudFormation assumes the execution role specified when the type was
+ * registered. For more information, see RegisterType.
+ *
+ * Once you've initiated testing on an extension using `TestType`, you can pass
+ * the returned `TypeVersionArn` into DescribeType to
+ * monitor the current test status and test status description for the extension.
+ *
+ * An extension must have a test status of `PASSED` before it can be published.
+ * For more information, see Publishing extensions
+ * to make them available for public use in the
+ * *CloudFormation Command Line Interface (CLI) User Guide*.
+ */
+export const testType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestTypeInput,
+  output: TestTypeOutput,
+  errors: [CFNRegistryException, TypeNotFoundException],
+}));
+/**
+ * Marks an extension or extension version as `DEPRECATED` in the CloudFormation
+ * registry, removing it from active use. Deprecated extensions or extension versions cannot be
+ * used in CloudFormation operations.
+ *
+ * To deregister an entire extension, you must individually deregister all active versions of
+ * that extension. If an extension has only a single active version, deregistering that version
+ * results in the extension itself being deregistered and marked as deprecated in the
+ * registry.
+ *
+ * You can't deregister the default version of an extension if there are other active version
+ * of that extension. If you do deregister the default version of an extension, the extension
+ * type itself is deregistered as well and marked as deprecated.
+ *
+ * To view the deprecation status of an extension or extension version, use DescribeType.
+ *
+ * For more information, see Remove
+ * third-party private extensions from your account in the
+ * *CloudFormation User Guide*.
+ */
+export const deregisterType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterTypeInput,
+  output: DeregisterTypeOutput,
+  errors: [CFNRegistryException, TypeNotFoundException],
+}));
+/**
+ * Specify the default version of an extension. The default version of an extension will be
+ * used in CloudFormation operations.
+ */
+export const setTypeDefaultVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetTypeDefaultVersionInput,
+    output: SetTypeDefaultVersionOutput,
+    errors: [CFNRegistryException, TypeNotFoundException],
+  }),
+);
+/**
+ * Activates a public third-party extension, such as a resource or module, to make it
+ * available for use in stack templates in your current account and Region. It can also create
+ * CloudFormation Hooks, which allow you to evaluate resource configurations before CloudFormation
+ * provisions them. Hooks integrate with both CloudFormation and Cloud Control API operations.
+ *
+ * After you activate an extension, you can use SetTypeConfiguration to set specific properties for the extension.
+ *
+ * To see which extensions have been activated, use ListTypes. To see
+ * configuration details for an extension, use DescribeType.
+ *
+ * For more information, see Activate a
+ * third-party public extension in your account in the
+ * *CloudFormation User Guide*. For information about creating Hooks, see the
+ * CloudFormation Hooks User Guide.
+ */
+export const activateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ActivateTypeInput,
+  output: ActivateTypeOutput,
+  errors: [CFNRegistryException, TypeNotFoundException],
+}));
+/**
+ * Retrieves a generated template. If the template is in an `InProgress` or
+ * `Pending` status then the template returned will be the template when the
+ * template was last in a `Complete` status. If the template has not yet been in a
+ * `Complete` status then an empty template will be returned.
+ */
+export const getGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetGeneratedTemplateInput,
+    output: GetGeneratedTemplateOutput,
+    errors: [GeneratedTemplateNotFoundException],
+  }),
+);
+/**
+ * Stops an in-progress operation on a StackSet and its associated stack instances. StackSets
+ * will cancel all the unstarted stack instance deployments and wait for those are in-progress to
+ * complete.
+ */
+export const stopStackSetOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopStackSetOperationInput,
+    output: StopStackSetOperationOutput,
+    errors: [
+      InvalidOperationException,
+      OperationNotFoundException,
+      StackSetNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates a stack as specified in the template. After the call completes successfully, the
+ * stack update starts. You can check the status of the stack through the DescribeStacks action.
+ *
+ * To get a copy of the template for an existing stack, you can use the GetTemplate action.
+ *
+ * For more information about updating a stack and monitoring the progress of the update, see
+ * Managing
+ * Amazon Web Services resources as a single unit with CloudFormation stacks in the
+ * *CloudFormation User Guide*.
+ */
+export const updateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStackInput,
+  output: UpdateStackOutput,
+  errors: [InsufficientCapabilitiesException, TokenAlreadyExistsException],
+}));
+/**
+ * Creates a stack as specified in the template. After the call completes successfully, the
+ * stack creation starts. You can check the status of the stack through the DescribeStacks operation.
+ *
+ * For more information about creating a stack and monitoring stack progress, see Managing Amazon Web Services
+ * resources as a single unit with CloudFormation stacks in the
+ * *CloudFormation User Guide*.
+ */
+export const createStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStackInput,
+  output: CreateStackOutput,
+  errors: [
+    AlreadyExistsException,
+    InsufficientCapabilitiesException,
+    LimitExceededException,
+    TokenAlreadyExistsException,
+  ],
 }));
 /**
  * Creates a list of changes that will be applied to a stack so that you can review the
@@ -4041,19 +3865,6 @@ export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DescribeEventsOutput,
   errors: [],
 }));
-/**
- * Returns the stack instance that's associated with the specified StackSet, Amazon Web Services account,
- * and Amazon Web Services Region.
- *
- * For a list of stack instances that are associated with a specific StackSet, use ListStackInstances.
- */
-export const describeStackInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStackInstanceInput,
-    output: DescribeStackInstanceOutput,
-    errors: [StackInstanceNotFoundException, StackSetNotFoundException],
-  }),
-);
 /**
  * Returns a description of the specified resource in the specified stack.
  *
@@ -4142,37 +3953,6 @@ export const getHookResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [HookResultNotFoundException],
 }));
 /**
- * Import existing stacks into a new StackSets. Use the stack import operation to import up
- * to 10 stacks into a new StackSet in the same account as the source stack or in a different
- * administrator account and Region, by specifying the stack ID of the stack you intend to
- * import.
- */
-export const importStacksToStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportStacksToStackSetInput,
-    output: ImportStacksToStackSetOutput,
-    errors: [
-      InvalidOperationException,
-      LimitExceededException,
-      OperationIdAlreadyExistsException,
-      OperationInProgressException,
-      StackNotFoundException,
-      StackSetNotFoundException,
-      StaleRequestException,
-    ],
-  }),
-);
-/**
- * Lists the related resources for a list of resources from a resource scan. The response
- * indicates whether each returned resource is already managed by CloudFormation.
- */
-export const listResourceScanRelatedResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListResourceScanRelatedResourcesInput,
-    output: ListResourceScanRelatedResourcesOutput,
-    errors: [ResourceScanInProgressException, ResourceScanNotFoundException],
-  }));
-/**
  * Lists the resources from a resource scan. The results can be filtered by resource
  * identifier, resource type prefix, tag key, and tag value. Only resources that match all
  * specified filters are returned. The response indicates whether each returned resource is
@@ -4185,6 +3965,23 @@ export const listResourceScanResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [ResourceScanInProgressException, ResourceScanNotFoundException],
   }),
 );
+/**
+ * Returns drift information for resources in a stack instance.
+ *
+ * `ListStackInstanceResourceDrifts` returns drift information for the most
+ * recent drift detection operation. If an operation is in progress, it may only return partial
+ * results.
+ */
+export const listStackInstanceResourceDrifts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListStackInstanceResourceDriftsInput,
+    output: ListStackInstanceResourceDriftsOutput,
+    errors: [
+      OperationNotFoundException,
+      StackInstanceNotFoundException,
+      StackSetNotFoundException,
+    ],
+  }));
 /**
  * Returns summary information about stack instances that are associated with the specified
  * StackSet. You can filter for stack instances that are associated with a specific Amazon Web Services account
@@ -4229,14 +4026,208 @@ export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [CFNRegistryException],
 }));
 /**
- * Starts a scan of the resources in this account in this Region. You can the status of a
- * scan using the `ListResourceScans` API action.
+ * Deletes stack instances for the specified accounts, in the specified Amazon Web Services Regions.
+ *
+ * The maximum number of organizational unit (OUs) supported by a
+ * `DeleteStackInstances` operation is 50.
+ *
+ * If you need more than 50, consider the following options:
+ *
+ * - *Batch processing:* If you don't want to expose your OU
+ * hierarchy, split up the operations into multiple calls with less than 50 OUs
+ * each.
+ *
+ * - *Parent OU strategy:* If you don't mind exposing the OU
+ * hierarchy, target a parent OU that contains all desired child OUs.
  */
-export const startResourceScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartResourceScanInput,
-  output: StartResourceScanOutput,
-  errors: [ResourceScanInProgressException, ResourceScanLimitExceededException],
+export const deleteStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteStackInstancesInput,
+    output: DeleteStackInstancesOutput,
+    errors: [
+      InvalidOperationException,
+      OperationIdAlreadyExistsException,
+      OperationInProgressException,
+      StackSetNotFoundException,
+      StaleRequestException,
+    ],
+  }),
+);
+/**
+ * Returns summaries of invoked Hooks. For more information, see View invocation
+ * summaries for CloudFormation Hooks in the *CloudFormation Hooks User Guide*.
+ *
+ * This operation supports the following parameter combinations:
+ *
+ * - No parameters: Returns all Hook invocation summaries.
+ *
+ * - `TypeArn` only: Returns summaries for a specific Hook.
+ *
+ * - `TypeArn` and `Status`: Returns summaries for a specific Hook
+ * filtered by status.
+ *
+ * - `TargetId` and `TargetType`: Returns summaries for a specific
+ * Hook invocation target.
+ */
+export const listHookResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListHookResultsInput,
+  output: ListHookResultsOutput,
+  errors: [HookResultNotFoundException],
 }));
+/**
+ * Lists the related resources for a list of resources from a resource scan. The response
+ * indicates whether each returned resource is already managed by CloudFormation.
+ */
+export const listResourceScanRelatedResources =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListResourceScanRelatedResourcesInput,
+    output: ListResourceScanRelatedResourcesOutput,
+    errors: [ResourceScanInProgressException, ResourceScanNotFoundException],
+  }));
+/**
+ * Updates the parameter values for stack instances for the specified accounts, within the
+ * specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and
+ * Region.
+ *
+ * You can only update stack instances in Amazon Web Services Regions and accounts where they already
+ * exist; to create additional stack instances, use CreateStackInstances.
+ *
+ * During StackSet updates, any parameters overridden for a stack instance aren't updated,
+ * but retain their overridden value.
+ *
+ * You can only update the parameter *values* that are specified in the
+ * StackSet. To add or delete a parameter itself, use UpdateStackSet
+ * to update the StackSet template. If you add a parameter to a template, before you can override
+ * the parameter value specified in the StackSet you must first use UpdateStackSet
+ * to update all stack instances with the updated template and parameter value specified in the
+ * StackSet. Once a stack instance has been updated with the new parameter, you can then override
+ * the parameter value using `UpdateStackInstances`.
+ *
+ * The maximum number of organizational unit (OUs) supported by a
+ * `UpdateStackInstances` operation is 50.
+ *
+ * If you need more than 50, consider the following options:
+ *
+ * - *Batch processing:* If you don't want to expose your OU
+ * hierarchy, split up the operations into multiple calls with less than 50 OUs
+ * each.
+ *
+ * - *Parent OU strategy:* If you don't mind exposing the OU
+ * hierarchy, target a parent OU that contains all desired child OUs.
+ */
+export const updateStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateStackInstancesInput,
+    output: UpdateStackInstancesOutput,
+    errors: [
+      InvalidOperationException,
+      OperationIdAlreadyExistsException,
+      OperationInProgressException,
+      StackInstanceNotFoundException,
+      StackSetNotFoundException,
+      StaleRequestException,
+    ],
+  }),
+);
+/**
+ * Updates the StackSet and associated stack instances in the specified accounts and
+ * Amazon Web Services Regions.
+ *
+ * Even if the StackSet operation created by updating the StackSet fails (completely or
+ * partially, below or above a specified failure tolerance), the StackSet is updated with your
+ * changes. Subsequent CreateStackInstances calls on the specified StackSet use
+ * the updated StackSet.
+ *
+ * The maximum number of organizational unit (OUs) supported by a
+ * `UpdateStackSet` operation is 50.
+ *
+ * If you need more than 50, consider the following options:
+ *
+ * - *Batch processing:* If you don't want to expose your OU
+ * hierarchy, split up the operations into multiple calls with less than 50 OUs
+ * each.
+ *
+ * - *Parent OU strategy:* If you don't mind exposing the OU
+ * hierarchy, target a parent OU that contains all desired child OUs.
+ */
+export const updateStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStackSetInput,
+  output: UpdateStackSetOutput,
+  errors: [
+    InvalidOperationException,
+    OperationIdAlreadyExistsException,
+    OperationInProgressException,
+    StackInstanceNotFoundException,
+    StackSetNotFoundException,
+    StaleRequestException,
+  ],
+}));
+/**
+ * Returns the stack instance that's associated with the specified StackSet, Amazon Web Services account,
+ * and Amazon Web Services Region.
+ *
+ * For a list of stack instances that are associated with a specific StackSet, use ListStackInstances.
+ */
+export const describeStackInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeStackInstanceInput,
+    output: DescribeStackInstanceOutput,
+    errors: [StackInstanceNotFoundException, StackSetNotFoundException],
+  }),
+);
+/**
+ * Creates stack instances for the specified accounts, within the specified Amazon Web Services Regions. A
+ * stack instance refers to a stack in a specific account and Region. You must specify at least
+ * one value for either `Accounts` or `DeploymentTargets`, and you must
+ * specify at least one value for `Regions`.
+ *
+ * The maximum number of organizational unit (OUs) supported by a
+ * `CreateStackInstances` operation is 50.
+ *
+ * If you need more than 50, consider the following options:
+ *
+ * - *Batch processing:* If you don't want to expose your OU
+ * hierarchy, split up the operations into multiple calls with less than 50 OUs
+ * each.
+ *
+ * - *Parent OU strategy:* If you don't mind exposing the OU
+ * hierarchy, target a parent OU that contains all desired child OUs.
+ */
+export const createStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateStackInstancesInput,
+    output: CreateStackInstancesOutput,
+    errors: [
+      InvalidOperationException,
+      LimitExceededException,
+      OperationIdAlreadyExistsException,
+      OperationInProgressException,
+      StackSetNotFoundException,
+      StaleRequestException,
+    ],
+  }),
+);
+/**
+ * Import existing stacks into a new StackSets. Use the stack import operation to import up
+ * to 10 stacks into a new StackSet in the same account as the source stack or in a different
+ * administrator account and Region, by specifying the stack ID of the stack you intend to
+ * import.
+ */
+export const importStacksToStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ImportStacksToStackSetInput,
+    output: ImportStacksToStackSetOutput,
+    errors: [
+      InvalidOperationException,
+      LimitExceededException,
+      OperationIdAlreadyExistsException,
+      OperationInProgressException,
+      StackNotFoundException,
+      StackSetNotFoundException,
+      StaleRequestException,
+    ],
+  }),
+);
 /**
  * Returns configuration data for the specified CloudFormation extensions, from the CloudFormation
  * registry in your current account and Region.
@@ -4316,6 +4307,15 @@ export const listStackSetOperationResults =
     output: ListStackSetOperationResultsOutput,
     errors: [OperationNotFoundException, StackSetNotFoundException],
   }));
+/**
+ * Starts a scan of the resources in this account in this Region. You can the status of a
+ * scan using the `ListResourceScans` API action.
+ */
+export const startResourceScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartResourceScanInput,
+  output: StartResourceScanOutput,
+  errors: [ResourceScanInProgressException, ResourceScanLimitExceededException],
+}));
 /**
  * Returns the inputs for the change set and a list of changes that CloudFormation will make if
  * you execute the change set. For more information, see Update

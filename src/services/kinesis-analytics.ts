@@ -826,34 +826,34 @@ export class DescribeApplicationResponse extends S.Class<DescribeApplicationResp
 //# Errors
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
-) {}
-export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
-  "InvalidArgumentException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
-  "UnsupportedOperationException",
-  {},
-) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  {},
+export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
+  "InvalidArgumentException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidApplicationConfigurationException extends S.TaggedError<InvalidApplicationConfigurationException>()(
   "InvalidApplicationConfigurationException",
   { message: S.optional(S.String) },
 ) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
 export class CodeValidationException extends S.TaggedError<CodeValidationException>()(
   "CodeValidationException",
+  { message: S.optional(S.String) },
+) {}
+export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
+  "UnsupportedOperationException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
   { message: S.optional(S.String) },
 ) {}
 export class ResourceProvisionedThroughputExceededException extends S.TaggedError<ResourceProvisionedThroughputExceededException>()(
@@ -881,6 +881,42 @@ export class UnableToDetectSchemaException extends S.TaggedError<UnableToDetectS
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
+ * Returns a list of Amazon Kinesis Analytics applications in your account.
+ * For each application, the response includes the application name,
+ * Amazon Resource Name (ARN), and status.
+ *
+ * If the response returns the `HasMoreApplications` value as true,
+ * you can send another request by adding the
+ * `ExclusiveStartApplicationName` in the request body, and
+ * set the value of this to the last application name from
+ * the previous response.
+ *
+ * If you want detailed information about a specific application, use
+ * DescribeApplication.
+ *
+ * This operation requires permissions to perform the
+ * `kinesisanalytics:ListApplications` action.
+ */
+export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [],
+}));
+/**
+ * Retrieves the list of key-value tags assigned to the application. For more information, see Using Tagging.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
+ *
  * Stops the application from processing input data. You can stop
  * an application only if it is in the running state.
  * You can use the DescribeApplication operation to find the application state.
@@ -901,54 +937,18 @@ export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging.
+ * Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
+ * For more information, see Using Tagging.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
     ConcurrentModificationException,
     InvalidArgumentException,
     ResourceInUseException,
     ResourceNotFoundException,
     TooManyTagsException,
-  ],
-}));
-/**
- * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
- *
- * Adds a CloudWatch log stream to monitor application configuration errors. For more
- * information about using CloudWatch log streams with Amazon Kinesis Analytics
- * applications, see Working with Amazon
- * CloudWatch Logs.
- */
-export const addApplicationCloudWatchLoggingOption =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddApplicationCloudWatchLoggingOptionRequest,
-    output: AddApplicationCloudWatchLoggingOptionResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
-/**
- * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
- *
- * Deletes the specified application. Amazon Kinesis Analytics halts application execution and deletes the application, including any application artifacts (such as in-application streams, reference table, and application code).
- *
- * This operation requires permissions to perform the `kinesisanalytics:DeleteApplication` action.
- */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
-  errors: [
-    ConcurrentModificationException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    UnsupportedOperationException,
   ],
 }));
 /**
@@ -1032,32 +1032,25 @@ export const deleteApplicationReferenceDataSource =
     ],
   }));
 /**
- * Retrieves the list of key-value tags assigned to the application. For more information, see Using Tagging.
+ * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
+ *
+ * Adds a CloudWatch log stream to monitor application configuration errors. For more
+ * information about using CloudWatch log streams with Amazon Kinesis Analytics
+ * applications, see Working with Amazon
+ * CloudWatch Logs.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
- * For more information, see Using Tagging.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidArgumentException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
-}));
+export const addApplicationCloudWatchLoggingOption =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AddApplicationCloudWatchLoggingOptionRequest,
+    output: AddApplicationCloudWatchLoggingOptionResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidArgumentException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      UnsupportedOperationException,
+    ],
+  }));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1145,26 +1138,19 @@ export const addApplicationReferenceDataSource =
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
- * Returns a list of Amazon Kinesis Analytics applications in your account.
- * For each application, the response includes the application name,
- * Amazon Resource Name (ARN), and status.
+ * Deletes the specified application. Amazon Kinesis Analytics halts application execution and deletes the application, including any application artifacts (such as in-application streams, reference table, and application code).
  *
- * If the response returns the `HasMoreApplications` value as true,
- * you can send another request by adding the
- * `ExclusiveStartApplicationName` in the request body, and
- * set the value of this to the last application name from
- * the previous response.
- *
- * If you want detailed information about a specific application, use
- * DescribeApplication.
- *
- * This operation requires permissions to perform the
- * `kinesisanalytics:ListApplications` action.
+ * This operation requires permissions to perform the `kinesisanalytics:DeleteApplication` action.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
-  errors: [],
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
+  errors: [
+    ConcurrentModificationException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
 }));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
@@ -1191,6 +1177,20 @@ export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceInUseException,
     ResourceNotFoundException,
     UnsupportedOperationException,
+  ],
+}));
+/**
+ * Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
   ],
 }));
 /**

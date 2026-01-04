@@ -74,6 +74,7 @@ import {
   // Host label tests
   WriteGetObjectResponseRequest,
 } from "../../src/services/s3.ts";
+import * as T from "../../src/traits.ts";
 import { getAwsProtocolsHttpChecksum } from "../../src/traits.ts";
 import { readEffectStreamAsText } from "../../src/util/stream.ts";
 
@@ -1863,6 +1864,101 @@ describe("restXml protocol", () => {
           Type: "Receiver",
           Message: "Something unexpected happened",
         });
+      }),
+    );
+  });
+
+  // ==========================================================================
+  // HTTP Response Code Trait Tests
+  // ==========================================================================
+
+  describe("httpResponseCode trait", () => {
+    // Synthetic schema to test httpResponseCode support in rest-xml
+    // (No real AWS rest-xml API uses this, but the Smithy spec requires support)
+    class TestResponseCodeOutput extends S.Class<TestResponseCodeOutput>(
+      "TestResponseCodeOutput",
+    )({
+      StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+      Message: S.optional(S.String),
+    }) {}
+
+    it.effect(
+      "should deserialize HTTP response status code into annotated field",
+      () =>
+        Effect.gen(function* () {
+          const response: Response = {
+            status: 201,
+            statusText: "Created",
+            headers: {},
+            body: `<?xml version="1.0" encoding="UTF-8"?>
+<TestResponseCodeOutput>
+  <Message>Resource created successfully</Message>
+</TestResponseCodeOutput>`,
+          };
+
+          const result = yield* parseResponse(TestResponseCodeOutput, response);
+
+          expect(result.StatusCode).toBe(201);
+          expect(result.Message).toBe("Resource created successfully");
+        }),
+    );
+
+    it.effect("should handle 200 status code", () =>
+      Effect.gen(function* () {
+        const response: Response = {
+          status: 200,
+          statusText: "OK",
+          headers: {},
+          body: "",
+        };
+
+        const result = yield* parseResponse(TestResponseCodeOutput, response);
+
+        expect(result.StatusCode).toBe(200);
+      }),
+    );
+
+    it.effect("should handle 204 No Content status code", () =>
+      Effect.gen(function* () {
+        const response: Response = {
+          status: 204,
+          statusText: "No Content",
+          headers: {},
+          body: "",
+        };
+
+        const result = yield* parseResponse(TestResponseCodeOutput, response);
+
+        expect(result.StatusCode).toBe(204);
+      }),
+    );
+
+    it.effect("should work alongside header-bound properties", () =>
+      Effect.gen(function* () {
+        // Schema with both responseCode and header bindings
+        class TestMixedOutput extends S.Class<TestMixedOutput>(
+          "TestMixedOutput",
+        )({
+          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+          ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+        }) {}
+
+        const response: Response = {
+          status: 202,
+          statusText: "Accepted",
+          headers: {
+            "content-type": "application/xml",
+            etag: '"abc123"',
+          },
+          body: "",
+        };
+
+        const result = yield* parseResponse(TestMixedOutput, response);
+
+        expect(result.StatusCode).toBe(202);
+        expect(result.ContentType).toBe("application/xml");
+        expect(result.ETag).toBe('"abc123"');
       }),
     );
   });

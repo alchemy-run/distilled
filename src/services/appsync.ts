@@ -2366,33 +2366,9 @@ export class GetDataSourceIntrospectionResponse extends S.Class<GetDataSourceInt
 ) {}
 
 //# Errors
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
-  "BadRequestException",
-  {},
-) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  {},
-) {}
-export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
-  "InternalFailureException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class GraphQLSchemaException extends S.TaggedError<GraphQLSchemaException>()(
   "GraphQLSchemaException",
@@ -2406,8 +2382,36 @@ export class ApiKeyLimitExceededException extends S.TaggedError<ApiKeyLimitExcee
   "ApiKeyLimitExceededException",
   { message: S.optional(S.String) },
 ) {}
+export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { message: S.optional(S.String) },
+) {}
+export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
+  "InternalFailureException",
+  { message: S.optional(S.String) },
+) {}
 export class ApiLimitExceededException extends S.TaggedError<ApiLimitExceededException>()(
   "ApiLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class BadRequestException extends S.TaggedError<BadRequestException>()(
+  "BadRequestException",
+  {
+    message: S.optional(S.String),
+    reason: S.optional(S.String),
+    detail: S.optional(BadRequestDetail),
+  },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
   { message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
@@ -2420,6 +2424,58 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 ) {}
 
 //# Operations
+/**
+ * Retrieves an `ApiAssociation` object.
+ */
+export const getApiAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApiAssociationRequest,
+  output: GetApiAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Retrieves a custom `DomainName` object.
+ */
+export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainNameRequest,
+  output: GetDomainNameResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Lists multiple custom domain names.
+ */
+export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDomainNamesRequest,
+  output: ListDomainNamesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+  ],
+}));
+/**
+ * Updates a custom `DomainName` object.
+ */
+export const updateDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainNameRequest,
+  output: UpdateDomainNameResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+  ],
+}));
 /**
  * Deletes a custom `DomainName` object.
  */
@@ -2435,13 +2491,172 @@ export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a `GraphqlApi` object.
+ * Removes an `ApiAssociation` object from a custom domain.
  */
-export const deleteGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGraphqlApiRequest,
-  output: DeleteGraphqlApiResponse,
+export const disassociateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateApiRequest,
+  output: DisassociateApiResponse,
   errors: [
     AccessDeniedException,
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Maps an endpoint to your custom domain.
+ */
+export const associateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateApiRequest,
+  output: AssociateApiResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Creates a custom `DomainName` object.
+ */
+export const createDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainNameRequest,
+  output: CreateDomainNameResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+  ],
+}));
+/**
+ * Evaluates the given code and returns the response. The code definition requirements
+ * depend on the specified runtime. For `APPSYNC_JS` runtimes, the code defines the
+ * request and response functions. The request function takes the incoming request after a
+ * GraphQL operation is parsed and converts it into a request configuration for the selected
+ * data source operation. The response function interprets responses from the data source and
+ * maps it to the shape of the GraphQL field output type.
+ */
+export const evaluateCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EvaluateCodeRequest,
+  output: EvaluateCodeResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+  ],
+}));
+/**
+ * Evaluates a given template and returns the response. The mapping template can be a
+ * request or response template.
+ *
+ * Request templates take the incoming request after a GraphQL operation is parsed and
+ * convert it into a request configuration for the selected data source operation. Response
+ * templates interpret responses from the data source and map it to the shape of the GraphQL
+ * field output type.
+ *
+ * Mapping templates are written in the Apache Velocity Template Language (VTL).
+ */
+export const evaluateMappingTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: EvaluateMappingTemplateRequest,
+    output: EvaluateMappingTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      InternalFailureException,
+    ],
+  }),
+);
+/**
+ * Retrieves the record of an existing introspection. If the retrieval is successful, the
+ * result of the instrospection will also be returned. If the retrieval fails the operation,
+ * an error message will be returned instead.
+ */
+export const getDataSourceIntrospection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDataSourceIntrospectionRequest,
+    output: GetDataSourceIntrospectionResponse,
+    errors: [BadRequestException, InternalFailureException, NotFoundException],
+  }),
+);
+/**
+ * Get a `Function`.
+ */
+export const getFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFunctionRequest,
+  output: GetFunctionResponse,
+  errors: [
+    ConcurrentModificationException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Lists the tags for a resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates an `Api` object. Use this operation to create an AppSync
+ * API with your preferred configuration, such as an Event API that provides real-time message
+ * publishing and message subscriptions over WebSockets.
+ */
+export const createApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApiRequest,
+  output: CreateApiResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    ServiceQuotaExceededException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes an API key.
+ */
+export const deleteApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApiKeyRequest,
+  output: DeleteApiKeyResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a `DataSource` object.
+ */
+export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataSourceRequest,
+  output: DeleteDataSourceResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a `Function`.
+ */
+export const deleteFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFunctionRequest,
+  output: DeleteFunctionResponse,
+  errors: [
     BadRequestException,
     ConcurrentModificationException,
     InternalFailureException,
@@ -2478,20 +2693,6 @@ export const deleteType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes an `ApiAssociation` object from a custom domain.
- */
-export const disassociateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateApiRequest,
-  output: DisassociateApiResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    ConcurrentModificationException,
-    InternalFailureException,
-    NotFoundException,
-  ],
-}));
-/**
  * Flushes an `ApiCache` object.
  */
 export const flushApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2506,21 +2707,6 @@ export const flushApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Untags a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Deletes an `Api` object
  */
 export const deleteApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2528,64 +2714,6 @@ export const deleteApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DeleteApiResponse,
   errors: [
     AccessDeniedException,
-    BadRequestException,
-    ConcurrentModificationException,
-    InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes an API key.
- */
-export const deleteApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApiKeyRequest,
-  output: DeleteApiKeyResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a `ChannelNamespace`.
- */
-export const deleteChannelNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteChannelNamespaceRequest,
-    output: DeleteChannelNamespaceResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Deletes a `DataSource` object.
- */
-export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDataSourceRequest,
-  output: DeleteDataSourceResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Deletes a `Function`.
- */
-export const deleteFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFunctionRequest,
-  output: DeleteFunctionResponse,
-  errors: [
     BadRequestException,
     ConcurrentModificationException,
     InternalFailureException,
@@ -2626,19 +2754,6 @@ export const disassociateSourceGraphqlApi =
     ],
   }));
 /**
- * Retrieves an `ApiAssociation` object.
- */
-export const getApiAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApiAssociationRequest,
-  output: GetApiAssociationResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalFailureException,
-    NotFoundException,
-  ],
-}));
-/**
  * Retrieves an `ApiCache` object.
  */
 export const getApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2650,19 +2765,6 @@ export const getApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalFailureException,
     NotFoundException,
     UnauthorizedException,
-  ],
-}));
-/**
- * Retrieves a custom `DomainName` object.
- */
-export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDomainNameRequest,
-  output: GetDomainNameResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalFailureException,
-    NotFoundException,
   ],
 }));
 /**
@@ -2790,18 +2892,6 @@ export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists multiple custom domain names.
- */
-export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDomainNamesRequest,
-  output: ListDomainNamesResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalFailureException,
-  ],
-}));
-/**
  * List multiple functions.
  */
 export const listFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2854,21 +2944,6 @@ export const listResolversByFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists the tags for a resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
 /**
  * Lists the types for a given API.
  */
@@ -2932,21 +3007,6 @@ export const startSchemaMerge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Tags a resource with user-supplied tags.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Updates an `Api`.
  */
 export const updateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3004,20 +3064,6 @@ export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalFailureException,
     NotFoundException,
     UnauthorizedException,
-  ],
-}));
-/**
- * Updates a custom `DomainName` object.
- */
-export const updateDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDomainNameRequest,
-  output: UpdateDomainNameResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    ConcurrentModificationException,
-    InternalFailureException,
-    NotFoundException,
   ],
 }));
 /**
@@ -3094,54 +3140,37 @@ export const updateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Maps an endpoint to your custom domain.
+ * Deletes a `ChannelNamespace`.
  */
-export const associateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateApiRequest,
-  output: AssociateApiResponse,
+export const deleteChannelNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteChannelNamespaceRequest,
+    output: DeleteChannelNamespaceResponse,
+    errors: [
+      AccessDeniedException,
+      BadRequestException,
+      ConcurrentModificationException,
+      InternalFailureException,
+      NotFoundException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Deletes a `GraphqlApi` object.
+ */
+export const deleteGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGraphqlApiRequest,
+  output: DeleteGraphqlApiResponse,
   errors: [
     AccessDeniedException,
     BadRequestException,
+    ConcurrentModificationException,
     InternalFailureException,
     NotFoundException,
+    UnauthorizedException,
   ],
 }));
-/**
- * Creates an association between a Merged API and source API using the source API's
- * identifier.
- */
-export const associateMergedGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateMergedGraphqlApiRequest,
-    output: AssociateMergedGraphqlApiResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Creates an association between a Merged API and source API using the Merged API's
- * identifier.
- */
-export const associateSourceGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSourceGraphqlApiRequest,
-    output: AssociateSourceGraphqlApiResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
 /**
  * Creates a cache for the GraphQL API.
  */
@@ -3154,18 +3183,6 @@ export const createApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalFailureException,
     NotFoundException,
     UnauthorizedException,
-  ],
-}));
-/**
- * Creates a custom `DomainName` object.
- */
-export const createDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDomainNameRequest,
-  output: CreateDomainNameResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalFailureException,
   ],
 }));
 /**
@@ -3200,45 +3217,6 @@ export const createType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Evaluates the given code and returns the response. The code definition requirements
- * depend on the specified runtime. For `APPSYNC_JS` runtimes, the code defines the
- * request and response functions. The request function takes the incoming request after a
- * GraphQL operation is parsed and converts it into a request configuration for the selected
- * data source operation. The response function interprets responses from the data source and
- * maps it to the shape of the GraphQL field output type.
- */
-export const evaluateCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EvaluateCodeRequest,
-  output: EvaluateCodeResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    InternalFailureException,
-  ],
-}));
-/**
- * Evaluates a given template and returns the response. The mapping template can be a
- * request or response template.
- *
- * Request templates take the incoming request after a GraphQL operation is parsed and
- * convert it into a request configuration for the selected data source operation. Response
- * templates interpret responses from the data source and map it to the shape of the GraphQL
- * field output type.
- *
- * Mapping templates are written in the Apache Velocity Template Language (VTL).
- */
-export const evaluateMappingTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EvaluateMappingTemplateRequest,
-    output: EvaluateMappingTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalFailureException,
-    ],
-  }),
-);
-/**
  * Retrieves the channel namespace for a specified `Api`.
  */
 export const getChannelNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3267,18 +3245,6 @@ export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Get a `Function`.
- */
-export const getFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFunctionRequest,
-  output: GetFunctionResponse,
-  errors: [
-    ConcurrentModificationException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Retrieves a `GraphqlApi` object.
  */
 export const getGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3288,33 +3254,6 @@ export const getGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     BadRequestException,
     InternalFailureException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Retrieves the introspection schema for a GraphQL API.
- */
-export const getIntrospectionSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIntrospectionSchemaRequest,
-    output: GetIntrospectionSchemaResponse,
-    errors: [
-      GraphQLSchemaException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
-/**
- * Retrieves a `Resolver` object.
- */
-export const getResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResolverRequest,
-  output: GetResolverResponse,
-  errors: [
-    ConcurrentModificationException,
     NotFoundException,
     UnauthorizedException,
   ],
@@ -3402,37 +3341,6 @@ export const startDataSourceIntrospection =
     ],
   }));
 /**
- * Updates an API key. You can update the key as long as it's not deleted.
- */
-export const updateApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApiKeyRequest,
-  output: UpdateApiKeyResponse,
-  errors: [
-    ApiKeyValidityOutOfBoundsException,
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
- * Creates a unique key that you can distribute to clients who invoke your API.
- */
-export const createApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApiKeyRequest,
-  output: CreateApiKeyResponse,
-  errors: [
-    ApiKeyLimitExceededException,
-    ApiKeyValidityOutOfBoundsException,
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Creates a `Function` object.
  *
  * A function is a reusable entity. You can use multiple functions to compose the resolver
@@ -3478,17 +3386,29 @@ export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a `GraphqlApi` object.
+ * Retrieves the introspection schema for a GraphQL API.
  */
-export const createGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGraphqlApiRequest,
-  output: CreateGraphqlApiResponse,
+export const getIntrospectionSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetIntrospectionSchemaRequest,
+    output: GetIntrospectionSchemaResponse,
+    errors: [
+      GraphQLSchemaException,
+      InternalFailureException,
+      NotFoundException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Retrieves a `Resolver` object.
+ */
+export const getResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResolverRequest,
+  output: GetResolverResponse,
   errors: [
-    ApiLimitExceededException,
-    BadRequestException,
     ConcurrentModificationException,
-    InternalFailureException,
-    LimitExceededException,
+    NotFoundException,
     UnauthorizedException,
   ],
 }));
@@ -3507,33 +3427,117 @@ export const deleteApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates an `Api` object. Use this operation to create an AppSync
- * API with your preferred configuration, such as an Event API that provides real-time message
- * publishing and message subscriptions over WebSockets.
+ * Tags a resource with user-supplied tags.
  */
-export const createApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApiRequest,
-  output: CreateApiResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
+    AccessDeniedException,
     BadRequestException,
-    ConcurrentModificationException,
     InternalFailureException,
-    ServiceQuotaExceededException,
+    LimitExceededException,
+    NotFoundException,
     UnauthorizedException,
   ],
 }));
 /**
- * Retrieves the record of an existing introspection. If the retrieval is successful, the
- * result of the instrospection will also be returned. If the retrieval fails the operation,
- * an error message will be returned instead.
+ * Untags a resource.
  */
-export const getDataSourceIntrospection = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates an association between a Merged API and source API using the source API's
+ * identifier.
+ */
+export const associateMergedGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetDataSourceIntrospectionRequest,
-    output: GetDataSourceIntrospectionResponse,
-    errors: [BadRequestException, InternalFailureException, NotFoundException],
+    input: AssociateMergedGraphqlApiRequest,
+    output: AssociateMergedGraphqlApiResponse,
+    errors: [
+      BadRequestException,
+      ConcurrentModificationException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+      UnauthorizedException,
+    ],
   }),
 );
+/**
+ * Creates an association between a Merged API and source API using the Merged API's
+ * identifier.
+ */
+export const associateSourceGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateSourceGraphqlApiRequest,
+    output: AssociateSourceGraphqlApiResponse,
+    errors: [
+      BadRequestException,
+      ConcurrentModificationException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+      UnauthorizedException,
+    ],
+  }),
+);
+/**
+ * Updates an API key. You can update the key as long as it's not deleted.
+ */
+export const updateApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApiKeyRequest,
+  output: UpdateApiKeyResponse,
+  errors: [
+    ApiKeyValidityOutOfBoundsException,
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a unique key that you can distribute to clients who invoke your API.
+ */
+export const createApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApiKeyRequest,
+  output: CreateApiKeyResponse,
+  errors: [
+    ApiKeyLimitExceededException,
+    ApiKeyValidityOutOfBoundsException,
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
+/**
+ * Creates a `GraphqlApi` object.
+ */
+export const createGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGraphqlApiRequest,
+  output: CreateGraphqlApiResponse,
+  errors: [
+    ApiLimitExceededException,
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    LimitExceededException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a `ChannelNamespace` for an `Api`.
  */

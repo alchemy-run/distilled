@@ -628,15 +628,15 @@ export class GetPerformanceAnalysisReportResponse extends S.Class<GetPerformance
 //# Errors
 export class InternalServiceError extends S.TaggedError<InternalServiceError>()(
   "InternalServiceError",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
   "InvalidArgumentException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
   "NotAuthorizedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -647,6 +647,62 @@ export const deletePerformanceAnalysisReport =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     input: DeletePerformanceAnalysisReportRequest,
     output: DeletePerformanceAnalysisReportResponse,
+    errors: [
+      InternalServiceError,
+      InvalidArgumentException,
+      NotAuthorizedException,
+    ],
+  }));
+/**
+ * Retrieve the metadata for different features. For example, the metadata might indicate
+ * that a feature is turned on or off on a specific DB instance.
+ */
+export const getResourceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceMetadataRequest,
+  output: GetResourceMetadataResponse,
+  errors: [
+    InternalServiceError,
+    InvalidArgumentException,
+    NotAuthorizedException,
+  ],
+}));
+/**
+ * Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID,
+ * `GetDimensionKeyDetails` retrieves the full text of the dimension `db.sql.statement` associated with this ID.
+ * This operation is useful because `GetResourceMetrics` and `DescribeDimensionKeys` don't support retrieval of large
+ * SQL statement text, lock snapshots, and execution plans.
+ */
+export const getDimensionKeyDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDimensionKeyDetailsRequest,
+    output: GetDimensionKeyDetailsResponse,
+    errors: [
+      InternalServiceError,
+      InvalidArgumentException,
+      NotAuthorizedException,
+    ],
+  }),
+);
+/**
+ * Retrieve metrics of the specified types that can be queried for a specified DB instance.
+ */
+export const listAvailableResourceMetrics =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAvailableResourceMetricsRequest,
+    output: ListAvailableResourceMetricsResponse,
+    errors: [
+      InternalServiceError,
+      InvalidArgumentException,
+      NotAuthorizedException,
+    ],
+  }));
+/**
+ * Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
+ */
+export const listPerformanceAnalysisReports =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListPerformanceAnalysisReportsRequest,
+    output: ListPerformanceAnalysisReportsResponse,
     errors: [
       InternalServiceError,
       InvalidArgumentException,
@@ -703,62 +759,6 @@ export const createPerformanceAnalysisReport =
       NotAuthorizedException,
     ],
   }));
-/**
- * Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID,
- * `GetDimensionKeyDetails` retrieves the full text of the dimension `db.sql.statement` associated with this ID.
- * This operation is useful because `GetResourceMetrics` and `DescribeDimensionKeys` don't support retrieval of large
- * SQL statement text, lock snapshots, and execution plans.
- */
-export const getDimensionKeyDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDimensionKeyDetailsRequest,
-    output: GetDimensionKeyDetailsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidArgumentException,
-      NotAuthorizedException,
-    ],
-  }),
-);
-/**
- * Retrieve metrics of the specified types that can be queried for a specified DB instance.
- */
-export const listAvailableResourceMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAvailableResourceMetricsRequest,
-    output: ListAvailableResourceMetricsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidArgumentException,
-      NotAuthorizedException,
-    ],
-  }));
-/**
- * Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
- */
-export const listPerformanceAnalysisReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListPerformanceAnalysisReportsRequest,
-    output: ListPerformanceAnalysisReportsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidArgumentException,
-      NotAuthorizedException,
-    ],
-  }));
-/**
- * Retrieve the metadata for different features. For example, the metadata might indicate
- * that a feature is turned on or off on a specific DB instance.
- */
-export const getResourceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourceMetadataRequest,
-  output: GetResourceMetadataResponse,
-  errors: [
-    InternalServiceError,
-    InvalidArgumentException,
-    NotAuthorizedException,
-  ],
-}));
 /**
  * For a specific time period, retrieve the top `N` dimension keys for a metric.
  *

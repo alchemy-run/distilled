@@ -610,42 +610,42 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 ) {}
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
-) {}
-export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
-  "MethodNotAllowedException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
-  "UnauthorizedException",
-  {},
-) {}
-export class UnsupportedDocumentEncodingException extends S.TaggedError<UnsupportedDocumentEncodingException>()(
-  "UnsupportedDocumentEncodingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
 ) {}
+export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
+  "MethodNotAllowedException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
 export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityTooLargeException>()(
   "RequestEntityTooLargeException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+) {}
+export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.optional(S.String) },
+) {}
+export class UnsupportedDocumentEncodingException extends S.TaggedError<UnsupportedDocumentEncodingException>()(
+  "UnsupportedDocumentEncodingException",
   { message: S.optional(S.String) },
 ) {}
 
@@ -662,6 +662,29 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
+  ],
+}));
+/**
+ * Publishes an MQTT message.
+ *
+ * Requires permission to access the Publish action.
+ *
+ * For more information about MQTT messages, see
+ * MQTT Protocol in the
+ * IoT Developer Guide.
+ *
+ * For more information about messaging costs, see Amazon Web Services IoT Core
+ * pricing - Messaging.
+ */
+export const publish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishRequest,
+  output: PublishResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    MethodNotAllowedException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
 }));
 /**
@@ -687,28 +710,6 @@ export const getRetainedMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServiceUnavailableException,
     ThrottlingException,
     UnauthorizedException,
-  ],
-}));
-/**
- * Gets the shadow for the specified thing.
- *
- * Requires permission to access the GetThingShadow action.
- *
- * For more information, see GetThingShadow in the
- * IoT Developer Guide.
- */
-export const getThingShadow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetThingShadowRequest,
-  output: GetThingShadowResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    MethodNotAllowedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-    UnsupportedDocumentEncodingException,
   ],
 }));
 /**
@@ -762,29 +763,6 @@ export const listRetainedMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Publishes an MQTT message.
- *
- * Requires permission to access the Publish action.
- *
- * For more information about MQTT messages, see
- * MQTT Protocol in the
- * IoT Developer Guide.
- *
- * For more information about messaging costs, see Amazon Web Services IoT Core
- * pricing - Messaging.
- */
-export const publish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PublishRequest,
-  output: PublishResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    MethodNotAllowedException,
-    ThrottlingException,
-    UnauthorizedException,
-  ],
-}));
-/**
  * Deletes the shadow for the specified thing.
  *
  * Requires permission to access the DeleteThingShadow action.
@@ -794,6 +772,28 @@ export const publish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const deleteThingShadow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThingShadowRequest,
   output: DeleteThingShadowResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    MethodNotAllowedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    UnsupportedDocumentEncodingException,
+  ],
+}));
+/**
+ * Gets the shadow for the specified thing.
+ *
+ * Requires permission to access the GetThingShadow action.
+ *
+ * For more information, see GetThingShadow in the
+ * IoT Developer Guide.
+ */
+export const getThingShadow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetThingShadowRequest,
+  output: GetThingShadowResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,

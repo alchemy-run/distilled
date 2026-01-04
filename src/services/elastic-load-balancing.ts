@@ -753,46 +753,74 @@ export class DescribeAccessPointsOutput extends S.Class<DescribeAccessPointsOutp
 //# Errors
 export class AccessPointNotFoundException extends S.TaggedError<AccessPointNotFoundException>()(
   "AccessPointNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "LoadBalancerNotFound", httpResponseCode: 400 }),
 ) {}
-export class CertificateNotFoundException extends S.TaggedError<CertificateNotFoundException>()(
-  "CertificateNotFoundException",
-  {},
-  T.AwsQueryError({ code: "CertificateNotFound", httpResponseCode: 400 }),
+export class DuplicatePolicyNameException extends S.TaggedError<DuplicatePolicyNameException>()(
+  "DuplicatePolicyNameException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DuplicatePolicyName", httpResponseCode: 400 }),
+) {}
+export class LoadBalancerAttributeNotFoundException extends S.TaggedError<LoadBalancerAttributeNotFoundException>()(
+  "LoadBalancerAttributeNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "LoadBalancerAttributeNotFound",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class InvalidConfigurationRequestException extends S.TaggedError<InvalidConfigurationRequestException>()(
   "InvalidConfigurationRequestException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "InvalidConfigurationRequest",
     httpResponseCode: 409,
   }),
 ) {}
-export class ListenerNotFoundException extends S.TaggedError<ListenerNotFoundException>()(
-  "ListenerNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ListenerNotFound", httpResponseCode: 400 }),
+export class InvalidEndPointException extends S.TaggedError<InvalidEndPointException>()(
+  "InvalidEndPointException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidInstance", httpResponseCode: 400 }),
 ) {}
-export class PolicyNotFoundException extends S.TaggedError<PolicyNotFoundException>()(
-  "PolicyNotFoundException",
-  {},
-  T.AwsQueryError({ code: "PolicyNotFound", httpResponseCode: 400 }),
-) {}
-export class DuplicatePolicyNameException extends S.TaggedError<DuplicatePolicyNameException>()(
-  "DuplicatePolicyNameException",
-  {},
-  T.AwsQueryError({ code: "DuplicatePolicyName", httpResponseCode: 400 }),
-) {}
-export class TooManyPoliciesException extends S.TaggedError<TooManyPoliciesException>()(
-  "TooManyPoliciesException",
-  {},
-  T.AwsQueryError({ code: "TooManyPolicies", httpResponseCode: 400 }),
+export class CertificateNotFoundException extends S.TaggedError<CertificateNotFoundException>()(
+  "CertificateNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "CertificateNotFound", httpResponseCode: 400 }),
 ) {}
 export class DuplicateTagKeysException extends S.TaggedError<DuplicateTagKeysException>()(
   "DuplicateTagKeysException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "DuplicateTagKeys", httpResponseCode: 400 }),
+) {}
+export class DuplicateListenerException extends S.TaggedError<DuplicateListenerException>()(
+  "DuplicateListenerException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DuplicateListener", httpResponseCode: 400 }),
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyTags", httpResponseCode: 400 }),
+) {}
+export class PolicyTypeNotFoundException extends S.TaggedError<PolicyTypeNotFoundException>()(
+  "PolicyTypeNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "PolicyTypeNotFound", httpResponseCode: 400 }),
+) {}
+export class TooManyPoliciesException extends S.TaggedError<TooManyPoliciesException>()(
+  "TooManyPoliciesException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyPolicies", httpResponseCode: 400 }),
+) {}
+export class PolicyNotFoundException extends S.TaggedError<PolicyNotFoundException>()(
+  "PolicyNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "PolicyNotFound", httpResponseCode: 400 }),
+) {}
+export class ListenerNotFoundException extends S.TaggedError<ListenerNotFoundException>()(
+  "ListenerNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ListenerNotFound", httpResponseCode: 400 }),
 ) {}
 export class InvalidSecurityGroupException extends S.TaggedError<InvalidSecurityGroupException>()(
   "InvalidSecurityGroupException",
@@ -804,63 +832,35 @@ export class InvalidSubnetException extends S.TaggedError<InvalidSubnetException
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
 ) {}
-export class DuplicateListenerException extends S.TaggedError<DuplicateListenerException>()(
-  "DuplicateListenerException",
+export class DuplicateAccessPointNameException extends S.TaggedError<DuplicateAccessPointNameException>()(
+  "DuplicateAccessPointNameException",
   { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DuplicateListener", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "DuplicateLoadBalancerName", httpResponseCode: 400 }),
 ) {}
 export class UnsupportedProtocolException extends S.TaggedError<UnsupportedProtocolException>()(
   "UnsupportedProtocolException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "UnsupportedProtocol", httpResponseCode: 400 }),
-) {}
-export class PolicyTypeNotFoundException extends S.TaggedError<PolicyTypeNotFoundException>()(
-  "PolicyTypeNotFoundException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "PolicyTypeNotFound", httpResponseCode: 400 }),
-) {}
-export class InvalidEndPointException extends S.TaggedError<InvalidEndPointException>()(
-  "InvalidEndPointException",
-  {},
-  T.AwsQueryError({ code: "InvalidInstance", httpResponseCode: 400 }),
-) {}
-export class LoadBalancerAttributeNotFoundException extends S.TaggedError<LoadBalancerAttributeNotFoundException>()(
-  "LoadBalancerAttributeNotFoundException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "LoadBalancerAttributeNotFound",
-    httpResponseCode: 400,
-  }),
-) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TooManyTags", httpResponseCode: 400 }),
 ) {}
 export class SubnetNotFoundException extends S.TaggedError<SubnetNotFoundException>()(
   "SubnetNotFoundException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "SubnetNotFound", httpResponseCode: 400 }),
 ) {}
-export class DuplicateAccessPointNameException extends S.TaggedError<DuplicateAccessPointNameException>()(
-  "DuplicateAccessPointNameException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DuplicateLoadBalancerName", httpResponseCode: 400 }),
-) {}
 export class InvalidSchemeException extends S.TaggedError<InvalidSchemeException>()(
   "InvalidSchemeException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidScheme", httpResponseCode: 400 }),
 ) {}
-export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
-  "OperationNotPermittedException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
-) {}
 export class DependencyThrottleException extends S.TaggedError<DependencyThrottleException>()(
   "DependencyThrottleException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "DependencyThrottle", httpResponseCode: 400 }),
+) {}
+export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
+  "OperationNotPermittedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
 ) {}
 export class TooManyAccessPointsException extends S.TaggedError<TooManyAccessPointsException>()(
   "TooManyAccessPointsException",
@@ -882,112 +882,6 @@ export const deleteLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DeleteAccessPointOutput,
   errors: [],
 }));
-/**
- * Deletes the specified listeners from the specified load balancer.
- */
-export const deleteLoadBalancerListeners = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLoadBalancerListenerInput,
-    output: DeleteLoadBalancerListenerOutput,
-    errors: [AccessPointNotFoundException],
-  }),
-);
-/**
- * Replaces the current set of policies for the specified load balancer port with the specified set of policies.
- *
- * To enable back-end server authentication, use SetLoadBalancerPoliciesForBackendServer.
- *
- * For more information about setting policies, see
- * Update the SSL Negotiation Configuration,
- * Duration-Based Session Stickiness, and
- * Application-Controlled Session Stickiness
- * in the *Classic Load Balancers Guide*.
- */
-export const setLoadBalancerPoliciesOfListener =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetLoadBalancerPoliciesOfListenerInput,
-    output: SetLoadBalancerPoliciesOfListenerOutput,
-    errors: [
-      AccessPointNotFoundException,
-      InvalidConfigurationRequestException,
-      ListenerNotFoundException,
-      PolicyNotFoundException,
-    ],
-  }));
-/**
- * Generates a stickiness policy with sticky session lifetimes controlled by the lifetime of the browser (user-agent) or a specified expiration period. This policy can be associated only with HTTP/HTTPS listeners.
- *
- * When a load balancer implements this policy, the load balancer uses a special cookie to track the instance for each request. When the load balancer receives a request, it first checks to see if this cookie is present in the request.
- * If so, the load balancer sends the request to the application server specified in the cookie. If not, the load balancer sends the request to a server that is chosen based on the existing load-balancing algorithm.
- *
- * A cookie is inserted into the response for binding subsequent requests from the same user to that server. The validity of the cookie is based on the cookie expiration time, which is specified in the policy configuration.
- *
- * For more information, see Duration-Based Session Stickiness
- * in the *Classic Load Balancers Guide*.
- */
-export const createLBCookieStickinessPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLBCookieStickinessPolicyInput,
-    output: CreateLBCookieStickinessPolicyOutput,
-    errors: [
-      AccessPointNotFoundException,
-      DuplicatePolicyNameException,
-      InvalidConfigurationRequestException,
-      TooManyPoliciesException,
-    ],
-  }));
-/**
- * Deletes the specified policy from the specified load balancer. This policy must not be enabled for any listeners.
- */
-export const deleteLoadBalancerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLoadBalancerPolicyInput,
-    output: DeleteLoadBalancerPolicyOutput,
-    errors: [
-      AccessPointNotFoundException,
-      InvalidConfigurationRequestException,
-    ],
-  }),
-);
-/**
- * Removes the specified subnets from the set of configured subnets for the load balancer.
- *
- * After a subnet is removed, all EC2 instances registered with the load balancer
- * in the removed subnet go into the `OutOfService` state. Then,
- * the load balancer balances the traffic among the remaining routable subnets.
- */
-export const detachLoadBalancerFromSubnets =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DetachLoadBalancerFromSubnetsInput,
-    output: DetachLoadBalancerFromSubnetsOutput,
-    errors: [
-      AccessPointNotFoundException,
-      InvalidConfigurationRequestException,
-    ],
-  }));
-/**
- * Removes the specified Availability Zones from the set of Availability Zones for the specified load balancer
- * in EC2-Classic or a default VPC.
- *
- * For load balancers in a non-default VPC, use DetachLoadBalancerFromSubnets.
- *
- * There must be at least one Availability Zone registered with a load balancer at all times.
- * After an Availability Zone is removed, all instances registered with the load balancer that are in the removed
- * Availability Zone go into the `OutOfService` state. Then, the load balancer attempts to equally balance
- * the traffic among its remaining Availability Zones.
- *
- * For more information, see Add or Remove Availability Zones
- * in the *Classic Load Balancers Guide*.
- */
-export const disableAvailabilityZonesForLoadBalancer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveAvailabilityZonesInput,
-    output: RemoveAvailabilityZonesOutput,
-    errors: [
-      AccessPointNotFoundException,
-      InvalidConfigurationRequestException,
-    ],
-  }));
 /**
  * Adds the specified Availability Zones to the set of Availability Zones for the specified load balancer
  * in EC2-Classic or a default VPC.
@@ -1013,46 +907,15 @@ export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [AccessPointNotFoundException],
 }));
 /**
- * Replaces the set of policies associated with the specified port on which the EC2 instance is listening with a new set of policies.
- * At this time, only the back-end server authentication policy type can be applied to the instance ports; this policy type is composed of multiple public key policies.
- *
- * Each time you use `SetLoadBalancerPoliciesForBackendServer` to enable the policies,
- * use the `PolicyNames` parameter to list the policies that you want to enable.
- *
- * You can use DescribeLoadBalancers or DescribeLoadBalancerPolicies to verify that the policy
- * is associated with the EC2 instance.
- *
- * For more information about enabling back-end instance authentication, see Configure Back-end Instance Authentication
- * in the *Classic Load Balancers Guide*. For more information about Proxy Protocol, see
- * Configure Proxy Protocol Support
- * in the *Classic Load Balancers Guide*.
+ * Deletes the specified listeners from the specified load balancer.
  */
-export const setLoadBalancerPoliciesForBackendServer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetLoadBalancerPoliciesForBackendServerInput,
-    output: SetLoadBalancerPoliciesForBackendServerOutput,
-    errors: [
-      AccessPointNotFoundException,
-      InvalidConfigurationRequestException,
-      PolicyNotFoundException,
-    ],
-  }));
-/**
- * Associates one or more security groups with your load balancer in a virtual private cloud (VPC). The specified security groups override the previously associated security groups.
- *
- * For more information, see Security Groups for Load Balancers in a VPC
- * in the *Classic Load Balancers Guide*.
- */
-export const applySecurityGroupsToLoadBalancer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ApplySecurityGroupsToLoadBalancerInput,
-    output: ApplySecurityGroupsToLoadBalancerOutput,
-    errors: [
-      AccessPointNotFoundException,
-      InvalidConfigurationRequestException,
-      InvalidSecurityGroupException,
-    ],
-  }));
+export const deleteLoadBalancerListeners = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteLoadBalancerListenerInput,
+    output: DeleteLoadBalancerListenerOutput,
+    errors: [AccessPointNotFoundException],
+  }),
+);
 /**
  * Specifies the health check settings to use when evaluating the health state of your EC2 instances.
  *
@@ -1067,82 +930,6 @@ export const configureHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Generates a stickiness policy with sticky session lifetimes that follow that of an application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners.
- *
- * This policy is similar to the policy created by CreateLBCookieStickinessPolicy,
- * except that the lifetime of the special Elastic Load Balancing cookie, `AWSELB`,
- * follows the lifetime of the application-generated cookie specified in the policy configuration.
- * The load balancer only inserts a new stickiness cookie when the application response
- * includes a new application cookie.
- *
- * If the application cookie is explicitly removed or expires, the session stops being sticky until a new application cookie is issued.
- *
- * For more information, see Application-Controlled Session Stickiness
- * in the *Classic Load Balancers Guide*.
- */
-export const createAppCookieStickinessPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAppCookieStickinessPolicyInput,
-    output: CreateAppCookieStickinessPolicyOutput,
-    errors: [
-      AccessPointNotFoundException,
-      DuplicatePolicyNameException,
-      InvalidConfigurationRequestException,
-      TooManyPoliciesException,
-    ],
-  }));
-/**
- * Creates one or more listeners for the specified load balancer. If a listener with the specified port does not already exist, it is created; otherwise, the properties of the new listener must match the properties of the existing listener.
- *
- * For more information, see Listeners for Your Classic Load Balancer
- * in the *Classic Load Balancers Guide*.
- */
-export const createLoadBalancerListeners = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLoadBalancerListenerInput,
-    output: CreateLoadBalancerListenerOutput,
-    errors: [
-      AccessPointNotFoundException,
-      CertificateNotFoundException,
-      DuplicateListenerException,
-      InvalidConfigurationRequestException,
-      UnsupportedProtocolException,
-    ],
-  }),
-);
-/**
- * Creates a policy with the specified attributes for the specified load balancer.
- *
- * Policies are settings that are saved for your load balancer and that can be applied to the listener or the application server, depending on the policy type.
- */
-export const createLoadBalancerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLoadBalancerPolicyInput,
-    output: CreateLoadBalancerPolicyOutput,
-    errors: [
-      AccessPointNotFoundException,
-      DuplicatePolicyNameException,
-      InvalidConfigurationRequestException,
-      PolicyTypeNotFoundException,
-      TooManyPoliciesException,
-    ],
-  }),
-);
-/**
- * Deregisters the specified instances from the specified load balancer. After the instance is deregistered, it no longer receives traffic from the load balancer.
- *
- * You can use DescribeLoadBalancers to verify that the instance is deregistered from the load balancer.
- *
- * For more information, see Register or De-Register EC2 Instances
- * in the *Classic Load Balancers Guide*.
- */
-export const deregisterInstancesFromLoadBalancer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterEndPointsInput,
-    output: DeregisterEndPointsOutput,
-    errors: [AccessPointNotFoundException, InvalidEndPointException],
-  }));
-/**
  * Describes the current Elastic Load Balancing resource limits for your AWS account.
  *
  * For more information, see Limits for Your Classic Load Balancer
@@ -1153,16 +940,6 @@ export const describeAccountLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: DescribeAccountLimitsInput,
     output: DescribeAccountLimitsOutput,
     errors: [],
-  }),
-);
-/**
- * Describes the state of the specified instances with respect to the specified load balancer. If no instances are specified, the call describes the state of all instances that are currently registered with the load balancer. If instances are specified, their state is returned even if they are no longer registered with the load balancer. The state of terminated instances is not returned.
- */
-export const describeInstanceHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEndPointStateInput,
-    output: DescribeEndPointStateOutput,
-    errors: [AccessPointNotFoundException, InvalidEndPointException],
   }),
 );
 /**
@@ -1185,6 +962,22 @@ export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DescribeTagsOutput,
   errors: [AccessPointNotFoundException],
 }));
+/**
+ * Removes the specified subnets from the set of configured subnets for the load balancer.
+ *
+ * After a subnet is removed, all EC2 instances registered with the load balancer
+ * in the removed subnet go into the `OutOfService` state. Then,
+ * the load balancer balances the traffic among the remaining routable subnets.
+ */
+export const detachLoadBalancerFromSubnets =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DetachLoadBalancerFromSubnetsInput,
+    output: DetachLoadBalancerFromSubnetsOutput,
+    errors: [
+      AccessPointNotFoundException,
+      InvalidConfigurationRequestException,
+    ],
+  }));
 /**
  * Adds the specified instances to the specified load balancer.
  *
@@ -1213,93 +1006,65 @@ export const registerInstancesWithLoadBalancer =
     errors: [AccessPointNotFoundException, InvalidEndPointException],
   }));
 /**
- * Sets the certificate that terminates the specified listener's SSL connections. The specified certificate replaces any prior certificate that was used on the same load balancer and port.
+ * Removes the specified Availability Zones from the set of Availability Zones for the specified load balancer
+ * in EC2-Classic or a default VPC.
  *
- * For more information about updating your SSL certificate, see
- * Replace the SSL Certificate for Your Load Balancer
+ * For load balancers in a non-default VPC, use DetachLoadBalancerFromSubnets.
+ *
+ * There must be at least one Availability Zone registered with a load balancer at all times.
+ * After an Availability Zone is removed, all instances registered with the load balancer that are in the removed
+ * Availability Zone go into the `OutOfService` state. Then, the load balancer attempts to equally balance
+ * the traffic among its remaining Availability Zones.
+ *
+ * For more information, see Add or Remove Availability Zones
  * in the *Classic Load Balancers Guide*.
  */
-export const setLoadBalancerListenerSSLCertificate =
+export const disableAvailabilityZonesForLoadBalancer =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetLoadBalancerListenerSSLCertificateInput,
-    output: SetLoadBalancerListenerSSLCertificateOutput,
+    input: RemoveAvailabilityZonesInput,
+    output: RemoveAvailabilityZonesOutput,
     errors: [
       AccessPointNotFoundException,
-      CertificateNotFoundException,
       InvalidConfigurationRequestException,
-      ListenerNotFoundException,
-      UnsupportedProtocolException,
     ],
   }));
 /**
- * Adds the specified tags to the specified load balancer. Each load balancer can have a maximum of 10 tags.
- *
- * Each tag consists of a key and an optional value. If a tag with the same key is already associated
- * with the load balancer, `AddTags` updates its value.
- *
- * For more information, see Tag Your Classic Load Balancer
- * in the *Classic Load Balancers Guide*.
+ * Deletes the specified policy from the specified load balancer. This policy must not be enabled for any listeners.
  */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddTagsInput,
-  output: AddTagsOutput,
-  errors: [
-    AccessPointNotFoundException,
-    DuplicateTagKeysException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Adds one or more subnets to the set of configured subnets for the specified load balancer.
- *
- * The load balancer evenly distributes requests across all registered subnets.
- * For more information, see Add or Remove Subnets for Your Load Balancer in a VPC
- * in the *Classic Load Balancers Guide*.
- */
-export const attachLoadBalancerToSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteLoadBalancerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AttachLoadBalancerToSubnetsInput,
-    output: AttachLoadBalancerToSubnetsOutput,
+    input: DeleteLoadBalancerPolicyInput,
+    output: DeleteLoadBalancerPolicyOutput,
     errors: [
       AccessPointNotFoundException,
       InvalidConfigurationRequestException,
-      InvalidSubnetException,
-      SubnetNotFoundException,
     ],
   }),
 );
 /**
- * Describes the specified policies.
+ * Deregisters the specified instances from the specified load balancer. After the instance is deregistered, it no longer receives traffic from the load balancer.
  *
- * If you specify a load balancer name, the action returns the descriptions of all policies created for the load balancer.
- * If you specify a policy name associated with your load balancer, the action returns the description of that policy.
- * If you don't specify a load balancer name, the action returns descriptions of the specified sample policies, or descriptions of all sample policies.
- * The names of the sample policies have the `ELBSample-` prefix.
+ * You can use DescribeLoadBalancers to verify that the instance is deregistered from the load balancer.
+ *
+ * For more information, see Register or De-Register EC2 Instances
+ * in the *Classic Load Balancers Guide*.
  */
-export const describeLoadBalancerPolicies =
+export const deregisterInstancesFromLoadBalancer =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeLoadBalancerPoliciesInput,
-    output: DescribeLoadBalancerPoliciesOutput,
-    errors: [AccessPointNotFoundException, PolicyNotFoundException],
+    input: DeregisterEndPointsInput,
+    output: DeregisterEndPointsOutput,
+    errors: [AccessPointNotFoundException, InvalidEndPointException],
   }));
 /**
- * Describes the specified load balancer policy types or all load balancer policy types.
- *
- * The description of each type indicates how it can be used. For example,
- * some policies can be used only with layer 7 listeners,
- * some policies can be used only with layer 4 listeners,
- * and some policies can be used only with your EC2 instances.
- *
- * You can use CreateLoadBalancerPolicy to create a policy configuration for any of these policy types.
- * Then, depending on the policy type, use either SetLoadBalancerPoliciesOfListener or
- * SetLoadBalancerPoliciesForBackendServer to set the policy.
+ * Describes the state of the specified instances with respect to the specified load balancer. If no instances are specified, the call describes the state of all instances that are currently registered with the load balancer. If instances are specified, their state is returned even if they are no longer registered with the load balancer. The state of terminated instances is not returned.
  */
-export const describeLoadBalancerPolicyTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeLoadBalancerPolicyTypesInput,
-    output: DescribeLoadBalancerPolicyTypesOutput,
-    errors: [PolicyTypeNotFoundException],
-  }));
+export const describeInstanceHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEndPointStateInput,
+    output: DescribeEndPointStateOutput,
+    errors: [AccessPointNotFoundException, InvalidEndPointException],
+  }),
+);
 /**
  * Modifies the attributes of the specified load balancer.
  *
@@ -1325,6 +1090,241 @@ export const modifyLoadBalancerAttributes =
       AccessPointNotFoundException,
       InvalidConfigurationRequestException,
       LoadBalancerAttributeNotFoundException,
+    ],
+  }));
+/**
+ * Adds the specified tags to the specified load balancer. Each load balancer can have a maximum of 10 tags.
+ *
+ * Each tag consists of a key and an optional value. If a tag with the same key is already associated
+ * with the load balancer, `AddTags` updates its value.
+ *
+ * For more information, see Tag Your Classic Load Balancer
+ * in the *Classic Load Balancers Guide*.
+ */
+export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsInput,
+  output: AddTagsOutput,
+  errors: [
+    AccessPointNotFoundException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Generates a stickiness policy with sticky session lifetimes controlled by the lifetime of the browser (user-agent) or a specified expiration period. This policy can be associated only with HTTP/HTTPS listeners.
+ *
+ * When a load balancer implements this policy, the load balancer uses a special cookie to track the instance for each request. When the load balancer receives a request, it first checks to see if this cookie is present in the request.
+ * If so, the load balancer sends the request to the application server specified in the cookie. If not, the load balancer sends the request to a server that is chosen based on the existing load-balancing algorithm.
+ *
+ * A cookie is inserted into the response for binding subsequent requests from the same user to that server. The validity of the cookie is based on the cookie expiration time, which is specified in the policy configuration.
+ *
+ * For more information, see Duration-Based Session Stickiness
+ * in the *Classic Load Balancers Guide*.
+ */
+export const createLBCookieStickinessPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateLBCookieStickinessPolicyInput,
+    output: CreateLBCookieStickinessPolicyOutput,
+    errors: [
+      AccessPointNotFoundException,
+      DuplicatePolicyNameException,
+      InvalidConfigurationRequestException,
+      TooManyPoliciesException,
+    ],
+  }));
+/**
+ * Replaces the set of policies associated with the specified port on which the EC2 instance is listening with a new set of policies.
+ * At this time, only the back-end server authentication policy type can be applied to the instance ports; this policy type is composed of multiple public key policies.
+ *
+ * Each time you use `SetLoadBalancerPoliciesForBackendServer` to enable the policies,
+ * use the `PolicyNames` parameter to list the policies that you want to enable.
+ *
+ * You can use DescribeLoadBalancers or DescribeLoadBalancerPolicies to verify that the policy
+ * is associated with the EC2 instance.
+ *
+ * For more information about enabling back-end instance authentication, see Configure Back-end Instance Authentication
+ * in the *Classic Load Balancers Guide*. For more information about Proxy Protocol, see
+ * Configure Proxy Protocol Support
+ * in the *Classic Load Balancers Guide*.
+ */
+export const setLoadBalancerPoliciesForBackendServer =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetLoadBalancerPoliciesForBackendServerInput,
+    output: SetLoadBalancerPoliciesForBackendServerOutput,
+    errors: [
+      AccessPointNotFoundException,
+      InvalidConfigurationRequestException,
+      PolicyNotFoundException,
+    ],
+  }));
+/**
+ * Replaces the current set of policies for the specified load balancer port with the specified set of policies.
+ *
+ * To enable back-end server authentication, use SetLoadBalancerPoliciesForBackendServer.
+ *
+ * For more information about setting policies, see
+ * Update the SSL Negotiation Configuration,
+ * Duration-Based Session Stickiness, and
+ * Application-Controlled Session Stickiness
+ * in the *Classic Load Balancers Guide*.
+ */
+export const setLoadBalancerPoliciesOfListener =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetLoadBalancerPoliciesOfListenerInput,
+    output: SetLoadBalancerPoliciesOfListenerOutput,
+    errors: [
+      AccessPointNotFoundException,
+      InvalidConfigurationRequestException,
+      ListenerNotFoundException,
+      PolicyNotFoundException,
+    ],
+  }));
+/**
+ * Associates one or more security groups with your load balancer in a virtual private cloud (VPC). The specified security groups override the previously associated security groups.
+ *
+ * For more information, see Security Groups for Load Balancers in a VPC
+ * in the *Classic Load Balancers Guide*.
+ */
+export const applySecurityGroupsToLoadBalancer =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ApplySecurityGroupsToLoadBalancerInput,
+    output: ApplySecurityGroupsToLoadBalancerOutput,
+    errors: [
+      AccessPointNotFoundException,
+      InvalidConfigurationRequestException,
+      InvalidSecurityGroupException,
+    ],
+  }));
+/**
+ * Describes the specified load balancer policy types or all load balancer policy types.
+ *
+ * The description of each type indicates how it can be used. For example,
+ * some policies can be used only with layer 7 listeners,
+ * some policies can be used only with layer 4 listeners,
+ * and some policies can be used only with your EC2 instances.
+ *
+ * You can use CreateLoadBalancerPolicy to create a policy configuration for any of these policy types.
+ * Then, depending on the policy type, use either SetLoadBalancerPoliciesOfListener or
+ * SetLoadBalancerPoliciesForBackendServer to set the policy.
+ */
+export const describeLoadBalancerPolicyTypes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeLoadBalancerPolicyTypesInput,
+    output: DescribeLoadBalancerPolicyTypesOutput,
+    errors: [PolicyTypeNotFoundException],
+  }));
+/**
+ * Generates a stickiness policy with sticky session lifetimes that follow that of an application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners.
+ *
+ * This policy is similar to the policy created by CreateLBCookieStickinessPolicy,
+ * except that the lifetime of the special Elastic Load Balancing cookie, `AWSELB`,
+ * follows the lifetime of the application-generated cookie specified in the policy configuration.
+ * The load balancer only inserts a new stickiness cookie when the application response
+ * includes a new application cookie.
+ *
+ * If the application cookie is explicitly removed or expires, the session stops being sticky until a new application cookie is issued.
+ *
+ * For more information, see Application-Controlled Session Stickiness
+ * in the *Classic Load Balancers Guide*.
+ */
+export const createAppCookieStickinessPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateAppCookieStickinessPolicyInput,
+    output: CreateAppCookieStickinessPolicyOutput,
+    errors: [
+      AccessPointNotFoundException,
+      DuplicatePolicyNameException,
+      InvalidConfigurationRequestException,
+      TooManyPoliciesException,
+    ],
+  }));
+/**
+ * Creates a policy with the specified attributes for the specified load balancer.
+ *
+ * Policies are settings that are saved for your load balancer and that can be applied to the listener or the application server, depending on the policy type.
+ */
+export const createLoadBalancerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateLoadBalancerPolicyInput,
+    output: CreateLoadBalancerPolicyOutput,
+    errors: [
+      AccessPointNotFoundException,
+      DuplicatePolicyNameException,
+      InvalidConfigurationRequestException,
+      PolicyTypeNotFoundException,
+      TooManyPoliciesException,
+    ],
+  }),
+);
+/**
+ * Describes the specified policies.
+ *
+ * If you specify a load balancer name, the action returns the descriptions of all policies created for the load balancer.
+ * If you specify a policy name associated with your load balancer, the action returns the description of that policy.
+ * If you don't specify a load balancer name, the action returns descriptions of the specified sample policies, or descriptions of all sample policies.
+ * The names of the sample policies have the `ELBSample-` prefix.
+ */
+export const describeLoadBalancerPolicies =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeLoadBalancerPoliciesInput,
+    output: DescribeLoadBalancerPoliciesOutput,
+    errors: [AccessPointNotFoundException, PolicyNotFoundException],
+  }));
+/**
+ * Creates one or more listeners for the specified load balancer. If a listener with the specified port does not already exist, it is created; otherwise, the properties of the new listener must match the properties of the existing listener.
+ *
+ * For more information, see Listeners for Your Classic Load Balancer
+ * in the *Classic Load Balancers Guide*.
+ */
+export const createLoadBalancerListeners = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateLoadBalancerListenerInput,
+    output: CreateLoadBalancerListenerOutput,
+    errors: [
+      AccessPointNotFoundException,
+      CertificateNotFoundException,
+      DuplicateListenerException,
+      InvalidConfigurationRequestException,
+      UnsupportedProtocolException,
+    ],
+  }),
+);
+/**
+ * Adds one or more subnets to the set of configured subnets for the specified load balancer.
+ *
+ * The load balancer evenly distributes requests across all registered subnets.
+ * For more information, see Add or Remove Subnets for Your Load Balancer in a VPC
+ * in the *Classic Load Balancers Guide*.
+ */
+export const attachLoadBalancerToSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AttachLoadBalancerToSubnetsInput,
+    output: AttachLoadBalancerToSubnetsOutput,
+    errors: [
+      AccessPointNotFoundException,
+      InvalidConfigurationRequestException,
+      InvalidSubnetException,
+      SubnetNotFoundException,
+    ],
+  }),
+);
+/**
+ * Sets the certificate that terminates the specified listener's SSL connections. The specified certificate replaces any prior certificate that was used on the same load balancer and port.
+ *
+ * For more information about updating your SSL certificate, see
+ * Replace the SSL Certificate for Your Load Balancer
+ * in the *Classic Load Balancers Guide*.
+ */
+export const setLoadBalancerListenerSSLCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetLoadBalancerListenerSSLCertificateInput,
+    output: SetLoadBalancerListenerSSLCertificateOutput,
+    errors: [
+      AccessPointNotFoundException,
+      CertificateNotFoundException,
+      InvalidConfigurationRequestException,
+      ListenerNotFoundException,
+      UnsupportedProtocolException,
     ],
   }));
 /**

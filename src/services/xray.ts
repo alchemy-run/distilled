@@ -1526,31 +1526,31 @@ export class GetTraceSummariesResult extends S.Class<GetTraceSummariesResult>(
 //# Errors
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
-) {}
-export class ThrottledException extends S.TaggedError<ThrottledException>()(
-  "ThrottledException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidPolicyRevisionIdException extends S.TaggedError<InvalidPolicyRevisionIdException>()(
   "InvalidPolicyRevisionIdException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
+) {}
+export class ThrottledException extends S.TaggedError<ThrottledException>()(
+  "ThrottledException",
   { Message: S.optional(S.String) },
 ) {}
 export class LockoutPreventionException extends S.TaggedError<LockoutPreventionException>()(
   "LockoutPreventionException",
   { Message: S.optional(S.String) },
 ) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
-) {}
 export class MalformedPolicyDocumentException extends S.TaggedError<MalformedPolicyDocumentException>()(
   "MalformedPolicyDocumentException",
   { Message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
 ) {}
 export class RuleLimitExceededException extends S.TaggedError<RuleLimitExceededException>()(
   "RuleLimitExceededException",
@@ -1567,51 +1567,6 @@ export class PolicySizeLimitExceededException extends S.TaggedError<PolicySizeLi
 
 //# Operations
 /**
- * Retrieves the current destination of data sent to `PutTraceSegments` and *OpenTelemetry protocol (OTLP)* endpoint. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see Transaction Search and OpenTelemetry.
- */
-export const getTraceSegmentDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTraceSegmentDestinationRequest,
-    output: GetTraceSegmentDestinationResult,
-    errors: [InvalidRequestException, ThrottledException],
-  }),
-);
-/**
- * Removes tags from an Amazon Web Services X-Ray group or sampling rule. You cannot edit or delete system
- * tags (those with an `aws:` prefix).
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottledException,
-  ],
-}));
-/**
- * Cancels an ongoing trace retrieval job initiated by `StartTraceRetrieval` using the provided `RetrievalToken`. A successful cancellation will return an HTTP 200 response.
- */
-export const cancelTraceRetrieval = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelTraceRetrievalRequest,
-    output: CancelTraceRetrievalResult,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottledException,
-    ],
-  }),
-);
-/**
- * Deletes a group resource.
- */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGroupRequest,
-  output: DeleteGroupResult,
-  errors: [InvalidRequestException, ThrottledException],
-}));
-/**
  * Deletes a resource policy from the target Amazon Web Services account.
  */
 export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1625,93 +1580,6 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Retrieves the current encryption configuration for X-Ray data.
- */
-export const getEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEncryptionConfigRequest,
-  output: GetEncryptionConfigResult,
-  errors: [InvalidRequestException, ThrottledException],
-}));
-/**
- * Retrieves all sampling rules.
- */
-export const getSamplingRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSamplingRulesRequest,
-  output: GetSamplingRulesResult,
-  errors: [InvalidRequestException, ThrottledException],
-}));
-/**
- * Retrieves a service graph for one or more specific trace IDs.
- */
-export const getTraceGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTraceGraphRequest,
-  output: GetTraceGraphResult,
-  errors: [InvalidRequestException, ThrottledException],
-}));
-/**
- * Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottledException,
-  ],
-}));
-/**
- * Updates the encryption configuration for X-Ray data.
- */
-export const putEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutEncryptionConfigRequest,
-  output: PutEncryptionConfigResult,
-  errors: [InvalidRequestException, ThrottledException],
-}));
-/**
- * Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search.
- *
- * API returns a `RetrievalToken`, which can be used with `ListRetrievedTraces` or `GetRetrievedTracesGraph` to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider segmenting into multiple retrievals.
- *
- * If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to retrieve data from a linked source account, as long as both accounts have transaction search enabled.
- *
- * For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see BatchGetTraces.
- */
-export const startTraceRetrieval = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartTraceRetrievalRequest,
-  output: StartTraceRetrievalResult,
-  errors: [
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottledException,
-  ],
-}));
-/**
- * Updates a group resource.
- */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateGroupRequest,
-  output: UpdateGroupResult,
-  errors: [InvalidRequestException, ThrottledException],
-}));
-/**
- * Modifies the destination of data sent to `PutTraceSegments`. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search.
- */
-export const updateTraceSegmentDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateTraceSegmentDestinationRequest,
-    output: UpdateTraceSegmentDestinationResult,
-    errors: [InvalidRequestException, ThrottledException],
-  }));
-/**
- * Creates a group resource with a name and a filter expression.
- */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGroupRequest,
-  output: CreateGroupResult,
-  errors: [InvalidRequestException, ThrottledException],
-}));
 /**
  * Deletes a sampling rule.
  */
@@ -1841,24 +1709,143 @@ export const putTraceSegments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidRequestException, ThrottledException],
 }));
 /**
- * Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottledException,
-    TooManyTagsException,
-  ],
-}));
-/**
  * Modifies a sampling rule's configuration.
  */
 export const updateSamplingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSamplingRuleRequest,
   output: UpdateSamplingRuleResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
+/**
+ * Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search.
+ *
+ * API returns a `RetrievalToken`, which can be used with `ListRetrievedTraces` or `GetRetrievedTracesGraph` to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider segmenting into multiple retrievals.
+ *
+ * If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to retrieve data from a linked source account, as long as both accounts have transaction search enabled.
+ *
+ * For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see BatchGetTraces.
+ */
+export const startTraceRetrieval = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTraceRetrievalRequest,
+  output: StartTraceRetrievalResult,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Removes tags from an Amazon Web Services X-Ray group or sampling rule. You cannot edit or delete system
+ * tags (those with an `aws:` prefix).
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Retrieves the current encryption configuration for X-Ray data.
+ */
+export const getEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEncryptionConfigRequest,
+  output: GetEncryptionConfigResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
+/**
+ * Retrieves all sampling rules.
+ */
+export const getSamplingRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSamplingRulesRequest,
+  output: GetSamplingRulesResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
+/**
+ * Retrieves a service graph for one or more specific trace IDs.
+ */
+export const getTraceGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTraceGraphRequest,
+  output: GetTraceGraphResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
+/**
+ * Updates the encryption configuration for X-Ray data.
+ */
+export const putEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutEncryptionConfigRequest,
+  output: PutEncryptionConfigResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
+/**
+ * Updates a group resource.
+ */
+export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGroupRequest,
+  output: UpdateGroupResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
+/**
+ * Modifies the destination of data sent to `PutTraceSegments`. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search.
+ */
+export const updateTraceSegmentDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateTraceSegmentDestinationRequest,
+    output: UpdateTraceSegmentDestinationResult,
+    errors: [InvalidRequestException, ThrottledException],
+  }));
+/**
+ * Deletes a group resource.
+ */
+export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupRequest,
+  output: DeleteGroupResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
+/**
+ * Retrieves the current destination of data sent to `PutTraceSegments` and *OpenTelemetry protocol (OTLP)* endpoint. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see Transaction Search and OpenTelemetry.
+ */
+export const getTraceSegmentDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetTraceSegmentDestinationRequest,
+    output: GetTraceSegmentDestinationResult,
+    errors: [InvalidRequestException, ThrottledException],
+  }),
+);
+/**
+ * Cancels an ongoing trace retrieval job initiated by `StartTraceRetrieval` using the provided `RetrievalToken`. A successful cancellation will return an HTTP 200 response.
+ */
+export const cancelTraceRetrieval = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelTraceRetrievalRequest,
+    output: CancelTraceRetrievalResult,
+    errors: [
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottledException,
+    ],
+  }),
+);
+/**
+ * Creates a group resource with a name and a filter expression.
+ */
+export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGroupRequest,
+  output: CreateGroupResult,
   errors: [InvalidRequestException, ThrottledException],
 }));
 /**
@@ -1958,6 +1945,19 @@ export const updateIndexingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottledException,
+  ],
+}));
+/**
+ * Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottledException,
+    TooManyTagsException,
   ],
 }));
 /**

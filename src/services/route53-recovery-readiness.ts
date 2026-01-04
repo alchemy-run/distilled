@@ -1092,27 +1092,27 @@ export class CreateResourceSetResponse extends S.Class<CreateResourceSetResponse
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 
 //# Operations
@@ -1125,62 +1125,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     InternalServerException,
     ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a tag from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
- */
-export const createReadinessCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReadinessCheckRequest,
-    output: CreateReadinessCheckResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
- */
-export const createRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRecoveryGroupRequest,
-  output: CreateRecoveryGroupResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Delete a cell. When successful, the response code is 204, with no response body.
- */
-export const deleteCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCellRequest,
-  output: DeleteCellResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -1198,6 +1142,79 @@ export const deleteCrossAccountAuthorization =
       ValidationException,
     ],
   }));
+/**
+ * Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
+ */
+export const createCrossAccountAuthorization =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateCrossAccountAuthorizationRequest,
+    output: CreateCrossAccountAuthorizationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Updates a cell to replace the list of nested cells with a new list of nested cells.
+ */
+export const updateCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCellRequest,
+  output: UpdateCellResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a readiness check.
+ */
+export const updateReadinessCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateReadinessCheckRequest,
+    output: UpdateReadinessCheckResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates a recovery group.
+ */
+export const updateRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRecoveryGroupRequest,
+  output: UpdateRecoveryGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a resource set.
+ */
+export const updateResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceSetRequest,
+  output: UpdateResourceSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a readiness check.
  */
@@ -1234,6 +1251,32 @@ export const deleteRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const deleteResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceSetRequest,
   output: DeleteResourceSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a tag from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete a cell. When successful, the response code is 204, with no response body.
+ */
+export const deleteCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCellRequest,
+  output: DeleteCellResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1314,20 +1357,6 @@ export const getResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists the cross-account readiness authorizations that are in place for an account.
- */
-export const listCrossAccountAuthorizations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCrossAccountAuthorizationsRequest,
-    output: ListCrossAccountAuthorizationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
  * Lists the tags for a resource.
  */
 export const listTagsForResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1341,93 +1370,6 @@ export const listTagsForResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Updates a cell to replace the list of nested cells with a new list of nested cells.
- */
-export const updateCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCellRequest,
-  output: UpdateCellResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a readiness check.
- */
-export const updateReadinessCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateReadinessCheckRequest,
-    output: UpdateReadinessCheckResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates a recovery group.
- */
-export const updateRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRecoveryGroupRequest,
-  output: UpdateRecoveryGroupResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a resource set.
- */
-export const updateResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateResourceSetRequest,
-  output: UpdateResourceSetResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a cell in an account.
- */
-export const createCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCellRequest,
-  output: CreateCellResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
- */
-export const createCrossAccountAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCrossAccountAuthorizationRequest,
-    output: CreateCrossAccountAuthorizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
  */
@@ -1491,6 +1433,20 @@ export const getReadinessCheckStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Lists the cross-account readiness authorizations that are in place for an account.
+ */
+export const listCrossAccountAuthorizations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListCrossAccountAuthorizationsRequest,
+    output: ListCrossAccountAuthorizationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
  * Lists the cells for an account.
  */
 export const listCells = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1550,6 +1506,50 @@ export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: ListRulesResponse,
   errors: [
     AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
+ */
+export const createReadinessCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateReadinessCheckRequest,
+    output: CreateReadinessCheckResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
+ */
+export const createRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRecoveryGroupRequest,
+  output: CreateRecoveryGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a cell in an account.
+ */
+export const createCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCellRequest,
+  output: CreateCellResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ThrottlingException,
     ValidationException,

@@ -341,18 +341,18 @@ export class ModifyReportDefinitionResponse extends S.Class<ModifyReportDefiniti
 //# Errors
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DuplicateReportNameException extends S.TaggedError<DuplicateReportNameException>()(
   "DuplicateReportNameException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
   { Message: S.optional(S.String) },
 ) {}
 export class ReportLimitReachedException extends S.TaggedError<ReportLimitReachedException>()(
@@ -372,29 +372,16 @@ export const describeReportDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists the tags associated with the specified report definition.
+ * Deletes the specified report. Any tags associated with the report are also
+ * deleted.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalErrorException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a set of tags with a report definition.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalErrorException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
+export const deleteReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteReportDefinitionRequest,
+    output: DeleteReportDefinitionResponse,
+    errors: [InternalErrorException, ValidationException],
+  }),
+);
 /**
  * Disassociates a set of tags from a report definition.
  */
@@ -408,16 +395,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes the specified report. Any tags associated with the report are also
- * deleted.
+ * Lists the tags associated with the specified report definition.
  */
-export const deleteReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReportDefinitionRequest,
-    output: DeleteReportDefinitionResponse,
-    errors: [InternalErrorException, ValidationException],
-  }),
-);
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalErrorException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows you to programmatically update your report preferences.
  */
@@ -428,6 +416,18 @@ export const modifyReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InternalErrorException, ValidationException],
   }),
 );
+/**
+ * Associates a set of tags with a report definition.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalErrorException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new report using the description that you provide.
  */

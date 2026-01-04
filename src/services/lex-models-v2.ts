@@ -5041,268 +5041,52 @@ export class ListTestSetRecordsResponse extends S.Class<ListTestSetRecordsRespon
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class PreconditionFailedException extends S.TaggedError<PreconditionFailedException>()(
-  "PreconditionFailedException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  {
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+    message: S.optional(S.String),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class PreconditionFailedException extends S.TaggedError<PreconditionFailedException>()(
+  "PreconditionFailedException",
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Removes tags from a bot, bot alias, or bot channel.
+ * Gets the resource policy and policy revision for a bot or bot
+ * alias.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Builds a bot, its intents, and its slot types into a specific
- * locale. A bot can be built into multiple locales. At runtime the locale
- * is used to choose a specific build of the bot.
- */
-export const buildBotLocale = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BuildBotLocaleRequest,
-  output: BuildBotLocaleResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Action to create a replication of the source bot in the secondary region.
- */
-export const createBotReplica = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBotReplicaRequest,
-  output: CreateBotReplicaResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new resource policy with the specified policy
- * statements.
- */
-export const createResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateResourcePolicyRequest,
-    output: CreateResourcePolicyResponse,
+    input: DescribeResourcePolicyRequest,
+    output: DescribeResourcePolicyResponse,
     errors: [
       InternalServerException,
-      PreconditionFailedException,
       ResourceNotFoundException,
-      ServiceQuotaExceededException,
       ThrottlingException,
-      ValidationException,
     ],
   }),
 );
-/**
- * Gets a pre-signed S3 write URL that you use to upload the zip
- * archive when importing a bot or a bot locale.
- */
-export const createUploadUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUploadUrlRequest,
-  output: CreateUploadUrlResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes all versions of a bot, including the `Draft`
- * version. To delete a specific version, use the
- * `DeleteBotVersion` operation.
- *
- * When you delete a bot, all of the resources contained in the bot are
- * also deleted. Deleting a bot removes all locales, intents, slot, and
- * slot types defined for the bot.
- *
- * If a bot has an alias, the `DeleteBot` operation returns
- * a `ResourceInUseException` exception. If you want to delete
- * the bot and the alias, set the `skipResourceInUseCheck`
- * parameter to `true`.
- */
-export const deleteBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBotRequest,
-  output: DeleteBotResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified bot alias.
- */
-export const deleteBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBotAliasRequest,
-  output: DeleteBotAliasResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a locale from a bot.
- *
- * When you delete a locale, all intents, slots, and slot types defined
- * for the locale are also deleted.
- */
-export const deleteBotLocale = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBotLocaleRequest,
-  output: DeleteBotLocaleResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * The action to delete the replicated bot in the secondary region.
- */
-export const deleteBotReplica = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBotReplicaRequest,
-  output: DeleteBotReplicaResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a specific version of a bot. To delete all versions of a bot,
- * use the DeleteBot operation.
- */
-export const deleteBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBotVersionRequest,
-  output: DeleteBotVersionResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a custom vocabulary from the specified locale
- * in the specified bot.
- */
-export const deleteCustomVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomVocabularyRequest,
-    output: DeleteCustomVocabularyResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      PreconditionFailedException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Removes a previous export and the associated files stored in an S3
- * bucket.
- */
-export const deleteExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteExportRequest,
-  output: DeleteExportResponse,
-  errors: [
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a previous import and the associated file stored in an S3
- * bucket.
- */
-export const deleteImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImportRequest,
-  output: DeleteImportResponse,
-  errors: [
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the specified intent.
- *
- * Deleting an intent also deletes the slots associated with the
- * intent.
- */
-export const deleteIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIntentRequest,
-  output: DeleteIntentResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Removes an existing policy from a bot or bot alias. If the resource
  * doesn't have a policy attached, Amazon Lex returns an exception.
@@ -5341,56 +5125,6 @@ export const deleteResourcePolicyStatement =
     ],
   }));
 /**
- * Deletes the specified slot from an intent.
- */
-export const deleteSlot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSlotRequest,
-  output: DeleteSlotResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a slot type from a bot locale.
- *
- * If a slot is using the slot type, Amazon Lex throws a
- * `ResourceInUseException` exception. To avoid the
- * exception, set the `skipResourceInUseCheck` parameter to
- * `true`.
- */
-export const deleteSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSlotTypeRequest,
-  output: DeleteSlotTypeResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * The action to delete the selected test set.
- */
-export const deleteTestSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTestSetRequest,
-  output: DeleteTestSetResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Deletes stored utterances.
  *
  * Amazon Lex stores the utterances that users send to your bot. Utterances
@@ -5425,724 +5159,6 @@ export const describeBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Monitors the bot replication status through the UI console.
- */
-export const describeBotReplica = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBotReplicaRequest,
-  output: DescribeBotReplicaResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information about a request to generate a bot through natural language description, made through
- * the `StartBotResource` API. Use the `generatedBotLocaleUrl`
- * to retrieve the Amazon S3 object containing the bot locale configuration. You can
- * then modify and import this configuration.
- */
-export const describeBotResourceGeneration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBotResourceGenerationRequest,
-    output: DescribeBotResourceGenerationResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Provides metadata about a version of a bot.
- */
-export const describeBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBotVersionRequest,
-  output: DescribeBotVersionResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Provides metadata information about a custom vocabulary.
- */
-export const describeCustomVocabularyMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCustomVocabularyMetadataRequest,
-    output: DescribeCustomVocabularyMetadataResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Gets information about a specific export.
- */
-export const describeExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeExportRequest,
-  output: DescribeExportResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets information about a specific import.
- */
-export const describeImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeImportRequest,
-  output: DescribeImportResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns metadata about an intent.
- */
-export const describeIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeIntentRequest,
-  output: DescribeIntentResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the resource policy and policy revision for a bot or bot
- * alias.
- */
-export const describeResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourcePolicyRequest,
-    output: DescribeResourcePolicyResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Gets metadata information about a slot.
- */
-export const describeSlot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSlotRequest,
-  output: DescribeSlotResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets metadata information about a slot type.
- */
-export const describeSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSlotTypeRequest,
-  output: DescribeSlotTypeResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets metadata information about the test execution.
- */
-export const describeTestExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTestExecutionRequest,
-    output: DescribeTestExecutionResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets metadata information about the test set.
- */
-export const describeTestSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTestSetRequest,
-  output: DescribeTestSetResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets metadata information about the test set generation.
- */
-export const describeTestSetGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTestSetGenerationRequest,
-    output: DescribeTestSetGenerationResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Generates sample utterances for an intent.
- */
-export const generateBotElement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GenerateBotElementRequest,
-  output: GenerateBotElementResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * The pre-signed Amazon S3 URL to download the test execution result artifacts.
- */
-export const getTestExecutionArtifactsUrl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTestExecutionArtifactsUrlRequest,
-    output: GetTestExecutionArtifactsUrlResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Paginated list of custom vocabulary items for a given bot locale's
- * custom vocabulary.
- */
-export const listCustomVocabularyItems = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCustomVocabularyItemsRequest,
-    output: ListCustomVocabularyItemsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Gets a list of tags associated with a resource. Only bots, bot
- * aliases, and bot channels can have tags associated with them.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a request for the descriptive bot builder to generate a bot locale configuration
- * based on the prompt you provide it. After you make this call, use the `DescribeBotResourceGeneration`
- * operation to check on the status of the generation and for the `generatedBotLocaleUrl` when the
- * generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can
- * then modify and import this configuration.
- */
-export const startBotResourceGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartBotResourceGenerationRequest,
-    output: StartBotResourceGenerationResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      PreconditionFailedException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Stop an already running Bot Recommendation request.
- */
-export const stopBotRecommendation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopBotRecommendationRequest,
-    output: StopBotRecommendationResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      PreconditionFailedException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Adds the specified tags to the specified resource. If a tag key
- * already exists, the existing value is replaced with the new
- * value.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the configuration of an existing bot.
- */
-export const updateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBotRequest,
-  output: UpdateBotResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the configuration of an existing bot alias.
- */
-export const updateBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBotAliasRequest,
-  output: UpdateBotAliasResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the settings that a bot has for a specific locale.
- */
-export const updateBotLocale = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBotLocaleRequest,
-  output: UpdateBotLocaleResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing bot recommendation request.
- */
-export const updateBotRecommendation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBotRecommendationRequest,
-    output: UpdateBotRecommendationResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      PreconditionFailedException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the password used to protect an export zip archive.
- *
- * The password is not required. If you don't supply a password, Amazon Lex
- * generates a zip file that is not protected by a password. This is the
- * archive that is available at the pre-signed S3 URL provided by the
- * DescribeExport operation.
- */
-export const updateExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateExportRequest,
-  output: UpdateExportResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Replaces the existing resource policy for a bot or bot alias with a
- * new one. If the policy doesn't exist, Amazon Lex returns an
- * exception.
- */
-export const updateResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourcePolicyRequest,
-    output: UpdateResourcePolicyResponse,
-    errors: [
-      InternalServerException,
-      PreconditionFailedException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the settings for a slot.
- */
-export const updateSlot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSlotRequest,
-  output: UpdateSlotResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the configuration of an existing slot type.
- */
-export const updateSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSlotTypeRequest,
-  output: UpdateSlotTypeResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * The action to update the test set.
- */
-export const updateTestSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTestSetRequest,
-  output: UpdateTestSetResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Delete a batch of custom vocabulary items for a given bot locale's
- * custom vocabulary.
- */
-export const batchDeleteCustomVocabularyItem =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteCustomVocabularyItemRequest,
-    output: BatchDeleteCustomVocabularyItemResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Update a batch of custom vocabulary items for a given bot locale's custom
- * vocabulary.
- */
-export const batchUpdateCustomVocabularyItem =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateCustomVocabularyItemRequest,
-    output: BatchUpdateCustomVocabularyItemResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates an Amazon Lex conversational bot.
- */
-export const createBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBotRequest,
-  output: CreateBotResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get information about a specific bot alias.
- */
-export const describeBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBotAliasRequest,
-  output: DescribeBotAliasResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Describes the settings that a bot has for a specific locale.
- */
-export const describeBotLocale = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeBotLocaleRequest,
-  output: DescribeBotLocaleResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets a list of aliases for the specified bot.
- */
-export const listBotAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBotAliasesRequest,
-  output: ListBotAliasesResponse,
-  errors: [
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * The action to list the replicated bots created from the source bot alias.
- */
-export const listBotAliasReplicas = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBotAliasReplicasRequest,
-    output: ListBotAliasReplicasResponse,
-    errors: [
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Get a list of bot recommendations that meet the specified
- * criteria.
- */
-export const listBotRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBotRecommendationsRequest,
-    output: ListBotRecommendationsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * The action to list the replicated bots.
- */
-export const listBotReplicas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListBotReplicasRequest,
-  output: ListBotReplicasResponse,
-  errors: [
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets a list of recommended intents provided by the bot
- * recommendation that you can use in your bot. Intents in the
- * response are ordered by relevance.
- */
-export const listRecommendedIntents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRecommendedIntentsRequest,
-    output: ListRecommendedIntentsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the settings for an intent.
- */
-export const updateIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateIntentRequest,
-  output: UpdateIntentResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Create a batch of custom vocabulary items for a given bot locale's
- * custom vocabulary.
- */
-export const batchCreateCustomVocabularyItem =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchCreateCustomVocabularyItemRequest,
-    output: BatchCreateCustomVocabularyItemResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates an immutable version of the bot. When you create the first
- * version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase
- * in an increment of 1. The version number will always represent the total number
- * of versions created of the bot, not the current number of versions. If a bot version
- * is deleted, that bot version number will not be reused.
- */
-export const createBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBotVersionRequest,
-  output: CreateBotVersionResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    PreconditionFailedException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a zip archive containing the contents of a bot or a bot
- * locale. The archive contains a directory structure that contains JSON
- * files that define the bot.
- *
- * You can create an archive that contains the complete definition of a
- * bot, or you can specify that the archive contain only the definition of
- * a single bot locale.
- *
- * For more information about exporting bots, and about the structure
- * of the export archive, see Importing and
- * exporting bots
- */
-export const createExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateExportRequest,
-  output: CreateExportResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a new resource policy statement to a bot or bot alias. If a
- * resource policy exists, the statement is added to the current resource
- * policy. If a policy doesn't exist, a new policy is created.
- *
- * You can't create a resource policy statement that allows
- * cross-account access.
- *
- * You need to add the `CreateResourcePolicy` or `UpdateResourcePolicy`
- * action to the bot role in order to call the API.
- */
-export const createResourcePolicyStatement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateResourcePolicyStatementRequest,
-    output: CreateResourcePolicyStatementResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      PreconditionFailedException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Create a report that describes the differences between the bot and the test set.
- */
-export const createTestSetDiscrepancyReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTestSetDiscrepancyReportRequest,
-    output: CreateTestSetDiscrepancyReportResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Gets metadata information about the test set discrepancy report.
  */
@@ -6406,6 +5422,993 @@ export const startTestExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
+/**
+ * Get a list of bot recommendations that meet the specified
+ * criteria.
+ */
+export const listBotRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListBotRecommendationsRequest,
+    output: ListBotRecommendationsResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns information about a request to generate a bot through natural language description, made through
+ * the `StartBotResource` API. Use the `generatedBotLocaleUrl`
+ * to retrieve the Amazon S3 object containing the bot locale configuration. You can
+ * then modify and import this configuration.
+ */
+export const describeBotResourceGeneration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeBotResourceGenerationRequest,
+    output: DescribeBotResourceGenerationResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Gets information about a specific export.
+ */
+export const describeExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeExportRequest,
+  output: DescribeExportResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about a specific import.
+ */
+export const describeImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeImportRequest,
+  output: DescribeImportResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets a list of tags associated with a resource. Only bots, bot
+ * aliases, and bot channels can have tags associated with them.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds the specified tags to the specified resource. If a tag key
+ * already exists, the existing value is replaced with the new
+ * value.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from a bot, bot alias, or bot channel.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets a pre-signed S3 write URL that you use to upload the zip
+ * archive when importing a bot or a bot locale.
+ */
+export const createUploadUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUploadUrlRequest,
+  output: CreateUploadUrlResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get information about a specific bot alias.
+ */
+export const describeBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBotAliasRequest,
+  output: DescribeBotAliasResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Describes the settings that a bot has for a specific locale.
+ */
+export const describeBotLocale = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBotLocaleRequest,
+  output: DescribeBotLocaleResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Generates sample utterances for an intent.
+ */
+export const generateBotElement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateBotElementRequest,
+  output: GenerateBotElementResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets a list of aliases for the specified bot.
+ */
+export const listBotAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBotAliasesRequest,
+  output: ListBotAliasesResponse,
+  errors: [
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * The action to list the replicated bots created from the source bot alias.
+ */
+export const listBotAliasReplicas = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListBotAliasReplicasRequest,
+    output: ListBotAliasReplicasResponse,
+    errors: [
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * The action to list the replicated bots.
+ */
+export const listBotReplicas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBotReplicasRequest,
+  output: ListBotReplicasResponse,
+  errors: [
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets a list of recommended intents provided by the bot
+ * recommendation that you can use in your bot. Intents in the
+ * response are ordered by relevance.
+ */
+export const listRecommendedIntents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListRecommendedIntentsRequest,
+    output: ListRecommendedIntentsResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the settings for an intent.
+ */
+export const updateIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIntentRequest,
+  output: UpdateIntentResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Monitors the bot replication status through the UI console.
+ */
+export const describeBotReplica = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBotReplicaRequest,
+  output: DescribeBotReplicaResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Provides metadata about a version of a bot.
+ */
+export const describeBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBotVersionRequest,
+  output: DescribeBotVersionResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Provides metadata information about a custom vocabulary.
+ */
+export const describeCustomVocabularyMetadata =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeCustomVocabularyMetadataRequest,
+    output: DescribeCustomVocabularyMetadataResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Returns metadata about an intent.
+ */
+export const describeIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIntentRequest,
+  output: DescribeIntentResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets metadata information about a slot.
+ */
+export const describeSlot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSlotRequest,
+  output: DescribeSlotResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets metadata information about a slot type.
+ */
+export const describeSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSlotTypeRequest,
+  output: DescribeSlotTypeResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets metadata information about the test execution.
+ */
+export const describeTestExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTestExecutionRequest,
+    output: DescribeTestExecutionResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Gets metadata information about the test set.
+ */
+export const describeTestSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTestSetRequest,
+  output: DescribeTestSetResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets metadata information about the test set generation.
+ */
+export const describeTestSetGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeTestSetGenerationRequest,
+    output: DescribeTestSetGenerationResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * The pre-signed Amazon S3 URL to download the test execution result artifacts.
+ */
+export const getTestExecutionArtifactsUrl =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTestExecutionArtifactsUrlRequest,
+    output: GetTestExecutionArtifactsUrlResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Paginated list of custom vocabulary items for a given bot locale's
+ * custom vocabulary.
+ */
+export const listCustomVocabularyItems = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListCustomVocabularyItemsRequest,
+    output: ListCustomVocabularyItemsResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the password used to protect an export zip archive.
+ *
+ * The password is not required. If you don't supply a password, Amazon Lex
+ * generates a zip file that is not protected by a password. This is the
+ * archive that is available at the pre-signed S3 URL provided by the
+ * DescribeExport operation.
+ */
+export const updateExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateExportRequest,
+  output: UpdateExportResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete a batch of custom vocabulary items for a given bot locale's
+ * custom vocabulary.
+ */
+export const batchDeleteCustomVocabularyItem =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchDeleteCustomVocabularyItemRequest,
+    output: BatchDeleteCustomVocabularyItemResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Update a batch of custom vocabulary items for a given bot locale's custom
+ * vocabulary.
+ */
+export const batchUpdateCustomVocabularyItem =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchUpdateCustomVocabularyItemRequest,
+    output: BatchUpdateCustomVocabularyItemResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Starts a request for the descriptive bot builder to generate a bot locale configuration
+ * based on the prompt you provide it. After you make this call, use the `DescribeBotResourceGeneration`
+ * operation to check on the status of the generation and for the `generatedBotLocaleUrl` when the
+ * generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can
+ * then modify and import this configuration.
+ */
+export const startBotResourceGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartBotResourceGenerationRequest,
+    output: StartBotResourceGenerationResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      PreconditionFailedException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Stop an already running Bot Recommendation request.
+ */
+export const stopBotRecommendation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopBotRecommendationRequest,
+    output: StopBotRecommendationResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      PreconditionFailedException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration of an existing bot.
+ */
+export const updateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBotRequest,
+  output: UpdateBotResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration of an existing bot alias.
+ */
+export const updateBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBotAliasRequest,
+  output: UpdateBotAliasResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the settings that a bot has for a specific locale.
+ */
+export const updateBotLocale = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBotLocaleRequest,
+  output: UpdateBotLocaleResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing bot recommendation request.
+ */
+export const updateBotRecommendation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateBotRecommendationRequest,
+    output: UpdateBotRecommendationResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      PreconditionFailedException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Replaces the existing resource policy for a bot or bot alias with a
+ * new one. If the policy doesn't exist, Amazon Lex returns an
+ * exception.
+ */
+export const updateResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateResourcePolicyRequest,
+    output: UpdateResourcePolicyResponse,
+    errors: [
+      InternalServerException,
+      PreconditionFailedException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the settings for a slot.
+ */
+export const updateSlot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSlotRequest,
+  output: UpdateSlotResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration of an existing slot type.
+ */
+export const updateSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSlotTypeRequest,
+  output: UpdateSlotTypeResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * The action to update the test set.
+ */
+export const updateTestSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTestSetRequest,
+  output: UpdateTestSetResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the specified intent.
+ *
+ * Deleting an intent also deletes the slots associated with the
+ * intent.
+ */
+export const deleteIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntentRequest,
+  output: DeleteIntentResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified slot from an intent.
+ */
+export const deleteSlot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSlotRequest,
+  output: DeleteSlotResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a slot type from a bot locale.
+ *
+ * If a slot is using the slot type, Amazon Lex throws a
+ * `ResourceInUseException` exception. To avoid the
+ * exception, set the `skipResourceInUseCheck` parameter to
+ * `true`.
+ */
+export const deleteSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSlotTypeRequest,
+  output: DeleteSlotTypeResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * The action to delete the selected test set.
+ */
+export const deleteTestSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTestSetRequest,
+  output: DeleteTestSetResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Builds a bot, its intents, and its slot types into a specific
+ * locale. A bot can be built into multiple locales. At runtime the locale
+ * is used to choose a specific build of the bot.
+ */
+export const buildBotLocale = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BuildBotLocaleRequest,
+  output: BuildBotLocaleResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Action to create a replication of the source bot in the secondary region.
+ */
+export const createBotReplica = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBotReplicaRequest,
+  output: CreateBotReplicaResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new resource policy with the specified policy
+ * statements.
+ */
+export const createResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateResourcePolicyRequest,
+    output: CreateResourcePolicyResponse,
+    errors: [
+      InternalServerException,
+      PreconditionFailedException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes all versions of a bot, including the `Draft`
+ * version. To delete a specific version, use the
+ * `DeleteBotVersion` operation.
+ *
+ * When you delete a bot, all of the resources contained in the bot are
+ * also deleted. Deleting a bot removes all locales, intents, slot, and
+ * slot types defined for the bot.
+ *
+ * If a bot has an alias, the `DeleteBot` operation returns
+ * a `ResourceInUseException` exception. If you want to delete
+ * the bot and the alias, set the `skipResourceInUseCheck`
+ * parameter to `true`.
+ */
+export const deleteBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBotRequest,
+  output: DeleteBotResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified bot alias.
+ */
+export const deleteBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBotAliasRequest,
+  output: DeleteBotAliasResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a locale from a bot.
+ *
+ * When you delete a locale, all intents, slots, and slot types defined
+ * for the locale are also deleted.
+ */
+export const deleteBotLocale = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBotLocaleRequest,
+  output: DeleteBotLocaleResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * The action to delete the replicated bot in the secondary region.
+ */
+export const deleteBotReplica = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBotReplicaRequest,
+  output: DeleteBotReplicaResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a specific version of a bot. To delete all versions of a bot,
+ * use the DeleteBot operation.
+ */
+export const deleteBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBotVersionRequest,
+  output: DeleteBotVersionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a custom vocabulary from the specified locale
+ * in the specified bot.
+ */
+export const deleteCustomVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCustomVocabularyRequest,
+    output: DeleteCustomVocabularyResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      PreconditionFailedException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Removes a previous export and the associated files stored in an S3
+ * bucket.
+ */
+export const deleteExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteExportRequest,
+  output: DeleteExportResponse,
+  errors: [
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a previous import and the associated file stored in an S3
+ * bucket.
+ */
+export const deleteImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImportRequest,
+  output: DeleteImportResponse,
+  errors: [
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an Amazon Lex conversational bot.
+ */
+export const createBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBotRequest,
+  output: CreateBotResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Create a batch of custom vocabulary items for a given bot locale's
+ * custom vocabulary.
+ */
+export const batchCreateCustomVocabularyItem =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchCreateCustomVocabularyItemRequest,
+    output: BatchCreateCustomVocabularyItemResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates an immutable version of the bot. When you create the first
+ * version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase
+ * in an increment of 1. The version number will always represent the total number
+ * of versions created of the bot, not the current number of versions. If a bot version
+ * is deleted, that bot version number will not be reused.
+ */
+export const createBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBotVersionRequest,
+  output: CreateBotVersionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    PreconditionFailedException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a zip archive containing the contents of a bot or a bot
+ * locale. The archive contains a directory structure that contains JSON
+ * files that define the bot.
+ *
+ * You can create an archive that contains the complete definition of a
+ * bot, or you can specify that the archive contain only the definition of
+ * a single bot locale.
+ *
+ * For more information about exporting bots, and about the structure
+ * of the export archive, see Importing and
+ * exporting bots
+ */
+export const createExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateExportRequest,
+  output: CreateExportResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a new resource policy statement to a bot or bot alias. If a
+ * resource policy exists, the statement is added to the current resource
+ * policy. If a policy doesn't exist, a new policy is created.
+ *
+ * You can't create a resource policy statement that allows
+ * cross-account access.
+ *
+ * You need to add the `CreateResourcePolicy` or `UpdateResourcePolicy`
+ * action to the bot role in order to call the API.
+ */
+export const createResourcePolicyStatement =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateResourcePolicyStatementRequest,
+    output: CreateResourcePolicyStatementResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      PreconditionFailedException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Create a report that describes the differences between the bot and the test set.
+ */
+export const createTestSetDiscrepancyReport =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateTestSetDiscrepancyReportRequest,
+    output: CreateTestSetDiscrepancyReportResponse,
+    errors: [
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * Creates a custom slot type
  *

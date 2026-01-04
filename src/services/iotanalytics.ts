@@ -1370,59 +1370,44 @@ export class ListDatastoresResponse extends S.Class<ListDatastoresResponse>(
 //# Errors
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
-  {},
+  {
+    message: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+  },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Deletes the specified pipeline.
+ * Retrieves a list of pipelines.
  */
-export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePipelineRequest,
-  output: DeletePipelineResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Sets or updates the IoT Analytics logging options.
- *
- * If you update the value of any `loggingOptions` field, it takes up to one
- * minute for the change to take effect. Also, if you change the policy attached to the role you
- * specified in the `roleArn` field (for example, to correct an invalid policy), it
- * takes up to five minutes for that change to take effect.
- */
-export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutLoggingOptionsRequest,
-  output: PutLoggingOptionsResponse,
+export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPipelinesRequest,
+  output: ListPipelinesResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -1431,183 +1416,16 @@ export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes the given tags (metadata) from the resource.
+ * Starts the reprocessing of raw message data through the pipeline.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Used to update the settings of a channel.
- */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateChannelRequest,
-  output: UpdateChannelResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the settings of a dataset.
- */
-export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDatasetRequest,
-  output: UpdateDatasetResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Used to update the settings of a data store.
- */
-export const updateDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDatastoreRequest,
-  output: UpdateDatastoreResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates the settings of a pipeline. You must specify both a `channel` and a
- * `datastore` activity and, optionally, as many as 23 additional activities in the
- * `pipelineActivities` array.
- */
-export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePipelineRequest,
-  output: UpdatePipelineResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Cancels the reprocessing of data through the pipeline.
- */
-export const cancelPipelineReprocessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const startPipelineReprocessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CancelPipelineReprocessingRequest,
-    output: CancelPipelineReprocessingResponse,
+    input: StartPipelineReprocessingRequest,
+    output: StartPipelineReprocessingResponse,
     errors: [
       InternalFailureException,
       InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates the content of a dataset by applying a `queryAction` (a SQL query) or a
- * `containerAction` (executing a containerized application).
- */
-export const createDatasetContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDatasetContentRequest,
-    output: CreateDatasetContentResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes the specified channel.
- */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes the specified dataset.
- *
- * You do not have to delete the content of the dataset before you perform this
- * operation.
- */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatasetRequest,
-  output: DeleteDatasetResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes the content of the specified dataset.
- */
-export const deleteDatasetContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDatasetContentRequest,
-    output: DeleteDatasetContentResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes the specified data store.
- */
-export const deleteDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatastoreRequest,
-  output: DeleteDatastoreResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves the current settings of the IoT Analytics logging options.
- */
-export const describeLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLoggingOptionsRequest,
-    output: DescribeLoggingOptionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
+      ResourceAlreadyExistsException,
       ResourceNotFoundException,
       ServiceUnavailableException,
       ThrottlingException,
@@ -1620,50 +1438,6 @@ export const describeLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Simulates the results of running a pipeline activity on a message payload.
- */
-export const runPipelineActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RunPipelineActivityRequest,
-  output: RunPipelineActivityResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves a sample of messages from the specified channel ingested during the specified
- * timeframe. Up to 10 messages can be retrieved.
- */
-export const sampleChannelData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SampleChannelDataRequest,
-  output: SampleChannelDataResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
- * manage a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -1730,14 +1504,166 @@ export const listDatasetContents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves a list of pipelines.
+ * Creates the content of a dataset by applying a `queryAction` (a SQL query) or a
+ * `containerAction` (executing a containerized application).
  */
-export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPipelinesRequest,
-  output: ListPipelinesResponse,
+export const createDatasetContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDatasetContentRequest,
+    output: CreateDatasetContentResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves the current settings of the IoT Analytics logging options.
+ */
+export const describeLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeLoggingOptionsRequest,
+    output: DescribeLoggingOptionsResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves a sample of messages from the specified channel ingested during the specified
+ * timeframe. Up to 10 messages can be retrieved.
+ */
+export const sampleChannelData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SampleChannelDataRequest,
+  output: SampleChannelDataResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the specified channel.
+ */
+export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelRequest,
+  output: DeleteChannelResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the specified dataset.
+ *
+ * You do not have to delete the content of the dataset before you perform this
+ * operation.
+ */
+export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetRequest,
+  output: DeleteDatasetResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the content of the specified dataset.
+ */
+export const deleteDatasetContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDatasetContentRequest,
+    output: DeleteDatasetContentResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified data store.
+ */
+export const deleteDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatastoreRequest,
+  output: DeleteDatastoreResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the specified pipeline.
+ */
+export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePipelineRequest,
+  output: DeletePipelineResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Used to update the settings of a channel.
+ */
+export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChannelRequest,
+  output: UpdateChannelResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the settings of a dataset.
+ */
+export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDatasetRequest,
+  output: UpdateDatasetResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Used to update the settings of a data store.
+ */
+export const updateDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDatastoreRequest,
+  output: UpdateDatastoreResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,
   ],
@@ -1757,21 +1683,52 @@ export const batchPutMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Used to create a channel. A channel collects data from an MQTT topic and archives the raw,
- * unprocessed messages before publishing the data to a pipeline.
+ * Simulates the results of running a pipeline activity on a message payload.
  */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateChannelRequest,
-  output: CreateChannelResponse,
+export const runPipelineActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RunPipelineActivityRequest,
+  output: RunPipelineActivityResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
     ServiceUnavailableException,
     ThrottlingException,
   ],
 }));
+/**
+ * Sets or updates the IoT Analytics logging options.
+ *
+ * If you update the value of any `loggingOptions` field, it takes up to one
+ * minute for the change to take effect. Also, if you change the policy attached to the role you
+ * specified in the `roleArn` field (for example, to correct an invalid policy), it
+ * takes up to five minutes for that change to take effect.
+ */
+export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutLoggingOptionsRequest,
+  output: PutLoggingOptionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Cancels the reprocessing of data through the pipeline.
+ */
+export const cancelPipelineReprocessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelPipelineReprocessingRequest,
+    output: CancelPipelineReprocessingResponse,
+    errors: [
+      InternalFailureException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Retrieves information about a channel.
  */
@@ -1814,22 +1771,69 @@ export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Starts the reprocessing of raw message data through the pipeline.
+ * Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
+ * manage a resource.
  */
-export const startPipelineReprocessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartPipelineReprocessingRequest,
-    output: StartPipelineReprocessingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Removes the given tags (metadata) from the resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the settings of a pipeline. You must specify both a `channel` and a
+ * `datastore` activity and, optionally, as many as 23 additional activities in the
+ * `pipelineActivities` array.
+ */
+export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePipelineRequest,
+  output: UpdatePipelineResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Used to create a channel. A channel collects data from an MQTT topic and archives the raw,
+ * unprocessed messages before publishing the data to a pipeline.
+ */
+export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChannelRequest,
+  output: CreateChannelResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a pipeline. A pipeline consumes messages from a channel and allows you to process
  * the messages before storing them in a data store. You must specify both a `channel`

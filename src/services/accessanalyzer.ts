@@ -643,6 +643,216 @@ export class ValidatePolicyRequest extends S.Class<ValidatePolicyRequest>(
     rules,
   ),
 ) {}
+export class GetAnalyzerRequest extends S.Class<GetAnalyzerRequest>(
+  "GetAnalyzerRequest",
+)(
+  { analyzerName: S.String.pipe(T.HttpLabel()) },
+  T.all(
+    T.Http({ method: "GET", uri: "/analyzer/{analyzerName}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export const AccountIdsList = S.Array(S.String);
+export const TagsMap = S.Record({ key: S.String, value: S.String });
+export const TagsList = S.Array(TagsMap);
+export class AnalysisRuleCriteria extends S.Class<AnalysisRuleCriteria>(
+  "AnalysisRuleCriteria",
+)({
+  accountIds: S.optional(AccountIdsList),
+  resourceTags: S.optional(TagsList),
+}) {}
+export const AnalysisRuleCriteriaList = S.Array(AnalysisRuleCriteria);
+export class AnalysisRule extends S.Class<AnalysisRule>("AnalysisRule")({
+  exclusions: S.optional(AnalysisRuleCriteriaList),
+}) {}
+export class UnusedAccessConfiguration extends S.Class<UnusedAccessConfiguration>(
+  "UnusedAccessConfiguration",
+)({
+  unusedAccessAge: S.optional(S.Number),
+  analysisRule: S.optional(AnalysisRule),
+}) {}
+export const ResourceTypeList = S.Array(S.String);
+export const ResourceArnsList = S.Array(S.String);
+export class InternalAccessAnalysisRuleCriteria extends S.Class<InternalAccessAnalysisRuleCriteria>(
+  "InternalAccessAnalysisRuleCriteria",
+)({
+  accountIds: S.optional(AccountIdsList),
+  resourceTypes: S.optional(ResourceTypeList),
+  resourceArns: S.optional(ResourceArnsList),
+}) {}
+export const InternalAccessAnalysisRuleCriteriaList = S.Array(
+  InternalAccessAnalysisRuleCriteria,
+);
+export class InternalAccessAnalysisRule extends S.Class<InternalAccessAnalysisRule>(
+  "InternalAccessAnalysisRule",
+)({ inclusions: S.optional(InternalAccessAnalysisRuleCriteriaList) }) {}
+export class InternalAccessConfiguration extends S.Class<InternalAccessConfiguration>(
+  "InternalAccessConfiguration",
+)({ analysisRule: S.optional(InternalAccessAnalysisRule) }) {}
+export const AnalyzerConfiguration = S.Union(
+  S.Struct({ unusedAccess: UnusedAccessConfiguration }),
+  S.Struct({ internalAccess: InternalAccessConfiguration }),
+);
+export class UpdateAnalyzerRequest extends S.Class<UpdateAnalyzerRequest>(
+  "UpdateAnalyzerRequest",
+)(
+  {
+    analyzerName: S.String.pipe(T.HttpLabel()),
+    configuration: S.optional(AnalyzerConfiguration),
+  },
+  T.all(
+    T.Http({ method: "PUT", uri: "/analyzer/{analyzerName}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteAnalyzerRequest extends S.Class<DeleteAnalyzerRequest>(
+  "DeleteAnalyzerRequest",
+)(
+  {
+    analyzerName: S.String.pipe(T.HttpLabel()),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
+  },
+  T.all(
+    T.Http({ method: "DELETE", uri: "/analyzer/{analyzerName}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteAnalyzerResponse extends S.Class<DeleteAnalyzerResponse>(
+  "DeleteAnalyzerResponse",
+)({}) {}
+export class ListAnalyzersRequest extends S.Class<ListAnalyzersRequest>(
+  "ListAnalyzersRequest",
+)(
+  {
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    type: S.optional(S.String).pipe(T.HttpQuery("type")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/analyzer" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CreateArchiveRuleRequest extends S.Class<CreateArchiveRuleRequest>(
+  "CreateArchiveRuleRequest",
+)(
+  {
+    analyzerName: S.String.pipe(T.HttpLabel()),
+    ruleName: S.String,
+    filter: FilterCriteriaMap,
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "PUT", uri: "/analyzer/{analyzerName}/archive-rule" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class CreateArchiveRuleResponse extends S.Class<CreateArchiveRuleResponse>(
+  "CreateArchiveRuleResponse",
+)({}) {}
+export class GetArchiveRuleRequest extends S.Class<GetArchiveRuleRequest>(
+  "GetArchiveRuleRequest",
+)(
+  {
+    analyzerName: S.String.pipe(T.HttpLabel()),
+    ruleName: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/analyzer/{analyzerName}/archive-rule/{ruleName}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateArchiveRuleRequest extends S.Class<UpdateArchiveRuleRequest>(
+  "UpdateArchiveRuleRequest",
+)(
+  {
+    analyzerName: S.String.pipe(T.HttpLabel()),
+    ruleName: S.String.pipe(T.HttpLabel()),
+    filter: FilterCriteriaMap,
+    clientToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({
+      method: "PUT",
+      uri: "/analyzer/{analyzerName}/archive-rule/{ruleName}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateArchiveRuleResponse extends S.Class<UpdateArchiveRuleResponse>(
+  "UpdateArchiveRuleResponse",
+)({}) {}
+export class DeleteArchiveRuleRequest extends S.Class<DeleteArchiveRuleRequest>(
+  "DeleteArchiveRuleRequest",
+)(
+  {
+    analyzerName: S.String.pipe(T.HttpLabel()),
+    ruleName: S.String.pipe(T.HttpLabel()),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
+  },
+  T.all(
+    T.Http({
+      method: "DELETE",
+      uri: "/analyzer/{analyzerName}/archive-rule/{ruleName}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteArchiveRuleResponse extends S.Class<DeleteArchiveRuleResponse>(
+  "DeleteArchiveRuleResponse",
+)({}) {}
+export class ListArchiveRulesRequest extends S.Class<ListArchiveRulesRequest>(
+  "ListArchiveRulesRequest",
+)(
+  {
+    analyzerName: S.String.pipe(T.HttpLabel()),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/analyzer/{analyzerName}/archive-rule" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export const ActionsList = S.Array(S.String);
 export const ResourcesList = S.Array(S.String);
 export class Access extends S.Class<Access>("Access")({
@@ -653,7 +863,39 @@ export const AccessList = S.Array(Access);
 export class PolicyGenerationDetails extends S.Class<PolicyGenerationDetails>(
   "PolicyGenerationDetails",
 )({ principalArn: S.String }) {}
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export class InlineArchiveRule extends S.Class<InlineArchiveRule>(
+  "InlineArchiveRule",
+)({ ruleName: S.String, filter: FilterCriteriaMap }) {}
+export const InlineArchiveRulesList = S.Array(InlineArchiveRule);
+export class StatusReason extends S.Class<StatusReason>("StatusReason")({
+  code: S.String,
+}) {}
+export class AnalyzerSummary extends S.Class<AnalyzerSummary>(
+  "AnalyzerSummary",
+)({
+  arn: S.String,
+  name: S.String,
+  type: S.String,
+  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  lastResourceAnalyzed: S.optional(S.String),
+  lastResourceAnalyzedAt: S.optional(
+    S.Date.pipe(T.TimestampFormat("date-time")),
+  ),
+  tags: S.optional(TagsMap),
+  status: S.String,
+  statusReason: S.optional(StatusReason),
+  configuration: S.optional(AnalyzerConfiguration),
+}) {}
+export const AnalyzersList = S.Array(AnalyzerSummary);
+export class ArchiveRuleSummary extends S.Class<ArchiveRuleSummary>(
+  "ArchiveRuleSummary",
+)({
+  ruleName: S.String,
+  filter: FilterCriteriaMap,
+  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+}) {}
+export const ArchiveRulesList = S.Array(ArchiveRuleSummary);
 export const RegionList = S.Array(S.String);
 export class CheckAccessNotGrantedRequest extends S.Class<CheckAccessNotGrantedRequest>(
   "CheckAccessNotGrantedRequest",
@@ -719,6 +961,15 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
 export class TagResourceResponse extends S.Class<TagResourceResponse>(
   "TagResourceResponse",
 )({}) {}
+export class UpdateAnalyzerResponse extends S.Class<UpdateAnalyzerResponse>(
+  "UpdateAnalyzerResponse",
+)({ configuration: S.optional(AnalyzerConfiguration) }) {}
+export class ListAnalyzersResponse extends S.Class<ListAnalyzersResponse>(
+  "ListAnalyzersResponse",
+)({ analyzers: AnalyzersList, nextToken: S.optional(S.String) }) {}
+export class ListArchiveRulesResponse extends S.Class<ListArchiveRulesResponse>(
+  "ListArchiveRulesResponse",
+)({ archiveRules: ArchiveRulesList, nextToken: S.optional(S.String) }) {}
 export const ActionList = S.Array(S.String);
 export const SharedViaList = S.Array(S.String);
 export class Trail extends S.Class<Trail>("Trail")({
@@ -801,10 +1052,6 @@ export class CloudTrailDetails extends S.Class<CloudTrailDetails>(
   startTime: S.Date.pipe(T.TimestampFormat("date-time")),
   endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
 }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class EbsSnapshotConfiguration extends S.Class<EbsSnapshotConfiguration>(
   "EbsSnapshotConfiguration",
 )({
@@ -908,6 +1155,9 @@ export class StartPolicyGenerationRequest extends S.Class<StartPolicyGenerationR
     rules,
   ),
 ) {}
+export class GetArchiveRuleResponse extends S.Class<GetArchiveRuleResponse>(
+  "GetArchiveRuleResponse",
+)({ archiveRule: ArchiveRuleSummary }) {}
 export const PrincipalMap = S.Record({ key: S.String, value: S.String });
 export const ConditionKeyMap = S.Record({ key: S.String, value: S.String });
 export class UnusedPermissionsRecommendedStep extends S.Class<UnusedPermissionsRecommendedStep>(
@@ -1173,6 +1423,9 @@ export class ListFindingsResponse extends S.Class<ListFindingsResponse>(
 export class StartPolicyGenerationResponse extends S.Class<StartPolicyGenerationResponse>(
   "StartPolicyGenerationResponse",
 )({ jobId: S.String }) {}
+export class GetAnalyzerResponse extends S.Class<GetAnalyzerResponse>(
+  "GetAnalyzerResponse",
+)({ analyzer: AnalyzerSummary }) {}
 export class UnusedPermissionDetails extends S.Class<UnusedPermissionDetails>(
   "UnusedPermissionDetails",
 )({
@@ -1318,6 +1571,26 @@ export class GetFindingV2Response extends S.Class<GetFindingV2Response>(
 export class ListAccessPreviewFindingsResponse extends S.Class<ListAccessPreviewFindingsResponse>(
   "ListAccessPreviewFindingsResponse",
 )({ findings: AccessPreviewFindingsList, nextToken: S.optional(S.String) }) {}
+export class CreateAnalyzerRequest extends S.Class<CreateAnalyzerRequest>(
+  "CreateAnalyzerRequest",
+)(
+  {
+    analyzerName: S.String,
+    type: S.String,
+    archiveRules: S.optional(InlineArchiveRulesList),
+    tags: S.optional(TagsMap),
+    clientToken: S.optional(S.String),
+    configuration: S.optional(AnalyzerConfiguration),
+  },
+  T.all(
+    T.Http({ method: "PUT", uri: "/analyzer" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export class ExternalAccessFindingsStatistics extends S.Class<ExternalAccessFindingsStatistics>(
   "ExternalAccessFindingsStatistics",
 )({
@@ -1371,6 +1644,10 @@ export class GeneratedPolicyResult extends S.Class<GeneratedPolicyResult>(
   properties: GeneratedPolicyProperties,
   generatedPolicies: S.optional(GeneratedPolicyList),
 }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ name: S.String, message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class ValidatePolicyFinding extends S.Class<ValidatePolicyFinding>(
   "ValidatePolicyFinding",
 )({
@@ -1393,6 +1670,9 @@ export class GetGeneratedPolicyResponse extends S.Class<GetGeneratedPolicyRespon
 export class ValidatePolicyResponse extends S.Class<ValidatePolicyResponse>(
   "ValidatePolicyResponse",
 )({ findings: ValidatePolicyFindingList, nextToken: S.optional(S.String) }) {}
+export class CreateAnalyzerResponse extends S.Class<CreateAnalyzerResponse>(
+  "CreateAnalyzerResponse",
+)({ arn: S.optional(S.String) }) {}
 export class CreateAccessPreviewRequest extends S.Class<CreateAccessPreviewRequest>(
   "CreateAccessPreviewRequest",
 )(
@@ -1417,77 +1697,59 @@ export class CreateAccessPreviewResponse extends S.Class<CreateAccessPreviewResp
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
-export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
-  "UnprocessableEntityException",
-  {},
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+) {}
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { message: S.String },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
 ) {}
+export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
+  "UnprocessableEntityException",
+  { message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.String,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
+) {}
 
 //# Operations
 /**
- * Updates the status for the specified findings.
+ * Lists all of the policy generations requested in the last seven days.
  */
-export const updateFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFindingsRequest,
-  output: UpdateFindingsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retroactively applies the archive rule to existing findings that meet the archive rule criteria.
- */
-export const applyArchiveRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ApplyArchiveRuleRequest,
-  output: ApplyArchiveRuleResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Cancels the requested policy generation.
- */
-export const cancelPolicyGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listPolicyGenerations = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CancelPolicyGenerationRequest,
-    output: CancelPolicyGenerationResponse,
+    input: ListPolicyGenerationsRequest,
+    output: ListPolicyGenerationsResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
@@ -1497,92 +1759,44 @@ export const cancelPolicyGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a recommendation for an unused permissions finding.
+ * Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
  */
-export const generateFindingRecommendation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GenerateFindingRecommendationRequest,
-    output: GenerateFindingRecommendationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const validatePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidatePolicyRequest,
+  output: ValidatePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
- * Retrieves a list of tags applied to the specified resource.
+ * Creates an analyzer for your account.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const createAnalyzer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnalyzerRequest,
+  output: CreateAnalyzerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about the specified analyzer.
+ */
+export const getAnalyzer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAnalyzerRequest,
+  output: GetAnalyzerResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Immediately starts a scan of the policies applied to the specified resource.
- *
- * This action is supported only for external access analyzers.
- */
-export const startResourceScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartResourceScanRequest,
-  output: StartResourceScanResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds a tag to the specified resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Checks whether new access is allowed for an updated policy when compared to the existing policy.
- *
- * You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference policies in this repository are meant to be passed to the `existingPolicyDocument` request parameter.
- */
-export const checkNoNewAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CheckNoNewAccessRequest,
-  output: CheckNoNewAccessResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidParameterException,
-    ThrottlingException,
-    UnprocessableEntityException,
-    ValidationException,
-  ],
-}));
-/**
- * Checks whether a resource policy can grant public access to the specified resource type.
- */
-export const checkNoPublicAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CheckNoPublicAccessRequest,
-  output: CheckNoPublicAccessResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidParameterException,
-    ThrottlingException,
-    UnprocessableEntityException,
     ValidationException,
   ],
 }));
@@ -1649,20 +1863,82 @@ export const listFindingsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists all of the policy generations requested in the last seven days.
+ * Modifies the configuration of an existing analyzer.
+ *
+ * This action is not supported for external access analyzers.
  */
-export const listPolicyGenerations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPolicyGenerationsRequest,
-    output: ListPolicyGenerationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAnalyzer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnalyzerRequest,
+  output: UpdateAnalyzerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about an archive rule.
+ *
+ * To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the **IAM User Guide**.
+ */
+export const getArchiveRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetArchiveRuleRequest,
+  output: GetArchiveRuleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of tags applied to the specified resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a tag to the specified resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Immediately starts a scan of the policies applied to the specified resource.
+ *
+ * This action is supported only for external access analyzers.
+ */
+export const startResourceScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartResourceScanRequest,
+  output: StartResourceScanResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes a tag from the specified resource.
  */
@@ -1678,22 +1954,130 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Checks whether the specified access isn't allowed by a policy.
+ * Updates the status for the specified findings.
  */
-export const checkAccessNotGranted = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFindingsRequest,
+  output: UpdateFindingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled for the account or organization in the current or specific Region. All findings that were generated by the analyzer are deleted. You cannot undo this action.
+ */
+export const deleteAnalyzer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnalyzerRequest,
+  output: DeleteAnalyzerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the criteria and values for the specified archive rule.
+ */
+export const updateArchiveRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateArchiveRuleRequest,
+  output: UpdateArchiveRuleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified archive rule.
+ */
+export const deleteArchiveRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteArchiveRuleRequest,
+  output: DeleteArchiveRuleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of analyzers.
+ */
+export const listAnalyzers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAnalyzersRequest,
+  output: ListAnalyzersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of archive rules created for the specified analyzer.
+ */
+export const listArchiveRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListArchiveRulesRequest,
+  output: ListArchiveRulesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels the requested policy generation.
+ */
+export const cancelPolicyGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CheckAccessNotGrantedRequest,
-    output: CheckAccessNotGrantedResponse,
+    input: CancelPolicyGenerationRequest,
+    output: CancelPolicyGenerationResponse,
     errors: [
       AccessDeniedException,
       InternalServerException,
-      InvalidParameterException,
       ThrottlingException,
-      UnprocessableEntityException,
       ValidationException,
     ],
   }),
 );
+/**
+ * Creates a recommendation for an unused permissions finding.
+ */
+export const generateFindingRecommendation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GenerateFindingRecommendationRequest,
+    output: GenerateFindingRecommendationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retroactively applies the archive rule to existing findings that meet the archive rule criteria.
+ */
+export const applyArchiveRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ApplyArchiveRuleRequest,
+  output: ApplyArchiveRuleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about an access preview for the specified analyzer.
  */
@@ -1790,6 +2174,90 @@ export const listAccessPreviewFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Starts the policy generation request.
+ */
+export const startPolicyGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartPolicyGenerationRequest,
+    output: StartPolicyGenerationResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Checks whether new access is allowed for an updated policy when compared to the existing policy.
+ *
+ * You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference policies in this repository are meant to be passed to the `existingPolicyDocument` request parameter.
+ */
+export const checkNoNewAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CheckNoNewAccessRequest,
+  output: CheckNoNewAccessResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterException,
+    ThrottlingException,
+    UnprocessableEntityException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule.
+ *
+ * To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the **IAM User Guide**.
+ */
+export const createArchiveRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateArchiveRuleRequest,
+  output: CreateArchiveRuleResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Checks whether a resource policy can grant public access to the specified resource type.
+ */
+export const checkNoPublicAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CheckNoPublicAccessRequest,
+  output: CheckNoPublicAccessResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterException,
+    ThrottlingException,
+    UnprocessableEntityException,
+    ValidationException,
+  ],
+}));
+/**
+ * Checks whether the specified access isn't allowed by a policy.
+ */
+export const checkAccessNotGranted = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CheckAccessNotGrantedRequest,
+    output: CheckAccessNotGrantedResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      InvalidParameterException,
+      ThrottlingException,
+      UnprocessableEntityException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Retrieves a list of aggregated finding statistics for an external access or unused access analyzer.
  */
 export const getFindingsStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1811,36 +2279,6 @@ export const getFindingsStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
 export const getGeneratedPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGeneratedPolicyRequest,
   output: GetGeneratedPolicyResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts the policy generation request.
- */
-export const startPolicyGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartPolicyGenerationRequest,
-    output: StartPolicyGenerationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
- */
-export const validatePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ValidatePolicyRequest,
-  output: ValidatePolicyResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,

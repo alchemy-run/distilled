@@ -1751,75 +1751,75 @@ export class ListUsersResponse extends S.Class<ListUsersResponse>(
 //# Errors
 export class EntityNotFoundException extends S.TaggedError<EntityNotFoundException>()(
   "EntityNotFoundException",
-  {},
-) {}
-export class OrganizationNotFoundException extends S.TaggedError<OrganizationNotFoundException>()(
-  "OrganizationNotFoundException",
-  {},
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
-export class OrganizationStateException extends S.TaggedError<OrganizationStateException>()(
-  "OrganizationStateException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DirectoryServiceAuthenticationFailedException extends S.TaggedError<DirectoryServiceAuthenticationFailedException>()(
   "DirectoryServiceAuthenticationFailedException",
-  {},
-) {}
-export class EntityStateException extends S.TaggedError<EntityStateException>()(
-  "EntityStateException",
-  {},
-) {}
-export class DirectoryUnavailableException extends S.TaggedError<DirectoryUnavailableException>()(
-  "DirectoryUnavailableException",
-  {},
-) {}
-export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
-  "UnsupportedOperationException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class EmailAddressInUseException extends S.TaggedError<EmailAddressInUseException>()(
   "EmailAddressInUseException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+export class OrganizationNotFoundException extends S.TaggedError<OrganizationNotFoundException>()(
+  "OrganizationNotFoundException",
+  { Message: S.optional(S.String) },
 ) {}
-export class MailDomainNotFoundException extends S.TaggedError<MailDomainNotFoundException>()(
-  "MailDomainNotFoundException",
-  {},
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { Message: S.optional(S.String) },
 ) {}
-export class MailDomainStateException extends S.TaggedError<MailDomainStateException>()(
-  "MailDomainStateException",
-  {},
-) {}
-export class NameAvailabilityException extends S.TaggedError<NameAvailabilityException>()(
-  "NameAvailabilityException",
-  {},
-) {}
-export class ReservedNameException extends S.TaggedError<ReservedNameException>()(
-  "ReservedNameException",
-  {},
-) {}
-export class InvalidPasswordException extends S.TaggedError<InvalidPasswordException>()(
-  "InvalidPasswordException",
-  {},
+export class EntityStateException extends S.TaggedError<EntityStateException>()(
+  "EntityStateException",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidCustomSesConfigurationException extends S.TaggedError<InvalidCustomSesConfigurationException>()(
   "InvalidCustomSesConfigurationException",
   { Message: S.optional(S.String) },
 ) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class DirectoryUnavailableException extends S.TaggedError<DirectoryUnavailableException>()(
+  "DirectoryUnavailableException",
+  { Message: S.optional(S.String) },
+) {}
+export class OrganizationStateException extends S.TaggedError<OrganizationStateException>()(
+  "OrganizationStateException",
+  { Message: S.optional(S.String) },
+) {}
 export class MailDomainInUseException extends S.TaggedError<MailDomainInUseException>()(
   "MailDomainInUseException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class MailDomainNotFoundException extends S.TaggedError<MailDomainNotFoundException>()(
+  "MailDomainNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class DirectoryInUseException extends S.TaggedError<DirectoryInUseException>()(
+  "DirectoryInUseException",
+  { Message: S.optional(S.String) },
+) {}
+export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
+  "UnsupportedOperationException",
+  { Message: S.optional(S.String) },
+) {}
+export class NameAvailabilityException extends S.TaggedError<NameAvailabilityException>()(
+  "NameAvailabilityException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidPasswordException extends S.TaggedError<InvalidPasswordException>()(
+  "InvalidPasswordException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidConfigurationException extends S.TaggedError<InvalidConfigurationException>()(
+  "InvalidConfigurationException",
+  { Message: S.optional(S.String) },
 ) {}
 export class EntityAlreadyRegisteredException extends S.TaggedError<EntityAlreadyRegisteredException>()(
   "EntityAlreadyRegisteredException",
@@ -1829,257 +1829,27 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidConfigurationException extends S.TaggedError<InvalidConfigurationException>()(
-  "InvalidConfigurationException",
+export class MailDomainStateException extends S.TaggedError<MailDomainStateException>()(
+  "MailDomainStateException",
   { Message: S.optional(S.String) },
 ) {}
-export class DirectoryInUseException extends S.TaggedError<DirectoryInUseException>()(
-  "DirectoryInUseException",
+export class ReservedNameException extends S.TaggedError<ReservedNameException>()(
+  "ReservedNameException",
   { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Deletes the email monitoring configuration for a specified organization.
+ * Provides more information regarding a given organization based on its
+ * identifier.
  */
-export const deleteEmailMonitoringConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteEmailMonitoringConfigurationRequest,
-    output: DeleteEmailMonitoringConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }));
-/**
- * Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations.
- */
-export const deleteIdentityCenterApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIdentityCenterApplicationRequest,
-    output: DeleteIdentityCenterApplicationResponse,
-    errors: [InvalidParameterException, OrganizationStateException],
-  }));
-/**
- * Disables the integration between IdC and WorkMail. Authentication will continue with the directory as it was before the IdC integration. You might have to reset your directory passwords and reconfigure your desktop and mobile email clients.
- */
-export const deleteIdentityProviderConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIdentityProviderConfigurationRequest,
-    output: DeleteIdentityProviderConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }));
-/**
- * Deletes an impersonation role for the given WorkMail organization.
- */
-export const deleteImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteImpersonationRoleRequest,
-    output: DeleteImpersonationRoleResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
+    input: DescribeOrganizationRequest,
+    output: DescribeOrganizationResponse,
+    errors: [InvalidParameterException, OrganizationNotFoundException],
   }),
 );
-/**
- * Deletes permissions granted to a member (user or group).
- */
-export const deleteMailboxPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMailboxPermissionsRequest,
-    output: DeleteMailboxPermissionsResponse,
-    errors: [
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Deletes the mobile device access override for the given WorkMail organization, user, and device.
- *
- * Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
- */
-export const deleteMobileDeviceAccessOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMobileDeviceAccessOverrideRequest,
-    output: DeleteMobileDeviceAccessOverrideResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }));
-/**
- * Deletes a mobile device access rule for the specified WorkMail organization.
- *
- * Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
- */
-export const deleteMobileDeviceAccessRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMobileDeviceAccessRuleRequest,
-    output: DeleteMobileDeviceAccessRuleResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }));
-/**
- * Deletes the Personal Access Token from the provided WorkMail Organization.
- */
-export const deletePersonalAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePersonalAccessTokenRequest,
-    output: DeletePersonalAccessTokenResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Deletes the specified retention policy from the specified organization.
- */
-export const deleteRetentionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRetentionPolicyRequest,
-    output: DeleteRetentionPolicyResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Deletes a user from WorkMail and all subsequent systems. Before you can delete a
- * user, the user state must be `DISABLED`. Use the DescribeUser
- * action to confirm the user state.
- *
- * Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for
- * 30 days before they are permanently removed.
- */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
-  errors: [
-    DirectoryServiceAuthenticationFailedException,
-    DirectoryUnavailableException,
-    EntityStateException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Mark a user, group, or resource as no longer used in WorkMail. This action
- * disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days
- * before they are permanently removed. The functionality in the console is
- * *Disable*.
- */
-export const deregisterFromWorkMail = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterFromWorkMailRequest,
-    output: DeregisterFromWorkMailResponse,
-    errors: [
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Removes a member from the resource's set of delegates.
- */
-export const disassociateDelegateFromResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDelegateFromResourceRequest,
-    output: DisassociateDelegateFromResourceResponse,
-    errors: [
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      UnsupportedOperationException,
-    ],
-  }));
-/**
- * Removes a member from a group.
- */
-export const disassociateMemberFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateMemberFromGroupRequest,
-    output: DisassociateMemberFromGroupResponse,
-    errors: [
-      DirectoryServiceAuthenticationFailedException,
-      DirectoryUnavailableException,
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Enables or disables a DMARC policy for a given organization.
- */
-export const putInboundDmarcSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutInboundDmarcSettingsRequest,
-    output: PutInboundDmarcSettingsResponse,
-    errors: [OrganizationNotFoundException, OrganizationStateException],
-  }),
-);
-/**
- * Sets permissions for a user, group, or resource. This replaces any pre-existing
- * permissions.
- */
-export const putMailboxPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutMailboxPermissionsRequest,
-    output: PutMailboxPermissionsResponse,
-    errors: [
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
- */
-export const putMobileDeviceAccessOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutMobileDeviceAccessOverrideRequest,
-    output: PutMobileDeviceAccessOverrideResponse,
-    errors: [
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }));
 /**
  * Untags the specified tags from the specified WorkMail organization
  * resource.
@@ -2088,190 +1858,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
-}));
-/**
- * Updates an existing `AvailabilityConfiguration` for the given WorkMail
- * organization and domain.
- */
-export const updateAvailabilityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAvailabilityConfigurationRequest,
-    output: UpdateAvailabilityConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Updates attributes in a group.
- */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateGroupRequest,
-  output: UpdateGroupResponse,
-  errors: [
-    EntityNotFoundException,
-    EntityStateException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Updates an impersonation role for the given WorkMail organization.
- */
-export const updateImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateImpersonationRoleRequest,
-    output: UpdateImpersonationRoleResponse,
-    errors: [
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      LimitExceededException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Updates a user's current mailbox quota for a specified organization and
- * user.
- */
-export const updateMailboxQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateMailboxQuotaRequest,
-  output: UpdateMailboxQuotaResponse,
-  errors: [
-    EntityNotFoundException,
-    EntityStateException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Updates a mobile device access rule for the specified WorkMail organization.
- */
-export const updateMobileDeviceAccessRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateMobileDeviceAccessRuleRequest,
-    output: UpdateMobileDeviceAccessRuleResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }));
-/**
- * Updates data for the user. To have the latest information, it must be preceded by a
- * DescribeUser call. The dataset in the request should be the one
- * expected when performing another `DescribeUser` call.
- */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserRequest,
-  output: UpdateUserResponse,
-  errors: [
-    DirectoryServiceAuthenticationFailedException,
-    DirectoryUnavailableException,
-    EntityNotFoundException,
-    EntityStateException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Adds a member (user or group) to the resource's set of delegates.
- */
-export const associateDelegateToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDelegateToResourceRequest,
-    output: AssociateDelegateToResourceResponse,
-    errors: [
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Adds a member (user or group) to the group's set.
- */
-export const associateMemberToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateMemberToGroupRequest,
-    output: AssociateMemberToGroupResponse,
-    errors: [
-      DirectoryServiceAuthenticationFailedException,
-      DirectoryUnavailableException,
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Assumes an impersonation role for the given WorkMail organization. This method returns an
- * authentication token you can use to make impersonated calls.
- */
-export const assumeImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeImpersonationRoleRequest,
-    output: AssumeImpersonationRoleResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Cancels a mailbox export job.
- *
- * If the mailbox export job is near completion, it might not be possible to cancel
- * it.
- */
-export const cancelMailboxExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMailboxExportJobRequest,
-    output: CancelMailboxExportJobResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Adds an alias to the set of a given member (user or group) of WorkMail.
- */
-export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAliasRequest,
-  output: CreateAliasResponse,
-  errors: [
-    EmailAddressInUseException,
-    EntityNotFoundException,
-    EntityStateException,
-    InvalidParameterException,
-    LimitExceededException,
-    MailDomainNotFoundException,
-    MailDomainStateException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
 }));
 /**
  * Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations.
@@ -2283,53 +1869,12 @@ export const createIdentityCenterApplication =
     errors: [InvalidParameterException],
   }));
 /**
- * Creates a new mobile device access rule for the specified WorkMail organization.
+ * Lists the tags applied to an WorkMail organization resource.
  */
-export const createMobileDeviceAccessRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateMobileDeviceAccessRuleRequest,
-    output: CreateMobileDeviceAccessRuleResponse,
-    errors: [
-      InvalidParameterException,
-      LimitExceededException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }));
-/**
- * Creates a new WorkMail resource.
- */
-export const createResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateResourceRequest,
-  output: CreateResourceResponse,
-  errors: [
-    DirectoryServiceAuthenticationFailedException,
-    DirectoryUnavailableException,
-    InvalidParameterException,
-    NameAvailabilityException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    ReservedNameException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
- */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResponse,
-  errors: [
-    DirectoryServiceAuthenticationFailedException,
-    DirectoryUnavailableException,
-    InvalidParameterException,
-    InvalidPasswordException,
-    NameAvailabilityException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    ReservedNameException,
-    UnsupportedOperationException,
-  ],
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [ResourceNotFoundException],
 }));
 /**
  * Deletes an access control rule for the specified WorkMail organization.
@@ -2344,72 +1889,6 @@ export const deleteAccessControlRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Remove one or more specified aliases from a set of aliases for a given
- * user.
- */
-export const deleteAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAliasRequest,
-  output: DeleteAliasResponse,
-  errors: [
-    EntityNotFoundException,
-    EntityStateException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Deletes the `AvailabilityConfiguration` for the given WorkMail organization and domain.
- */
-export const deleteAvailabilityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAvailabilityConfigurationRequest,
-    output: DeleteAvailabilityConfigurationResponse,
-    errors: [OrganizationNotFoundException, OrganizationStateException],
-  }));
-/**
- * Deletes a group from WorkMail.
- */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGroupRequest,
-  output: DeleteGroupResponse,
-  errors: [
-    DirectoryServiceAuthenticationFailedException,
-    DirectoryUnavailableException,
-    EntityStateException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the *WorkMail Administrator Guide*.
- */
-export const deleteOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteOrganizationRequest,
-  output: DeleteOrganizationResponse,
-  errors: [
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Deletes the specified resource.
- */
-export const deleteResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteResourceRequest,
-  output: DeleteResourceResponse,
-  errors: [
-    EntityStateException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
  * Removes a domain from WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first
  * remove any email address used by WorkMail entities before you remove the domain.
  */
@@ -2421,492 +1900,6 @@ export const deregisterMailDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InvalidCustomSesConfigurationException,
       InvalidParameterException,
       MailDomainInUseException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Describes the current email monitoring configuration for a specified organization.
- */
-export const describeEmailMonitoringConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEmailMonitoringConfigurationRequest,
-    output: DescribeEmailMonitoringConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Returns basic details about an entity in WorkMail.
- */
-export const describeEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEntityRequest,
-  output: DescribeEntityResponse,
-  errors: [
-    EntityNotFoundException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Returns the data available for the group.
- */
-export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeGroupRequest,
-  output: DescribeGroupResponse,
-  errors: [
-    EntityNotFoundException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Returns detailed information on the current IdC setup for the WorkMail organization.
- */
-export const describeIdentityProviderConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeIdentityProviderConfigurationRequest,
-    output: DescribeIdentityProviderConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Lists the settings in a DMARC policy for a specified organization.
- */
-export const describeInboundDmarcSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeInboundDmarcSettingsRequest,
-    output: DescribeInboundDmarcSettingsResponse,
-    errors: [OrganizationNotFoundException, OrganizationStateException],
-  }));
-/**
- * Describes the current status of a mailbox export job.
- */
-export const describeMailboxExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMailboxExportJobRequest,
-    output: DescribeMailboxExportJobResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Provides more information regarding a given organization based on its
- * identifier.
- */
-export const describeOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOrganizationRequest,
-    output: DescribeOrganizationResponse,
-    errors: [InvalidParameterException, OrganizationNotFoundException],
-  }),
-);
-/**
- * Returns the data available for the resource.
- */
-export const describeResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeResourceRequest,
-  output: DescribeResourceResponse,
-  errors: [
-    EntityNotFoundException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Provides information regarding the user.
- */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUserRequest,
-  output: DescribeUserResponse,
-  errors: [
-    DirectoryServiceAuthenticationFailedException,
-    DirectoryUnavailableException,
-    EntityNotFoundException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Gets the effects of an organization's access control rules as they apply to a
- * specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
- */
-export const getAccessControlEffect = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccessControlEffectRequest,
-    output: GetAccessControlEffectResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Gets the default retention policy details for the specified organization.
- */
-export const getDefaultRetentionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDefaultRetentionPolicyRequest,
-    output: GetDefaultRetentionPolicyResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Gets the impersonation role details for the given WorkMail organization.
- */
-export const getImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetImpersonationRoleRequest,
-    output: GetImpersonationRoleResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Requests a user's mailbox details for a specified organization and user.
- */
-export const getMailboxDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMailboxDetailsRequest,
-  output: GetMailboxDetailsResponse,
-  errors: [
-    EntityNotFoundException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Gets the mobile device access override for the given WorkMail organization, user, and device.
- */
-export const getMobileDeviceAccessOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetMobileDeviceAccessOverrideRequest,
-    output: GetMobileDeviceAccessOverrideResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Requests details of a specific Personal Access Token within the WorkMail organization.
- */
-export const getPersonalAccessTokenMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPersonalAccessTokenMetadataRequest,
-    output: GetPersonalAccessTokenMetadataResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Creates a paginated call to list the aliases associated with a given
- * entity.
- */
-export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAliasesRequest,
-  output: ListAliasesResponse,
-  errors: [
-    EntityNotFoundException,
-    EntityStateException,
-    InvalidParameterException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Lists the tags applied to an WorkMail organization resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [ResourceNotFoundException],
-}));
-/**
- * Adds a new access control rule for the specified organization. The rule allows or
- * denies access to the organization for the specified IPv4 addresses, access protocol
- * actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces
- * the older rule.
- */
-export const putAccessControlRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAccessControlRuleRequest,
-    output: PutAccessControlRuleResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidParameterException,
-      LimitExceededException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Creates or updates the email monitoring configuration for a specified organization.
- */
-export const putEmailMonitoringConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutEmailMonitoringConfigurationRequest,
-    output: PutEmailMonitoringConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through
- * IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
- */
-export const putIdentityProviderConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutIdentityProviderConfigurationRequest,
-    output: PutIdentityProviderConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Puts a retention policy to the specified organization.
- */
-export const putRetentionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutRetentionPolicyRequest,
-  output: PutRetentionPolicyResponse,
-  errors: [
-    InvalidParameterException,
-    LimitExceededException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has
- * permanent permission to use the specified domain for sending your users' emails.
- */
-export const registerMailDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterMailDomainRequest,
-  output: RegisterMailDomainResponse,
-  errors: [
-    InvalidParameterException,
-    LimitExceededException,
-    MailDomainInUseException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
-/**
- * Registers an existing and disabled user, group, or resource for WorkMail use by
- * associating a mailbox and calendaring capabilities. It performs no change if the user,
- * group, or resource is enabled and fails if the user, group, or resource is deleted. This
- * operation results in the accumulation of costs. For more information, see Pricing. The equivalent console
- * functionality for this operation is *Enable*.
- *
- * Users can either be created by calling the CreateUser API operation
- * or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.
- */
-export const registerToWorkMail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterToWorkMailRequest,
-  output: RegisterToWorkMailResponse,
-  errors: [
-    DirectoryServiceAuthenticationFailedException,
-    DirectoryUnavailableException,
-    EmailAddressInUseException,
-    EntityAlreadyRegisteredException,
-    EntityNotFoundException,
-    EntityStateException,
-    InvalidParameterException,
-    MailDomainNotFoundException,
-    MailDomainStateException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Allows the administrator to reset the password for a user.
- */
-export const resetPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResetPasswordRequest,
-  output: ResetPasswordResponse,
-  errors: [
-    DirectoryServiceAuthenticationFailedException,
-    DirectoryUnavailableException,
-    EntityNotFoundException,
-    EntityStateException,
-    InvalidParameterException,
-    InvalidPasswordException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Starts a mailbox export job to export MIME-format email messages and calendar items
- * from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3)
- * bucket. For more information, see Exporting mailbox content in
- * the *WorkMail Administrator Guide*.
- */
-export const startMailboxExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMailboxExportJobRequest,
-    output: StartMailboxExportJobResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidParameterException,
-      LimitExceededException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access
- * policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a `SourceArn` or `SourceAccount` header.
- *
- * The request must contain either one provider definition (`EwsProvider` or
- * `LambdaProvider`) or the `DomainName` parameter. If the
- * `DomainName` parameter is provided, the configuration stored under the
- * `DomainName` will be tested.
- */
-export const testAvailabilityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: TestAvailabilityConfigurationRequest,
-    output: TestAvailabilityConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      ResourceNotFoundException,
-    ],
-  }));
-/**
- * Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
- */
-export const updateDefaultMailDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDefaultMailDomainRequest,
-    output: UpdateDefaultMailDomainResponse,
-    errors: [
-      InvalidParameterException,
-      MailDomainNotFoundException,
-      MailDomainStateException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }),
-);
-/**
- * Updates the primary email for a user, group, or resource. The current email is moved
- * into the list of aliases (or swapped between an existing alias and the current primary
- * email), and the email provided in the input is promoted as the primary.
- */
-export const updatePrimaryEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePrimaryEmailAddressRequest,
-    output: UpdatePrimaryEmailAddressResponse,
-    errors: [
-      DirectoryServiceAuthenticationFailedException,
-      DirectoryUnavailableException,
-      EmailAddressInUseException,
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      MailDomainNotFoundException,
-      MailDomainStateException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
-/**
- * Creates an `AvailabilityConfiguration` for the given WorkMail organization and domain.
- */
-export const createAvailabilityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAvailabilityConfigurationRequest,
-    output: CreateAvailabilityConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      LimitExceededException,
-      NameAvailabilityException,
-      OrganizationNotFoundException,
-      OrganizationStateException,
-    ],
-  }));
-/**
- * Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation.
- */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGroupRequest,
-  output: CreateGroupResponse,
-  errors: [
-    DirectoryServiceAuthenticationFailedException,
-    DirectoryUnavailableException,
-    InvalidParameterException,
-    NameAvailabilityException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-    ReservedNameException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Creates an impersonation role for the given WorkMail organization.
- *
- * *Idempotency* ensures that an API request completes no more than one
- * time. With an idempotent request, if the original request completes successfully, any
- * subsequent retries also complete successfully without performing any further
- * actions.
- */
-export const createImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateImpersonationRoleRequest,
-    output: CreateImpersonationRoleResponse,
-    errors: [
-      EntityNotFoundException,
-      EntityStateException,
-      InvalidParameterException,
-      LimitExceededException,
       OrganizationNotFoundException,
       OrganizationStateException,
     ],
@@ -2929,19 +1922,6 @@ export const getImpersonationRoleEffect = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Gets details for a mail domain, including domain records required to configure your domain with recommended security.
- */
-export const getMailDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMailDomainRequest,
-  output: GetMailDomainResponse,
-  errors: [
-    InvalidParameterException,
-    MailDomainNotFoundException,
-    OrganizationNotFoundException,
-    OrganizationStateException,
-  ],
-}));
 /**
  * Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access
  * rules for the WorkMail organization for a particular user's attributes.
@@ -3092,82 +2072,682 @@ export const listPersonalAccessTokens = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists the delegates associated with a resource. Users and groups can be resource
- * delegates and answer requests on behalf of the resource.
+ * Puts a retention policy to the specified organization.
  */
-export const listResourceDelegates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const putRetentionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRetentionPolicyRequest,
+  output: PutRetentionPolicyResponse,
+  errors: [
+    InvalidParameterException,
+    LimitExceededException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Provides information regarding the user.
+ */
+export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserRequest,
+  output: DescribeUserResponse,
+  errors: [
+    DirectoryServiceAuthenticationFailedException,
+    DirectoryUnavailableException,
+    EntityNotFoundException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Deletes the email monitoring configuration for a specified organization.
+ */
+export const deleteEmailMonitoringConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteEmailMonitoringConfigurationRequest,
+    output: DeleteEmailMonitoringConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }));
+/**
+ * Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the *WorkMail Administrator Guide*.
+ */
+export const deleteOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOrganizationRequest,
+  output: DeleteOrganizationResponse,
+  errors: [
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Describes the current email monitoring configuration for a specified organization.
+ */
+export const describeEmailMonitoringConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeEmailMonitoringConfigurationRequest,
+    output: DescribeEmailMonitoringConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Returns basic details about an entity in WorkMail.
+ */
+export const describeEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEntityRequest,
+  output: DescribeEntityResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Returns the data available for the group.
+ */
+export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGroupRequest,
+  output: DescribeGroupResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Returns detailed information on the current IdC setup for the WorkMail organization.
+ */
+export const describeIdentityProviderConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeIdentityProviderConfigurationRequest,
+    output: DescribeIdentityProviderConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Lists the settings in a DMARC policy for a specified organization.
+ */
+export const describeInboundDmarcSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeInboundDmarcSettingsRequest,
+    output: DescribeInboundDmarcSettingsResponse,
+    errors: [OrganizationNotFoundException, OrganizationStateException],
+  }));
+/**
+ * Describes the current status of a mailbox export job.
+ */
+export const describeMailboxExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListResourceDelegatesRequest,
-    output: ListResourceDelegatesResponse,
+    input: DescribeMailboxExportJobRequest,
+    output: DescribeMailboxExportJobResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Gets the effects of an organization's access control rules as they apply to a
+ * specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
+ */
+export const getAccessControlEffect = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAccessControlEffectRequest,
+    output: GetAccessControlEffectResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Gets the default retention policy details for the specified organization.
+ */
+export const getDefaultRetentionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDefaultRetentionPolicyRequest,
+    output: GetDefaultRetentionPolicyResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Gets the impersonation role details for the given WorkMail organization.
+ */
+export const getImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetImpersonationRoleRequest,
+    output: GetImpersonationRoleResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Requests a user's mailbox details for a specified organization and user.
+ */
+export const getMailboxDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMailboxDetailsRequest,
+  output: GetMailboxDetailsResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Gets the mobile device access override for the given WorkMail organization, user, and device.
+ */
+export const getMobileDeviceAccessOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetMobileDeviceAccessOverrideRequest,
+    output: GetMobileDeviceAccessOverrideResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Requests details of a specific Personal Access Token within the WorkMail organization.
+ */
+export const getPersonalAccessTokenMetadata =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetPersonalAccessTokenMetadataRequest,
+    output: GetPersonalAccessTokenMetadataResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Creates a paginated call to list the aliases associated with a given
+ * entity.
+ */
+export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAliasesRequest,
+  output: ListAliasesResponse,
+  errors: [
+    EntityNotFoundException,
+    EntityStateException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through
+ * IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
+ */
+export const putIdentityProviderConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutIdentityProviderConfigurationRequest,
+    output: PutIdentityProviderConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access
+ * policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a `SourceArn` or `SourceAccount` header.
+ *
+ * The request must contain either one provider definition (`EwsProvider` or
+ * `LambdaProvider`) or the `DomainName` parameter. If the
+ * `DomainName` parameter is provided, the configuration stored under the
+ * `DomainName` will be tested.
+ */
+export const testAvailabilityConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: TestAvailabilityConfigurationRequest,
+    output: TestAvailabilityConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Cancels a mailbox export job.
+ *
+ * If the mailbox export job is near completion, it might not be possible to cancel
+ * it.
+ */
+export const cancelMailboxExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CancelMailboxExportJobRequest,
+    output: CancelMailboxExportJobResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Remove one or more specified aliases from a set of aliases for a given
+ * user.
+ */
+export const deleteAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAliasRequest,
+  output: DeleteAliasResponse,
+  errors: [
+    EntityNotFoundException,
+    EntityStateException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Deletes permissions granted to a member (user or group).
+ */
+export const deleteMailboxPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMailboxPermissionsRequest,
+    output: DeleteMailboxPermissionsResponse,
     errors: [
       EntityNotFoundException,
       EntityStateException,
       InvalidParameterException,
       OrganizationNotFoundException,
       OrganizationStateException,
-      UnsupportedOperationException,
     ],
   }),
 );
 /**
- * Applies the specified tags to the specified WorkMailorganization
- * resource.
+ * Deletes the mobile device access override for the given WorkMail organization, user, and device.
+ *
+ * Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidParameterException,
-    OrganizationStateException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
-}));
+export const deleteMobileDeviceAccessOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteMobileDeviceAccessOverrideRequest,
+    output: DeleteMobileDeviceAccessOverrideResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }));
 /**
- * Updates data for the resource. To have the latest information, it must be preceded by
- * a DescribeResource call. The dataset in the request should be the one
- * expected when performing another `DescribeResource` call.
+ * Mark a user, group, or resource as no longer used in WorkMail. This action
+ * disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days
+ * before they are permanently removed. The functionality in the console is
+ * *Disable*.
  */
-export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateResourceRequest,
-  output: UpdateResourceResponse,
+export const deregisterFromWorkMail = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeregisterFromWorkMailRequest,
+    output: DeregisterFromWorkMailResponse,
+    errors: [
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Sets permissions for a user, group, or resource. This replaces any pre-existing
+ * permissions.
+ */
+export const putMailboxPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutMailboxPermissionsRequest,
+    output: PutMailboxPermissionsResponse,
+    errors: [
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
+ */
+export const putMobileDeviceAccessOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutMobileDeviceAccessOverrideRequest,
+    output: PutMobileDeviceAccessOverrideResponse,
+    errors: [
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }));
+/**
+ * Updates a user's current mailbox quota for a specified organization and
+ * user.
+ */
+export const updateMailboxQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMailboxQuotaRequest,
+  output: UpdateMailboxQuotaResponse,
   errors: [
-    DirectoryUnavailableException,
-    EmailAddressInUseException,
     EntityNotFoundException,
     EntityStateException,
-    InvalidConfigurationException,
     InvalidParameterException,
-    MailDomainNotFoundException,
-    MailDomainStateException,
-    NameAvailabilityException,
     OrganizationNotFoundException,
     OrganizationStateException,
-    UnsupportedOperationException,
   ],
 }));
 /**
- * Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see Adding an organization in the *WorkMail Administrator Guide*.
- *
- * You can associate multiple email domains with an organization, then choose your
- * default email domain from the WorkMail console. You can also associate a domain that is managed
- * in an Amazon Route 53 public hosted zone. For more information, see Adding a
- * domain and Choosing the default domain
- * in the *WorkMail Administrator Guide*.
- *
- * Optionally, you can use a customer managed key from AWS Key Management Service (AWS
- * KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail
- * creates a default, AWS managed key for you.
+ * Updates a mobile device access rule for the specified WorkMail organization.
  */
-export const createOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateOrganizationRequest,
-  output: CreateOrganizationResponse,
+export const updateMobileDeviceAccessRule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateMobileDeviceAccessRuleRequest,
+    output: UpdateMobileDeviceAccessRuleResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }));
+/**
+ * Deletes the `AvailabilityConfiguration` for the given WorkMail organization and domain.
+ */
+export const deleteAvailabilityConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteAvailabilityConfigurationRequest,
+    output: DeleteAvailabilityConfigurationResponse,
+    errors: [OrganizationNotFoundException, OrganizationStateException],
+  }));
+/**
+ * Enables or disables a DMARC policy for a given organization.
+ */
+export const putInboundDmarcSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutInboundDmarcSettingsRequest,
+    output: PutInboundDmarcSettingsResponse,
+    errors: [OrganizationNotFoundException, OrganizationStateException],
+  }),
+);
+/**
+ * Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations.
+ */
+export const deleteIdentityCenterApplication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteIdentityCenterApplicationRequest,
+    output: DeleteIdentityCenterApplicationResponse,
+    errors: [InvalidParameterException, OrganizationStateException],
+  }));
+/**
+ * Disables the integration between IdC and WorkMail. Authentication will continue with the directory as it was before the IdC integration. You might have to reset your directory passwords and reconfigure your desktop and mobile email clients.
+ */
+export const deleteIdentityProviderConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteIdentityProviderConfigurationRequest,
+    output: DeleteIdentityProviderConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }));
+/**
+ * Deletes an impersonation role for the given WorkMail organization.
+ */
+export const deleteImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteImpersonationRoleRequest,
+    output: DeleteImpersonationRoleResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Deletes a mobile device access rule for the specified WorkMail organization.
+ *
+ * Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
+ */
+export const deleteMobileDeviceAccessRule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteMobileDeviceAccessRuleRequest,
+    output: DeleteMobileDeviceAccessRuleResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }));
+/**
+ * Deletes the Personal Access Token from the provided WorkMail Organization.
+ */
+export const deletePersonalAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeletePersonalAccessTokenRequest,
+    output: DeletePersonalAccessTokenResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified retention policy from the specified organization.
+ */
+export const deleteRetentionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRetentionPolicyRequest,
+    output: DeleteRetentionPolicyResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Creates or updates the email monitoring configuration for a specified organization.
+ */
+export const putEmailMonitoringConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutEmailMonitoringConfigurationRequest,
+    output: PutEmailMonitoringConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Updates an existing `AvailabilityConfiguration` for the given WorkMail
+ * organization and domain.
+ */
+export const updateAvailabilityConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateAvailabilityConfigurationRequest,
+    output: UpdateAvailabilityConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }));
+/**
+ * Assumes an impersonation role for the given WorkMail organization. This method returns an
+ * authentication token you can use to make impersonated calls.
+ */
+export const assumeImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssumeImpersonationRoleRequest,
+    output: AssumeImpersonationRoleResponse,
+    errors: [
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Starts a mailbox export job to export MIME-format email messages and calendar items
+ * from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3)
+ * bucket. For more information, see Exporting mailbox content in
+ * the *WorkMail Administrator Guide*.
+ */
+export const startMailboxExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartMailboxExportJobRequest,
+    output: StartMailboxExportJobResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidParameterException,
+      LimitExceededException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Adds a new access control rule for the specified organization. The rule allows or
+ * denies access to the organization for the specified IPv4 addresses, access protocol
+ * actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces
+ * the older rule.
+ */
+export const putAccessControlRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutAccessControlRuleRequest,
+    output: PutAccessControlRuleResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidParameterException,
+      LimitExceededException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates an impersonation role for the given WorkMail organization.
+ */
+export const updateImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateImpersonationRoleRequest,
+    output: UpdateImpersonationRoleResponse,
+    errors: [
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      LimitExceededException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has
+ * permanent permission to use the specified domain for sending your users' emails.
+ */
+export const registerMailDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterMailDomainRequest,
+  output: RegisterMailDomainResponse,
   errors: [
-    DirectoryInUseException,
-    DirectoryUnavailableException,
     InvalidParameterException,
     LimitExceededException,
-    NameAvailabilityException,
+    MailDomainInUseException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Creates a new mobile device access rule for the specified WorkMail organization.
+ */
+export const createMobileDeviceAccessRule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateMobileDeviceAccessRuleRequest,
+    output: CreateMobileDeviceAccessRuleResponse,
+    errors: [
+      InvalidParameterException,
+      LimitExceededException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }));
+/**
+ * Creates an impersonation role for the given WorkMail organization.
+ *
+ * *Idempotency* ensures that an API request completes no more than one
+ * time. With an idempotent request, if the original request completes successfully, any
+ * subsequent retries also complete successfully without performing any further
+ * actions.
+ */
+export const createImpersonationRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateImpersonationRoleRequest,
+    output: CreateImpersonationRoleResponse,
+    errors: [
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      LimitExceededException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Gets details for a mail domain, including domain records required to configure your domain with recommended security.
+ */
+export const getMailDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMailDomainRequest,
+  output: GetMailDomainResponse,
+  errors: [
+    InvalidParameterException,
+    MailDomainNotFoundException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
   ],
 }));
 /**
@@ -3211,6 +2791,24 @@ export const listGroupsForEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Lists the delegates associated with a resource. Users and groups can be resource
+ * delegates and answer requests on behalf of the resource.
+ */
+export const listResourceDelegates = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListResourceDelegatesRequest,
+    output: ListResourceDelegatesResponse,
+    errors: [
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
  * Returns summaries of the organization's resources.
  */
 export const listResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3233,5 +2831,407 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidParameterException,
     OrganizationNotFoundException,
     OrganizationStateException,
+  ],
+}));
+/**
+ * Applies the specified tags to the specified WorkMailorganization
+ * resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidParameterException,
+    OrganizationStateException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
+ */
+export const updateDefaultMailDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDefaultMailDomainRequest,
+    output: UpdateDefaultMailDomainResponse,
+    errors: [
+      InvalidParameterException,
+      MailDomainNotFoundException,
+      MailDomainStateException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }),
+);
+/**
+ * Deletes a group from WorkMail.
+ */
+export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupRequest,
+  output: DeleteGroupResponse,
+  errors: [
+    DirectoryServiceAuthenticationFailedException,
+    DirectoryUnavailableException,
+    EntityStateException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Deletes a user from WorkMail and all subsequent systems. Before you can delete a
+ * user, the user state must be `DISABLED`. Use the DescribeUser
+ * action to confirm the user state.
+ *
+ * Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for
+ * 30 days before they are permanently removed.
+ */
+export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserRequest,
+  output: DeleteUserResponse,
+  errors: [
+    DirectoryServiceAuthenticationFailedException,
+    DirectoryUnavailableException,
+    EntityStateException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Removes a member from a group.
+ */
+export const disassociateMemberFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateMemberFromGroupRequest,
+    output: DisassociateMemberFromGroupResponse,
+    errors: [
+      DirectoryServiceAuthenticationFailedException,
+      DirectoryUnavailableException,
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Updates data for the user. To have the latest information, it must be preceded by a
+ * DescribeUser call. The dataset in the request should be the one
+ * expected when performing another `DescribeUser` call.
+ */
+export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserRequest,
+  output: UpdateUserResponse,
+  errors: [
+    DirectoryServiceAuthenticationFailedException,
+    DirectoryUnavailableException,
+    EntityNotFoundException,
+    EntityStateException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Deletes the specified resource.
+ */
+export const deleteResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceRequest,
+  output: DeleteResourceResponse,
+  errors: [
+    EntityStateException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns the data available for the resource.
+ */
+export const describeResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourceRequest,
+  output: DescribeResourceResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Removes a member from the resource's set of delegates.
+ */
+export const disassociateDelegateFromResource =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateDelegateFromResourceRequest,
+    output: DisassociateDelegateFromResourceResponse,
+    errors: [
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      UnsupportedOperationException,
+    ],
+  }));
+/**
+ * Updates attributes in a group.
+ */
+export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGroupRequest,
+  output: UpdateGroupResponse,
+  errors: [
+    EntityNotFoundException,
+    EntityStateException,
+    InvalidParameterException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Adds a member (user or group) to the resource's set of delegates.
+ */
+export const associateDelegateToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateDelegateToResourceRequest,
+    output: AssociateDelegateToResourceResponse,
+    errors: [
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Adds a member (user or group) to the group's set.
+ */
+export const associateMemberToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateMemberToGroupRequest,
+    output: AssociateMemberToGroupResponse,
+    errors: [
+      DirectoryServiceAuthenticationFailedException,
+      DirectoryUnavailableException,
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Creates an `AvailabilityConfiguration` for the given WorkMail organization and domain.
+ */
+export const createAvailabilityConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateAvailabilityConfigurationRequest,
+    output: CreateAvailabilityConfigurationResponse,
+    errors: [
+      InvalidParameterException,
+      LimitExceededException,
+      NameAvailabilityException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+    ],
+  }));
+/**
+ * Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see Adding an organization in the *WorkMail Administrator Guide*.
+ *
+ * You can associate multiple email domains with an organization, then choose your
+ * default email domain from the WorkMail console. You can also associate a domain that is managed
+ * in an Amazon Route 53 public hosted zone. For more information, see Adding a
+ * domain and Choosing the default domain
+ * in the *WorkMail Administrator Guide*.
+ *
+ * Optionally, you can use a customer managed key from AWS Key Management Service (AWS
+ * KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail
+ * creates a default, AWS managed key for you.
+ */
+export const createOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOrganizationRequest,
+  output: CreateOrganizationResponse,
+  errors: [
+    DirectoryInUseException,
+    DirectoryUnavailableException,
+    InvalidParameterException,
+    LimitExceededException,
+    NameAvailabilityException,
+  ],
+}));
+/**
+ * Allows the administrator to reset the password for a user.
+ */
+export const resetPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetPasswordRequest,
+  output: ResetPasswordResponse,
+  errors: [
+    DirectoryServiceAuthenticationFailedException,
+    DirectoryUnavailableException,
+    EntityNotFoundException,
+    EntityStateException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Adds an alias to the set of a given member (user or group) of WorkMail.
+ */
+export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAliasRequest,
+  output: CreateAliasResponse,
+  errors: [
+    EmailAddressInUseException,
+    EntityNotFoundException,
+    EntityStateException,
+    InvalidParameterException,
+    LimitExceededException,
+    MailDomainNotFoundException,
+    MailDomainStateException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+  ],
+}));
+/**
+ * Updates the primary email for a user, group, or resource. The current email is moved
+ * into the list of aliases (or swapped between an existing alias and the current primary
+ * email), and the email provided in the input is promoted as the primary.
+ */
+export const updatePrimaryEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdatePrimaryEmailAddressRequest,
+    output: UpdatePrimaryEmailAddressResponse,
+    errors: [
+      DirectoryServiceAuthenticationFailedException,
+      DirectoryUnavailableException,
+      EmailAddressInUseException,
+      EntityNotFoundException,
+      EntityStateException,
+      InvalidParameterException,
+      MailDomainNotFoundException,
+      MailDomainStateException,
+      OrganizationNotFoundException,
+      OrganizationStateException,
+      UnsupportedOperationException,
+    ],
+  }),
+);
+/**
+ * Updates data for the resource. To have the latest information, it must be preceded by
+ * a DescribeResource call. The dataset in the request should be the one
+ * expected when performing another `DescribeResource` call.
+ */
+export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceRequest,
+  output: UpdateResourceResponse,
+  errors: [
+    DirectoryUnavailableException,
+    EmailAddressInUseException,
+    EntityNotFoundException,
+    EntityStateException,
+    InvalidConfigurationException,
+    InvalidParameterException,
+    MailDomainNotFoundException,
+    MailDomainStateException,
+    NameAvailabilityException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Registers an existing and disabled user, group, or resource for WorkMail use by
+ * associating a mailbox and calendaring capabilities. It performs no change if the user,
+ * group, or resource is enabled and fails if the user, group, or resource is deleted. This
+ * operation results in the accumulation of costs. For more information, see Pricing. The equivalent console
+ * functionality for this operation is *Enable*.
+ *
+ * Users can either be created by calling the CreateUser API operation
+ * or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.
+ */
+export const registerToWorkMail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterToWorkMailRequest,
+  output: RegisterToWorkMailResponse,
+  errors: [
+    DirectoryServiceAuthenticationFailedException,
+    DirectoryUnavailableException,
+    EmailAddressInUseException,
+    EntityAlreadyRegisteredException,
+    EntityNotFoundException,
+    EntityStateException,
+    InvalidParameterException,
+    MailDomainNotFoundException,
+    MailDomainStateException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation.
+ */
+export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGroupRequest,
+  output: CreateGroupResponse,
+  errors: [
+    DirectoryServiceAuthenticationFailedException,
+    DirectoryUnavailableException,
+    InvalidParameterException,
+    NameAvailabilityException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    ReservedNameException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
+ */
+export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserRequest,
+  output: CreateUserResponse,
+  errors: [
+    DirectoryServiceAuthenticationFailedException,
+    DirectoryUnavailableException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    NameAvailabilityException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    ReservedNameException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Creates a new WorkMail resource.
+ */
+export const createResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceRequest,
+  output: CreateResourceResponse,
+  errors: [
+    DirectoryServiceAuthenticationFailedException,
+    DirectoryUnavailableException,
+    InvalidParameterException,
+    NameAvailabilityException,
+    OrganizationNotFoundException,
+    OrganizationStateException,
+    ReservedNameException,
+    UnsupportedOperationException,
   ],
 }));

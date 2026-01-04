@@ -1298,31 +1298,7 @@ export class CreateDeploymentGroupOutput extends S.Class<CreateDeploymentGroupOu
 //# Errors
 export class DeploymentAlreadyCompletedException extends S.TaggedError<DeploymentAlreadyCompletedException>()(
   "DeploymentAlreadyCompletedException",
-  {},
-) {}
-export class ApplicationDoesNotExistException extends S.TaggedError<ApplicationDoesNotExistException>()(
-  "ApplicationDoesNotExistException",
-  {},
-) {}
-export class ArnNotSupportedException extends S.TaggedError<ArnNotSupportedException>()(
-  "ArnNotSupportedException",
-  {},
-) {}
-export class InstanceLimitExceededException extends S.TaggedError<InstanceLimitExceededException>()(
-  "InstanceLimitExceededException",
-  {},
-) {}
-export class InstanceNameRequiredException extends S.TaggedError<InstanceNameRequiredException>()(
-  "InstanceNameRequiredException",
-  {},
-) {}
-export class DeploymentDoesNotExistException extends S.TaggedError<DeploymentDoesNotExistException>()(
-  "DeploymentDoesNotExistException",
-  {},
-) {}
-export class ApplicationAlreadyExistsException extends S.TaggedError<ApplicationAlreadyExistsException>()(
-  "ApplicationAlreadyExistsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ApplicationNameRequiredException extends S.TaggedError<ApplicationNameRequiredException>()(
   "ApplicationNameRequiredException",
@@ -1332,73 +1308,33 @@ export class DeploymentConfigInUseException extends S.TaggedError<DeploymentConf
   "DeploymentConfigInUseException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidApplicationNameException extends S.TaggedError<InvalidApplicationNameException>()(
-  "InvalidApplicationNameException",
-  {},
+export class InstanceNameRequiredException extends S.TaggedError<InstanceNameRequiredException>()(
+  "InstanceNameRequiredException",
+  { message: S.optional(S.String) },
 ) {}
-export class DeploymentIdRequiredException extends S.TaggedError<DeploymentIdRequiredException>()(
-  "DeploymentIdRequiredException",
-  {},
-) {}
-export class DeploymentConfigDoesNotExistException extends S.TaggedError<DeploymentConfigDoesNotExistException>()(
-  "DeploymentConfigDoesNotExistException",
-  {},
-) {}
-export class InstanceNotRegisteredException extends S.TaggedError<InstanceNotRegisteredException>()(
-  "InstanceNotRegisteredException",
-  {},
-) {}
-export class InvalidInstanceNameException extends S.TaggedError<InvalidInstanceNameException>()(
-  "InvalidInstanceNameException",
-  {},
-) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
-) {}
-export class DeploymentNotStartedException extends S.TaggedError<DeploymentNotStartedException>()(
-  "DeploymentNotStartedException",
-  {},
-) {}
-export class InvalidDeploymentIdException extends S.TaggedError<InvalidDeploymentIdException>()(
-  "InvalidDeploymentIdException",
-  {},
+export class ApplicationDoesNotExistException extends S.TaggedError<ApplicationDoesNotExistException>()(
+  "ApplicationDoesNotExistException",
+  { message: S.optional(S.String) },
 ) {}
 export class IamArnRequiredException extends S.TaggedError<IamArnRequiredException>()(
   "IamArnRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class DeploymentGroupDoesNotExistException extends S.TaggedError<DeploymentGroupDoesNotExistException>()(
-  "DeploymentGroupDoesNotExistException",
-  {},
-) {}
-export class UnsupportedActionForDeploymentTypeException extends S.TaggedError<UnsupportedActionForDeploymentTypeException>()(
-  "UnsupportedActionForDeploymentTypeException",
-  {},
-) {}
-export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
-  "InvalidArnException",
-  {},
-) {}
-export class InvalidTagsToAddException extends S.TaggedError<InvalidTagsToAddException>()(
-  "InvalidTagsToAddException",
-  {},
-) {}
-export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
-  "InvalidTagException",
-  {},
-) {}
-export class BatchLimitExceededException extends S.TaggedError<BatchLimitExceededException>()(
-  "BatchLimitExceededException",
-  {},
-) {}
-export class ApplicationLimitExceededException extends S.TaggedError<ApplicationLimitExceededException>()(
-  "ApplicationLimitExceededException",
+export class InstanceLimitExceededException extends S.TaggedError<InstanceLimitExceededException>()(
+  "InstanceLimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidComputePlatformException extends S.TaggedError<InvalidComputePlatformException>()(
-  "InvalidComputePlatformException",
-  {},
+export class ApplicationAlreadyExistsException extends S.TaggedError<ApplicationAlreadyExistsException>()(
+  "ApplicationAlreadyExistsException",
+  { message: S.optional(S.String) },
+) {}
+export class DeploymentDoesNotExistException extends S.TaggedError<DeploymentDoesNotExistException>()(
+  "DeploymentDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidApplicationNameException extends S.TaggedError<InvalidApplicationNameException>()(
+  "InvalidApplicationNameException",
+  { message: S.optional(S.String) },
 ) {}
 export class DeploymentConfigNameRequiredException extends S.TaggedError<DeploymentConfigNameRequiredException>()(
   "DeploymentConfigNameRequiredException",
@@ -1408,29 +1344,89 @@ export class GitHubAccountTokenDoesNotExistException extends S.TaggedError<GitHu
   "GitHubAccountTokenDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidDeploymentConfigNameException extends S.TaggedError<InvalidDeploymentConfigNameException>()(
-  "InvalidDeploymentConfigNameException",
-  {},
+export class InvalidInstanceNameException extends S.TaggedError<InvalidInstanceNameException>()(
+  "InvalidInstanceNameException",
+  { message: S.optional(S.String) },
 ) {}
-export class DeploymentGroupNameRequiredException extends S.TaggedError<DeploymentGroupNameRequiredException>()(
-  "DeploymentGroupNameRequiredException",
-  {},
+export class InstanceNotRegisteredException extends S.TaggedError<InstanceNotRegisteredException>()(
+  "InstanceNotRegisteredException",
+  { message: S.optional(S.String) },
 ) {}
-export class InstanceDoesNotExistException extends S.TaggedError<InstanceDoesNotExistException>()(
-  "InstanceDoesNotExistException",
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class ArnNotSupportedException extends S.TaggedError<ArnNotSupportedException>()(
+  "ArnNotSupportedException",
+  { message: S.optional(S.String) },
+) {}
+export class DescriptionTooLongException extends S.TaggedError<DescriptionTooLongException>()(
+  "DescriptionTooLongException",
+  { message: S.optional(S.String) },
+) {}
+export class IamSessionArnAlreadyRegisteredException extends S.TaggedError<IamSessionArnAlreadyRegisteredException>()(
+  "IamSessionArnAlreadyRegisteredException",
+  { message: S.optional(S.String) },
+) {}
+export class AlarmsLimitExceededException extends S.TaggedError<AlarmsLimitExceededException>()(
+  "AlarmsLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class DeploymentConfigDoesNotExistException extends S.TaggedError<DeploymentConfigDoesNotExistException>()(
+  "DeploymentConfigDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
 export class BucketNameFilterRequiredException extends S.TaggedError<BucketNameFilterRequiredException>()(
   "BucketNameFilterRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidDeploymentGroupNameException extends S.TaggedError<InvalidDeploymentGroupNameException>()(
-  "InvalidDeploymentGroupNameException",
-  {},
+export class ApplicationLimitExceededException extends S.TaggedError<ApplicationLimitExceededException>()(
+  "ApplicationLimitExceededException",
+  { message: S.optional(S.String) },
 ) {}
-export class InvalidDeploymentInstanceTypeException extends S.TaggedError<InvalidDeploymentInstanceTypeException>()(
-  "InvalidDeploymentInstanceTypeException",
-  {},
+export class BatchLimitExceededException extends S.TaggedError<BatchLimitExceededException>()(
+  "BatchLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class DeploymentIdRequiredException extends S.TaggedError<DeploymentIdRequiredException>()(
+  "DeploymentIdRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRoleException extends S.TaggedError<InvalidRoleException>()(
+  "InvalidRoleException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidDeploymentConfigNameException extends S.TaggedError<InvalidDeploymentConfigNameException>()(
+  "InvalidDeploymentConfigNameException",
+  { message: S.optional(S.String) },
+) {}
+export class DeploymentGroupNameRequiredException extends S.TaggedError<DeploymentGroupNameRequiredException>()(
+  "DeploymentGroupNameRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class GitHubAccountTokenNameRequiredException extends S.TaggedError<GitHubAccountTokenNameRequiredException>()(
+  "GitHubAccountTokenNameRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRevisionException extends S.TaggedError<InvalidRevisionException>()(
+  "InvalidRevisionException",
+  { message: S.optional(S.String) },
+) {}
+export class DeploymentGroupDoesNotExistException extends S.TaggedError<DeploymentGroupDoesNotExistException>()(
+  "DeploymentGroupDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
+  "InvalidArnException",
+  { message: S.optional(S.String) },
+) {}
+export class IamUserArnAlreadyRegisteredException extends S.TaggedError<IamUserArnAlreadyRegisteredException>()(
+  "IamUserArnAlreadyRegisteredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
+  "InvalidTagException",
+  { message: S.optional(S.String) },
 ) {}
 export class OperationNotSupportedException extends S.TaggedError<OperationNotSupportedException>()(
   "OperationNotSupportedException",
@@ -1440,108 +1436,20 @@ export class InvalidRegistrationStatusException extends S.TaggedError<InvalidReg
   "InvalidRegistrationStatusException",
   { message: S.optional(S.String) },
 ) {}
-export class ResourceArnRequiredException extends S.TaggedError<ResourceArnRequiredException>()(
-  "ResourceArnRequiredException",
-  {},
-) {}
-export class InvalidLifecycleEventHookExecutionIdException extends S.TaggedError<InvalidLifecycleEventHookExecutionIdException>()(
-  "InvalidLifecycleEventHookExecutionIdException",
-  { message: S.optional(S.String) },
-) {}
-export class DescriptionTooLongException extends S.TaggedError<DescriptionTooLongException>()(
-  "DescriptionTooLongException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidRevisionException extends S.TaggedError<InvalidRevisionException>()(
-  "InvalidRevisionException",
-  {},
-) {}
-export class IamSessionArnAlreadyRegisteredException extends S.TaggedError<IamSessionArnAlreadyRegisteredException>()(
-  "IamSessionArnAlreadyRegisteredException",
-  { message: S.optional(S.String) },
-) {}
-export class TagLimitExceededException extends S.TaggedError<TagLimitExceededException>()(
-  "TagLimitExceededException",
-  {},
-) {}
-export class TagRequiredException extends S.TaggedError<TagRequiredException>()(
-  "TagRequiredException",
-  {},
-) {}
-export class AlarmsLimitExceededException extends S.TaggedError<AlarmsLimitExceededException>()(
-  "AlarmsLimitExceededException",
-  { message: S.optional(S.String) },
-) {}
-export class DeploymentIsNotInReadyStateException extends S.TaggedError<DeploymentIsNotInReadyStateException>()(
-  "DeploymentIsNotInReadyStateException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidDeploymentStatusException extends S.TaggedError<InvalidDeploymentStatusException>()(
-  "InvalidDeploymentStatusException",
-  {},
-) {}
-export class InvalidRoleException extends S.TaggedError<InvalidRoleException>()(
-  "InvalidRoleException",
-  { message: S.optional(S.String) },
-) {}
-export class GitHubAccountTokenNameRequiredException extends S.TaggedError<GitHubAccountTokenNameRequiredException>()(
-  "GitHubAccountTokenNameRequiredException",
-  { message: S.optional(S.String) },
-) {}
-export class InstanceIdRequiredException extends S.TaggedError<InstanceIdRequiredException>()(
-  "InstanceIdRequiredException",
-  { message: S.optional(S.String) },
-) {}
-export class DeploymentTargetDoesNotExistException extends S.TaggedError<DeploymentTargetDoesNotExistException>()(
-  "DeploymentTargetDoesNotExistException",
-  { message: S.optional(S.String) },
-) {}
 export class InvalidBucketNameFilterException extends S.TaggedError<InvalidBucketNameFilterException>()(
   "InvalidBucketNameFilterException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidInstanceStatusException extends S.TaggedError<InvalidInstanceStatusException>()(
-  "InvalidInstanceStatusException",
-  {},
-) {}
-export class InvalidInstanceTypeException extends S.TaggedError<InvalidInstanceTypeException>()(
-  "InvalidInstanceTypeException",
-  {},
-) {}
-export class ResourceValidationException extends S.TaggedError<ResourceValidationException>()(
-  "ResourceValidationException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidTagFilterException extends S.TaggedError<InvalidTagFilterException>()(
-  "InvalidTagFilterException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidLifecycleEventHookExecutionStatusException extends S.TaggedError<InvalidLifecycleEventHookExecutionStatusException>()(
-  "InvalidLifecycleEventHookExecutionStatusException",
-  { message: S.optional(S.String) },
-) {}
-export class RevisionRequiredException extends S.TaggedError<RevisionRequiredException>()(
-  "RevisionRequiredException",
-  { message: S.optional(S.String) },
-) {}
-export class IamUserArnAlreadyRegisteredException extends S.TaggedError<IamUserArnAlreadyRegisteredException>()(
-  "IamUserArnAlreadyRegisteredException",
+export class InvalidComputePlatformException extends S.TaggedError<InvalidComputePlatformException>()(
+  "InvalidComputePlatformException",
   { message: S.optional(S.String) },
 ) {}
 export class DeploymentGroupAlreadyExistsException extends S.TaggedError<DeploymentGroupAlreadyExistsException>()(
   "DeploymentGroupAlreadyExistsException",
   { message: S.optional(S.String) },
 ) {}
-export class DeploymentTargetIdRequiredException extends S.TaggedError<DeploymentTargetIdRequiredException>()(
-  "DeploymentTargetIdRequiredException",
-  {},
-) {}
-export class InvalidDeploymentWaitTypeException extends S.TaggedError<InvalidDeploymentWaitTypeException>()(
-  "InvalidDeploymentWaitTypeException",
-  { message: S.optional(S.String) },
-) {}
-export class DeploymentLimitExceededException extends S.TaggedError<DeploymentLimitExceededException>()(
-  "DeploymentLimitExceededException",
+export class DeploymentIsNotInReadyStateException extends S.TaggedError<DeploymentIsNotInReadyStateException>()(
+  "DeploymentIsNotInReadyStateException",
   { message: S.optional(S.String) },
 ) {}
 export class DeploymentConfigAlreadyExistsException extends S.TaggedError<DeploymentConfigAlreadyExistsException>()(
@@ -1552,6 +1460,10 @@ export class InvalidOperationException extends S.TaggedError<InvalidOperationExc
   "InvalidOperationException",
   { message: S.optional(S.String) },
 ) {}
+export class InvalidDeploymentGroupNameException extends S.TaggedError<InvalidDeploymentGroupNameException>()(
+  "InvalidDeploymentGroupNameException",
+  { message: S.optional(S.String) },
+) {}
 export class InvalidGitHubAccountTokenNameException extends S.TaggedError<InvalidGitHubAccountTokenNameException>()(
   "InvalidGitHubAccountTokenNameException",
   { message: S.optional(S.String) },
@@ -1560,45 +1472,61 @@ export class RevisionDoesNotExistException extends S.TaggedError<RevisionDoesNot
   "RevisionDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidDeployedStateFilterException extends S.TaggedError<InvalidDeployedStateFilterException>()(
-  "InvalidDeployedStateFilterException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidTargetFilterNameException extends S.TaggedError<InvalidTargetFilterNameException>()(
-  "InvalidTargetFilterNameException",
-  {},
-) {}
-export class InvalidExternalIdException extends S.TaggedError<InvalidExternalIdException>()(
-  "InvalidExternalIdException",
-  { message: S.optional(S.String) },
-) {}
-export class LifecycleEventAlreadyCompletedException extends S.TaggedError<LifecycleEventAlreadyCompletedException>()(
-  "LifecycleEventAlreadyCompletedException",
+export class ResourceArnRequiredException extends S.TaggedError<ResourceArnRequiredException>()(
+  "ResourceArnRequiredException",
   { message: S.optional(S.String) },
 ) {}
 export class IamUserArnRequiredException extends S.TaggedError<IamUserArnRequiredException>()(
   "IamUserArnRequiredException",
   { message: S.optional(S.String) },
 ) {}
+export class DeploymentNotStartedException extends S.TaggedError<DeploymentNotStartedException>()(
+  "DeploymentNotStartedException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidDeploymentIdException extends S.TaggedError<InvalidDeploymentIdException>()(
+  "InvalidDeploymentIdException",
+  { message: S.optional(S.String) },
+) {}
+export class InstanceDoesNotExistException extends S.TaggedError<InstanceDoesNotExistException>()(
+  "InstanceDoesNotExistException",
+  { message: S.optional(S.String) },
+) {}
+export class RevisionRequiredException extends S.TaggedError<RevisionRequiredException>()(
+  "RevisionRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class TagLimitExceededException extends S.TaggedError<TagLimitExceededException>()(
+  "TagLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceValidationException extends S.TaggedError<ResourceValidationException>()(
+  "ResourceValidationException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTagFilterException extends S.TaggedError<InvalidTagFilterException>()(
+  "InvalidTagFilterException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTagsToAddException extends S.TaggedError<InvalidTagsToAddException>()(
+  "InvalidTagsToAddException",
+  { message: S.optional(S.String) },
+) {}
+export class DeploymentLimitExceededException extends S.TaggedError<DeploymentLimitExceededException>()(
+  "DeploymentLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidDeployedStateFilterException extends S.TaggedError<InvalidDeployedStateFilterException>()(
+  "InvalidDeployedStateFilterException",
+  { message: S.optional(S.String) },
+) {}
 export class ECSServiceMappingLimitExceededException extends S.TaggedError<ECSServiceMappingLimitExceededException>()(
   "ECSServiceMappingLimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidAlarmConfigException extends S.TaggedError<InvalidAlarmConfigException>()(
-  "InvalidAlarmConfigException",
-  {},
-) {}
-export class DeploymentTargetListSizeExceededException extends S.TaggedError<DeploymentTargetListSizeExceededException>()(
-  "DeploymentTargetListSizeExceededException",
+export class InstanceIdRequiredException extends S.TaggedError<InstanceIdRequiredException>()(
+  "InstanceIdRequiredException",
   { message: S.optional(S.String) },
-) {}
-export class InvalidDeploymentTargetIdException extends S.TaggedError<InvalidDeploymentTargetIdException>()(
-  "InvalidDeploymentTargetIdException",
-  {},
-) {}
-export class InvalidAutoRollbackConfigException extends S.TaggedError<InvalidAutoRollbackConfigException>()(
-  "InvalidAutoRollbackConfigException",
-  {},
 ) {}
 export class DeploymentConfigLimitExceededException extends S.TaggedError<DeploymentConfigLimitExceededException>()(
   "DeploymentConfigLimitExceededException",
@@ -1608,133 +1536,205 @@ export class DeploymentGroupLimitExceededException extends S.TaggedError<Deploym
   "DeploymentGroupLimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidAutoScalingGroupException extends S.TaggedError<InvalidAutoScalingGroupException>()(
-  "InvalidAutoScalingGroupException",
-  {},
+export class InstanceNameAlreadyRegisteredException extends S.TaggedError<InstanceNameAlreadyRegisteredException>()(
+  "InstanceNameAlreadyRegisteredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidDeploymentStatusException extends S.TaggedError<InvalidDeploymentStatusException>()(
+  "InvalidDeploymentStatusException",
+  { message: S.optional(S.String) },
+) {}
+export class TagRequiredException extends S.TaggedError<TagRequiredException>()(
+  "TagRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidAlarmConfigException extends S.TaggedError<InvalidAlarmConfigException>()(
+  "InvalidAlarmConfigException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidKeyPrefixFilterException extends S.TaggedError<InvalidKeyPrefixFilterException>()(
   "InvalidKeyPrefixFilterException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
-  "InvalidInputException",
+export class DeploymentTargetDoesNotExistException extends S.TaggedError<DeploymentTargetDoesNotExistException>()(
+  "DeploymentTargetDoesNotExistException",
   { message: S.optional(S.String) },
 ) {}
-export class InstanceNameAlreadyRegisteredException extends S.TaggedError<InstanceNameAlreadyRegisteredException>()(
-  "InstanceNameAlreadyRegisteredException",
+export class InvalidDeploymentInstanceTypeException extends S.TaggedError<InvalidDeploymentInstanceTypeException>()(
+  "InvalidDeploymentInstanceTypeException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidBlueGreenDeploymentConfigurationException extends S.TaggedError<InvalidBlueGreenDeploymentConfigurationException>()(
-  "InvalidBlueGreenDeploymentConfigurationException",
-  {},
+export class UnsupportedActionForDeploymentTypeException extends S.TaggedError<UnsupportedActionForDeploymentTypeException>()(
+  "UnsupportedActionForDeploymentTypeException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidLifecycleEventHookExecutionIdException extends S.TaggedError<InvalidLifecycleEventHookExecutionIdException>()(
+  "InvalidLifecycleEventHookExecutionIdException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidMinimumHealthyHostValueException extends S.TaggedError<InvalidMinimumHealthyHostValueException>()(
   "InvalidMinimumHealthyHostValueException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidDeploymentStyleException extends S.TaggedError<InvalidDeploymentStyleException>()(
-  "InvalidDeploymentStyleException",
-  {},
-) {}
-export class InvalidSortByException extends S.TaggedError<InvalidSortByException>()(
-  "InvalidSortByException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidTimeRangeException extends S.TaggedError<InvalidTimeRangeException>()(
-  "InvalidTimeRangeException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidIamSessionArnException extends S.TaggedError<InvalidIamSessionArnException>()(
   "InvalidIamSessionArnException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidEC2TagCombinationException extends S.TaggedError<InvalidEC2TagCombinationException>()(
-  "InvalidEC2TagCombinationException",
-  {},
+export class InvalidExternalIdException extends S.TaggedError<InvalidExternalIdException>()(
+  "InvalidExternalIdException",
+  { message: S.optional(S.String) },
 ) {}
-export class InvalidFileExistsBehaviorException extends S.TaggedError<InvalidFileExistsBehaviorException>()(
-  "InvalidFileExistsBehaviorException",
+export class InvalidAutoRollbackConfigException extends S.TaggedError<InvalidAutoRollbackConfigException>()(
+  "InvalidAutoRollbackConfigException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidSortByException extends S.TaggedError<InvalidSortByException>()(
+  "InvalidSortByException",
+  { message: S.optional(S.String) },
+) {}
+export class DeploymentTargetIdRequiredException extends S.TaggedError<DeploymentTargetIdRequiredException>()(
+  "DeploymentTargetIdRequiredException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidInstanceStatusException extends S.TaggedError<InvalidInstanceStatusException>()(
+  "InvalidInstanceStatusException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidLifecycleEventHookExecutionStatusException extends S.TaggedError<InvalidLifecycleEventHookExecutionStatusException>()(
+  "InvalidLifecycleEventHookExecutionStatusException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidDeploymentWaitTypeException extends S.TaggedError<InvalidDeploymentWaitTypeException>()(
+  "InvalidDeploymentWaitTypeException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidTrafficRoutingConfigurationException extends S.TaggedError<InvalidTrafficRoutingConfigurationException>()(
   "InvalidTrafficRoutingConfigurationException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidEC2TagException extends S.TaggedError<InvalidEC2TagException>()(
-  "InvalidEC2TagException",
-  {},
+export class InvalidIamUserArnException extends S.TaggedError<InvalidIamUserArnException>()(
+  "InvalidIamUserArnException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+  "InvalidInputException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidAutoScalingGroupException extends S.TaggedError<InvalidAutoScalingGroupException>()(
+  "InvalidAutoScalingGroupException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidSortOrderException extends S.TaggedError<InvalidSortOrderException>()(
   "InvalidSortOrderException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidIamUserArnException extends S.TaggedError<InvalidIamUserArnException>()(
-  "InvalidIamUserArnException",
+export class InvalidDeploymentTargetIdException extends S.TaggedError<InvalidDeploymentTargetIdException>()(
+  "InvalidDeploymentTargetIdException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidECSServiceException extends S.TaggedError<InvalidECSServiceException>()(
-  "InvalidECSServiceException",
-  {},
+export class InvalidInstanceTypeException extends S.TaggedError<InvalidInstanceTypeException>()(
+  "InvalidInstanceTypeException",
+  { message: S.optional(S.String) },
 ) {}
-export class InvalidGitHubAccountTokenException extends S.TaggedError<InvalidGitHubAccountTokenException>()(
-  "InvalidGitHubAccountTokenException",
+export class LifecycleEventAlreadyCompletedException extends S.TaggedError<LifecycleEventAlreadyCompletedException>()(
+  "LifecycleEventAlreadyCompletedException",
+  { message: S.optional(S.String) },
+) {}
+export class DeploymentTargetListSizeExceededException extends S.TaggedError<DeploymentTargetListSizeExceededException>()(
+  "DeploymentTargetListSizeExceededException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidZonalDeploymentConfigurationException extends S.TaggedError<InvalidZonalDeploymentConfigurationException>()(
   "InvalidZonalDeploymentConfigurationException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidLoadBalancerInfoException extends S.TaggedError<InvalidLoadBalancerInfoException>()(
-  "InvalidLoadBalancerInfoException",
-  {},
-) {}
 export class MultipleIamArnsProvidedException extends S.TaggedError<MultipleIamArnsProvidedException>()(
   "MultipleIamArnsProvidedException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidOnPremisesTagCombinationException extends S.TaggedError<InvalidOnPremisesTagCombinationException>()(
-  "InvalidOnPremisesTagCombinationException",
-  {},
+export class InvalidTimeRangeException extends S.TaggedError<InvalidTimeRangeException>()(
+  "InvalidTimeRangeException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidFileExistsBehaviorException extends S.TaggedError<InvalidFileExistsBehaviorException>()(
+  "InvalidFileExistsBehaviorException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTargetFilterNameException extends S.TaggedError<InvalidTargetFilterNameException>()(
+  "InvalidTargetFilterNameException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidBlueGreenDeploymentConfigurationException extends S.TaggedError<InvalidBlueGreenDeploymentConfigurationException>()(
+  "InvalidBlueGreenDeploymentConfigurationException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidGitHubAccountTokenException extends S.TaggedError<InvalidGitHubAccountTokenException>()(
+  "InvalidGitHubAccountTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidDeploymentStyleException extends S.TaggedError<InvalidDeploymentStyleException>()(
+  "InvalidDeploymentStyleException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidIgnoreApplicationStopFailuresValueException extends S.TaggedError<InvalidIgnoreApplicationStopFailuresValueException>()(
   "InvalidIgnoreApplicationStopFailuresValueException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidTargetGroupPairException extends S.TaggedError<InvalidTargetGroupPairException>()(
-  "InvalidTargetGroupPairException",
-  {},
+export class InvalidEC2TagCombinationException extends S.TaggedError<InvalidEC2TagCombinationException>()(
+  "InvalidEC2TagCombinationException",
+  { message: S.optional(S.String) },
 ) {}
-export class InvalidTriggerConfigException extends S.TaggedError<InvalidTriggerConfigException>()(
-  "InvalidTriggerConfigException",
-  {},
+export class InvalidLoadBalancerInfoException extends S.TaggedError<InvalidLoadBalancerInfoException>()(
+  "InvalidLoadBalancerInfoException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidEC2TagException extends S.TaggedError<InvalidEC2TagException>()(
+  "InvalidEC2TagException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidTargetInstancesException extends S.TaggedError<InvalidTargetInstancesException>()(
   "InvalidTargetInstancesException",
   { message: S.optional(S.String) },
 ) {}
-export class LifecycleHookLimitExceededException extends S.TaggedError<LifecycleHookLimitExceededException>()(
-  "LifecycleHookLimitExceededException",
-  {},
+export class InvalidECSServiceException extends S.TaggedError<InvalidECSServiceException>()(
+  "InvalidECSServiceException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidUpdateOutdatedInstancesOnlyValueException extends S.TaggedError<InvalidUpdateOutdatedInstancesOnlyValueException>()(
   "InvalidUpdateOutdatedInstancesOnlyValueException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidOnPremisesTagCombinationException extends S.TaggedError<InvalidOnPremisesTagCombinationException>()(
+  "InvalidOnPremisesTagCombinationException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTargetGroupPairException extends S.TaggedError<InvalidTargetGroupPairException>()(
+  "InvalidTargetGroupPairException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTriggerConfigException extends S.TaggedError<InvalidTriggerConfigException>()(
+  "InvalidTriggerConfigException",
+  { message: S.optional(S.String) },
+) {}
+export class LifecycleHookLimitExceededException extends S.TaggedError<LifecycleHookLimitExceededException>()(
+  "LifecycleHookLimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class TagSetListLimitExceededException extends S.TaggedError<TagSetListLimitExceededException>()(
+  "TagSetListLimitExceededException",
   { message: S.optional(S.String) },
 ) {}
 export class RoleRequiredException extends S.TaggedError<RoleRequiredException>()(
   "RoleRequiredException",
   { message: S.optional(S.String) },
 ) {}
-export class TagSetListLimitExceededException extends S.TaggedError<TagSetListLimitExceededException>()(
-  "TagSetListLimitExceededException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
 export class TriggerTargetsLimitExceededException extends S.TaggedError<TriggerTargetsLimitExceededException>()(
   "TriggerTargetsLimitExceededException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -1755,17 +1755,14 @@ export const deleteResourcesByExternalId = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets information about an application.
+ * Deregisters an on-premises instance.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApplicationInput,
-  output: GetApplicationOutput,
-  errors: [
-    ApplicationDoesNotExistException,
-    ApplicationNameRequiredException,
-    InvalidApplicationNameException,
-  ],
-}));
+export const deregisterOnPremisesInstance =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeregisterOnPremisesInstanceInput,
+    output: DeregisterOnPremisesInstanceResponse,
+    errors: [InstanceNameRequiredException, InvalidInstanceNameException],
+  }));
 /**
  * Gets information about an on-premises instance.
  */
@@ -1781,15 +1778,38 @@ export const getOnPremisesInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists the deployment configurations with the user or Amazon Web Services account.
+ * Lists the applications registered with the user or Amazon Web Services account.
  */
-export const listDeploymentConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDeploymentConfigsInput,
-    output: ListDeploymentConfigsOutput,
-    errors: [InvalidNextTokenException],
-  }),
-);
+export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApplicationsInput,
+  output: ListApplicationsOutput,
+  errors: [InvalidNextTokenException],
+}));
+/**
+ * Changes the name of an application.
+ */
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationInput,
+  output: UpdateApplicationResponse,
+  errors: [
+    ApplicationAlreadyExistsException,
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    InvalidApplicationNameException,
+  ],
+}));
+/**
+ * Gets information about an application.
+ */
+export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationInput,
+  output: GetApplicationOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    InvalidApplicationNameException,
+  ],
+}));
 /**
  * Lists the deployment groups for an application registered with the Amazon Web Services
  * user or Amazon Web Services account.
@@ -1807,31 +1827,41 @@ export const listDeploymentGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Attempts to stop an ongoing deployment.
+ * Lists the deployment configurations with the user or Amazon Web Services account.
  */
-export const stopDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopDeploymentInput,
-  output: StopDeploymentOutput,
-  errors: [
-    DeploymentAlreadyCompletedException,
-    DeploymentDoesNotExistException,
-    DeploymentGroupDoesNotExistException,
-    DeploymentIdRequiredException,
-    InvalidDeploymentIdException,
-    UnsupportedActionForDeploymentTypeException,
-  ],
-}));
+export const listDeploymentConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDeploymentConfigsInput,
+    output: ListDeploymentConfigsOutput,
+    errors: [InvalidNextTokenException],
+  }),
+);
 /**
- * Changes the name of an application.
+ * Gets information about one or more applications. The maximum number of applications
+ * that can be returned is 100.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationInput,
-  output: UpdateApplicationResponse,
+export const batchGetApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchGetApplicationsInput,
+    output: BatchGetApplicationsOutput,
+    errors: [
+      ApplicationDoesNotExistException,
+      ApplicationNameRequiredException,
+      BatchLimitExceededException,
+      InvalidApplicationNameException,
+    ],
+  }),
+);
+/**
+ * Deletes an application.
+ */
+export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationInput,
+  output: DeleteApplicationResponse,
   errors: [
-    ApplicationAlreadyExistsException,
-    ApplicationDoesNotExistException,
     ApplicationNameRequiredException,
     InvalidApplicationNameException,
+    InvalidRoleException,
   ],
 }));
 /**
@@ -1850,29 +1880,65 @@ export const batchGetOnPremisesInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates an application.
+ * Gets information about a deployment configuration.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApplicationInput,
-  output: CreateApplicationOutput,
+export const getDeploymentConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentConfigInput,
+  output: GetDeploymentConfigOutput,
   errors: [
-    ApplicationAlreadyExistsException,
-    ApplicationLimitExceededException,
-    ApplicationNameRequiredException,
-    InvalidApplicationNameException,
+    DeploymentConfigDoesNotExistException,
+    DeploymentConfigNameRequiredException,
     InvalidComputePlatformException,
-    InvalidTagsToAddException,
+    InvalidDeploymentConfigNameException,
   ],
 }));
 /**
- * Deregisters an on-premises instance.
+ * Deletes a deployment configuration.
+ *
+ * A deployment configuration cannot be deleted if it is currently in use. Predefined
+ * configurations cannot be deleted.
  */
-export const deregisterOnPremisesInstance =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterOnPremisesInstanceInput,
-    output: DeregisterOnPremisesInstanceResponse,
-    errors: [InstanceNameRequiredException, InvalidInstanceNameException],
-  }));
+export const deleteDeploymentConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDeploymentConfigInput,
+    output: DeleteDeploymentConfigResponse,
+    errors: [
+      DeploymentConfigInUseException,
+      DeploymentConfigNameRequiredException,
+      InvalidDeploymentConfigNameException,
+      InvalidOperationException,
+    ],
+  }),
+);
+/**
+ * Deletes a deployment group.
+ */
+export const deleteDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDeploymentGroupInput,
+    output: DeleteDeploymentGroupOutput,
+    errors: [
+      ApplicationNameRequiredException,
+      DeploymentGroupNameRequiredException,
+      InvalidApplicationNameException,
+      InvalidDeploymentGroupNameException,
+      InvalidRoleException,
+    ],
+  }),
+);
+/**
+ * Returns a list of tags for the resource identified by a specified Amazon Resource
+ * Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    ArnNotSupportedException,
+    InvalidArnException,
+    ResourceArnRequiredException,
+  ],
+}));
 /**
  * Gets information about a deployment.
  *
@@ -1891,127 +1957,6 @@ export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets information about a deployment configuration.
- */
-export const getDeploymentConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDeploymentConfigInput,
-  output: GetDeploymentConfigOutput,
-  errors: [
-    DeploymentConfigDoesNotExistException,
-    DeploymentConfigNameRequiredException,
-    InvalidComputePlatformException,
-    InvalidDeploymentConfigNameException,
-  ],
-}));
-/**
- * Lists the applications registered with the user or Amazon Web Services account.
- */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApplicationsInput,
-  output: ListApplicationsOutput,
-  errors: [InvalidNextTokenException],
-}));
-/**
- * Returns a list of tags for the resource identified by a specified Amazon Resource
- * Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    ArnNotSupportedException,
-    InvalidArnException,
-    ResourceArnRequiredException,
-  ],
-}));
-/**
- * In a blue/green deployment, overrides any specified wait time and starts terminating
- * instances immediately after the traffic routing is complete.
- */
-export const skipWaitTimeForInstanceTermination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SkipWaitTimeForInstanceTerminationInput,
-    output: SkipWaitTimeForInstanceTerminationResponse,
-    errors: [
-      DeploymentAlreadyCompletedException,
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      DeploymentNotStartedException,
-      InvalidDeploymentIdException,
-      UnsupportedActionForDeploymentTypeException,
-    ],
-  }));
-/**
- * Associates the list of tags in the input `Tags` parameter with the
- * resource identified by the `ResourceArn` input parameter.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [
-    ApplicationDoesNotExistException,
-    ArnNotSupportedException,
-    DeploymentConfigDoesNotExistException,
-    DeploymentGroupDoesNotExistException,
-    InvalidArnException,
-    InvalidTagsToAddException,
-    ResourceArnRequiredException,
-    TagRequiredException,
-  ],
-}));
-/**
- * Disassociates a resource from a list of tags. The resource is identified by the
- * `ResourceArn` input parameter. The tags are identified by the list of
- * keys in the `TagKeys` input parameter.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [
-    ApplicationDoesNotExistException,
-    ArnNotSupportedException,
-    DeploymentConfigDoesNotExistException,
-    DeploymentGroupDoesNotExistException,
-    InvalidArnException,
-    InvalidTagsToAddException,
-    ResourceArnRequiredException,
-    TagRequiredException,
-  ],
-}));
-/**
- * Adds tags to on-premises instances.
- */
-export const addTagsToOnPremisesInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddTagsToOnPremisesInstancesInput,
-    output: AddTagsToOnPremisesInstancesResponse,
-    errors: [
-      InstanceLimitExceededException,
-      InstanceNameRequiredException,
-      InstanceNotRegisteredException,
-      InvalidInstanceNameException,
-      InvalidTagException,
-      TagLimitExceededException,
-      TagRequiredException,
-    ],
-  }));
-/**
- * Gets information about one or more applications. The maximum number of applications
- * that can be returned is 100.
- */
-export const batchGetApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetApplicationsInput,
-    output: BatchGetApplicationsOutput,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      BatchLimitExceededException,
-      InvalidApplicationNameException,
-    ],
-  }),
-);
-/**
  * Gets information about one or more deployment groups.
  */
 export const batchGetDeploymentGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2026,47 +1971,6 @@ export const batchGetDeploymentGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
       DeploymentGroupNameRequiredException,
       InvalidApplicationNameException,
       InvalidDeploymentGroupNameException,
-    ],
-  }),
-);
-/**
- * Gets information about one or more deployments. The maximum number of deployments that
- * can be returned is 25.
- */
-export const batchGetDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGetDeploymentsInput,
-  output: BatchGetDeploymentsOutput,
-  errors: [
-    BatchLimitExceededException,
-    DeploymentIdRequiredException,
-    InvalidDeploymentIdException,
-  ],
-}));
-/**
- * Deletes an application.
- */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationInput,
-  output: DeleteApplicationResponse,
-  errors: [
-    ApplicationNameRequiredException,
-    InvalidApplicationNameException,
-    InvalidRoleException,
-  ],
-}));
-/**
- * Deletes a deployment group.
- */
-export const deleteDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDeploymentGroupInput,
-    output: DeleteDeploymentGroupOutput,
-    errors: [
-      ApplicationNameRequiredException,
-      DeploymentGroupNameRequiredException,
-      InvalidApplicationNameException,
-      InvalidDeploymentGroupNameException,
-      InvalidRoleException,
     ],
   }),
 );
@@ -2087,20 +1991,19 @@ export const getDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets information about an instance as part of a deployment.
+ * Registers with CodeDeploy a revision for the specified application.
  */
-export const getDeploymentInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const registerApplicationRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetDeploymentInstanceInput,
-    output: GetDeploymentInstanceOutput,
+    input: RegisterApplicationRevisionInput,
+    output: RegisterApplicationRevisionResponse,
     errors: [
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      InstanceDoesNotExistException,
-      InstanceIdRequiredException,
-      InvalidComputePlatformException,
-      InvalidDeploymentIdException,
-      InvalidInstanceNameException,
+      ApplicationDoesNotExistException,
+      ApplicationNameRequiredException,
+      DescriptionTooLongException,
+      InvalidApplicationNameException,
+      InvalidRevisionException,
+      RevisionRequiredException,
     ],
   }),
 );
@@ -2137,39 +2040,18 @@ export const listOnPremisesInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Registers with CodeDeploy a revision for the specified application.
+ * Gets information about one or more deployments. The maximum number of deployments that
+ * can be returned is 25.
  */
-export const registerApplicationRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterApplicationRevisionInput,
-    output: RegisterApplicationRevisionResponse,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      DescriptionTooLongException,
-      InvalidApplicationNameException,
-      InvalidRevisionException,
-      RevisionRequiredException,
-    ],
-  }),
-);
-/**
- * Removes one or more tags from one or more on-premises instances.
- */
-export const removeTagsFromOnPremisesInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveTagsFromOnPremisesInstancesInput,
-    output: RemoveTagsFromOnPremisesInstancesResponse,
-    errors: [
-      InstanceLimitExceededException,
-      InstanceNameRequiredException,
-      InstanceNotRegisteredException,
-      InvalidInstanceNameException,
-      InvalidTagException,
-      TagLimitExceededException,
-      TagRequiredException,
-    ],
-  }));
+export const batchGetDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetDeploymentsInput,
+  output: BatchGetDeploymentsOutput,
+  errors: [
+    BatchLimitExceededException,
+    DeploymentIdRequiredException,
+    InvalidDeploymentIdException,
+  ],
+}));
 /**
  * Gets information about one or more application revisions. The maximum number of
  * application revisions that can be returned is 25.
@@ -2187,6 +2069,54 @@ export const batchGetApplicationRevisions =
       RevisionRequiredException,
     ],
   }));
+/**
+ * Gets information about an application revision.
+ */
+export const getApplicationRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetApplicationRevisionInput,
+    output: GetApplicationRevisionOutput,
+    errors: [
+      ApplicationDoesNotExistException,
+      ApplicationNameRequiredException,
+      InvalidApplicationNameException,
+      InvalidRevisionException,
+      RevisionDoesNotExistException,
+      RevisionRequiredException,
+    ],
+  }),
+);
+/**
+ * Deletes a GitHub account connection.
+ */
+export const deleteGitHubAccountToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteGitHubAccountTokenInput,
+    output: DeleteGitHubAccountTokenOutput,
+    errors: [
+      GitHubAccountTokenDoesNotExistException,
+      GitHubAccountTokenNameRequiredException,
+      InvalidGitHubAccountTokenNameException,
+      OperationNotSupportedException,
+      ResourceValidationException,
+    ],
+  }),
+);
+/**
+ * Creates an application.
+ */
+export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationInput,
+  output: CreateApplicationOutput,
+  errors: [
+    ApplicationAlreadyExistsException,
+    ApplicationLimitExceededException,
+    ApplicationNameRequiredException,
+    InvalidApplicationNameException,
+    InvalidComputePlatformException,
+    InvalidTagsToAddException,
+  ],
+}));
 /**
  * This method works, but is deprecated. Use `BatchGetDeploymentTargets`
  * instead.
@@ -2212,6 +2142,127 @@ export const batchGetDeploymentInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Gets information about an instance as part of a deployment.
+ */
+export const getDeploymentInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDeploymentInstanceInput,
+    output: GetDeploymentInstanceOutput,
+    errors: [
+      DeploymentDoesNotExistException,
+      DeploymentIdRequiredException,
+      InstanceDoesNotExistException,
+      InstanceIdRequiredException,
+      InvalidComputePlatformException,
+      InvalidDeploymentIdException,
+      InvalidInstanceNameException,
+    ],
+  }),
+);
+/**
+ * Removes one or more tags from one or more on-premises instances.
+ */
+export const removeTagsFromOnPremisesInstances =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RemoveTagsFromOnPremisesInstancesInput,
+    output: RemoveTagsFromOnPremisesInstancesResponse,
+    errors: [
+      InstanceLimitExceededException,
+      InstanceNameRequiredException,
+      InstanceNotRegisteredException,
+      InvalidInstanceNameException,
+      InvalidTagException,
+      TagLimitExceededException,
+      TagRequiredException,
+    ],
+  }));
+/**
+ * In a blue/green deployment, overrides any specified wait time and starts terminating
+ * instances immediately after the traffic routing is complete.
+ */
+export const skipWaitTimeForInstanceTermination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SkipWaitTimeForInstanceTerminationInput,
+    output: SkipWaitTimeForInstanceTerminationResponse,
+    errors: [
+      DeploymentAlreadyCompletedException,
+      DeploymentDoesNotExistException,
+      DeploymentIdRequiredException,
+      DeploymentNotStartedException,
+      InvalidDeploymentIdException,
+      UnsupportedActionForDeploymentTypeException,
+    ],
+  }));
+/**
+ * Associates the list of tags in the input `Tags` parameter with the
+ * resource identified by the `ResourceArn` input parameter.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ArnNotSupportedException,
+    DeploymentConfigDoesNotExistException,
+    DeploymentGroupDoesNotExistException,
+    InvalidArnException,
+    InvalidTagsToAddException,
+    ResourceArnRequiredException,
+    TagRequiredException,
+  ],
+}));
+/**
+ * Adds tags to on-premises instances.
+ */
+export const addTagsToOnPremisesInstances =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AddTagsToOnPremisesInstancesInput,
+    output: AddTagsToOnPremisesInstancesResponse,
+    errors: [
+      InstanceLimitExceededException,
+      InstanceNameRequiredException,
+      InstanceNotRegisteredException,
+      InvalidInstanceNameException,
+      InvalidTagException,
+      TagLimitExceededException,
+      TagRequiredException,
+    ],
+  }));
+/**
+ * Disassociates a resource from a list of tags. The resource is identified by the
+ * `ResourceArn` input parameter. The tags are identified by the list of
+ * keys in the `TagKeys` input parameter.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ArnNotSupportedException,
+    DeploymentConfigDoesNotExistException,
+    DeploymentGroupDoesNotExistException,
+    InvalidArnException,
+    InvalidTagsToAddException,
+    ResourceArnRequiredException,
+    TagRequiredException,
+  ],
+}));
+/**
+ * Attempts to stop an ongoing deployment.
+ */
+export const stopDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDeploymentInput,
+  output: StopDeploymentOutput,
+  errors: [
+    DeploymentAlreadyCompletedException,
+    DeploymentDoesNotExistException,
+    DeploymentGroupDoesNotExistException,
+    DeploymentIdRequiredException,
+    InvalidDeploymentIdException,
+    UnsupportedActionForDeploymentTypeException,
+  ],
+}));
+/**
  * For a blue/green deployment, starts the process of rerouting traffic from instances in
  * the original environment to instances in the replacement environment without waiting for
  * a specified wait time to elapse. (Traffic rerouting, which is achieved by registering
@@ -2233,102 +2284,43 @@ export const continueDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a deployment configuration.
- *
- * A deployment configuration cannot be deleted if it is currently in use. Predefined
- * configurations cannot be deleted.
+ * Lists information about revisions for an application.
  */
-export const deleteDeploymentConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listApplicationRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteDeploymentConfigInput,
-    output: DeleteDeploymentConfigResponse,
-    errors: [
-      DeploymentConfigInUseException,
-      DeploymentConfigNameRequiredException,
-      InvalidDeploymentConfigNameException,
-      InvalidOperationException,
-    ],
-  }),
-);
-/**
- * Deletes a GitHub account connection.
- */
-export const deleteGitHubAccountToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGitHubAccountTokenInput,
-    output: DeleteGitHubAccountTokenOutput,
-    errors: [
-      GitHubAccountTokenDoesNotExistException,
-      GitHubAccountTokenNameRequiredException,
-      InvalidGitHubAccountTokenNameException,
-      OperationNotSupportedException,
-      ResourceValidationException,
-    ],
-  }),
-);
-/**
- * Gets information about an application revision.
- */
-export const getApplicationRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApplicationRevisionInput,
-    output: GetApplicationRevisionOutput,
+    input: ListApplicationRevisionsInput,
+    output: ListApplicationRevisionsOutput,
     errors: [
       ApplicationDoesNotExistException,
       ApplicationNameRequiredException,
+      BucketNameFilterRequiredException,
       InvalidApplicationNameException,
-      InvalidRevisionException,
-      RevisionDoesNotExistException,
-      RevisionRequiredException,
+      InvalidBucketNameFilterException,
+      InvalidDeployedStateFilterException,
+      InvalidKeyPrefixFilterException,
+      InvalidNextTokenException,
+      InvalidSortByException,
+      InvalidSortOrderException,
     ],
   }),
 );
 /**
- * The newer `BatchGetDeploymentTargets` should be used instead because
- * it works with all compute types. `ListDeploymentInstances` throws an
- * exception if it is used with a compute platform other than EC2/On-premises or
- * Lambda.
- *
- * Lists the instance for a deployment associated with the user or Amazon Web Services account.
+ * Returns information about a deployment target.
  */
-export const listDeploymentInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDeploymentInstancesInput,
-    output: ListDeploymentInstancesOutput,
-    errors: [
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      DeploymentNotStartedException,
-      InvalidComputePlatformException,
-      InvalidDeploymentIdException,
-      InvalidDeploymentInstanceTypeException,
-      InvalidInstanceStatusException,
-      InvalidInstanceTypeException,
-      InvalidNextTokenException,
-      InvalidTargetFilterNameException,
-    ],
-  }),
-);
-/**
- * Returns an array of target IDs that are associated a deployment.
- */
-export const listDeploymentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDeploymentTargetsInput,
-    output: ListDeploymentTargetsOutput,
-    errors: [
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      DeploymentNotStartedException,
-      InvalidDeploymentIdException,
-      InvalidDeploymentInstanceTypeException,
-      InvalidInstanceStatusException,
-      InvalidInstanceTypeException,
-      InvalidNextTokenException,
-      InvalidTargetFilterNameException,
-    ],
-  }),
-);
+export const getDeploymentTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentTargetInput,
+  output: GetDeploymentTargetOutput,
+  errors: [
+    DeploymentDoesNotExistException,
+    DeploymentIdRequiredException,
+    DeploymentNotStartedException,
+    DeploymentTargetDoesNotExistException,
+    DeploymentTargetIdRequiredException,
+    InvalidDeploymentIdException,
+    InvalidDeploymentTargetIdException,
+    InvalidInstanceNameException,
+  ],
+}));
 /**
  * Sets the result of a Lambda validation function. The function validates
  * lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available
@@ -2392,65 +2384,6 @@ export const batchGetDeploymentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns information about a deployment target.
- */
-export const getDeploymentTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDeploymentTargetInput,
-  output: GetDeploymentTargetOutput,
-  errors: [
-    DeploymentDoesNotExistException,
-    DeploymentIdRequiredException,
-    DeploymentNotStartedException,
-    DeploymentTargetDoesNotExistException,
-    DeploymentTargetIdRequiredException,
-    InvalidDeploymentIdException,
-    InvalidDeploymentTargetIdException,
-    InvalidInstanceNameException,
-  ],
-}));
-/**
- * Lists the deployments in a deployment group for an application registered with the
- * user or Amazon Web Services account.
- */
-export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDeploymentsInput,
-  output: ListDeploymentsOutput,
-  errors: [
-    ApplicationDoesNotExistException,
-    ApplicationNameRequiredException,
-    DeploymentGroupDoesNotExistException,
-    DeploymentGroupNameRequiredException,
-    InvalidApplicationNameException,
-    InvalidDeploymentGroupNameException,
-    InvalidDeploymentStatusException,
-    InvalidExternalIdException,
-    InvalidInputException,
-    InvalidNextTokenException,
-    InvalidTimeRangeException,
-  ],
-}));
-/**
- * Lists information about revisions for an application.
- */
-export const listApplicationRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListApplicationRevisionsInput,
-    output: ListApplicationRevisionsOutput,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      BucketNameFilterRequiredException,
-      InvalidApplicationNameException,
-      InvalidBucketNameFilterException,
-      InvalidDeployedStateFilterException,
-      InvalidKeyPrefixFilterException,
-      InvalidNextTokenException,
-      InvalidSortByException,
-      InvalidSortOrderException,
-    ],
-  }),
-);
-/**
  * Creates a deployment configuration.
  */
 export const createDeploymentConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2493,6 +2426,108 @@ export const registerOnPremisesInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Lists the deployments in a deployment group for an application registered with the
+ * user or Amazon Web Services account.
+ */
+export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDeploymentsInput,
+  output: ListDeploymentsOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    DeploymentGroupDoesNotExistException,
+    DeploymentGroupNameRequiredException,
+    InvalidApplicationNameException,
+    InvalidDeploymentGroupNameException,
+    InvalidDeploymentStatusException,
+    InvalidExternalIdException,
+    InvalidInputException,
+    InvalidNextTokenException,
+    InvalidTimeRangeException,
+  ],
+}));
+/**
+ * The newer `BatchGetDeploymentTargets` should be used instead because
+ * it works with all compute types. `ListDeploymentInstances` throws an
+ * exception if it is used with a compute platform other than EC2/On-premises or
+ * Lambda.
+ *
+ * Lists the instance for a deployment associated with the user or Amazon Web Services account.
+ */
+export const listDeploymentInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDeploymentInstancesInput,
+    output: ListDeploymentInstancesOutput,
+    errors: [
+      DeploymentDoesNotExistException,
+      DeploymentIdRequiredException,
+      DeploymentNotStartedException,
+      InvalidComputePlatformException,
+      InvalidDeploymentIdException,
+      InvalidDeploymentInstanceTypeException,
+      InvalidInstanceStatusException,
+      InvalidInstanceTypeException,
+      InvalidNextTokenException,
+      InvalidTargetFilterNameException,
+    ],
+  }),
+);
+/**
+ * Returns an array of target IDs that are associated a deployment.
+ */
+export const listDeploymentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDeploymentTargetsInput,
+    output: ListDeploymentTargetsOutput,
+    errors: [
+      DeploymentDoesNotExistException,
+      DeploymentIdRequiredException,
+      DeploymentNotStartedException,
+      InvalidDeploymentIdException,
+      InvalidDeploymentInstanceTypeException,
+      InvalidInstanceStatusException,
+      InvalidInstanceTypeException,
+      InvalidNextTokenException,
+      InvalidTargetFilterNameException,
+    ],
+  }),
+);
+/**
+ * Deploys an application revision through the specified deployment group.
+ */
+export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeploymentInput,
+  output: CreateDeploymentOutput,
+  errors: [
+    AlarmsLimitExceededException,
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    DeploymentConfigDoesNotExistException,
+    DeploymentGroupDoesNotExistException,
+    DeploymentGroupNameRequiredException,
+    DeploymentLimitExceededException,
+    DescriptionTooLongException,
+    InvalidAlarmConfigException,
+    InvalidApplicationNameException,
+    InvalidAutoRollbackConfigException,
+    InvalidAutoScalingGroupException,
+    InvalidDeploymentConfigNameException,
+    InvalidDeploymentGroupNameException,
+    InvalidFileExistsBehaviorException,
+    InvalidGitHubAccountTokenException,
+    InvalidIgnoreApplicationStopFailuresValueException,
+    InvalidLoadBalancerInfoException,
+    InvalidRevisionException,
+    InvalidRoleException,
+    InvalidTargetInstancesException,
+    InvalidTrafficRoutingConfigurationException,
+    InvalidUpdateOutdatedInstancesOnlyValueException,
+    RevisionDoesNotExistException,
+    RevisionRequiredException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Changes information about a deployment group.
  */
 export const updateDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2534,41 +2569,6 @@ export const updateDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Deploys an application revision through the specified deployment group.
- */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDeploymentInput,
-  output: CreateDeploymentOutput,
-  errors: [
-    AlarmsLimitExceededException,
-    ApplicationDoesNotExistException,
-    ApplicationNameRequiredException,
-    DeploymentConfigDoesNotExistException,
-    DeploymentGroupDoesNotExistException,
-    DeploymentGroupNameRequiredException,
-    DeploymentLimitExceededException,
-    DescriptionTooLongException,
-    InvalidAlarmConfigException,
-    InvalidApplicationNameException,
-    InvalidAutoRollbackConfigException,
-    InvalidAutoScalingGroupException,
-    InvalidDeploymentConfigNameException,
-    InvalidDeploymentGroupNameException,
-    InvalidFileExistsBehaviorException,
-    InvalidGitHubAccountTokenException,
-    InvalidIgnoreApplicationStopFailuresValueException,
-    InvalidLoadBalancerInfoException,
-    InvalidRevisionException,
-    InvalidRoleException,
-    InvalidTargetInstancesException,
-    InvalidTrafficRoutingConfigurationException,
-    InvalidUpdateOutdatedInstancesOnlyValueException,
-    RevisionDoesNotExistException,
-    RevisionRequiredException,
-    ThrottlingException,
-  ],
-}));
 /**
  * Creates a deployment group to which application revisions are deployed.
  */

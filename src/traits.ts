@@ -530,7 +530,7 @@ export const S3UnwrappedXmlOutput = () =>
  */
 export const Blob = S.transform(
   S.String, // wire format: base64 string
-  S.instanceOf(Uint8Array), // internal: Uint8Array
+  S.instanceOf(Uint8Array<ArrayBufferLike>), // internal: Uint8Array (accepts Buffer too)
   {
     strict: true,
     decode: (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0)),
@@ -635,14 +635,17 @@ export const hasRequiresLength = (ast: AST.AST): boolean =>
  * The protocol converts these to the appropriate format for fetch.
  *
  * Used for @httpPayload members with @streaming trait (e.g., S3 PutObject Body).
+ *
+ * Note: We use Uint8Array<ArrayBufferLike> instead of Uint8Array<ArrayBuffer>
+ * to accept Node.js Buffer which extends Uint8Array<ArrayBufferLike>.
  */
 export type StreamingInputBody =
   | string
-  | Uint8Array
+  | Uint8Array<ArrayBufferLike>
   | ArrayBuffer
   | globalThis.Blob
-  | ReadableStream<Uint8Array>
-  | Stream.Stream<Uint8Array, unknown, unknown>;
+  | ReadableStream<Uint8Array<ArrayBufferLike>>
+  | Stream.Stream<Uint8Array<ArrayBufferLike>, unknown, unknown>;
 
 /**
  * Schema for streaming input bodies.
@@ -651,7 +654,7 @@ export type StreamingInputBody =
 export const StreamingInput = S.declare(
   (u): u is StreamingInputBody =>
     typeof u === "string" ||
-    u instanceof Uint8Array ||
+    ArrayBuffer.isView(u) || // Accepts Uint8Array, Buffer, and other TypedArrays
     u instanceof ArrayBuffer ||
     (typeof globalThis.Blob !== "undefined" && u instanceof globalThis.Blob) ||
     u instanceof ReadableStream ||
@@ -670,7 +673,8 @@ export const StreamingInput = S.declare(
  */
 
 export const StreamingOutput = S.declare(
-  (u): u is Stream.Stream<Uint8Array, Error, never> => isEffectStream(u),
+  (u): u is Stream.Stream<Uint8Array<ArrayBufferLike>, Error, never> =>
+    isEffectStream(u),
 ).annotations({
   [streamingSymbol]: true,
   identifier: "StreamingOutput",
@@ -692,11 +696,11 @@ function isEffectStream(
 }
 
 /** Legacy StreamBody type - kept for backwards compatibility */
-export type StreamBody = string | Uint8Array | ReadableStream;
+export type StreamBody = string | Uint8Array<ArrayBufferLike> | ReadableStream;
 export const StreamBody = () =>
   S.Union(
     S.String,
-    S.instanceOf(Uint8Array),
+    S.instanceOf(Uint8Array<ArrayBufferLike>),
     S.instanceOf(ReadableStream),
   ).annotations({
     [streamingSymbol]: true,

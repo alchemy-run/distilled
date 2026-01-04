@@ -721,39 +721,19 @@ export class DescribeRegistriesResponse extends S.Class<DescribeRegistriesRespon
 //# Errors
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
-) {}
-export class RepositoryNotFoundException extends S.TaggedError<RepositoryNotFoundException>()(
-  "RepositoryNotFoundException",
-  {},
-) {}
-export class ServerException extends S.TaggedError<ServerException>()(
-  "ServerException",
-  {},
-) {}
-export class UnsupportedCommandException extends S.TaggedError<UnsupportedCommandException>()(
-  "UnsupportedCommandException",
-  {},
-) {}
-export class InvalidTagParameterException extends S.TaggedError<InvalidTagParameterException>()(
-  "InvalidTagParameterException",
-  {},
-) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  {},
-) {}
-export class RegistryNotFoundException extends S.TaggedError<RegistryNotFoundException>()(
-  "RegistryNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class EmptyUploadException extends S.TaggedError<EmptyUploadException>()(
   "EmptyUploadException",
   { message: S.optional(S.String) },
 ) {}
-export class RepositoryPolicyNotFoundException extends S.TaggedError<RepositoryPolicyNotFoundException>()(
-  "RepositoryPolicyNotFoundException",
-  {},
+export class ServerException extends S.TaggedError<ServerException>()(
+  "ServerException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTagParameterException extends S.TaggedError<InvalidTagParameterException>()(
+  "InvalidTagParameterException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidLayerPartException extends S.TaggedError<InvalidLayerPartException>()(
   "InvalidLayerPartException",
@@ -765,9 +745,13 @@ export class InvalidLayerPartException extends S.TaggedError<InvalidLayerPartExc
     message: S.optional(S.String),
   },
 ) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+export class RepositoryNotFoundException extends S.TaggedError<RepositoryNotFoundException>()(
+  "RepositoryNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class RegistryNotFoundException extends S.TaggedError<RegistryNotFoundException>()(
+  "RegistryNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidLayerException extends S.TaggedError<InvalidLayerException>()(
   "InvalidLayerException",
@@ -781,6 +765,10 @@ export class ImageNotFoundException extends S.TaggedError<ImageNotFoundException
   "ImageNotFoundException",
   { message: S.optional(S.String) },
 ) {}
+export class UnsupportedCommandException extends S.TaggedError<UnsupportedCommandException>()(
+  "UnsupportedCommandException",
+  { message: S.optional(S.String) },
+) {}
 export class RepositoryCatalogDataNotFoundException extends S.TaggedError<RepositoryCatalogDataNotFoundException>()(
   "RepositoryCatalogDataNotFoundException",
   { message: S.optional(S.String) },
@@ -789,20 +777,32 @@ export class ImageAlreadyExistsException extends S.TaggedError<ImageAlreadyExist
   "ImageAlreadyExistsException",
   { message: S.optional(S.String) },
 ) {}
-export class UploadNotFoundException extends S.TaggedError<UploadNotFoundException>()(
-  "UploadNotFoundException",
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryPolicyNotFoundException extends S.TaggedError<RepositoryPolicyNotFoundException>()(
+  "RepositoryPolicyNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
   { message: S.optional(S.String) },
 ) {}
 export class LayerAlreadyExistsException extends S.TaggedError<LayerAlreadyExistsException>()(
   "LayerAlreadyExistsException",
   { message: S.optional(S.String) },
 ) {}
-export class RepositoryAlreadyExistsException extends S.TaggedError<RepositoryAlreadyExistsException>()(
-  "RepositoryAlreadyExistsException",
-  { message: S.optional(S.String) },
-) {}
 export class ImageDigestDoesNotMatchException extends S.TaggedError<ImageDigestDoesNotMatchException>()(
   "ImageDigestDoesNotMatchException",
+  { message: S.optional(S.String) },
+) {}
+export class UploadNotFoundException extends S.TaggedError<UploadNotFoundException>()(
+  "UploadNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class RepositoryAlreadyExistsException extends S.TaggedError<RepositoryAlreadyExistsException>()(
+  "RepositoryAlreadyExistsException",
   { message: S.optional(S.String) },
 ) {}
 export class LayerPartTooSmallException extends S.TaggedError<LayerPartTooSmallException>()(
@@ -834,18 +834,40 @@ export const getRegistryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * List the tags for an Amazon ECR Public resource.
+ * Retrieve catalog metadata for a repository in a public registry. This metadata is
+ * displayed publicly in the Amazon ECR Public Gallery.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InvalidParameterException,
-    RepositoryNotFoundException,
-    ServerException,
-    UnsupportedCommandException,
-  ],
-}));
+export const getRepositoryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetRepositoryCatalogDataRequest,
+    output: GetRepositoryCatalogDataResponse,
+    errors: [
+      InvalidParameterException,
+      RepositoryCatalogDataNotFoundException,
+      RepositoryNotFoundException,
+      ServerException,
+      UnsupportedCommandException,
+    ],
+  }),
+);
+/**
+ * Retrieves an authorization token. An authorization token represents your IAM
+ * authentication credentials. You can use it to access any Amazon ECR registry that your IAM
+ * principal has access to. The authorization token is valid for 12 hours. This API requires
+ * the `ecr-public:GetAuthorizationToken` and
+ * `sts:GetServiceBearerToken` permissions.
+ */
+export const getAuthorizationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAuthorizationTokenRequest,
+    output: GetAuthorizationTokenResponse,
+    errors: [
+      InvalidParameterException,
+      ServerException,
+      UnsupportedCommandException,
+    ],
+  }),
+);
 /**
  * Create or update the catalog data for a public registry.
  */
@@ -860,6 +882,54 @@ export const putRegistryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Notifies Amazon ECR that you intend to upload an image layer.
+ *
+ * When an image is pushed, the InitiateLayerUpload API is called once for each image layer
+ * that hasn't already been uploaded. Whether an image layer uploads is determined by the
+ * BatchCheckLayerAvailability API action.
+ *
+ * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
+ */
+export const initiateLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InitiateLayerUploadRequest,
+  output: InitiateLayerUploadResponse,
+  errors: [
+    InvalidParameterException,
+    RegistryNotFoundException,
+    RepositoryNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+}));
+/**
+ * Describes repositories that are in a public registry.
+ */
+export const describeRepositories = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeRepositoriesRequest,
+    output: DescribeRepositoriesResponse,
+    errors: [
+      InvalidParameterException,
+      RepositoryNotFoundException,
+      ServerException,
+      UnsupportedCommandException,
+    ],
+  }),
+);
+/**
+ * List the tags for an Amazon ECR Public resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+}));
 /**
  * Creates or updates the catalog data for a repository in a public registry.
  */
@@ -891,21 +961,6 @@ export const setRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes specified tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidParameterException,
-    InvalidTagParameterException,
-    RepositoryNotFoundException,
-    ServerException,
-    TooManyTagsException,
-    UnsupportedCommandException,
-  ],
-}));
-/**
  * Checks the availability of one or more image layers that are within a repository in a
  * public registry. When an image is pushed to a repository, each image layer is checked to
  * verify if it has been uploaded before. If it has been uploaded, then the image layer is
@@ -926,107 +981,6 @@ export const batchCheckLayerAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Deletes the repository policy that's associated with the specified repository.
- */
-export const deleteRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRepositoryPolicyRequest,
-    output: DeleteRepositoryPolicyResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      RepositoryPolicyNotFoundException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-  }),
-);
-/**
- * Describes repositories that are in a public registry.
- */
-export const describeRepositories = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRepositoriesRequest,
-    output: DescribeRepositoriesResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-  }),
-);
-/**
- * Retrieves an authorization token. An authorization token represents your IAM
- * authentication credentials. You can use it to access any Amazon ECR registry that your IAM
- * principal has access to. The authorization token is valid for 12 hours. This API requires
- * the `ecr-public:GetAuthorizationToken` and
- * `sts:GetServiceBearerToken` permissions.
- */
-export const getAuthorizationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAuthorizationTokenRequest,
-    output: GetAuthorizationTokenResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-  }),
-);
-/**
- * Retrieves the repository policy for the specified repository.
- */
-export const getRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRepositoryPolicyRequest,
-  output: GetRepositoryPolicyResponse,
-  errors: [
-    InvalidParameterException,
-    RepositoryNotFoundException,
-    RepositoryPolicyNotFoundException,
-    ServerException,
-    UnsupportedCommandException,
-  ],
-}));
-/**
- * Notifies Amazon ECR that you intend to upload an image layer.
- *
- * When an image is pushed, the InitiateLayerUpload API is called once for each image layer
- * that hasn't already been uploaded. Whether an image layer uploads is determined by the
- * BatchCheckLayerAvailability API action.
- *
- * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
- */
-export const initiateLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InitiateLayerUploadRequest,
-  output: InitiateLayerUploadResponse,
-  errors: [
-    InvalidParameterException,
-    RegistryNotFoundException,
-    RepositoryNotFoundException,
-    ServerException,
-    UnsupportedCommandException,
-  ],
-}));
-/**
- * Associates the specified tags to a resource with the specified `resourceArn`.
- * If existing tags on a resource aren't specified in the request parameters, they aren't
- * changed. When a resource is deleted, the tags associated with that resource are also
- * deleted.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidParameterException,
-    InvalidTagParameterException,
-    RepositoryNotFoundException,
-    ServerException,
-    TooManyTagsException,
-    UnsupportedCommandException,
-  ],
-}));
 /**
  * Deletes a list of specified images that are within a repository in a public registry.
  * Images are specified with either an `imageTag` or
@@ -1110,22 +1064,68 @@ export const describeRegistries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieve catalog metadata for a repository in a public registry. This metadata is
- * displayed publicly in the Amazon ECR Public Gallery.
+ * Deletes the repository policy that's associated with the specified repository.
  */
-export const getRepositoryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetRepositoryCatalogDataRequest,
-    output: GetRepositoryCatalogDataResponse,
+    input: DeleteRepositoryPolicyRequest,
+    output: DeleteRepositoryPolicyResponse,
     errors: [
       InvalidParameterException,
-      RepositoryCatalogDataNotFoundException,
       RepositoryNotFoundException,
+      RepositoryPolicyNotFoundException,
       ServerException,
       UnsupportedCommandException,
     ],
   }),
 );
+/**
+ * Deletes specified tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidTagParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    TooManyTagsException,
+    UnsupportedCommandException,
+  ],
+}));
+/**
+ * Retrieves the repository policy for the specified repository.
+ */
+export const getRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRepositoryPolicyRequest,
+  output: GetRepositoryPolicyResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    RepositoryPolicyNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+}));
+/**
+ * Associates the specified tags to a resource with the specified `resourceArn`.
+ * If existing tags on a resource aren't specified in the request parameters, they aren't
+ * changed. When a resource is deleted, the tags associated with that resource are also
+ * deleted.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidTagParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    TooManyTagsException,
+    UnsupportedCommandException,
+  ],
+}));
 /**
  * Uploads an image layer part to Amazon ECR.
  *

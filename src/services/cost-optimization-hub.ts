@@ -780,10 +780,6 @@ export const MixedInstanceConfigurationList = S.Array(
 export class DbInstanceConfiguration extends S.Class<DbInstanceConfiguration>(
   "DbInstanceConfiguration",
 )({ dbInstanceClass: S.optional(S.String) }) {}
-export class ValidationExceptionDetail extends S.Class<ValidationExceptionDetail>(
-  "ValidationExceptionDetail",
-)({ fieldName: S.String, message: S.String }) {}
-export const ValidationExceptionDetails = S.Array(ValidationExceptionDetail);
 export class EfficiencyMetricsByGroup extends S.Class<EfficiencyMetricsByGroup>(
   "EfficiencyMetricsByGroup",
 )({
@@ -885,6 +881,10 @@ export class LambdaFunction extends S.Class<LambdaFunction>("LambdaFunction")({
   configuration: S.optional(LambdaFunctionConfiguration),
   costCalculation: S.optional(ResourceCostCalculation),
 }) {}
+export class ValidationExceptionDetail extends S.Class<ValidationExceptionDetail>(
+  "ValidationExceptionDetail",
+)({ fieldName: S.String, message: S.String }) {}
+export const ValidationExceptionDetails = S.Array(ValidationExceptionDetail);
 export const ResourceDetails = S.Union(
   S.Struct({ lambdaFunction: LambdaFunction }),
   S.Struct({ ecsService: EcsService }),
@@ -939,19 +939,23 @@ export class GetRecommendationResponse extends S.Class<GetRecommendationResponse
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  {
+    message: S.String,
+    reason: S.optional(S.String),
+    fields: S.optional(ValidationExceptionDetails),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
@@ -959,6 +963,49 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 ) {}
 
 //# Operations
+/**
+ * Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
+ */
+export const getPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPreferencesRequest,
+  output: GetPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spending, and measures how effectively you're optimizing your Cloud resources.
+ *
+ * The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost optimization performance over the specified time period.
+ */
+export const listEfficiencyMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListEfficiencyMetricsRequest,
+    output: ListEfficiencyMetricsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a list of recommendations.
+ */
+export const listRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRecommendationsRequest,
+  output: ListRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
  */
@@ -1016,49 +1063,6 @@ export const updateEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
 export const updatePreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePreferencesRequest,
   output: UpdatePreferencesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
- */
-export const getPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPreferencesRequest,
-  output: GetPreferencesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spending, and measures how effectively you're optimizing your Cloud resources.
- *
- * The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost optimization performance over the specified time period.
- */
-export const listEfficiencyMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEfficiencyMetricsRequest,
-    output: ListEfficiencyMetricsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of recommendations.
- */
-export const listRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRecommendationsRequest,
-  output: ListRecommendationsResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,

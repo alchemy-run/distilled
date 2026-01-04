@@ -7577,81 +7577,28 @@ export class CreateJobResponse extends S.Class<CreateJobResponse>(
 )({ Name: S.optional(S.String) }) {}
 
 //# Errors
-export class EntityNotFoundException extends S.TaggedError<EntityNotFoundException>()(
-  "EntityNotFoundException",
-  {},
-) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class EntityNotFoundException extends S.TaggedError<EntityNotFoundException>()(
+  "EntityNotFoundException",
+  {
+    Message: S.optional(S.String),
+    FromFederationSource: S.optional(S.Boolean),
+  },
 ) {}
 export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
   "AlreadyExistsException",
-  {},
-) {}
-export class GlueEncryptionException extends S.TaggedError<GlueEncryptionException>()(
-  "GlueEncryptionException",
-  {},
-) {}
-export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
-  "InternalServiceException",
-  {},
-) {}
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
-  "InvalidInputException",
-  {},
-) {}
-export class OperationTimeoutException extends S.TaggedError<OperationTimeoutException>()(
-  "OperationTimeoutException",
-  {},
-) {}
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  {},
-) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {},
-) {}
-export class FederationSourceException extends S.TaggedError<FederationSourceException>()(
-  "FederationSourceException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class CrawlerRunningException extends S.TaggedError<CrawlerRunningException>()(
   "CrawlerRunningException",
-  {},
-) {}
-export class VersionMismatchException extends S.TaggedError<VersionMismatchException>()(
-  "VersionMismatchException",
-  {},
-) {}
-export class FederationSourceRetryableException extends S.TaggedError<FederationSourceRetryableException>()(
-  "FederationSourceRetryableException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class IllegalSessionStateException extends S.TaggedError<IllegalSessionStateException>()(
-  "IllegalSessionStateException",
   { Message: S.optional(S.String) },
 ) {}
-export class ResourceNumberLimitExceededException extends S.TaggedError<ResourceNumberLimitExceededException>()(
-  "ResourceNumberLimitExceededException",
-  {},
-) {}
-export class SchedulerTransitioningException extends S.TaggedError<SchedulerTransitioningException>()(
-  "SchedulerTransitioningException",
-  {},
+export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
@@ -7661,21 +7608,9 @@ export class ConditionCheckFailureException extends S.TaggedError<ConditionCheck
   "ConditionCheckFailureException",
   { Message: S.optional(S.String) },
 ) {}
-export class OperationNotSupportedException extends S.TaggedError<OperationNotSupportedException>()(
-  "OperationNotSupportedException",
+export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
+  "InternalServiceException",
   { Message: S.optional(S.String) },
-) {}
-export class ColumnStatisticsTaskRunningException extends S.TaggedError<ColumnStatisticsTaskRunningException>()(
-  "ColumnStatisticsTaskRunningException",
-  {},
-) {}
-export class NoScheduleException extends S.TaggedError<NoScheduleException>()(
-  "NoScheduleException",
-  { Message: S.optional(S.String) },
-) {}
-export class ConcurrentRunsExceededException extends S.TaggedError<ConcurrentRunsExceededException>()(
-  "ConcurrentRunsExceededException",
-  {},
 ) {}
 export class ColumnStatisticsTaskNotRunningException extends S.TaggedError<ColumnStatisticsTaskNotRunningException>()(
   "ColumnStatisticsTaskNotRunningException",
@@ -7685,44 +7620,50 @@ export class CrawlerNotRunningException extends S.TaggedError<CrawlerNotRunningE
   "CrawlerNotRunningException",
   { Message: S.optional(S.String) },
 ) {}
-export class SchedulerNotRunningException extends S.TaggedError<SchedulerNotRunningException>()(
-  "SchedulerNotRunningException",
+export class GlueEncryptionException extends S.TaggedError<GlueEncryptionException>()(
+  "GlueEncryptionException",
   { Message: S.optional(S.String) },
 ) {}
-export class IllegalWorkflowStateException extends S.TaggedError<IllegalWorkflowStateException>()(
-  "IllegalWorkflowStateException",
+export class OperationTimeoutException extends S.TaggedError<OperationTimeoutException>()(
+  "OperationTimeoutException",
+  { Message: S.optional(S.String) },
+) {}
+export class FederationSourceException extends S.TaggedError<FederationSourceException>()(
+  "FederationSourceException",
+  {
+    FederationSourceErrorCode: S.optional(S.String),
+    Message: S.optional(S.String),
+  },
+) {}
+export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+  "InvalidInputException",
+  {
+    Message: S.optional(S.String),
+    FromFederationSource: S.optional(S.Boolean),
+  },
+) {}
+export class IllegalSessionStateException extends S.TaggedError<IllegalSessionStateException>()(
+  "IllegalSessionStateException",
+  { Message: S.optional(S.String) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.optional(S.String) },
+) {}
+export class IntegrationConflictOperationFault extends S.TaggedError<IntegrationConflictOperationFault>()(
+  "IntegrationConflictOperationFault",
+  { Message: S.optional(S.String) },
+) {}
+export class ConcurrentRunsExceededException extends S.TaggedError<ConcurrentRunsExceededException>()(
+  "ConcurrentRunsExceededException",
   { Message: S.optional(S.String) },
 ) {}
 export class IllegalBlueprintStateException extends S.TaggedError<IllegalBlueprintStateException>()(
   "IllegalBlueprintStateException",
-  {},
-) {}
-export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
-  "IdempotentParameterMismatchException",
-  {},
-) {}
-export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
-  "ResourceNotReadyException",
-  {},
-) {}
-export class IntegrationConflictOperationFault extends S.TaggedError<IntegrationConflictOperationFault>()(
-  "IntegrationConflictOperationFault",
-  {},
-) {}
-export class IntegrationNotFoundFault extends S.TaggedError<IntegrationNotFoundFault>()(
-  "IntegrationNotFoundFault",
-  {},
-) {}
-export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
-  "InvalidStateException",
-  {},
-) {}
-export class SchedulerRunningException extends S.TaggedError<SchedulerRunningException>()(
-  "SchedulerRunningException",
   { Message: S.optional(S.String) },
 ) {}
-export class MLTransformNotReadyException extends S.TaggedError<MLTransformNotReadyException>()(
-  "MLTransformNotReadyException",
+export class ColumnStatisticsTaskRunningException extends S.TaggedError<ColumnStatisticsTaskRunningException>()(
+  "ColumnStatisticsTaskRunningException",
   { Message: S.optional(S.String) },
 ) {}
 export class ColumnStatisticsTaskStoppingException extends S.TaggedError<ColumnStatisticsTaskStoppingException>()(
@@ -7733,24 +7674,95 @@ export class CrawlerStoppingException extends S.TaggedError<CrawlerStoppingExcep
   "CrawlerStoppingException",
   { Message: S.optional(S.String) },
 ) {}
+export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
+  "IdempotentParameterMismatchException",
+  { Message: S.optional(S.String) },
+) {}
+export class NoScheduleException extends S.TaggedError<NoScheduleException>()(
+  "NoScheduleException",
+  { Message: S.optional(S.String) },
+) {}
+export class IllegalWorkflowStateException extends S.TaggedError<IllegalWorkflowStateException>()(
+  "IllegalWorkflowStateException",
+  { Message: S.optional(S.String) },
+) {}
 export class FederatedResourceAlreadyExistsException extends S.TaggedError<FederatedResourceAlreadyExistsException>()(
   "FederatedResourceAlreadyExistsException",
-  {},
+  {
+    Message: S.optional(S.String),
+    AssociatedGlueResource: S.optional(S.String),
+  },
 ) {}
-export class InvalidIntegrationStateFault extends S.TaggedError<InvalidIntegrationStateFault>()(
-  "InvalidIntegrationStateFault",
-  {},
+export class SchedulerTransitioningException extends S.TaggedError<SchedulerTransitioningException>()(
+  "SchedulerTransitioningException",
+  { Message: S.optional(S.String) },
 ) {}
-export class TargetResourceNotFound extends S.TaggedError<TargetResourceNotFound>()(
-  "TargetResourceNotFound",
+export class FederationSourceRetryableException extends S.TaggedError<FederationSourceRetryableException>()(
+  "FederationSourceRetryableException",
+  { Message: S.optional(S.String) },
+) {}
+export class IntegrationNotFoundFault extends S.TaggedError<IntegrationNotFoundFault>()(
+  "IntegrationNotFoundFault",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+) {}
+export class OperationNotSupportedException extends S.TaggedError<OperationNotSupportedException>()(
+  "OperationNotSupportedException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNumberLimitExceededException extends S.TaggedError<ResourceNumberLimitExceededException>()(
+  "ResourceNumberLimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class SchedulerRunningException extends S.TaggedError<SchedulerRunningException>()(
+  "SchedulerRunningException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
+  "ResourceNotReadyException",
+  { Message: S.optional(S.String) },
+) {}
+export class SchedulerNotRunningException extends S.TaggedError<SchedulerNotRunningException>()(
+  "SchedulerNotRunningException",
+  { Message: S.optional(S.String) },
+) {}
+export class VersionMismatchException extends S.TaggedError<VersionMismatchException>()(
+  "VersionMismatchException",
+  { Message: S.optional(S.String) },
+) {}
+export class MLTransformNotReadyException extends S.TaggedError<MLTransformNotReadyException>()(
+  "MLTransformNotReadyException",
+  { Message: S.optional(S.String) },
+) {}
+export class IntegrationQuotaExceededFault extends S.TaggedError<IntegrationQuotaExceededFault>()(
+  "IntegrationQuotaExceededFault",
   { Message: S.optional(S.String) },
 ) {}
 export class PermissionTypeMismatchException extends S.TaggedError<PermissionTypeMismatchException>()(
   "PermissionTypeMismatchException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class IntegrationQuotaExceededFault extends S.TaggedError<IntegrationQuotaExceededFault>()(
-  "IntegrationQuotaExceededFault",
+export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
+  "InvalidStateException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidIntegrationStateFault extends S.TaggedError<InvalidIntegrationStateFault>()(
+  "InvalidIntegrationStateFault",
+  { Message: S.optional(S.String) },
+) {}
+export class TargetResourceNotFound extends S.TaggedError<TargetResourceNotFound>()(
+  "TargetResourceNotFound",
   { Message: S.optional(S.String) },
 ) {}
 export class KMSKeyNotAccessibleFault extends S.TaggedError<KMSKeyNotAccessibleFault>()(
@@ -7760,431 +7772,40 @@ export class KMSKeyNotAccessibleFault extends S.TaggedError<KMSKeyNotAccessibleF
 
 //# Operations
 /**
- * Retrieves table statistics of columns.
- *
- * The Identity and Access Management (IAM) permission required for this operation is `DeleteTable`.
+ * Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the `GetRegistry` API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the `UpdateRegistry`, `CreateSchema`, `UpdateSchema`, and `RegisterSchemaVersion` APIs.
  */
-export const deleteColumnStatisticsForTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteColumnStatisticsForTableRequest,
-    output: DeleteColumnStatisticsForTableResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Deletes settings for a column statistics task.
- */
-export const deleteColumnStatisticsTaskSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteColumnStatisticsTaskSettingsRequest,
-    output: DeleteColumnStatisticsTaskSettingsResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Deletes a connection from the Data Catalog.
- */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConnectionRequest,
-  output: DeleteConnectionResponse,
-  errors: [EntityNotFoundException, OperationTimeoutException],
-}));
-/**
- * Deletes a data quality ruleset.
- */
-export const deleteDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDataQualityRulesetRequest,
-    output: DeleteDataQualityRulesetResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Deletes a specified development endpoint.
- */
-export const deleteDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDevEndpointRequest,
-  output: DeleteDevEndpointResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Deletes the existing Glue Identity Center configuration, removing the integration between Glue and
- * Amazon Web Services IAM Identity Center.
- */
-export const deleteGlueIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteGlueIdentityCenterConfigurationRequest,
-    output: DeleteGlueIdentityCenterConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Deletes a specified partition.
- */
-export const deletePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePartitionRequest,
-  output: DeletePartitionResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Deletes a specified security configuration.
- */
-export const deleteSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSecurityConfigurationRequest,
-    output: DeleteSecurityConfigurationResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Deletes a specified version of a table.
- */
-export const deleteTableVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTableVersionRequest,
-  output: DeleteTableVersionResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Deletes an existing function definition from the Data Catalog.
- */
-export const deleteUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserDefinedFunctionRequest,
-    output: DeleteUserDefinedFunctionResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and
- * application information.
- */
-export const getGlueIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetGlueIdentityCenterConfigurationRequest,
-    output: GetGlueIdentityCenterConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Imports an existing Amazon Athena Data Catalog to Glue.
- */
-export const importCatalogToGlue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportCatalogToGlueRequest,
-  output: ImportCatalogToGlueResponse,
-  errors: [InternalServiceException, OperationTimeoutException],
-}));
-/**
- * Annotate all datapoints for a Profile.
- */
-export const putDataQualityProfileAnnotation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDataQualityProfileAnnotationRequest,
-    output: PutDataQualityProfileAnnotationResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-  }));
-/**
- * Starts a column statistics task run schedule.
- */
-export const startColumnStatisticsTaskRunSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartColumnStatisticsTaskRunScheduleRequest,
-    output: StartColumnStatisticsTaskRunScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Starts a crawl using the specified crawler, regardless
- * of what is scheduled. If the crawler is already running, returns a
- * CrawlerRunningException.
- */
-export const startCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartCrawlerRequest,
-  output: StartCrawlerResponse,
-  errors: [
-    CrawlerRunningException,
-    EntityNotFoundException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Stops a column statistics task run schedule.
- */
-export const stopColumnStatisticsTaskRunSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopColumnStatisticsTaskRunScheduleRequest,
-    output: StopColumnStatisticsTaskRunScheduleResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource.
- * In Glue, you can tag only certain resources. For information about what
- * resources you can tag, see Amazon Web Services Tags in Glue.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Removes tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Updates an existing catalog's properties in the Glue Data Catalog.
- */
-export const updateCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCatalogRequest,
-  output: UpdateCatalogResponse,
+export const deleteRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRegistryInput,
+  output: DeleteRegistryResponse,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
     EntityNotFoundException,
-    FederationSourceException,
-    GlueEncryptionException,
-    InternalServiceException,
     InvalidInputException,
-    OperationTimeoutException,
   ],
 }));
 /**
- * Updates a connection definition in the Data Catalog.
+ * Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call `GetSchema` API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the `GetSchemaByDefinition`, and `RegisterSchemaVersion` APIs.
  */
-export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateConnectionRequest,
-  output: UpdateConnectionResponse,
-  errors: [
-    EntityNotFoundException,
-    GlueEncryptionException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Updates a crawler. If a crawler is
- * running, you must stop it using `StopCrawler` before updating
- * it.
- */
-export const updateCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCrawlerRequest,
-  output: UpdateCrawlerResponse,
-  errors: [
-    CrawlerRunningException,
-    EntityNotFoundException,
-    InvalidInputException,
-    OperationTimeoutException,
-    VersionMismatchException,
-  ],
-}));
-/**
- * Updates an existing database definition in a Data Catalog.
- */
-export const updateDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDatabaseRequest,
-  output: UpdateDatabaseResponse,
-  errors: [
-    AlreadyExistsException,
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
- */
-export const updateGlueIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateGlueIdentityCenterConfigurationRequest,
-    output: UpdateGlueIdentityCenterConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Updates a partition.
- */
-export const updatePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePartitionRequest,
-  output: UpdatePartitionResponse,
-  errors: [
-    EntityNotFoundException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Updates the configuration for an existing table optimizer.
- */
-export const updateTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTableOptimizerRequest,
-    output: UpdateTableOptimizerResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates an existing function definition in the Data Catalog.
- */
-export const updateUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserDefinedFunctionRequest,
-    output: UpdateUserDefinedFunctionResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Cancels the specified recommendation run that was being used to generate rules.
- */
-export const cancelDataQualityRuleRecommendationRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelDataQualityRuleRecommendationRunRequest,
-    output: CancelDataQualityRuleRecommendationRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Cancels a run where a ruleset is being evaluated against a data source.
- */
-export const cancelDataQualityRulesetEvaluationRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelDataQualityRulesetEvaluationRunRequest,
-    output: CancelDataQualityRulesetEvaluationRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a
- * machine learning task run at any time by calling `CancelMLTaskRun` with a task
- * run's parent transform's `TransformID` and the task run's `TaskRunId`.
- */
-export const cancelMLTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelMLTaskRunRequest,
-  output: CancelMLTaskRunResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Cancels the statement.
- */
-export const cancelStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelStatementRequest,
-  output: CancelStatementResponse,
+export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSchemaInput,
+  output: DeleteSchemaResponse,
   errors: [
     AccessDeniedException,
+    ConcurrentModificationException,
     EntityNotFoundException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * Deletes the session.
+ */
+export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSessionRequest,
+  output: DeleteSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
     IllegalSessionStateException,
     InternalServiceException,
     InvalidInputException,
@@ -8192,149 +7813,36 @@ export const cancelStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using `DataFormat` as the format. Since it does not take a schema set name, no compatibility checks are performed.
+ * Retrieves the details of a blueprint run.
  */
-export const checkSchemaVersionValidity = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getBlueprintRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBlueprintRunRequest,
+  output: GetBlueprintRunResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves the status of a migration operation.
+ */
+export const getCatalogImportStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CheckSchemaVersionValidityInput,
-    output: CheckSchemaVersionValidityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
+    input: GetCatalogImportStatusRequest,
+    output: GetCatalogImportStatusResponse,
+    errors: [InternalServiceException, OperationTimeoutException],
   }),
 );
 /**
- * Creates a classifier in the user's account. This can be a `GrokClassifier`, an
- * `XMLClassifier`, a `JsonClassifier`, or a `CsvClassifier`,
- * depending on which field of the request is present.
+ * Retrieves partition statistics of columns.
+ *
+ * The Identity and Access Management (IAM) permission required for this operation is `GetPartition`.
  */
-export const createClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateClassifierRequest,
-  output: CreateClassifierResponse,
-  errors: [
-    AlreadyExistsException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM
- * Identity Center for authentication and authorization.
- */
-export const createGlueIdentityCenterConfiguration =
+export const getColumnStatisticsForPartition =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateGlueIdentityCenterConfigurationRequest,
-    output: CreateGlueIdentityCenterConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      ConcurrentModificationException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Creates a new partition.
- */
-export const createPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePartitionRequest,
-  output: CreatePartitionResponse,
-  errors: [
-    AlreadyExistsException,
-    EntityNotFoundException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Creates a specified partition index in an existing table.
- */
-export const createPartitionIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePartitionIndexRequest,
-    output: CreatePartitionIndexResponse,
-    errors: [
-      AlreadyExistsException,
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates a new registry which may be used to hold a collection of schemas.
- */
-export const createRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRegistryInput,
-  output: CreateRegistryResponse,
-  errors: [
-    AccessDeniedException,
-    AlreadyExistsException,
-    ConcurrentModificationException,
-    InternalServiceException,
-    InvalidInputException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Deletes an existing blueprint.
- */
-export const deleteBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBlueprintRequest,
-  output: DeleteBlueprintResponse,
-  errors: [
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Removes the specified catalog from the Glue Data Catalog.
- *
- * After completing this operation, you no longer have access to the databases, tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service.
- *
- * To ensure the immediate deletion of all related resources before calling the `DeleteCatalog` operation, use `DeleteTableVersion` (or `BatchDeleteTableVersion`), `DeletePartition` (or `BatchDeletePartition`), `DeleteTable` (or `BatchDeleteTable`), `DeleteUserDefinedFunction` and `DeleteDatabase` to delete any resources that belong to the catalog.
- */
-export const deleteCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCatalogRequest,
-  output: DeleteCatalogResponse,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    FederationSourceException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Removes a classifier from the Data Catalog.
- */
-export const deleteClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClassifierRequest,
-  output: DeleteClassifierResponse,
-  errors: [EntityNotFoundException, OperationTimeoutException],
-}));
-/**
- * Delete the partition column statistics of a column.
- *
- * The Identity and Access Management (IAM) permission required for this operation is `DeletePartition`.
- */
-export const deleteColumnStatisticsForPartition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteColumnStatisticsForPartitionRequest,
-    output: DeleteColumnStatisticsForPartitionResponse,
+    input: GetColumnStatisticsForPartitionRequest,
+    output: GetColumnStatisticsForPartitionResponse,
     errors: [
       EntityNotFoundException,
       GlueEncryptionException,
@@ -8344,28 +7852,48 @@ export const deleteColumnStatisticsForPartition =
     ],
   }));
 /**
- * Removes a specified crawler from the Glue Data Catalog, unless the crawler state is
- * `RUNNING`.
+ * Get the associated metadata/information for a task run, given a task run ID.
  */
-export const deleteCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCrawlerRequest,
-  output: DeleteCrawlerResponse,
+export const getColumnStatisticsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetColumnStatisticsTaskRunRequest,
+    output: GetColumnStatisticsTaskRunResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Retrieves a list of connection definitions from the Data Catalog.
+ */
+export const getConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionsRequest,
+  output: GetConnectionsResponse,
   errors: [
-    CrawlerRunningException,
     EntityNotFoundException,
+    GlueEncryptionException,
+    InvalidInputException,
     OperationTimeoutException,
-    SchedulerTransitioningException,
   ],
 }));
 /**
- * Deletes a custom pattern by specifying its name.
+ * Retrieves metrics about specified crawlers.
  */
-export const deleteCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getCrawlerMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCrawlerMetricsRequest,
+  output: GetCrawlerMetricsResponse,
+  errors: [OperationTimeoutException],
+}));
+/**
+ * Retrieve a statistic's predictions for a given Profile ID.
+ */
+export const getDataQualityModelResult = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteCustomEntityTypeRequest,
-    output: DeleteCustomEntityTypeResponse,
+    input: GetDataQualityModelResultRequest,
+    output: GetDataQualityModelResultResponse,
     errors: [
-      AccessDeniedException,
       EntityNotFoundException,
       InternalServiceException,
       InvalidInputException,
@@ -8374,93 +7902,288 @@ export const deleteCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Removes a specified database from a Data Catalog.
- *
- * After completing this operation, you no longer have access to the tables (and all table
- * versions and partitions that might belong to the tables) and the user-defined functions in
- * the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely
- * manner, at the discretion of the service.
- *
- * To ensure the immediate deletion of all related resources, before calling
- * `DeleteDatabase`, use `DeleteTableVersion` or
- * `BatchDeleteTableVersion`, `DeletePartition` or
- * `BatchDeletePartition`, `DeleteUserDefinedFunction`, and
- * `DeleteTable` or `BatchDeleteTable`, to delete any resources that
- * belong to the database.
+ * Creates mappings.
  */
-export const deleteDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatabaseRequest,
-  output: DeleteDatabaseResponse,
+export const getMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMappingRequest,
+  output: GetMappingResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Gets code to perform a specified mapping.
+ */
+export const getPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPlanRequest,
+  output: GetPlanResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves the resource policies set on individual resources by Resource Access Manager
+ * during cross-account permission grants. Also retrieves the Data Catalog resource
+ * policy.
+ *
+ * If you enabled metadata encryption in Data Catalog settings, and you do not have
+ * permission on the KMS key, the operation can't return the Data Catalog resource
+ * policy.
+ */
+export const getResourcePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePoliciesRequest,
+  output: GetResourcePoliciesResponse,
+  errors: [
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
+ */
+export const getSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSchemaVersionInput,
+  output: GetSchemaVersionResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * Retrieves a specified security configuration.
+ */
+export const getSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetSecurityConfigurationRequest,
+    output: GetSecurityConfigurationResponse,
+    errors: [
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Retrieves the session.
+ */
+export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSessionRequest,
+  output: GetSessionResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves a specified version of a table.
+ */
+export const getTableVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableVersionRequest,
+  output: GetTableVersionResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves a specified function definition from the Data Catalog.
+ */
+export const getUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetUserDefinedFunctionRequest,
+    output: GetUserDefinedFunctionResponse,
+    errors: [
+      EntityNotFoundException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Returns a list of registries that you have created, with minimal registry information. Registries in the `Deleting` status will not be included in the results. Empty results will be returned if there are no registries available.
+ */
+export const listRegistries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRegistriesInput,
+  output: ListRegistriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available.
+ *
+ * When the `RegistryId` is not provided, all the schemas across registries will be part of the API response.
+ */
+export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSchemasInput,
+  output: ListSchemasResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
+ */
+export const listSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSchemaVersionsInput,
+  output: ListSchemaVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * Sets the security configuration for a specified catalog. After the configuration has been
+ * set, the specified encryption is applied to every catalog write thereafter.
+ */
+export const putDataCatalogEncryptionSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutDataCatalogEncryptionSettingsRequest,
+    output: PutDataCatalogEncryptionSettingsResponse,
+    errors: [
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.
+ *
+ * You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
+ */
+export const searchTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchTablesRequest,
+  output: SearchTablesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the `GetDataQualityResult` API.
+ */
+export const startDataQualityRulesetEvaluationRun =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartDataQualityRulesetEvaluationRunRequest,
+    output: StartDataQualityRulesetEvaluationRunResponse,
+    errors: [
+      ConflictException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Stops a task run for the specified table.
+ */
+export const stopColumnStatisticsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopColumnStatisticsTaskRunRequest,
+    output: StopColumnStatisticsTaskRunResponse,
+    errors: [
+      ColumnStatisticsTaskNotRunningException,
+      ColumnStatisticsTaskStoppingException,
+      EntityNotFoundException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * If the specified crawler is running, stops the crawl.
+ */
+export const stopCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopCrawlerRequest,
+  output: StopCrawlerResponse,
+  errors: [
+    CrawlerNotRunningException,
+    CrawlerStoppingException,
+    EntityNotFoundException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Creates or updates table statistics of columns.
+ *
+ * The Identity and Access Management (IAM) permission required for this operation is `UpdateTable`.
+ */
+export const updateColumnStatisticsForTable =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateColumnStatisticsForTableRequest,
+    output: UpdateColumnStatisticsForTableResponse,
+    errors: [
+      EntityNotFoundException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Updates an existing job definition. The previous job definition is completely overwritten by this information.
+ */
+export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateJobRequest,
+  output: UpdateJobResponse,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
   ],
 }));
 /**
- * This API is used for deleting the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target).
+ * Updates a trigger definition.
+ *
+ * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
  */
-export const deleteIntegrationResourceProperty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIntegrationResourcePropertyRequest,
-    output: DeleteIntegrationResourcePropertyResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes the table properties that have been created for the tables that need to be replicated.
- */
-export const deleteIntegrationTableProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIntegrationTablePropertiesRequest,
-    output: DeleteIntegrationTablePropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes a specified job definition. If the job definition
- * is not found, no exception is thrown.
- */
-export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJobRequest,
-  output: DeleteJobResponse,
+export const updateTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTriggerRequest,
+  output: UpdateTriggerResponse,
   errors: [
+    ConcurrentModificationException,
+    EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
   ],
 }));
 /**
- * Deletes an Glue machine learning transform. Machine learning transforms are a special
- * type of transform that use machine learning to learn the details of the transformation to be
- * performed by learning from examples provided by humans. These transformations are then saved
- * by Glue. If you no longer need a transform, you can delete it by calling
- * `DeleteMLTransforms`. However, any Glue jobs that still reference the deleted
- * transform will no longer succeed.
+ * Stops the execution of the specified workflow run.
  */
-export const deleteMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMLTransformRequest,
-  output: DeleteMLTransformResponse,
+export const stopWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopWorkflowRunRequest,
+  output: StopWorkflowRunResponse,
   errors: [
     EntityNotFoundException,
+    IllegalWorkflowStateException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
@@ -8484,28 +8207,17 @@ export const deletePartitionIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the `GetRegistry` API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the `UpdateRegistry`, `CreateSchema`, `UpdateSchema`, and `RegisterSchemaVersion` APIs.
+ * Retrieves table statistics of columns.
+ *
+ * The Identity and Access Management (IAM) permission required for this operation is `GetTable`.
  */
-export const deleteRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRegistryInput,
-  output: DeleteRegistryResponse,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Deletes a specified policy.
- */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getColumnStatisticsForTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
+    input: GetColumnStatisticsForTableRequest,
+    output: GetColumnStatisticsForTableResponse,
     errors: [
-      ConditionCheckFailureException,
       EntityNotFoundException,
+      GlueEncryptionException,
       InternalServiceException,
       InvalidInputException,
       OperationTimeoutException,
@@ -8513,60 +8225,244 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the session.
+ * Retrieves a list of strings that identify available versions of
+ * a specified table.
  */
-export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSessionRequest,
-  output: DeleteSessionResponse,
+export const getTableVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableVersionsRequest,
+  output: GetTableVersionsResponse,
   errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    IllegalSessionStateException,
+    EntityNotFoundException,
+    GlueEncryptionException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
   ],
 }));
 /**
- * Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table.
+ * Retrieves multiple function definitions from the Data Catalog.
  */
-export const deleteTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getUserDefinedFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteTableOptimizerRequest,
-    output: DeleteTableOptimizerResponse,
+    input: GetUserDefinedFunctionsRequest,
+    output: GetUserDefinedFunctionsResponse,
     errors: [
-      AccessDeniedException,
       EntityNotFoundException,
+      GlueEncryptionException,
       InternalServiceException,
       InvalidInputException,
-      ThrottlingException,
+      OperationTimeoutException,
     ],
   }),
 );
 /**
- * Deletes a specified trigger. If the trigger is not found, no
- * exception is thrown.
+ * Delete the partition column statistics of a column.
+ *
+ * The Identity and Access Management (IAM) permission required for this operation is `DeletePartition`.
  */
-export const deleteTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTriggerRequest,
-  output: DeleteTriggerResponse,
+export const deleteColumnStatisticsForPartition =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteColumnStatisticsForPartitionRequest,
+    output: DeleteColumnStatisticsForPartitionResponse,
+    errors: [
+      EntityNotFoundException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Retrieves table statistics of columns.
+ *
+ * The Identity and Access Management (IAM) permission required for this operation is `DeleteTable`.
+ */
+export const deleteColumnStatisticsForTable =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteColumnStatisticsForTableRequest,
+    output: DeleteColumnStatisticsForTableResponse,
+    errors: [
+      EntityNotFoundException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Updates a connection definition in the Data Catalog.
+ */
+export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectionRequest,
+  output: UpdateConnectionResponse,
   errors: [
-    ConcurrentModificationException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Updates a partition.
+ */
+export const updatePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePartitionRequest,
+  output: UpdatePartitionResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
   ],
 }));
 /**
- * Deletes the Glue specified usage profile.
+ * Updates an existing function definition in the Data Catalog.
  */
-export const deleteUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUsageProfileRequest,
-  output: DeleteUsageProfileResponse,
+export const updateUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateUserDefinedFunctionRequest,
+    output: UpdateUserDefinedFunctionResponse,
+    errors: [
+      EntityNotFoundException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Lists all classifier objects in the Data Catalog.
+ */
+export const getClassifiers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClassifiersRequest,
+  output: GetClassifiersResponse,
+  errors: [OperationTimeoutException],
+}));
+/**
+ * Retrieves information about all runs associated with the specified table.
+ */
+export const getColumnStatisticsTaskRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetColumnStatisticsTaskRunsRequest,
+    output: GetColumnStatisticsTaskRunsResponse,
+    errors: [OperationTimeoutException],
+  }),
+);
+/**
+ * Retrieves metadata for a specified crawler.
+ */
+export const getCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCrawlerRequest,
+  output: GetCrawlerResponse,
+  errors: [EntityNotFoundException, OperationTimeoutException],
+}));
+/**
+ * Retrieves metadata for all crawlers defined in the customer
+ * account.
+ */
+export const getCrawlers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCrawlersRequest,
+  output: GetCrawlersResponse,
+  errors: [OperationTimeoutException],
+}));
+/**
+ * List all task runs for a particular account.
+ */
+export const listColumnStatisticsTaskRuns =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListColumnStatisticsTaskRunsRequest,
+    output: ListColumnStatisticsTaskRunsResponse,
+    errors: [OperationTimeoutException],
+  }));
+/**
+ * Retrieves the names of all crawler resources in this Amazon Web Services account, or the
+ * resources with the specified tag. This operation allows you to see which
+ * resources are available in your account, and their names.
+ *
+ * This operation takes the optional `Tags` field, which you can use as a filter on
+ * the response so that tagged resources can be retrieved as a group. If you choose to use tags
+ * filtering, only resources with the tag are retrieved.
+ */
+export const listCrawlers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCrawlersRequest,
+  output: ListCrawlersResponse,
+  errors: [OperationTimeoutException],
+}));
+/**
+ * Removes a classifier from the Data Catalog.
+ */
+export const deleteClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClassifierRequest,
+  output: DeleteClassifierResponse,
+  errors: [EntityNotFoundException, OperationTimeoutException],
+}));
+/**
+ * Deletes a connection from the Data Catalog.
+ */
+export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionRequest,
+  output: DeleteConnectionResponse,
+  errors: [EntityNotFoundException, OperationTimeoutException],
+}));
+/**
+ * Starts a crawl using the specified crawler, regardless
+ * of what is scheduled. If the crawler is already running, returns a
+ * CrawlerRunningException.
+ */
+export const startCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCrawlerRequest,
+  output: StartCrawlerResponse,
   errors: [
+    CrawlerRunningException,
+    EntityNotFoundException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Imports an existing Amazon Athena Data Catalog to Glue.
+ */
+export const importCatalogToGlue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportCatalogToGlueRequest,
+  output: ImportCatalogToGlueResponse,
+  errors: [InternalServiceException, OperationTimeoutException],
+}));
+/**
+ * Updates an existing catalog's properties in the Glue Data Catalog.
+ */
+export const updateCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCatalogRequest,
+  output: UpdateCatalogResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    FederationSourceException,
+    GlueEncryptionException,
     InternalServiceException,
     InvalidInputException,
-    OperationNotSupportedException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Removes the specified catalog from the Glue Data Catalog.
+ *
+ * After completing this operation, you no longer have access to the databases, tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service.
+ *
+ * To ensure the immediate deletion of all related resources before calling the `DeleteCatalog` operation, use `DeleteTableVersion` (or `BatchDeleteTableVersion`), `DeletePartition` (or `BatchDeletePartition`), `DeleteTable` (or `BatchDeleteTable`), `DeleteUserDefinedFunction` and `DeleteDatabase` to delete any resources that belong to the catalog.
+ */
+export const deleteCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCatalogRequest,
+  output: DeleteCatalogResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    FederationSourceException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
     OperationTimeoutException,
   ],
 }));
@@ -8610,76 +8506,6 @@ export const getBlueprintRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
- */
-export const getCatalogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCatalogsRequest,
-  output: GetCatalogsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Lists all classifier objects in the Data Catalog.
- */
-export const getClassifiers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetClassifiersRequest,
-  output: GetClassifiersResponse,
-  errors: [OperationTimeoutException],
-}));
-/**
- * Retrieves table statistics of columns.
- *
- * The Identity and Access Management (IAM) permission required for this operation is `GetTable`.
- */
-export const getColumnStatisticsForTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetColumnStatisticsForTableRequest,
-    output: GetColumnStatisticsForTableResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Retrieves information about all runs associated with the specified table.
- */
-export const getColumnStatisticsTaskRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetColumnStatisticsTaskRunsRequest,
-    output: GetColumnStatisticsTaskRunsResponse,
-    errors: [OperationTimeoutException],
-  }),
-);
-/**
- * Retrieves metadata for a specified crawler.
- */
-export const getCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCrawlerRequest,
-  output: GetCrawlerResponse,
-  errors: [EntityNotFoundException, OperationTimeoutException],
-}));
-/**
- * Retrieves metadata for all crawlers defined in the customer
- * account.
- */
-export const getCrawlers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCrawlersRequest,
-  output: GetCrawlersResponse,
-  errors: [OperationTimeoutException],
-}));
-/**
  * Retrieves the details of a custom pattern by specifying its name.
  */
 export const getCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -8688,22 +8514,6 @@ export const getCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Retrieves all databases defined in a given Data Catalog.
- */
-export const getDatabases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDatabasesRequest,
-  output: GetDatabasesResponse,
-  errors: [
-    EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    GlueEncryptionException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
@@ -8825,40 +8635,6 @@ export const getDevEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This API is used for fetching the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target)
- */
-export const getIntegrationResourceProperty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIntegrationResourcePropertyRequest,
-    output: GetIntegrationResourcePropertyResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
- */
-export const getIntegrationTableProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIntegrationTablePropertiesRequest,
-    output: GetIntegrationTablePropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
  * Retrieves an existing job definition.
  */
 export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -8894,22 +8670,6 @@ export const getJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetJobsResponse,
   errors: [
     EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Retrieves information about a specified partition.
- */
-export const getPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPartitionRequest,
-  output: GetPartitionResponse,
-  errors: [
-    EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    GlueEncryptionException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
@@ -9002,21 +8762,6 @@ export const getSecurityConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves a list of strings that identify available versions of
- * a specified table.
- */
-export const getTableVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTableVersionsRequest,
-  output: GetTableVersionsResponse,
-  errors: [
-    EntityNotFoundException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
  * Retrieves a list of tags associated with a resource.
  */
 export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -9055,36 +8800,6 @@ export const getTriggers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     OperationTimeoutException,
   ],
 }));
-/**
- * Retrieves information about the specified Glue usage profile.
- */
-export const getUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUsageProfileRequest,
-  output: GetUsageProfileResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationNotSupportedException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Retrieves multiple function definitions from the Data Catalog.
- */
-export const getUserDefinedFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetUserDefinedFunctionsRequest,
-    output: GetUserDefinedFunctionsResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
 /**
  * Retrieves resource metadata for a workflow.
  */
@@ -9137,29 +8852,6 @@ export const listBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidInputException,
     OperationTimeoutException,
   ],
-}));
-/**
- * List all task runs for a particular account.
- */
-export const listColumnStatisticsTaskRuns =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListColumnStatisticsTaskRunsRequest,
-    output: ListColumnStatisticsTaskRunsResponse,
-    errors: [OperationTimeoutException],
-  }));
-/**
- * Retrieves the names of all crawler resources in this Amazon Web Services account, or the
- * resources with the specified tag. This operation allows you to see which
- * resources are available in your account, and their names.
- *
- * This operation takes the optional `Tags` field, which you can use as a filter on
- * the response so that tagged resources can be retrieved as a group. If you choose to use tags
- * filtering, only resources with the tag are retrieved.
- */
-export const listCrawlers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCrawlersRequest,
-  output: ListCrawlersResponse,
-  errors: [OperationTimeoutException],
 }));
 /**
  * Lists all the custom patterns that have been created.
@@ -9241,21 +8933,6 @@ export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists statements for the session.
- */
-export const listStatements = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListStatementsRequest,
-  output: ListStatementsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    IllegalSessionStateException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
  * Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names.
  *
  * This operation takes the optional `Tags` field, which you can use as a filter on
@@ -9299,45 +8976,6 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
- */
-export const putWorkflowRunProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutWorkflowRunPropertiesRequest,
-    output: PutWorkflowRunPropertiesResponse,
-    errors: [
-      AlreadyExistsException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry.
- *
- * If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the `GetSchemaVersion` API with the `SchemaVersionId` to check compatibility modes.
- *
- * If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
- */
-export const registerSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterSchemaVersionInput,
-    output: RegisterSchemaVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
  * Removes a key value pair from the schema version metadata for the specified schema version ID.
  */
 export const removeSchemaVersionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -9373,39 +9011,6 @@ export const resetJobBookmark = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Executes the statement.
- */
-export const runStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RunStatementRequest,
-  output: RunStatementResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    IllegalSessionStateException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a column statistics task run, for a specified table and columns.
- */
-export const startColumnStatisticsTaskRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartColumnStatisticsTaskRunRequest,
-    output: StartColumnStatisticsTaskRunResponse,
-    errors: [
-      AccessDeniedException,
-      ColumnStatisticsTaskRunningException,
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }));
-/**
  * Begins an asynchronous task to export all labeled data for a particular transform. This
  * task is the only label-related API call that is not part of the typical active learning
  * workflow. You typically use `StartExportLabelsTaskRun` when you want to work with
@@ -9429,154 +9034,6 @@ export const startExportLabelsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Enables you to provide additional labels (examples of truth) to be used to teach the
- * machine learning transform and improve its quality. This API operation is generally used as
- * part of the active learning workflow that starts with the
- * `StartMLLabelingSetGenerationTaskRun` call and that ultimately results in
- * improving the quality of your machine learning transform.
- *
- * After the `StartMLLabelingSetGenerationTaskRun` finishes, Glue machine learning
- * will have generated a series of questions for humans to answer. (Answering these questions is
- * often called 'labeling' in the machine learning workflows). In the case of the
- * `FindMatches` transform, these questions are of the form, “What is the correct
- * way to group these rows together into groups composed entirely of matching records?” After the
- * labeling process is finished, users upload their answers/labels with a call to
- * `StartImportLabelsTaskRun`. After `StartImportLabelsTaskRun` finishes,
- * all future runs of the machine learning transform use the new and improved labels and perform
- * a higher-quality transformation.
- *
- * By default, `StartMLLabelingSetGenerationTaskRun` continually learns from and
- * combines all labels that you upload unless you set `Replace` to true. If you set
- * `Replace` to true, `StartImportLabelsTaskRun` deletes and forgets all
- * previously uploaded labels and learns only from the exact set that you upload. Replacing
- * labels can be helpful if you realize that you previously uploaded incorrect labels, and you
- * believe that they are having a negative effect on your transform quality.
- *
- * You can check on the status of your task run by calling the `GetMLTaskRun`
- * operation.
- */
-export const startImportLabelsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartImportLabelsTaskRunRequest,
-    output: StartImportLabelsTaskRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * Starts a job run using a job definition.
- */
-export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartJobRunRequest,
-  output: StartJobRunResponse,
-  errors: [
-    ConcurrentRunsExceededException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Starts the active learning workflow for your machine learning transform to improve the
- * transform's quality by generating label sets and adding labels.
- *
- * When the `StartMLLabelingSetGenerationTaskRun` finishes, Glue will have
- * generated a "labeling set" or a set of questions for humans to answer.
- *
- * In the case of the `FindMatches` transform, these questions are of the form,
- * “What is the correct way to group these rows together into groups composed entirely of
- * matching records?”
- *
- * After the labeling process is finished, you can upload your labels with a call to
- * `StartImportLabelsTaskRun`. After `StartImportLabelsTaskRun` finishes,
- * all future runs of the machine learning transform will use the new and improved labels and
- * perform a higher-quality transformation.
- *
- * Note: The role used to write the generated labeling set to the `OutputS3Path` is the role
- * associated with the Machine Learning Transform, specified in the `CreateMLTransform` API.
- */
-export const startMLLabelingSetGenerationTaskRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMLLabelingSetGenerationTaskRunRequest,
-    output: StartMLLabelingSetGenerationTaskRunResponse,
-    errors: [
-      ConcurrentRunsExceededException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Starts an existing trigger. See Triggering
- * Jobs for information about how different types of trigger are
- * started.
- */
-export const startTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartTriggerRequest,
-  output: StartTriggerResponse,
-  errors: [
-    ConcurrentRunsExceededException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Starts a new run of the specified workflow.
- */
-export const startWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartWorkflowRunRequest,
-  output: StartWorkflowRunResponse,
-  errors: [
-    ConcurrentRunsExceededException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Sets the schedule state of the specified crawler to
- * `NOT_SCHEDULED`, but does not stop the crawler if it is
- * already running.
- */
-export const stopCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopCrawlerScheduleRequest,
-  output: StopCrawlerScheduleResponse,
-  errors: [
-    EntityNotFoundException,
-    OperationTimeoutException,
-    SchedulerNotRunningException,
-    SchedulerTransitioningException,
-  ],
-}));
-/**
- * Stops the session.
- */
-export const stopSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopSessionRequest,
-  output: StopSessionResponse,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    IllegalSessionStateException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
  * Stops a specified trigger.
  */
 export const stopTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -9590,191 +9047,6 @@ export const stopTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     OperationTimeoutException,
   ],
 }));
-/**
- * Stops the execution of the specified workflow run.
- */
-export const stopWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopWorkflowRunRequest,
-  output: StopWorkflowRunResponse,
-  errors: [
-    EntityNotFoundException,
-    IllegalWorkflowStateException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Tests a connection to a service to validate the service credentials that you provide.
- *
- * You can either provide an existing connection name or a `TestConnectionInput` for testing a non-existing connection input. Providing both at the same time will cause an error.
- *
- * If the action is successful, the service sends back an HTTP 200 response.
- */
-export const testConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestConnectionRequest,
-  output: TestConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    EntityNotFoundException,
-    FederationSourceException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Updates a registered blueprint.
- */
-export const updateBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBlueprintRequest,
-  output: UpdateBlueprintResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    IllegalBlueprintStateException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Modifies an existing classifier (a `GrokClassifier`,
- * an `XMLClassifier`, a `JsonClassifier`, or a `CsvClassifier`, depending on
- * which field is present).
- */
-export const updateClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateClassifierRequest,
-  output: UpdateClassifierResponse,
-  errors: [
-    EntityNotFoundException,
-    InvalidInputException,
-    OperationTimeoutException,
-    VersionMismatchException,
-  ],
-}));
-/**
- * Updates settings for a column statistics task.
- */
-export const updateColumnStatisticsTaskSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateColumnStatisticsTaskSettingsRequest,
-    output: UpdateColumnStatisticsTaskSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-      VersionMismatchException,
-    ],
-  }));
-/**
- * Updates the schedule of a crawler using a `cron` expression.
- */
-export const updateCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCrawlerScheduleRequest,
-    output: UpdateCrawlerScheduleResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-      SchedulerTransitioningException,
-      VersionMismatchException,
-    ],
-  }),
-);
-/**
- * Updates the specified data quality ruleset.
- */
-export const updateDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDataQualityRulesetRequest,
-    output: UpdateDataQualityRulesetResponse,
-    errors: [
-      AlreadyExistsException,
-      EntityNotFoundException,
-      IdempotentParameterMismatchException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * Updates a specified development endpoint.
- */
-export const updateDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDevEndpointRequest,
-  output: UpdateDevEndpointResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ValidationException,
-  ],
-}));
-/**
- * This API can be used for updating the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
- */
-export const updateIntegrationResourceProperty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateIntegrationResourcePropertyRequest,
-    output: UpdateIntegrationResourcePropertyResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * This API is used to provide optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue database ARN as `ResourceArn` with `TargetTableConfig` respectively.
- *
- * The override will be reflected across all the integrations using same `ResourceArn` and source table.
- */
-export const updateIntegrationTableProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateIntegrationTablePropertiesRequest,
-    output: UpdateIntegrationTablePropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts.
- *
- * This API supports optional parameters which take in the repository information.
- */
-export const updateJobFromSourceControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateJobFromSourceControlRequest,
-    output: UpdateJobFromSourceControlResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results.
  *
@@ -9828,41 +9100,6 @@ export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job.
- *
- * This API supports optional parameters which take in the repository information.
- */
-export const updateSourceControlFromJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSourceControlFromJobRequest,
-    output: UpdateSourceControlFromJobResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Update an Glue usage profile.
- */
-export const updateUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUsageProfileRequest,
-  output: UpdateUsageProfileResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationNotSupportedException,
-    OperationTimeoutException,
-  ],
-}));
-/**
  * Updates an existing workflow.
  */
 export const updateWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -9877,28 +9114,395 @@ export const updateWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes multiple tables at once.
- *
- * After completing this operation, you no longer have access to the table versions and
- * partitions that belong to the deleted table. Glue deletes these "orphaned" resources
- * asynchronously in a timely manner, at the discretion of the service.
- *
- * To ensure the immediate deletion of all related resources, before calling
- * `BatchDeleteTable`, use `DeleteTableVersion` or
- * `BatchDeleteTableVersion`, and `DeletePartition` or
- * `BatchDeletePartition`, to delete any resources that belong to the
- * table.
+ * Cancels a run where a ruleset is being evaluated against a data source.
  */
-export const batchDeleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDeleteTableRequest,
-  output: BatchDeleteTableResponse,
+export const cancelDataQualityRulesetEvaluationRun =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CancelDataQualityRulesetEvaluationRunRequest,
+    output: CancelDataQualityRulesetEvaluationRunResponse,
+    errors: [
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Deletes settings for a column statistics task.
+ */
+export const deleteColumnStatisticsTaskSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteColumnStatisticsTaskSettingsRequest,
+    output: DeleteColumnStatisticsTaskSettingsResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Deletes a data quality ruleset.
+ */
+export const deleteDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDataQualityRulesetRequest,
+    output: DeleteDataQualityRulesetResponse,
+    errors: [
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Deletes a specified development endpoint.
+ */
+export const deleteDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDevEndpointRequest,
+  output: DeleteDevEndpointResponse,
   errors: [
     EntityNotFoundException,
-    GlueEncryptionException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
-    ResourceNotReadyException,
+  ],
+}));
+/**
+ * Deletes a specified partition.
+ */
+export const deletePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePartitionRequest,
+  output: DeletePartitionResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Deletes a specified security configuration.
+ */
+export const deleteSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSecurityConfigurationRequest,
+    output: DeleteSecurityConfigurationResponse,
+    errors: [
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Deletes a specified version of a table.
+ */
+export const deleteTableVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableVersionRequest,
+  output: DeleteTableVersionResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Deletes an existing function definition from the Data Catalog.
+ */
+export const deleteUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteUserDefinedFunctionRequest,
+    output: DeleteUserDefinedFunctionResponse,
+    errors: [
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Annotate all datapoints for a Profile.
+ */
+export const putDataQualityProfileAnnotation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutDataQualityProfileAnnotationRequest,
+    output: PutDataQualityProfileAnnotationResponse,
+    errors: [
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+    ],
+  }));
+/**
+ * Starts a column statistics task run schedule.
+ */
+export const startColumnStatisticsTaskRunSchedule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartColumnStatisticsTaskRunScheduleRequest,
+    output: StartColumnStatisticsTaskRunScheduleResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Stops a column statistics task run schedule.
+ */
+export const stopColumnStatisticsTaskRunSchedule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StopColumnStatisticsTaskRunScheduleRequest,
+    output: StopColumnStatisticsTaskRunScheduleResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource.
+ * In Glue, you can tag only certain resources. For information about what
+ * resources you can tag, see Amazon Web Services Tags in Glue.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Removes tags from a resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Creates a classifier in the user's account. This can be a `GrokClassifier`, an
+ * `XMLClassifier`, a `JsonClassifier`, or a `CsvClassifier`,
+ * depending on which field of the request is present.
+ */
+export const createClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClassifierRequest,
+  output: CreateClassifierResponse,
+  errors: [
+    AlreadyExistsException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM
+ * Identity Center for authentication and authorization.
+ */
+export const createGlueIdentityCenterConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateGlueIdentityCenterConfigurationRequest,
+    output: CreateGlueIdentityCenterConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      AlreadyExistsException,
+      ConcurrentModificationException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Deletes the existing Glue Identity Center configuration, removing the integration between Glue and
+ * Amazon Web Services IAM Identity Center.
+ */
+export const deleteGlueIdentityCenterConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteGlueIdentityCenterConfigurationRequest,
+    output: DeleteGlueIdentityCenterConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and
+ * application information.
+ */
+export const getGlueIdentityCenterConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetGlueIdentityCenterConfigurationRequest,
+    output: GetGlueIdentityCenterConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
+ */
+export const updateGlueIdentityCenterConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateGlueIdentityCenterConfigurationRequest,
+    output: UpdateGlueIdentityCenterConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Cancels the specified recommendation run that was being used to generate rules.
+ */
+export const cancelDataQualityRuleRecommendationRun =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CancelDataQualityRuleRecommendationRunRequest,
+    output: CancelDataQualityRuleRecommendationRunResponse,
+    errors: [
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a
+ * machine learning task run at any time by calling `CancelMLTaskRun` with a task
+ * run's parent transform's `TransformID` and the task run's `TaskRunId`.
+ */
+export const cancelMLTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelMLTaskRunRequest,
+  output: CancelMLTaskRunResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using `DataFormat` as the format. Since it does not take a schema set name, no compatibility checks are performed.
+ */
+export const checkSchemaVersionValidity = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CheckSchemaVersionValidityInput,
+    output: CheckSchemaVersionValidityResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidInputException,
+    ],
+  }),
+);
+/**
+ * Deletes an existing blueprint.
+ */
+export const deleteBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBlueprintRequest,
+  output: DeleteBlueprintResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Deletes a custom pattern by specifying its name.
+ */
+export const deleteCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCustomEntityTypeRequest,
+    output: DeleteCustomEntityTypeResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Deletes a specified job definition. If the job definition
+ * is not found, no exception is thrown.
+ */
+export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJobRequest,
+  output: DeleteJobResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Deletes an Glue machine learning transform. Machine learning transforms are a special
+ * type of transform that use machine learning to learn the details of the transformation to be
+ * performed by learning from examples provided by humans. These transformations are then saved
+ * by Glue. If you no longer need a transform, you can delete it by calling
+ * `DeleteMLTransforms`. However, any Glue jobs that still reference the deleted
+ * transform will no longer succeed.
+ */
+export const deleteMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMLTransformRequest,
+  output: DeleteMLTransformResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Deletes a specified policy.
+ */
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyRequest,
+    output: DeleteResourcePolicyResponse,
+    errors: [
+      ConditionCheckFailureException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Deletes a specified trigger. If the trigger is not found, no
+ * exception is thrown.
+ */
+export const deleteTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTriggerRequest,
+  output: DeleteTriggerResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
   ],
 }));
 /**
@@ -9999,663 +9603,96 @@ export const batchStopJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Registers a blueprint with Glue.
+ * Lists statements for the session.
  */
-export const createBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBlueprintRequest,
-  output: CreateBlueprintResponse,
-  errors: [
-    AlreadyExistsException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Creates settings for a column statistics task.
- */
-export const createColumnStatisticsTaskSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateColumnStatisticsTaskSettingsRequest,
-    output: CreateColumnStatisticsTaskSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      ColumnStatisticsTaskRunningException,
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }));
-/**
- * Creates a new crawler with specified targets, role, configuration, and optional schedule.
- * At least one crawl target must be specified, in the `s3Targets` field, the
- * `jdbcTargets` field, or the `DynamoDBTargets` field.
- */
-export const createCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCrawlerRequest,
-  output: CreateCrawlerResponse,
-  errors: [
-    AlreadyExistsException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data.
- *
- * Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
- */
-export const createCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomEntityTypeRequest,
-    output: CreateCustomEntityTypeResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      IdempotentParameterMismatchException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates a data quality ruleset with DQDL rules applied to a specified Glue table.
- *
- * You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
- */
-export const createDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataQualityRulesetRequest,
-    output: CreateDataQualityRulesetResponse,
-    errors: [
-      AlreadyExistsException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates a new development endpoint.
- */
-export const createDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDevEndpointRequest,
-  output: CreateDevEndpointResponse,
+export const listStatements = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStatementsRequest,
+  output: ListStatementsResponse,
   errors: [
     AccessDeniedException,
-    AlreadyExistsException,
-    IdempotentParameterMismatchException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * This API can be used for setting up the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as `ResourceArn` with `SourceProcessingProperties` and the Glue database ARN as `ResourceArn` with `TargetProcessingProperties` respectively.
- */
-export const createIntegrationResourceProperty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIntegrationResourcePropertyRequest,
-    output: CreateIntegrationResourcePropertyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue database ARN as `ResourceArn` with `TargetTableConfig` respectively.
- */
-export const createIntegrationTableProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIntegrationTablePropertiesRequest,
-    output: CreateIntegrationTablePropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version.
- *
- * When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the `RegisterSchemaVersion` API is used.
- *
- * When this API is called without a `RegistryId`, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
- */
-export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSchemaInput,
-  output: CreateSchemaResponse,
-  errors: [
-    AccessDeniedException,
-    AlreadyExistsException,
-    ConcurrentModificationException,
     EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Creates a new session.
- */
-export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSessionRequest,
-  output: CreateSessionResponse,
-  errors: [
-    AccessDeniedException,
-    AlreadyExistsException,
-    IdempotentParameterMismatchException,
+    IllegalSessionStateException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-    ValidationException,
   ],
 }));
 /**
- * Creates a new function definition in the Data Catalog.
+ * Stops the session.
  */
-export const createUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateUserDefinedFunctionRequest,
-    output: CreateUserDefinedFunctionResponse,
-    errors: [
-      AlreadyExistsException,
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates a new workflow.
- */
-export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateWorkflowRequest,
-  output: CreateWorkflowResponse,
-  errors: [
-    AlreadyExistsException,
-    ConcurrentModificationException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call `GetSchema` API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the `GetSchemaByDefinition`, and `RegisterSchemaVersion` APIs.
- */
-export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSchemaInput,
-  output: DeleteSchemaResponse,
+export const stopSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopSessionRequest,
+  output: StopSessionResponse,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
-    EntityNotFoundException,
+    IllegalSessionStateException,
+    InternalServiceException,
     InvalidInputException,
+    OperationTimeoutException,
   ],
 }));
 /**
- * Removes a table definition from the Data Catalog.
- *
- * After completing this operation, you no longer have access to the table versions and
- * partitions that belong to the deleted table. Glue deletes these "orphaned" resources
- * asynchronously in a timely manner, at the discretion of the service.
- *
- * To ensure the immediate deletion of all related resources, before calling
- * `DeleteTable`, use `DeleteTableVersion` or
- * `BatchDeleteTableVersion`, and `DeletePartition` or
- * `BatchDeletePartition`, to delete any resources that belong to the
- * table.
+ * Cancels the statement.
  */
-export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTableRequest,
-  output: DeleteTableResponse,
+export const cancelStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelStatementRequest,
+  output: CancelStatementResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    IllegalSessionStateException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Starts the active learning workflow for your machine learning transform to improve the
+ * transform's quality by generating label sets and adding labels.
+ *
+ * When the `StartMLLabelingSetGenerationTaskRun` finishes, Glue will have
+ * generated a "labeling set" or a set of questions for humans to answer.
+ *
+ * In the case of the `FindMatches` transform, these questions are of the form,
+ * “What is the correct way to group these rows together into groups composed entirely of
+ * matching records?”
+ *
+ * After the labeling process is finished, you can upload your labels with a call to
+ * `StartImportLabelsTaskRun`. After `StartImportLabelsTaskRun` finishes,
+ * all future runs of the machine learning transform will use the new and improved labels and
+ * perform a higher-quality transformation.
+ *
+ * Note: The role used to write the generated labeling set to the `OutputS3Path` is the role
+ * associated with the Machine Learning Transform, specified in the `CreateMLTransform` API.
+ */
+export const startMLLabelingSetGenerationTaskRun =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartMLLabelingSetGenerationTaskRunRequest,
+    output: StartMLLabelingSetGenerationTaskRunResponse,
+    errors: [
+      ConcurrentRunsExceededException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Updates a registered blueprint.
+ */
+export const updateBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBlueprintRequest,
+  output: UpdateBlueprintResponse,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNotReadyException,
-  ],
-}));
-/**
- * Retrieves the details of a blueprint run.
- */
-export const getBlueprintRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBlueprintRunRequest,
-  output: GetBlueprintRunResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Retrieves the status of a migration operation.
- */
-export const getCatalogImportStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCatalogImportStatusRequest,
-    output: GetCatalogImportStatusResponse,
-    errors: [InternalServiceException, OperationTimeoutException],
-  }),
-);
-/**
- * Retrieves partition statistics of columns.
- *
- * The Identity and Access Management (IAM) permission required for this operation is `GetPartition`.
- */
-export const getColumnStatisticsForPartition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetColumnStatisticsForPartitionRequest,
-    output: GetColumnStatisticsForPartitionResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Get the associated metadata/information for a task run, given a task run ID.
- */
-export const getColumnStatisticsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetColumnStatisticsTaskRunRequest,
-    output: GetColumnStatisticsTaskRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Retrieves a list of connection definitions from the Data Catalog.
- */
-export const getConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConnectionsRequest,
-  output: GetConnectionsResponse,
-  errors: [
-    EntityNotFoundException,
-    GlueEncryptionException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Retrieves metrics about specified crawlers.
- */
-export const getCrawlerMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCrawlerMetricsRequest,
-  output: GetCrawlerMetricsResponse,
-  errors: [OperationTimeoutException],
-}));
-/**
- * Retrieves the definition of a specified database.
- */
-export const getDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDatabaseRequest,
-  output: GetDatabaseResponse,
-  errors: [
-    EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    GlueEncryptionException,
+    IllegalBlueprintStateException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
   ],
 }));
-/**
- * Retrieve a statistic's predictions for a given Profile ID.
- */
-export const getDataQualityModelResult = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataQualityModelResultRequest,
-    output: GetDataQualityModelResultResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog.
- *
- * Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode based on the field type defined by the `DescribeEntity` API.
- *
- * Spark connectors generate schemas according to the same data type mapping as in the `DescribeEntity` API. Spark connectors convert data to the appropriate data types matching the schema when returning rows.
- */
-export const getEntityRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEntityRecordsRequest,
-  output: GetEntityRecordsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    FederationSourceException,
-    GlueEncryptionException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns information on a job bookmark entry.
- *
- * For more information about enabling and using job bookmarks, see:
- *
- * - Tracking processed data using job bookmarks
- *
- * - Job parameters used by Glue
- *
- * - Job structure
- */
-export const getJobBookmark = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJobBookmarkRequest,
-  output: GetJobBookmarkResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates mappings.
- */
-export const getMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMappingRequest,
-  output: GetMappingResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Retrieves information about the partitions in a table.
- */
-export const getPartitions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPartitionsRequest,
-  output: GetPartitionsResponse,
-  errors: [
-    EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    InvalidStateException,
-    OperationTimeoutException,
-    ResourceNotReadyException,
-  ],
-}));
-/**
- * Gets code to perform a specified mapping.
- */
-export const getPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPlanRequest,
-  output: GetPlanResponse,
-  errors: [
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Retrieves the resource policies set on individual resources by Resource Access Manager
- * during cross-account permission grants. Also retrieves the Data Catalog resource
- * policy.
- *
- * If you enabled metadata encryption in Data Catalog settings, and you do not have
- * permission on the KMS key, the operation can't return the Data Catalog resource
- * policy.
- */
-export const getResourcePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePoliciesRequest,
-  output: GetResourcePoliciesResponse,
-  errors: [
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
- */
-export const getSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSchemaVersionInput,
-  output: GetSchemaVersionResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Retrieves a specified security configuration.
- */
-export const getSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSecurityConfigurationRequest,
-    output: GetSecurityConfigurationResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Retrieves the session.
- */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSessionRequest,
-  output: GetSessionResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Retrieves the `Table` definition in a Data Catalog for
- * a specified table.
- */
-export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTableRequest,
-  output: GetTableResponse,
-  errors: [
-    EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNotReadyException,
-  ],
-}));
-/**
- * Returns the configuration of all optimizers associated with a specified table.
- */
-export const getTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTableOptimizerRequest,
-  output: GetTableOptimizerResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves a specified version of a table.
- */
-export const getTableVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTableVersionRequest,
-  output: GetTableVersionResponse,
-  errors: [
-    EntityNotFoundException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Retrieves a specified function definition from the Data Catalog.
- */
-export const getUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetUserDefinedFunctionRequest,
-    output: GetUserDefinedFunctionResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Returns the available entities supported by the connection type.
- */
-export const listEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEntitiesRequest,
-  output: ListEntitiesResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    FederationSourceException,
-    GlueEncryptionException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of registries that you have created, with minimal registry information. Registries in the `Deleting` status will not be included in the results. Empty results will be returned if there are no registries available.
- */
-export const listRegistries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRegistriesInput,
-  output: ListRegistriesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available.
- *
- * When the `RegistryId` is not provided, all the schemas across registries will be part of the API response.
- */
-export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSchemasInput,
-  output: ListSchemasResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
- */
-export const listSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSchemaVersionsInput,
-  output: ListSchemaVersionsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-}));
-/**
- * List all the Glue usage profiles.
- */
-export const listUsageProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListUsageProfilesRequest,
-  output: ListUsageProfilesResponse,
-  errors: [
-    InternalServiceException,
-    InvalidInputException,
-    OperationNotSupportedException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Sets the security configuration for a specified catalog. After the configuration has been
- * set, the specified encryption is applied to every catalog write thereafter.
- */
-export const putDataCatalogEncryptionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDataCatalogEncryptionSettingsRequest,
-    output: PutDataCatalogEncryptionSettingsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
- */
-export const putSchemaVersionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutSchemaVersionMetadataInput,
-    output: PutSchemaVersionMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      EntityNotFoundException,
-      InvalidInputException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
 /**
  * Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
  */
@@ -10666,167 +9703,6 @@ export const resumeWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ConcurrentRunsExceededException,
     EntityNotFoundException,
     IllegalWorkflowStateException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.
- *
- * You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
- */
-export const searchTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SearchTablesRequest,
-  output: SearchTablesResponse,
-  errors: [
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Starts a new run of the specified blueprint.
- */
-export const startBlueprintRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartBlueprintRunRequest,
-  output: StartBlueprintRunResponse,
-  errors: [
-    EntityNotFoundException,
-    IllegalBlueprintStateException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Changes the schedule state of the specified crawler to
- * `SCHEDULED`, unless the crawler is already running or the
- * schedule state is already `SCHEDULED`.
- */
-export const startCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCrawlerScheduleRequest,
-    output: StartCrawlerScheduleResponse,
-    errors: [
-      EntityNotFoundException,
-      NoScheduleException,
-      OperationTimeoutException,
-      SchedulerRunningException,
-      SchedulerTransitioningException,
-    ],
-  }),
-);
-/**
- * Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the `GetDataQualityResult` API.
- */
-export const startDataQualityRulesetEvaluationRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDataQualityRulesetEvaluationRunRequest,
-    output: StartDataQualityRulesetEvaluationRunResponse,
-    errors: [
-      ConflictException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Starts a task to estimate the quality of the transform.
- *
- * When you provide label sets as examples of truth, Glue machine learning uses some of
- * those examples to learn from them. The rest of the labels are used as a test to estimate
- * quality.
- *
- * Returns a unique identifier for the run. You can call `GetMLTaskRun` to get more
- * information about the stats of the `EvaluationTaskRun`.
- */
-export const startMLEvaluationTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMLEvaluationTaskRunRequest,
-    output: StartMLEvaluationTaskRunResponse,
-    errors: [
-      ConcurrentRunsExceededException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      MLTransformNotReadyException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Stops a task run for the specified table.
- */
-export const stopColumnStatisticsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopColumnStatisticsTaskRunRequest,
-    output: StopColumnStatisticsTaskRunResponse,
-    errors: [
-      ColumnStatisticsTaskNotRunningException,
-      ColumnStatisticsTaskStoppingException,
-      EntityNotFoundException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * If the specified crawler is running, stops the crawl.
- */
-export const stopCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopCrawlerRequest,
-  output: StopCrawlerResponse,
-  errors: [
-    CrawlerNotRunningException,
-    CrawlerStoppingException,
-    EntityNotFoundException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Creates or updates table statistics of columns.
- *
- * The Identity and Access Management (IAM) permission required for this operation is `UpdateTable`.
- */
-export const updateColumnStatisticsForTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateColumnStatisticsForTableRequest,
-    output: UpdateColumnStatisticsForTableResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
-/**
- * Updates an existing job definition. The previous job definition is completely overwritten by this information.
- */
-export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateJobRequest,
-  output: UpdateJobResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Updates a trigger definition.
- *
- * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
- */
-export const updateTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTriggerRequest,
-  output: UpdateTriggerResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
@@ -10878,55 +9754,6 @@ export const batchGetCrawlers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidInputException, OperationTimeoutException],
 }));
 /**
- * Retrieves partitions in a batch request.
- */
-export const batchGetPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGetPartitionRequest,
-  output: BatchGetPartitionResponse,
-  errors: [
-    EntityNotFoundException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    InvalidStateException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Returns the configuration for the specified table optimizers.
- */
-export const batchGetTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetTableOptimizerRequest,
-    output: BatchGetTableOptimizerResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Annotate datapoints over time for a specific data quality statistic.
- * The API requires both profileID and statisticID as part of the InclusionAnnotation input.
- * The API only works for a single statisticId across multiple profiles.
- */
-export const batchPutDataQualityStatisticAnnotation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchPutDataQualityStatisticAnnotationRequest,
-    output: BatchPutDataQualityStatisticAnnotationResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNumberLimitExceededException,
-    ],
-  }));
-/**
  * Updates one or more partitions in a batch operation.
  */
 export const batchUpdatePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -10943,73 +9770,6 @@ export const batchUpdatePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a new catalog in the Glue Data Catalog.
- */
-export const createCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCatalogRequest,
-  output: CreateCatalogResponse,
-  errors: [
-    AccessDeniedException,
-    AlreadyExistsException,
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    FederatedResourceAlreadyExistsException,
-    FederationSourceException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Creates a new database in a Data Catalog.
- */
-export const createDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDatabaseRequest,
-  output: CreateDatabaseResponse,
-  errors: [
-    AlreadyExistsException,
-    ConcurrentModificationException,
-    FederatedResourceAlreadyExistsException,
-    FederationSourceException,
-    FederationSourceRetryableException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Creates an Glue machine learning transform. This operation creates the transform and
- * all the necessary parameters to train it.
- *
- * Call this operation as the first step in the process of using a machine learning transform
- * (such as the `FindMatches` transform) for deduplicating data. You can provide an
- * optional `Description`, in addition to the parameters that you want to use for your
- * algorithm.
- *
- * You must also specify certain parameters for the tasks that Glue runs on your
- * behalf as part of learning from your data and creating a high-quality machine learning
- * transform. These parameters include `Role`, and optionally,
- * `AllocatedCapacity`, `Timeout`, and `MaxRetries`. For more
- * information, see Jobs.
- */
-export const createMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateMLTransformRequest,
-  output: CreateMLTransformResponse,
-  errors: [
-    AccessDeniedException,
-    AlreadyExistsException,
-    IdempotentParameterMismatchException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
  * Transforms a directed acyclic graph (DAG) into code.
  */
 export const createScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -11022,76 +9782,45 @@ export const createScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
+ * Removes a specified crawler from the Glue Data Catalog, unless the crawler state is
+ * `RUNNING`.
  */
-export const createSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSecurityConfigurationRequest,
-    output: CreateSecurityConfigurationResponse,
-    errors: [
-      AlreadyExistsException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates a new table optimizer for a specific function.
- */
-export const createTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTableOptimizerRequest,
-    output: CreateTableOptimizerResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a new trigger.
- *
- * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
- */
-export const createTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTriggerRequest,
-  output: CreateTriggerResponse,
+export const deleteCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCrawlerRequest,
+  output: DeleteCrawlerResponse,
   errors: [
-    AlreadyExistsException,
-    ConcurrentModificationException,
+    CrawlerRunningException,
     EntityNotFoundException,
-    IdempotentParameterMismatchException,
-    InternalServiceException,
-    InvalidInputException,
     OperationTimeoutException,
-    ResourceNumberLimitExceededException,
+    SchedulerTransitioningException,
   ],
 }));
 /**
- * Deletes the specified Zero-ETL integration.
+ * Removes a specified database from a Data Catalog.
+ *
+ * After completing this operation, you no longer have access to the tables (and all table
+ * versions and partitions that might belong to the tables) and the user-defined functions in
+ * the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely
+ * manner, at the discretion of the service.
+ *
+ * To ensure the immediate deletion of all related resources, before calling
+ * `DeleteDatabase`, use `DeleteTableVersion` or
+ * `BatchDeleteTableVersion`, `DeletePartition` or
+ * `BatchDeletePartition`, `DeleteUserDefinedFunction`, and
+ * `DeleteTable` or `BatchDeleteTable`, to delete any resources that
+ * belong to the database.
  */
-export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIntegrationRequest,
-  output: DeleteIntegrationResponse,
+export const deleteDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatabaseRequest,
+  output: DeleteDatabaseResponse,
   errors: [
-    AccessDeniedException,
-    ConflictException,
+    ConcurrentModificationException,
     EntityNotFoundException,
-    IntegrationConflictOperationFault,
-    IntegrationNotFoundFault,
-    InternalServerException,
+    FederationSourceException,
+    FederationSourceRetryableException,
     InternalServiceException,
     InvalidInputException,
-    InvalidIntegrationStateFault,
-    InvalidStateException,
-    ValidationException,
+    OperationTimeoutException,
   ],
 }));
 /**
@@ -11116,62 +9845,6 @@ export const deleteSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected entity.
- *
- * The response includes all the fields which make up the entity.
- */
-export const describeEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEntityRequest,
-  output: DescribeEntityResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    FederationSourceException,
-    GlueEncryptionException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of inbound integrations for the specified integration.
- */
-export const describeInboundIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInboundIntegrationsRequest,
-    output: DescribeInboundIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      IntegrationNotFoundFault,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationNotSupportedException,
-      TargetResourceNotFound,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * The API is used to retrieve a list of integrations.
- */
-export const describeIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIntegrationsRequest,
-    output: DescribeIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      IntegrationNotFoundFault,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Retrieve a classifier by name.
  */
 export const getClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -11190,6 +9863,43 @@ export const getColumnStatisticsTaskSettings =
       EntityNotFoundException,
       InvalidInputException,
       OperationTimeoutException,
+    ],
+  }));
+/**
+ * This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog.
+ *
+ * Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode based on the field type defined by the `DescribeEntity` API.
+ *
+ * Spark connectors generate schemas according to the same data type mapping as in the `DescribeEntity` API. Spark connectors convert data to the appropriate data types matching the schema when returning rows.
+ */
+export const getEntityRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEntityRecordsRequest,
+  output: GetEntityRecordsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    FederationSourceException,
+    GlueEncryptionException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+}));
+/**
+ * This API is used for fetching the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target)
+ */
+export const getIntegrationResourceProperty =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetIntegrationResourcePropertyRequest,
+    output: GetIntegrationResourcePropertyResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ValidationException,
     ],
   }));
 /**
@@ -11256,68 +9966,19 @@ export const getPartitionIndexes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves partition metadata from the Data Catalog that contains unfiltered
- * metadata.
- *
- * For IAM authorization, the public IAM action associated with this API is `glue:GetPartition`.
+ * Returns the configuration of all optimizers associated with a specified table.
  */
-export const getUnfilteredPartitionMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetUnfilteredPartitionMetadataRequest,
-    output: GetUnfilteredPartitionMetadataResponse,
-    errors: [
-      EntityNotFoundException,
-      FederationSourceException,
-      FederationSourceRetryableException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      PermissionTypeMismatchException,
-    ],
-  }));
-/**
- * Retrieves partition metadata from the Data Catalog that contains unfiltered
- * metadata.
- *
- * For IAM authorization, the public IAM action associated with this API is `glue:GetPartitions`.
- */
-export const getUnfilteredPartitionsMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetUnfilteredPartitionsMetadataRequest,
-    output: GetUnfilteredPartitionsMetadataResponse,
-    errors: [
-      EntityNotFoundException,
-      FederationSourceException,
-      FederationSourceRetryableException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      PermissionTypeMismatchException,
-    ],
-  }));
-/**
- * Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog.
- *
- * For IAM authorization, the public IAM action associated with this API is `glue:GetTable`.
- */
-export const getUnfilteredTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetUnfilteredTableMetadataRequest,
-    output: GetUnfilteredTableMetadataResponse,
-    errors: [
-      EntityNotFoundException,
-      FederationSourceException,
-      FederationSourceRetryableException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      PermissionTypeMismatchException,
-    ],
-  }),
-);
+export const getTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableOptimizerRequest,
+  output: GetTableOptimizerResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days for your workflow and job run.
  */
@@ -11457,25 +10118,34 @@ export const listIntegrationResourceProperties =
     ],
   }));
 /**
- * Modifies a Zero-ETL integration in the caller's account.
+ * List all the Glue usage profiles.
  */
-export const modifyIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyIntegrationRequest,
-  output: ModifyIntegrationResponse,
+export const listUsageProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUsageProfilesRequest,
+  output: ListUsageProfilesResponse,
   errors: [
-    AccessDeniedException,
-    ConflictException,
-    EntityNotFoundException,
-    IntegrationConflictOperationFault,
-    IntegrationNotFoundFault,
-    InternalServerException,
     InternalServiceException,
     InvalidInputException,
-    InvalidIntegrationStateFault,
-    InvalidStateException,
-    ValidationException,
+    OperationNotSupportedException,
+    OperationTimeoutException,
   ],
 }));
+/**
+ * Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
+ */
+export const putSchemaVersionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutSchemaVersionMetadataInput,
+    output: PutSchemaVersionMetadataResponse,
+    errors: [
+      AccessDeniedException,
+      AlreadyExistsException,
+      EntityNotFoundException,
+      InvalidInputException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
 /**
  * Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking.
  *
@@ -11492,6 +10162,1190 @@ export const startDataQualityRuleRecommendationRun =
       OperationTimeoutException,
     ],
   }));
+/**
+ * Changes the schedule state of the specified crawler to
+ * `SCHEDULED`, unless the crawler is already running or the
+ * schedule state is already `SCHEDULED`.
+ */
+export const startCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartCrawlerScheduleRequest,
+    output: StartCrawlerScheduleResponse,
+    errors: [
+      EntityNotFoundException,
+      NoScheduleException,
+      OperationTimeoutException,
+      SchedulerRunningException,
+      SchedulerTransitioningException,
+    ],
+  }),
+);
+/**
+ * Creates a new catalog in the Glue Data Catalog.
+ */
+export const createCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCatalogRequest,
+  output: CreateCatalogResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    FederatedResourceAlreadyExistsException,
+    FederationSourceException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Deletes multiple tables at once.
+ *
+ * After completing this operation, you no longer have access to the table versions and
+ * partitions that belong to the deleted table. Glue deletes these "orphaned" resources
+ * asynchronously in a timely manner, at the discretion of the service.
+ *
+ * To ensure the immediate deletion of all related resources, before calling
+ * `BatchDeleteTable`, use `DeleteTableVersion` or
+ * `BatchDeleteTableVersion`, and `DeletePartition` or
+ * `BatchDeletePartition`, to delete any resources that belong to the
+ * table.
+ */
+export const batchDeleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteTableRequest,
+  output: BatchDeleteTableResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNotReadyException,
+  ],
+}));
+/**
+ * Sets the schedule state of the specified crawler to
+ * `NOT_SCHEDULED`, but does not stop the crawler if it is
+ * already running.
+ */
+export const stopCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopCrawlerScheduleRequest,
+  output: StopCrawlerScheduleResponse,
+  errors: [
+    EntityNotFoundException,
+    OperationTimeoutException,
+    SchedulerNotRunningException,
+    SchedulerTransitioningException,
+  ],
+}));
+/**
+ * Retrieves the definition of a specified database.
+ */
+export const getDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDatabaseRequest,
+  output: GetDatabaseResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves the `Table` definition in a Data Catalog for
+ * a specified table.
+ */
+export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableRequest,
+  output: GetTableResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNotReadyException,
+  ],
+}));
+/**
+ * Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
+ */
+export const getCatalogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCatalogsRequest,
+  output: GetCatalogsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves all databases defined in a given Data Catalog.
+ */
+export const getDatabases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDatabasesRequest,
+  output: GetDatabasesResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves information about a specified partition.
+ */
+export const getPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPartitionRequest,
+  output: GetPartitionResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Updates an existing database definition in a Data Catalog.
+ */
+export const updateDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDatabaseRequest,
+  output: UpdateDatabaseResponse,
+  errors: [
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Removes a table definition from the Data Catalog.
+ *
+ * After completing this operation, you no longer have access to the table versions and
+ * partitions that belong to the deleted table. Glue deletes these "orphaned" resources
+ * asynchronously in a timely manner, at the discretion of the service.
+ *
+ * To ensure the immediate deletion of all related resources, before calling
+ * `DeleteTable`, use `DeleteTableVersion` or
+ * `BatchDeleteTableVersion`, and `DeletePartition` or
+ * `BatchDeletePartition`, to delete any resources that belong to the
+ * table.
+ */
+export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableRequest,
+  output: DeleteTableResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNotReadyException,
+  ],
+}));
+/**
+ * Creates a new database in a Data Catalog.
+ */
+export const createDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatabaseRequest,
+  output: CreateDatabaseResponse,
+  errors: [
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    FederatedResourceAlreadyExistsException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Modifies an existing classifier (a `GrokClassifier`,
+ * an `XMLClassifier`, a `JsonClassifier`, or a `CsvClassifier`, depending on
+ * which field is present).
+ */
+export const updateClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClassifierRequest,
+  output: UpdateClassifierResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+    VersionMismatchException,
+  ],
+}));
+/**
+ * Returns information on a job bookmark entry.
+ *
+ * For more information about enabling and using job bookmarks, see:
+ *
+ * - Tracking processed data using job bookmarks
+ *
+ * - Job parameters used by Glue
+ *
+ * - Job structure
+ */
+export const getJobBookmark = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJobBookmarkRequest,
+  output: GetJobBookmarkResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the available entities supported by the connection type.
+ */
+export const listEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEntitiesRequest,
+  output: ListEntitiesResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    FederationSourceException,
+    GlueEncryptionException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a specified development endpoint.
+ */
+export const updateDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDevEndpointRequest,
+  output: UpdateDevEndpointResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+}));
+/**
+ * Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts.
+ *
+ * This API supports optional parameters which take in the repository information.
+ */
+export const updateJobFromSourceControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateJobFromSourceControlRequest,
+    output: UpdateJobFromSourceControlResponse,
+    errors: [
+      AccessDeniedException,
+      AlreadyExistsException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job.
+ *
+ * This API supports optional parameters which take in the repository information.
+ */
+export const updateSourceControlFromJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSourceControlFromJobRequest,
+    output: UpdateSourceControlFromJobResponse,
+    errors: [
+      AccessDeniedException,
+      AlreadyExistsException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected entity.
+ *
+ * The response includes all the fields which make up the entity.
+ */
+export const describeEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEntityRequest,
+  output: DescribeEntityResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    FederationSourceException,
+    GlueEncryptionException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+}));
+/**
+ * The API is used to retrieve a list of integrations.
+ */
+export const describeIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeIntegrationsRequest,
+    output: DescribeIntegrationsResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      IntegrationNotFoundFault,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
+ */
+export const getIntegrationTableProperties =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetIntegrationTablePropertiesRequest,
+    output: GetIntegrationTablePropertiesResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * This API can be used for updating the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
+ */
+export const updateIntegrationResourceProperty =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateIntegrationResourcePropertyRequest,
+    output: UpdateIntegrationResourcePropertyResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * This API is used for deleting the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target).
+ */
+export const deleteIntegrationResourceProperty =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteIntegrationResourcePropertyRequest,
+    output: DeleteIntegrationResourcePropertyResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes the table properties that have been created for the tables that need to be replicated.
+ */
+export const deleteIntegrationTableProperties =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteIntegrationTablePropertiesRequest,
+    output: DeleteIntegrationTablePropertiesResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * This API is used to provide optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue database ARN as `ResourceArn` with `TargetTableConfig` respectively.
+ *
+ * The override will be reflected across all the integrations using same `ResourceArn` and source table.
+ */
+export const updateIntegrationTableProperties =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateIntegrationTablePropertiesRequest,
+    output: UpdateIntegrationTablePropertiesResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * This API can be used for setting up the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as `ResourceArn` with `SourceProcessingProperties` and the Glue database ARN as `ResourceArn` with `TargetProcessingProperties` respectively.
+ */
+export const createIntegrationResourceProperty =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateIntegrationResourcePropertyRequest,
+    output: CreateIntegrationResourcePropertyResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      EntityNotFoundException,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue database ARN as `ResourceArn` with `TargetTableConfig` respectively.
+ */
+export const createIntegrationTableProperties =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateIntegrationTablePropertiesRequest,
+    output: CreateIntegrationTablePropertiesResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNotFoundException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table.
+ */
+export const deleteTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteTableOptimizerRequest,
+    output: DeleteTableOptimizerResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration for an existing table optimizer.
+ */
+export const updateTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTableOptimizerRequest,
+    output: UpdateTableOptimizerResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns the configuration for the specified table optimizers.
+ */
+export const batchGetTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchGetTableOptimizerRequest,
+    output: BatchGetTableOptimizerResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a new table optimizer for a specific function.
+ */
+export const createTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateTableOptimizerRequest,
+    output: CreateTableOptimizerResponse,
+    errors: [
+      AccessDeniedException,
+      AlreadyExistsException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes the Glue specified usage profile.
+ */
+export const deleteUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUsageProfileRequest,
+  output: DeleteUsageProfileResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationNotSupportedException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves information about the specified Glue usage profile.
+ */
+export const getUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUsageProfileRequest,
+  output: GetUsageProfileResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationNotSupportedException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Update an Glue usage profile.
+ */
+export const updateUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUsageProfileRequest,
+  output: UpdateUsageProfileResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationNotSupportedException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Starts a new run of the specified blueprint.
+ */
+export const startBlueprintRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartBlueprintRunRequest,
+  output: StartBlueprintRunResponse,
+  errors: [
+    EntityNotFoundException,
+    IllegalBlueprintStateException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Starts a column statistics task run, for a specified table and columns.
+ */
+export const startColumnStatisticsTaskRun =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartColumnStatisticsTaskRunRequest,
+    output: StartColumnStatisticsTaskRunResponse,
+    errors: [
+      AccessDeniedException,
+      ColumnStatisticsTaskRunningException,
+      EntityNotFoundException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }));
+/**
+ * Updates the specified data quality ruleset.
+ */
+export const updateDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDataQualityRulesetRequest,
+    output: UpdateDataQualityRulesetResponse,
+    errors: [
+      AlreadyExistsException,
+      EntityNotFoundException,
+      IdempotentParameterMismatchException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a specified partition index in an existing table.
+ */
+export const createPartitionIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreatePartitionIndexRequest,
+    output: CreatePartitionIndexResponse,
+    errors: [
+      AlreadyExistsException,
+      EntityNotFoundException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Tests a connection to a service to validate the service credentials that you provide.
+ *
+ * You can either provide an existing connection name or a `TestConnectionInput` for testing a non-existing connection input. Providing both at the same time will cause an error.
+ *
+ * If the action is successful, the service sends back an HTTP 200 response.
+ */
+export const testConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestConnectionRequest,
+  output: TestConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    EntityNotFoundException,
+    FederationSourceException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry.
+ *
+ * If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the `GetSchemaVersion` API with the `SchemaVersionId` to check compatibility modes.
+ *
+ * If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
+ */
+export const registerSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RegisterSchemaVersionInput,
+    output: RegisterSchemaVersionResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Enables you to provide additional labels (examples of truth) to be used to teach the
+ * machine learning transform and improve its quality. This API operation is generally used as
+ * part of the active learning workflow that starts with the
+ * `StartMLLabelingSetGenerationTaskRun` call and that ultimately results in
+ * improving the quality of your machine learning transform.
+ *
+ * After the `StartMLLabelingSetGenerationTaskRun` finishes, Glue machine learning
+ * will have generated a series of questions for humans to answer. (Answering these questions is
+ * often called 'labeling' in the machine learning workflows). In the case of the
+ * `FindMatches` transform, these questions are of the form, “What is the correct
+ * way to group these rows together into groups composed entirely of matching records?” After the
+ * labeling process is finished, users upload their answers/labels with a call to
+ * `StartImportLabelsTaskRun`. After `StartImportLabelsTaskRun` finishes,
+ * all future runs of the machine learning transform use the new and improved labels and perform
+ * a higher-quality transformation.
+ *
+ * By default, `StartMLLabelingSetGenerationTaskRun` continually learns from and
+ * combines all labels that you upload unless you set `Replace` to true. If you set
+ * `Replace` to true, `StartImportLabelsTaskRun` deletes and forgets all
+ * previously uploaded labels and learns only from the exact set that you upload. Replacing
+ * labels can be helpful if you realize that you previously uploaded incorrect labels, and you
+ * believe that they are having a negative effect on your transform quality.
+ *
+ * You can check on the status of your task run by calling the `GetMLTaskRun`
+ * operation.
+ */
+export const startImportLabelsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartImportLabelsTaskRunRequest,
+    output: StartImportLabelsTaskRunResponse,
+    errors: [
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
+ */
+export const putWorkflowRunProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutWorkflowRunPropertiesRequest,
+    output: PutWorkflowRunPropertiesResponse,
+    errors: [
+      AlreadyExistsException,
+      ConcurrentModificationException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a new registry which may be used to hold a collection of schemas.
+ */
+export const createRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRegistryInput,
+  output: CreateRegistryResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Registers a blueprint with Glue.
+ */
+export const createBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBlueprintRequest,
+  output: CreateBlueprintResponse,
+  errors: [
+    AlreadyExistsException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates a new crawler with specified targets, role, configuration, and optional schedule.
+ * At least one crawl target must be specified, in the `s3Targets` field, the
+ * `jdbcTargets` field, or the `DynamoDBTargets` field.
+ */
+export const createCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCrawlerRequest,
+  output: CreateCrawlerResponse,
+  errors: [
+    AlreadyExistsException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates a data quality ruleset with DQDL rules applied to a specified Glue table.
+ *
+ * You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
+ */
+export const createDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDataQualityRulesetRequest,
+    output: CreateDataQualityRulesetResponse,
+    errors: [
+      AlreadyExistsException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a new partition.
+ */
+export const createPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePartitionRequest,
+  output: CreatePartitionResponse,
+  errors: [
+    AlreadyExistsException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version.
+ *
+ * When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the `RegisterSchemaVersion` API is used.
+ *
+ * When this API is called without a `RegistryId`, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
+ */
+export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSchemaInput,
+  output: CreateSchemaResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates a new function definition in the Data Catalog.
+ */
+export const createUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateUserDefinedFunctionRequest,
+    output: CreateUserDefinedFunctionResponse,
+    errors: [
+      AlreadyExistsException,
+      EntityNotFoundException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a new workflow.
+ */
+export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkflowRequest,
+  output: CreateWorkflowResponse,
+  errors: [
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Executes the statement.
+ */
+export const runStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RunStatementRequest,
+  output: RunStatementResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    IllegalSessionStateException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts a job run using a job definition.
+ */
+export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartJobRunRequest,
+  output: StartJobRunResponse,
+  errors: [
+    ConcurrentRunsExceededException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Starts an existing trigger. See Triggering
+ * Jobs for information about how different types of trigger are
+ * started.
+ */
+export const startTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTriggerRequest,
+  output: StartTriggerResponse,
+  errors: [
+    ConcurrentRunsExceededException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Starts a new run of the specified workflow.
+ */
+export const startWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartWorkflowRunRequest,
+  output: StartWorkflowRunResponse,
+  errors: [
+    ConcurrentRunsExceededException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates settings for a column statistics task.
+ */
+export const createColumnStatisticsTaskSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateColumnStatisticsTaskSettingsRequest,
+    output: CreateColumnStatisticsTaskSettingsResponse,
+    errors: [
+      AccessDeniedException,
+      AlreadyExistsException,
+      ColumnStatisticsTaskRunningException,
+      EntityNotFoundException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }));
+/**
+ * Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data.
+ *
+ * Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
+ */
+export const createCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateCustomEntityTypeRequest,
+    output: CreateCustomEntityTypeResponse,
+    errors: [
+      AccessDeniedException,
+      AlreadyExistsException,
+      IdempotentParameterMismatchException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a new development endpoint.
+ */
+export const createDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDevEndpointRequest,
+  output: CreateDevEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    IdempotentParameterMismatchException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new session.
+ */
+export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSessionRequest,
+  output: CreateSessionResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    IdempotentParameterMismatchException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Annotate datapoints over time for a specific data quality statistic.
+ * The API requires both profileID and statisticID as part of the InclusionAnnotation input.
+ * The API only works for a single statisticId across multiple profiles.
+ */
+export const batchPutDataQualityStatisticAnnotation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: BatchPutDataQualityStatisticAnnotationRequest,
+    output: BatchPutDataQualityStatisticAnnotationResponse,
+    errors: [
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      ResourceNumberLimitExceededException,
+    ],
+  }));
+/**
+ * Creates an Glue machine learning transform. This operation creates the transform and
+ * all the necessary parameters to train it.
+ *
+ * Call this operation as the first step in the process of using a machine learning transform
+ * (such as the `FindMatches` transform) for deduplicating data. You can provide an
+ * optional `Description`, in addition to the parameters that you want to use for your
+ * algorithm.
+ *
+ * You must also specify certain parameters for the tasks that Glue runs on your
+ * behalf as part of learning from your data and creating a high-quality machine learning
+ * transform. These parameters include `Role`, and optionally,
+ * `AllocatedCapacity`, `Timeout`, and `MaxRetries`. For more
+ * information, see Jobs.
+ */
+export const createMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMLTransformRequest,
+  output: CreateMLTransformResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    IdempotentParameterMismatchException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
+ */
+export const createSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateSecurityConfigurationRequest,
+    output: CreateSecurityConfigurationResponse,
+    errors: [
+      AlreadyExistsException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a new trigger.
+ *
+ * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
+ */
+export const createTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTriggerRequest,
+  output: CreateTriggerResponse,
+  errors: [
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    IdempotentParameterMismatchException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Starts a task to estimate the quality of the transform.
+ *
+ * When you provide label sets as examples of truth, Glue machine learning uses some of
+ * those examples to learn from them. The rest of the labels are used as a test to estimate
+ * quality.
+ *
+ * Returns a unique identifier for the run. You can call `GetMLTaskRun` to get more
+ * information about the stats of the `EvaluationTaskRun`.
+ */
+export const startMLEvaluationTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartMLEvaluationTaskRunRequest,
+    output: StartMLEvaluationTaskRunResponse,
+    errors: [
+      ConcurrentRunsExceededException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      MLTransformNotReadyException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Updates settings for a column statistics task.
+ */
+export const updateColumnStatisticsTaskSettings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateColumnStatisticsTaskSettingsRequest,
+    output: UpdateColumnStatisticsTaskSettingsResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InvalidInputException,
+      OperationTimeoutException,
+      VersionMismatchException,
+    ],
+  }));
+/**
+ * Updates a crawler. If a crawler is
+ * running, you must stop it using `StopCrawler` before updating
+ * it.
+ */
+export const updateCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCrawlerRequest,
+  output: UpdateCrawlerResponse,
+  errors: [
+    CrawlerRunningException,
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+    VersionMismatchException,
+  ],
+}));
+/**
+ * Updates the schedule of a crawler using a `cron` expression.
+ */
+export const updateCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateCrawlerScheduleRequest,
+    output: UpdateCrawlerScheduleResponse,
+    errors: [
+      EntityNotFoundException,
+      InvalidInputException,
+      OperationTimeoutException,
+      SchedulerTransitioningException,
+      VersionMismatchException,
+    ],
+  }),
+);
 /**
  * Creates an Glue usage profile.
  */
@@ -11617,6 +11471,27 @@ export const getStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Retrieves partition metadata from the Data Catalog that contains unfiltered
+ * metadata.
+ *
+ * For IAM authorization, the public IAM action associated with this API is `glue:GetPartition`.
+ */
+export const getUnfilteredPartitionMetadata =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetUnfilteredPartitionMetadataRequest,
+    output: GetUnfilteredPartitionMetadataResponse,
+    errors: [
+      EntityNotFoundException,
+      FederationSourceException,
+      FederationSourceRetryableException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      PermissionTypeMismatchException,
+    ],
+  }));
+/**
  * Lists the history of previous optimizer runs for a specific table.
  */
 export const listTableOptimizerRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -11647,6 +11522,143 @@ export const querySchemaVersionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Retrieves information about the partitions in a table.
+ */
+export const getPartitions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPartitionsRequest,
+  output: GetPartitionsResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    InvalidStateException,
+    OperationTimeoutException,
+    ResourceNotReadyException,
+  ],
+}));
+/**
+ * Modifies a Zero-ETL integration in the caller's account.
+ */
+export const modifyIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyIntegrationRequest,
+  output: ModifyIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    EntityNotFoundException,
+    IntegrationConflictOperationFault,
+    IntegrationNotFoundFault,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    InvalidIntegrationStateFault,
+    InvalidStateException,
+    ValidationException,
+  ],
+}));
+/**
+ * Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog.
+ *
+ * For IAM authorization, the public IAM action associated with this API is `glue:GetTable`.
+ */
+export const getUnfilteredTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetUnfilteredTableMetadataRequest,
+    output: GetUnfilteredTableMetadataResponse,
+    errors: [
+      EntityNotFoundException,
+      FederationSourceException,
+      FederationSourceRetryableException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      PermissionTypeMismatchException,
+    ],
+  }),
+);
+/**
+ * Retrieves partition metadata from the Data Catalog that contains unfiltered
+ * metadata.
+ *
+ * For IAM authorization, the public IAM action associated with this API is `glue:GetPartitions`.
+ */
+export const getUnfilteredPartitionsMetadata =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetUnfilteredPartitionsMetadataRequest,
+    output: GetUnfilteredPartitionsMetadataResponse,
+    errors: [
+      EntityNotFoundException,
+      FederationSourceException,
+      FederationSourceRetryableException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      PermissionTypeMismatchException,
+    ],
+  }));
+/**
+ * Returns a list of inbound integrations for the specified integration.
+ */
+export const describeInboundIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeInboundIntegrationsRequest,
+    output: DescribeInboundIntegrationsResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      IntegrationNotFoundFault,
+      InternalServerException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationNotSupportedException,
+      TargetResourceNotFound,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves partitions in a batch request.
+ */
+export const batchGetPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetPartitionRequest,
+  output: BatchGetPartitionResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    InvalidStateException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Deletes the specified Zero-ETL integration.
+ */
+export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntegrationRequest,
+  output: DeleteIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    EntityNotFoundException,
+    IntegrationConflictOperationFault,
+    IntegrationNotFoundFault,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    InvalidIntegrationStateFault,
+    InvalidStateException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates one or more partitions in a batch operation.
  */

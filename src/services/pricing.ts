@@ -367,37 +367,37 @@ export class ListPriceListsResponse extends S.Class<ListPriceListsResponse>(
 )({ PriceLists: S.optional(PriceLists), NextToken: S.optional(S.String) }) {}
 
 //# Errors
-export class ExpiredNextTokenException extends S.TaggedError<ExpiredNextTokenException>()(
-  "ExpiredNextTokenException",
-  {},
-) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
 ) {}
+export class ExpiredNextTokenException extends S.TaggedError<ExpiredNextTokenException>()(
+  "ExpiredNextTokenException",
+  { Message: S.optional(S.String) },
+) {}
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
-  {},
-) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { Message: S.optional(S.String) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -410,21 +410,6 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export const getAttributeValues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttributeValuesRequest,
   output: GetAttributeValuesResponse,
-  errors: [
-    ExpiredNextTokenException,
-    InternalErrorException,
-    InvalidNextTokenException,
-    InvalidParameterException,
-    NotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns a list of all products that match the filter criteria.
- */
-export const getProducts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProductsRequest,
-  output: GetProductsResponse,
   errors: [
     ExpiredNextTokenException,
     InternalErrorException,
@@ -456,6 +441,21 @@ export const listPriceLists = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InvalidParameterException,
     NotFoundException,
     ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns a list of all products that match the filter criteria.
+ */
+export const getProducts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProductsRequest,
+  output: GetProductsResponse,
+  errors: [
+    ExpiredNextTokenException,
+    InternalErrorException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    NotFoundException,
     ThrottlingException,
   ],
 }));

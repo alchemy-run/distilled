@@ -528,6 +528,135 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
 export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
   "UntagResourceOutput",
 )({}) {}
+export class CreateIndexInput extends S.Class<CreateIndexInput>(
+  "CreateIndexInput",
+)(
+  { ClientToken: S.optional(S.String), Tags: S.optional(TagMap) },
+  T.all(
+    T.Http({ method: "POST", uri: "/CreateIndex" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class UpdateIndexTypeInput extends S.Class<UpdateIndexTypeInput>(
+  "UpdateIndexTypeInput",
+)(
+  { Arn: S.String, Type: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/UpdateIndexType" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteIndexInput extends S.Class<DeleteIndexInput>(
+  "DeleteIndexInput",
+)(
+  { Arn: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/DeleteIndex" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ListIndexesInput extends S.Class<ListIndexesInput>(
+  "ListIndexesInput",
+)(
+  {
+    Type: S.optional(S.String),
+    Regions: S.optional(RegionList),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/ListIndexes" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetViewInput extends S.Class<GetViewInput>("GetViewInput")(
+  { ViewArn: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/GetView" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class IncludedProperty extends S.Class<IncludedProperty>(
+  "IncludedProperty",
+)({ Name: S.String }) {}
+export const IncludedPropertyList = S.Array(IncludedProperty);
+export class SearchFilter extends S.Class<SearchFilter>("SearchFilter")({
+  FilterString: S.String,
+}) {}
+export class UpdateViewInput extends S.Class<UpdateViewInput>(
+  "UpdateViewInput",
+)(
+  {
+    ViewArn: S.String,
+    IncludedProperties: S.optional(IncludedPropertyList),
+    Filters: S.optional(SearchFilter),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/UpdateView" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class DeleteViewInput extends S.Class<DeleteViewInput>(
+  "DeleteViewInput",
+)(
+  { ViewArn: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/DeleteView" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class ListViewsInput extends S.Class<ListViewsInput>("ListViewsInput")(
+  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
+  T.all(
+    T.Http({ method: "POST", uri: "/ListViews" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class AssociateDefaultViewInput extends S.Class<AssociateDefaultViewInput>(
+  "AssociateDefaultViewInput",
+)(
+  { ViewArn: S.String },
+  T.all(
+    T.Http({ method: "POST", uri: "/AssociateDefaultView" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
 export class OrgConfiguration extends S.Class<OrgConfiguration>(
   "OrgConfiguration",
 )({
@@ -535,9 +664,6 @@ export class OrgConfiguration extends S.Class<OrgConfiguration>(
   ServiceLinkedRole: S.optional(S.String),
 }) {}
 export const ManagedViewArnList = S.Array(S.String);
-export class SearchFilter extends S.Class<SearchFilter>("SearchFilter")({
-  FilterString: S.String,
-}) {}
 export const ServiceViewArnList = S.Array(S.String);
 export class CreateResourceExplorerSetupOutput extends S.Class<CreateResourceExplorerSetupOutput>(
   "CreateResourceExplorerSetupOutput",
@@ -591,14 +717,86 @@ export class ListServiceViewsOutput extends S.Class<ListServiceViewsOutput>(
 export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
   "ListTagsForResourceOutput",
 )({ Tags: S.optional(TagMap) }) {}
+export class CreateIndexOutput extends S.Class<CreateIndexOutput>(
+  "CreateIndexOutput",
+)({
+  Arn: S.optional(S.String),
+  State: S.optional(S.String),
+  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+}) {}
+export class UpdateIndexTypeOutput extends S.Class<UpdateIndexTypeOutput>(
+  "UpdateIndexTypeOutput",
+)({
+  Arn: S.optional(S.String),
+  Type: S.optional(S.String),
+  State: S.optional(S.String),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+}) {}
+export class DeleteIndexOutput extends S.Class<DeleteIndexOutput>(
+  "DeleteIndexOutput",
+)({
+  Arn: S.optional(S.String),
+  State: S.optional(S.String),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+}) {}
+export class Index extends S.Class<Index>("Index")({
+  Region: S.optional(S.String),
+  Arn: S.optional(S.String),
+  Type: S.optional(S.String),
+}) {}
+export const IndexList = S.Array(Index);
+export class ListIndexesOutput extends S.Class<ListIndexesOutput>(
+  "ListIndexesOutput",
+)({ Indexes: S.optional(IndexList), NextToken: S.optional(S.String) }) {}
+export class CreateViewInput extends S.Class<CreateViewInput>(
+  "CreateViewInput",
+)(
+  {
+    ClientToken: S.optional(S.String),
+    ViewName: S.String,
+    IncludedProperties: S.optional(IncludedPropertyList),
+    Scope: S.optional(S.String),
+    Filters: S.optional(SearchFilter),
+    Tags: S.optional(TagMap),
+  },
+  T.all(
+    T.Http({ method: "POST", uri: "/CreateView" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class View extends S.Class<View>("View")({
+  ViewArn: S.optional(S.String),
+  Owner: S.optional(S.String),
+  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  Scope: S.optional(S.String),
+  IncludedProperties: S.optional(IncludedPropertyList),
+  Filters: S.optional(SearchFilter),
+}) {}
+export class GetViewOutput extends S.Class<GetViewOutput>("GetViewOutput")({
+  View: S.optional(View),
+  Tags: S.optional(TagMap),
+}) {}
+export class UpdateViewOutput extends S.Class<UpdateViewOutput>(
+  "UpdateViewOutput",
+)({ View: S.optional(View) }) {}
+export class DeleteViewOutput extends S.Class<DeleteViewOutput>(
+  "DeleteViewOutput",
+)({ ViewArn: S.optional(S.String) }) {}
+export class ListViewsOutput extends S.Class<ListViewsOutput>(
+  "ListViewsOutput",
+)({ Views: S.optional(ViewArnList), NextToken: S.optional(S.String) }) {}
+export class AssociateDefaultViewOutput extends S.Class<AssociateDefaultViewOutput>(
+  "AssociateDefaultViewOutput",
+)({ ViewArn: S.optional(S.String) }) {}
+export const ViewList = S.Array(View);
 export class BatchGetViewError extends S.Class<BatchGetViewError>(
   "BatchGetViewError",
 )({ ViewArn: S.String, ErrorMessage: S.String }) {}
 export const BatchGetViewErrors = S.Array(BatchGetViewError);
-export class IncludedProperty extends S.Class<IncludedProperty>(
-  "IncludedProperty",
-)({ Name: S.String }) {}
-export const IncludedPropertyList = S.Array(IncludedProperty);
 export class ManagedView extends S.Class<ManagedView>("ManagedView")({
   ManagedViewArn: S.optional(S.String),
   ManagedViewName: S.optional(S.String),
@@ -625,12 +823,6 @@ export class MemberIndex extends S.Class<MemberIndex>("MemberIndex")({
   Type: S.optional(S.String),
 }) {}
 export const MemberIndexList = S.Array(MemberIndex);
-export class Index extends S.Class<Index>("Index")({
-  Region: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
-export const IndexList = S.Array(Index);
 export class StreamingAccessDetails extends S.Class<StreamingAccessDetails>(
   "StreamingAccessDetails",
 )({
@@ -646,6 +838,9 @@ export class ResourceCount extends S.Class<ResourceCount>("ResourceCount")({
   TotalResources: S.optional(S.Number),
   Complete: S.optional(S.Boolean),
 }) {}
+export class BatchGetViewOutput extends S.Class<BatchGetViewOutput>(
+  "BatchGetViewOutput",
+)({ Views: S.optional(ViewList), Errors: S.optional(BatchGetViewErrors) }) {}
 export class GetManagedViewOutput extends S.Class<GetManagedViewOutput>(
   "GetManagedViewOutput",
 )({ ManagedView: S.optional(ManagedView) }) {}
@@ -695,14 +890,9 @@ export class ListSupportedResourceTypesOutput extends S.Class<ListSupportedResou
   ResourceTypes: S.optional(ResourceTypeList),
   NextToken: S.optional(S.String),
 }) {}
-export class View extends S.Class<View>("View")({
-  ViewArn: S.optional(S.String),
-  Owner: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  Scope: S.optional(S.String),
-  IncludedProperties: S.optional(IncludedPropertyList),
-  Filters: S.optional(SearchFilter),
-}) {}
+export class CreateViewOutput extends S.Class<CreateViewOutput>(
+  "CreateViewOutput",
+)({ View: S.optional(View) }) {}
 export class ErrorDetails extends S.Class<ErrorDetails>("ErrorDetails")({
   Code: S.optional(S.String),
   Message: S.optional(S.String),
@@ -712,14 +902,6 @@ export class ViewStatus extends S.Class<ViewStatus>("ViewStatus")({
   View: S.optional(View),
   ErrorDetails: S.optional(ErrorDetails),
 }) {}
-export const ViewList = S.Array(View);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, ValidationIssue: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class BatchGetViewOutput extends S.Class<BatchGetViewOutput>(
-  "BatchGetViewOutput",
-)({ Views: S.optional(ViewList), Errors: S.optional(BatchGetViewErrors) }) {}
 export class SearchOutput extends S.Class<SearchOutput>("SearchOutput")({
   Resources: S.optional(ResourceList),
   NextToken: S.optional(S.String),
@@ -737,6 +919,10 @@ export class RegionStatus extends S.Class<RegionStatus>("RegionStatus")({
   View: S.optional(ViewStatus),
 }) {}
 export const RegionStatusList = S.Array(RegionStatus);
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, ValidationIssue: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class GetResourceExplorerSetupOutput extends S.Class<GetResourceExplorerSetupOutput>(
   "GetResourceExplorerSetupOutput",
 )({ Regions: S.optional(RegionStatusList), NextToken: S.optional(S.String) }) {}
@@ -748,64 +934,34 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.String },
 ) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.String, Name: S.String, Value: S.String },
 ) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.String, FieldList: S.optional(ValidationExceptionFieldList) },
 ) {}
 
 //# Operations
-/**
- * Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Resource Explorer is configured.
- */
-export const deleteResourceExplorerSetup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourceExplorerSetupInput,
-    output: DeleteResourceExplorerSetupOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * After you call this operation, the affected Amazon Web Services Region no longer has a default view. All Search operations in that Region must explicitly specify a view or the operation fails. You can configure a new default by calling the AssociateDefaultView operation.
- *
- * If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every `Search` operation performed in that Region.
- */
-export const disassociateDefaultView = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateDefaultViewRequest,
-    output: DisassociateDefaultViewResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
  */
@@ -820,179 +976,6 @@ export const getAccountLevelServiceConfiguration =
       ThrottlingException,
     ],
   }));
-/**
- * Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call GetView to retrieve the details of that view.
- */
-export const getDefaultView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDefaultViewRequest,
-  output: GetDefaultViewOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
- */
-export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIndexRequest,
-  output: GetIndexOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about the Resource Explorer index in the current Amazon Web Services Region. This operation returns the ARN and type of the index if one exists.
- */
-export const getServiceIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetServiceIndexRequest,
-  output: GetServiceIndexOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the Amazon resource names (ARNs) of the Amazon Web Services-managed views available in the Amazon Web Services Region in which you call this operation.
- */
-export const listManagedViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListManagedViewsInput,
-  output: ListManagedViewsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all Resource Explorer service views available in the current Amazon Web Services account. This operation returns the ARNs of available service views.
- */
-export const listServiceViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListServiceViewsInput,
-  output: ListServiceViewsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the tags that are attached to the specified resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves details of the specified Amazon Web Services-managed view.
- */
-export const getManagedView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetManagedViewInput,
-  output: GetManagedViewOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view.
- */
-export const getServiceView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetServiceViewInput,
-  output: GetServiceViewOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
- */
-export const listIndexesForMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIndexesForMembersInput,
-    output: ListIndexesForMembersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
- */
-export const listResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListResourcesInput,
-  output: ListResourcesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
-    ValidationException,
-  ],
-}));
 /**
  * Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This operation returns information about indexes including their ARNs, types, and Regions.
  */
@@ -1035,16 +1018,185 @@ export const listSupportedResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves details about a list of views.
+ * Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
  */
-export const batchGetView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGetViewInput,
-  output: BatchGetViewOutput,
+export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIndexRequest,
+  output: GetIndexOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Changes the type of the index from one of the following types to the other. For more information about indexes and the role they perform in Amazon Web Services Resource Explorer, see Turning on cross-Region search by creating an aggregator index in the *Amazon Web Services Resource Explorer User Guide*.
+ *
+ * - ** `AGGREGATOR` index type**
+ *
+ * The index contains information about resources from all Amazon Web Services Regions in the Amazon Web Services account in which you've created a Resource Explorer index. Resource information from all other Regions is replicated to this Region's index.
+ *
+ * When you change the index type to `AGGREGATOR`, Resource Explorer turns on replication of all discovered resource information from the other Amazon Web Services Regions in your account to this index. You can then, from this Region only, perform resource search queries that span all Amazon Web Services Regions in the Amazon Web Services account. Turning on replication from all other Regions is performed by asynchronous background tasks. You can check the status of the asynchronous tasks by using the GetIndex operation. When the asynchronous tasks complete, the `Status` response of that operation changes from `UPDATING` to `ACTIVE`. After that, you can start to see results from other Amazon Web Services Regions in query results. However, it can take several hours for replication from all other Regions to complete.
+ *
+ * You can have only one aggregator index per Amazon Web Services account. Before you can promote a different index to be the aggregator index for the account, you must first demote the existing aggregator index to type `LOCAL`.
+ *
+ * - ** `LOCAL` index type**
+ *
+ * The index contains information about resources in only the Amazon Web Services Region in which the index exists. If an aggregator index in another Region exists, then information in this local index is replicated to the aggregator index.
+ *
+ * When you change the index type to `LOCAL`, Resource Explorer turns off the replication of resource information from all other Amazon Web Services Regions in the Amazon Web Services account to this Region. The aggregator index remains in the `UPDATING` state until all replication with other Regions successfully stops. You can check the status of the asynchronous task by using the GetIndex operation. When Resource Explorer successfully stops all replication with other Regions, the `Status` response of that operation changes from `UPDATING` to `ACTIVE`. Separately, the resource information from other Regions that was previously stored in the index is deleted within 30 days by another background task. Until that asynchronous task completes, some results from other Regions can continue to appear in search results.
+ *
+ * After you demote an aggregator index to a local index, you must wait 24 hours before you can promote another index to be the new aggregator index for the account.
+ */
+export const updateIndexType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIndexTypeInput,
+  output: UpdateIndexTypeOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified index and turns off Amazon Web Services Resource Explorer in the specified Amazon Web Services Region. When you delete an index, Resource Explorer stops discovering and indexing resources in that Region. Resource Explorer also deletes all views in that Region. These actions occur as asynchronous background tasks. You can check to see when the actions are complete by using the GetIndex operation and checking the `Status` response value.
+ *
+ * If the index you delete is the aggregator index for the Amazon Web Services account, you must wait 24 hours before you can promote another local index to be the aggregator index for the account. Users can't perform account-wide searches using Resource Explorer until another aggregator index is configured.
+ */
+export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIndexInput,
+  output: DeleteIndexOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a Search that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region.
+ *
+ * If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every `Search` operation performed in that Region.
+ */
+export const associateDefaultView = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateDefaultViewInput,
+    output: AssociateDefaultViewOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call GetView to retrieve the details of that view.
+ */
+export const getDefaultView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDefaultViewRequest,
+  output: GetDefaultViewOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about the Resource Explorer index in the current Amazon Web Services Region. This operation returns the ARN and type of the index if one exists.
+ */
+export const getServiceIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceIndexRequest,
+  output: GetServiceIndexOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all Resource Explorer service views available in the current Amazon Web Services account. This operation returns the ARNs of available service views.
+ */
+export const listServiceViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListServiceViewsInput,
+  output: ListServiceViewsOutput,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Turns on Amazon Web Services Resource Explorer in the Amazon Web Services Region in which you called this operation by creating an index. Resource Explorer begins discovering the resources in this Region and stores the details about the resources in the index so that they can be queried by using the Search operation. You can create only one index in a Region.
+ *
+ * This operation creates only a *local* index. To promote the local index in one Amazon Web Services Region into the aggregator index for the Amazon Web Services account, use the UpdateIndexType operation. For more information, see Turning on cross-Region search by creating an aggregator index in the *Amazon Web Services Resource Explorer User Guide*.
+ *
+ * For more details about what happens when you turn on Resource Explorer in an Amazon Web Services Region, see Turn on Resource Explorer to index your resources in an Amazon Web Services Region in the *Amazon Web Services Resource Explorer User Guide*.
+ *
+ * If this is the first Amazon Web Services Region in which you've created an index for Resource Explorer, then this operation also creates a service-linked role in your Amazon Web Services account that allows Resource Explorer to enumerate your resources to populate the index.
+ *
+ * - **Action**: `resource-explorer-2:CreateIndex`
+ *
+ * **Resource**: The ARN of the index (as it will exist after the operation completes) in the Amazon Web Services Region and account in which you're trying to create the index. Use the wildcard character (`*`) at the end of the string to match the eventual UUID. For example, the following `Resource` element restricts the role or user to creating an index in only the `us-east-2` Region of the specified account.
+ *
+ * `"Resource": "arn:aws:resource-explorer-2:us-west-2:*<account-id>*:index/*"`
+ *
+ * Alternatively, you can use `"Resource": "*"` to allow the role or user to create an index in any Region.
+ *
+ * - **Action**: `iam:CreateServiceLinkedRole`
+ *
+ * **Resource**: No specific resource (*).
+ *
+ * This permission is required only the first time you create an index to turn on Resource Explorer in the account. Resource Explorer uses this to create the service-linked role needed to index the resources in your account. Resource Explorer uses the same service-linked role for all additional indexes you create afterwards.
+ */
+export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIndexInput,
+  output: CreateIndexOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
+ */
+export const listIndexes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIndexesInput,
+  output: ListIndexesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the Amazon resource names (ARNs) of the views available in the Amazon Web Services Region in which you call this operation.
+ *
+ * Always check the `NextToken` response parameter for a `null` value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The `NextToken` response parameter value is `null` *only* when there are no more results to display.
+ */
+export const listViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListViewsInput,
+  output: ListViewsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -1065,6 +1217,83 @@ export const createResourceExplorerSetup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Resource Explorer is configured.
+ */
+export const deleteResourceExplorerSetup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourceExplorerSetupInput,
+    output: DeleteResourceExplorerSetupOutput,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * After you call this operation, the affected Amazon Web Services Region no longer has a default view. All Search operations in that Region must explicitly specify a view or the operation fails. You can configure a new default by calling the AssociateDefaultView operation.
+ *
+ * If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every `Search` operation performed in that Region.
+ */
+export const disassociateDefaultView = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateDefaultViewRequest,
+    output: DisassociateDefaultViewResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view.
+ */
+export const getServiceView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceViewInput,
+  output: GetServiceViewOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
+ */
+export const listIndexesForMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListIndexesForMembersInput,
+    output: ListIndexesForMembersOutput,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the Amazon resource names (ARNs) of the Amazon Web Services-managed views available in the Amazon Web Services Region in which you call this operation.
+ */
+export const listManagedViews = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListManagedViewsInput,
+  output: ListManagedViewsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
  * Searches for resources and displays details about all resources that match the specified criteria. You must specify a query string.
  *
  * All search queries must use a view. If you don't explicitly specify a view, then Amazon Web Services Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation. The results are the logical intersection of the results that match both the `QueryString` parameter supplied to this operation and the `SearchFilter` parameter attached to the view.
@@ -1080,6 +1309,160 @@ export const search = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
+ */
+export const listResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResourcesInput,
+  output: ListResourcesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
+ */
+export const updateView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateViewInput,
+  output: UpdateViewOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the tags that are attached to the specified resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves details of the specified view.
+ */
+export const getView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetViewInput,
+  output: GetViewOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified view.
+ *
+ * If the specified view is the default view for its Amazon Web Services Region, then all Search operations in that Region must explicitly specify the view to use until you configure a new default by calling the AssociateDefaultView operation.
+ */
+export const deleteView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteViewInput,
+  output: DeleteViewOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves details about a list of views.
+ */
+export const batchGetView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetViewInput,
+  output: BatchGetViewOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves details of the specified Amazon Web Services-managed view.
+ */
+export const getManagedView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetManagedViewInput,
+  output: GetManagedViewOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a view that users can query by using the Search operation. Results from queries that you make using this view include only resources that match the view's `Filters`. For more information about Amazon Web Services Resource Explorer views, see Managing views in the *Amazon Web Services Resource Explorer User Guide*.
+ *
+ * Only the principals with an IAM identity-based policy that grants `Allow` to the `Search` action on a `Resource` with the Amazon resource name (ARN) of this view can Search using views you create with this operation.
+ */
+export const createView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateViewInput,
+  output: CreateViewOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     UnauthorizedException,
     ValidationException,

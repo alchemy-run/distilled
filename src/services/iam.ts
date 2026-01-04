@@ -3557,108 +3557,72 @@ export class SimulatePolicyResponse extends S.Class<SimulatePolicyResponse>(
 ) {}
 
 //# Errors
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  {},
-  T.AwsQueryError({ code: "ConcurrentModification", httpResponseCode: 409 }),
-) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 409 }),
-) {}
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
-  "InvalidInputException",
-  {},
-  T.AwsQueryError({ code: "InvalidInput", httpResponseCode: 400 }),
-) {}
-export class NoSuchEntityException extends S.TaggedError<NoSuchEntityException>()(
-  "NoSuchEntityException",
-  {},
-  T.AwsQueryError({ code: "NoSuchEntity", httpResponseCode: 404 }),
-) {}
-export class PolicyNotAttachableException extends S.TaggedError<PolicyNotAttachableException>()(
-  "PolicyNotAttachableException",
-  {},
-  T.AwsQueryError({ code: "PolicyNotAttachable", httpResponseCode: 400 }),
-) {}
-export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
-  "ServiceFailureException",
-  {},
-  T.AwsQueryError({ code: "ServiceFailure", httpResponseCode: 500 }),
-) {}
-export class EntityAlreadyExistsException extends S.TaggedError<EntityAlreadyExistsException>()(
-  "EntityAlreadyExistsException",
-  {},
-  T.AwsQueryError({ code: "EntityAlreadyExists", httpResponseCode: 409 }),
-) {}
-export class EntityTemporarilyUnmodifiableException extends S.TaggedError<EntityTemporarilyUnmodifiableException>()(
-  "EntityTemporarilyUnmodifiableException",
-  {},
-  T.AwsQueryError({
-    code: "EntityTemporarilyUnmodifiable",
-    httpResponseCode: 409,
-  }),
-) {}
-export class DeleteConflictException extends S.TaggedError<DeleteConflictException>()(
-  "DeleteConflictException",
-  {},
-  T.AwsQueryError({ code: "DeleteConflict", httpResponseCode: 409 }),
-) {}
-export class UnmodifiableEntityException extends S.TaggedError<UnmodifiableEntityException>()(
-  "UnmodifiableEntityException",
-  {},
-  T.AwsQueryError({ code: "UnmodifiableEntity", httpResponseCode: 400 }),
-) {}
-export class AccountNotManagementOrDelegatedAdministratorException extends S.TaggedError<AccountNotManagementOrDelegatedAdministratorException>()(
-  "AccountNotManagementOrDelegatedAdministratorException",
-  {},
 ) {}
 export class FeatureDisabledException extends S.TaggedError<FeatureDisabledException>()(
   "FeatureDisabledException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "FeatureDisabled", httpResponseCode: 404 }),
 ) {}
-export class CallerIsNotManagementAccountException extends S.TaggedError<CallerIsNotManagementAccountException>()(
-  "CallerIsNotManagementAccountException",
-  {},
+export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ConcurrentModification", httpResponseCode: 409 }),
 ) {}
-export class OrganizationNotFoundException extends S.TaggedError<OrganizationNotFoundException>()(
-  "OrganizationNotFoundException",
-  {},
+export class EntityAlreadyExistsException extends S.TaggedError<EntityAlreadyExistsException>()(
+  "EntityAlreadyExistsException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "EntityAlreadyExists", httpResponseCode: 409 }),
 ) {}
-export class OrganizationNotInAllFeaturesModeException extends S.TaggedError<OrganizationNotInAllFeaturesModeException>()(
-  "OrganizationNotInAllFeaturesModeException",
-  {},
+export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+  "InvalidInputException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidInput", httpResponseCode: 400 }),
 ) {}
-export class MalformedPolicyDocumentException extends S.TaggedError<MalformedPolicyDocumentException>()(
-  "MalformedPolicyDocumentException",
-  {},
-  T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
+export class EntityTemporarilyUnmodifiableException extends S.TaggedError<EntityTemporarilyUnmodifiableException>()(
+  "EntityTemporarilyUnmodifiableException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "EntityTemporarilyUnmodifiable",
+    httpResponseCode: 409,
+  }),
 ) {}
-export class InvalidAuthenticationCodeException extends S.TaggedError<InvalidAuthenticationCodeException>()(
-  "InvalidAuthenticationCodeException",
-  {},
-  T.AwsQueryError({ code: "InvalidAuthenticationCode", httpResponseCode: 403 }),
+export class NoSuchEntityException extends S.TaggedError<NoSuchEntityException>()(
+  "NoSuchEntityException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NoSuchEntity", httpResponseCode: 404 }),
 ) {}
-export class ServiceAccessNotEnabledException extends S.TaggedError<ServiceAccessNotEnabledException>()(
-  "ServiceAccessNotEnabledException",
-  {},
+export class DeleteConflictException extends S.TaggedError<DeleteConflictException>()(
+  "DeleteConflictException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DeleteConflict", httpResponseCode: 409 }),
+) {}
+export class AccountNotManagementOrDelegatedAdministratorException extends S.TaggedError<AccountNotManagementOrDelegatedAdministratorException>()(
+  "AccountNotManagementOrDelegatedAdministratorException",
+  { Message: S.optional(S.String) },
 ) {}
 export class FeatureEnabledException extends S.TaggedError<FeatureEnabledException>()(
   "FeatureEnabledException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "FeatureEnabled", httpResponseCode: 409 }),
 ) {}
+export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
+  "ServiceFailureException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ServiceFailure", httpResponseCode: 500 }),
+) {}
 export class CredentialReportExpiredException extends S.TaggedError<CredentialReportExpiredException>()(
   "CredentialReportExpiredException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ReportExpired", httpResponseCode: 410 }),
 ) {}
-export class PasswordPolicyViolationException extends S.TaggedError<PasswordPolicyViolationException>()(
-  "PasswordPolicyViolationException",
+export class MalformedPolicyDocumentException extends S.TaggedError<MalformedPolicyDocumentException>()(
+  "MalformedPolicyDocumentException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "PasswordPolicyViolation", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
 ) {}
 export class InvalidUserTypeException extends S.TaggedError<InvalidUserTypeException>()(
   "InvalidUserTypeException",
@@ -3673,6 +3637,10 @@ export class OpenIdIdpCommunicationErrorException extends S.TaggedError<OpenIdId
     httpResponseCode: 400,
   }),
 ) {}
+export class OrganizationNotFoundException extends S.TaggedError<OrganizationNotFoundException>()(
+  "OrganizationNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
 export class ReportGenerationLimitExceededException extends S.TaggedError<ReportGenerationLimitExceededException>()(
   "ReportGenerationLimitExceededException",
   { message: S.optional(S.String) },
@@ -3686,15 +3654,15 @@ export class CredentialReportNotPresentException extends S.TaggedError<Credentia
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ReportNotPresent", httpResponseCode: 410 }),
 ) {}
-export class ServiceNotSupportedException extends S.TaggedError<ServiceNotSupportedException>()(
-  "ServiceNotSupportedException",
-  {},
-  T.AwsQueryError({ code: "NotSupportedService", httpResponseCode: 404 }),
-) {}
 export class PolicyEvaluationException extends S.TaggedError<PolicyEvaluationException>()(
   "PolicyEvaluationException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "PolicyEvaluation", httpResponseCode: 500 }),
+) {}
+export class UnmodifiableEntityException extends S.TaggedError<UnmodifiableEntityException>()(
+  "UnmodifiableEntityException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UnmodifiableEntity", httpResponseCode: 400 }),
 ) {}
 export class KeyPairMismatchException extends S.TaggedError<KeyPairMismatchException>()(
   "KeyPairMismatchException",
@@ -3710,6 +3678,34 @@ export class DuplicateSSHPublicKeyException extends S.TaggedError<DuplicateSSHPu
   "DuplicateSSHPublicKeyException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "DuplicateSSHPublicKey", httpResponseCode: 400 }),
+) {}
+export class InvalidAuthenticationCodeException extends S.TaggedError<InvalidAuthenticationCodeException>()(
+  "InvalidAuthenticationCodeException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidAuthenticationCode", httpResponseCode: 403 }),
+) {}
+export class PolicyNotAttachableException extends S.TaggedError<PolicyNotAttachableException>()(
+  "PolicyNotAttachableException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "PolicyNotAttachable", httpResponseCode: 400 }),
+) {}
+export class PasswordPolicyViolationException extends S.TaggedError<PasswordPolicyViolationException>()(
+  "PasswordPolicyViolationException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "PasswordPolicyViolation", httpResponseCode: 400 }),
+) {}
+export class CallerIsNotManagementAccountException extends S.TaggedError<CallerIsNotManagementAccountException>()(
+  "CallerIsNotManagementAccountException",
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceNotSupportedException extends S.TaggedError<ServiceNotSupportedException>()(
+  "ServiceNotSupportedException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NotSupportedService", httpResponseCode: 404 }),
+) {}
+export class OrganizationNotInAllFeaturesModeException extends S.TaggedError<OrganizationNotInAllFeaturesModeException>()(
+  "OrganizationNotInAllFeaturesModeException",
+  { Message: S.optional(S.String) },
 ) {}
 export class CredentialReportNotReadyException extends S.TaggedError<CredentialReportNotReadyException>()(
   "CredentialReportNotReadyException",
@@ -3739,557 +3735,12 @@ export class InvalidPublicKeyException extends S.TaggedError<InvalidPublicKeyExc
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidPublicKey", httpResponseCode: 400 }),
 ) {}
+export class ServiceAccessNotEnabledException extends S.TaggedError<ServiceAccessNotEnabledException>()(
+  "ServiceAccessNotEnabledException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Attaches the specified managed policy to the specified user.
- *
- * You use this operation to attach a *managed* policy to a user. To
- * embed an inline policy in a user, use
- * `PutUserPolicy`
- * .
- *
- * As a best practice, you can validate your IAM policies.
- * To learn more, see Validating IAM policies
- * in the *IAM User Guide*.
- *
- * For more information about policies, see Managed policies and inline
- * policies in the *IAM User Guide*.
- */
-export const attachUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AttachUserPolicyRequest,
-  output: AttachUserPolicyResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    PolicyNotAttachableException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Creates an alias for your Amazon Web Services account. For information about using an Amazon Web Services account
- * alias, see Creating, deleting, and
- * listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User
- * Guide.
- */
-export const createAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountAliasRequest,
-  output: CreateAccountAliasResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityAlreadyExistsException,
-    LimitExceededException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deactivates the specified MFA device and removes it from association with the user
- * name for which it was originally enabled.
- *
- * For more information about creating and working with virtual MFA devices, see Enabling a virtual
- * multi-factor authentication (MFA) device in the
- * *IAM User Guide*.
- */
-export const deactivateMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeactivateMFADeviceRequest,
-  output: DeactivateMFADeviceResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityTemporarilyUnmodifiableException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes the access key pair associated with the specified IAM user.
- *
- * If you do not specify a user name, IAM determines the user name implicitly based on
- * the Amazon Web Services access key ID signing the request. This operation works for access keys under
- * the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root
- * user credentials even if the Amazon Web Services account has no associated users.
- */
-export const deleteAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccessKeyRequest,
-  output: DeleteAccessKeyResponse,
-  errors: [
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes the specified Amazon Web Services account alias. For information about using an Amazon Web Services
- * account alias, see Creating, deleting, and
- * listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User
- * Guide.
- */
-export const deleteAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountAliasRequest,
-  output: DeleteAccountAliasResponse,
-  errors: [
-    ConcurrentModificationException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes the password policy for the Amazon Web Services account. There are no parameters.
- */
-export const deleteAccountPasswordPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountPasswordPolicyRequest,
-    output: DeleteAccountPasswordPolicyResponse,
-    errors: [
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Deletes the specified inline policy that is embedded in the specified IAM
- * group.
- *
- * A group can also have managed policies attached to it. To detach a managed policy from
- * a group, use DetachGroupPolicy.
- * For more information about policies, refer to Managed policies and inline
- * policies in the *IAM User Guide*.
- */
-export const deleteGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGroupPolicyRequest,
-  output: DeleteGroupPolicyResponse,
-  errors: [
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes the specified instance profile. The instance profile must not have an
- * associated role.
- *
- * Make sure that you do not have any Amazon EC2 instances running with the instance
- * profile you are about to delete. Deleting a role or instance profile that is
- * associated with a running instance will break any applications running on the
- * instance.
- *
- * For more information about instance profiles, see Using
- * instance profiles in the *IAM User Guide*.
- */
-export const deleteInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInstanceProfileRequest,
-    output: DeleteInstanceProfileResponse,
-    errors: [
-      DeleteConflictException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Deletes the password for the specified IAM user or root user, For more information, see
- * Managing
- * passwords for IAM users.
- *
- * You can use the CLI, the Amazon Web Services API, or the **Users**
- * page in the IAM console to delete a password for any IAM user. You can use ChangePassword to update, but not delete, your own password in the
- * **My Security Credentials** page in the
- * Amazon Web Services Management Console.
- *
- * Deleting a user's password does not prevent a user from accessing Amazon Web Services through
- * the command line interface or the API. To prevent all user access, you must also
- * either make any access keys inactive or delete them. For more information about
- * making keys inactive or deleting them, see UpdateAccessKey
- * and DeleteAccessKey.
- */
-export const deleteLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLoginProfileRequest,
-  output: DeleteLoginProfileResponse,
-  errors: [
-    EntityTemporarilyUnmodifiableException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes an OpenID Connect identity provider (IdP) resource object in IAM.
- *
- * Deleting an IAM OIDC provider resource does not update any roles that reference the
- * provider as a principal in their trust policies. Any attempt to assume a role that
- * references a deleted provider fails.
- *
- * This operation is idempotent; it does not fail or return an error if you call the
- * operation for a provider that does not exist.
- */
-export const deleteOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOpenIDConnectProviderRequest,
-    output: DeleteOpenIDConnectProviderResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Deletes the specified managed policy.
- *
- * Before you can delete a managed policy, you must first detach the policy from all
- * users, groups, and roles that it is attached to. In addition, you must delete all the
- * policy's versions. The following steps describe the process for deleting a managed
- * policy:
- *
- * - Detach the policy from all users, groups, and roles that the policy is
- * attached to, using DetachUserPolicy, DetachGroupPolicy, or DetachRolePolicy. To list all the users, groups, and roles that a
- * policy is attached to, use ListEntitiesForPolicy.
- *
- * - Delete all versions of the policy using DeletePolicyVersion. To list the policy's versions, use ListPolicyVersions. You cannot use DeletePolicyVersion to delete the version that is marked as the
- * default version. You delete the policy's default version in the next step of the
- * process.
- *
- * - Delete the policy (this automatically deletes the policy's default version)
- * using this operation.
- *
- * For information about managed policies, see Managed policies and inline
- * policies in the *IAM User Guide*.
- */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePolicyRequest,
-  output: DeletePolicyResponse,
-  errors: [
-    DeleteConflictException,
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes the specified version from the specified managed policy.
- *
- * You cannot delete the default version from a policy using this operation. To delete
- * the default version from a policy, use DeletePolicy. To find
- * out which version of a policy is marked as the default version, use ListPolicyVersions.
- *
- * For information about versions for managed policies, see Versioning for managed
- * policies in the *IAM User Guide*.
- */
-export const deletePolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePolicyVersionRequest,
-  output: DeletePolicyVersionResponse,
-  errors: [
-    DeleteConflictException,
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes the specified role. Unlike the Amazon Web Services Management Console, when you delete a role
- * programmatically, you must delete the items attached to the role manually, or the
- * deletion fails. For more information, see Deleting an IAM role. Before attempting to delete a role, remove the
- * following attached items:
- *
- * - Inline policies (DeleteRolePolicy)
- *
- * - Attached managed policies (DetachRolePolicy)
- *
- * - Instance profile (RemoveRoleFromInstanceProfile)
- *
- * - Optional – Delete instance profile after detaching from role for
- * resource clean up (DeleteInstanceProfile)
- *
- * Make sure that you do not have any Amazon EC2 instances running with the role you are
- * about to delete. Deleting a role or instance profile that is associated with a
- * running instance will break any applications running on the instance.
- */
-export const deleteRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRoleRequest,
-  output: DeleteRoleResponse,
-  errors: [
-    ConcurrentModificationException,
-    DeleteConflictException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-    UnmodifiableEntityException,
-  ],
-}));
-/**
- * Deletes the permissions boundary for the specified IAM role.
- *
- * You cannot set the boundary for a service-linked role.
- *
- * Deleting the permissions boundary for a role might increase its permissions. For
- * example, it might allow anyone who assumes the role to perform all the actions
- * granted in its permissions policies.
- */
-export const deleteRolePermissionsBoundary =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRolePermissionsBoundaryRequest,
-    output: DeleteRolePermissionsBoundaryResponse,
-    errors: [
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }));
-/**
- * Deletes the specified inline policy that is embedded in the specified IAM
- * role.
- *
- * A role can also have managed policies attached to it. To detach a managed policy from
- * a role, use DetachRolePolicy.
- * For more information about policies, refer to Managed policies and inline
- * policies in the *IAM User Guide*.
- */
-export const deleteRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRolePolicyRequest,
-  output: DeleteRolePolicyResponse,
-  errors: [
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-    UnmodifiableEntityException,
-  ],
-}));
-/**
- * Deletes a SAML provider resource in IAM.
- *
- * Deleting the provider resource from IAM does not update any roles that reference the
- * SAML provider resource's ARN as a principal in their trust policies. Any attempt to
- * assume a role that references a non-existent provider resource ARN fails.
- *
- * This operation requires Signature Version 4.
- */
-export const deleteSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSAMLProviderRequest,
-  output: DeleteSAMLProviderResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes the specified server certificate.
- *
- * For more information about working with server certificates, see Working
- * with server certificates in the *IAM User Guide*. This
- * topic also includes a list of Amazon Web Services services that can use the server certificates that
- * you manage with IAM.
- *
- * If you are using a server certificate with Elastic Load Balancing, deleting the
- * certificate could have implications for your application. If Elastic Load Balancing
- * doesn't detect the deletion of bound certificates, it may continue to use the
- * certificates. This could cause Elastic Load Balancing to stop accepting traffic. We
- * recommend that you remove the reference to the certificate from Elastic Load
- * Balancing before using this command to delete the certificate. For more information,
- * see DeleteLoadBalancerListeners in the Elastic Load Balancing API
- * Reference.
- */
-export const deleteServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServerCertificateRequest,
-    output: DeleteServerCertificateResponse,
-    errors: [
-      DeleteConflictException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Deletes the specified service-specific credential.
- */
-export const deleteServiceSpecificCredential =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceSpecificCredentialRequest,
-    output: DeleteServiceSpecificCredentialResponse,
-    errors: [NoSuchEntityException],
-  }));
-/**
- * Deletes a signing certificate associated with the specified IAM user.
- *
- * If you do not specify a user name, IAM determines the user name implicitly based on
- * the Amazon Web Services access key ID signing the request. This operation works for access keys under
- * the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root
- * user credentials even if the Amazon Web Services account has no associated IAM users.
- */
-export const deleteSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSigningCertificateRequest,
-    output: DeleteSigningCertificateResponse,
-    errors: [
-      ConcurrentModificationException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Deletes the specified SSH public key.
- *
- * The SSH public key deleted by this operation is used only for authenticating the
- * associated IAM user to an CodeCommit repository. For more information about using SSH keys
- * to authenticate to an CodeCommit repository, see Set up CodeCommit for
- * SSH connections in the *CodeCommit User Guide*.
- */
-export const deleteSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSSHPublicKeyRequest,
-  output: DeleteSSHPublicKeyResponse,
-  errors: [NoSuchEntityException],
-}));
-/**
- * Deletes the specified IAM user. Unlike the Amazon Web Services Management Console, when you delete a user
- * programmatically, you must delete the items attached to the user manually, or the
- * deletion fails. For more information, see Deleting an IAM
- * user. Before attempting to delete a user, remove the following items:
- *
- * - Password (DeleteLoginProfile)
- *
- * - Access keys (DeleteAccessKey)
- *
- * - Signing certificate (DeleteSigningCertificate)
- *
- * - SSH public key (DeleteSSHPublicKey)
- *
- * - Git credentials (DeleteServiceSpecificCredential)
- *
- * - Multi-factor authentication (MFA) device (DeactivateMFADevice, DeleteVirtualMFADevice)
- *
- * - Inline policies (DeleteUserPolicy)
- *
- * - Attached managed policies (DetachUserPolicy)
- *
- * - Group memberships (RemoveUserFromGroup)
- */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
-  errors: [
-    ConcurrentModificationException,
-    DeleteConflictException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes the permissions boundary for the specified IAM user.
- *
- * Deleting the permissions boundary for a user might increase its permissions by
- * allowing the user to perform all the actions granted in its permissions policies.
- */
-export const deleteUserPermissionsBoundary =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteUserPermissionsBoundaryRequest,
-    output: DeleteUserPermissionsBoundaryResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-  }));
-/**
- * Deletes the specified inline policy that is embedded in the specified IAM
- * user.
- *
- * A user can also have managed policies attached to it. To detach a managed policy from
- * a user, use DetachUserPolicy.
- * For more information about policies, refer to Managed policies and inline
- * policies in the *IAM User Guide*.
- */
-export const deleteUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteUserPolicyRequest,
-  output: DeleteUserPolicyResponse,
-  errors: [
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Deletes a virtual MFA device.
- *
- * You must deactivate a user's virtual MFA device before you can delete it. For
- * information about deactivating MFA devices, see DeactivateMFADevice.
- */
-export const deleteVirtualMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVirtualMFADeviceRequest,
-    output: DeleteVirtualMFADeviceResponse,
-    errors: [
-      ConcurrentModificationException,
-      DeleteConflictException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Removes the specified managed policy from the specified IAM group.
- *
- * A group can also have inline policies embedded with it. To delete an inline policy,
- * use DeleteGroupPolicy. For information about policies, see Managed
- * policies and inline policies in the
- * *IAM User Guide*.
- */
-export const detachGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetachGroupPolicyRequest,
-  output: DetachGroupPolicyResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Removes the specified managed policy from the specified role.
- *
- * A role can also have inline policies embedded with it. To delete an inline policy, use
- * DeleteRolePolicy. For information about policies, see Managed
- * policies and inline policies in the
- * *IAM User Guide*.
- */
-export const detachRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetachRolePolicyRequest,
-  output: DetachRolePolicyResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-    UnmodifiableEntityException,
-  ],
-}));
-/**
- * Removes the specified managed policy from the specified user.
- *
- * A user can also have inline policies embedded with it. To delete an inline policy, use
- * DeleteUserPolicy. For information about policies, see Managed
- * policies and inline policies in the
- * *IAM User Guide*.
- */
-export const detachUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetachUserPolicyRequest,
-  output: DetachUserPolicyResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
 /**
  * Disables the outbound identity federation feature for your Amazon Web Services account. When disabled, IAM principals in the account cannot
  * use the `GetWebIdentityToken` API to obtain JSON Web Tokens (JWTs) for authentication with external services. This operation
@@ -4300,6 +3751,27 @@ export const disableOutboundWebIdentityFederation =
     input: DisableOutboundWebIdentityFederationRequest,
     output: DisableOutboundWebIdentityFederationResponse,
     errors: [FeatureDisabledException],
+  }));
+/**
+ * Retrieves the configuration information for the outbound identity federation feature in your Amazon Web Services account. The response includes the unique issuer URL for your
+ * Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services.
+ */
+export const getOutboundWebIdentityFederationInfo =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetOutboundWebIdentityFederationInfoRequest,
+    output: GetOutboundWebIdentityFederationInfoResponse,
+    errors: [FeatureDisabledException],
+  }));
+/**
+ * Enables the outbound identity federation feature for your Amazon Web Services account. When enabled, IAM principals in your account
+ * can use the `GetWebIdentityToken` API to obtain JSON Web Tokens (JWTs) for secure authentication with external services.
+ * This operation also generates a unique issuer URL for your Amazon Web Services account.
+ */
+export const enableOutboundWebIdentityFederation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: EnableOutboundWebIdentityFederationRequest,
+    output: EnableOutboundWebIdentityFederationResponse,
+    errors: [FeatureEnabledException],
   }));
 /**
  * Generates a credential report for the Amazon Web Services account. For more information about the
@@ -4313,1478 +3785,6 @@ export const generateCredentialReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [LimitExceededException, ServiceFailureException],
   }),
 );
-/**
- * Gets a list of all of the context keys referenced in all the IAM policies that are
- * attached to the specified IAM entity. The entity can be an IAM user, group, or role.
- * If you specify a user, then the request also includes all of the policies attached to
- * groups that the user is a member of.
- *
- * You can optionally include a list of one or more additional policies, specified as
- * strings. If you want to include *only* a list of policies by string,
- * use GetContextKeysForCustomPolicy instead.
- *
- * **Note:** This operation discloses information about the
- * permissions granted to other users. If you do not want users to see other user's
- * permissions, then consider allowing them to use GetContextKeysForCustomPolicy instead.
- *
- * Context keys are variables maintained by Amazon Web Services and its services that provide details
- * about the context of an API query request. Context keys can be evaluated by testing
- * against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values
- * you must supply when you call SimulatePrincipalPolicy.
- */
-export const getContextKeysForPrincipalPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContextKeysForPrincipalPolicyRequest,
-    output: GetContextKeysForPolicyResponse,
-    errors: [InvalidInputException, NoSuchEntityException],
-  }));
-/**
- * Retrieves the configuration information for the outbound identity federation feature in your Amazon Web Services account. The response includes the unique issuer URL for your
- * Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services.
- */
-export const getOutboundWebIdentityFederationInfo =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOutboundWebIdentityFederationInfoRequest,
-    output: GetOutboundWebIdentityFederationInfoResponse,
-    errors: [FeatureDisabledException],
-  }));
-/**
- * Adds or updates the policy that is specified as the IAM role's permissions boundary.
- * You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for
- * a role. Use the boundary to control the maximum permissions that the role can have.
- * Setting a permissions boundary is an advanced feature that can affect the permissions
- * for the role.
- *
- * You cannot set the boundary for a service-linked role.
- *
- * Policies used as permissions boundaries do not provide permissions. You must also
- * attach a permissions policy to the role. To learn how the effective permissions for
- * a role are evaluated, see IAM JSON policy
- * evaluation logic in the IAM User Guide.
- */
-export const putRolePermissionsBoundary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRolePermissionsBoundaryRequest,
-    output: PutRolePermissionsBoundaryResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      PolicyNotAttachableException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
-/**
- * Adds or updates an inline policy document that is embedded in the specified IAM
- * role.
- *
- * When you embed an inline policy in a role, the inline policy is used as part of the
- * role's access (permissions) policy. The role's trust policy is created at the same time
- * as the role, using
- * `CreateRole`
- * .
- * You can update a role's trust policy using
- * `UpdateAssumeRolePolicy`
- * . For more information about roles,
- * see IAM
- * roles in the *IAM User Guide*.
- *
- * A role can also have a managed policy attached to it. To attach a managed policy to a
- * role, use
- * `AttachRolePolicy`
- * . To create a new managed policy, use
- *
- * `CreatePolicy`
- * . For information about policies, see Managed
- * policies and inline policies in the
- * *IAM User Guide*.
- *
- * For information about the maximum number of inline policies that you can embed with a
- * role, see IAM and STS quotas in the *IAM User Guide*.
- *
- * Because policy documents can be large, you should use POST rather than GET when
- * calling `PutRolePolicy`. For general information about using the Query
- * API with IAM, see Making query requests in the
- * *IAM User Guide*.
- */
-export const putRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutRolePolicyRequest,
-  output: PutRolePolicyResponse,
-  errors: [
-    LimitExceededException,
-    MalformedPolicyDocumentException,
-    NoSuchEntityException,
-    ServiceFailureException,
-    UnmodifiableEntityException,
-  ],
-}));
-/**
- * Adds or updates the policy that is specified as the IAM user's permissions
- * boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the
- * boundary for a user. Use the boundary to control the maximum permissions that the user
- * can have. Setting a permissions boundary is an advanced feature that can affect the
- * permissions for the user.
- *
- * Policies that are used as permissions boundaries do not provide permissions. You
- * must also attach a permissions policy to the user. To learn how the effective
- * permissions for a user are evaluated, see IAM JSON policy
- * evaluation logic in the IAM User Guide.
- */
-export const putUserPermissionsBoundary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutUserPermissionsBoundaryRequest,
-    output: PutUserPermissionsBoundaryResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      PolicyNotAttachableException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Adds or updates an inline policy document that is embedded in the specified IAM
- * user.
- *
- * An IAM user can also have a managed policy attached to it. To attach a managed
- * policy to a user, use
- * `AttachUserPolicy`
- * . To create a new managed policy, use
- *
- * `CreatePolicy`
- * . For information about policies, see Managed
- * policies and inline policies in the
- * *IAM User Guide*.
- *
- * For information about the maximum number of inline policies that you can embed in a
- * user, see IAM and STS quotas in the *IAM User Guide*.
- *
- * Because policy documents can be large, you should use POST rather than GET when
- * calling `PutUserPolicy`. For general information about using the Query
- * API with IAM, see Making query requests in the
- * *IAM User Guide*.
- */
-export const putUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutUserPolicyRequest,
-  output: PutUserPolicyResponse,
-  errors: [
-    LimitExceededException,
-    MalformedPolicyDocumentException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Rejects a delegation request, denying the requested temporary access.
- *
- * Once a request is rejected, it cannot be accepted or updated later. Rejected requests expire after 7 days.
- *
- * When rejecting a request, an optional explanation can be added using the `Notes` request parameter.
- *
- * For more details, see
- *
- * Managing Permissions for Delegation Requests.
- */
-export const rejectDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectDelegationRequestRequest,
-    output: RejectDelegationRequestResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Removes the specified client ID (also known as audience) from the list of client IDs
- * registered for the specified IAM OpenID Connect (OIDC) provider resource
- * object.
- *
- * This operation is idempotent; it does not fail or return an error if you try to remove
- * a client ID that does not exist.
- */
-export const removeClientIDFromOpenIDConnectProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveClientIDFromOpenIDConnectProviderRequest,
-    output: RemoveClientIDFromOpenIDConnectProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }));
-/**
- * Removes the specified IAM role from the specified Amazon EC2 instance profile.
- *
- * Make sure that you do not have any Amazon EC2 instances running with the role you are
- * about to remove from the instance profile. Removing a role from an instance profile
- * that is associated with a running instance might break any applications running on
- * the instance.
- *
- * For more information about roles, see IAM roles in the
- * *IAM User Guide*. For more information about instance profiles,
- * see Using
- * instance profiles in the *IAM User Guide*.
- */
-export const removeRoleFromInstanceProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveRoleFromInstanceProfileRequest,
-    output: RemoveRoleFromInstanceProfileResponse,
-    errors: [
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }));
-/**
- * Removes the specified user from the specified group.
- */
-export const removeUserFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveUserFromGroupRequest,
-  output: RemoveUserFromGroupResponse,
-  errors: [
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Synchronizes the specified MFA device with its IAM resource object on the Amazon Web Services
- * servers.
- *
- * For more information about creating and working with virtual MFA devices, see Using a virtual MFA
- * device in the *IAM User Guide*.
- */
-export const resyncMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResyncMFADeviceRequest,
-  output: ResyncMFADeviceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidAuthenticationCodeException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Sends the exchange token for an accepted delegation request.
- *
- * The exchange token is sent to the partner via an asynchronous notification channel, established by the partner.
- *
- * The delegation request must be in the `ACCEPTED` state when calling this API. After the
- * `SendDelegationToken` API
- * call is successful, the request transitions to a `FINALIZED` state and cannot be rolled back. However, a user may reject
- * an accepted request before the `SendDelegationToken` API is called.
- *
- * For more details, see
- *
- * Managing Permissions for Delegation Requests.
- */
-export const sendDelegationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendDelegationTokenRequest,
-  output: SendDelegationTokenResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Sets the specified version of the specified policy as the policy's default (operative)
- * version.
- *
- * This operation affects all users, groups, and roles that the policy is attached to. To
- * list the users, groups, and roles that the policy is attached to, use ListEntitiesForPolicy.
- *
- * For information about managed policies, see Managed policies and inline
- * policies in the *IAM User Guide*.
- */
-export const setDefaultPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetDefaultPolicyVersionRequest,
-    output: SetDefaultPolicyVersionResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Sets the specified version of the global endpoint token as the token version used for
- * the Amazon Web Services account.
- *
- * By default, Security Token Service (STS) is available as a global service, and all STS requests
- * go to a single endpoint at `https://sts.amazonaws.com`. Amazon Web Services recommends
- * using Regional STS endpoints to reduce latency, build in redundancy, and increase
- * session token availability. For information about Regional endpoints for STS, see
- * Security Token Service
- * endpoints and quotas in the *Amazon Web Services General Reference*.
- *
- * If you make an STS call to the global endpoint, the resulting session tokens might
- * be valid in some Regions but not others. It depends on the version that is set in this
- * operation. Version 1 tokens are valid only in Amazon Web Services Regions that are
- * available by default. These tokens do not work in manually enabled Regions, such as Asia
- * Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2
- * tokens are longer and might affect systems where you temporarily store tokens. For
- * information, see Activating and
- * deactivating STS in an Amazon Web Services Region in the
- * *IAM User Guide*.
- *
- * To view the current session token version, see the
- * `GlobalEndpointTokenVersion` entry in the response of the GetAccountSummary operation.
- */
-export const setSecurityTokenServicePreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetSecurityTokenServicePreferencesRequest,
-    output: SetSecurityTokenServicePreferencesResponse,
-    errors: [ServiceFailureException],
-  }));
-/**
- * Adds one or more tags to an IAM instance profile. If a tag with the same key name
- * already exists, then that tag is overwritten with the new value.
- *
- * Each tag consists of a key name and an associated value. By assigning tags to your resources, you can do the
- * following:
- *
- * - **Administrative grouping and discovery** - Attach
- * tags to resources to aid in organization and search. For example, you could search for all
- * resources with the key name *Project* and the value
- * *MyImportantProject*. Or search for all resources with the key name
- * *Cost Center* and the value *41200*.
- *
- * - **Access control** - Include tags in IAM user-based
- * and resource-based policies. You can use tags to restrict access to only an IAM instance
- * profile that has a specified tag attached. For examples of policies that show how to use
- * tags to control access, see Control access using IAM tags in the
- * *IAM User Guide*.
- *
- * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
- * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- *
- * - Amazon Web Services always interprets the tag `Value` as a single string. If you
- * need to store an array, you can store comma-separated values in the string. However, you
- * must interpret the value in your code.
- */
-export const tagInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagInstanceProfileRequest,
-  output: TagInstanceProfileResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Adds one or more tags to an IAM virtual multi-factor authentication (MFA) device. If
- * a tag with the same key name already exists, then that tag is overwritten with the new
- * value.
- *
- * A tag consists of a key name and an associated value. By assigning tags to your
- * resources, you can do the following:
- *
- * - **Administrative grouping and discovery** - Attach
- * tags to resources to aid in organization and search. For example, you could search for all
- * resources with the key name *Project* and the value
- * *MyImportantProject*. Or search for all resources with the key name
- * *Cost Center* and the value *41200*.
- *
- * - **Access control** - Include tags in IAM user-based
- * and resource-based policies. You can use tags to restrict access to only an IAM virtual
- * MFA device that has a specified tag attached. For examples of policies that show how to
- * use tags to control access, see Control access using IAM tags in the
- * *IAM User Guide*.
- *
- * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
- * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- *
- * - Amazon Web Services always interprets the tag `Value` as a single string. If you
- * need to store an array, you can store comma-separated values in the string. However, you
- * must interpret the value in your code.
- */
-export const tagMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagMFADeviceRequest,
-  output: TagMFADeviceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Adds one or more tags to an OpenID Connect (OIDC)-compatible identity provider. For
- * more information about these providers, see About web identity federation. If
- * a tag with the same key name already exists, then that tag is overwritten with the new
- * value.
- *
- * A tag consists of a key name and an associated value. By assigning tags to your
- * resources, you can do the following:
- *
- * - **Administrative grouping and discovery** - Attach
- * tags to resources to aid in organization and search. For example, you could search for all
- * resources with the key name *Project* and the value
- * *MyImportantProject*. Or search for all resources with the key name
- * *Cost Center* and the value *41200*.
- *
- * - **Access control** - Include tags in IAM identity-based
- * and resource-based policies. You can use tags to restrict access to only an OIDC provider
- * that has a specified tag attached. For examples of policies that show how to use tags to
- * control access, see Control access using IAM tags in the
- * *IAM User Guide*.
- *
- * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
- * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- *
- * - Amazon Web Services always interprets the tag `Value` as a single string. If you
- * need to store an array, you can store comma-separated values in the string. However, you
- * must interpret the value in your code.
- */
-export const tagOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TagOpenIDConnectProviderRequest,
-    output: TagOpenIDConnectProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Adds one or more tags to an IAM customer managed policy. If a tag with the same key
- * name already exists, then that tag is overwritten with the new value.
- *
- * A tag consists of a key name and an associated value. By assigning tags to your
- * resources, you can do the following:
- *
- * - **Administrative grouping and discovery** - Attach
- * tags to resources to aid in organization and search. For example, you could search for all
- * resources with the key name *Project* and the value
- * *MyImportantProject*. Or search for all resources with the key name
- * *Cost Center* and the value *41200*.
- *
- * - **Access control** - Include tags in IAM user-based
- * and resource-based policies. You can use tags to restrict access to only an IAM customer
- * managed policy that has a specified tag attached. For examples of policies that show how
- * to use tags to control access, see Control access using IAM tags in the
- * *IAM User Guide*.
- *
- * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
- * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- *
- * - Amazon Web Services always interprets the tag `Value` as a single string. If you
- * need to store an array, you can store comma-separated values in the string. However, you
- * must interpret the value in your code.
- */
-export const tagPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagPolicyRequest,
-  output: TagPolicyResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Adds one or more tags to an IAM role. The role can be a regular role or a
- * service-linked role. If a tag with the same key name already exists, then that tag is
- * overwritten with the new value.
- *
- * A tag consists of a key name and an associated value. By assigning tags to your
- * resources, you can do the following:
- *
- * - **Administrative grouping and discovery** - Attach
- * tags to resources to aid in organization and search. For example, you could search for all
- * resources with the key name *Project* and the value
- * *MyImportantProject*. Or search for all resources with the key name
- * *Cost Center* and the value *41200*.
- *
- * - **Access control** - Include tags in IAM user-based
- * and resource-based policies. You can use tags to restrict access to only an IAM role
- * that has a specified tag attached. You can also restrict access to only those resources
- * that have a certain tag attached. For examples of policies that show how to use tags to
- * control access, see Control access using IAM tags in the
- * *IAM User Guide*.
- *
- * - **Cost allocation** - Use tags to help track which
- * individuals and teams are using which Amazon Web Services resources.
- *
- * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
- * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- *
- * - Amazon Web Services always interprets the tag `Value` as a single string. If you
- * need to store an array, you can store comma-separated values in the string. However, you
- * must interpret the value in your code.
- *
- * For more information about tagging, see Tagging IAM identities in the
- * *IAM User Guide*.
- */
-export const tagRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagRoleRequest,
-  output: TagRoleResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Adds one or more tags to a Security Assertion Markup Language (SAML) identity provider.
- * For more information about these providers, see About SAML 2.0-based federation .
- * If a tag with the same key name already exists, then that tag is overwritten with the new
- * value.
- *
- * A tag consists of a key name and an associated value. By assigning tags to your
- * resources, you can do the following:
- *
- * - **Administrative grouping and discovery** - Attach
- * tags to resources to aid in organization and search. For example, you could search for all
- * resources with the key name *Project* and the value
- * *MyImportantProject*. Or search for all resources with the key name
- * *Cost Center* and the value *41200*.
- *
- * - **Access control** - Include tags in IAM user-based
- * and resource-based policies. You can use tags to restrict access to only a SAML identity
- * provider that has a specified tag attached. For examples of policies that show how to use
- * tags to control access, see Control access using IAM tags in the
- * *IAM User Guide*.
- *
- * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
- * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- *
- * - Amazon Web Services always interprets the tag `Value` as a single string. If you
- * need to store an array, you can store comma-separated values in the string. However, you
- * must interpret the value in your code.
- */
-export const tagSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagSAMLProviderRequest,
-  output: TagSAMLProviderResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Adds one or more tags to an IAM server certificate. If a tag with the same key name
- * already exists, then that tag is overwritten with the new value.
- *
- * For certificates in a Region supported by Certificate Manager (ACM), we
- * recommend that you don't use IAM server certificates. Instead, use ACM to provision,
- * manage, and deploy your server certificates. For more information about IAM server
- * certificates, Working with server
- * certificates in the *IAM User Guide*.
- *
- * A tag consists of a key name and an associated value. By assigning tags to your
- * resources, you can do the following:
- *
- * - **Administrative grouping and discovery** - Attach
- * tags to resources to aid in organization and search. For example, you could search for all
- * resources with the key name *Project* and the value
- * *MyImportantProject*. Or search for all resources with the key name
- * *Cost Center* and the value *41200*.
- *
- * - **Access control** - Include tags in IAM user-based
- * and resource-based policies. You can use tags to restrict access to only a server
- * certificate that has a specified tag attached. For examples of policies that show how to
- * use tags to control access, see Control access using IAM tags in the
- * *IAM User Guide*.
- *
- * - **Cost allocation** - Use tags to help track which
- * individuals and teams are using which Amazon Web Services resources.
- *
- * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
- * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- *
- * - Amazon Web Services always interprets the tag `Value` as a single string. If you
- * need to store an array, you can store comma-separated values in the string. However, you
- * must interpret the value in your code.
- */
-export const tagServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TagServerCertificateRequest,
-    output: TagServerCertificateResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Adds one or more tags to an IAM user. If a tag with the same key name already exists,
- * then that tag is overwritten with the new value.
- *
- * A tag consists of a key name and an associated value. By assigning tags to your
- * resources, you can do the following:
- *
- * - **Administrative grouping and discovery** - Attach
- * tags to resources to aid in organization and search. For example, you could search for all
- * resources with the key name *Project* and the value
- * *MyImportantProject*. Or search for all resources with the key name
- * *Cost Center* and the value *41200*.
- *
- * - **Access control** - Include tags in IAM identity-based
- * and resource-based policies. You can use tags to restrict access to only an IAM
- * requesting user that has a specified tag attached. You can also restrict access to only
- * those resources that have a certain tag attached. For examples of policies that show how
- * to use tags to control access, see Control access using IAM tags in the
- * *IAM User Guide*.
- *
- * - **Cost allocation** - Use tags to help track which
- * individuals and teams are using which Amazon Web Services resources.
- *
- * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
- * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- *
- * - Amazon Web Services always interprets the tag `Value` as a single string. If you
- * need to store an array, you can store comma-separated values in the string. However, you
- * must interpret the value in your code.
- *
- * For more information about tagging, see Tagging IAM identities in the
- * *IAM User Guide*.
- */
-export const tagUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagUserRequest,
-  output: TagUserResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Removes the specified tags from the IAM instance profile. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- */
-export const untagInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UntagInstanceProfileRequest,
-    output: UntagInstanceProfileResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Removes the specified tags from the IAM virtual multi-factor authentication (MFA)
- * device. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- */
-export const untagMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagMFADeviceRequest,
-  output: UntagMFADeviceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Removes the specified tags from the specified OpenID Connect (OIDC)-compatible identity
- * provider in IAM. For more information about OIDC providers, see About web identity federation.
- * For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- */
-export const untagOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UntagOpenIDConnectProviderRequest,
-    output: UntagOpenIDConnectProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Removes the specified tags from the customer managed policy. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- */
-export const untagPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagPolicyRequest,
-  output: UntagPolicyResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Removes the specified tags from the role. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- */
-export const untagRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagRoleRequest,
-  output: UntagRoleResponse,
-  errors: [
-    ConcurrentModificationException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Removes the specified tags from the specified Security Assertion Markup Language (SAML)
- * identity provider in IAM. For more information about these providers, see About web identity
- * federation. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- */
-export const untagSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagSAMLProviderRequest,
-  output: UntagSAMLProviderResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidInputException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Removes the specified tags from the IAM server certificate.
- * For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- *
- * For certificates in a Region supported by Certificate Manager (ACM), we
- * recommend that you don't use IAM server certificates. Instead, use ACM to provision,
- * manage, and deploy your server certificates. For more information about IAM server
- * certificates, Working with server
- * certificates in the *IAM User Guide*.
- */
-export const untagServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UntagServerCertificateRequest,
-    output: UntagServerCertificateResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Removes the specified tags from the user. For more information about tagging, see Tagging IAM resources in the
- * *IAM User Guide*.
- */
-export const untagUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagUserRequest,
-  output: UntagUserResponse,
-  errors: [
-    ConcurrentModificationException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Changes the status of the specified access key from Active to Inactive, or vice versa.
- * This operation can be used to disable a user's key as part of a key rotation
- * workflow.
- *
- * If the `UserName` is not specified, the user name is determined implicitly
- * based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is
- * used, then `UserName` is required. If a long-term key is assigned to the
- * user, then `UserName` is not required. This operation works for access keys
- * under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user
- * credentials even if the Amazon Web Services account has no associated users.
- *
- * For information about rotating keys, see Managing keys and certificates
- * in the *IAM User Guide*.
- */
-export const updateAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccessKeyRequest,
-  output: UpdateAccessKeyResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Updates the password policy settings for the Amazon Web Services account.
- *
- * This operation does not support partial updates. No parameters are required, but
- * if you do not specify a parameter, that parameter's value reverts to its default
- * value. See the **Request Parameters** section for each
- * parameter's default value. Also note that some parameters do not allow the default
- * parameter to be explicitly set. Instead, to invoke the default value, do not include
- * that parameter when you invoke the operation.
- *
- * For more information about using a password policy, see Managing an IAM password
- * policy in the *IAM User Guide*.
- */
-export const updateAccountPasswordPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountPasswordPolicyRequest,
-    output: UpdateAccountPasswordPolicyResponse,
-    errors: [
-      LimitExceededException,
-      MalformedPolicyDocumentException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Updates the policy that grants an IAM entity permission to assume a role. This is
- * typically referred to as the "role trust policy". For more information about roles, see
- * Using roles to
- * delegate permissions and federate identities.
- */
-export const updateAssumeRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssumeRolePolicyRequest,
-    output: UpdateAssumeRolePolicyResponse,
-    errors: [
-      LimitExceededException,
-      MalformedPolicyDocumentException,
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
-/**
- * Updates an existing delegation request with additional information. When the delegation
- * request is updated, it reaches the `PENDING_APPROVAL` state.
- *
- * Once a delegation request has an owner, that owner gets a default permission to update the
- * delegation request. For more details, see
- *
- * Managing Permissions for Delegation Requests.
- */
-export const updateDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDelegationRequestRequest,
-    output: UpdateDelegationRequestResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Updates the name and/or the path of the specified IAM group.
- *
- * You should understand the implications of changing a group's path or name. For
- * more information, see Renaming users and
- * groups in the *IAM User Guide*.
- *
- * The person making the request (the principal), must have permission to change the
- * role group with the old name and the new name. For example, to change the group
- * named `Managers` to `MGRs`, the principal must have a policy
- * that allows them to update both groups. If the principal has permission to update
- * the `Managers` group, but not the `MGRs` group, then the
- * update fails. For more information about permissions, see Access management.
- */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateGroupRequest,
-  output: UpdateGroupResponse,
-  errors: [
-    EntityAlreadyExistsException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Replaces the existing list of server certificate thumbprints associated with an OpenID
- * Connect (OIDC) provider resource object with a new list of thumbprints.
- *
- * The list that you pass with this operation completely replaces the existing list of
- * thumbprints. (The lists are not merged.)
- *
- * Typically, you need to update a thumbprint only when the identity provider certificate
- * changes, which occurs rarely. However, if the provider's certificate
- * *does* change, any attempt to assume an IAM role that specifies
- * the OIDC provider as a principal fails until the certificate thumbprint is
- * updated.
- *
- * Amazon Web Services secures communication with OIDC identity providers (IdPs) using our library of
- * trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS)
- * endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not signed
- * by one of these trusted CAs, only then we secure communication using the thumbprints set
- * in the IdP's configuration.
- *
- * Trust for the OIDC provider is derived from the provider certificate and is
- * validated by the thumbprint. Therefore, it is best to limit access to the
- * `UpdateOpenIDConnectProviderThumbprint` operation to highly
- * privileged users.
- */
-export const updateOpenIDConnectProviderThumbprint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOpenIDConnectProviderThumbprintRequest,
-    output: UpdateOpenIDConnectProviderThumbprintResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }));
-/**
- * Updates the description or maximum session duration setting of a role.
- */
-export const updateRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRoleRequest,
-  output: UpdateRoleResponse,
-  errors: [
-    NoSuchEntityException,
-    ServiceFailureException,
-    UnmodifiableEntityException,
-  ],
-}));
-/**
- * Updates the name and/or the path of the specified server certificate stored in
- * IAM.
- *
- * For more information about working with server certificates, see Working
- * with server certificates in the *IAM User Guide*. This
- * topic also includes a list of Amazon Web Services services that can use the server certificates that
- * you manage with IAM.
- *
- * You should understand the implications of changing a server certificate's path or
- * name. For more information, see Renaming a server certificate in the
- * *IAM User Guide*.
- *
- * The person making the request (the principal), must have permission to change the
- * server certificate with the old name and the new name. For example, to change the
- * certificate named `ProductionCert` to `ProdCert`, the
- * principal must have a policy that allows them to update both certificates. If the
- * principal has permission to update the `ProductionCert` group, but not
- * the `ProdCert` certificate, then the update fails. For more information
- * about permissions, see Access management in the *IAM User Guide*.
- */
-export const updateServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServerCertificateRequest,
-    output: UpdateServerCertificateResponse,
-    errors: [
-      EntityAlreadyExistsException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Sets the status of a service-specific credential to `Active` or
- * `Inactive`. Service-specific credentials that are inactive cannot be used
- * for authentication to the service. This operation can be used to disable a user's
- * service-specific credential as part of a credential rotation work flow.
- */
-export const updateServiceSpecificCredential =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateServiceSpecificCredentialRequest,
-    output: UpdateServiceSpecificCredentialResponse,
-    errors: [NoSuchEntityException],
-  }));
-/**
- * Changes the status of the specified user signing certificate from active to disabled,
- * or vice versa. This operation can be used to disable an IAM user's signing
- * certificate as part of a certificate rotation work flow.
- *
- * If the `UserName` field is not specified, the user name is determined
- * implicitly based on the Amazon Web Services access key ID used to sign the request. This operation
- * works for access keys under the Amazon Web Services account. Consequently, you can use this operation
- * to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated
- * users.
- */
-export const updateSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSigningCertificateRequest,
-    output: UpdateSigningCertificateResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Sets the status of an IAM user's SSH public key to active or inactive. SSH public
- * keys that are inactive cannot be used for authentication. This operation can be used to
- * disable a user's SSH public key as part of a key rotation work flow.
- *
- * The SSH public key affected by this operation is used only for authenticating the
- * associated IAM user to an CodeCommit repository. For more information about using SSH keys
- * to authenticate to an CodeCommit repository, see Set up CodeCommit for
- * SSH connections in the *CodeCommit User Guide*.
- */
-export const updateSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSSHPublicKeyRequest,
-  output: UpdateSSHPublicKeyResponse,
-  errors: [InvalidInputException, NoSuchEntityException],
-}));
-/**
- * Updates the name and/or the path of the specified IAM user.
- *
- * You should understand the implications of changing an IAM user's path or
- * name. For more information, see Renaming an IAM
- * user and Renaming an IAM
- * group in the *IAM User Guide*.
- *
- * To change a user name, the requester must have appropriate permissions on both
- * the source object and the target object. For example, to change Bob to Robert, the
- * entity making the request must have permission on Bob and Robert, or must have
- * permission on all (*). For more information about permissions, see Permissions and policies.
- */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateUserRequest,
-  output: UpdateUserResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityAlreadyExistsException,
-    EntityTemporarilyUnmodifiableException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Accepts a delegation request, granting the requested temporary access.
- *
- * Once the delegation request is accepted, it is eligible to send the exchange token to the partner.
- * The SendDelegationToken
- * API has to be explicitly called to send the delegation token.
- *
- * At the time of acceptance, IAM records the details and the state of the identity that called this API.
- * This is the identity that gets mapped to the delegated credential.
- *
- * An accepted request may be rejected before the exchange token is sent to the partner.
- */
-export const acceptDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptDelegationRequestRequest,
-    output: AcceptDelegationRequestResponse,
-    errors: [
-      ConcurrentModificationException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Adds a new client ID (also known as audience) to the list of client IDs already
- * registered for the specified IAM OpenID Connect (OIDC) provider resource.
- *
- * This operation is idempotent; it does not fail or return an error if you add an
- * existing client ID to the provider.
- */
-export const addClientIDToOpenIDConnectProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddClientIDToOpenIDConnectProviderRequest,
-    output: AddClientIDToOpenIDConnectProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }));
-/**
- * Adds the specified IAM role to the specified instance profile. An instance profile
- * can contain only one role, and this quota cannot be increased. You can remove the
- * existing role and then add a different role to an instance profile. You must then wait
- * for the change to appear across all of Amazon Web Services because of eventual
- * consistency. To force the change, you must disassociate the instance profile and then associate the
- * instance profile, or you can stop your instance and then restart it.
- *
- * The caller of this operation must be granted the `PassRole` permission
- * on the IAM role by a permissions policy.
- *
- * When using the iam:AssociatedResourceArn condition in a policy to restrict the PassRole IAM action, special considerations apply if the policy is
- * intended to define access for the `AddRoleToInstanceProfile` action. In
- * this case, you cannot specify a Region or instance ID in the EC2 instance ARN. The
- * ARN value must be `arn:aws:ec2:*:CallerAccountId:instance/*`. Using any
- * other ARN value may lead to unexpected evaluation results.
- *
- * For more information about roles, see IAM roles in the
- * *IAM User Guide*. For more information about instance profiles,
- * see Using
- * instance profiles in the *IAM User Guide*.
- */
-export const addRoleToInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddRoleToInstanceProfileRequest,
-    output: AddRoleToInstanceProfileResponse,
-    errors: [
-      EntityAlreadyExistsException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
-/**
- * Adds the specified user to the specified group.
- */
-export const addUserToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddUserToGroupRequest,
-  output: AddUserToGroupResponse,
-  errors: [
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Associates a delegation request with the current identity.
- *
- * If the partner that created the delegation request has specified the owner account during creation,
- * only an identity from that owner account can call the `AssociateDelegationRequest` API for
- * the specified delegation request. Once the `AssociateDelegationRequest` API call is successful,
- * the ARN of the current calling identity will be stored as the
- * `ownerId`
- * of the request.
- *
- * If the partner that created the delegation request has not specified the owner account during creation,
- * any caller from any account can call the `AssociateDelegationRequest` API for
- * the delegation request. Once this API call is successful, the ARN of the current calling identity will be stored as the
- * `ownerId`
- * and the Amazon Web Services account ID of the current calling identity will be stored as the
- * `ownerAccount`
- * of the request.
- *
- * For more details, see
- *
- * Managing Permissions for Delegation Requests.
- */
-export const associateDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDelegationRequestRequest,
-    output: AssociateDelegationRequestResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Attaches the specified managed policy to the specified IAM group.
- *
- * You use this operation to attach a managed policy to a group. To embed an inline
- * policy in a group, use
- * `PutGroupPolicy`
- * .
- *
- * As a best practice, you can validate your IAM policies.
- * To learn more, see Validating IAM policies
- * in the *IAM User Guide*.
- *
- * For more information about policies, see Managed policies and inline
- * policies in the *IAM User Guide*.
- */
-export const attachGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AttachGroupPolicyRequest,
-  output: AttachGroupPolicyResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    PolicyNotAttachableException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Attaches the specified managed policy to the specified IAM role. When you attach a
- * managed policy to a role, the managed policy becomes part of the role's permission
- * (access) policy.
- *
- * You cannot use a managed policy as the role's trust policy. The role's trust
- * policy is created at the same time as the role, using
- * `CreateRole`
- * . You can update a role's trust policy using
- *
- * `UpdateAssumerolePolicy`
- * .
- *
- * Use this operation to attach a *managed* policy to a role. To embed
- * an inline policy in a role, use
- * `PutRolePolicy`
- * . For more information about policies, see Managed
- * policies and inline policies in the
- * *IAM User Guide*.
- *
- * As a best practice, you can validate your IAM policies.
- * To learn more, see Validating IAM policies
- * in the *IAM User Guide*.
- */
-export const attachRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AttachRolePolicyRequest,
-  output: AttachRolePolicyResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    NoSuchEntityException,
-    PolicyNotAttachableException,
-    ServiceFailureException,
-    UnmodifiableEntityException,
-  ],
-}));
-/**
- * Creates an IAM resource that describes an identity provider (IdP) that supports SAML
- * 2.0.
- *
- * The SAML provider resource that you create with this operation can be used as a
- * principal in an IAM role's trust policy. Such a policy can enable federated users who
- * sign in using the SAML IdP to assume the role. You can create an IAM role that
- * supports Web-based single sign-on (SSO) to the Amazon Web Services Management Console or one that supports API access
- * to Amazon Web Services.
- *
- * When you create the SAML provider resource, you upload a SAML metadata document that
- * you get from your IdP. That document includes the issuer's name, expiration information,
- * and keys that can be used to validate the SAML authentication response (assertions) that
- * the IdP sends. You must generate the metadata document using the identity management
- * software that is used as your organization's IdP.
- *
- * This operation requires Signature Version 4.
- *
- * For more information, see Enabling SAML 2.0
- * federated users to access the Amazon Web Services Management Console and About SAML 2.0-based
- * federation in the *IAM User Guide*.
- */
-export const createSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSAMLProviderRequest,
-  output: CreateSAMLProviderResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityAlreadyExistsException,
-    InvalidInputException,
-    LimitExceededException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls
- * the attached policies and when the role can be deleted. This helps ensure that the
- * service is not broken by an unexpectedly changed or deleted role, which could put your
- * Amazon Web Services resources into an unknown state. Allowing the service to control the role helps
- * improve service stability and proper cleanup when a service and its role are no longer
- * needed. For more information, see Using service-linked
- * roles in the *IAM User Guide*.
- *
- * To attach a policy to this service-linked role, you must make the request using the
- * Amazon Web Services service that depends on this role.
- */
-export const createServiceLinkedRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceLinkedRoleRequest,
-    output: CreateServiceLinkedRoleResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Deletes the specified IAM group. The group must not contain any users or have any
- * attached policies.
- */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGroupRequest,
-  output: DeleteGroupResponse,
-  errors: [
-    DeleteConflictException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Submits a service-linked role deletion request and returns a
- * `DeletionTaskId`, which you can use to check the status of the deletion.
- * Before you call this operation, confirm that the role has no active sessions and that
- * any resources used by the role in the linked service are deleted. If you call this
- * operation more than once for the same service-linked role and an earlier deletion task
- * is not complete, then the `DeletionTaskId` of the earlier request is
- * returned.
- *
- * If you submit a deletion request for a service-linked role whose linked service is
- * still accessing a resource, then the deletion task fails. If it fails, the GetServiceLinkedRoleDeletionStatus operation returns the reason for the
- * failure, usually including the resources that must be deleted. To delete the
- * service-linked role, you must first remove those resources from the linked service and
- * then submit the deletion request again. Resources are specific to the service that is
- * linked to the role. For more information about removing resources from a service, see
- * the Amazon Web Services documentation for your
- * service.
- *
- * For more information about service-linked roles, see Roles terms and concepts: Amazon Web Services service-linked role in the
- * *IAM User Guide*.
- */
-export const deleteServiceLinkedRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceLinkedRoleRequest,
-    output: DeleteServiceLinkedRoleResponse,
-    errors: [
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
-/**
- * Disables the management of privileged root user credentials across member accounts in
- * your organization. When you disable this feature, the management account and the
- * delegated administrator for IAM can no longer manage root user credentials for member
- * accounts in your organization.
- */
-export const disableOrganizationsRootCredentialsManagement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationsRootCredentialsManagementRequest,
-    output: DisableOrganizationsRootCredentialsManagementResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }));
-/**
- * Disables root user sessions for privileged tasks across member accounts in your
- * organization. When you disable this feature, the management account and the delegated
- * administrator for IAM can no longer perform privileged tasks on member accounts in
- * your organization.
- */
-export const disableOrganizationsRootSessions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationsRootSessionsRequest,
-    output: DisableOrganizationsRootSessionsResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }));
-/**
- * Enables the specified MFA device and associates it with the specified IAM user. When
- * enabled, the MFA device is required for every subsequent login by the IAM user
- * associated with the device.
- */
-export const enableMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableMFADeviceRequest,
-  output: EnableMFADeviceResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityAlreadyExistsException,
-    EntityTemporarilyUnmodifiableException,
-    InvalidAuthenticationCodeException,
-    LimitExceededException,
-    NoSuchEntityException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Enables the management of privileged root user credentials across member accounts in your
- * organization. When you enable root credentials management for centralized root access, the management account and the delegated
- * administrator for IAM can manage root user credentials for member accounts in your
- * organization.
- *
- * Before you enable centralized root access, you must have an account configured with
- * the following settings:
- *
- * - You must manage your Amazon Web Services accounts in Organizations.
- *
- * - Enable trusted access for Identity and Access Management in Organizations. For details, see
- * IAM and Organizations in the Organizations User
- * Guide.
- */
-export const enableOrganizationsRootCredentialsManagement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOrganizationsRootCredentialsManagementRequest,
-    output: EnableOrganizationsRootCredentialsManagementResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      CallerIsNotManagementAccountException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }));
-/**
- * Allows the management account or delegated administrator to perform privileged tasks
- * on member accounts in your organization. For more information, see Centrally manage root access for member accounts in the Identity and Access Management
- * User Guide.
- *
- * Before you enable this feature, you must have an account configured with the following
- * settings:
- *
- * - You must manage your Amazon Web Services accounts in Organizations.
- *
- * - Enable trusted access for Identity and Access Management in Organizations. For details, see
- * IAM and Organizations in the Organizations User
- * Guide.
- */
-export const enableOrganizationsRootSessions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOrganizationsRootSessionsRequest,
-    output: EnableOrganizationsRootSessionsResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      CallerIsNotManagementAccountException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }));
-/**
- * Enables the outbound identity federation feature for your Amazon Web Services account. When enabled, IAM principals in your account
- * can use the `GetWebIdentityToken` API to obtain JSON Web Tokens (JWTs) for secure authentication with external services.
- * This operation also generates a unique issuer URL for your Amazon Web Services account.
- */
-export const enableOutboundWebIdentityFederation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOutboundWebIdentityFederationRequest,
-    output: EnableOutboundWebIdentityFederationResponse,
-    errors: [FeatureEnabledException],
-  }));
 /**
  * Generates a report that includes details about when an IAM resource (user, group,
  * role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity
@@ -6338,22 +4338,6 @@ export const listOpenIDConnectProviderTags =
     ],
   }));
 /**
- * Lists the centralized root access features enabled for your organization. For more
- * information, see Centrally manage root access for member accounts.
- */
-export const listOrganizationsFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOrganizationsFeaturesRequest,
-    output: ListOrganizationsFeaturesResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }),
-);
-/**
  * Lists all the managed policies that are available in your Amazon Web Services account, including
  * your own customer-defined managed policies and all Amazon Web Services managed policies.
  *
@@ -6621,44 +4605,6 @@ export const resetServiceSpecificCredential =
     errors: [NoSuchEntityException],
   }));
 /**
- * Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services
- * API, or the **Users** page in the IAM console to change
- * the password for any IAM user. Use ChangePassword to
- * change your own password in the **My Security Credentials**
- * page in the Amazon Web Services Management Console.
- *
- * For more information about modifying passwords, see Managing passwords in the
- * *IAM User Guide*.
- */
-export const updateLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateLoginProfileRequest,
-  output: UpdateLoginProfileResponse,
-  errors: [
-    EntityTemporarilyUnmodifiableException,
-    LimitExceededException,
-    NoSuchEntityException,
-    PasswordPolicyViolationException,
-    ServiceFailureException,
-  ],
-}));
-/**
- * Use UpdateRole instead.
- *
- * Modifies only the description of a role. This operation performs the same function as
- * the `Description` parameter in the `UpdateRole` operation.
- */
-export const updateRoleDescription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoleDescriptionRequest,
-    output: UpdateRoleDescriptionResponse,
-    errors: [
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
-/**
  * Updates the metadata document, SAML encryption settings, and private keys for an
  * existing SAML provider. To rotate private keys, add your new private key and then remove
  * the old key in a separate request.
@@ -6675,29 +4621,1521 @@ export const updateSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Changes the password of the IAM user who is calling this operation. This operation
- * can be performed using the CLI, the Amazon Web Services API, or the My
- * Security Credentials page in the Amazon Web Services Management Console. The Amazon Web Services account root user password is
- * not affected by this operation.
+ * Adds a new client ID (also known as audience) to the list of client IDs already
+ * registered for the specified IAM OpenID Connect (OIDC) provider resource.
  *
- * Use UpdateLoginProfile
- * to use the CLI, the Amazon Web Services API, or the **Users** page in
- * the IAM console to change the password for any IAM user. For more information about
- * modifying passwords, see Managing passwords in the
- * *IAM User Guide*.
+ * This operation is idempotent; it does not fail or return an error if you add an
+ * existing client ID to the provider.
  */
-export const changePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ChangePasswordRequest,
-  output: ChangePasswordResponse,
+export const addClientIDToOpenIDConnectProvider =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AddClientIDToOpenIDConnectProviderRequest,
+    output: AddClientIDToOpenIDConnectProviderResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }));
+/**
+ * Associates a delegation request with the current identity.
+ *
+ * If the partner that created the delegation request has specified the owner account during creation,
+ * only an identity from that owner account can call the `AssociateDelegationRequest` API for
+ * the specified delegation request. Once the `AssociateDelegationRequest` API call is successful,
+ * the ARN of the current calling identity will be stored as the
+ * `ownerId`
+ * of the request.
+ *
+ * If the partner that created the delegation request has not specified the owner account during creation,
+ * any caller from any account can call the `AssociateDelegationRequest` API for
+ * the delegation request. Once this API call is successful, the ARN of the current calling identity will be stored as the
+ * `ownerId`
+ * and the Amazon Web Services account ID of the current calling identity will be stored as the
+ * `ownerAccount`
+ * of the request.
+ *
+ * For more details, see
+ *
+ * Managing Permissions for Delegation Requests.
+ */
+export const associateDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateDelegationRequestRequest,
+    output: AssociateDelegationRequestResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Creates an alias for your Amazon Web Services account. For information about using an Amazon Web Services account
+ * alias, see Creating, deleting, and
+ * listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User
+ * Guide.
+ */
+export const createAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountAliasRequest,
+  output: CreateAccountAliasResponse,
   errors: [
-    EntityTemporarilyUnmodifiableException,
-    InvalidUserTypeException,
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
     LimitExceededException,
-    NoSuchEntityException,
-    PasswordPolicyViolationException,
     ServiceFailureException,
   ],
 }));
+/**
+ * Deactivates the specified MFA device and removes it from association with the user
+ * name for which it was originally enabled.
+ *
+ * For more information about creating and working with virtual MFA devices, see Enabling a virtual
+ * multi-factor authentication (MFA) device in the
+ * *IAM User Guide*.
+ */
+export const deactivateMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivateMFADeviceRequest,
+  output: DeactivateMFADeviceResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityTemporarilyUnmodifiableException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes the specified Amazon Web Services account alias. For information about using an Amazon Web Services
+ * account alias, see Creating, deleting, and
+ * listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User
+ * Guide.
+ */
+export const deleteAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountAliasRequest,
+  output: DeleteAccountAliasResponse,
+  errors: [
+    ConcurrentModificationException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes a signing certificate associated with the specified IAM user.
+ *
+ * If you do not specify a user name, IAM determines the user name implicitly based on
+ * the Amazon Web Services access key ID signing the request. This operation works for access keys under
+ * the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root
+ * user credentials even if the Amazon Web Services account has no associated IAM users.
+ */
+export const deleteSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSigningCertificateRequest,
+    output: DeleteSigningCertificateResponse,
+    errors: [
+      ConcurrentModificationException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified IAM user. Unlike the Amazon Web Services Management Console, when you delete a user
+ * programmatically, you must delete the items attached to the user manually, or the
+ * deletion fails. For more information, see Deleting an IAM
+ * user. Before attempting to delete a user, remove the following items:
+ *
+ * - Password (DeleteLoginProfile)
+ *
+ * - Access keys (DeleteAccessKey)
+ *
+ * - Signing certificate (DeleteSigningCertificate)
+ *
+ * - SSH public key (DeleteSSHPublicKey)
+ *
+ * - Git credentials (DeleteServiceSpecificCredential)
+ *
+ * - Multi-factor authentication (MFA) device (DeactivateMFADevice, DeleteVirtualMFADevice)
+ *
+ * - Inline policies (DeleteUserPolicy)
+ *
+ * - Attached managed policies (DetachUserPolicy)
+ *
+ * - Group memberships (RemoveUserFromGroup)
+ */
+export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserRequest,
+  output: DeleteUserResponse,
+  errors: [
+    ConcurrentModificationException,
+    DeleteConflictException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes a virtual MFA device.
+ *
+ * You must deactivate a user's virtual MFA device before you can delete it. For
+ * information about deactivating MFA devices, see DeactivateMFADevice.
+ */
+export const deleteVirtualMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteVirtualMFADeviceRequest,
+    output: DeleteVirtualMFADeviceResponse,
+    errors: [
+      ConcurrentModificationException,
+      DeleteConflictException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Rejects a delegation request, denying the requested temporary access.
+ *
+ * Once a request is rejected, it cannot be accepted or updated later. Rejected requests expire after 7 days.
+ *
+ * When rejecting a request, an optional explanation can be added using the `Notes` request parameter.
+ *
+ * For more details, see
+ *
+ * Managing Permissions for Delegation Requests.
+ */
+export const rejectDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RejectDelegationRequestRequest,
+    output: RejectDelegationRequestResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Removes the specified client ID (also known as audience) from the list of client IDs
+ * registered for the specified IAM OpenID Connect (OIDC) provider resource
+ * object.
+ *
+ * This operation is idempotent; it does not fail or return an error if you try to remove
+ * a client ID that does not exist.
+ */
+export const removeClientIDFromOpenIDConnectProvider =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RemoveClientIDFromOpenIDConnectProviderRequest,
+    output: RemoveClientIDFromOpenIDConnectProviderResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }));
+/**
+ * Sends the exchange token for an accepted delegation request.
+ *
+ * The exchange token is sent to the partner via an asynchronous notification channel, established by the partner.
+ *
+ * The delegation request must be in the `ACCEPTED` state when calling this API. After the
+ * `SendDelegationToken` API
+ * call is successful, the request transitions to a `FINALIZED` state and cannot be rolled back. However, a user may reject
+ * an accepted request before the `SendDelegationToken` API is called.
+ *
+ * For more details, see
+ *
+ * Managing Permissions for Delegation Requests.
+ */
+export const sendDelegationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendDelegationTokenRequest,
+  output: SendDelegationTokenResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Adds one or more tags to an IAM instance profile. If a tag with the same key name
+ * already exists, then that tag is overwritten with the new value.
+ *
+ * Each tag consists of a key name and an associated value. By assigning tags to your resources, you can do the
+ * following:
+ *
+ * - **Administrative grouping and discovery** - Attach
+ * tags to resources to aid in organization and search. For example, you could search for all
+ * resources with the key name *Project* and the value
+ * *MyImportantProject*. Or search for all resources with the key name
+ * *Cost Center* and the value *41200*.
+ *
+ * - **Access control** - Include tags in IAM user-based
+ * and resource-based policies. You can use tags to restrict access to only an IAM instance
+ * profile that has a specified tag attached. For examples of policies that show how to use
+ * tags to control access, see Control access using IAM tags in the
+ * *IAM User Guide*.
+ *
+ * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
+ * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ *
+ * - Amazon Web Services always interprets the tag `Value` as a single string. If you
+ * need to store an array, you can store comma-separated values in the string. However, you
+ * must interpret the value in your code.
+ */
+export const tagInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagInstanceProfileRequest,
+  output: TagInstanceProfileResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Adds one or more tags to an IAM virtual multi-factor authentication (MFA) device. If
+ * a tag with the same key name already exists, then that tag is overwritten with the new
+ * value.
+ *
+ * A tag consists of a key name and an associated value. By assigning tags to your
+ * resources, you can do the following:
+ *
+ * - **Administrative grouping and discovery** - Attach
+ * tags to resources to aid in organization and search. For example, you could search for all
+ * resources with the key name *Project* and the value
+ * *MyImportantProject*. Or search for all resources with the key name
+ * *Cost Center* and the value *41200*.
+ *
+ * - **Access control** - Include tags in IAM user-based
+ * and resource-based policies. You can use tags to restrict access to only an IAM virtual
+ * MFA device that has a specified tag attached. For examples of policies that show how to
+ * use tags to control access, see Control access using IAM tags in the
+ * *IAM User Guide*.
+ *
+ * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
+ * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ *
+ * - Amazon Web Services always interprets the tag `Value` as a single string. If you
+ * need to store an array, you can store comma-separated values in the string. However, you
+ * must interpret the value in your code.
+ */
+export const tagMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagMFADeviceRequest,
+  output: TagMFADeviceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Adds one or more tags to an OpenID Connect (OIDC)-compatible identity provider. For
+ * more information about these providers, see About web identity federation. If
+ * a tag with the same key name already exists, then that tag is overwritten with the new
+ * value.
+ *
+ * A tag consists of a key name and an associated value. By assigning tags to your
+ * resources, you can do the following:
+ *
+ * - **Administrative grouping and discovery** - Attach
+ * tags to resources to aid in organization and search. For example, you could search for all
+ * resources with the key name *Project* and the value
+ * *MyImportantProject*. Or search for all resources with the key name
+ * *Cost Center* and the value *41200*.
+ *
+ * - **Access control** - Include tags in IAM identity-based
+ * and resource-based policies. You can use tags to restrict access to only an OIDC provider
+ * that has a specified tag attached. For examples of policies that show how to use tags to
+ * control access, see Control access using IAM tags in the
+ * *IAM User Guide*.
+ *
+ * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
+ * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ *
+ * - Amazon Web Services always interprets the tag `Value` as a single string. If you
+ * need to store an array, you can store comma-separated values in the string. However, you
+ * must interpret the value in your code.
+ */
+export const tagOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: TagOpenIDConnectProviderRequest,
+    output: TagOpenIDConnectProviderResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Adds one or more tags to an IAM customer managed policy. If a tag with the same key
+ * name already exists, then that tag is overwritten with the new value.
+ *
+ * A tag consists of a key name and an associated value. By assigning tags to your
+ * resources, you can do the following:
+ *
+ * - **Administrative grouping and discovery** - Attach
+ * tags to resources to aid in organization and search. For example, you could search for all
+ * resources with the key name *Project* and the value
+ * *MyImportantProject*. Or search for all resources with the key name
+ * *Cost Center* and the value *41200*.
+ *
+ * - **Access control** - Include tags in IAM user-based
+ * and resource-based policies. You can use tags to restrict access to only an IAM customer
+ * managed policy that has a specified tag attached. For examples of policies that show how
+ * to use tags to control access, see Control access using IAM tags in the
+ * *IAM User Guide*.
+ *
+ * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
+ * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ *
+ * - Amazon Web Services always interprets the tag `Value` as a single string. If you
+ * need to store an array, you can store comma-separated values in the string. However, you
+ * must interpret the value in your code.
+ */
+export const tagPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagPolicyRequest,
+  output: TagPolicyResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Adds one or more tags to an IAM role. The role can be a regular role or a
+ * service-linked role. If a tag with the same key name already exists, then that tag is
+ * overwritten with the new value.
+ *
+ * A tag consists of a key name and an associated value. By assigning tags to your
+ * resources, you can do the following:
+ *
+ * - **Administrative grouping and discovery** - Attach
+ * tags to resources to aid in organization and search. For example, you could search for all
+ * resources with the key name *Project* and the value
+ * *MyImportantProject*. Or search for all resources with the key name
+ * *Cost Center* and the value *41200*.
+ *
+ * - **Access control** - Include tags in IAM user-based
+ * and resource-based policies. You can use tags to restrict access to only an IAM role
+ * that has a specified tag attached. You can also restrict access to only those resources
+ * that have a certain tag attached. For examples of policies that show how to use tags to
+ * control access, see Control access using IAM tags in the
+ * *IAM User Guide*.
+ *
+ * - **Cost allocation** - Use tags to help track which
+ * individuals and teams are using which Amazon Web Services resources.
+ *
+ * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
+ * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ *
+ * - Amazon Web Services always interprets the tag `Value` as a single string. If you
+ * need to store an array, you can store comma-separated values in the string. However, you
+ * must interpret the value in your code.
+ *
+ * For more information about tagging, see Tagging IAM identities in the
+ * *IAM User Guide*.
+ */
+export const tagRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagRoleRequest,
+  output: TagRoleResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Adds one or more tags to a Security Assertion Markup Language (SAML) identity provider.
+ * For more information about these providers, see About SAML 2.0-based federation .
+ * If a tag with the same key name already exists, then that tag is overwritten with the new
+ * value.
+ *
+ * A tag consists of a key name and an associated value. By assigning tags to your
+ * resources, you can do the following:
+ *
+ * - **Administrative grouping and discovery** - Attach
+ * tags to resources to aid in organization and search. For example, you could search for all
+ * resources with the key name *Project* and the value
+ * *MyImportantProject*. Or search for all resources with the key name
+ * *Cost Center* and the value *41200*.
+ *
+ * - **Access control** - Include tags in IAM user-based
+ * and resource-based policies. You can use tags to restrict access to only a SAML identity
+ * provider that has a specified tag attached. For examples of policies that show how to use
+ * tags to control access, see Control access using IAM tags in the
+ * *IAM User Guide*.
+ *
+ * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
+ * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ *
+ * - Amazon Web Services always interprets the tag `Value` as a single string. If you
+ * need to store an array, you can store comma-separated values in the string. However, you
+ * must interpret the value in your code.
+ */
+export const tagSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagSAMLProviderRequest,
+  output: TagSAMLProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Adds one or more tags to an IAM server certificate. If a tag with the same key name
+ * already exists, then that tag is overwritten with the new value.
+ *
+ * For certificates in a Region supported by Certificate Manager (ACM), we
+ * recommend that you don't use IAM server certificates. Instead, use ACM to provision,
+ * manage, and deploy your server certificates. For more information about IAM server
+ * certificates, Working with server
+ * certificates in the *IAM User Guide*.
+ *
+ * A tag consists of a key name and an associated value. By assigning tags to your
+ * resources, you can do the following:
+ *
+ * - **Administrative grouping and discovery** - Attach
+ * tags to resources to aid in organization and search. For example, you could search for all
+ * resources with the key name *Project* and the value
+ * *MyImportantProject*. Or search for all resources with the key name
+ * *Cost Center* and the value *41200*.
+ *
+ * - **Access control** - Include tags in IAM user-based
+ * and resource-based policies. You can use tags to restrict access to only a server
+ * certificate that has a specified tag attached. For examples of policies that show how to
+ * use tags to control access, see Control access using IAM tags in the
+ * *IAM User Guide*.
+ *
+ * - **Cost allocation** - Use tags to help track which
+ * individuals and teams are using which Amazon Web Services resources.
+ *
+ * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
+ * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ *
+ * - Amazon Web Services always interprets the tag `Value` as a single string. If you
+ * need to store an array, you can store comma-separated values in the string. However, you
+ * must interpret the value in your code.
+ */
+export const tagServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: TagServerCertificateRequest,
+    output: TagServerCertificateResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Adds one or more tags to an IAM user. If a tag with the same key name already exists,
+ * then that tag is overwritten with the new value.
+ *
+ * A tag consists of a key name and an associated value. By assigning tags to your
+ * resources, you can do the following:
+ *
+ * - **Administrative grouping and discovery** - Attach
+ * tags to resources to aid in organization and search. For example, you could search for all
+ * resources with the key name *Project* and the value
+ * *MyImportantProject*. Or search for all resources with the key name
+ * *Cost Center* and the value *41200*.
+ *
+ * - **Access control** - Include tags in IAM identity-based
+ * and resource-based policies. You can use tags to restrict access to only an IAM
+ * requesting user that has a specified tag attached. You can also restrict access to only
+ * those resources that have a certain tag attached. For examples of policies that show how
+ * to use tags to control access, see Control access using IAM tags in the
+ * *IAM User Guide*.
+ *
+ * - **Cost allocation** - Use tags to help track which
+ * individuals and teams are using which Amazon Web Services resources.
+ *
+ * - If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request
+ * fails and the resource is not created. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ *
+ * - Amazon Web Services always interprets the tag `Value` as a single string. If you
+ * need to store an array, you can store comma-separated values in the string. However, you
+ * must interpret the value in your code.
+ *
+ * For more information about tagging, see Tagging IAM identities in the
+ * *IAM User Guide*.
+ */
+export const tagUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagUserRequest,
+  output: TagUserResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Removes the specified tags from the IAM instance profile. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ */
+export const untagInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UntagInstanceProfileRequest,
+    output: UntagInstanceProfileResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Removes the specified tags from the IAM virtual multi-factor authentication (MFA)
+ * device. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ */
+export const untagMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagMFADeviceRequest,
+  output: UntagMFADeviceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Removes the specified tags from the specified OpenID Connect (OIDC)-compatible identity
+ * provider in IAM. For more information about OIDC providers, see About web identity federation.
+ * For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ */
+export const untagOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UntagOpenIDConnectProviderRequest,
+    output: UntagOpenIDConnectProviderResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Removes the specified tags from the customer managed policy. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ */
+export const untagPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagPolicyRequest,
+  output: UntagPolicyResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Removes the specified tags from the role. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ */
+export const untagRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagRoleRequest,
+  output: UntagRoleResponse,
+  errors: [
+    ConcurrentModificationException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Removes the specified tags from the specified Security Assertion Markup Language (SAML)
+ * identity provider in IAM. For more information about these providers, see About web identity
+ * federation. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ */
+export const untagSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagSAMLProviderRequest,
+  output: UntagSAMLProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Removes the specified tags from the IAM server certificate.
+ * For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ *
+ * For certificates in a Region supported by Certificate Manager (ACM), we
+ * recommend that you don't use IAM server certificates. Instead, use ACM to provision,
+ * manage, and deploy your server certificates. For more information about IAM server
+ * certificates, Working with server
+ * certificates in the *IAM User Guide*.
+ */
+export const untagServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UntagServerCertificateRequest,
+    output: UntagServerCertificateResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Removes the specified tags from the user. For more information about tagging, see Tagging IAM resources in the
+ * *IAM User Guide*.
+ */
+export const untagUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagUserRequest,
+  output: UntagUserResponse,
+  errors: [
+    ConcurrentModificationException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Updates an existing delegation request with additional information. When the delegation
+ * request is updated, it reaches the `PENDING_APPROVAL` state.
+ *
+ * Once a delegation request has an owner, that owner gets a default permission to update the
+ * delegation request. For more details, see
+ *
+ * Managing Permissions for Delegation Requests.
+ */
+export const updateDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDelegationRequestRequest,
+    output: UpdateDelegationRequestResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Replaces the existing list of server certificate thumbprints associated with an OpenID
+ * Connect (OIDC) provider resource object with a new list of thumbprints.
+ *
+ * The list that you pass with this operation completely replaces the existing list of
+ * thumbprints. (The lists are not merged.)
+ *
+ * Typically, you need to update a thumbprint only when the identity provider certificate
+ * changes, which occurs rarely. However, if the provider's certificate
+ * *does* change, any attempt to assume an IAM role that specifies
+ * the OIDC provider as a principal fails until the certificate thumbprint is
+ * updated.
+ *
+ * Amazon Web Services secures communication with OIDC identity providers (IdPs) using our library of
+ * trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS)
+ * endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not signed
+ * by one of these trusted CAs, only then we secure communication using the thumbprints set
+ * in the IdP's configuration.
+ *
+ * Trust for the OIDC provider is derived from the provider certificate and is
+ * validated by the thumbprint. Therefore, it is best to limit access to the
+ * `UpdateOpenIDConnectProviderThumbprint` operation to highly
+ * privileged users.
+ */
+export const updateOpenIDConnectProviderThumbprint =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateOpenIDConnectProviderThumbprintRequest,
+    output: UpdateOpenIDConnectProviderThumbprintResponse,
+    errors: [
+      ConcurrentModificationException,
+      InvalidInputException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }));
+/**
+ * Updates the name and/or the path of the specified IAM user.
+ *
+ * You should understand the implications of changing an IAM user's path or
+ * name. For more information, see Renaming an IAM
+ * user and Renaming an IAM
+ * group in the *IAM User Guide*.
+ *
+ * To change a user name, the requester must have appropriate permissions on both
+ * the source object and the target object. For example, to change Bob to Robert, the
+ * entity making the request must have permission on Bob and Robert, or must have
+ * permission on all (*). For more information about permissions, see Permissions and policies.
+ */
+export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserRequest,
+  output: UpdateUserResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
+    EntityTemporarilyUnmodifiableException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Updates the name and/or the path of the specified IAM group.
+ *
+ * You should understand the implications of changing a group's path or name. For
+ * more information, see Renaming users and
+ * groups in the *IAM User Guide*.
+ *
+ * The person making the request (the principal), must have permission to change the
+ * role group with the old name and the new name. For example, to change the group
+ * named `Managers` to `MGRs`, the principal must have a policy
+ * that allows them to update both groups. If the principal has permission to update
+ * the `Managers` group, but not the `MGRs` group, then the
+ * update fails. For more information about permissions, see Access management.
+ */
+export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGroupRequest,
+  output: UpdateGroupResponse,
+  errors: [
+    EntityAlreadyExistsException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Updates the name and/or the path of the specified server certificate stored in
+ * IAM.
+ *
+ * For more information about working with server certificates, see Working
+ * with server certificates in the *IAM User Guide*. This
+ * topic also includes a list of Amazon Web Services services that can use the server certificates that
+ * you manage with IAM.
+ *
+ * You should understand the implications of changing a server certificate's path or
+ * name. For more information, see Renaming a server certificate in the
+ * *IAM User Guide*.
+ *
+ * The person making the request (the principal), must have permission to change the
+ * server certificate with the old name and the new name. For example, to change the
+ * certificate named `ProductionCert` to `ProdCert`, the
+ * principal must have a policy that allows them to update both certificates. If the
+ * principal has permission to update the `ProductionCert` group, but not
+ * the `ProdCert` certificate, then the update fails. For more information
+ * about permissions, see Access management in the *IAM User Guide*.
+ */
+export const updateServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateServerCertificateRequest,
+    output: UpdateServerCertificateResponse,
+    errors: [
+      EntityAlreadyExistsException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Deletes an OpenID Connect identity provider (IdP) resource object in IAM.
+ *
+ * Deleting an IAM OIDC provider resource does not update any roles that reference the
+ * provider as a principal in their trust policies. Any attempt to assume a role that
+ * references a deleted provider fails.
+ *
+ * This operation is idempotent; it does not fail or return an error if you call the
+ * operation for a provider that does not exist.
+ */
+export const deleteOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteOpenIDConnectProviderRequest,
+    output: DeleteOpenIDConnectProviderResponse,
+    errors: [
+      InvalidInputException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Deletes a SAML provider resource in IAM.
+ *
+ * Deleting the provider resource from IAM does not update any roles that reference the
+ * SAML provider resource's ARN as a principal in their trust policies. Any attempt to
+ * assume a role that references a non-existent provider resource ARN fails.
+ *
+ * This operation requires Signature Version 4.
+ */
+export const deleteSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSAMLProviderRequest,
+  output: DeleteSAMLProviderResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Removes the specified managed policy from the specified IAM group.
+ *
+ * A group can also have inline policies embedded with it. To delete an inline policy,
+ * use DeleteGroupPolicy. For information about policies, see Managed
+ * policies and inline policies in the
+ * *IAM User Guide*.
+ */
+export const detachGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachGroupPolicyRequest,
+  output: DetachGroupPolicyResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Removes the specified managed policy from the specified user.
+ *
+ * A user can also have inline policies embedded with it. To delete an inline policy, use
+ * DeleteUserPolicy. For information about policies, see Managed
+ * policies and inline policies in the
+ * *IAM User Guide*.
+ */
+export const detachUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachUserPolicyRequest,
+  output: DetachUserPolicyResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Gets a list of all of the context keys referenced in all the IAM policies that are
+ * attached to the specified IAM entity. The entity can be an IAM user, group, or role.
+ * If you specify a user, then the request also includes all of the policies attached to
+ * groups that the user is a member of.
+ *
+ * You can optionally include a list of one or more additional policies, specified as
+ * strings. If you want to include *only* a list of policies by string,
+ * use GetContextKeysForCustomPolicy instead.
+ *
+ * **Note:** This operation discloses information about the
+ * permissions granted to other users. If you do not want users to see other user's
+ * permissions, then consider allowing them to use GetContextKeysForCustomPolicy instead.
+ *
+ * Context keys are variables maintained by Amazon Web Services and its services that provide details
+ * about the context of an API query request. Context keys can be evaluated by testing
+ * against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values
+ * you must supply when you call SimulatePrincipalPolicy.
+ */
+export const getContextKeysForPrincipalPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetContextKeysForPrincipalPolicyRequest,
+    output: GetContextKeysForPolicyResponse,
+    errors: [InvalidInputException, NoSuchEntityException],
+  }));
+/**
+ * Sets the specified version of the specified policy as the policy's default (operative)
+ * version.
+ *
+ * This operation affects all users, groups, and roles that the policy is attached to. To
+ * list the users, groups, and roles that the policy is attached to, use ListEntitiesForPolicy.
+ *
+ * For information about managed policies, see Managed policies and inline
+ * policies in the *IAM User Guide*.
+ */
+export const setDefaultPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetDefaultPolicyVersionRequest,
+    output: SetDefaultPolicyVersionResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Changes the status of the specified access key from Active to Inactive, or vice versa.
+ * This operation can be used to disable a user's key as part of a key rotation
+ * workflow.
+ *
+ * If the `UserName` is not specified, the user name is determined implicitly
+ * based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is
+ * used, then `UserName` is required. If a long-term key is assigned to the
+ * user, then `UserName` is not required. This operation works for access keys
+ * under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user
+ * credentials even if the Amazon Web Services account has no associated users.
+ *
+ * For information about rotating keys, see Managing keys and certificates
+ * in the *IAM User Guide*.
+ */
+export const updateAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccessKeyRequest,
+  output: UpdateAccessKeyResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Changes the status of the specified user signing certificate from active to disabled,
+ * or vice versa. This operation can be used to disable an IAM user's signing
+ * certificate as part of a certificate rotation work flow.
+ *
+ * If the `UserName` field is not specified, the user name is determined
+ * implicitly based on the Amazon Web Services access key ID used to sign the request. This operation
+ * works for access keys under the Amazon Web Services account. Consequently, you can use this operation
+ * to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated
+ * users.
+ */
+export const updateSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSigningCertificateRequest,
+    output: UpdateSigningCertificateResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Sets the status of an IAM user's SSH public key to active or inactive. SSH public
+ * keys that are inactive cannot be used for authentication. This operation can be used to
+ * disable a user's SSH public key as part of a key rotation work flow.
+ *
+ * The SSH public key affected by this operation is used only for authenticating the
+ * associated IAM user to an CodeCommit repository. For more information about using SSH keys
+ * to authenticate to an CodeCommit repository, see Set up CodeCommit for
+ * SSH connections in the *CodeCommit User Guide*.
+ */
+export const updateSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSSHPublicKeyRequest,
+  output: UpdateSSHPublicKeyResponse,
+  errors: [InvalidInputException, NoSuchEntityException],
+}));
+/**
+ * Deletes the password for the specified IAM user or root user, For more information, see
+ * Managing
+ * passwords for IAM users.
+ *
+ * You can use the CLI, the Amazon Web Services API, or the **Users**
+ * page in the IAM console to delete a password for any IAM user. You can use ChangePassword to update, but not delete, your own password in the
+ * **My Security Credentials** page in the
+ * Amazon Web Services Management Console.
+ *
+ * Deleting a user's password does not prevent a user from accessing Amazon Web Services through
+ * the command line interface or the API. To prevent all user access, you must also
+ * either make any access keys inactive or delete them. For more information about
+ * making keys inactive or deleting them, see UpdateAccessKey
+ * and DeleteAccessKey.
+ */
+export const deleteLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLoginProfileRequest,
+  output: DeleteLoginProfileResponse,
+  errors: [
+    EntityTemporarilyUnmodifiableException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes the specified inline policy that is embedded in the specified IAM
+ * group.
+ *
+ * A group can also have managed policies attached to it. To detach a managed policy from
+ * a group, use DetachGroupPolicy.
+ * For more information about policies, refer to Managed policies and inline
+ * policies in the *IAM User Guide*.
+ */
+export const deleteGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupPolicyRequest,
+  output: DeleteGroupPolicyResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes the specified service-specific credential.
+ */
+export const deleteServiceSpecificCredential =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteServiceSpecificCredentialRequest,
+    output: DeleteServiceSpecificCredentialResponse,
+    errors: [NoSuchEntityException],
+  }));
+/**
+ * Deletes the specified SSH public key.
+ *
+ * The SSH public key deleted by this operation is used only for authenticating the
+ * associated IAM user to an CodeCommit repository. For more information about using SSH keys
+ * to authenticate to an CodeCommit repository, see Set up CodeCommit for
+ * SSH connections in the *CodeCommit User Guide*.
+ */
+export const deleteSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSSHPublicKeyRequest,
+  output: DeleteSSHPublicKeyResponse,
+  errors: [NoSuchEntityException],
+}));
+/**
+ * Deletes the permissions boundary for the specified IAM user.
+ *
+ * Deleting the permissions boundary for a user might increase its permissions by
+ * allowing the user to perform all the actions granted in its permissions policies.
+ */
+export const deleteUserPermissionsBoundary =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteUserPermissionsBoundaryRequest,
+    output: DeleteUserPermissionsBoundaryResponse,
+    errors: [NoSuchEntityException, ServiceFailureException],
+  }));
+/**
+ * Deletes the specified inline policy that is embedded in the specified IAM
+ * user.
+ *
+ * A user can also have managed policies attached to it. To detach a managed policy from
+ * a user, use DetachUserPolicy.
+ * For more information about policies, refer to Managed policies and inline
+ * policies in the *IAM User Guide*.
+ */
+export const deleteUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserPolicyRequest,
+  output: DeleteUserPolicyResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Removes the specified user from the specified group.
+ */
+export const removeUserFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveUserFromGroupRequest,
+  output: RemoveUserFromGroupResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Sets the status of a service-specific credential to `Active` or
+ * `Inactive`. Service-specific credentials that are inactive cannot be used
+ * for authentication to the service. This operation can be used to disable a user's
+ * service-specific credential as part of a credential rotation work flow.
+ */
+export const updateServiceSpecificCredential =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateServiceSpecificCredentialRequest,
+    output: UpdateServiceSpecificCredentialResponse,
+    errors: [NoSuchEntityException],
+  }));
+/**
+ * Adds the specified user to the specified group.
+ */
+export const addUserToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddUserToGroupRequest,
+  output: AddUserToGroupResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes the access key pair associated with the specified IAM user.
+ *
+ * If you do not specify a user name, IAM determines the user name implicitly based on
+ * the Amazon Web Services access key ID signing the request. This operation works for access keys under
+ * the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root
+ * user credentials even if the Amazon Web Services account has no associated users.
+ */
+export const deleteAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccessKeyRequest,
+  output: DeleteAccessKeyResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Accepts a delegation request, granting the requested temporary access.
+ *
+ * Once the delegation request is accepted, it is eligible to send the exchange token to the partner.
+ * The SendDelegationToken
+ * API has to be explicitly called to send the delegation token.
+ *
+ * At the time of acceptance, IAM records the details and the state of the identity that called this API.
+ * This is the identity that gets mapped to the delegated credential.
+ *
+ * An accepted request may be rejected before the exchange token is sent to the partner.
+ */
+export const acceptDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AcceptDelegationRequestRequest,
+    output: AcceptDelegationRequestResponse,
+    errors: [
+      ConcurrentModificationException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls
+ * the attached policies and when the role can be deleted. This helps ensure that the
+ * service is not broken by an unexpectedly changed or deleted role, which could put your
+ * Amazon Web Services resources into an unknown state. Allowing the service to control the role helps
+ * improve service stability and proper cleanup when a service and its role are no longer
+ * needed. For more information, see Using service-linked
+ * roles in the *IAM User Guide*.
+ *
+ * To attach a policy to this service-linked role, you must make the request using the
+ * Amazon Web Services service that depends on this role.
+ */
+export const createServiceLinkedRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateServiceLinkedRoleRequest,
+    output: CreateServiceLinkedRoleResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified instance profile. The instance profile must not have an
+ * associated role.
+ *
+ * Make sure that you do not have any Amazon EC2 instances running with the instance
+ * profile you are about to delete. Deleting a role or instance profile that is
+ * associated with a running instance will break any applications running on the
+ * instance.
+ *
+ * For more information about instance profiles, see Using
+ * instance profiles in the *IAM User Guide*.
+ */
+export const deleteInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteInstanceProfileRequest,
+    output: DeleteInstanceProfileResponse,
+    errors: [
+      DeleteConflictException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified managed policy.
+ *
+ * Before you can delete a managed policy, you must first detach the policy from all
+ * users, groups, and roles that it is attached to. In addition, you must delete all the
+ * policy's versions. The following steps describe the process for deleting a managed
+ * policy:
+ *
+ * - Detach the policy from all users, groups, and roles that the policy is
+ * attached to, using DetachUserPolicy, DetachGroupPolicy, or DetachRolePolicy. To list all the users, groups, and roles that a
+ * policy is attached to, use ListEntitiesForPolicy.
+ *
+ * - Delete all versions of the policy using DeletePolicyVersion. To list the policy's versions, use ListPolicyVersions. You cannot use DeletePolicyVersion to delete the version that is marked as the
+ * default version. You delete the policy's default version in the next step of the
+ * process.
+ *
+ * - Delete the policy (this automatically deletes the policy's default version)
+ * using this operation.
+ *
+ * For information about managed policies, see Managed policies and inline
+ * policies in the *IAM User Guide*.
+ */
+export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePolicyRequest,
+  output: DeletePolicyResponse,
+  errors: [
+    DeleteConflictException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes the specified version from the specified managed policy.
+ *
+ * You cannot delete the default version from a policy using this operation. To delete
+ * the default version from a policy, use DeletePolicy. To find
+ * out which version of a policy is marked as the default version, use ListPolicyVersions.
+ *
+ * For information about versions for managed policies, see Versioning for managed
+ * policies in the *IAM User Guide*.
+ */
+export const deletePolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePolicyVersionRequest,
+  output: DeletePolicyVersionResponse,
+  errors: [
+    DeleteConflictException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes the specified server certificate.
+ *
+ * For more information about working with server certificates, see Working
+ * with server certificates in the *IAM User Guide*. This
+ * topic also includes a list of Amazon Web Services services that can use the server certificates that
+ * you manage with IAM.
+ *
+ * If you are using a server certificate with Elastic Load Balancing, deleting the
+ * certificate could have implications for your application. If Elastic Load Balancing
+ * doesn't detect the deletion of bound certificates, it may continue to use the
+ * certificates. This could cause Elastic Load Balancing to stop accepting traffic. We
+ * recommend that you remove the reference to the certificate from Elastic Load
+ * Balancing before using this command to delete the certificate. For more information,
+ * see DeleteLoadBalancerListeners in the Elastic Load Balancing API
+ * Reference.
+ */
+export const deleteServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteServerCertificateRequest,
+    output: DeleteServerCertificateResponse,
+    errors: [
+      DeleteConflictException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Sets the specified version of the global endpoint token as the token version used for
+ * the Amazon Web Services account.
+ *
+ * By default, Security Token Service (STS) is available as a global service, and all STS requests
+ * go to a single endpoint at `https://sts.amazonaws.com`. Amazon Web Services recommends
+ * using Regional STS endpoints to reduce latency, build in redundancy, and increase
+ * session token availability. For information about Regional endpoints for STS, see
+ * Security Token Service
+ * endpoints and quotas in the *Amazon Web Services General Reference*.
+ *
+ * If you make an STS call to the global endpoint, the resulting session tokens might
+ * be valid in some Regions but not others. It depends on the version that is set in this
+ * operation. Version 1 tokens are valid only in Amazon Web Services Regions that are
+ * available by default. These tokens do not work in manually enabled Regions, such as Asia
+ * Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2
+ * tokens are longer and might affect systems where you temporarily store tokens. For
+ * information, see Activating and
+ * deactivating STS in an Amazon Web Services Region in the
+ * *IAM User Guide*.
+ *
+ * To view the current session token version, see the
+ * `GlobalEndpointTokenVersion` entry in the response of the GetAccountSummary operation.
+ */
+export const setSecurityTokenServicePreferences =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetSecurityTokenServicePreferencesRequest,
+    output: SetSecurityTokenServicePreferencesResponse,
+    errors: [ServiceFailureException],
+  }));
+/**
+ * Creates an IAM resource that describes an identity provider (IdP) that supports SAML
+ * 2.0.
+ *
+ * The SAML provider resource that you create with this operation can be used as a
+ * principal in an IAM role's trust policy. Such a policy can enable federated users who
+ * sign in using the SAML IdP to assume the role. You can create an IAM role that
+ * supports Web-based single sign-on (SSO) to the Amazon Web Services Management Console or one that supports API access
+ * to Amazon Web Services.
+ *
+ * When you create the SAML provider resource, you upload a SAML metadata document that
+ * you get from your IdP. That document includes the issuer's name, expiration information,
+ * and keys that can be used to validate the SAML authentication response (assertions) that
+ * the IdP sends. You must generate the metadata document using the identity management
+ * software that is used as your organization's IdP.
+ *
+ * This operation requires Signature Version 4.
+ *
+ * For more information, see Enabling SAML 2.0
+ * federated users to access the Amazon Web Services Management Console and About SAML 2.0-based
+ * federation in the *IAM User Guide*.
+ */
+export const createSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSAMLProviderRequest,
+  output: CreateSAMLProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
+    InvalidInputException,
+    LimitExceededException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes the password policy for the Amazon Web Services account. There are no parameters.
+ */
+export const deleteAccountPasswordPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAccountPasswordPolicyRequest,
+    output: DeleteAccountPasswordPolicyResponse,
+    errors: [
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified IAM group. The group must not contain any users or have any
+ * attached policies.
+ */
+export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupRequest,
+  output: DeleteGroupResponse,
+  errors: [
+    DeleteConflictException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Submits a service-linked role deletion request and returns a
+ * `DeletionTaskId`, which you can use to check the status of the deletion.
+ * Before you call this operation, confirm that the role has no active sessions and that
+ * any resources used by the role in the linked service are deleted. If you call this
+ * operation more than once for the same service-linked role and an earlier deletion task
+ * is not complete, then the `DeletionTaskId` of the earlier request is
+ * returned.
+ *
+ * If you submit a deletion request for a service-linked role whose linked service is
+ * still accessing a resource, then the deletion task fails. If it fails, the GetServiceLinkedRoleDeletionStatus operation returns the reason for the
+ * failure, usually including the resources that must be deleted. To delete the
+ * service-linked role, you must first remove those resources from the linked service and
+ * then submit the deletion request again. Resources are specific to the service that is
+ * linked to the role. For more information about removing resources from a service, see
+ * the Amazon Web Services documentation for your
+ * service.
+ *
+ * For more information about service-linked roles, see Roles terms and concepts: Amazon Web Services service-linked role in the
+ * *IAM User Guide*.
+ */
+export const deleteServiceLinkedRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteServiceLinkedRoleRequest,
+    output: DeleteServiceLinkedRoleResponse,
+    errors: [
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Adds or updates an inline policy document that is embedded in the specified IAM
+ * user.
+ *
+ * An IAM user can also have a managed policy attached to it. To attach a managed
+ * policy to a user, use
+ * `AttachUserPolicy`
+ * . To create a new managed policy, use
+ *
+ * `CreatePolicy`
+ * . For information about policies, see Managed
+ * policies and inline policies in the
+ * *IAM User Guide*.
+ *
+ * For information about the maximum number of inline policies that you can embed in a
+ * user, see IAM and STS quotas in the *IAM User Guide*.
+ *
+ * Because policy documents can be large, you should use POST rather than GET when
+ * calling `PutUserPolicy`. For general information about using the Query
+ * API with IAM, see Making query requests in the
+ * *IAM User Guide*.
+ */
+export const putUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutUserPolicyRequest,
+  output: PutUserPolicyResponse,
+  errors: [
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Updates the password policy settings for the Amazon Web Services account.
+ *
+ * This operation does not support partial updates. No parameters are required, but
+ * if you do not specify a parameter, that parameter's value reverts to its default
+ * value. See the **Request Parameters** section for each
+ * parameter's default value. Also note that some parameters do not allow the default
+ * parameter to be explicitly set. Instead, to invoke the default value, do not include
+ * that parameter when you invoke the operation.
+ *
+ * For more information about using a password policy, see Managing an IAM password
+ * policy in the *IAM User Guide*.
+ */
+export const updateAccountPasswordPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAccountPasswordPolicyRequest,
+    output: UpdateAccountPasswordPolicyResponse,
+    errors: [
+      LimitExceededException,
+      MalformedPolicyDocumentException,
+      NoSuchEntityException,
+      ServiceFailureException,
+    ],
+  }),
+);
 /**
  * Creates a new Amazon Web Services secret access key and corresponding Amazon Web Services access key ID for the
  * specified user. The default status for new keys is `Active`.
@@ -6761,27 +6199,6 @@ export const createInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates a password for the specified IAM user. A password allows an IAM user to
- * access Amazon Web Services services through the Amazon Web Services Management Console.
- *
- * You can use the CLI, the Amazon Web Services API, or the **Users**
- * page in the IAM console to create a password for any IAM user. Use ChangePassword to update your own existing password in the **My Security Credentials** page in the Amazon Web Services Management Console.
- *
- * For more information about managing passwords, see Managing passwords in the
- * *IAM User Guide*.
- */
-export const createLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLoginProfileRequest,
-  output: CreateLoginProfileResponse,
-  errors: [
-    EntityAlreadyExistsException,
-    LimitExceededException,
-    NoSuchEntityException,
-    PasswordPolicyViolationException,
-    ServiceFailureException,
-  ],
-}));
 /**
  * Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC).
  *
@@ -7277,20 +6694,6 @@ export const listServerCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns information about the service-specific credentials associated with the
- * specified IAM user. If none exists, the operation returns an empty list. The
- * service-specific credentials returned by this operation are used only for authenticating
- * the IAM user to a specific service. For more information about using service-specific
- * credentials to authenticate to an Amazon Web Services service, see Set up service-specific credentials
- * in the CodeCommit User Guide.
- */
-export const listServiceSpecificCredentials =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListServiceSpecificCredentialsRequest,
-    output: ListServiceSpecificCredentialsResponse,
-    errors: [NoSuchEntityException, ServiceNotSupportedException],
-  }));
-/**
  * Returns information about the signing certificates associated with the specified IAM
  * user. If none exists, the operation returns an empty list.
  *
@@ -7364,6 +6767,486 @@ export const simulateCustomPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [InvalidInputException, PolicyEvaluationException],
   }),
 );
+/**
+ * Use UpdateRole instead.
+ *
+ * Modifies only the description of a role. This operation performs the same function as
+ * the `Description` parameter in the `UpdateRole` operation.
+ */
+export const updateRoleDescription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRoleDescriptionRequest,
+    output: UpdateRoleDescriptionResponse,
+    errors: [
+      NoSuchEntityException,
+      ServiceFailureException,
+      UnmodifiableEntityException,
+    ],
+  }),
+);
+/**
+ * Enables the specified MFA device and associates it with the specified IAM user. When
+ * enabled, the MFA device is required for every subsequent login by the IAM user
+ * associated with the device.
+ */
+export const enableMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableMFADeviceRequest,
+  output: EnableMFADeviceResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
+    EntityTemporarilyUnmodifiableException,
+    InvalidAuthenticationCodeException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Attaches the specified managed policy to the specified IAM role. When you attach a
+ * managed policy to a role, the managed policy becomes part of the role's permission
+ * (access) policy.
+ *
+ * You cannot use a managed policy as the role's trust policy. The role's trust
+ * policy is created at the same time as the role, using
+ * `CreateRole`
+ * . You can update a role's trust policy using
+ *
+ * `UpdateAssumerolePolicy`
+ * .
+ *
+ * Use this operation to attach a *managed* policy to a role. To embed
+ * an inline policy in a role, use
+ * `PutRolePolicy`
+ * . For more information about policies, see Managed
+ * policies and inline policies in the
+ * *IAM User Guide*.
+ *
+ * As a best practice, you can validate your IAM policies.
+ * To learn more, see Validating IAM policies
+ * in the *IAM User Guide*.
+ */
+export const attachRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachRolePolicyRequest,
+  output: AttachRolePolicyResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    PolicyNotAttachableException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
+/**
+ * Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services
+ * API, or the **Users** page in the IAM console to change
+ * the password for any IAM user. Use ChangePassword to
+ * change your own password in the **My Security Credentials**
+ * page in the Amazon Web Services Management Console.
+ *
+ * For more information about modifying passwords, see Managing passwords in the
+ * *IAM User Guide*.
+ */
+export const updateLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLoginProfileRequest,
+  output: UpdateLoginProfileResponse,
+  errors: [
+    EntityTemporarilyUnmodifiableException,
+    LimitExceededException,
+    NoSuchEntityException,
+    PasswordPolicyViolationException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Deletes the specified role. Unlike the Amazon Web Services Management Console, when you delete a role
+ * programmatically, you must delete the items attached to the role manually, or the
+ * deletion fails. For more information, see Deleting an IAM role. Before attempting to delete a role, remove the
+ * following attached items:
+ *
+ * - Inline policies (DeleteRolePolicy)
+ *
+ * - Attached managed policies (DetachRolePolicy)
+ *
+ * - Instance profile (RemoveRoleFromInstanceProfile)
+ *
+ * - Optional – Delete instance profile after detaching from role for
+ * resource clean up (DeleteInstanceProfile)
+ *
+ * Make sure that you do not have any Amazon EC2 instances running with the role you are
+ * about to delete. Deleting a role or instance profile that is associated with a
+ * running instance will break any applications running on the instance.
+ */
+export const deleteRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRoleRequest,
+  output: DeleteRoleResponse,
+  errors: [
+    ConcurrentModificationException,
+    DeleteConflictException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
+/**
+ * Removes the specified managed policy from the specified role.
+ *
+ * A role can also have inline policies embedded with it. To delete an inline policy, use
+ * DeleteRolePolicy. For information about policies, see Managed
+ * policies and inline policies in the
+ * *IAM User Guide*.
+ */
+export const detachRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachRolePolicyRequest,
+  output: DetachRolePolicyResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
+/**
+ * Deletes the permissions boundary for the specified IAM role.
+ *
+ * You cannot set the boundary for a service-linked role.
+ *
+ * Deleting the permissions boundary for a role might increase its permissions. For
+ * example, it might allow anyone who assumes the role to perform all the actions
+ * granted in its permissions policies.
+ */
+export const deleteRolePermissionsBoundary =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteRolePermissionsBoundaryRequest,
+    output: DeleteRolePermissionsBoundaryResponse,
+    errors: [
+      NoSuchEntityException,
+      ServiceFailureException,
+      UnmodifiableEntityException,
+    ],
+  }));
+/**
+ * Deletes the specified inline policy that is embedded in the specified IAM
+ * role.
+ *
+ * A role can also have managed policies attached to it. To detach a managed policy from
+ * a role, use DetachRolePolicy.
+ * For more information about policies, refer to Managed policies and inline
+ * policies in the *IAM User Guide*.
+ */
+export const deleteRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRolePolicyRequest,
+  output: DeleteRolePolicyResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
+/**
+ * Removes the specified IAM role from the specified Amazon EC2 instance profile.
+ *
+ * Make sure that you do not have any Amazon EC2 instances running with the role you are
+ * about to remove from the instance profile. Removing a role from an instance profile
+ * that is associated with a running instance might break any applications running on
+ * the instance.
+ *
+ * For more information about roles, see IAM roles in the
+ * *IAM User Guide*. For more information about instance profiles,
+ * see Using
+ * instance profiles in the *IAM User Guide*.
+ */
+export const removeRoleFromInstanceProfile =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RemoveRoleFromInstanceProfileRequest,
+    output: RemoveRoleFromInstanceProfileResponse,
+    errors: [
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+      UnmodifiableEntityException,
+    ],
+  }));
+/**
+ * Updates the description or maximum session duration setting of a role.
+ */
+export const updateRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoleRequest,
+  output: UpdateRoleResponse,
+  errors: [
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
+/**
+ * Adds the specified IAM role to the specified instance profile. An instance profile
+ * can contain only one role, and this quota cannot be increased. You can remove the
+ * existing role and then add a different role to an instance profile. You must then wait
+ * for the change to appear across all of Amazon Web Services because of eventual
+ * consistency. To force the change, you must disassociate the instance profile and then associate the
+ * instance profile, or you can stop your instance and then restart it.
+ *
+ * The caller of this operation must be granted the `PassRole` permission
+ * on the IAM role by a permissions policy.
+ *
+ * When using the iam:AssociatedResourceArn condition in a policy to restrict the PassRole IAM action, special considerations apply if the policy is
+ * intended to define access for the `AddRoleToInstanceProfile` action. In
+ * this case, you cannot specify a Region or instance ID in the EC2 instance ARN. The
+ * ARN value must be `arn:aws:ec2:*:CallerAccountId:instance/*`. Using any
+ * other ARN value may lead to unexpected evaluation results.
+ *
+ * For more information about roles, see IAM roles in the
+ * *IAM User Guide*. For more information about instance profiles,
+ * see Using
+ * instance profiles in the *IAM User Guide*.
+ */
+export const addRoleToInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AddRoleToInstanceProfileRequest,
+    output: AddRoleToInstanceProfileResponse,
+    errors: [
+      EntityAlreadyExistsException,
+      LimitExceededException,
+      NoSuchEntityException,
+      ServiceFailureException,
+      UnmodifiableEntityException,
+    ],
+  }),
+);
+/**
+ * Adds or updates an inline policy document that is embedded in the specified IAM
+ * role.
+ *
+ * When you embed an inline policy in a role, the inline policy is used as part of the
+ * role's access (permissions) policy. The role's trust policy is created at the same time
+ * as the role, using
+ * `CreateRole`
+ * .
+ * You can update a role's trust policy using
+ * `UpdateAssumeRolePolicy`
+ * . For more information about roles,
+ * see IAM
+ * roles in the *IAM User Guide*.
+ *
+ * A role can also have a managed policy attached to it. To attach a managed policy to a
+ * role, use
+ * `AttachRolePolicy`
+ * . To create a new managed policy, use
+ *
+ * `CreatePolicy`
+ * . For information about policies, see Managed
+ * policies and inline policies in the
+ * *IAM User Guide*.
+ *
+ * For information about the maximum number of inline policies that you can embed with a
+ * role, see IAM and STS quotas in the *IAM User Guide*.
+ *
+ * Because policy documents can be large, you should use POST rather than GET when
+ * calling `PutRolePolicy`. For general information about using the Query
+ * API with IAM, see Making query requests in the
+ * *IAM User Guide*.
+ */
+export const putRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRolePolicyRequest,
+  output: PutRolePolicyResponse,
+  errors: [
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
+/**
+ * Updates the policy that grants an IAM entity permission to assume a role. This is
+ * typically referred to as the "role trust policy". For more information about roles, see
+ * Using roles to
+ * delegate permissions and federate identities.
+ */
+export const updateAssumeRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAssumeRolePolicyRequest,
+    output: UpdateAssumeRolePolicyResponse,
+    errors: [
+      LimitExceededException,
+      MalformedPolicyDocumentException,
+      NoSuchEntityException,
+      ServiceFailureException,
+      UnmodifiableEntityException,
+    ],
+  }),
+);
+/**
+ * Synchronizes the specified MFA device with its IAM resource object on the Amazon Web Services
+ * servers.
+ *
+ * For more information about creating and working with virtual MFA devices, see Using a virtual MFA
+ * device in the *IAM User Guide*.
+ */
+export const resyncMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResyncMFADeviceRequest,
+  output: ResyncMFADeviceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidAuthenticationCodeException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Attaches the specified managed policy to the specified user.
+ *
+ * You use this operation to attach a *managed* policy to a user. To
+ * embed an inline policy in a user, use
+ * `PutUserPolicy`
+ * .
+ *
+ * As a best practice, you can validate your IAM policies.
+ * To learn more, see Validating IAM policies
+ * in the *IAM User Guide*.
+ *
+ * For more information about policies, see Managed policies and inline
+ * policies in the *IAM User Guide*.
+ */
+export const attachUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachUserPolicyRequest,
+  output: AttachUserPolicyResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    PolicyNotAttachableException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Adds or updates the policy that is specified as the IAM role's permissions boundary.
+ * You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for
+ * a role. Use the boundary to control the maximum permissions that the role can have.
+ * Setting a permissions boundary is an advanced feature that can affect the permissions
+ * for the role.
+ *
+ * You cannot set the boundary for a service-linked role.
+ *
+ * Policies used as permissions boundaries do not provide permissions. You must also
+ * attach a permissions policy to the role. To learn how the effective permissions for
+ * a role are evaluated, see IAM JSON policy
+ * evaluation logic in the IAM User Guide.
+ */
+export const putRolePermissionsBoundary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutRolePermissionsBoundaryRequest,
+    output: PutRolePermissionsBoundaryResponse,
+    errors: [
+      InvalidInputException,
+      NoSuchEntityException,
+      PolicyNotAttachableException,
+      ServiceFailureException,
+      UnmodifiableEntityException,
+    ],
+  }),
+);
+/**
+ * Adds or updates the policy that is specified as the IAM user's permissions
+ * boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the
+ * boundary for a user. Use the boundary to control the maximum permissions that the user
+ * can have. Setting a permissions boundary is an advanced feature that can affect the
+ * permissions for the user.
+ *
+ * Policies that are used as permissions boundaries do not provide permissions. You
+ * must also attach a permissions policy to the user. To learn how the effective
+ * permissions for a user are evaluated, see IAM JSON policy
+ * evaluation logic in the IAM User Guide.
+ */
+export const putUserPermissionsBoundary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutUserPermissionsBoundaryRequest,
+    output: PutUserPermissionsBoundaryResponse,
+    errors: [
+      InvalidInputException,
+      NoSuchEntityException,
+      PolicyNotAttachableException,
+      ServiceFailureException,
+    ],
+  }),
+);
+/**
+ * Attaches the specified managed policy to the specified IAM group.
+ *
+ * You use this operation to attach a managed policy to a group. To embed an inline
+ * policy in a group, use
+ * `PutGroupPolicy`
+ * .
+ *
+ * As a best practice, you can validate your IAM policies.
+ * To learn more, see Validating IAM policies
+ * in the *IAM User Guide*.
+ *
+ * For more information about policies, see Managed policies and inline
+ * policies in the *IAM User Guide*.
+ */
+export const attachGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachGroupPolicyRequest,
+  output: AttachGroupPolicyResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    PolicyNotAttachableException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Changes the password of the IAM user who is calling this operation. This operation
+ * can be performed using the CLI, the Amazon Web Services API, or the My
+ * Security Credentials page in the Amazon Web Services Management Console. The Amazon Web Services account root user password is
+ * not affected by this operation.
+ *
+ * Use UpdateLoginProfile
+ * to use the CLI, the Amazon Web Services API, or the **Users** page in
+ * the IAM console to change the password for any IAM user. For more information about
+ * modifying passwords, see Managing passwords in the
+ * *IAM User Guide*.
+ */
+export const changePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChangePasswordRequest,
+  output: ChangePasswordResponse,
+  errors: [
+    EntityTemporarilyUnmodifiableException,
+    InvalidUserTypeException,
+    LimitExceededException,
+    NoSuchEntityException,
+    PasswordPolicyViolationException,
+    ServiceFailureException,
+  ],
+}));
+/**
+ * Creates a password for the specified IAM user. A password allows an IAM user to
+ * access Amazon Web Services services through the Amazon Web Services Management Console.
+ *
+ * You can use the CLI, the Amazon Web Services API, or the **Users**
+ * page in the IAM console to create a password for any IAM user. Use ChangePassword to update your own existing password in the **My Security Credentials** page in the Amazon Web Services Management Console.
+ *
+ * For more information about managing passwords, see Managing passwords in the
+ * *IAM User Guide*.
+ */
+export const createLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLoginProfileRequest,
+  output: CreateLoginProfileResponse,
+  errors: [
+    EntityAlreadyExistsException,
+    LimitExceededException,
+    NoSuchEntityException,
+    PasswordPolicyViolationException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Creates an IAM delegation request for temporary access delegation.
  *
@@ -7726,6 +7609,37 @@ export const uploadSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Returns information about the service-specific credentials associated with the
+ * specified IAM user. If none exists, the operation returns an empty list. The
+ * service-specific credentials returned by this operation are used only for authenticating
+ * the IAM user to a specific service. For more information about using service-specific
+ * credentials to authenticate to an Amazon Web Services service, see Set up service-specific credentials
+ * in the CodeCommit User Guide.
+ */
+export const listServiceSpecificCredentials =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListServiceSpecificCredentialsRequest,
+    output: ListServiceSpecificCredentialsResponse,
+    errors: [NoSuchEntityException, ServiceNotSupportedException],
+  }));
+/**
+ * Disables the management of privileged root user credentials across member accounts in
+ * your organization. When you disable this feature, the management account and the
+ * delegated administrator for IAM can no longer manage root user credentials for member
+ * accounts in your organization.
+ */
+export const disableOrganizationsRootCredentialsManagement =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisableOrganizationsRootCredentialsManagementRequest,
+    output: DisableOrganizationsRootCredentialsManagementResponse,
+    errors: [
+      AccountNotManagementOrDelegatedAdministratorException,
+      OrganizationNotFoundException,
+      OrganizationNotInAllFeaturesModeException,
+      ServiceAccessNotEnabledException,
+    ],
+  }));
+/**
  * Simulate how a set of IAM policies attached to an IAM entity works with a list of
  * API operations and Amazon Web Services resources to determine the policies' effective permissions. The
  * entity can be an IAM user, group, or role. If you specify a user, then the simulation
@@ -7774,3 +7688,89 @@ export const simulatePrincipalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Enables the management of privileged root user credentials across member accounts in your
+ * organization. When you enable root credentials management for centralized root access, the management account and the delegated
+ * administrator for IAM can manage root user credentials for member accounts in your
+ * organization.
+ *
+ * Before you enable centralized root access, you must have an account configured with
+ * the following settings:
+ *
+ * - You must manage your Amazon Web Services accounts in Organizations.
+ *
+ * - Enable trusted access for Identity and Access Management in Organizations. For details, see
+ * IAM and Organizations in the Organizations User
+ * Guide.
+ */
+export const enableOrganizationsRootCredentialsManagement =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: EnableOrganizationsRootCredentialsManagementRequest,
+    output: EnableOrganizationsRootCredentialsManagementResponse,
+    errors: [
+      AccountNotManagementOrDelegatedAdministratorException,
+      CallerIsNotManagementAccountException,
+      OrganizationNotFoundException,
+      OrganizationNotInAllFeaturesModeException,
+      ServiceAccessNotEnabledException,
+    ],
+  }));
+/**
+ * Disables root user sessions for privileged tasks across member accounts in your
+ * organization. When you disable this feature, the management account and the delegated
+ * administrator for IAM can no longer perform privileged tasks on member accounts in
+ * your organization.
+ */
+export const disableOrganizationsRootSessions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisableOrganizationsRootSessionsRequest,
+    output: DisableOrganizationsRootSessionsResponse,
+    errors: [
+      AccountNotManagementOrDelegatedAdministratorException,
+      OrganizationNotFoundException,
+      OrganizationNotInAllFeaturesModeException,
+      ServiceAccessNotEnabledException,
+    ],
+  }));
+/**
+ * Lists the centralized root access features enabled for your organization. For more
+ * information, see Centrally manage root access for member accounts.
+ */
+export const listOrganizationsFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListOrganizationsFeaturesRequest,
+    output: ListOrganizationsFeaturesResponse,
+    errors: [
+      AccountNotManagementOrDelegatedAdministratorException,
+      OrganizationNotFoundException,
+      OrganizationNotInAllFeaturesModeException,
+      ServiceAccessNotEnabledException,
+    ],
+  }),
+);
+/**
+ * Allows the management account or delegated administrator to perform privileged tasks
+ * on member accounts in your organization. For more information, see Centrally manage root access for member accounts in the Identity and Access Management
+ * User Guide.
+ *
+ * Before you enable this feature, you must have an account configured with the following
+ * settings:
+ *
+ * - You must manage your Amazon Web Services accounts in Organizations.
+ *
+ * - Enable trusted access for Identity and Access Management in Organizations. For details, see
+ * IAM and Organizations in the Organizations User
+ * Guide.
+ */
+export const enableOrganizationsRootSessions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: EnableOrganizationsRootSessionsRequest,
+    output: EnableOrganizationsRootSessionsResponse,
+    errors: [
+      AccountNotManagementOrDelegatedAdministratorException,
+      CallerIsNotManagementAccountException,
+      OrganizationNotFoundException,
+      OrganizationNotInAllFeaturesModeException,
+      ServiceAccessNotEnabledException,
+    ],
+  }));

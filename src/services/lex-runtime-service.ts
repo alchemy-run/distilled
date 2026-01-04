@@ -629,10 +629,6 @@ export class PostTextResponse extends S.Class<PostTextResponse>(
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
-) {}
-export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
-  "InternalFailureException",
   { message: S.optional(S.String) },
 ) {}
 export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
@@ -641,27 +637,34 @@ export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class DependencyFailedException extends S.TaggedError<DependencyFailedException>()(
-  "DependencyFailedException",
-  {},
+export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
+  "InternalFailureException",
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  {
+    retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
+    message: S.optional(S.String),
+  },
+) {}
+export class DependencyFailedException extends S.TaggedError<DependencyFailedException>()(
+  "DependencyFailedException",
+  { Message: S.optional(S.String) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
-) {}
-export class NotAcceptableException extends S.TaggedError<NotAcceptableException>()(
-  "NotAcceptableException",
   { message: S.optional(S.String) },
 ) {}
 export class LoopDetectedException extends S.TaggedError<LoopDetectedException>()(
   "LoopDetectedException",
   { Message: S.optional(S.String) },
+) {}
+export class NotAcceptableException extends S.TaggedError<NotAcceptableException>()(
+  "NotAcceptableException",
+  { message: S.optional(S.String) },
 ) {}
 export class RequestTimeoutException extends S.TaggedError<RequestTimeoutException>()(
   "RequestTimeoutException",
@@ -682,6 +685,20 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetSessionResponse,
   errors: [
     BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Removes session information for a specified bot, alias, and user ID.
+ */
+export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSessionRequest,
+  output: DeleteSessionResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
     InternalFailureException,
     LimitExceededException,
     NotFoundException,
@@ -710,16 +727,74 @@ export const putSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes session information for a specified bot, alias, and user ID.
+ * Sends user input to Amazon Lex. Client applications can use this API to
+ * send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input
+ * using the machine learning model it built for the bot.
+ *
+ * In response, Amazon Lex returns the next `message` to convey to
+ * the user an optional `responseCard` to display. Consider the
+ * following example messages:
+ *
+ * - For a user input "I would like a pizza", Amazon Lex might return a
+ * response with a message eliciting slot data (for example, PizzaSize):
+ * "What size pizza would you like?"
+ *
+ * - After the user provides all of the pizza order information,
+ * Amazon Lex might return a response with a message to obtain user
+ * confirmation "Proceed with the pizza order?".
+ *
+ * - After the user replies to a confirmation prompt with a "yes",
+ * Amazon Lex might return a conclusion statement: "Thank you, your cheese
+ * pizza has been ordered.".
+ *
+ * Not all Amazon Lex messages require a user response. For example, a
+ * conclusion statement does not require a response. Some messages require
+ * only a "yes" or "no" user response. In addition to the
+ * `message`, Amazon Lex provides additional context about the
+ * message in the response that you might use to enhance client behavior, for
+ * example, to display the appropriate client user interface. These are the
+ * `slotToElicit`, `dialogState`,
+ * `intentName`, and `slots` fields in the response.
+ * Consider the following examples:
+ *
+ * - If the message is to elicit slot data, Amazon Lex returns the
+ * following context information:
+ *
+ * - `dialogState` set to ElicitSlot
+ *
+ * - `intentName` set to the intent name in the current
+ * context
+ *
+ * - `slotToElicit` set to the slot name for which the
+ * `message` is eliciting information
+ *
+ * - `slots` set to a map of slots, configured for the
+ * intent, with currently known values
+ *
+ * - If the message is a confirmation prompt, the
+ * `dialogState` is set to ConfirmIntent and
+ * `SlotToElicit` is set to null.
+ *
+ * - If the message is a clarification prompt (configured for the
+ * intent) that indicates that user intent is not understood, the
+ * `dialogState` is set to ElicitIntent and
+ * `slotToElicit` is set to null.
+ *
+ * In addition, Amazon Lex also returns your application-specific
+ * `sessionAttributes`. For more information, see Managing
+ * Conversation Context.
  */
-export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSessionRequest,
-  output: DeleteSessionResponse,
+export const postText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PostTextRequest,
+  output: PostTextResponse,
   errors: [
+    BadGatewayException,
     BadRequestException,
     ConflictException,
+    DependencyFailedException,
     InternalFailureException,
     LimitExceededException,
+    LoopDetectedException,
     NotFoundException,
   ],
 }));
@@ -799,77 +874,5 @@ export const postContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     NotFoundException,
     RequestTimeoutException,
     UnsupportedMediaTypeException,
-  ],
-}));
-/**
- * Sends user input to Amazon Lex. Client applications can use this API to
- * send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input
- * using the machine learning model it built for the bot.
- *
- * In response, Amazon Lex returns the next `message` to convey to
- * the user an optional `responseCard` to display. Consider the
- * following example messages:
- *
- * - For a user input "I would like a pizza", Amazon Lex might return a
- * response with a message eliciting slot data (for example, PizzaSize):
- * "What size pizza would you like?"
- *
- * - After the user provides all of the pizza order information,
- * Amazon Lex might return a response with a message to obtain user
- * confirmation "Proceed with the pizza order?".
- *
- * - After the user replies to a confirmation prompt with a "yes",
- * Amazon Lex might return a conclusion statement: "Thank you, your cheese
- * pizza has been ordered.".
- *
- * Not all Amazon Lex messages require a user response. For example, a
- * conclusion statement does not require a response. Some messages require
- * only a "yes" or "no" user response. In addition to the
- * `message`, Amazon Lex provides additional context about the
- * message in the response that you might use to enhance client behavior, for
- * example, to display the appropriate client user interface. These are the
- * `slotToElicit`, `dialogState`,
- * `intentName`, and `slots` fields in the response.
- * Consider the following examples:
- *
- * - If the message is to elicit slot data, Amazon Lex returns the
- * following context information:
- *
- * - `dialogState` set to ElicitSlot
- *
- * - `intentName` set to the intent name in the current
- * context
- *
- * - `slotToElicit` set to the slot name for which the
- * `message` is eliciting information
- *
- * - `slots` set to a map of slots, configured for the
- * intent, with currently known values
- *
- * - If the message is a confirmation prompt, the
- * `dialogState` is set to ConfirmIntent and
- * `SlotToElicit` is set to null.
- *
- * - If the message is a clarification prompt (configured for the
- * intent) that indicates that user intent is not understood, the
- * `dialogState` is set to ElicitIntent and
- * `slotToElicit` is set to null.
- *
- * In addition, Amazon Lex also returns your application-specific
- * `sessionAttributes`. For more information, see Managing
- * Conversation Context.
- */
-export const postText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PostTextRequest,
-  output: PostTextResponse,
-  errors: [
-    BadGatewayException,
-    BadRequestException,
-    ConflictException,
-    DependencyFailedException,
-    InternalFailureException,
-    LimitExceededException,
-    LoopDetectedException,
-    NotFoundException,
   ],
 }));

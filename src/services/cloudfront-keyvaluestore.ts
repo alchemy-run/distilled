@@ -559,27 +559,27 @@ export class UpdateKeysResponse extends S.Class<UpdateKeysResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -612,11 +612,25 @@ export const getKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a new key value pair or replaces the value of an existing key.
+ * Returns a list of key value pairs.
  */
-export const putKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutKeyRequest,
-  output: PutKeyResponse,
+export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListKeysRequest,
+  output: ListKeysResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
+ */
+export const updateKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateKeysRequest,
+  output: UpdateKeysResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -627,11 +641,11 @@ export const putKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
+ * Creates a new key value pair or replaces the value of an existing key.
  */
-export const updateKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateKeysRequest,
-  output: UpdateKeysResponse,
+export const putKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutKeyRequest,
+  output: PutKeyResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -653,20 +667,6 @@ export const deleteKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of key value pairs.
- */
-export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListKeysRequest,
-  output: ListKeysResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
     ValidationException,
   ],
 }));

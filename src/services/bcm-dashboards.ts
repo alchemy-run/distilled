@@ -364,23 +364,23 @@ export class CreateDashboardResponse extends S.Class<CreateDashboardResponse>(
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.String },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -389,14 +389,27 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 
 //# Operations
 /**
- * Returns a list of all tags associated with a specified dashboard resource.
+ * Deletes a specified dashboard. This action cannot be undone.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDashboardRequest,
+  output: DeleteDashboardResponse,
   errors: [
+    AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of all dashboards in your account.
+ */
+export const listDashboards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDashboardsRequest,
+  output: ListDashboardsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
@@ -410,46 +423,6 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes specified tags from a dashboard resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing dashboard's properties, including its name, description, and widget configurations.
- */
-export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDashboardRequest,
-  output: UpdateDashboardResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a specified dashboard. This action cannot be undone.
- */
-export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDashboardRequest,
-  output: DeleteDashboardResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
@@ -483,14 +456,41 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns a list of all dashboards in your account.
+ * Updates an existing dashboard's properties, including its name, description, and widget configurations.
  */
-export const listDashboards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDashboardsRequest,
-  output: ListDashboardsResponse,
+export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDashboardRequest,
+  output: UpdateDashboardResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes specified tags from a dashboard resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of all tags associated with a specified dashboard resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

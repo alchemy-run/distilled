@@ -1452,45 +1452,61 @@ export class DescribeDataIngestionJobResponse extends S.Class<DescribeDataIngest
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.String },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.String },
 ) {}
 
 //# Operations
 /**
- * Deletes a retraining scheduler from a model. The retraining scheduler must be in the
- * `STOPPED` status.
+ * Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location
+ * of the input data, status, and so on.
  */
-export const deleteRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listDataIngestionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteRetrainingSchedulerRequest,
-    output: DeleteRetrainingSchedulerResponse,
+    input: ListDataIngestionJobsRequest,
+    output: ListDataIngestionJobsResponse,
     errors: [
       AccessDeniedException,
-      ConflictException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists statistics about the data collected for each of the sensors that have been
+ * successfully ingested in the particular dataset. Can also be used to retreive Sensor
+ * Statistics for a previous ingestion job.
+ */
+export const listSensorStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListSensorStatisticsRequest,
+    output: ListSensorStatisticsResponse,
+    errors: [
+      AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -1498,100 +1514,6 @@ export const deleteRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Removes a specific tag from a given resource. The tag is specified by its key.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an inference scheduler.
- */
-export const updateInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInferenceSchedulerRequest,
-    output: UpdateInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the label group.
- */
-export const updateLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateLabelGroupRequest,
-  output: UpdateLabelGroupResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a model in the account.
- */
-export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateModelRequest,
-  output: UpdateModelResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a retraining scheduler.
- */
-export const updateRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRetrainingSchedulerRequest,
-    output: UpdateRetrainingSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a label for an event.
- */
-export const createLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLabelRequest,
-  output: CreateLabelResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Creates a group of labels.
  */
@@ -1608,12 +1530,123 @@ export const createLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a retraining scheduler on the specified model.
+ * Retrieves information about a specific machine learning model version.
  */
-export const createRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateRetrainingSchedulerRequest,
-    output: CreateRetrainingSchedulerResponse,
+    input: DescribeModelVersionRequest,
+    output: DescribeModelVersionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all inference events that have been found for the specified inference scheduler.
+ */
+export const listInferenceEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInferenceEventsRequest,
+  output: ListInferenceEventsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all inference executions that have been performed by the specified inference
+ * scheduler.
+ */
+export const listInferenceExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListInferenceExecutionsRequest,
+    output: ListInferenceExecutionsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Generates a list of all model versions for a given model, including the model version,
+ * model version ARN, and status. To list a subset of versions, use the
+ * `MaxModelVersion` and `MinModelVersion` fields.
+ */
+export const listModelVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListModelVersionsRequest,
+  output: ListModelVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Imports a dataset.
+ */
+export const importDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportDatasetRequest,
+  output: ImportDatasetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Imports a model that has been trained successfully.
+ */
+export const importModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportModelVersionRequest,
+  output: ImportModelVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a resource control policy for a given resource.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts an inference scheduler.
+ */
+export const startInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartInferenceSchedulerRequest,
+    output: StartInferenceSchedulerResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -1625,24 +1658,73 @@ export const createRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a dataset and associated artifacts. The operation will check to see if any
- * inference scheduler or data ingestion job is currently using the dataset, and if there
- * isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted.
- * This does not affect any models that used this dataset for training and evaluation, but
- * does prevent it from being used in the future.
+ * Starts a retraining scheduler.
  */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatasetRequest,
-  output: DeleteDatasetResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const startRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartRetrainingSchedulerRequest,
+    output: StartRetrainingSchedulerResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Stops an inference scheduler.
+ */
+export const stopInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopInferenceSchedulerRequest,
+    output: StopInferenceSchedulerResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Stops a retraining scheduler.
+ */
+export const stopRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopRetrainingSchedulerRequest,
+    output: StopRetrainingSchedulerResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Sets the active model version for a given machine learning model.
+ */
+export const updateActiveModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateActiveModelVersionRequest,
+    output: UpdateActiveModelVersionResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Deletes an inference scheduler that has been set up. Prior inference results will not be
  * deleted.
@@ -1725,20 +1807,120 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Provides a JSON description of the data in each time series dataset, including names,
- * column names, and data types.
+ * Deletes a retraining scheduler from a model. The retraining scheduler must be in the
+ * `STOPPED` status.
  */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDatasetRequest,
-  output: DescribeDatasetResponse,
+export const deleteRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteRetrainingSchedulerRequest,
+    output: DeleteRetrainingSchedulerResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates an inference scheduler.
+ */
+export const updateInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateInferenceSchedulerRequest,
+    output: UpdateInferenceSchedulerResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the label group.
+ */
+export const updateLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLabelGroupRequest,
+  output: UpdateLabelGroupResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
+/**
+ * Updates a model in the account.
+ */
+export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateModelRequest,
+  output: UpdateModelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a retraining scheduler.
+ */
+export const updateRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateRetrainingSchedulerRequest,
+    output: UpdateRetrainingSchedulerResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a label for an event.
+ */
+export const createLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLabelRequest,
+  output: CreateLabelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a retraining scheduler on the specified model.
+ */
+export const createRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRetrainingSchedulerRequest,
+    output: CreateRetrainingSchedulerResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Specifies information about the inference scheduler being used, including name, model,
  * status, and associated metadata
@@ -1834,38 +2016,6 @@ export const describeRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Imports a dataset.
- */
-export const importDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportDatasetRequest,
-  output: ImportDatasetResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Imports a model that has been trained successfully.
- */
-export const importModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ImportModelVersionRequest,
-  output: ImportModelVersionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists all the tags for a specified resource, including key and value.
  */
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1879,90 +2029,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Creates a resource control policy for a given resource.
- */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts an inference scheduler.
- */
-export const startInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartInferenceSchedulerRequest,
-    output: StartInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Starts a retraining scheduler.
- */
-export const startRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartRetrainingSchedulerRequest,
-    output: StartRetrainingSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Stops an inference scheduler.
- */
-export const stopInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopInferenceSchedulerRequest,
-    output: StopInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Stops a retraining scheduler.
- */
-export const stopRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopRetrainingSchedulerRequest,
-    output: StopRetrainingSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Associates a given tag to a resource in your account. A tag is a key-value pair which
  * can be added to an Amazon Lookout for Equipment resource as metadata. Tags can be used for organizing your
@@ -1983,72 +2049,86 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Sets the active model version for a given machine learning model.
+ * Removes a specific tag from a given resource. The tag is specified by its key.
  */
-export const updateActiveModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateActiveModelVersionRequest,
-    output: UpdateActiveModelVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a container for a collection of data being ingested for analysis. The dataset
- * contains the metadata describing where the data is and what the data actually looks like.
- * For example, it contains the location of the data source, the data schema, and other
- * information. A dataset also contains any tags associated with the ingested data.
- */
-export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDatasetRequest,
-  output: CreateDatasetResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ServiceQuotaExceededException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Retrieves information about a specific machine learning model version.
+ * Deletes a dataset and associated artifacts. The operation will check to see if any
+ * inference scheduler or data ingestion job is currently using the dataset, and if there
+ * isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted.
+ * This does not affect any models that used this dataset for training and evaluation, but
+ * does prevent it from being used in the future.
  */
-export const describeModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetRequest,
+  output: DeleteDatasetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a scheduled inference. Scheduling an inference is setting up a continuous
+ * real-time inference plan to analyze new measurement data. When setting up the schedule, you
+ * provide an S3 bucket location for the input data, assign it a delimiter between separate
+ * entries in the data, set an offset delay if desired, and set the frequency of inferencing.
+ * You must also provide an S3 bucket location for the output data.
+ */
+export const createInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DescribeModelVersionRequest,
-    output: DescribeModelVersionResponse,
+    input: CreateInferenceSchedulerRequest,
+    output: CreateInferenceSchedulerResponse,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
+      ServiceQuotaExceededException,
       ThrottlingException,
       ValidationException,
     ],
   }),
 );
 /**
- * Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location
- * of the input data, status, and so on.
+ * Creates a machine learning model for data inference.
+ *
+ * A machine-learning (ML) model is a mathematical model that finds patterns in your data.
+ * In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal
+ * behavior that could be potential equipment failure (or maintenance events). The models are
+ * made by analyzing normal data and abnormalities in machine behavior that have already
+ * occurred.
+ *
+ * Your model is trained using a portion of the data from your dataset and uses that data
+ * to learn patterns of normal behavior and abnormal patterns that lead to equipment failure.
+ * Another portion of the data is used to evaluate the model's accuracy.
  */
-export const listDataIngestionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDataIngestionJobsRequest,
-    output: ListDataIngestionJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelRequest,
+  output: CreateModelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all datasets currently available in your account, filtering on the dataset name.
  */
@@ -2062,37 +2142,6 @@ export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * Lists all inference events that have been found for the specified inference scheduler.
- */
-export const listInferenceEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInferenceEventsRequest,
-  output: ListInferenceEventsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all inference executions that have been performed by the specified inference
- * scheduler.
- */
-export const listInferenceExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListInferenceExecutionsRequest,
-    output: ListInferenceExecutionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Retrieves a list of all inference schedulers currently available for your account.
  */
@@ -2149,22 +2198,6 @@ export const listModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Generates a list of all model versions for a given model, including the model version,
- * model version ARN, and status. To list a subset of versions, use the
- * `MaxModelVersion` and `MinModelVersion` fields.
- */
-export const listModelVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListModelVersionsRequest,
-  output: ListModelVersionsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists all retraining schedulers in your account, filtering by model name prefix and
  * status.
  */
@@ -2181,71 +2214,38 @@ export const listRetrainingSchedulers = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a scheduled inference. Scheduling an inference is setting up a continuous
- * real-time inference plan to analyze new measurement data. When setting up the schedule, you
- * provide an S3 bucket location for the input data, assign it a delimiter between separate
- * entries in the data, set an offset delay if desired, and set the frequency of inferencing.
- * You must also provide an S3 bucket location for the output data.
+ * Provides a JSON description of the data in each time series dataset, including names,
+ * column names, and data types.
  */
-export const createInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInferenceSchedulerRequest,
-    output: CreateInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a machine learning model for data inference.
- *
- * A machine-learning (ML) model is a mathematical model that finds patterns in your data.
- * In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal
- * behavior that could be potential equipment failure (or maintenance events). The models are
- * made by analyzing normal data and abnormalities in machine behavior that have already
- * occurred.
- *
- * Your model is trained using a portion of the data from your dataset and uses that data
- * to learn patterns of normal behavior and abnormal patterns that lead to equipment failure.
- * Another portion of the data is used to evaluate the model's accuracy.
- */
-export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateModelRequest,
-  output: CreateModelResponse,
+export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDatasetRequest,
+  output: DescribeDatasetResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Lists statistics about the data collected for each of the sensors that have been
- * successfully ingested in the particular dataset. Can also be used to retreive Sensor
- * Statistics for a previous ingestion job.
+ * Creates a container for a collection of data being ingested for analysis. The dataset
+ * contains the metadata describing where the data is and what the data actually looks like.
+ * For example, it contains the location of the data source, the data schema, and other
+ * information. A dataset also contains any tags associated with the ingested data.
  */
-export const listSensorStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSensorStatisticsRequest,
-    output: ListSensorStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatasetRequest,
+  output: CreateDatasetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
  */

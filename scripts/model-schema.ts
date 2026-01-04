@@ -170,11 +170,14 @@ export const ResourceShape = S.Struct({
       }),
     }),
   ),
+  create: S.optional(S.Struct({ target: S.String })),
   put: S.optional(S.Struct({ target: S.String })),
   read: S.optional(S.Struct({ target: S.String })),
   update: S.optional(S.Struct({ target: S.String })),
   delete: S.optional(S.Struct({ target: S.String })),
   list: S.optional(S.Struct({ target: S.String })),
+  operations: S.optional(S.Array(S.Struct({ target: S.String }))),
+  collectionOperations: S.optional(S.Array(S.Struct({ target: S.String }))),
   resources: S.optional(
     S.Array(
       S.Struct({

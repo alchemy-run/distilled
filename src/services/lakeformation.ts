@@ -1857,61 +1857,41 @@ export class CreateLakeFormationIdentityCenterConfigurationResponse extends S.Cl
 )({ ApplicationArn: S.optional(S.String) }) {}
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  {},
-) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.optional(S.String) },
 ) {}
 export class EntityNotFoundException extends S.TaggedError<EntityNotFoundException>()(
   "EntityNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ExpiredException extends S.TaggedError<ExpiredException>()(
+  "ExpiredException",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
-) {}
-export class OperationTimeoutException extends S.TaggedError<OperationTimeoutException>()(
-  "OperationTimeoutException",
-  {},
-) {}
-export class TransactionCanceledException extends S.TaggedError<TransactionCanceledException>()(
-  "TransactionCanceledException",
-  {},
-) {}
-export class ResourceNumberLimitExceededException extends S.TaggedError<ResourceNumberLimitExceededException>()(
-  "ResourceNumberLimitExceededException",
-  {},
-) {}
-export class TransactionCommitInProgressException extends S.TaggedError<TransactionCommitInProgressException>()(
-  "TransactionCommitInProgressException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
   "AlreadyExistsException",
   { Message: S.optional(S.String) },
 ) {}
-export class TransactionCommittedException extends S.TaggedError<TransactionCommittedException>()(
-  "TransactionCommittedException",
-  {},
-) {}
-export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
-  "ResourceNotReadyException",
-  { Message: S.optional(S.String) },
-) {}
-export class ExpiredException extends S.TaggedError<ExpiredException>()(
-  "ExpiredException",
-  {},
-) {}
 export class GlueEncryptionException extends S.TaggedError<GlueEncryptionException>()(
   "GlueEncryptionException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class OperationTimeoutException extends S.TaggedError<OperationTimeoutException>()(
+  "OperationTimeoutException",
+  { Message: S.optional(S.String) },
 ) {}
 export class StatisticsNotReadyYetException extends S.TaggedError<StatisticsNotReadyYetException>()(
   "StatisticsNotReadyYetException",
@@ -1919,64 +1899,38 @@ export class StatisticsNotReadyYetException extends S.TaggedError<StatisticsNotR
 ) {}
 export class ThrottledException extends S.TaggedError<ThrottledException>()(
   "ThrottledException",
-  {},
-) {}
-export class PermissionTypeMismatchException extends S.TaggedError<PermissionTypeMismatchException>()(
-  "PermissionTypeMismatchException",
   { Message: S.optional(S.String) },
 ) {}
 export class WorkUnitsNotReadyYetException extends S.TaggedError<WorkUnitsNotReadyYetException>()(
   "WorkUnitsNotReadyYetException",
   { Message: S.optional(S.String) },
 ) {}
+export class ResourceNumberLimitExceededException extends S.TaggedError<ResourceNumberLimitExceededException>()(
+  "ResourceNumberLimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class TransactionCanceledException extends S.TaggedError<TransactionCanceledException>()(
+  "TransactionCanceledException",
+  { Message: S.optional(S.String) },
+) {}
+export class TransactionCommitInProgressException extends S.TaggedError<TransactionCommitInProgressException>()(
+  "TransactionCommitInProgressException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
+  "ResourceNotReadyException",
+  { Message: S.optional(S.String) },
+) {}
+export class PermissionTypeMismatchException extends S.TaggedError<PermissionTypeMismatchException>()(
+  "PermissionTypeMismatchException",
+  { Message: S.optional(S.String) },
+) {}
+export class TransactionCommittedException extends S.TaggedError<TransactionCommittedException>()(
+  "TransactionCommittedException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Deletes the LF-Tag expression. The caller must be a data lake admin or have `DROP` permissions on the LF-Tag expression.
- * Deleting a LF-Tag expression will also delete all `LFTagPolicy` permissions referencing the LF-Tag expression.
- */
-export const deleteLFTagExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLFTagExpressionRequest,
-    output: DeleteLFTagExpressionResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Deregisters the resource as managed by the Data Catalog.
- *
- * When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
- */
-export const deregisterResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeregisterResourceRequest,
-  output: DeregisterResourceResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Returns the identity of the invoking principal.
- */
-export const getDataLakePrincipal = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataLakePrincipalRequest,
-    output: GetDataLakePrincipalResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      OperationTimeoutException,
-    ],
-  }),
-);
 /**
  * Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
  *
@@ -1988,6 +1942,30 @@ export const grantPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
+ */
+export const getDataLakeSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataLakeSettingsRequest,
+  output: GetDataLakeSettingsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * Returns the state of a query previously submitted. Clients are expected to poll `GetQueryState` to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to `StartQueryPlanning`.
+ */
+export const getQueryState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueryStateRequest,
+  output: GetQueryStateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
     InvalidInputException,
   ],
 }));
@@ -2004,16 +1982,57 @@ export const revokePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates a data cell filter.
+ * Returns the configuration of all storage optimizers associated with a specified table.
  */
-export const updateDataCellsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listTableStorageOptimizers = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateDataCellsFilterRequest,
-    output: UpdateDataCellsFilterResponse,
+    input: ListTableStorageOptimizersRequest,
+    output: ListTableStorageOptimizersResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+    ],
+  }),
+);
+/**
+ * Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see Granting Lake Formation Permissions.
+ *
+ * This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
+ */
+export const putDataLakeSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDataLakeSettingsRequest,
+  output: PutDataLakeSettingsResponse,
+  errors: [InternalServiceException, InvalidInputException],
+}));
+/**
+ * Updates the configuration of the storage optimizers for a table.
+ */
+export const updateTableStorageOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTableStorageOptimizerRequest,
+    output: UpdateTableStorageOptimizerResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+    ],
+  }),
+);
+/**
+ * Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify column input.
+ */
+export const removeLFTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveLFTagsFromResourceRequest,
+    output: RemoveLFTagsFromResourceResponse,
     errors: [
       AccessDeniedException,
       ConcurrentModificationException,
       EntityNotFoundException,
+      GlueEncryptionException,
       InternalServiceException,
       InvalidInputException,
       OperationTimeoutException,
@@ -2021,15 +2040,76 @@ export const updateDataCellsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the IAM Identity Center connection parameters.
+ * This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is used by admins who want to grant user permissions on certain `TagConditions`. Before making a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given `TagConditions` are valid to verify whether the returned resources can be shared.
  */
-export const updateLakeFormationIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateLakeFormationIdentityCenterConfigurationRequest,
-    output: UpdateLakeFormationIdentityCenterConfigurationResponse,
+export const searchDatabasesByLFTags = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchDatabasesByLFTagsRequest,
+    output: SearchDatabasesByLFTagsResponse,
     errors: [
       AccessDeniedException,
-      ConcurrentModificationException,
+      EntityNotFoundException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to verify whether the returned resources can be shared.
+ */
+export const searchTablesByLFTags = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SearchTablesByLFTagsRequest,
+    output: SearchTablesByLFTagsResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      GlueEncryptionException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
+ */
+export const getWorkUnitResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkUnitResultsRequest,
+  output: GetWorkUnitResultsResponse,
+  errors: [
+    AccessDeniedException,
+    ExpiredException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Retrieves the work units generated by the `StartQueryPlanning` operation.
+ */
+export const getWorkUnits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkUnitsRequest,
+  output: GetWorkUnitsResponse,
+  errors: [
+    AccessDeniedException,
+    ExpiredException,
+    InternalServiceException,
+    InvalidInputException,
+    WorkUnitsNotReadyYetException,
+  ],
+}));
+/**
+ * Retrieves the instance ARN and application ARN for the connection.
+ */
+export const describeLakeFormationIdentityCenterConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeLakeFormationIdentityCenterConfigurationRequest,
+    output: DescribeLakeFormationIdentityCenterConfigurationResponse,
+    errors: [
+      AccessDeniedException,
       EntityNotFoundException,
       InternalServiceException,
       InvalidInputException,
@@ -2037,137 +2117,101 @@ export const updateLakeFormationIdentityCenterConfiguration =
     ],
   }));
 /**
- * Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
+ * Returns a data cells filter.
  */
-export const updateLFTag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateLFTagRequest,
-  output: UpdateLFTagResponse,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
- */
-export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateResourceRequest,
-  output: UpdateResourceResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions.
- * Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session.
- *
- * This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API `GetDataAccess`.
- * Therefore, all SAML roles that can be assumed via `AssumeDecoratedRoleWithSAML` must at a minimum include `lakeformation:GetDataAccess` in their role policies.
- * A typical IAM policy attached to such a role would include the following actions:
- *
- * - glue:*Database*
- *
- * - glue:*Table*
- *
- * - glue:*Partition*
- *
- * - glue:*UserDefinedFunction*
- *
- * - lakeformation:GetDataAccess
- */
-export const assumeDecoratedRoleWithSAML = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeDecoratedRoleWithSAMLRequest,
-    output: AssumeDecoratedRoleWithSAMLResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
- */
-export const commitTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CommitTransactionRequest,
-  output: CommitTransactionResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    TransactionCanceledException,
-  ],
-}));
-/**
- * Enforce Lake Formation permissions for the given databases, tables, and principals.
- */
-export const createLakeFormationOptIn = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLakeFormationOptInRequest,
-    output: CreateLakeFormationOptInResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates an LF-tag with the specified name and values.
- */
-export const createLFTag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLFTagRequest,
-  output: CreateLFTagResponse,
+export const getDataCellsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataCellsFilterRequest,
+  output: GetDataCellsFilterResponse,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
-    ResourceNumberLimitExceededException,
   ],
 }));
 /**
- * Creates a new LF-Tag expression with the provided name, description, catalog ID, and
- * expression body. This call fails if a LF-Tag expression with the same name already exists in
- * the caller’s account or if the underlying LF-Tags don't exist. To call this API operation,
- * caller needs the following Lake Formation permissions:
- *
- * `CREATE_LF_TAG_EXPRESSION` on the root catalog resource.
- *
- * `GRANT_WITH_LF_TAG_EXPRESSION` on all underlying LF-Tag key:value pairs
- * included in the expression.
+ * Returns an LF-tag definition.
  */
-export const createLFTagExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLFTagExpressionRequest,
-    output: CreateLFTagExpressionResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const getLFTag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLFTagRequest,
+  output: GetLFTagResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have `DESCRIBE` permission on the LF-Tag expression resource.
+ */
+export const getLFTagExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLFTagExpressionRequest,
+  output: GetLFTagExpressionResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Lists LF-tags that the requester has permission to view.
+ */
+export const listLFTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLFTagsRequest,
+  output: ListLFTagsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER.
+ *
+ * This operation returns only those permissions that have been explicitly granted. If both
+ * `Principal` and `Resource` parameters are provided, the response
+ * returns effective permissions rather than the explicitly granted permissions.
+ *
+ * For information about permissions, see Security and Access Control to Metadata and Data.
+ */
+export const listPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPermissionsRequest,
+  output: ListPermissionsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned.
+ *
+ * This operation can help you identify uncommitted transactions or to get information about transactions.
+ */
+export const listTransactions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTransactionsRequest,
+  output: ListTransactionsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
+ */
+export const startTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTransactionRequest,
+  output: StartTransactionResponse,
+  errors: [InternalServiceException, OperationTimeoutException],
+}));
 /**
  * Deletes a data cell filter.
  */
@@ -2238,14 +2282,63 @@ export const deleteLFTag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves the instance ARN and application ARN for the connection.
+ * Deletes the LF-Tag expression. The caller must be a data lake admin or have `DROP` permissions on the LF-Tag expression.
+ * Deleting a LF-Tag expression will also delete all `LFTagPolicy` permissions referencing the LF-Tag expression.
  */
-export const describeLakeFormationIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeLakeFormationIdentityCenterConfigurationRequest,
-    output: DescribeLakeFormationIdentityCenterConfigurationResponse,
+export const deleteLFTagExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteLFTagExpressionRequest,
+    output: DeleteLFTagExpressionResponse,
     errors: [
       AccessDeniedException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Returns the identity of the invoking principal.
+ */
+export const getDataLakePrincipal = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDataLakePrincipalRequest,
+    output: GetDataLakePrincipalResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Updates a data cell filter.
+ */
+export const updateDataCellsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateDataCellsFilterRequest,
+    output: UpdateDataCellsFilterResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }),
+);
+/**
+ * Updates the IAM Identity Center connection parameters.
+ */
+export const updateLakeFormationIdentityCenterConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateLakeFormationIdentityCenterConfigurationRequest,
+    output: UpdateLakeFormationIdentityCenterConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
       EntityNotFoundException,
       InternalServiceException,
       InvalidInputException,
@@ -2253,13 +2346,14 @@ export const describeLakeFormationIdentityCenterConfiguration =
     ],
   }));
 /**
- * Returns a data cells filter.
+ * Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
  */
-export const getDataCellsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataCellsFilterRequest,
-  output: GetDataCellsFilterResponse,
+export const updateLFTag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLFTagRequest,
+  output: UpdateLFTagResponse,
   errors: [
     AccessDeniedException,
+    ConcurrentModificationException,
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
@@ -2267,156 +2361,49 @@ export const getDataCellsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
- */
-export const getDataLakeSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataLakeSettingsRequest,
-  output: GetDataLakeSettingsResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Returns an LF-tag definition.
- */
-export const getLFTag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLFTagRequest,
-  output: GetLFTagResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have `DESCRIBE` permission on the LF-Tag expression resource.
- */
-export const getLFTagExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLFTagExpressionRequest,
-  output: GetLFTagExpressionResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Returns the state of a query previously submitted. Clients are expected to poll `GetQueryState` to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to `StartQueryPlanning`.
- */
-export const getQueryState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQueryStateRequest,
-  output: GetQueryStateResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Lists LF-tags that the requester has permission to view.
- */
-export const listLFTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLFTagsRequest,
-  output: ListLFTagsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER.
+ * Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions.
+ * Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session.
  *
- * This operation returns only those permissions that have been explicitly granted. If both
- * `Principal` and `Resource` parameters are provided, the response
- * returns effective permissions rather than the explicitly granted permissions.
+ * This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API `GetDataAccess`.
+ * Therefore, all SAML roles that can be assumed via `AssumeDecoratedRoleWithSAML` must at a minimum include `lakeformation:GetDataAccess` in their role policies.
+ * A typical IAM policy attached to such a role would include the following actions:
  *
- * For information about permissions, see Security and Access Control to Metadata and Data.
+ * - glue:*Database*
+ *
+ * - glue:*Table*
+ *
+ * - glue:*Partition*
+ *
+ * - glue:*UserDefinedFunction*
+ *
+ * - lakeformation:GetDataAccess
  */
-export const listPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPermissionsRequest,
-  output: ListPermissionsResponse,
-  errors: [
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned.
- *
- * This operation can help you identify uncommitted transactions or to get information about transactions.
- */
-export const listTransactions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTransactionsRequest,
-  output: ListTransactionsResponse,
-  errors: [
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Registers the resource as managed by the Data Catalog.
- *
- * To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy.
- *
- * The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.
- *
- * ResourceArn = arn:aws:s3:::my-bucket/
- * UseServiceLinkedRole = true
- *
- * If `UseServiceLinkedRole` is not set to true, you must provide or set the `RoleArn`:
- *
- * `arn:aws:iam::12345:role/my-data-access-role`
- */
-export const registerResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterResourceRequest,
-  output: RegisterResourceResponse,
-  errors: [
-    AccessDeniedException,
-    AlreadyExistsException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
- */
-export const startTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartTransactionRequest,
-  output: StartTransactionResponse,
-  errors: [InternalServiceException, OperationTimeoutException],
-}));
-/**
- * Updates the name of the LF-Tag expression to the new description and expression body provided.
- * Updating a LF-Tag expression immediately changes the permission boundaries of all existing `LFTagPolicy` permission grants that reference the given LF-Tag expression.
- */
-export const updateLFTagExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const assumeDecoratedRoleWithSAML = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateLFTagExpressionRequest,
-    output: UpdateLFTagExpressionResponse,
+    input: AssumeDecoratedRoleWithSAMLRequest,
+    output: AssumeDecoratedRoleWithSAMLResponse,
     errors: [
       AccessDeniedException,
       EntityNotFoundException,
       InternalServiceException,
       InvalidInputException,
       OperationTimeoutException,
-      ResourceNumberLimitExceededException,
     ],
   }),
 );
+/**
+ * Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
+ */
+export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceRequest,
+  output: UpdateResourceResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Batch operation to grant permissions to the principal.
  */
@@ -2428,63 +2415,20 @@ export const batchGrantPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
+ * Deregisters the resource as managed by the Data Catalog.
+ *
+ * When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
  */
-export const cancelTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelTransactionRequest,
-  output: CancelTransactionResponse,
+export const deregisterResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterResourceRequest,
+  output: DeregisterResourceResponse,
   errors: [
-    ConcurrentModificationException,
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
-    TransactionCommitInProgressException,
-    TransactionCommittedException,
   ],
 }));
-/**
- * Creates a data cell filter to allow one to grant access to certain columns on certain rows.
- */
-export const createDataCellsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataCellsFilterRequest,
-    output: CreateDataCellsFilterResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
-/**
- * For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted
- * if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels.
- *
- * The Glue ETL library function `write_dynamic_frame.from_catalog()` includes an option to automatically
- * call `DeleteObjectsOnCancel` before writes. For more information, see
- * Rolling Back Amazon S3 Writes.
- */
-export const deleteObjectsOnCancel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteObjectsOnCancelRequest,
-    output: DeleteObjectsOnCancelResponse,
-    errors: [
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNotReadyException,
-      TransactionCanceledException,
-      TransactionCommittedException,
-    ],
-  }),
-);
 /**
  * Retrieves the current data access role for the given resource registered in Lake Formation.
  */
@@ -2509,24 +2453,6 @@ export const describeTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
-  ],
-}));
-/**
- * Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted.
- *
- * Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
- */
-export const extendTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExtendTransactionRequest,
-  output: ExtendTransactionResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    TransactionCanceledException,
-    TransactionCommitInProgressException,
-    TransactionCommittedException,
   ],
 }));
 /**
@@ -2586,101 +2512,6 @@ export const listResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns the configuration of all storage optimizers associated with a specified table.
- */
-export const listTableStorageOptimizers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTableStorageOptimizersRequest,
-    output: ListTableStorageOptimizersResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-  }),
-);
-/**
- * Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see Granting Lake Formation Permissions.
- *
- * This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
- */
-export const putDataLakeSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutDataLakeSettingsRequest,
-  output: PutDataLakeSettingsResponse,
-  errors: [InternalServiceException, InvalidInputException],
-}));
-/**
- * Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify column input.
- */
-export const removeLFTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveLFTagsFromResourceRequest,
-    output: RemoveLFTagsFromResourceResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is used by admins who want to grant user permissions on certain `TagConditions`. Before making a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given `TagConditions` are valid to verify whether the returned resources can be shared.
- */
-export const searchDatabasesByLFTags = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchDatabasesByLFTagsRequest,
-    output: SearchDatabasesByLFTagsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to verify whether the returned resources can be shared.
- */
-export const searchTablesByLFTags = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchTablesByLFTagsRequest,
-    output: SearchTablesByLFTagsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
-/**
- * Updates the manifest of Amazon S3 objects that make up the specified governed table.
- */
-export const updateTableObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTableObjectsRequest,
-  output: UpdateTableObjectsResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNotReadyException,
-    TransactionCanceledException,
-    TransactionCommitInProgressException,
-    TransactionCommittedException,
-  ],
-}));
-/**
  * Attaches one or more LF-tags to an existing resource.
  */
 export const addLFTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2721,21 +2552,6 @@ export const getEffectivePermissionsForPath =
     ],
   }));
 /**
- * Retrieves statistics on the planning and execution of a query.
- */
-export const getQueryStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQueryStatisticsRequest,
-  output: GetQueryStatisticsResponse,
-  errors: [
-    AccessDeniedException,
-    ExpiredException,
-    InternalServiceException,
-    InvalidInputException,
-    StatisticsNotReadyYetException,
-    ThrottledException,
-  ],
-}));
-/**
  * Returns the LF-tags applied to a resource.
  */
 export const getResourceLFTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2751,19 +2567,76 @@ export const getResourceLFTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
+ * Submits a request to process a query statement.
+ *
+ * This operation generates work units that can be retrieved with the `GetWorkUnits` operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
  */
-export const getTableObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTableObjectsRequest,
-  output: GetTableObjectsResponse,
+export const startQueryPlanning = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartQueryPlanningRequest,
+  output: StartQueryPlanningResponse,
   errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Retrieves statistics on the planning and execution of a query.
+ */
+export const getQueryStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueryStatisticsRequest,
+  output: GetQueryStatisticsResponse,
+  errors: [
+    AccessDeniedException,
+    ExpiredException,
+    InternalServiceException,
+    InvalidInputException,
+    StatisticsNotReadyYetException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
+ */
+export const createLakeFormationIdentityCenterConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateLakeFormationIdentityCenterConfigurationRequest,
+    output: CreateLakeFormationIdentityCenterConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      AlreadyExistsException,
+      ConcurrentModificationException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+    ],
+  }));
+/**
+ * Registers the resource as managed by the Data Catalog.
+ *
+ * To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy.
+ *
+ * The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.
+ *
+ * ResourceArn = arn:aws:s3:::my-bucket/
+ * UseServiceLinkedRole = true
+ *
+ * If `UseServiceLinkedRole` is not set to true, you must provide or set the `RoleArn`:
+ *
+ * `arn:aws:iam::12345:role/my-data-access-role`
+ */
+export const registerResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterResourceRequest,
+  output: RegisterResourceResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
-    ResourceNotReadyException,
-    TransactionCanceledException,
-    TransactionCommittedException,
+    ResourceNumberLimitExceededException,
   ],
 }));
 /**
@@ -2783,6 +2656,115 @@ export const getTemporaryGluePartitionCredentials =
     ],
   }));
 /**
+ * Updates the name of the LF-Tag expression to the new description and expression body provided.
+ * Updating a LF-Tag expression immediately changes the permission boundaries of all existing `LFTagPolicy` permission grants that reference the given LF-Tag expression.
+ */
+export const updateLFTagExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateLFTagExpressionRequest,
+    output: UpdateLFTagExpressionResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Enforce Lake Formation permissions for the given databases, tables, and principals.
+ */
+export const createLakeFormationOptIn = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateLakeFormationOptInRequest,
+    output: CreateLakeFormationOptInResponse,
+    errors: [
+      AccessDeniedException,
+      ConcurrentModificationException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates an LF-tag with the specified name and values.
+ */
+export const createLFTag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLFTagRequest,
+  output: CreateLFTagResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates a new LF-Tag expression with the provided name, description, catalog ID, and
+ * expression body. This call fails if a LF-Tag expression with the same name already exists in
+ * the caller’s account or if the underlying LF-Tags don't exist. To call this API operation,
+ * caller needs the following Lake Formation permissions:
+ *
+ * `CREATE_LF_TAG_EXPRESSION` on the root catalog resource.
+ *
+ * `GRANT_WITH_LF_TAG_EXPRESSION` on all underlying LF-Tag key:value pairs
+ * included in the expression.
+ */
+export const createLFTagExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateLFTagExpressionRequest,
+    output: CreateLFTagExpressionResponse,
+    errors: [
+      AccessDeniedException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a data cell filter to allow one to grant access to certain columns on certain rows.
+ */
+export const createDataCellsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDataCellsFilterRequest,
+    output: CreateDataCellsFilterResponse,
+    errors: [
+      AccessDeniedException,
+      AlreadyExistsException,
+      EntityNotFoundException,
+      InternalServiceException,
+      InvalidInputException,
+      OperationTimeoutException,
+      ResourceNumberLimitExceededException,
+    ],
+  }),
+);
+/**
+ * Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
+ */
+export const commitTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CommitTransactionRequest,
+  output: CommitTransactionResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    TransactionCanceledException,
+  ],
+}));
+/**
  * Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix.
  *
  * To call this API, the role that the service assumes must have `lakeformation:GetDataAccess` permission on the resource.
@@ -2801,76 +2783,94 @@ export const getTemporaryGlueTableCredentials =
     ],
   }));
 /**
- * Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
+ * Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
  */
-export const getWorkUnitResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWorkUnitResultsRequest,
-  output: GetWorkUnitResultsResponse,
+export const cancelTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelTransactionRequest,
+  output: CancelTransactionResponse,
   errors: [
-    AccessDeniedException,
-    ExpiredException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
-    ThrottledException,
+    OperationTimeoutException,
+    TransactionCommitInProgressException,
+    TransactionCommittedException,
   ],
 }));
 /**
- * Retrieves the work units generated by the `StartQueryPlanning` operation.
- */
-export const getWorkUnits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWorkUnitsRequest,
-  output: GetWorkUnitsResponse,
-  errors: [
-    AccessDeniedException,
-    ExpiredException,
-    InternalServiceException,
-    InvalidInputException,
-    WorkUnitsNotReadyYetException,
-  ],
-}));
-/**
- * Submits a request to process a query statement.
+ * For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted
+ * if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels.
  *
- * This operation generates work units that can be retrieved with the `GetWorkUnits` operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
+ * The Glue ETL library function `write_dynamic_frame.from_catalog()` includes an option to automatically
+ * call `DeleteObjectsOnCancel` before writes. For more information, see
+ * Rolling Back Amazon S3 Writes.
  */
-export const startQueryPlanning = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartQueryPlanningRequest,
-  output: StartQueryPlanningResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidInputException,
-    ThrottledException,
-  ],
-}));
-/**
- * Updates the configuration of the storage optimizers for a table.
- */
-export const updateTableStorageOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteObjectsOnCancel = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateTableStorageOptimizerRequest,
-    output: UpdateTableStorageOptimizerResponse,
+    input: DeleteObjectsOnCancelRequest,
+    output: DeleteObjectsOnCancelResponse,
     errors: [
-      AccessDeniedException,
+      ConcurrentModificationException,
       EntityNotFoundException,
       InternalServiceException,
       InvalidInputException,
+      OperationTimeoutException,
+      ResourceNotReadyException,
+      TransactionCanceledException,
+      TransactionCommittedException,
     ],
   }),
 );
 /**
- * Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
+ * Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted.
+ *
+ * Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
  */
-export const createLakeFormationIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLakeFormationIdentityCenterConfigurationRequest,
-    output: CreateLakeFormationIdentityCenterConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      ConcurrentModificationException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const extendTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExtendTransactionRequest,
+  output: ExtendTransactionResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    TransactionCanceledException,
+    TransactionCommitInProgressException,
+    TransactionCommittedException,
+  ],
+}));
+/**
+ * Updates the manifest of Amazon S3 objects that make up the specified governed table.
+ */
+export const updateTableObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTableObjectsRequest,
+  output: UpdateTableObjectsResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNotReadyException,
+    TransactionCanceledException,
+    TransactionCommitInProgressException,
+    TransactionCommittedException,
+  ],
+}));
+/**
+ * Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
+ */
+export const getTableObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableObjectsRequest,
+  output: GetTableObjectsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNotReadyException,
+    TransactionCanceledException,
+    TransactionCommittedException,
+  ],
+}));

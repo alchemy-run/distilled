@@ -782,7 +782,7 @@ export class SendMessageBatchResult extends S.Class<SendMessageBatchResult>(
 //# Errors
 export class InvalidAddress extends S.TaggedError<InvalidAddress>()(
   "InvalidAddress",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidAddress", httpResponseCode: 404 }),
 ) {}
 export class InvalidIdFormat extends S.TaggedError<InvalidIdFormat>()(
@@ -791,29 +791,12 @@ export class InvalidIdFormat extends S.TaggedError<InvalidIdFormat>()(
 ) {}
 export class InvalidSecurity extends S.TaggedError<InvalidSecurity>()(
   "InvalidSecurity",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidSecurity", httpResponseCode: 403 }),
 ) {}
-export class QueueDoesNotExist extends S.TaggedError<QueueDoesNotExist>()(
-  "QueueDoesNotExist",
-  {},
-  T.AwsQueryError({
-    code: "AWS.SimpleQueueService.NonExistentQueue",
-    httpResponseCode: 400,
-  }),
-) {}
-export class RequestThrottled extends S.TaggedError<RequestThrottled>()(
-  "RequestThrottled",
-  {},
-  T.AwsQueryError({ code: "RequestThrottled", httpResponseCode: 403 }),
-) {}
-export class UnsupportedOperation extends S.TaggedError<UnsupportedOperation>()(
-  "UnsupportedOperation",
-  {},
-  T.AwsQueryError({
-    code: "AWS.SimpleQueueService.UnsupportedOperation",
-    httpResponseCode: 400,
-  }),
+export class InvalidAttributeName extends S.TaggedError<InvalidAttributeName>()(
+  "InvalidAttributeName",
+  { message: S.optional(S.String) },
 ) {}
 export class MessageNotInflight extends S.TaggedError<MessageNotInflight>()(
   "MessageNotInflight",
@@ -823,14 +806,23 @@ export class MessageNotInflight extends S.TaggedError<MessageNotInflight>()(
     httpResponseCode: 400,
   }),
 ) {}
-export class ReceiptHandleIsInvalid extends S.TaggedError<ReceiptHandleIsInvalid>()(
-  "ReceiptHandleIsInvalid",
-  {},
-  T.AwsQueryError({ code: "ReceiptHandleIsInvalid", httpResponseCode: 404 }),
+export class OverLimit extends S.TaggedError<OverLimit>()(
+  "OverLimit",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "OverLimit", httpResponseCode: 403 }),
 ) {}
-export class InvalidAttributeName extends S.TaggedError<InvalidAttributeName>()(
-  "InvalidAttributeName",
-  {},
+export class QueueDoesNotExist extends S.TaggedError<QueueDoesNotExist>()(
+  "QueueDoesNotExist",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "AWS.SimpleQueueService.NonExistentQueue",
+    httpResponseCode: 400,
+  }),
+) {}
+export class RequestThrottled extends S.TaggedError<RequestThrottled>()(
+  "RequestThrottled",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "RequestThrottled", httpResponseCode: 403 }),
 ) {}
 export class PurgeQueueInProgress extends S.TaggedError<PurgeQueueInProgress>()(
   "PurgeQueueInProgress",
@@ -840,64 +832,22 @@ export class PurgeQueueInProgress extends S.TaggedError<PurgeQueueInProgress>()(
     httpResponseCode: 403,
   }),
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
-) {}
-export class CommonServiceException extends S.TaggedError<CommonServiceException>()(
-  "CommonServiceException",
-  {},
-) {}
-export class OverLimit extends S.TaggedError<OverLimit>()(
-  "OverLimit",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "OverLimit", httpResponseCode: 403 }),
-) {}
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
-  "InvalidParameterValueException",
-  {},
-) {}
 export class InvalidAttributeValue extends S.TaggedError<InvalidAttributeValue>()(
   "InvalidAttributeValue",
-  {},
-) {}
-export class QueueDeletedRecently extends S.TaggedError<QueueDeletedRecently>()(
-  "QueueDeletedRecently",
   { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "AWS.SimpleQueueService.QueueDeletedRecently",
-    httpResponseCode: 400,
-  }),
 ) {}
 export class BatchEntryIdsNotDistinct extends S.TaggedError<BatchEntryIdsNotDistinct>()(
   "BatchEntryIdsNotDistinct",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "AWS.SimpleQueueService.BatchEntryIdsNotDistinct",
     httpResponseCode: 400,
   }),
 ) {}
-export class EmptyBatchRequest extends S.TaggedError<EmptyBatchRequest>()(
-  "EmptyBatchRequest",
-  {},
-  T.AwsQueryError({
-    code: "AWS.SimpleQueueService.EmptyBatchRequest",
-    httpResponseCode: 400,
-  }),
-) {}
-export class QueueNameExists extends S.TaggedError<QueueNameExists>()(
-  "QueueNameExists",
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "QueueAlreadyExists", httpResponseCode: 400 }),
-) {}
-export class InvalidBatchEntryId extends S.TaggedError<InvalidBatchEntryId>()(
-  "InvalidBatchEntryId",
-  {},
-  T.AwsQueryError({
-    code: "AWS.SimpleQueueService.InvalidBatchEntryId",
-    httpResponseCode: 400,
-  }),
+  T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
 ) {}
 export class KmsAccessDenied extends S.TaggedError<KmsAccessDenied>()(
   "KmsAccessDenied",
@@ -908,9 +858,46 @@ export class InvalidMessageContents extends S.TaggedError<InvalidMessageContents
   "InvalidMessageContents",
   { message: S.optional(S.String) },
 ) {}
+export class UnsupportedOperation extends S.TaggedError<UnsupportedOperation>()(
+  "UnsupportedOperation",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "AWS.SimpleQueueService.UnsupportedOperation",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ReceiptHandleIsInvalid extends S.TaggedError<ReceiptHandleIsInvalid>()(
+  "ReceiptHandleIsInvalid",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ReceiptHandleIsInvalid", httpResponseCode: 404 }),
+) {}
+export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
+  "InvalidParameterValueException",
+  {},
+) {}
+export class CommonServiceException extends S.TaggedError<CommonServiceException>()(
+  "CommonServiceException",
+  {},
+) {}
+export class QueueDeletedRecently extends S.TaggedError<QueueDeletedRecently>()(
+  "QueueDeletedRecently",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "AWS.SimpleQueueService.QueueDeletedRecently",
+    httpResponseCode: 400,
+  }),
+) {}
+export class EmptyBatchRequest extends S.TaggedError<EmptyBatchRequest>()(
+  "EmptyBatchRequest",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "AWS.SimpleQueueService.EmptyBatchRequest",
+    httpResponseCode: 400,
+  }),
+) {}
 export class KmsDisabled extends S.TaggedError<KmsDisabled>()(
   "KmsDisabled",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMS.DisabledException", httpResponseCode: 400 }),
 ) {}
 export class BatchRequestTooLong extends S.TaggedError<BatchRequestTooLong>()(
@@ -921,9 +908,22 @@ export class BatchRequestTooLong extends S.TaggedError<BatchRequestTooLong>()(
     httpResponseCode: 400,
   }),
 ) {}
+export class QueueNameExists extends S.TaggedError<QueueNameExists>()(
+  "QueueNameExists",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "QueueAlreadyExists", httpResponseCode: 400 }),
+) {}
+export class InvalidBatchEntryId extends S.TaggedError<InvalidBatchEntryId>()(
+  "InvalidBatchEntryId",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "AWS.SimpleQueueService.InvalidBatchEntryId",
+    httpResponseCode: 400,
+  }),
+) {}
 export class KmsInvalidKeyUsage extends S.TaggedError<KmsInvalidKeyUsage>()(
   "KmsInvalidKeyUsage",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "KMS.InvalidKeyUsageException",
     httpResponseCode: 400,
@@ -931,7 +931,7 @@ export class KmsInvalidKeyUsage extends S.TaggedError<KmsInvalidKeyUsage>()(
 ) {}
 export class TooManyEntriesInBatchRequest extends S.TaggedError<TooManyEntriesInBatchRequest>()(
   "TooManyEntriesInBatchRequest",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "AWS.SimpleQueueService.TooManyEntriesInBatchRequest",
     httpResponseCode: 400,
@@ -939,271 +939,31 @@ export class TooManyEntriesInBatchRequest extends S.TaggedError<TooManyEntriesIn
 ) {}
 export class KmsInvalidState extends S.TaggedError<KmsInvalidState>()(
   "KmsInvalidState",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMS.InvalidStateException", httpResponseCode: 400 }),
 ) {}
 export class KmsNotFound extends S.TaggedError<KmsNotFound>()(
   "KmsNotFound",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMS.NotFoundException", httpResponseCode: 400 }),
 ) {}
 export class KmsOptInRequired extends S.TaggedError<KmsOptInRequired>()(
   "KmsOptInRequired",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMS.OptInRequired", httpResponseCode: 403 }),
 ) {}
 export class KmsThrottled extends S.TaggedError<KmsThrottled>()(
   "KmsThrottled",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMS.ThrottlingException", httpResponseCode: 400 }),
 ) {}
+export class ParseError extends S.TaggedError<ParseError>()("ParseError", {}) {}
 export class MissingRequiredParameterException extends S.TaggedError<MissingRequiredParameterException>()(
   "MissingRequiredParameterException",
   {},
 ) {}
-export class ParseError extends S.TaggedError<ParseError>()("ParseError", {}) {}
 
 //# Operations
-/**
- * Add cost allocation tags to the specified Amazon SQS queue. For an overview, see Tagging
- * Your Amazon SQS Queues in the *Amazon SQS Developer Guide*.
- *
- * When you use queue tags, keep the following guidelines in mind:
- *
- * - Adding more than 50 tags to a queue isn't recommended.
- *
- * - Tags don't have any semantic meaning. Amazon SQS interprets tags as character strings.
- *
- * - Tags are case-sensitive.
- *
- * - A new tag with a key identical to that of an existing tag overwrites the existing tag.
- *
- * For a full list of tag restrictions, see
- * Quotas related to queues
- * in the *Amazon SQS Developer Guide*.
- *
- * Cross-account permissions don't apply to this action. For more information,
- * see Grant
- * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
- */
-export const tagQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagQueueRequest,
-  output: TagQueueResponse,
-  errors: [
-    InvalidAddress,
-    InvalidSecurity,
-    QueueDoesNotExist,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Remove cost allocation tags from the specified Amazon SQS queue. For an overview, see Tagging
- * Your Amazon SQS Queues in the *Amazon SQS Developer Guide*.
- *
- * Cross-account permissions don't apply to this action. For more information,
- * see Grant
- * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
- */
-export const untagQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagQueueRequest,
-  output: UntagQueueResponse,
-  errors: [
-    InvalidAddress,
-    InvalidSecurity,
-    QueueDoesNotExist,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Deletes the specified message from the specified queue. To select the message to
- * delete, use the `ReceiptHandle` of the message (*not* the
- * `MessageId` which you receive when you send the message). Amazon SQS can
- * delete a message from a queue even if a visibility timeout setting causes the message to
- * be locked by another consumer. Amazon SQS automatically deletes messages left in a queue
- * longer than the retention period configured for the queue.
- *
- * Each time you receive a message, meaning when a consumer retrieves a message from
- * the queue, it comes with a unique `ReceiptHandle`. If you receive the
- * same message more than once, you will get a different `ReceiptHandle`
- * each time. When you want to delete a message using the `DeleteMessage`
- * action, you must use the `ReceiptHandle` from the most recent time you
- * received the message. If you use an old `ReceiptHandle`, the request will
- * succeed, but the message might not be deleted.
- *
- * For standard queues, it is possible to receive a message even after you
- * delete it. This might happen on rare occasions if one of the servers which stores a
- * copy of the message is unavailable when you send the request to delete the message.
- * The copy remains on the server and might be returned to you during a subsequent
- * receive request. You should ensure that your application is idempotent, so that
- * receiving a message more than once does not cause issues.
- */
-export const deleteMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMessageRequest,
-  output: DeleteMessageResponse,
-  errors: [
-    InvalidAddress,
-    InvalidIdFormat,
-    InvalidSecurity,
-    QueueDoesNotExist,
-    ReceiptHandleIsInvalid,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Deletes the queue specified by the `QueueUrl`, regardless of the queue's
- * contents.
- *
- * Be careful with the `DeleteQueue` action: When you delete a queue, any
- * messages in the queue are no longer available.
- *
- * When you delete a queue, the deletion process takes up to 60 seconds. Requests you
- * send involving that queue during the 60 seconds might succeed. For example, a
- *
- * SendMessage
- * request might succeed, but after 60
- * seconds the queue and the message you sent no longer exist.
- *
- * When you delete a queue, you must wait at least 60 seconds before creating a queue
- * with the same name.
- *
- * Cross-account permissions don't apply to this action. For more information,
- * see Grant
- * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
- *
- * The delete operation uses the HTTP `GET` verb.
- */
-export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteQueueRequest,
-  output: DeleteQueueResponse,
-  errors: [
-    InvalidAddress,
-    InvalidSecurity,
-    QueueDoesNotExist,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Gets attributes for the specified queue.
- *
- * To determine whether a queue is FIFO, you can check whether `QueueName` ends with the `.fifo` suffix.
- */
-export const getQueueAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQueueAttributesRequest,
-  output: GetQueueAttributesResult,
-  errors: [
-    InvalidAddress,
-    InvalidAttributeName,
-    InvalidSecurity,
-    QueueDoesNotExist,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * The `GetQueueUrl` API returns the URL of an existing Amazon SQS queue. This is
- * useful when you know the queue's name but need to retrieve its URL for further
- * operations.
- *
- * To access a queue owned by another Amazon Web Services account, use the
- * `QueueOwnerAWSAccountId` parameter to specify the account ID of the
- * queue's owner. Note that the queue owner must grant you the necessary permissions to
- * access the queue. For more information about accessing shared queues, see the
- *
- * AddPermission
- * API or Allow developers to write messages to a shared queue in the Amazon SQS
- * Developer Guide.
- */
-export const getQueueUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQueueUrlRequest,
-  output: GetQueueUrlResult,
-  errors: [
-    InvalidAddress,
-    InvalidSecurity,
-    QueueDoesNotExist,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Returns a list of your queues that have the `RedrivePolicy` queue attribute
- * configured with a dead-letter queue.
- *
- * The `ListDeadLetterSourceQueues` methods supports pagination. Set
- * parameter `MaxResults` in the request to specify the maximum number of
- * results to be returned in the response. If you do not set `MaxResults`, the
- * response includes a maximum of 1,000 results. If you set `MaxResults` and
- * there are additional results to display, the response includes a value for
- * `NextToken`. Use `NextToken` as a parameter in your next
- * request to `ListDeadLetterSourceQueues` to receive the next page of results.
- *
- * For more information about using dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon SQS Developer
- * Guide.
- */
-export const listDeadLetterSourceQueues = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDeadLetterSourceQueuesRequest,
-    output: ListDeadLetterSourceQueuesResult,
-    errors: [
-      InvalidAddress,
-      InvalidSecurity,
-      QueueDoesNotExist,
-      RequestThrottled,
-      UnsupportedOperation,
-    ],
-  }),
-);
-/**
- * Returns a list of your queues in the current region. The response includes a maximum
- * of 1,000 results. If you specify a value for the optional `QueueNamePrefix`
- * parameter, only queues with a name that begins with the specified value are
- * returned.
- *
- * The `listQueues` methods supports pagination. Set parameter
- * `MaxResults` in the request to specify the maximum number of results to
- * be returned in the response. If you do not set `MaxResults`, the response
- * includes a maximum of 1,000 results. If you set `MaxResults` and there are
- * additional results to display, the response includes a value for `NextToken`.
- * Use `NextToken` as a parameter in your next request to
- * `listQueues` to receive the next page of results.
- *
- * Cross-account permissions don't apply to this action. For more information,
- * see Grant
- * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
- */
-export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListQueuesRequest,
-  output: ListQueuesResult,
-  errors: [
-    InvalidAddress,
-    InvalidSecurity,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * List all cost allocation tags added to the specified Amazon SQS queue.
- * For an overview, see Tagging
- * Your Amazon SQS Queues in the *Amazon SQS Developer Guide*.
- *
- * Cross-account permissions don't apply to this action. For more information,
- * see Grant
- * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
- */
-export const listQueueTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListQueueTagsRequest,
-  output: ListQueueTagsResult,
-  errors: [
-    InvalidAddress,
-    InvalidSecurity,
-    QueueDoesNotExist,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
 /**
  * Deletes available messages in a queue (including in-flight messages) specified by the
  * `QueueURL` parameter.
@@ -1233,127 +993,6 @@ export const purgeQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnsupportedOperation,
   ],
 }));
-/**
- * Revokes any permissions in the queue policy that matches the specified
- * `Label` parameter.
- *
- * - Only the owner of a queue can remove permissions from it.
- *
- * - Cross-account permissions don't apply to this action. For more information,
- * see Grant
- * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
- *
- * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
- */
-export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemovePermissionRequest,
-  output: RemovePermissionResponse,
-  errors: [
-    InvalidAddress,
-    InvalidSecurity,
-    QueueDoesNotExist,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Starts an asynchronous task to move messages from a specified source queue to a
- * specified destination queue.
- *
- * - This action is currently limited to supporting message redrive from queues
- * that are configured as dead-letter queues (DLQs) of other Amazon SQS queues only. Non-SQS
- * queue sources of dead-letter queues, such as Lambda or Amazon SNS topics, are
- * currently not supported.
- *
- * - In dead-letter queues redrive context, the
- * `StartMessageMoveTask` the source queue is the DLQ, while the
- * destination queue can be the original source queue (from which the messages
- * were driven to the dead-letter-queue), or a custom destination queue.
- *
- * - Only one active message movement task is supported per queue at any given
- * time.
- */
-export const startMessageMoveTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMessageMoveTaskRequest,
-    output: StartMessageMoveTaskResult,
-    errors: [
-      InvalidAddress,
-      InvalidSecurity,
-      RequestThrottled,
-      ResourceNotFoundException,
-      UnsupportedOperation,
-      CommonServiceException,
-    ],
-  }),
-);
-/**
- * Adds a permission to a queue for a specific principal. This allows sharing
- * access to the queue.
- *
- * When you create a queue, you have full control access rights for the queue. Only you,
- * the owner of the queue, can grant or deny permissions to the queue. For more information
- * about these permissions, see Allow Developers to Write Messages to a Shared Queue in the Amazon SQS
- * Developer Guide.
- *
- * - `AddPermission` generates a policy for you. You can use
- *
- * SetQueueAttributes
- * to upload your
- * policy. For more information, see Using Custom Policies with the Amazon SQS Access Policy Language in
- * the *Amazon SQS Developer Guide*.
- *
- * - An Amazon SQS policy can have a maximum of seven actions per statement.
- *
- * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
- *
- * - Amazon SQS `AddPermission` does not support adding a non-account
- * principal.
- *
- * Cross-account permissions don't apply to this action. For more information,
- * see Grant
- * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
- */
-export const addPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddPermissionRequest,
-  output: AddPermissionResponse,
-  errors: [
-    InvalidAddress,
-    InvalidSecurity,
-    OverLimit,
-    QueueDoesNotExist,
-    RequestThrottled,
-    UnsupportedOperation,
-  ],
-}));
-/**
- * Cancels a specified message movement task. A message movement can only be cancelled
- * when the current status is RUNNING. Cancelling a message movement task does not revert
- * the messages that have already been moved. It can only stop the messages that have not
- * been moved yet.
- *
- * - This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source
- * queue is the dead-letter queue (DLQ), while the destination queue can be the
- * original source queue (from which the messages were driven to the
- * dead-letter-queue), or a custom destination queue.
- *
- * - Only one active message movement task is supported per queue at any given
- * time.
- */
-export const cancelMessageMoveTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMessageMoveTaskRequest,
-    output: CancelMessageMoveTaskResult,
-    errors: [
-      InvalidAddress,
-      InvalidSecurity,
-      RequestThrottled,
-      ResourceNotFoundException,
-      UnsupportedOperation,
-      InvalidParameterValueException,
-    ],
-  }),
-);
 /**
  * Changes the visibility timeout of a specified message in a queue to a new value. The
  * default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The
@@ -1415,8 +1054,10 @@ export const changeMessageVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets the most recent message movement tasks (up to 10) under a specific source
- * queue.
+ * Cancels a specified message movement task. A message movement can only be cancelled
+ * when the current status is RUNNING. Cancelling a message movement task does not revert
+ * the messages that have already been moved. It can only stop the messages that have not
+ * been moved yet.
  *
  * - This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source
  * queue is the dead-letter queue (DLQ), while the destination queue can be the
@@ -1426,10 +1067,10 @@ export const changeMessageVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Only one active message movement task is supported per queue at any given
  * time.
  */
-export const listMessageMoveTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const cancelMessageMoveTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListMessageMoveTasksRequest,
-    output: ListMessageMoveTasksResult,
+    input: CancelMessageMoveTaskRequest,
+    output: CancelMessageMoveTaskResult,
     errors: [
       InvalidAddress,
       InvalidSecurity,
@@ -1437,6 +1078,37 @@ export const listMessageMoveTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ResourceNotFoundException,
       UnsupportedOperation,
       InvalidParameterValueException,
+    ],
+  }),
+);
+/**
+ * Starts an asynchronous task to move messages from a specified source queue to a
+ * specified destination queue.
+ *
+ * - This action is currently limited to supporting message redrive from queues
+ * that are configured as dead-letter queues (DLQs) of other Amazon SQS queues only. Non-SQS
+ * queue sources of dead-letter queues, such as Lambda or Amazon SNS topics, are
+ * currently not supported.
+ *
+ * - In dead-letter queues redrive context, the
+ * `StartMessageMoveTask` the source queue is the DLQ, while the
+ * destination queue can be the original source queue (from which the messages
+ * were driven to the dead-letter-queue), or a custom destination queue.
+ *
+ * - Only one active message movement task is supported per queue at any given
+ * time.
+ */
+export const startMessageMoveTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartMessageMoveTaskRequest,
+    output: StartMessageMoveTaskResult,
+    errors: [
+      InvalidAddress,
+      InvalidSecurity,
+      RequestThrottled,
+      ResourceNotFoundException,
+      UnsupportedOperation,
+      CommonServiceException,
     ],
   }),
 );
@@ -1470,6 +1142,334 @@ export const setQueueAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     RequestThrottled,
     UnsupportedOperation,
     CommonServiceException,
+  ],
+}));
+/**
+ * The `GetQueueUrl` API returns the URL of an existing Amazon SQS queue. This is
+ * useful when you know the queue's name but need to retrieve its URL for further
+ * operations.
+ *
+ * To access a queue owned by another Amazon Web Services account, use the
+ * `QueueOwnerAWSAccountId` parameter to specify the account ID of the
+ * queue's owner. Note that the queue owner must grant you the necessary permissions to
+ * access the queue. For more information about accessing shared queues, see the
+ *
+ * AddPermission
+ * API or Allow developers to write messages to a shared queue in the Amazon SQS
+ * Developer Guide.
+ */
+export const getQueueUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueueUrlRequest,
+  output: GetQueueUrlResult,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Returns a list of your queues that have the `RedrivePolicy` queue attribute
+ * configured with a dead-letter queue.
+ *
+ * The `ListDeadLetterSourceQueues` methods supports pagination. Set
+ * parameter `MaxResults` in the request to specify the maximum number of
+ * results to be returned in the response. If you do not set `MaxResults`, the
+ * response includes a maximum of 1,000 results. If you set `MaxResults` and
+ * there are additional results to display, the response includes a value for
+ * `NextToken`. Use `NextToken` as a parameter in your next
+ * request to `ListDeadLetterSourceQueues` to receive the next page of results.
+ *
+ * For more information about using dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon SQS Developer
+ * Guide.
+ */
+export const listDeadLetterSourceQueues = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDeadLetterSourceQueuesRequest,
+    output: ListDeadLetterSourceQueuesResult,
+    errors: [
+      InvalidAddress,
+      InvalidSecurity,
+      QueueDoesNotExist,
+      RequestThrottled,
+      UnsupportedOperation,
+    ],
+  }),
+);
+/**
+ * List all cost allocation tags added to the specified Amazon SQS queue.
+ * For an overview, see Tagging
+ * Your Amazon SQS Queues in the *Amazon SQS Developer Guide*.
+ *
+ * Cross-account permissions don't apply to this action. For more information,
+ * see Grant
+ * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
+ */
+export const listQueueTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListQueueTagsRequest,
+  output: ListQueueTagsResult,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Deletes the queue specified by the `QueueUrl`, regardless of the queue's
+ * contents.
+ *
+ * Be careful with the `DeleteQueue` action: When you delete a queue, any
+ * messages in the queue are no longer available.
+ *
+ * When you delete a queue, the deletion process takes up to 60 seconds. Requests you
+ * send involving that queue during the 60 seconds might succeed. For example, a
+ *
+ * SendMessage
+ * request might succeed, but after 60
+ * seconds the queue and the message you sent no longer exist.
+ *
+ * When you delete a queue, you must wait at least 60 seconds before creating a queue
+ * with the same name.
+ *
+ * Cross-account permissions don't apply to this action. For more information,
+ * see Grant
+ * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
+ *
+ * The delete operation uses the HTTP `GET` verb.
+ */
+export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueueRequest,
+  output: DeleteQueueResponse,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Revokes any permissions in the queue policy that matches the specified
+ * `Label` parameter.
+ *
+ * - Only the owner of a queue can remove permissions from it.
+ *
+ * - Cross-account permissions don't apply to this action. For more information,
+ * see Grant
+ * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
+ *
+ * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
+ */
+export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemovePermissionRequest,
+  output: RemovePermissionResponse,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Add cost allocation tags to the specified Amazon SQS queue. For an overview, see Tagging
+ * Your Amazon SQS Queues in the *Amazon SQS Developer Guide*.
+ *
+ * When you use queue tags, keep the following guidelines in mind:
+ *
+ * - Adding more than 50 tags to a queue isn't recommended.
+ *
+ * - Tags don't have any semantic meaning. Amazon SQS interprets tags as character strings.
+ *
+ * - Tags are case-sensitive.
+ *
+ * - A new tag with a key identical to that of an existing tag overwrites the existing tag.
+ *
+ * For a full list of tag restrictions, see
+ * Quotas related to queues
+ * in the *Amazon SQS Developer Guide*.
+ *
+ * Cross-account permissions don't apply to this action. For more information,
+ * see Grant
+ * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
+ */
+export const tagQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagQueueRequest,
+  output: TagQueueResponse,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Remove cost allocation tags from the specified Amazon SQS queue. For an overview, see Tagging
+ * Your Amazon SQS Queues in the *Amazon SQS Developer Guide*.
+ *
+ * Cross-account permissions don't apply to this action. For more information,
+ * see Grant
+ * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
+ */
+export const untagQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagQueueRequest,
+  output: UntagQueueResponse,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Adds a permission to a queue for a specific principal. This allows sharing
+ * access to the queue.
+ *
+ * When you create a queue, you have full control access rights for the queue. Only you,
+ * the owner of the queue, can grant or deny permissions to the queue. For more information
+ * about these permissions, see Allow Developers to Write Messages to a Shared Queue in the Amazon SQS
+ * Developer Guide.
+ *
+ * - `AddPermission` generates a policy for you. You can use
+ *
+ * SetQueueAttributes
+ * to upload your
+ * policy. For more information, see Using Custom Policies with the Amazon SQS Access Policy Language in
+ * the *Amazon SQS Developer Guide*.
+ *
+ * - An Amazon SQS policy can have a maximum of seven actions per statement.
+ *
+ * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
+ *
+ * - Amazon SQS `AddPermission` does not support adding a non-account
+ * principal.
+ *
+ * Cross-account permissions don't apply to this action. For more information,
+ * see Grant
+ * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
+ */
+export const addPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddPermissionRequest,
+  output: AddPermissionResponse,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    OverLimit,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Returns a list of your queues in the current region. The response includes a maximum
+ * of 1,000 results. If you specify a value for the optional `QueueNamePrefix`
+ * parameter, only queues with a name that begins with the specified value are
+ * returned.
+ *
+ * The `listQueues` methods supports pagination. Set parameter
+ * `MaxResults` in the request to specify the maximum number of results to
+ * be returned in the response. If you do not set `MaxResults`, the response
+ * includes a maximum of 1,000 results. If you set `MaxResults` and there are
+ * additional results to display, the response includes a value for `NextToken`.
+ * Use `NextToken` as a parameter in your next request to
+ * `listQueues` to receive the next page of results.
+ *
+ * Cross-account permissions don't apply to this action. For more information,
+ * see Grant
+ * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
+ */
+export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListQueuesRequest,
+  output: ListQueuesResult,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Gets attributes for the specified queue.
+ *
+ * To determine whether a queue is FIFO, you can check whether `QueueName` ends with the `.fifo` suffix.
+ */
+export const getQueueAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueueAttributesRequest,
+  output: GetQueueAttributesResult,
+  errors: [
+    InvalidAddress,
+    InvalidAttributeName,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
+/**
+ * Gets the most recent message movement tasks (up to 10) under a specific source
+ * queue.
+ *
+ * - This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source
+ * queue is the dead-letter queue (DLQ), while the destination queue can be the
+ * original source queue (from which the messages were driven to the
+ * dead-letter-queue), or a custom destination queue.
+ *
+ * - Only one active message movement task is supported per queue at any given
+ * time.
+ */
+export const listMessageMoveTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMessageMoveTasksRequest,
+    output: ListMessageMoveTasksResult,
+    errors: [
+      InvalidAddress,
+      InvalidSecurity,
+      RequestThrottled,
+      ResourceNotFoundException,
+      UnsupportedOperation,
+      InvalidParameterValueException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified message from the specified queue. To select the message to
+ * delete, use the `ReceiptHandle` of the message (*not* the
+ * `MessageId` which you receive when you send the message). Amazon SQS can
+ * delete a message from a queue even if a visibility timeout setting causes the message to
+ * be locked by another consumer. Amazon SQS automatically deletes messages left in a queue
+ * longer than the retention period configured for the queue.
+ *
+ * Each time you receive a message, meaning when a consumer retrieves a message from
+ * the queue, it comes with a unique `ReceiptHandle`. If you receive the
+ * same message more than once, you will get a different `ReceiptHandle`
+ * each time. When you want to delete a message using the `DeleteMessage`
+ * action, you must use the `ReceiptHandle` from the most recent time you
+ * received the message. If you use an old `ReceiptHandle`, the request will
+ * succeed, but the message might not be deleted.
+ *
+ * For standard queues, it is possible to receive a message even after you
+ * delete it. This might happen on rare occasions if one of the servers which stores a
+ * copy of the message is unavailable when you send the request to delete the message.
+ * The copy remains on the server and might be returned to you during a subsequent
+ * receive request. You should ensure that your application is idempotent, so that
+ * receiving a message more than once does not cause issues.
+ */
+export const deleteMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMessageRequest,
+  output: DeleteMessageResponse,
+  errors: [
+    InvalidAddress,
+    InvalidIdFormat,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    ReceiptHandleIsInvalid,
+    RequestThrottled,
+    UnsupportedOperation,
   ],
 }));
 /**
@@ -1647,36 +1647,6 @@ export const receiveMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Delivers a message to the specified queue.
- *
- * A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the W3C specification for characters.
- *
- * `#x9` | `#xA` | `#xD` | `#x20` to `#xD7FF` | `#xE000` to `#xFFFD` | `#x10000` to `#x10FFFF`
- *
- * If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid this exception.
- */
-export const sendMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendMessageRequest,
-  output: SendMessageResult,
-  errors: [
-    InvalidAddress,
-    InvalidMessageContents,
-    InvalidSecurity,
-    KmsAccessDenied,
-    KmsDisabled,
-    KmsInvalidKeyUsage,
-    KmsInvalidState,
-    KmsNotFound,
-    KmsOptInRequired,
-    KmsThrottled,
-    QueueDoesNotExist,
-    RequestThrottled,
-    UnsupportedOperation,
-    InvalidParameterValueException,
-    MissingRequiredParameterException,
-  ],
-}));
-/**
  * You can use `SendMessageBatch` to send up to 10 messages to the specified
  * queue by assigning either identical or different values to each message (or by not
  * assigning values at all). This is a batch version of
@@ -1722,5 +1692,35 @@ export const sendMessageBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     UnsupportedOperation,
     InvalidParameterValueException,
     ParseError,
+  ],
+}));
+/**
+ * Delivers a message to the specified queue.
+ *
+ * A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the W3C specification for characters.
+ *
+ * `#x9` | `#xA` | `#xD` | `#x20` to `#xD7FF` | `#xE000` to `#xFFFD` | `#x10000` to `#x10FFFF`
+ *
+ * If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid this exception.
+ */
+export const sendMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendMessageRequest,
+  output: SendMessageResult,
+  errors: [
+    InvalidAddress,
+    InvalidMessageContents,
+    InvalidSecurity,
+    KmsAccessDenied,
+    KmsDisabled,
+    KmsInvalidKeyUsage,
+    KmsInvalidState,
+    KmsNotFound,
+    KmsOptInRequired,
+    KmsThrottled,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+    InvalidParameterValueException,
+    MissingRequiredParameterException,
   ],
 }));

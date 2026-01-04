@@ -937,47 +937,47 @@ export class ListAutomationRulePreviewResponse extends S.Class<ListAutomationRul
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class IdempotencyTokenInUseException extends S.TaggedError<IdempotencyTokenInUseException>()(
   "IdempotencyTokenInUseException",
-  {},
-) {}
-export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
-  "IdempotentParameterMismatchException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
+  "IdempotentParameterMismatchException",
+  { message: S.optional(S.String) },
 ) {}
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class OptInRequiredException extends S.TaggedError<OptInRequiredException>()(
   "OptInRequiredException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class NotManagementAccountException extends S.TaggedError<NotManagementAccountException>()(
   "NotManagementAccountException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -985,6 +985,97 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ) {}
 
 //# Operations
+/**
+ * Disassociates member accounts from your organization's management account, removing centralized automation capabilities. Once disassociated, organization rules no longer apply to the member account, and the management account (or delegated administrator) cannot create Automation rules for that account.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ */
+export const disassociateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateAccountsRequest,
+    output: DisassociateAccountsResponse,
+    errors: [
+      AccessDeniedException,
+      ForbiddenException,
+      IdempotencyTokenInUseException,
+      IdempotentParameterMismatchException,
+      InternalServerException,
+      InvalidParameterValueException,
+      NotManagementAccountException,
+      OptInRequiredException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Initiates a one-time, on-demand automation for the specified recommended action.
+ *
+ * Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using `AssociateAccounts`.
+ */
+export const startAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartAutomationEventRequest,
+    output: StartAutomationEventResponse,
+    errors: [
+      AccessDeniedException,
+      ForbiddenException,
+      IdempotencyTokenInUseException,
+      IdempotentParameterMismatchException,
+      InternalServerException,
+      InvalidParameterValueException,
+      OptInRequiredException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Initiates a rollback for a completed automation event.
+ *
+ * Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using `AssociateAccounts`.
+ */
+export const rollbackAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RollbackAutomationEventRequest,
+    output: RollbackAutomationEventResponse,
+    errors: [
+      AccessDeniedException,
+      ForbiddenException,
+      IdempotencyTokenInUseException,
+      IdempotentParameterMismatchException,
+      InternalServerException,
+      InvalidParameterValueException,
+      OptInRequiredException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Updates an existing automation rule.
+ */
+export const updateAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateAutomationRuleRequest,
+    output: UpdateAutomationRuleResponse,
+    errors: [
+      AccessDeniedException,
+      ForbiddenException,
+      IdempotencyTokenInUseException,
+      IdempotentParameterMismatchException,
+      InternalServerException,
+      InvalidParameterValueException,
+      OptInRequiredException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Adds tags to the specified resource.
  */
@@ -1024,12 +1115,84 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates an existing automation rule.
+ * Lists the steps for a specific automation event. You can only list steps for events created within the past year.
  */
-export const updateAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listAutomationEventSteps = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateAutomationRuleRequest,
-    output: UpdateAutomationRuleResponse,
+    input: ListAutomationEventStepsRequest,
+    output: ListAutomationEventStepsResponse,
+    errors: [
+      AccessDeniedException,
+      ForbiddenException,
+      InternalServerException,
+      InvalidParameterValueException,
+      OptInRequiredException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Retrieves details about a specific automation rule.
+ */
+export const getAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAutomationRuleRequest,
+  output: GetAutomationRuleResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the tags for a specified resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves the current enrollment configuration for Compute Optimizer Automation.
+ */
+export const getEnrollmentConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetEnrollmentConfigurationRequest,
+    output: GetEnrollmentConfigurationResponse,
+    errors: [
+      AccessDeniedException,
+      ForbiddenException,
+      InternalServerException,
+      InvalidParameterValueException,
+      OptInRequiredException,
+      ResourceNotFoundException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes an existing automation rule.
+ */
+export const deleteAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAutomationRuleRequest,
+    output: DeleteAutomationRuleResponse,
     errors: [
       AccessDeniedException,
       ForbiddenException,
@@ -1065,248 +1228,6 @@ export const updateEnrollmentConfiguration =
       ThrottlingException,
     ],
   }));
-/**
- * Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that account. If the member account has not previously enabled the Automation feature, the association process automatically enables it.
- *
- * Only the management account or a delegated administrator can perform this action.
- */
-export const associateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateAccountsRequest,
-  output: AssociateAccountsResponse,
-  errors: [
-    AccessDeniedException,
-    ForbiddenException,
-    IdempotencyTokenInUseException,
-    IdempotentParameterMismatchException,
-    InternalServerException,
-    InvalidParameterValueException,
-    NotManagementAccountException,
-    OptInRequiredException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes an existing automation rule.
- */
-export const deleteAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAutomationRuleRequest,
-    output: DeleteAutomationRuleResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Disassociates member accounts from your organization's management account, removing centralized automation capabilities. Once disassociated, organization rules no longer apply to the member account, and the management account (or delegated administrator) cannot create Automation rules for that account.
- *
- * Only the management account or a delegated administrator can perform this action.
- */
-export const disassociateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateAccountsRequest,
-    output: DisassociateAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      NotManagementAccountException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Retrieves details about a specific automation event.
- */
-export const getAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAutomationEventRequest,
-  output: GetAutomationEventResponse,
-  errors: [
-    AccessDeniedException,
-    ForbiddenException,
-    InternalServerException,
-    InvalidParameterValueException,
-    OptInRequiredException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves details about a specific automation rule.
- */
-export const getAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAutomationRuleRequest,
-  output: GetAutomationRuleResponse,
-  errors: [
-    AccessDeniedException,
-    ForbiddenException,
-    InternalServerException,
-    InvalidParameterValueException,
-    OptInRequiredException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Retrieves the current enrollment configuration for Compute Optimizer Automation.
- */
-export const getEnrollmentConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEnrollmentConfigurationRequest,
-    output: GetEnrollmentConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists the accounts in your organization that are enrolled in Compute Optimizer and whether they have enabled Automation.
- *
- * Only the management account or a delegated administrator can perform this action.
- */
-export const listAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAccountsRequest,
-  output: ListAccountsResponse,
-  errors: [
-    AccessDeniedException,
-    ForbiddenException,
-    InternalServerException,
-    InvalidParameterValueException,
-    NotManagementAccountException,
-    OptInRequiredException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Lists the steps for a specific automation event. You can only list steps for events created within the past year.
- */
-export const listAutomationEventSteps = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAutomationEventStepsRequest,
-    output: ListAutomationEventStepsResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists the tags for a specified resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ForbiddenException,
-    InternalServerException,
-    InvalidParameterValueException,
-    OptInRequiredException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Initiates a rollback for a completed automation event.
- *
- * Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using `AssociateAccounts`.
- */
-export const rollbackAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RollbackAutomationEventRequest,
-    output: RollbackAutomationEventResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Initiates a one-time, on-demand automation for the specified recommended action.
- *
- * Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using `AssociateAccounts`.
- */
-export const startAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAutomationEventRequest,
-    output: StartAutomationEventResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates a new automation rule to apply recommended actions to resources based on specified criteria.
- */
-export const createAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAutomationRuleRequest,
-    output: CreateAutomationRuleResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Lists automation events based on specified filters. You can retrieve events that were created within the past year.
  */
@@ -1415,6 +1336,63 @@ export const listRecommendedActionSummaries =
     ],
   }));
 /**
+ * Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that account. If the member account has not previously enabled the Automation feature, the association process automatically enables it.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ */
+export const associateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAccountsRequest,
+  output: AssociateAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    NotManagementAccountException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the accounts in your organization that are enrolled in Compute Optimizer and whether they have enabled Automation.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ */
+export const listAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAccountsRequest,
+  output: ListAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    NotManagementAccountException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves details about a specific automation event.
+ */
+export const getAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAutomationEventRequest,
+  output: GetAutomationEventResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Returns a preview of the recommended actions that match your Automation rule's configuration and criteria.
  */
 export const listAutomationRulePreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1427,6 +1405,28 @@ export const listAutomationRulePreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InternalServerException,
       InvalidParameterValueException,
       OptInRequiredException,
+      ServiceUnavailableException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Creates a new automation rule to apply recommended actions to resources based on specified criteria.
+ */
+export const createAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAutomationRuleRequest,
+    output: CreateAutomationRuleResponse,
+    errors: [
+      AccessDeniedException,
+      ForbiddenException,
+      IdempotencyTokenInUseException,
+      IdempotentParameterMismatchException,
+      InternalServerException,
+      InvalidParameterValueException,
+      OptInRequiredException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
       ServiceUnavailableException,
       ThrottlingException,
     ],

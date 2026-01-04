@@ -704,35 +704,35 @@ export class PutSessionResponse extends S.Class<PutSessionResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
-  "BadGatewayException",
-  {},
+  { message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String },
 ) {}
-export class DependencyFailedException extends S.TaggedError<DependencyFailedException>()(
-  "DependencyFailedException",
-  {},
+export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
+  "BadGatewayException",
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
+) {}
+export class DependencyFailedException extends S.TaggedError<DependencyFailedException>()(
+  "DependencyFailedException",
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.String },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.String },
 ) {}
 
 //# Operations

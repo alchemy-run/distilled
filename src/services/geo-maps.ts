@@ -474,7 +474,264 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export const TravelModeList = S.Array(S.String);
+export const TileAdditionalFeatureList = S.Array(S.String);
+export class GetGlyphsRequest extends S.Class<GetGlyphsRequest>(
+  "GetGlyphsRequest",
+)(
+  {
+    FontStack: S.String.pipe(T.HttpLabel()),
+    FontUnicodeRange: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/glyphs/{FontStack}/{FontUnicodeRange}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetSpritesRequest extends S.Class<GetSpritesRequest>(
+  "GetSpritesRequest",
+)(
+  {
+    FileName: S.String.pipe(T.HttpLabel()),
+    Style: S.String.pipe(T.HttpLabel()),
+    ColorScheme: S.String.pipe(T.HttpLabel()),
+    Variant: S.String.pipe(T.HttpLabel()),
+  },
+  T.all(
+    T.Http({
+      method: "GET",
+      uri: "/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}",
+    }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetStaticMapRequest extends S.Class<GetStaticMapRequest>(
+  "GetStaticMapRequest",
+)(
+  {
+    BoundingBox: S.optional(S.String).pipe(T.HttpQuery("bounding-box")),
+    BoundedPositions: S.optional(S.String).pipe(
+      T.HttpQuery("bounded-positions"),
+    ),
+    Center: S.optional(S.String).pipe(T.HttpQuery("center")),
+    ColorScheme: S.optional(S.String).pipe(T.HttpQuery("color-scheme")),
+    CompactOverlay: S.optional(S.String).pipe(T.HttpQuery("compact-overlay")),
+    CropLabels: S.optional(S.Boolean).pipe(T.HttpQuery("crop-labels")),
+    GeoJsonOverlay: S.optional(S.String).pipe(T.HttpQuery("geojson-overlay")),
+    Height: S.Number.pipe(T.HttpQuery("height")),
+    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    LabelSize: S.optional(S.String).pipe(T.HttpQuery("label-size")),
+    Language: S.optional(S.String).pipe(T.HttpQuery("lang")),
+    Padding: S.optional(S.Number).pipe(T.HttpQuery("padding")),
+    PoliticalView: S.optional(S.String).pipe(T.HttpQuery("political-view")),
+    PointsOfInterests: S.optional(S.String).pipe(T.HttpQuery("pois")),
+    Radius: S.optional(S.Number).pipe(T.HttpQuery("radius")),
+    FileName: S.String.pipe(T.HttpLabel()),
+    ScaleBarUnit: S.optional(S.String).pipe(T.HttpQuery("scale-unit")),
+    Style: S.optional(S.String).pipe(T.HttpQuery("style")),
+    Width: S.Number.pipe(T.HttpQuery("width")),
+    Zoom: S.optional(S.Number).pipe(T.HttpQuery("zoom")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/static/{FileName}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetStyleDescriptorRequest extends S.Class<GetStyleDescriptorRequest>(
+  "GetStyleDescriptorRequest",
+)(
+  {
+    Style: S.String.pipe(T.HttpLabel()),
+    ColorScheme: S.optional(S.String).pipe(T.HttpQuery("color-scheme")),
+    PoliticalView: S.optional(S.String).pipe(T.HttpQuery("political-view")),
+    Terrain: S.optional(S.String).pipe(T.HttpQuery("terrain")),
+    ContourDensity: S.optional(S.String).pipe(T.HttpQuery("contour-density")),
+    Traffic: S.optional(S.String).pipe(T.HttpQuery("traffic")),
+    TravelModes: S.optional(TravelModeList).pipe(T.HttpQuery("travel-modes")),
+    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/styles/{Style}/descriptor" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetTileRequest extends S.Class<GetTileRequest>("GetTileRequest")(
+  {
+    AdditionalFeatures: S.optional(TileAdditionalFeatureList).pipe(
+      T.HttpQuery("additional-features"),
+    ),
+    Tileset: S.String.pipe(T.HttpLabel()),
+    Z: S.String.pipe(T.HttpLabel()),
+    X: S.String.pipe(T.HttpLabel()),
+    Y: S.String.pipe(T.HttpLabel()),
+    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+  },
+  T.all(
+    T.Http({ method: "GET", uri: "/tiles/{Tileset}/{Z}/{X}/{Y}" }),
+    svc,
+    auth,
+    proto,
+    ver,
+    rules,
+  ),
+) {}
+export class GetGlyphsResponse extends S.Class<GetGlyphsResponse>(
+  "GetGlyphsResponse",
+)({
+  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+}) {}
+export class GetSpritesResponse extends S.Class<GetSpritesResponse>(
+  "GetSpritesResponse",
+)({
+  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+}) {}
+export class GetStaticMapResponse extends S.Class<GetStaticMapResponse>(
+  "GetStaticMapResponse",
+)({
+  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+  PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+}) {}
+export class GetStyleDescriptorResponse extends S.Class<GetStyleDescriptorResponse>(
+  "GetStyleDescriptorResponse",
+)({
+  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+}) {}
+export class GetTileResponse extends S.Class<GetTileResponse>(
+  "GetTileResponse",
+)({
+  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+  PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+}) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({
+  Name: S.String.pipe(T.JsonName("name")),
+  Message: S.String.pipe(T.JsonName("message")),
+}) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.String.pipe(T.JsonName("message")) },
+) {}
+export class InternalServerException extends S.TaggedError<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.String.pipe(T.JsonName("message")) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.String.pipe(T.JsonName("message")) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.String.pipe(T.JsonName("message")) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.String.pipe(T.JsonName("message")),
+    Reason: S.String.pipe(T.JsonName("reason")),
+    FieldList: ValidationExceptionFieldList.pipe(T.JsonName("fieldList")),
+  },
+) {}
 
 //# Operations
+/**
+ * `GetGlyphs` returns the map's glyphs.
+ *
+ * For more information, see Style labels with glyphs in the *Amazon Location Service Developer Guide*.
+ */
+export const getGlyphs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGlyphsRequest,
+  output: GetGlyphsResponse,
+  errors: [],
+}));
+/**
+ * `GetSprites` returns the map's sprites.
+ *
+ * For more information, see Style iconography with sprites in the *Amazon Location Service Developer Guide*.
+ */
+export const getSprites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSpritesRequest,
+  output: GetSpritesResponse,
+  errors: [],
+}));
+/**
+ * `GetStyleDescriptor` returns information about the style.
+ *
+ * For more information, see Style dynamic maps in the *Amazon Location Service Developer Guide*.
+ */
+export const getStyleDescriptor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStyleDescriptorRequest,
+  output: GetStyleDescriptorResponse,
+  errors: [],
+}));
+/**
+ * `GetStaticMap` provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.
+ *
+ * For more information, see the following topics in the *Amazon Location Service Developer Guide*:
+ *
+ * - Static maps
+ *
+ * - Customize static maps
+ *
+ * - Overlay on the static map
+ */
+export const getStaticMap = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStaticMapRequest,
+  output: GetStaticMapResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * `GetTile` returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.
+ *
+ * For more information, see Tiles in the *Amazon Location Service Developer Guide*.
+ */
+export const getTile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTileRequest,
+  output: GetTileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

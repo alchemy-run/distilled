@@ -1850,259 +1850,215 @@ export class CreateSolutionResponse extends S.Class<CreateSolutionResponse>(
 //# Errors
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
 ) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class TooManyTagKeysException extends S.TaggedError<TooManyTagKeysException>()(
   "TooManyTagKeysException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
-) {}
 
 //# Operations
 /**
- * Deletes the event tracker. Does not delete the dataset from
- * the dataset group. For more
- * information on event trackers, see CreateEventTracker.
+ * Lists the metrics for the metric attribution.
  */
-export const deleteEventTracker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEventTrackerRequest,
-  output: DeleteEventTrackerResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
+export const listMetricAttributionMetrics =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListMetricAttributionMetricsRequest,
+    output: ListMetricAttributionMetricsResponse,
+    errors: [InvalidInputException, InvalidNextTokenException],
+  }));
 /**
- * Deletes a filter.
+ * Lists metric attributions.
  */
-export const deleteFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFilterRequest,
-  output: DeleteFilterResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes a metric attribution.
- */
-export const deleteMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listMetricAttributions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteMetricAttributionRequest,
-    output: DeleteMetricAttributionResponse,
-    errors: [
-      InvalidInputException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
+    input: ListMetricAttributionsRequest,
+    output: ListMetricAttributionsResponse,
+    errors: [InvalidInputException, InvalidNextTokenException],
   }),
 );
 /**
- * Deactivates and removes a recommender. A deleted recommender can no longer be specified in a GetRecommendations
- * request.
+ * Returns a list of available recipes. The response provides the properties
+ * for each recipe, including the recipe's Amazon Resource Name (ARN).
  */
-export const deleteRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRecommenderRequest,
-  output: DeleteRecommenderResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+export const listRecipes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRecipesRequest,
+  output: ListRecipesResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
 }));
 /**
- * Deletes a schema. Before deleting a schema, you must delete all
- * datasets referencing the schema. For more information on schemas, see
- * CreateSchema.
+ * Returns a list of recommenders in a given Domain dataset group.
+ * When a Domain dataset group is not specified, all the recommenders associated with the account are listed.
+ * The response provides the properties for each recommender, including the Amazon Resource Name (ARN).
+ * For more information on recommenders, see CreateRecommender.
  */
-export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSchemaRequest,
-  output: DeleteSchemaResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+export const listRecommenders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRecommendersRequest,
+  output: ListRecommendersResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
 }));
 /**
- * Deletes all versions of a solution and the `Solution` object itself.
- * Before deleting a solution, you must delete all campaigns based on
- * the solution. To determine what campaigns are using the solution, call
- * ListCampaigns and supply the Amazon Resource Name (ARN) of the solution.
- * You can't delete a solution if an associated `SolutionVersion` is in the
- * CREATE PENDING or IN PROGRESS state.
+ * Returns the list of schemas associated with the account. The response provides the
+ * properties for each schema, including the Amazon Resource Name (ARN).
+ * For more information on schemas, see CreateSchema.
+ */
+export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSchemasRequest,
+  output: ListSchemasResponse,
+  errors: [InvalidNextTokenException],
+}));
+/**
+ * Returns a list of solutions in a given dataset group.
+ * When a dataset group is not specified, all the solutions associated with the account are listed.
+ * The response provides the properties for each solution, including the Amazon Resource Name (ARN).
  * For more information on solutions, see CreateSolution.
  */
-export const deleteSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSolutionRequest,
-  output: DeleteSolutionResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+export const listSolutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSolutionsRequest,
+  output: ListSolutionsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
 }));
 /**
- * Stops creating a solution version that is in a state of CREATE_PENDING or CREATE IN_PROGRESS.
- *
- * Depending on the current state of the solution version, the solution version state changes as follows:
- *
- * - CREATE_PENDING > CREATE_STOPPED
- *
- * or
- *
- * - CREATE_IN_PROGRESS > CREATE_STOPPING > CREATE_STOPPED
- *
- * You are billed for all of the training completed up
- * until you stop the solution version creation. You cannot resume creating a solution version once it has been stopped.
+ * Gets a list of the batch inference jobs that have been performed off of a solution
+ * version.
  */
-export const stopSolutionVersionCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listBatchInferenceJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: StopSolutionVersionCreationRequest,
-    output: StopSolutionVersionCreationResponse,
-    errors: [
-      InvalidInputException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
+    input: ListBatchInferenceJobsRequest,
+    output: ListBatchInferenceJobsResponse,
+    errors: [InvalidInputException, InvalidNextTokenException],
   }),
 );
 /**
- * Creates a job that imports training data from your data source (an
- * Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the
- * training data, you must specify an IAM service role that has permission to
- * read from the data source, as Amazon Personalize makes a copy of your data and
- * processes it internally. For information on granting access to your Amazon S3
- * bucket, see Giving
- * Amazon Personalize Access to Amazon S3 Resources.
- *
- * If you already created a recommender or deployed a custom solution version with a campaign, how new bulk records
- * influence recommendations depends on the domain use case or recipe that you use. For more information, see How new data influences
- * real-time recommendations.
- *
- * By default, a dataset import job replaces any existing data in the
- * dataset that you imported in bulk. To add new records without replacing
- * existing data, specify INCREMENTAL for the import mode in the
- * CreateDatasetImportJob operation.
- *
- * **Status**
- *
- * A dataset import job can be in one of the following states:
- *
- * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE
- * FAILED
- *
- * To get the status of the import job, call DescribeDatasetImportJob, providing the Amazon Resource Name
- * (ARN) of the dataset import job. The dataset import is complete when the
- * status shows as ACTIVE. If the status shows as CREATE FAILED, the response
- * includes a `failureReason` key, which describes why the job
- * failed.
- *
- * Importing takes time. You must wait until the status shows as ACTIVE
- * before training a model using the dataset.
- *
- * **Related APIs**
- *
- * - ListDatasetImportJobs
- *
- * - DescribeDatasetImportJob
+ * Gets a list of the batch segment jobs that have been performed off of a solution
+ * version that you specify.
  */
-export const createDatasetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listBatchSegmentJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateDatasetImportJobRequest,
-    output: CreateDatasetImportJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
+    input: ListBatchSegmentJobsRequest,
+    output: ListBatchSegmentJobsResponse,
+    errors: [InvalidInputException, InvalidNextTokenException],
   }),
 );
 /**
- * Creates an event tracker that you use when adding event data to a specified dataset
- * group using the
- * PutEvents API.
- *
- * Only one event tracker can be associated with a dataset group. You will get
- * an error if you call `CreateEventTracker` using the same dataset group as an
- * existing event tracker.
- *
- * When you create an event tracker, the response includes a tracking ID, which you pass as a parameter when you use the
- * PutEvents operation.
- * Amazon Personalize then appends the event data to the Item interactions dataset of the dataset group you specify
- * in your event tracker.
- *
- * The event tracker can be in one of the following states:
- *
- * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
- *
- * - DELETE PENDING > DELETE IN_PROGRESS
- *
- * To get the status of the event tracker, call DescribeEventTracker.
- *
- * The event tracker must be in the ACTIVE state before using the tracking ID.
- *
- * **Related APIs**
- *
- * - ListEventTrackers
- *
- * - DescribeEventTracker
- *
- * - DeleteEventTracker
+ * Returns a list of campaigns that use the given solution.
+ * When a solution is not specified, all the campaigns associated with the account are listed.
+ * The response provides the properties for each campaign, including the Amazon Resource Name (ARN).
+ * For more information on campaigns, see CreateCampaign.
  */
-export const createEventTracker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEventTrackerRequest,
-  output: CreateEventTrackerResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
+export const listCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCampaignsRequest,
+  output: ListCampaignsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
 }));
 /**
- * Creates a recommendation filter. For more information, see Filtering recommendations and user segments.
+ * Returns a list of data deletion jobs for a dataset group ordered by creation time,
+ * with the most recent first.
+ * When
+ * a dataset group is not specified, all the data deletion jobs associated with
+ * the account are listed. The response provides the properties for each
+ * job, including the Amazon Resource Name (ARN). For more
+ * information on data deletion jobs, see Deleting users.
  */
-export const createFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFilterRequest,
-  output: CreateFilterResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
+export const listDataDeletionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDataDeletionJobsRequest,
+    output: ListDataDeletionJobsResponse,
+    errors: [InvalidInputException, InvalidNextTokenException],
+  }),
+);
+/**
+ * Returns a list of dataset export jobs that use the given dataset. When
+ * a dataset is not specified, all the dataset export jobs associated with
+ * the account are listed. The response provides the properties for each
+ * dataset export job, including the Amazon Resource Name (ARN). For more
+ * information on dataset export jobs, see CreateDatasetExportJob. For more information on datasets, see
+ * CreateDataset.
+ */
+export const listDatasetExportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDatasetExportJobsRequest,
+    output: ListDatasetExportJobsResponse,
+    errors: [InvalidInputException, InvalidNextTokenException],
+  }),
+);
+/**
+ * Returns a list of dataset groups. The response provides the properties
+ * for each dataset group, including the Amazon Resource Name (ARN). For more
+ * information on dataset groups, see CreateDatasetGroup.
+ */
+export const listDatasetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDatasetGroupsRequest,
+  output: ListDatasetGroupsResponse,
+  errors: [InvalidNextTokenException],
+}));
+/**
+ * Returns a list of dataset import jobs that use the given dataset. When
+ * a dataset is not specified, all the dataset import jobs associated with
+ * the account are listed. The response provides the properties for each
+ * dataset import job, including the Amazon Resource Name (ARN). For more
+ * information on dataset import jobs, see CreateDatasetImportJob. For more information on datasets, see
+ * CreateDataset.
+ */
+export const listDatasetImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDatasetImportJobsRequest,
+    output: ListDatasetImportJobsResponse,
+    errors: [InvalidInputException, InvalidNextTokenException],
+  }),
+);
+/**
+ * Returns the list of datasets contained in the given dataset group. The
+ * response provides the properties for each dataset, including the Amazon
+ * Resource Name (ARN). For more information on datasets, see CreateDataset.
+ */
+export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDatasetsRequest,
+  output: ListDatasetsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+}));
+/**
+ * Returns the list of event trackers associated with the account.
+ * The response provides the properties for each event tracker, including the Amazon Resource
+ * Name (ARN) and tracking ID. For more
+ * information on event trackers, see CreateEventTracker.
+ */
+export const listEventTrackers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEventTrackersRequest,
+  output: ListEventTrackersResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+}));
+/**
+ * Lists all filters that belong to a given dataset group.
+ */
+export const listFilters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFiltersRequest,
+  output: ListFiltersResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
 }));
 /**
  * Creates an Amazon Personalize schema from the specified schema string. The schema you create
@@ -2131,62 +2087,6 @@ export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Trains or retrains an active solution in a Custom dataset group. A solution is created using the CreateSolution
- * operation and must be in the ACTIVE state before calling
- * `CreateSolutionVersion`. A new version of the solution is created every time you
- * call this operation.
- *
- * **Status**
- *
- * A solution version can be in one of the following states:
- *
- * - CREATE PENDING
- *
- * - CREATE IN_PROGRESS
- *
- * - ACTIVE
- *
- * - CREATE FAILED
- *
- * - CREATE STOPPING
- *
- * - CREATE STOPPED
- *
- * To get the status of the version, call DescribeSolutionVersion. Wait
- * until the status shows as ACTIVE before calling `CreateCampaign`.
- *
- * If the status shows as CREATE FAILED, the response includes a `failureReason`
- * key, which describes why the job failed.
- *
- * **Related APIs**
- *
- * - ListSolutionVersions
- *
- * - DescribeSolutionVersion
- *
- * - ListSolutions
- *
- * - CreateSolution
- *
- * - DescribeSolution
- *
- * - DeleteSolution
- */
-export const createSolutionVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSolutionVersionRequest,
-    output: CreateSolutionVersionResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
  * Removes a campaign by deleting the solution deployment. The solution that
  * the campaign is based on is not deleted and can be redeployed when needed. A deleted campaign can no
  * longer be specified in a
@@ -2204,231 +2104,7 @@ export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a dataset. You can't delete a dataset if an associated
- * `DatasetImportJob` or `SolutionVersion` is in the
- * CREATE PENDING or IN PROGRESS state. For more information about deleting datasets,
- * see Deleting a dataset.
- */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatasetRequest,
-  output: DeleteDatasetResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes a dataset group. Before you delete a dataset group, you must
- * delete the following:
- *
- * - All associated event trackers.
- *
- * - All associated solutions.
- *
- * - All datasets in the dataset group.
- */
-export const deleteDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDatasetGroupRequest,
-  output: DeleteDatasetGroupResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Get a list of tags attached to a resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Starts a recommender that is INACTIVE. Starting a recommender does not
- * create any new models, but resumes billing and automatic retraining for the recommender.
- */
-export const startRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartRecommenderRequest,
-  output: StartRecommenderResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
- */
-export const stopRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopRecommenderRequest,
-  output: StopRecommenderResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Add a list of tags to a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Removes the specified tags that are attached to a resource. For more information, see Removing tags from Amazon Personalize resources.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyTagKeysException,
-  ],
-}));
-/**
- * Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's `minProvisionedTPS`,
- * or modify your campaign's configuration. For example, you can set `enableMetadataWithRecommendations` to true for an existing campaign.
- *
- * To update a campaign to start automatically using the latest solution version, specify the following:
- *
- * - For the `SolutionVersionArn` parameter, specify the Amazon Resource Name (ARN) of your solution in
- * `SolutionArn/$LATEST` format.
- *
- * - In the `campaignConfig`, set `syncWithLatestSolutionVersion` to `true`.
- *
- * To update a campaign, the campaign status must be ACTIVE or CREATE FAILED.
- * Check the campaign status using the DescribeCampaign operation.
- *
- * You can still get recommendations from a campaign while an update is in progress.
- * The campaign will use the previous solution version and campaign configuration to generate recommendations until the latest campaign update status is `Active`.
- *
- * For more information about updating a campaign, including code samples, see Updating a campaign.
- * For more information about campaigns, see Creating a campaign.
- */
-export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCampaignRequest,
-  output: UpdateCampaignResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema.
- */
-export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDatasetRequest,
-  output: UpdateDatasetResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates a metric attribution.
- */
-export const updateMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMetricAttributionRequest,
-    output: UpdateMetricAttributionResponse,
-    errors: [
-      InvalidInputException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
-/**
- * Updates the recommender to modify the recommender configuration.
- * If you update the recommender to modify the columns used in training, Amazon Personalize automatically starts a full retraining of
- * the models backing your recommender. While the update completes, you can still get recommendations from the recommender. The recommender
- * uses the previous configuration until the update completes.
- * To track the status of this update,
- * use the `latestRecommenderUpdate` returned in the DescribeRecommender
- * operation.
- */
-export const updateRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRecommenderRequest,
-  output: UpdateRecommenderResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates a batch segment job. The operation can handle up to 50 million records and the
- * input file must be in JSON format. For more information, see
- * Getting batch recommendations and user segments.
- */
-export const createBatchSegmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBatchSegmentJobRequest,
-    output: CreateBatchSegmentJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
- * You incur campaign costs while it is active. To avoid unnecessary costs, make sure to delete the campaign when you are finished. For information about campaign
- * costs, see Amazon Personalize pricing.
- *
- * Creates a campaign that deploys a solution version. When a client calls the
- * GetRecommendations
- * and
- * GetPersonalizedRanking
- * APIs, a campaign is specified in the request.
- *
- * **Minimum Provisioned TPS and Auto-Scaling**
- *
- * A high `minProvisionedTPS` will increase your cost. We recommend starting with 1 for `minProvisionedTPS` (the default). Track
- * your usage using Amazon CloudWatch metrics, and increase the `minProvisionedTPS`
- * as necessary.
- *
- * When you create an Amazon Personalize campaign, you can specify the minimum provisioned transactions per second
- * (`minProvisionedTPS`) for the campaign. This is the baseline transaction throughput for the campaign provisioned by
- * Amazon Personalize. It sets the minimum billing charge for the campaign while it is active. A transaction is a single `GetRecommendations` or
- * `GetPersonalizedRanking` request. The default `minProvisionedTPS` is 1.
- *
- * If your TPS increases beyond the `minProvisionedTPS`, Amazon Personalize auto-scales the provisioned capacity up
- * and down, but never below `minProvisionedTPS`.
- * There's a short time delay while the capacity is increased
- * that might cause loss of transactions. When your traffic reduces, capacity returns to the `minProvisionedTPS`.
- *
- * You are charged for the
- * the minimum provisioned TPS or, if your requests exceed the `minProvisionedTPS`, the actual TPS.
- * The actual TPS is the total number of recommendation requests you make.
- * We recommend starting with a low `minProvisionedTPS`, track
- * your usage using Amazon CloudWatch metrics, and then increase the `minProvisionedTPS` as necessary.
- *
- * For more information about campaign costs, see Amazon Personalize pricing.
- *
- * **Status**
+ * Describes the given campaign, including its status.
  *
  * A campaign can be in one of the following states:
  *
@@ -2436,252 +2112,75 @@ export const createBatchSegmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - DELETE PENDING > DELETE IN_PROGRESS
  *
- * To get the campaign status, call DescribeCampaign.
+ * When the `status` is `CREATE FAILED`, the response includes the
+ * `failureReason` key, which describes why.
  *
- * Wait until the `status` of the campaign
- * is `ACTIVE` before asking the campaign for recommendations.
- *
- * **Related APIs**
- *
- * - ListCampaigns
- *
- * - DescribeCampaign
- *
- * - UpdateCampaign
- *
- * - DeleteCampaign
+ * For more information on campaigns, see CreateCampaign.
  */
-export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCampaignRequest,
-  output: CreateCampaignResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
+export const describeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCampaignRequest,
+  output: DescribeCampaignResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
 }));
 /**
- * Creates a batch job that deletes all
- * references to specific users from an Amazon Personalize dataset group in batches. You specify the users to delete in a CSV file of userIds in
- * an Amazon S3 bucket. After a job completes, Amazon Personalize no longer trains
- * on the users’ data and no longer considers the users when generating user segments.
- * For more information about creating a data deletion job, see Deleting users.
- *
- * - Your input file must be a CSV file with a single USER_ID column that lists the users IDs. For more information
- * about preparing the CSV file, see Preparing your data deletion file and uploading it to Amazon S3.
- *
- * - To give Amazon Personalize permission to access your input CSV file of userIds, you must specify an IAM service role that has permission to
- * read from the data source. This role
- * needs `GetObject` and `ListBucket` permissions for the bucket and its content.
- * These permissions are the same as importing data. For information on granting access to your Amazon S3
- * bucket, see Giving
- * Amazon Personalize Access to Amazon S3 Resources.
- *
- * After you create a job, it can take up to a day to delete all references to the users from datasets and models. Until the job completes,
- * Amazon Personalize continues to use the data when training. And if you use a User Segmentation recipe, the users might appear in user segments.
- *
- * **Status**
- *
- * A data deletion job can have one of the following statuses:
- *
- * - PENDING > IN_PROGRESS > COMPLETED -or- FAILED
- *
- * To get the status of the data deletion job, call DescribeDataDeletionJob API operation and specify the Amazon Resource Name
- * (ARN) of the job. If the status is FAILED, the response
- * includes a `failureReason` key, which describes why the job
- * failed.
- *
- * **Related APIs**
- *
- * - ListDataDeletionJobs
- *
- * - DescribeDataDeletionJob
+ * Describes the given dataset. For more information on datasets, see
+ * CreateDataset.
  */
-export const createDataDeletionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataDeletionJobRequest,
-    output: CreateDataDeletionJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDatasetRequest,
+  output: DescribeDatasetResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
- * Creates an empty dataset and adds it to the specified dataset group.
- * Use CreateDatasetImportJob to import your training data to a
- * dataset.
+ * Describes the given feature transformation.
+ */
+export const describeFeatureTransformation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeFeatureTransformationRequest,
+    output: DescribeFeatureTransformationResponse,
+    errors: [InvalidInputException, ResourceNotFoundException],
+  }));
+/**
+ * Describes the given recommender, including its status.
  *
- * There are 5 types of datasets:
+ * A recommender can be in one of the following states:
  *
- * - Item interactions
+ * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
  *
- * - Items
- *
- * - Users
- *
- * - Action interactions
- *
- * - Actions
- *
- * Each dataset type has an associated schema with required field types.
- * Only the `Item interactions` dataset is required in order to train a
- * model (also referred to as creating a solution).
- *
- * A dataset can be in one of the following states:
- *
- * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE
- * FAILED
+ * - STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE
  *
  * - DELETE PENDING > DELETE IN_PROGRESS
  *
- * To get the status of the dataset, call DescribeDataset.
+ * When the `status` is `CREATE FAILED`, the response includes the
+ * `failureReason` key, which describes why.
  *
- * **Related APIs**
+ * The `modelMetrics` key is null when
+ * the recommender is being created or deleted.
  *
- * - CreateDatasetGroup
- *
- * - ListDatasets
- *
- * - DescribeDataset
- *
- * - DeleteDataset
+ * For more information on recommenders, see CreateRecommender.
  */
-export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDatasetRequest,
-  output: CreateDatasetResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
+export const describeRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRecommenderRequest,
+  output: DescribeRecommenderResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
 }));
 /**
- * Creates a job that exports data from your dataset to an Amazon S3 bucket.
- * To allow Amazon Personalize to export the training data, you must specify an
- * service-linked IAM role that gives Amazon Personalize `PutObject`
- * permissions for your Amazon S3 bucket. For information, see Exporting a dataset in the Amazon Personalize developer guide.
- *
- * **Status**
- *
- * A dataset export job can be in one of the following states:
- *
- * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE
- * FAILED
- *
- * To get the status of the export job, call DescribeDatasetExportJob, and specify the Amazon Resource Name
- * (ARN) of the dataset export job. The dataset export is complete when the
- * status shows as ACTIVE. If the status shows as CREATE FAILED, the response
- * includes a `failureReason` key, which describes why the job
- * failed.
+ * Describes a solution.
+ * For more information on solutions, see CreateSolution.
  */
-export const createDatasetExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDatasetExportJobRequest,
-    output: CreateDatasetExportJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
-/**
- * Creates an empty dataset group. A dataset group is a container for
- * Amazon Personalize resources. A dataset group can contain at most three datasets, one
- * for each type of dataset:
- *
- * - Item interactions
- *
- * - Items
- *
- * - Users
- *
- * - Actions
- *
- * - Action interactions
- *
- * A dataset group can be a Domain dataset group, where you specify a
- * domain and use pre-configured resources like recommenders, or a
- * Custom dataset group, where you use custom resources, such as a solution
- * with a solution version, that you deploy with a campaign. If you start
- * with a Domain dataset group, you can still add custom resources such as
- * solutions and solution versions trained with recipes for custom use cases
- * and deployed with campaigns.
- *
- * A dataset group can be in one of the following states:
- *
- * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE
- * FAILED
- *
- * - DELETE PENDING
- *
- * To get the status of the dataset group, call DescribeDatasetGroup. If the status shows as CREATE FAILED, the
- * response includes a `failureReason` key, which describes why
- * the creation failed.
- *
- * You must wait until the `status` of the dataset group is
- * `ACTIVE` before adding a dataset to the group.
- *
- * You can specify an Key Management Service (KMS) key to encrypt the datasets in
- * the group. If you specify a KMS key, you must also include an Identity and Access Management
- * (IAM) role that has permission to access the key.
- *
- * **APIs that require a dataset group ARN in the request**
- *
- * - CreateDataset
- *
- * - CreateEventTracker
- *
- * - CreateSolution
- *
- * **Related APIs**
- *
- * - ListDatasetGroups
- *
- * - DescribeDatasetGroup
- *
- * - DeleteDatasetGroup
- */
-export const createDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDatasetGroupRequest,
-  output: CreateDatasetGroupResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    TooManyTagsException,
-  ],
+export const describeSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSolutionRequest,
+  output: DescribeSolutionResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
 }));
 /**
- * Creates a metric attribution.
- * A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3.
- * For more information, see Measuring impact of recommendations.
+ * Describes a specific version of a solution. For more information on solutions, see CreateSolution
  */
-export const createMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeSolutionVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateMetricAttributionRequest,
-    output: CreateMetricAttributionResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
+    input: DescribeSolutionVersionRequest,
+    output: DescribeSolutionVersionResponse,
+    errors: [InvalidInputException, ResourceNotFoundException],
   }),
 );
 /**
@@ -2824,184 +2323,6 @@ export const getSolutionMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Gets a list of the batch inference jobs that have been performed off of a solution
- * version.
- */
-export const listBatchInferenceJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBatchInferenceJobsRequest,
-    output: ListBatchInferenceJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-  }),
-);
-/**
- * Gets a list of the batch segment jobs that have been performed off of a solution
- * version that you specify.
- */
-export const listBatchSegmentJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBatchSegmentJobsRequest,
-    output: ListBatchSegmentJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-  }),
-);
-/**
- * Returns a list of campaigns that use the given solution.
- * When a solution is not specified, all the campaigns associated with the account are listed.
- * The response provides the properties for each campaign, including the Amazon Resource Name (ARN).
- * For more information on campaigns, see CreateCampaign.
- */
-export const listCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListCampaignsRequest,
-  output: ListCampaignsResponse,
-  errors: [InvalidInputException, InvalidNextTokenException],
-}));
-/**
- * Returns a list of data deletion jobs for a dataset group ordered by creation time,
- * with the most recent first.
- * When
- * a dataset group is not specified, all the data deletion jobs associated with
- * the account are listed. The response provides the properties for each
- * job, including the Amazon Resource Name (ARN). For more
- * information on data deletion jobs, see Deleting users.
- */
-export const listDataDeletionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDataDeletionJobsRequest,
-    output: ListDataDeletionJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-  }),
-);
-/**
- * Returns a list of dataset export jobs that use the given dataset. When
- * a dataset is not specified, all the dataset export jobs associated with
- * the account are listed. The response provides the properties for each
- * dataset export job, including the Amazon Resource Name (ARN). For more
- * information on dataset export jobs, see CreateDatasetExportJob. For more information on datasets, see
- * CreateDataset.
- */
-export const listDatasetExportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDatasetExportJobsRequest,
-    output: ListDatasetExportJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-  }),
-);
-/**
- * Returns a list of dataset groups. The response provides the properties
- * for each dataset group, including the Amazon Resource Name (ARN). For more
- * information on dataset groups, see CreateDatasetGroup.
- */
-export const listDatasetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDatasetGroupsRequest,
-  output: ListDatasetGroupsResponse,
-  errors: [InvalidNextTokenException],
-}));
-/**
- * Returns a list of dataset import jobs that use the given dataset. When
- * a dataset is not specified, all the dataset import jobs associated with
- * the account are listed. The response provides the properties for each
- * dataset import job, including the Amazon Resource Name (ARN). For more
- * information on dataset import jobs, see CreateDatasetImportJob. For more information on datasets, see
- * CreateDataset.
- */
-export const listDatasetImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDatasetImportJobsRequest,
-    output: ListDatasetImportJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-  }),
-);
-/**
- * Returns the list of datasets contained in the given dataset group. The
- * response provides the properties for each dataset, including the Amazon
- * Resource Name (ARN). For more information on datasets, see CreateDataset.
- */
-export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDatasetsRequest,
-  output: ListDatasetsResponse,
-  errors: [InvalidInputException, InvalidNextTokenException],
-}));
-/**
- * Returns the list of event trackers associated with the account.
- * The response provides the properties for each event tracker, including the Amazon Resource
- * Name (ARN) and tracking ID. For more
- * information on event trackers, see CreateEventTracker.
- */
-export const listEventTrackers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEventTrackersRequest,
-  output: ListEventTrackersResponse,
-  errors: [InvalidInputException, InvalidNextTokenException],
-}));
-/**
- * Lists all filters that belong to a given dataset group.
- */
-export const listFilters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFiltersRequest,
-  output: ListFiltersResponse,
-  errors: [InvalidInputException, InvalidNextTokenException],
-}));
-/**
- * Lists the metrics for the metric attribution.
- */
-export const listMetricAttributionMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListMetricAttributionMetricsRequest,
-    output: ListMetricAttributionMetricsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-  }));
-/**
- * Lists metric attributions.
- */
-export const listMetricAttributions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMetricAttributionsRequest,
-    output: ListMetricAttributionsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-  }),
-);
-/**
- * Returns a list of available recipes. The response provides the properties
- * for each recipe, including the recipe's Amazon Resource Name (ARN).
- */
-export const listRecipes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRecipesRequest,
-  output: ListRecipesResponse,
-  errors: [InvalidInputException, InvalidNextTokenException],
-}));
-/**
- * Returns a list of recommenders in a given Domain dataset group.
- * When a Domain dataset group is not specified, all the recommenders associated with the account are listed.
- * The response provides the properties for each recommender, including the Amazon Resource Name (ARN).
- * For more information on recommenders, see CreateRecommender.
- */
-export const listRecommenders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRecommendersRequest,
-  output: ListRecommendersResponse,
-  errors: [InvalidInputException, InvalidNextTokenException],
-}));
-/**
- * Returns the list of schemas associated with the account. The response provides the
- * properties for each schema, including the Amazon Resource Name (ARN).
- * For more information on schemas, see CreateSchema.
- */
-export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSchemasRequest,
-  output: ListSchemasResponse,
-  errors: [InvalidNextTokenException],
-}));
-/**
- * Returns a list of solutions in a given dataset group.
- * When a dataset group is not specified, all the solutions associated with the account are listed.
- * The response provides the properties for each solution, including the Amazon Resource Name (ARN).
- * For more information on solutions, see CreateSolution.
- */
-export const listSolutions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListSolutionsRequest,
-  output: ListSolutionsResponse,
-  errors: [InvalidInputException, InvalidNextTokenException],
-}));
-/**
  * Returns a list of solution versions for the given solution. When a solution is not
  * specified, all the solution versions associated with the account are listed. The response
  * provides the properties for each solution version, including the Amazon Resource Name (ARN).
@@ -3013,6 +2334,279 @@ export const listSolutionVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [
       InvalidInputException,
       InvalidNextTokenException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates a metric attribution.
+ */
+export const updateMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateMetricAttributionRequest,
+    output: UpdateMetricAttributionResponse,
+    errors: [
+      InvalidInputException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Get a list of tags attached to a resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Starts a recommender that is INACTIVE. Starting a recommender does not
+ * create any new models, but resumes billing and automatic retraining for the recommender.
+ */
+export const startRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartRecommenderRequest,
+  output: StartRecommenderResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
+ */
+export const stopRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopRecommenderRequest,
+  output: StopRecommenderResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's `minProvisionedTPS`,
+ * or modify your campaign's configuration. For example, you can set `enableMetadataWithRecommendations` to true for an existing campaign.
+ *
+ * To update a campaign to start automatically using the latest solution version, specify the following:
+ *
+ * - For the `SolutionVersionArn` parameter, specify the Amazon Resource Name (ARN) of your solution in
+ * `SolutionArn/$LATEST` format.
+ *
+ * - In the `campaignConfig`, set `syncWithLatestSolutionVersion` to `true`.
+ *
+ * To update a campaign, the campaign status must be ACTIVE or CREATE FAILED.
+ * Check the campaign status using the DescribeCampaign operation.
+ *
+ * You can still get recommendations from a campaign while an update is in progress.
+ * The campaign will use the previous solution version and campaign configuration to generate recommendations until the latest campaign update status is `Active`.
+ *
+ * For more information about updating a campaign, including code samples, see Updating a campaign.
+ * For more information about campaigns, see Creating a campaign.
+ */
+export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCampaignRequest,
+  output: UpdateCampaignResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema.
+ */
+export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDatasetRequest,
+  output: UpdateDatasetResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates the recommender to modify the recommender configuration.
+ * If you update the recommender to modify the columns used in training, Amazon Personalize automatically starts a full retraining of
+ * the models backing your recommender. While the update completes, you can still get recommendations from the recommender. The recommender
+ * uses the previous configuration until the update completes.
+ * To track the status of this update,
+ * use the `latestRecommenderUpdate` returned in the DescribeRecommender
+ * operation.
+ */
+export const updateRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRecommenderRequest,
+  output: UpdateRecommenderResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes a dataset. You can't delete a dataset if an associated
+ * `DatasetImportJob` or `SolutionVersion` is in the
+ * CREATE PENDING or IN PROGRESS state. For more information about deleting datasets,
+ * see Deleting a dataset.
+ */
+export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetRequest,
+  output: DeleteDatasetResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes a dataset group. Before you delete a dataset group, you must
+ * delete the following:
+ *
+ * - All associated event trackers.
+ *
+ * - All associated solutions.
+ *
+ * - All datasets in the dataset group.
+ */
+export const deleteDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetGroupRequest,
+  output: DeleteDatasetGroupResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes the event tracker. Does not delete the dataset from
+ * the dataset group. For more
+ * information on event trackers, see CreateEventTracker.
+ */
+export const deleteEventTracker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventTrackerRequest,
+  output: DeleteEventTrackerResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes a filter.
+ */
+export const deleteFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFilterRequest,
+  output: DeleteFilterResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes a metric attribution.
+ */
+export const deleteMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMetricAttributionRequest,
+    output: DeleteMetricAttributionResponse,
+    errors: [
+      InvalidInputException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Deactivates and removes a recommender. A deleted recommender can no longer be specified in a GetRecommendations
+ * request.
+ */
+export const deleteRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRecommenderRequest,
+  output: DeleteRecommenderResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes a schema. Before deleting a schema, you must delete all
+ * datasets referencing the schema. For more information on schemas, see
+ * CreateSchema.
+ */
+export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSchemaRequest,
+  output: DeleteSchemaResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Deletes all versions of a solution and the `Solution` object itself.
+ * Before deleting a solution, you must delete all campaigns based on
+ * the solution. To determine what campaigns are using the solution, call
+ * ListCampaigns and supply the Amazon Resource Name (ARN) of the solution.
+ * You can't delete a solution if an associated `SolutionVersion` is in the
+ * CREATE PENDING or IN PROGRESS state.
+ * For more information on solutions, see CreateSolution.
+ */
+export const deleteSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSolutionRequest,
+  output: DeleteSolutionResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Stops creating a solution version that is in a state of CREATE_PENDING or CREATE IN_PROGRESS.
+ *
+ * Depending on the current state of the solution version, the solution version state changes as follows:
+ *
+ * - CREATE_PENDING > CREATE_STOPPED
+ *
+ * or
+ *
+ * - CREATE_IN_PROGRESS > CREATE_STOPPING > CREATE_STOPPED
+ *
+ * You are billed for all of the training completed up
+ * until you stop the solution version creation. You cannot resume creating a solution version once it has been stopped.
+ */
+export const stopSolutionVersionCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StopSolutionVersionCreationRequest,
+    output: StopSolutionVersionCreationResponse,
+    errors: [
+      InvalidInputException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+    ],
+  }),
+);
+/**
+ * Creates a metric attribution.
+ * A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3.
+ * For more information, see Measuring impact of recommendations.
+ */
+export const createMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateMetricAttributionRequest,
+    output: CreateMetricAttributionResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
       ResourceNotFoundException,
     ],
   }),
@@ -3042,6 +2636,479 @@ export const updateSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ResourceNotFoundException,
   ],
 }));
+/**
+ * Creates an empty dataset group. A dataset group is a container for
+ * Amazon Personalize resources. A dataset group can contain at most three datasets, one
+ * for each type of dataset:
+ *
+ * - Item interactions
+ *
+ * - Items
+ *
+ * - Users
+ *
+ * - Actions
+ *
+ * - Action interactions
+ *
+ * A dataset group can be a Domain dataset group, where you specify a
+ * domain and use pre-configured resources like recommenders, or a
+ * Custom dataset group, where you use custom resources, such as a solution
+ * with a solution version, that you deploy with a campaign. If you start
+ * with a Domain dataset group, you can still add custom resources such as
+ * solutions and solution versions trained with recipes for custom use cases
+ * and deployed with campaigns.
+ *
+ * A dataset group can be in one of the following states:
+ *
+ * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE
+ * FAILED
+ *
+ * - DELETE PENDING
+ *
+ * To get the status of the dataset group, call DescribeDatasetGroup. If the status shows as CREATE FAILED, the
+ * response includes a `failureReason` key, which describes why
+ * the creation failed.
+ *
+ * You must wait until the `status` of the dataset group is
+ * `ACTIVE` before adding a dataset to the group.
+ *
+ * You can specify an Key Management Service (KMS) key to encrypt the datasets in
+ * the group. If you specify a KMS key, you must also include an Identity and Access Management
+ * (IAM) role that has permission to access the key.
+ *
+ * **APIs that require a dataset group ARN in the request**
+ *
+ * - CreateDataset
+ *
+ * - CreateEventTracker
+ *
+ * - CreateSolution
+ *
+ * **Related APIs**
+ *
+ * - ListDatasetGroups
+ *
+ * - DescribeDatasetGroup
+ *
+ * - DeleteDatasetGroup
+ */
+export const createDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatasetGroupRequest,
+  output: CreateDatasetGroupResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Add a list of tags to a resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Creates an empty dataset and adds it to the specified dataset group.
+ * Use CreateDatasetImportJob to import your training data to a
+ * dataset.
+ *
+ * There are 5 types of datasets:
+ *
+ * - Item interactions
+ *
+ * - Items
+ *
+ * - Users
+ *
+ * - Action interactions
+ *
+ * - Actions
+ *
+ * Each dataset type has an associated schema with required field types.
+ * Only the `Item interactions` dataset is required in order to train a
+ * model (also referred to as creating a solution).
+ *
+ * A dataset can be in one of the following states:
+ *
+ * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE
+ * FAILED
+ *
+ * - DELETE PENDING > DELETE IN_PROGRESS
+ *
+ * To get the status of the dataset, call DescribeDataset.
+ *
+ * **Related APIs**
+ *
+ * - CreateDatasetGroup
+ *
+ * - ListDatasets
+ *
+ * - DescribeDataset
+ *
+ * - DeleteDataset
+ */
+export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatasetRequest,
+  output: CreateDatasetResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Creates a job that imports training data from your data source (an
+ * Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the
+ * training data, you must specify an IAM service role that has permission to
+ * read from the data source, as Amazon Personalize makes a copy of your data and
+ * processes it internally. For information on granting access to your Amazon S3
+ * bucket, see Giving
+ * Amazon Personalize Access to Amazon S3 Resources.
+ *
+ * If you already created a recommender or deployed a custom solution version with a campaign, how new bulk records
+ * influence recommendations depends on the domain use case or recipe that you use. For more information, see How new data influences
+ * real-time recommendations.
+ *
+ * By default, a dataset import job replaces any existing data in the
+ * dataset that you imported in bulk. To add new records without replacing
+ * existing data, specify INCREMENTAL for the import mode in the
+ * CreateDatasetImportJob operation.
+ *
+ * **Status**
+ *
+ * A dataset import job can be in one of the following states:
+ *
+ * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE
+ * FAILED
+ *
+ * To get the status of the import job, call DescribeDatasetImportJob, providing the Amazon Resource Name
+ * (ARN) of the dataset import job. The dataset import is complete when the
+ * status shows as ACTIVE. If the status shows as CREATE FAILED, the response
+ * includes a `failureReason` key, which describes why the job
+ * failed.
+ *
+ * Importing takes time. You must wait until the status shows as ACTIVE
+ * before training a model using the dataset.
+ *
+ * **Related APIs**
+ *
+ * - ListDatasetImportJobs
+ *
+ * - DescribeDatasetImportJob
+ */
+export const createDatasetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDatasetImportJobRequest,
+    output: CreateDatasetImportJobResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      TooManyTagsException,
+    ],
+  }),
+);
+/**
+ * Creates an event tracker that you use when adding event data to a specified dataset
+ * group using the
+ * PutEvents API.
+ *
+ * Only one event tracker can be associated with a dataset group. You will get
+ * an error if you call `CreateEventTracker` using the same dataset group as an
+ * existing event tracker.
+ *
+ * When you create an event tracker, the response includes a tracking ID, which you pass as a parameter when you use the
+ * PutEvents operation.
+ * Amazon Personalize then appends the event data to the Item interactions dataset of the dataset group you specify
+ * in your event tracker.
+ *
+ * The event tracker can be in one of the following states:
+ *
+ * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+ *
+ * - DELETE PENDING > DELETE IN_PROGRESS
+ *
+ * To get the status of the event tracker, call DescribeEventTracker.
+ *
+ * The event tracker must be in the ACTIVE state before using the tracking ID.
+ *
+ * **Related APIs**
+ *
+ * - ListEventTrackers
+ *
+ * - DescribeEventTracker
+ *
+ * - DeleteEventTracker
+ */
+export const createEventTracker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEventTrackerRequest,
+  output: CreateEventTrackerResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Creates a recommendation filter. For more information, see Filtering recommendations and user segments.
+ */
+export const createFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFilterRequest,
+  output: CreateFilterResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Trains or retrains an active solution in a Custom dataset group. A solution is created using the CreateSolution
+ * operation and must be in the ACTIVE state before calling
+ * `CreateSolutionVersion`. A new version of the solution is created every time you
+ * call this operation.
+ *
+ * **Status**
+ *
+ * A solution version can be in one of the following states:
+ *
+ * - CREATE PENDING
+ *
+ * - CREATE IN_PROGRESS
+ *
+ * - ACTIVE
+ *
+ * - CREATE FAILED
+ *
+ * - CREATE STOPPING
+ *
+ * - CREATE STOPPED
+ *
+ * To get the status of the version, call DescribeSolutionVersion. Wait
+ * until the status shows as ACTIVE before calling `CreateCampaign`.
+ *
+ * If the status shows as CREATE FAILED, the response includes a `failureReason`
+ * key, which describes why the job failed.
+ *
+ * **Related APIs**
+ *
+ * - ListSolutionVersions
+ *
+ * - DescribeSolutionVersion
+ *
+ * - ListSolutions
+ *
+ * - CreateSolution
+ *
+ * - DescribeSolution
+ *
+ * - DeleteSolution
+ */
+export const createSolutionVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateSolutionVersionRequest,
+    output: CreateSolutionVersionResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      TooManyTagsException,
+    ],
+  }),
+);
+/**
+ * Creates a batch segment job. The operation can handle up to 50 million records and the
+ * input file must be in JSON format. For more information, see
+ * Getting batch recommendations and user segments.
+ */
+export const createBatchSegmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateBatchSegmentJobRequest,
+    output: CreateBatchSegmentJobResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      TooManyTagsException,
+    ],
+  }),
+);
+/**
+ * You incur campaign costs while it is active. To avoid unnecessary costs, make sure to delete the campaign when you are finished. For information about campaign
+ * costs, see Amazon Personalize pricing.
+ *
+ * Creates a campaign that deploys a solution version. When a client calls the
+ * GetRecommendations
+ * and
+ * GetPersonalizedRanking
+ * APIs, a campaign is specified in the request.
+ *
+ * **Minimum Provisioned TPS and Auto-Scaling**
+ *
+ * A high `minProvisionedTPS` will increase your cost. We recommend starting with 1 for `minProvisionedTPS` (the default). Track
+ * your usage using Amazon CloudWatch metrics, and increase the `minProvisionedTPS`
+ * as necessary.
+ *
+ * When you create an Amazon Personalize campaign, you can specify the minimum provisioned transactions per second
+ * (`minProvisionedTPS`) for the campaign. This is the baseline transaction throughput for the campaign provisioned by
+ * Amazon Personalize. It sets the minimum billing charge for the campaign while it is active. A transaction is a single `GetRecommendations` or
+ * `GetPersonalizedRanking` request. The default `minProvisionedTPS` is 1.
+ *
+ * If your TPS increases beyond the `minProvisionedTPS`, Amazon Personalize auto-scales the provisioned capacity up
+ * and down, but never below `minProvisionedTPS`.
+ * There's a short time delay while the capacity is increased
+ * that might cause loss of transactions. When your traffic reduces, capacity returns to the `minProvisionedTPS`.
+ *
+ * You are charged for the
+ * the minimum provisioned TPS or, if your requests exceed the `minProvisionedTPS`, the actual TPS.
+ * The actual TPS is the total number of recommendation requests you make.
+ * We recommend starting with a low `minProvisionedTPS`, track
+ * your usage using Amazon CloudWatch metrics, and then increase the `minProvisionedTPS` as necessary.
+ *
+ * For more information about campaign costs, see Amazon Personalize pricing.
+ *
+ * **Status**
+ *
+ * A campaign can be in one of the following states:
+ *
+ * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+ *
+ * - DELETE PENDING > DELETE IN_PROGRESS
+ *
+ * To get the campaign status, call DescribeCampaign.
+ *
+ * Wait until the `status` of the campaign
+ * is `ACTIVE` before asking the campaign for recommendations.
+ *
+ * **Related APIs**
+ *
+ * - ListCampaigns
+ *
+ * - DescribeCampaign
+ *
+ * - UpdateCampaign
+ *
+ * - DeleteCampaign
+ */
+export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCampaignRequest,
+  output: CreateCampaignResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Creates a batch job that deletes all
+ * references to specific users from an Amazon Personalize dataset group in batches. You specify the users to delete in a CSV file of userIds in
+ * an Amazon S3 bucket. After a job completes, Amazon Personalize no longer trains
+ * on the users’ data and no longer considers the users when generating user segments.
+ * For more information about creating a data deletion job, see Deleting users.
+ *
+ * - Your input file must be a CSV file with a single USER_ID column that lists the users IDs. For more information
+ * about preparing the CSV file, see Preparing your data deletion file and uploading it to Amazon S3.
+ *
+ * - To give Amazon Personalize permission to access your input CSV file of userIds, you must specify an IAM service role that has permission to
+ * read from the data source. This role
+ * needs `GetObject` and `ListBucket` permissions for the bucket and its content.
+ * These permissions are the same as importing data. For information on granting access to your Amazon S3
+ * bucket, see Giving
+ * Amazon Personalize Access to Amazon S3 Resources.
+ *
+ * After you create a job, it can take up to a day to delete all references to the users from datasets and models. Until the job completes,
+ * Amazon Personalize continues to use the data when training. And if you use a User Segmentation recipe, the users might appear in user segments.
+ *
+ * **Status**
+ *
+ * A data deletion job can have one of the following statuses:
+ *
+ * - PENDING > IN_PROGRESS > COMPLETED -or- FAILED
+ *
+ * To get the status of the data deletion job, call DescribeDataDeletionJob API operation and specify the Amazon Resource Name
+ * (ARN) of the job. If the status is FAILED, the response
+ * includes a `failureReason` key, which describes why the job
+ * failed.
+ *
+ * **Related APIs**
+ *
+ * - ListDataDeletionJobs
+ *
+ * - DescribeDataDeletionJob
+ */
+export const createDataDeletionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDataDeletionJobRequest,
+    output: CreateDataDeletionJobResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      TooManyTagsException,
+    ],
+  }),
+);
+/**
+ * Creates a job that exports data from your dataset to an Amazon S3 bucket.
+ * To allow Amazon Personalize to export the training data, you must specify an
+ * service-linked IAM role that gives Amazon Personalize `PutObject`
+ * permissions for your Amazon S3 bucket. For information, see Exporting a dataset in the Amazon Personalize developer guide.
+ *
+ * **Status**
+ *
+ * A dataset export job can be in one of the following states:
+ *
+ * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE
+ * FAILED
+ *
+ * To get the status of the export job, call DescribeDatasetExportJob, and specify the Amazon Resource Name
+ * (ARN) of the dataset export job. The dataset export is complete when the
+ * status shows as ACTIVE. If the status shows as CREATE FAILED, the response
+ * includes a `failureReason` key, which describes why the job
+ * failed.
+ */
+export const createDatasetExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDatasetExportJobRequest,
+    output: CreateDatasetExportJobResponse,
+    errors: [
+      InvalidInputException,
+      LimitExceededException,
+      ResourceAlreadyExistsException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      TooManyTagsException,
+    ],
+  }),
+);
 /**
  * Generates batch recommendations based on a list of items or users stored in Amazon S3
  * and exports the recommendations to an Amazon S3 bucket.
@@ -3076,86 +3143,6 @@ export const createBatchInferenceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ResourceNotFoundException,
       TooManyTagsException,
     ],
-  }),
-);
-/**
- * Describes the given campaign, including its status.
- *
- * A campaign can be in one of the following states:
- *
- * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
- *
- * - DELETE PENDING > DELETE IN_PROGRESS
- *
- * When the `status` is `CREATE FAILED`, the response includes the
- * `failureReason` key, which describes why.
- *
- * For more information on campaigns, see CreateCampaign.
- */
-export const describeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeCampaignRequest,
-  output: DescribeCampaignResponse,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Describes the given dataset. For more information on datasets, see
- * CreateDataset.
- */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDatasetRequest,
-  output: DescribeDatasetResponse,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Describes the given feature transformation.
- */
-export const describeFeatureTransformation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeFeatureTransformationRequest,
-    output: DescribeFeatureTransformationResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }));
-/**
- * Describes the given recommender, including its status.
- *
- * A recommender can be in one of the following states:
- *
- * - CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
- *
- * - STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE
- *
- * - DELETE PENDING > DELETE IN_PROGRESS
- *
- * When the `status` is `CREATE FAILED`, the response includes the
- * `failureReason` key, which describes why.
- *
- * The `modelMetrics` key is null when
- * the recommender is being created or deleted.
- *
- * For more information on recommenders, see CreateRecommender.
- */
-export const describeRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeRecommenderRequest,
-  output: DescribeRecommenderResponse,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Describes a solution.
- * For more information on solutions, see CreateSolution.
- */
-export const describeSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSolutionRequest,
-  output: DescribeSolutionResponse,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
-/**
- * Describes a specific version of a solution. For more information on solutions, see CreateSolution
- */
-export const describeSolutionVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSolutionVersionRequest,
-    output: DescribeSolutionVersionResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
   }),
 );
 /**
@@ -3233,6 +3220,19 @@ export const describeAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlgorithmRequest,
   output: DescribeAlgorithmResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Removes the specified tags that are attached to a resource. For more information, see Removing tags from Amazon Personalize resources.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagKeysException,
+  ],
 }));
 /**
  * By default, all new solutions use automatic training. With automatic training, you incur training costs while

@@ -1694,51 +1694,48 @@ export class GetAssetResponse extends S.Class<GetAssetResponse>(
 }) {}
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  {},
-) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    Message: S.String,
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
+) {}
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { Message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    Message: S.String,
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
 ) {}
 export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
-  {},
+  {
+    LimitName: S.optional(S.String),
+    LimitValue: S.optional(S.Number),
+    Message: S.String,
+  },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.String },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.String, ExceptionCause: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * This operation starts a job.
- */
-export const startJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartJobRequest,
-  output: StartJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * This operation tags a resource.
  */
@@ -1756,92 +1753,12 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * This operation accepts a data grant.
+ * This operation lists the tags on the resource.
  */
-export const acceptDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AcceptDataGrantRequest,
-  output: AcceptDataGrantResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation cancels a job. Jobs can be cancelled only when they are in the WAITING
- * state.
- */
-export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelJobRequest,
-  output: CancelJobResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation creates a revision for a data set.
- */
-export const createRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRevisionRequest,
-  output: CreateRevisionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation deletes an asset.
- */
-export const deleteAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAssetRequest,
-  output: DeleteAssetResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation deletes a data grant.
- */
-export const deleteDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDataGrantRequest,
-  output: DeleteDataGrantResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation deletes a data set.
- */
-export const deleteDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDataSetRequest,
-  output: DeleteDataSetResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [],
 }));
 /**
  * This operation deletes the event action.
@@ -1857,40 +1774,11 @@ export const deleteEventAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This operation deletes a revision.
+ * This operation returns information about a job.
  */
-export const deleteRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRevisionRequest,
-  output: DeleteRevisionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation returns information about a data grant.
- */
-export const getDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataGrantRequest,
-  output: GetDataGrantResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation returns information about a data set.
- */
-export const getDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataSetRequest,
-  output: GetDataSetResponse,
+export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJobRequest,
+  output: GetJobResponse,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1899,27 +1787,15 @@ export const getDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This operation retrieves information about an event action.
+ * The type of event associated with the data set.
  */
-export const getEventAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEventActionRequest,
-  output: GetEventActionResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation returns information about a received data grant.
- */
-export const getReceivedDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const sendDataSetNotification = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetReceivedDataGrantRequest,
-    output: GetReceivedDataGrantResponse,
+    input: SendDataSetNotificationRequest,
+    output: SendDataSetNotificationResponse,
     errors: [
       AccessDeniedException,
+      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -1928,123 +1804,15 @@ export const getReceivedDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * This operation returns information about a revision.
+ * This operation creates a data grant.
  */
-export const getRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRevisionRequest,
-  output: GetRevisionResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation lists the tags on the resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [],
-}));
-/**
- * This operation revokes subscribers' access to a revision.
- */
-export const revokeRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokeRevisionRequest,
-  output: RevokeRevisionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation invokes an API Gateway API asset. The request is proxied to the
- * provider’s API Gateway API.
- */
-export const sendApiAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendApiAssetRequest,
-  output: SendApiAssetResponse,
+export const createDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataGrantRequest,
+  output: CreateDataGrantResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation updates an asset.
- */
-export const updateAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAssetRequest,
-  output: UpdateAssetResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation updates a data set.
- */
-export const updateDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataSetRequest,
-  output: UpdateDataSetResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation updates the event action.
- */
-export const updateEventAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEventActionRequest,
-  output: UpdateEventActionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation updates a revision.
- */
-export const updateRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRevisionRequest,
-  output: UpdateRevisionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation creates a data set.
- */
-export const createDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDataSetRequest,
-  output: CreateDataSetResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
     ServiceLimitExceededException,
     ThrottlingException,
     ValidationException,
@@ -2151,30 +1919,54 @@ export const listRevisionAssets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * This operation creates a data grant.
+ * This operation returns information about a data grant.
  */
-export const createDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDataGrantRequest,
-  output: CreateDataGrantResponse,
+export const getDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataGrantRequest,
+  output: GetDataGrantResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceLimitExceededException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * The type of event associated with the data set.
+ * This operation returns information about a data set.
  */
-export const sendDataSetNotification = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataSetRequest,
+  output: GetDataSetResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation retrieves information about an event action.
+ */
+export const getEventAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEventActionRequest,
+  output: GetEventActionResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation returns information about a received data grant.
+ */
+export const getReceivedDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: SendDataSetNotificationRequest,
-    output: SendDataSetNotificationResponse,
+    input: GetReceivedDataGrantRequest,
+    output: GetReceivedDataGrantResponse,
     errors: [
       AccessDeniedException,
-      ConflictException,
       InternalServerException,
       ResourceNotFoundException,
       ThrottlingException,
@@ -2182,6 +1974,239 @@ export const sendDataSetNotification = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * This operation returns information about a revision.
+ */
+export const getRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRevisionRequest,
+  output: GetRevisionResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation revokes subscribers' access to a revision.
+ */
+export const revokeRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeRevisionRequest,
+  output: RevokeRevisionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation invokes an API Gateway API asset. The request is proxied to the
+ * provider’s API Gateway API.
+ */
+export const sendApiAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendApiAssetRequest,
+  output: SendApiAssetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation updates an asset.
+ */
+export const updateAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssetRequest,
+  output: UpdateAssetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation updates a data set.
+ */
+export const updateDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataSetRequest,
+  output: UpdateDataSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation updates the event action.
+ */
+export const updateEventAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEventActionRequest,
+  output: UpdateEventActionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation updates a revision.
+ */
+export const updateRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRevisionRequest,
+  output: UpdateRevisionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation deletes a data grant.
+ */
+export const deleteDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataGrantRequest,
+  output: DeleteDataGrantResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation deletes a data set.
+ */
+export const deleteDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataSetRequest,
+  output: DeleteDataSetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation deletes a revision.
+ */
+export const deleteRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRevisionRequest,
+  output: DeleteRevisionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation starts a job.
+ */
+export const startJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartJobRequest,
+  output: StartJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation accepts a data grant.
+ */
+export const acceptDataGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptDataGrantRequest,
+  output: AcceptDataGrantResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation creates a revision for a data set.
+ */
+export const createRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRevisionRequest,
+  output: CreateRevisionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation cancels a job. Jobs can be cancelled only when they are in the WAITING
+ * state.
+ */
+export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelJobRequest,
+  output: CancelJobResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation deletes an asset.
+ */
+export const deleteAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssetRequest,
+  output: DeleteAssetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation creates a data set.
+ */
+export const createDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataSetRequest,
+  output: CreateDataSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This operation creates an event action.
  */
@@ -2192,19 +2217,6 @@ export const createEventAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalServerException,
     ServiceLimitExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation returns information about a job.
- */
-export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJobRequest,
-  output: GetJobResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

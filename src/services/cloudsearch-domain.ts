@@ -401,7 +401,7 @@ export class DocumentServiceException extends S.TaggedError<DocumentServiceExcep
 ) {}
 export class SearchException extends S.TaggedError<SearchException>()(
   "SearchException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -417,6 +417,18 @@ export const uploadDocuments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadDocumentsRequest,
   output: UploadDocumentsResponse,
   errors: [DocumentServiceException],
+}));
+/**
+ * Retrieves autocomplete suggestions for a partial query string. You can use suggestions enable you to display likely matches before users finish typing. In Amazon CloudSearch, suggestions are based on the contents of a particular text field. When you request suggestions, Amazon CloudSearch finds all of the documents whose values in the suggester field start with the specified query string. The beginning of the field must match the query string to be considered a match.
+ *
+ * For more information about configuring suggesters and retrieving suggestions, see Getting Suggestions in the *Amazon CloudSearch Developer Guide*.
+ *
+ * The endpoint for submitting `Suggest` requests is domain-specific. You submit suggest requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
+ */
+export const suggest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SuggestRequest,
+  output: SuggestResponse,
+  errors: [SearchException],
 }));
 /**
  * Retrieves a list of documents that match the specified search criteria. How you specify the search criteria depends on which query parser you use. Amazon CloudSearch supports four query parsers:
@@ -436,17 +448,5 @@ export const uploadDocuments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 export const search = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchRequest,
   output: SearchResponse,
-  errors: [SearchException],
-}));
-/**
- * Retrieves autocomplete suggestions for a partial query string. You can use suggestions enable you to display likely matches before users finish typing. In Amazon CloudSearch, suggestions are based on the contents of a particular text field. When you request suggestions, Amazon CloudSearch finds all of the documents whose values in the suggester field start with the specified query string. The beginning of the field must match the query string to be considered a match.
- *
- * For more information about configuring suggesters and retrieving suggestions, see Getting Suggestions in the *Amazon CloudSearch Developer Guide*.
- *
- * The endpoint for submitting `Suggest` requests is domain-specific. You submit suggest requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
- */
-export const suggest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SuggestRequest,
-  output: SuggestResponse,
   errors: [SearchException],
 }));

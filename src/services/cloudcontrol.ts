@@ -404,55 +404,8 @@ export class ListResourceRequestsOutput extends S.Class<ListResourceRequestsOutp
 //# Errors
 export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
   "AlreadyExistsException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "AlreadyExistsException", httpResponseCode: 400 }),
-) {}
-export class ClientTokenConflictException extends S.TaggedError<ClientTokenConflictException>()(
-  "ClientTokenConflictException",
-  {},
-  T.AwsQueryError({
-    code: "ClientTokenConflictException",
-    httpResponseCode: 409,
-  }),
-) {}
-export class ConcurrentOperationException extends S.TaggedError<ConcurrentOperationException>()(
-  "ConcurrentOperationException",
-  {},
-  T.AwsQueryError({
-    code: "ConcurrentOperationException",
-    httpResponseCode: 409,
-  }),
-) {}
-export class GeneralServiceException extends S.TaggedError<GeneralServiceException>()(
-  "GeneralServiceException",
-  {},
-  T.AwsQueryError({ code: "GeneralServiceException", httpResponseCode: 400 }),
-) {}
-export class HandlerFailureException extends S.TaggedError<HandlerFailureException>()(
-  "HandlerFailureException",
-  {},
-  T.AwsQueryError({ code: "HandlerFailureException", httpResponseCode: 502 }),
-) {}
-export class HandlerInternalFailureException extends S.TaggedError<HandlerInternalFailureException>()(
-  "HandlerInternalFailureException",
-  {},
-  T.AwsQueryError({
-    code: "HandlerInternalFailureException",
-    httpResponseCode: 502,
-  }),
-) {}
-export class InvalidCredentialsException extends S.TaggedError<InvalidCredentialsException>()(
-  "InvalidCredentialsException",
-  {},
-  T.AwsQueryError({
-    code: "InvalidCredentialsException",
-    httpResponseCode: 401,
-  }),
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
-  {},
-  T.AwsQueryError({ code: "InvalidRequestException", httpResponseCode: 400 }),
 ) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
@@ -462,47 +415,94 @@ export class ConcurrentModificationException extends S.TaggedError<ConcurrentMod
     httpResponseCode: 500,
   }),
 ) {}
+export class ClientTokenConflictException extends S.TaggedError<ClientTokenConflictException>()(
+  "ClientTokenConflictException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ClientTokenConflictException",
+    httpResponseCode: 409,
+  }),
+) {}
+export class GeneralServiceException extends S.TaggedError<GeneralServiceException>()(
+  "GeneralServiceException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "GeneralServiceException", httpResponseCode: 400 }),
+) {}
 export class RequestTokenNotFoundException extends S.TaggedError<RequestTokenNotFoundException>()(
   "RequestTokenNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "RequestTokenNotFoundException",
     httpResponseCode: 404,
   }),
 ) {}
+export class ConcurrentOperationException extends S.TaggedError<ConcurrentOperationException>()(
+  "ConcurrentOperationException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ConcurrentOperationException",
+    httpResponseCode: 409,
+  }),
+) {}
+export class HandlerFailureException extends S.TaggedError<HandlerFailureException>()(
+  "HandlerFailureException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "HandlerFailureException", httpResponseCode: 502 }),
+) {}
+export class HandlerInternalFailureException extends S.TaggedError<HandlerInternalFailureException>()(
+  "HandlerInternalFailureException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "HandlerInternalFailureException",
+    httpResponseCode: 502,
+  }),
+) {}
+export class InvalidCredentialsException extends S.TaggedError<InvalidCredentialsException>()(
+  "InvalidCredentialsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidCredentialsException",
+    httpResponseCode: 401,
+  }),
+) {}
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidRequestException", httpResponseCode: 400 }),
+) {}
 export class NetworkFailureException extends S.TaggedError<NetworkFailureException>()(
   "NetworkFailureException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "NetworkFailureException", httpResponseCode: 502 }),
 ) {}
 export class NotStabilizedException extends S.TaggedError<NotStabilizedException>()(
   "NotStabilizedException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "NotStabilizedException", httpResponseCode: 400 }),
 ) {}
 export class NotUpdatableException extends S.TaggedError<NotUpdatableException>()(
   "NotUpdatableException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "NotUpdatableException", httpResponseCode: 400 }),
 ) {}
 export class PrivateTypeException extends S.TaggedError<PrivateTypeException>()(
   "PrivateTypeException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "PrivateTypeException", httpResponseCode: 400 }),
 ) {}
 export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
   "ResourceConflictException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceConflictException", httpResponseCode: 409 }),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
 ) {}
 export class ServiceInternalErrorException extends S.TaggedError<ServiceInternalErrorException>()(
   "ServiceInternalErrorException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ServiceInternalErrorException",
     httpResponseCode: 502,
@@ -510,7 +510,7 @@ export class ServiceInternalErrorException extends S.TaggedError<ServiceInternal
 ) {}
 export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ServiceLimitExceededException",
     httpResponseCode: 400,
@@ -518,17 +518,17 @@ export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExc
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
 ) {}
 export class TypeNotFoundException extends S.TaggedError<TypeNotFoundException>()(
   "TypeNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "TypeNotFoundException", httpResponseCode: 404 }),
 ) {}
 export class UnsupportedActionException extends S.TaggedError<UnsupportedActionException>()(
   "UnsupportedActionException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({
     code: "UnsupportedActionException",
     httpResponseCode: 405,
@@ -551,6 +551,18 @@ export const listResourceRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Returns the current status of a resource operation request. For more information, see
+ * Tracking the progress of resource operation requests in the
+ * *Amazon Web Services Cloud Control API User Guide*.
+ */
+export const getResourceRequestStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetResourceRequestStatusInput,
+    output: GetResourceRequestStatusOutput,
+    errors: [RequestTokenNotFoundException],
+  }),
+);
+/**
  * Cancels the specified resource operation request. For more information, see Canceling resource operation requests in the
  * *Amazon Web Services Cloud Control API User Guide*.
  *
@@ -565,32 +577,17 @@ export const cancelResourceRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns the current status of a resource operation request. For more information, see
- * Tracking the progress of resource operation requests in the
- * *Amazon Web Services Cloud Control API User Guide*.
- */
-export const getResourceRequestStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourceRequestStatusInput,
-    output: GetResourceRequestStatusOutput,
-    errors: [RequestTokenNotFoundException],
-  }),
-);
-/**
- * Creates the specified resource. For more information, see Creating a
- * resource in the *Amazon Web Services Cloud Control API User Guide*.
+ * Returns information about the current state of the specified resource. For details, see
+ * Reading a resource's current state.
  *
- * After you have initiated a resource creation request, you can monitor the progress of your
- * request by calling GetResourceRequestStatus using the `RequestToken` of the
- * `ProgressEvent` type returned by `CreateResource`.
+ * You can use this action to return information about an existing resource in your account
+ * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
-export const createResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateResourceInput,
-  output: CreateResourceOutput,
+export const getResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceInput,
+  output: GetResourceOutput,
   errors: [
     AlreadyExistsException,
-    ClientTokenConflictException,
-    ConcurrentOperationException,
     GeneralServiceException,
     HandlerFailureException,
     HandlerInternalFailureException,
@@ -643,17 +640,30 @@ export const deleteResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns information about the current state of the specified resource. For details, see
- * Reading a resource's current state.
+ * Updates the specified property values in the resource.
  *
- * You can use this action to return information about an existing resource in your account
- * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
+ * You specify your resource property updates as a list of patch operations contained in a
+ * JSON patch document that adheres to the
+ * RFC 6902 - JavaScript Object
+ * Notation (JSON) Patch
+ * standard.
+ *
+ * For details on how Cloud Control API performs resource update operations, see Updating a resource in the *Amazon Web Services Cloud Control API User Guide*.
+ *
+ * After you have initiated a resource update request, you can monitor the progress of your
+ * request by calling GetResourceRequestStatus using the `RequestToken` of the
+ * `ProgressEvent` returned by `UpdateResource`.
+ *
+ * For more information about the properties of a specific resource, refer to the related
+ * topic for the resource in the Resource and property types reference in the *CloudFormation Users Guide*.
  */
-export const getResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourceInput,
-  output: GetResourceOutput,
+export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceInput,
+  output: UpdateResourceOutput,
   errors: [
     AlreadyExistsException,
+    ClientTokenConflictException,
+    ConcurrentOperationException,
     GeneralServiceException,
     HandlerFailureException,
     HandlerInternalFailureException,
@@ -702,26 +712,16 @@ export const listResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates the specified property values in the resource.
+ * Creates the specified resource. For more information, see Creating a
+ * resource in the *Amazon Web Services Cloud Control API User Guide*.
  *
- * You specify your resource property updates as a list of patch operations contained in a
- * JSON patch document that adheres to the
- * RFC 6902 - JavaScript Object
- * Notation (JSON) Patch
- * standard.
- *
- * For details on how Cloud Control API performs resource update operations, see Updating a resource in the *Amazon Web Services Cloud Control API User Guide*.
- *
- * After you have initiated a resource update request, you can monitor the progress of your
+ * After you have initiated a resource creation request, you can monitor the progress of your
  * request by calling GetResourceRequestStatus using the `RequestToken` of the
- * `ProgressEvent` returned by `UpdateResource`.
- *
- * For more information about the properties of a specific resource, refer to the related
- * topic for the resource in the Resource and property types reference in the *CloudFormation Users Guide*.
+ * `ProgressEvent` type returned by `CreateResource`.
  */
-export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateResourceInput,
-  output: UpdateResourceOutput,
+export const createResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceInput,
+  output: CreateResourceOutput,
   errors: [
     AlreadyExistsException,
     ClientTokenConflictException,

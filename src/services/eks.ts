@@ -2527,59 +2527,106 @@ export class DescribeInsightResponse extends S.Class<DescribeInsightResponse>(
 //# Errors
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  {
+    clusterName: S.optional(S.String),
+    nodegroupName: S.optional(S.String),
+    addonName: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
+    message: S.optional(S.String),
+  },
 ) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ServerException extends S.TaggedError<ServerException>()(
-  "ServerException",
-  {},
-) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  {},
+  {
+    clusterName: S.optional(S.String),
+    nodegroupName: S.optional(S.String),
+    fargateProfileName: S.optional(S.String),
+    addonName: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
+    message: S.optional(S.String),
+  },
 ) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
+  {
+    clusterName: S.optional(S.String),
+    nodegroupName: S.optional(S.String),
+    fargateProfileName: S.optional(S.String),
+    addonName: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
+    message: S.optional(S.String),
+  },
+) {}
+export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.optional(S.String) },
 ) {}
 export class ClientException extends S.TaggedError<ClientException>()(
   "ClientException",
-  {},
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
-  {},
+  {
+    clusterName: S.optional(S.String),
+    nodegroupName: S.optional(S.String),
+    addonName: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
+    message: S.optional(S.String),
+  },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ServerException extends S.TaggedError<ServerException>()(
+  "ServerException",
+  {
+    clusterName: S.optional(S.String),
+    nodegroupName: S.optional(S.String),
+    addonName: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
+    message: S.optional(S.String),
+  },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
-  {},
-) {}
-export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
-  "ResourceLimitExceededException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
+  {
+    clusterName: S.optional(S.String),
+    nodegroupName: S.optional(S.String),
+    addonName: S.optional(S.String),
+    message: S.optional(S.String),
+  },
 ) {}
 export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
   "InvalidStateException",
   { clusterName: S.optional(S.String), message: S.optional(S.String) },
 ) {}
+export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
+  "ResourceLimitExceededException",
+  {
+    clusterName: S.optional(S.String),
+    nodegroupName: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
+    message: S.optional(S.String),
+  },
+) {}
+export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { clusterName: S.optional(S.String), message: S.optional(S.String) },
+) {}
 export class UnsupportedAvailabilityZoneException extends S.TaggedError<UnsupportedAvailabilityZoneException>()(
   "UnsupportedAvailabilityZoneException",
-  {},
+  {
+    message: S.optional(S.String),
+    clusterName: S.optional(S.String),
+    nodegroupName: S.optional(S.String),
+    validZones: S.optional(StringList),
+  },
 ) {}
 export class ResourcePropagationDelayException extends S.TaggedError<ResourcePropagationDelayException>()(
   "ResourcePropagationDelayException",
@@ -2587,254 +2634,6 @@ export class ResourcePropagationDelayException extends S.TaggedError<ResourcePro
 ) {}
 
 //# Operations
-/**
- * Describes an access entry.
- */
-export const describeAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAccessEntryRequest,
-  output: DescribeAccessEntryResponse,
-  errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
-}));
-/**
- * Returns detailed information about a specific managed capability in your Amazon EKS cluster, including its current status, configuration, health information, and any issues that may be affecting its operation.
- */
-export const describeCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeCapabilityRequest,
-  output: DescribeCapabilityResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Returns descriptive information about a subscription.
- */
-export const describeEksAnywhereSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEksAnywhereSubscriptionRequest,
-    output: DescribeEksAnywhereSubscriptionResponse,
-    errors: [
-      ClientException,
-      ResourceNotFoundException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Describes an Fargate profile.
- */
-export const describeFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFargateProfileRequest,
-    output: DescribeFargateProfileResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Returns the status of the latest on-demand cluster insights refresh operation.
- */
-export const describeInsightsRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInsightsRefreshRequest,
-    output: DescribeInsightsRefreshResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Describes a managed node group.
- */
-export const describeNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeNodegroupRequest,
-  output: DescribeNodegroupResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Returns descriptive information about an EKS Pod Identity association.
- *
- * This action requires the ID of the association. You can get the ID from the response to
- * the `CreatePodIdentityAssocation` for newly created associations. Or, you can
- * list the IDs for associations with `ListPodIdentityAssociations` and filter the
- * list by namespace or service account.
- */
-export const describePodIdentityAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePodIdentityAssociationRequest,
-    output: DescribePodIdentityAssociationResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
-/**
- * Disassociates an access policy from an access entry.
- */
-export const disassociateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateAccessPolicyRequest,
-    output: DisassociateAccessPolicyResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Lists the access entries for your cluster.
- */
-export const listAccessEntries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAccessEntriesRequest,
-  output: ListAccessEntriesResponse,
-  errors: [
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Lists the installed add-ons.
- */
-export const listAddons = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAddonsRequest,
-  output: ListAddonsResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
- */
-export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListClustersRequest,
-  output: ListClustersResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ServerException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Displays the full description of the subscription.
- */
-export const listEksAnywhereSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListEksAnywhereSubscriptionsRequest,
-    output: ListEksAnywhereSubscriptionsResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services
- * account in the specified Amazon Web Services Region.
- */
-export const listFargateProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFargateProfilesRequest,
-  output: ListFargateProfilesResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Lists the identity provider configurations for your cluster.
- */
-export const listIdentityProviderConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIdentityProviderConfigsRequest,
-    output: ListIdentityProviderConfigsResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
-/**
- * Lists the managed node groups associated with the specified cluster in your Amazon Web Services
- * account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
- */
-export const listNodegroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListNodegroupsRequest,
-  output: ListNodegroupsResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * List the tags for an Amazon EKS resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [BadRequestException, NotFoundException],
-}));
-/**
- * Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the
- * specified Amazon Web Services Region.
- */
-export const listUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListUpdatesRequest,
-  output: ListUpdatesResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
- */
-export const startInsightsRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartInsightsRefreshRequest,
-    output: StartInsightsRefreshResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
 /**
  * Associates the specified tags to an Amazon EKS resource with the specified
  * `resourceArn`. If existing tags on a resource are not specified in the
@@ -2858,221 +2657,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [BadRequestException, NotFoundException],
 }));
 /**
- * Updates an access entry.
+ * List the tags for an Amazon EKS resource.
  */
-export const updateAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccessEntryRequest,
-  output: UpdateAccessEntryResponse,
-  errors: [
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [BadRequestException, NotFoundException],
 }));
-/**
- * Updates an Amazon EKS add-on.
- */
-export const updateAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAddonRequest,
-  output: UpdateAddonResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Update an EKS Anywhere Subscription. Only auto renewal and tags can be updated after
- * subscription creation.
- */
-export const updateEksAnywhereSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEksAnywhereSubscriptionRequest,
-    output: UpdateEksAnywhereSubscriptionResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
-/**
- * Updates the Kubernetes version or AMI version of an Amazon EKS managed node group.
- *
- * You can update a node group using a launch template only if the node group was
- * originally deployed with a launch template. Additionally, the launch template ID or name
- * must match what was used when the node group was created. You can update the launch
- * template version with necessary changes.
- *
- * If you need to update a custom AMI in a node group that was deployed with a launch
- * template, then update your custom AMI, specify the new ID in a new version of the launch
- * template, and then update the node group to the new version of the launch
- * template.
- *
- * If you update without a launch template, then you can update to the latest available
- * AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in
- * the request. You can update to the latest AMI version of your cluster's current Kubernetes
- * version by specifying your cluster's Kubernetes version in the request. For information about
- * Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the
- * *Amazon EKS User Guide*. For information about Windows versions, see Amazon EKS
- * optimized Windows AMI versions in the *Amazon EKS User Guide*.
- *
- * You cannot roll back a node group to an earlier Kubernetes version or AMI version.
- *
- * When a node in a managed node group is terminated due to a scaling action or update,
- * every `Pod` on that node is drained first. Amazon EKS attempts to drain the nodes
- * gracefully and will fail if it is unable to do so. You can `force` the update
- * if Amazon EKS is unable to drain the nodes as a result of a `Pod` disruption
- * budget issue.
- */
-export const updateNodegroupVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNodegroupVersionRequest,
-    output: UpdateNodegroupVersionResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Updates a EKS Pod Identity association. In an update, you can change the IAM role, the target IAM role, or `disableSessionTags`.
- * You must change at least one of these in an update. An association can't be moved
- * between clusters, namespaces, or service accounts. If you need to edit the namespace
- * or service account, you need to delete the association and then create a new
- * association with your desired settings.
- *
- * Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventually consistent,
- * and may take several seconds to be effective after the initial API call returns
- * successfully. You must design your applications to account for these potential delays.
- * We recommend that you don’t include association create/updates in the
- * critical, high-availability code paths of your application. Instead, make changes in a
- * separate initialization or setup routine that you run less frequently.
- *
- * You can set a *target IAM role* in the same or a different
- * account for advanced scenarios. With a target role, EKS Pod Identity automatically performs two
- * role assumptions in sequence: first assuming the role in the association that is in this
- * account, then using those credentials to assume the target IAM role. This process
- * provides your Pod with temporary credentials that have the permissions defined in the
- * target role, allowing secure access to resources in another Amazon Web Services account.
- */
-export const updatePodIdentityAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdatePodIdentityAssociationRequest,
-    output: UpdatePodIdentityAssociationResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
-/**
- * Associates an access policy and its scope to an access entry. For more information
- * about associating access policies, see Associating and disassociating
- * access policies to and from access entries in the *Amazon EKS User Guide*.
- */
-export const associateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateAccessPolicyRequest,
-    output: AssociateAccessPolicyResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Creates an Amazon EKS add-on.
- *
- * Amazon EKS add-ons help to automate the provisioning and lifecycle management of common
- * operational software for Amazon EKS clusters. For more information, see Amazon EKS
- * add-ons in the *Amazon EKS User Guide*.
- */
-export const createAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAddonRequest,
-  output: CreateAddonResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Creates an EKS Anywhere subscription. When a subscription is created, it is a contract
- * agreement for the length of the term specified in the request. Licenses that are used to
- * validate support are provisioned in Amazon Web Services License Manager and the caller account is
- * granted access to EKS Anywhere Curated Packages.
- */
-export const createEksAnywhereSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateEksAnywhereSubscriptionRequest,
-    output: CreateEksAnywhereSubscriptionResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceLimitExceededException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role
- * with *EKS Pod Identity*. Use EKS Pod Identity to give temporary IAM credentials to
- * Pods and the credentials are rotated automatically.
- *
- * Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances.
- *
- * If a Pod uses a service account that has an association, Amazon EKS sets environment variables
- * in the containers of the Pod. The environment variables configure the Amazon Web Services SDKs,
- * including the Command Line Interface, to use the EKS Pod Identity credentials.
- *
- * EKS Pod Identity is a simpler method than IAM roles for service
- * accounts, as this method doesn't use OIDC identity providers.
- * Additionally, you can configure a role for EKS Pod Identity once, and reuse it across
- * clusters.
- *
- * Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventually consistent,
- * and may take several seconds to be effective after the initial API call returns
- * successfully. You must design your applications to account for these potential delays.
- * We recommend that you don’t include association create/updates in the
- * critical, high-availability code paths of your application. Instead, make changes in a
- * separate initialization or setup routine that you run less frequently.
- *
- * You can set a *target IAM role* in the same or a different
- * account for advanced scenarios. With a target role, EKS Pod Identity automatically performs two
- * role assumptions in sequence: first assuming the role in the association that is in this
- * account, then using those credentials to assume the target IAM role. This process
- * provides your Pod with temporary credentials that have the permissions defined in the
- * target role, allowing secure access to resources in another Amazon Web Services account.
- */
-export const createPodIdentityAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePodIdentityAssociationRequest,
-    output: CreatePodIdentityAssociationResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
 /**
  * Deletes an access entry.
  *
@@ -3084,6 +2675,64 @@ export const deleteAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessEntryRequest,
   output: DeleteAccessEntryResponse,
   errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
+}));
+/**
+ * Deletes an expired or inactive subscription. Deleting inactive subscriptions removes
+ * them from the Amazon Web Services Management Console view and from list/describe API responses. Subscriptions can
+ * only be cancelled within 7 days of creation and are cancelled by creating a ticket in
+ * the Amazon Web Services Support Center.
+ */
+export const deleteEksAnywhereSubscription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteEksAnywhereSubscriptionRequest,
+    output: DeleteEksAnywhereSubscriptionResponse,
+    errors: [
+      ClientException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }));
+/**
+ * Describes an update to an Amazon EKS resource.
+ *
+ * When the status of the update is `Successful`, the update is complete. If
+ * an update fails, the status is `Failed`, and an error detail explains the
+ * reason for the failure.
+ */
+export const describeUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUpdateRequest,
+  output: DescribeUpdateResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Returns a list of all insights checked for against the specified cluster. You can
+ * filter which insights are returned by category, associated Kubernetes version, and
+ * status. The default filter lists all categories and every status.
+ *
+ * The following lists the available categories:
+ *
+ * - `UPGRADE_READINESS`: Amazon EKS identifies issues that could impact your
+ * ability to upgrade to new versions of Kubernetes. These are called upgrade insights.
+ *
+ * - `MISCONFIGURATION`: Amazon EKS identifies misconfiguration in your EKS
+ * Hybrid Nodes setup that could impair functionality of your cluster or
+ * workloads. These are called configuration insights.
+ */
+export const listInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInsightsRequest,
+  output: ListInsightsResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
 }));
 /**
  * Deletes a EKS Pod Identity association.
@@ -3101,24 +2750,6 @@ export const deletePodIdentityAssociation =
       ServerException,
     ],
   }));
-/**
- * Deregisters a connected cluster to remove it from the Amazon EKS control plane.
- *
- * A connected cluster is a Kubernetes cluster that you've connected to your control plane
- * using the Amazon EKS Connector.
- */
-export const deregisterCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeregisterClusterRequest,
-  output: DeregisterClusterResponse,
-  errors: [
-    AccessDeniedException,
-    ClientException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServerException,
-    ServiceUnavailableException,
-  ],
-}));
 /**
  * Describes an Amazon EKS add-on.
  */
@@ -3147,27 +2778,6 @@ export const describeAddonConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Describes an Amazon EKS cluster.
- *
- * The API server endpoint and certificate authority data returned by this operation are
- * required for `kubelet` and `kubectl` to communicate with your
- * Kubernetes API server. For more information, see Creating or
- * updating a `kubeconfig` file for an Amazon EKS cluster.
- *
- * The API server endpoint and certificate authority data aren't available until the
- * cluster reaches the `ACTIVE` state.
- */
-export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeClusterRequest,
-  output: DescribeClusterResponse,
-  errors: [
-    ClientException,
-    ResourceNotFoundException,
-    ServerException,
-    ServiceUnavailableException,
-  ],
-}));
 /**
  * Lists available Kubernetes versions for Amazon EKS clusters.
  */
@@ -3227,6 +2837,750 @@ export const listPodIdentityAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Describes an access entry.
+ */
+export const describeAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccessEntryRequest,
+  output: DescribeAccessEntryResponse,
+  errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
+}));
+/**
+ * Disassociates an access policy from an access entry.
+ */
+export const disassociateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateAccessPolicyRequest,
+    output: DisassociateAccessPolicyResponse,
+    errors: [
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Returns the status of the latest on-demand cluster insights refresh operation.
+ */
+export const describeInsightsRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeInsightsRefreshRequest,
+    output: DescribeInsightsRefreshResponse,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Returns descriptive information about an EKS Pod Identity association.
+ *
+ * This action requires the ID of the association. You can get the ID from the response to
+ * the `CreatePodIdentityAssocation` for newly created associations. Or, you can
+ * list the IDs for associations with `ListPodIdentityAssociations` and filter the
+ * list by namespace or service account.
+ */
+export const describePodIdentityAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribePodIdentityAssociationRequest,
+    output: DescribePodIdentityAssociationResponse,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }));
+/**
+ * Lists the access entries for your cluster.
+ */
+export const listAccessEntries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAccessEntriesRequest,
+  output: ListAccessEntriesResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
+ */
+export const startInsightsRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: StartInsightsRefreshRequest,
+    output: StartInsightsRefreshResponse,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Updates an access entry.
+ */
+export const updateAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccessEntryRequest,
+  output: UpdateAccessEntryResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Updates a EKS Pod Identity association. In an update, you can change the IAM role, the target IAM role, or `disableSessionTags`.
+ * You must change at least one of these in an update. An association can't be moved
+ * between clusters, namespaces, or service accounts. If you need to edit the namespace
+ * or service account, you need to delete the association and then create a new
+ * association with your desired settings.
+ *
+ * Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventually consistent,
+ * and may take several seconds to be effective after the initial API call returns
+ * successfully. You must design your applications to account for these potential delays.
+ * We recommend that you don’t include association create/updates in the
+ * critical, high-availability code paths of your application. Instead, make changes in a
+ * separate initialization or setup routine that you run less frequently.
+ *
+ * You can set a *target IAM role* in the same or a different
+ * account for advanced scenarios. With a target role, EKS Pod Identity automatically performs two
+ * role assumptions in sequence: first assuming the role in the association that is in this
+ * account, then using those credentials to assume the target IAM role. This process
+ * provides your Pod with temporary credentials that have the permissions defined in the
+ * target role, allowing secure access to resources in another Amazon Web Services account.
+ */
+export const updatePodIdentityAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdatePodIdentityAssociationRequest,
+    output: UpdatePodIdentityAssociationResponse,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }));
+/**
+ * Associates an access policy and its scope to an access entry. For more information
+ * about associating access policies, see Associating and disassociating
+ * access policies to and from access entries in the *Amazon EKS User Guide*.
+ */
+export const associateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateAccessPolicyRequest,
+    output: AssociateAccessPolicyResponse,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Returns detailed information about a specific managed capability in your Amazon EKS cluster, including its current status, configuration, health information, and any issues that may be affecting its operation.
+ */
+export const describeCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCapabilityRequest,
+  output: DescribeCapabilityResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Describes an Fargate profile.
+ */
+export const describeFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeFargateProfileRequest,
+    output: DescribeFargateProfileResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Lists the installed add-ons.
+ */
+export const listAddons = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAddonsRequest,
+  output: ListAddonsResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services
+ * account in the specified Amazon Web Services Region.
+ */
+export const listFargateProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFargateProfilesRequest,
+  output: ListFargateProfilesResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the
+ * specified Amazon Web Services Region.
+ */
+export const listUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUpdatesRequest,
+  output: ListUpdatesResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Update an EKS Anywhere Subscription. Only auto renewal and tags can be updated after
+ * subscription creation.
+ */
+export const updateEksAnywhereSubscription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateEksAnywhereSubscriptionRequest,
+    output: UpdateEksAnywhereSubscriptionResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }));
+/**
+ * Updates an Amazon EKS managed node group configuration. Your node group continues to
+ * function during the update. The response output includes an update ID that you can use
+ * to track the status of your node group update with the
+ * `DescribeUpdate`
+ * API operation. You can update the Kubernetes labels
+ * and taints for a node group and the scaling and version update configuration.
+ */
+export const updateNodegroupConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateNodegroupConfigRequest,
+    output: UpdateNodegroupConfigResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Creates an access entry.
+ *
+ * An access entry allows an IAM principal to access your cluster. Access
+ * entries can replace the need to maintain entries in the `aws-auth`
+ * `ConfigMap` for authentication. You have the following options for
+ * authorizing an IAM principal to access Kubernetes objects on your cluster: Kubernetes
+ * role-based access control (RBAC), Amazon EKS, or both. Kubernetes RBAC authorization requires you
+ * to create and manage Kubernetes `Role`, `ClusterRole`,
+ * `RoleBinding`, and `ClusterRoleBinding` objects, in addition
+ * to managing access entries. If you use Amazon EKS authorization exclusively, you don't need
+ * to create and manage Kubernetes `Role`, `ClusterRole`,
+ * `RoleBinding`, and `ClusterRoleBinding` objects.
+ *
+ * For more information about access entries, see Access entries in the
+ * *Amazon EKS User Guide*.
+ */
+export const createAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccessEntryRequest,
+  output: CreateAccessEntryResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role
+ * with *EKS Pod Identity*. Use EKS Pod Identity to give temporary IAM credentials to
+ * Pods and the credentials are rotated automatically.
+ *
+ * Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances.
+ *
+ * If a Pod uses a service account that has an association, Amazon EKS sets environment variables
+ * in the containers of the Pod. The environment variables configure the Amazon Web Services SDKs,
+ * including the Command Line Interface, to use the EKS Pod Identity credentials.
+ *
+ * EKS Pod Identity is a simpler method than IAM roles for service
+ * accounts, as this method doesn't use OIDC identity providers.
+ * Additionally, you can configure a role for EKS Pod Identity once, and reuse it across
+ * clusters.
+ *
+ * Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventually consistent,
+ * and may take several seconds to be effective after the initial API call returns
+ * successfully. You must design your applications to account for these potential delays.
+ * We recommend that you don’t include association create/updates in the
+ * critical, high-availability code paths of your application. Instead, make changes in a
+ * separate initialization or setup routine that you run less frequently.
+ *
+ * You can set a *target IAM role* in the same or a different
+ * account for advanced scenarios. With a target role, EKS Pod Identity automatically performs two
+ * role assumptions in sequence: first assuming the role in the association that is in this
+ * account, then using those credentials to assume the target IAM role. This process
+ * provides your Pod with temporary credentials that have the permissions defined in the
+ * target role, allowing secure access to resources in another Amazon Web Services account.
+ */
+export const createPodIdentityAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreatePodIdentityAssociationRequest,
+    output: CreatePodIdentityAssociationResponse,
+    errors: [
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ResourceLimitExceededException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }));
+/**
+ * Updates an Amazon EKS add-on.
+ */
+export const updateAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAddonRequest,
+  output: UpdateAddonResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Updates the Kubernetes version or AMI version of an Amazon EKS managed node group.
+ *
+ * You can update a node group using a launch template only if the node group was
+ * originally deployed with a launch template. Additionally, the launch template ID or name
+ * must match what was used when the node group was created. You can update the launch
+ * template version with necessary changes.
+ *
+ * If you need to update a custom AMI in a node group that was deployed with a launch
+ * template, then update your custom AMI, specify the new ID in a new version of the launch
+ * template, and then update the node group to the new version of the launch
+ * template.
+ *
+ * If you update without a launch template, then you can update to the latest available
+ * AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in
+ * the request. You can update to the latest AMI version of your cluster's current Kubernetes
+ * version by specifying your cluster's Kubernetes version in the request. For information about
+ * Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the
+ * *Amazon EKS User Guide*. For information about Windows versions, see Amazon EKS
+ * optimized Windows AMI versions in the *Amazon EKS User Guide*.
+ *
+ * You cannot roll back a node group to an earlier Kubernetes version or AMI version.
+ *
+ * When a node in a managed node group is terminated due to a scaling action or update,
+ * every `Pod` on that node is drained first. Amazon EKS attempts to drain the nodes
+ * gracefully and will fail if it is unable to do so. You can `force` the update
+ * if Amazon EKS is unable to drain the nodes as a result of a `Pod` disruption
+ * budget issue.
+ */
+export const updateNodegroupVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateNodegroupVersionRequest,
+    output: UpdateNodegroupVersionResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Creates an Amazon EKS add-on.
+ *
+ * Amazon EKS add-ons help to automate the provisioning and lifecycle management of common
+ * operational software for Amazon EKS clusters. For more information, see Amazon EKS
+ * add-ons in the *Amazon EKS User Guide*.
+ */
+export const createAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAddonRequest,
+  output: CreateAddonResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Deletes an Amazon EKS add-on.
+ *
+ * When you remove an add-on, it's deleted from the cluster. You can always manually
+ * start an add-on on the cluster using the Kubernetes API.
+ */
+export const deleteAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAddonRequest,
+  output: DeleteAddonResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Deletes an Fargate profile.
+ *
+ * When you delete a Fargate profile, any `Pod` running on Fargate that
+ * was created with the profile is deleted. If the `Pod` matches another
+ * Fargate profile, then it is scheduled on Fargate with that profile. If it no longer
+ * matches any Fargate profiles, then it's not scheduled on Fargate and may remain in a
+ * pending state.
+ *
+ * Only one Fargate profile in a cluster can be in the `DELETING` status at
+ * a time. You must wait for a Fargate profile to finish deleting before you can delete
+ * any other profiles in that cluster.
+ */
+export const deleteFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteFargateProfileRequest,
+    output: DeleteFargateProfileResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Describes the versions for an add-on.
+ *
+ * Information such as the Kubernetes versions that you can use the add-on with, the
+ * `owner`, `publisher`, and the `type` of the add-on
+ * are returned.
+ */
+export const describeAddonVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAddonVersionsRequest,
+    output: DescribeAddonVersionsResponse,
+    errors: [
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ServerException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration of a managed capability in your Amazon EKS cluster. You can update the IAM role, configuration settings, and delete propagation policy for a capability.
+ *
+ * When you update a capability, Amazon EKS applies the changes and may restart capability components as needed. The capability remains available during the update process, but some operations may be temporarily unavailable.
+ */
+export const updateCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCapabilityRequest,
+  output: UpdateCapabilityResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
+/**
+ * Describes an Amazon EKS cluster.
+ *
+ * The API server endpoint and certificate authority data returned by this operation are
+ * required for `kubelet` and `kubectl` to communicate with your
+ * Kubernetes API server. For more information, see Creating or
+ * updating a `kubeconfig` file for an Amazon EKS cluster.
+ *
+ * The API server endpoint and certificate authority data aren't available until the
+ * cluster reaches the `ACTIVE` state.
+ */
+export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeClusterRequest,
+  output: DescribeClusterResponse,
+  errors: [
+    ClientException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to
+ * function during the update. The response output includes an update ID that you can use
+ * to track the status of your cluster update with the
+ * `DescribeUpdate`
+ * API operation.
+ *
+ * Cluster updates are asynchronous, and they should finish within a few minutes. During
+ * an update, the cluster status moves to `UPDATING` (this status transition is
+ * eventually consistent). When the update is complete (either `Failed` or
+ * `Successful`), the cluster status moves to `Active`.
+ *
+ * If your cluster has managed node groups attached to it, all of your node groups' Kubernetes
+ * versions must match the cluster's Kubernetes version in order to update the cluster to a new
+ * Kubernetes version.
+ */
+export const updateClusterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateClusterVersionRequest,
+    output: UpdateClusterVersionResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      InvalidRequestException,
+      InvalidStateException,
+      ResourceInUseException,
+      ResourceNotFoundException,
+      ServerException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Returns descriptive information about a subscription.
+ */
+export const describeEksAnywhereSubscription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeEksAnywhereSubscriptionRequest,
+    output: DescribeEksAnywhereSubscriptionResponse,
+    errors: [
+      ClientException,
+      ResourceNotFoundException,
+      ServerException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Describes a managed node group.
+ */
+export const describeNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNodegroupRequest,
+  output: DescribeNodegroupResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
+ */
+export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListClustersRequest,
+  output: ListClustersResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Displays the full description of the subscription.
+ */
+export const listEksAnywhereSubscriptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListEksAnywhereSubscriptionsRequest,
+    output: ListEksAnywhereSubscriptionsResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      ServerException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Lists the identity provider configurations for your cluster.
+ */
+export const listIdentityProviderConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListIdentityProviderConfigsRequest,
+    output: ListIdentityProviderConfigsResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ServerException,
+      ServiceUnavailableException,
+    ],
+  }),
+);
+/**
+ * Lists the managed node groups associated with the specified cluster in your Amazon Web Services
+ * account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
+ */
+export const listNodegroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListNodegroupsRequest,
+  output: ListNodegroupsResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates an EKS Anywhere subscription. When a subscription is created, it is a contract
+ * agreement for the length of the term specified in the request. Licenses that are used to
+ * validate support are provisioned in Amazon Web Services License Manager and the caller account is
+ * granted access to EKS Anywhere Curated Packages.
+ */
+export const createEksAnywhereSubscription =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateEksAnywhereSubscriptionRequest,
+    output: CreateEksAnywhereSubscriptionResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      ResourceLimitExceededException,
+      ServerException,
+      ServiceUnavailableException,
+    ],
+  }));
+/**
+ * Deregisters a connected cluster to remove it from the Amazon EKS control plane.
+ *
+ * A connected cluster is a Kubernetes cluster that you've connected to your control plane
+ * using the Amazon EKS Connector.
+ */
+export const deregisterCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterClusterRequest,
+  output: DeregisterClusterResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Creates a managed node group for an Amazon EKS cluster.
+ *
+ * You can only create a node group for your cluster that is equal to the current Kubernetes
+ * version for the cluster. All node groups are created with the latest AMI release version
+ * for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI
+ * using a launch template.
+ *
+ * For later updates, you will only be able to update a node group using a launch
+ * template only if it was originally deployed with a launch template. Additionally, the
+ * launch template ID or name must match what was used when the node group was created. You
+ * can update the launch template version with necessary changes. For more information
+ * about using launch templates, see Customizing managed nodes with
+ * launch templates.
+ *
+ * An Amazon EKS managed node group is an Amazon EC2 Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that
+ * are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed
+ * node groups in the *Amazon EKS User Guide*.
+ *
+ * Windows AMI types are only supported for commercial Amazon Web Services Regions that support
+ * Windows on Amazon EKS.
+ */
+export const createNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNodegroupRequest,
+  output: CreateNodegroupResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceLimitExceededException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes an Amazon EKS cluster control plane.
+ *
+ * If you have active services in your cluster that are associated with a load balancer,
+ * you must delete those services before deleting the cluster so that the load balancers
+ * are deleted properly. Otherwise, you can have orphaned resources in your VPC that
+ * prevent you from being able to delete the VPC. For more information, see Deleting a
+ * cluster in the *Amazon EKS User Guide*.
+ *
+ * If you have managed node groups or Fargate profiles attached to the cluster, you
+ * must delete them first. For more information, see `DeleteNodgroup` and
+ * `DeleteFargateProfile`.
+ */
+export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterRequest,
+  output: DeleteClusterResponse,
+  errors: [
+    ClientException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes a managed node group.
+ */
+export const deleteNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNodegroupRequest,
+  output: DeleteNodegroupResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Describes an identity provider configuration.
+ */
+export const describeIdentityProviderConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeIdentityProviderConfigRequest,
+    output: DescribeIdentityProviderConfigResponse,
+    errors: [
+      ClientException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ServerException,
+      ServiceUnavailableException,
+    ],
+  }));
 /**
  * Updates an Amazon EKS cluster configuration. Your cluster continues to function during the
  * update. The response output includes an update ID that you can use to track the status
@@ -3290,59 +3644,26 @@ export const updateClusterConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to
- * function during the update. The response output includes an update ID that you can use
- * to track the status of your cluster update with the
- * `DescribeUpdate`
- * API operation.
+ * Disassociates an identity provider configuration from a cluster.
  *
- * Cluster updates are asynchronous, and they should finish within a few minutes. During
- * an update, the cluster status moves to `UPDATING` (this status transition is
- * eventually consistent). When the update is complete (either `Failed` or
- * `Successful`), the cluster status moves to `Active`.
- *
- * If your cluster has managed node groups attached to it, all of your node groups' Kubernetes
- * versions must match the cluster's Kubernetes version in order to update the cluster to a new
- * Kubernetes version.
+ * If you disassociate an identity provider from your cluster, users included in the
+ * provider can no longer access the cluster. However, you can still access the cluster
+ * with IAM principals.
  */
-export const updateClusterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClusterVersionRequest,
-    output: UpdateClusterVersionResponse,
+export const disassociateIdentityProviderConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateIdentityProviderConfigRequest,
+    output: DisassociateIdentityProviderConfigResponse,
     errors: [
       ClientException,
       InvalidParameterException,
       InvalidRequestException,
-      InvalidStateException,
       ResourceInUseException,
       ResourceNotFoundException,
       ServerException,
       ThrottlingException,
     ],
-  }),
-);
-/**
- * Updates an Amazon EKS managed node group configuration. Your node group continues to
- * function during the update. The response output includes an update ID that you can use
- * to track the status of your node group update with the
- * `DescribeUpdate`
- * API operation. You can update the Kubernetes labels
- * and taints for a node group and the scaling and version update configuration.
- */
-export const updateNodegroupConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNodegroupConfigRequest,
-    output: UpdateNodegroupConfigResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+  }));
 /**
  * Associates an encryption configuration to an existing cluster.
  *
@@ -3391,35 +3712,6 @@ export const associateIdentityProviderConfig =
     ],
   }));
 /**
- * Creates an access entry.
- *
- * An access entry allows an IAM principal to access your cluster. Access
- * entries can replace the need to maintain entries in the `aws-auth`
- * `ConfigMap` for authentication. You have the following options for
- * authorizing an IAM principal to access Kubernetes objects on your cluster: Kubernetes
- * role-based access control (RBAC), Amazon EKS, or both. Kubernetes RBAC authorization requires you
- * to create and manage Kubernetes `Role`, `ClusterRole`,
- * `RoleBinding`, and `ClusterRoleBinding` objects, in addition
- * to managing access entries. If you use Amazon EKS authorization exclusively, you don't need
- * to create and manage Kubernetes `Role`, `ClusterRole`,
- * `RoleBinding`, and `ClusterRoleBinding` objects.
- *
- * For more information about access entries, see Access entries in the
- * *Amazon EKS User Guide*.
- */
-export const createAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccessEntryRequest,
-  output: CreateAccessEntryResponse,
-  errors: [
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceLimitExceededException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
  * Creates an Fargate profile for your Amazon EKS cluster. You must have at least one
  * Fargate profile in a cluster to be able to run pods on Fargate.
  *
@@ -3465,120 +3757,6 @@ export const createFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Creates a managed node group for an Amazon EKS cluster.
- *
- * You can only create a node group for your cluster that is equal to the current Kubernetes
- * version for the cluster. All node groups are created with the latest AMI release version
- * for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI
- * using a launch template.
- *
- * For later updates, you will only be able to update a node group using a launch
- * template only if it was originally deployed with a launch template. Additionally, the
- * launch template ID or name must match what was used when the node group was created. You
- * can update the launch template version with necessary changes. For more information
- * about using launch templates, see Customizing managed nodes with
- * launch templates.
- *
- * An Amazon EKS managed node group is an Amazon EC2 Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that
- * are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed
- * node groups in the *Amazon EKS User Guide*.
- *
- * Windows AMI types are only supported for commercial Amazon Web Services Regions that support
- * Windows on Amazon EKS.
- */
-export const createNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateNodegroupRequest,
-  output: CreateNodegroupResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceLimitExceededException,
-    ServerException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Deletes an expired or inactive subscription. Deleting inactive subscriptions removes
- * them from the Amazon Web Services Management Console view and from list/describe API responses. Subscriptions can
- * only be cancelled within 7 days of creation and are cancelled by creating a ticket in
- * the Amazon Web Services Support Center.
- */
-export const deleteEksAnywhereSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteEksAnywhereSubscriptionRequest,
-    output: DeleteEksAnywhereSubscriptionResponse,
-    errors: [
-      ClientException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
-/**
- * Describes an update to an Amazon EKS resource.
- *
- * When the status of the update is `Successful`, the update is complete. If
- * an update fails, the status is `Failed`, and an error detail explains the
- * reason for the failure.
- */
-export const describeUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeUpdateRequest,
-  output: DescribeUpdateResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Disassociates an identity provider configuration from a cluster.
- *
- * If you disassociate an identity provider from your cluster, users included in the
- * provider can no longer access the cluster. However, you can still access the cluster
- * with IAM principals.
- */
-export const disassociateIdentityProviderConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateIdentityProviderConfigRequest,
-    output: DisassociateIdentityProviderConfigResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Returns a list of all insights checked for against the specified cluster. You can
- * filter which insights are returned by category, associated Kubernetes version, and
- * status. The default filter lists all categories and every status.
- *
- * The following lists the available categories:
- *
- * - `UPGRADE_READINESS`: Amazon EKS identifies issues that could impact your
- * ability to upgrade to new versions of Kubernetes. These are called upgrade insights.
- *
- * - `MISCONFIGURATION`: Amazon EKS identifies misconfiguration in your EKS
- * Hybrid Nodes setup that could impair functionality of your cluster or
- * workloads. These are called configuration insights.
- */
-export const listInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListInsightsRequest,
-  output: ListInsightsResponse,
-  errors: [
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
 /**
  * Connects a Kubernetes cluster to the Amazon EKS control plane.
  *
@@ -3670,137 +3848,6 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ServerException,
     ServiceUnavailableException,
     UnsupportedAvailabilityZoneException,
-  ],
-}));
-/**
- * Deletes an Amazon EKS add-on.
- *
- * When you remove an add-on, it's deleted from the cluster. You can always manually
- * start an add-on on the cluster using the Kubernetes API.
- */
-export const deleteAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAddonRequest,
-  output: DeleteAddonResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
-}));
-/**
- * Deletes an Amazon EKS cluster control plane.
- *
- * If you have active services in your cluster that are associated with a load balancer,
- * you must delete those services before deleting the cluster so that the load balancers
- * are deleted properly. Otherwise, you can have orphaned resources in your VPC that
- * prevent you from being able to delete the VPC. For more information, see Deleting a
- * cluster in the *Amazon EKS User Guide*.
- *
- * If you have managed node groups or Fargate profiles attached to the cluster, you
- * must delete them first. For more information, see `DeleteNodgroup` and
- * `DeleteFargateProfile`.
- */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterRequest,
-  output: DeleteClusterResponse,
-  errors: [
-    ClientException,
-    InvalidRequestException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServerException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Deletes an Fargate profile.
- *
- * When you delete a Fargate profile, any `Pod` running on Fargate that
- * was created with the profile is deleted. If the `Pod` matches another
- * Fargate profile, then it is scheduled on Fargate with that profile. If it no longer
- * matches any Fargate profiles, then it's not scheduled on Fargate and may remain in a
- * pending state.
- *
- * Only one Fargate profile in a cluster can be in the `DELETING` status at
- * a time. You must wait for a Fargate profile to finish deleting before you can delete
- * any other profiles in that cluster.
- */
-export const deleteFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFargateProfileRequest,
-    output: DeleteFargateProfileResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Deletes a managed node group.
- */
-export const deleteNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteNodegroupRequest,
-  output: DeleteNodegroupResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServerException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Describes the versions for an add-on.
- *
- * Information such as the Kubernetes versions that you can use the add-on with, the
- * `owner`, `publisher`, and the `type` of the add-on
- * are returned.
- */
-export const describeAddonVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAddonVersionsRequest,
-    output: DescribeAddonVersionsResponse,
-    errors: [
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
-/**
- * Describes an identity provider configuration.
- */
-export const describeIdentityProviderConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeIdentityProviderConfigRequest,
-    output: DescribeIdentityProviderConfigResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-  }));
-/**
- * Updates the configuration of a managed capability in your Amazon EKS cluster. You can update the IAM role, configuration settings, and delete propagation policy for a capability.
- *
- * When you update a capability, Amazon EKS applies the changes and may restart capability components as needed. The capability remains available during the update process, but some operations may be temporarily unavailable.
- */
-export const updateCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCapabilityRequest,
-  output: UpdateCapabilityResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServerException,
   ],
 }));
 /**

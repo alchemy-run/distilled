@@ -929,38 +929,90 @@ export class ListDataIntegrationAssociationsResponse extends S.Class<ListDataInt
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalServiceError extends S.TaggedError<InternalServiceError>()(
   "InternalServiceError",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class DuplicateResourceException extends S.TaggedError<DuplicateResourceException>()(
+  "DuplicateResourceException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceQuotaExceededException extends S.TaggedError<ResourceQuotaExceededException>()(
+  "ResourceQuotaExceededException",
+  { Message: S.optional(S.String) },
 ) {}
 export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
   "UnsupportedOperationException",
   { Message: S.optional(S.String) },
 ) {}
-export class DuplicateResourceException extends S.TaggedError<DuplicateResourceException>()(
-  "DuplicateResourceException",
-  {},
-) {}
-export class ResourceQuotaExceededException extends S.TaggedError<ResourceQuotaExceededException>()(
-  "ResourceQuotaExceededException",
-  {},
-) {}
 
 //# Operations
+/**
+ * Lists applications in the account.
+ */
+export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the DataIntegration. Only DataIntegrations that don't have any
+ * DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the
+ * underlying Amazon AppFlow flow and service linked role.
+ *
+ * You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
+ * Use a different DataIntegration, or recreate the DataIntegration using the
+ * CreateDataIntegration API.
+ */
+export const deleteDataIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDataIntegrationRequest,
+    output: DeleteDataIntegrationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceError,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes the specified existing event integration. If the event integration is associated
+ * with clients, the request is rejected.
+ */
+export const deleteEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEventIntegrationRequest,
+    output: DeleteEventIntegrationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceError,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Updates the description of a DataIntegration.
  *
@@ -1015,6 +1067,19 @@ export const updateEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Removes the specified tags from the specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Deletes the Application. Only Applications that don't have any Application Associations
  * can be deleted.
  */
@@ -1029,45 +1094,6 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
-/**
- * Deletes the DataIntegration. Only DataIntegrations that don't have any
- * DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the
- * underlying Amazon AppFlow flow and service linked role.
- *
- * You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
- * Use a different DataIntegration, or recreate the DataIntegration using the
- * CreateDataIntegration API.
- */
-export const deleteDataIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDataIntegrationRequest,
-    output: DeleteDataIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes the specified existing event integration. If the event integration is associated
- * with clients, the request is rejected.
- */
-export const deleteEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventIntegrationRequest,
-    output: DeleteEventIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
 /**
  * Get an Application resource.
  */
@@ -1128,47 +1154,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Adds the specified tags to the specified resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Removes the specified tags from the specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Updates and persists an Application resource.
- */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceError,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
  * Returns a paginated list of application associations for an application.
  */
 export const listApplicationAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1180,38 +1165,6 @@ export const listApplicationAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InternalServiceError,
       InvalidRequestException,
       ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Lists applications in the account.
- */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceError,
-    InvalidRequestException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns a paginated list of DataIntegrations in the account.
- *
- * You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
- * Use a different DataIntegration, or recreate the DataIntegration using the
- * CreateDataIntegration API.
- */
-export const listDataIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDataIntegrationsRequest,
-    output: ListDataIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
       ThrottlingException,
     ],
   }),
@@ -1232,6 +1185,44 @@ export const listEventIntegrationAssociations =
     ],
   }));
 /**
+ * Returns a paginated list of DataIntegration associations in the account.
+ *
+ * You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
+ * Use a different DataIntegration, or recreate the DataIntegration using the
+ * CreateDataIntegration API.
+ */
+export const listDataIntegrationAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDataIntegrationAssociationsRequest,
+    output: ListDataIntegrationAssociationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceError,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Returns a paginated list of DataIntegrations in the account.
+ *
+ * You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
+ * Use a different DataIntegration, or recreate the DataIntegration using the
+ * CreateDataIntegration API.
+ */
+export const listDataIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDataIntegrationsRequest,
+    output: ListDataIntegrationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceError,
+      InvalidRequestException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
  * Returns a paginated list of event integrations in the account.
  */
 export const listEventIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1242,6 +1233,39 @@ export const listEventIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
       AccessDeniedException,
       InternalServiceError,
       InvalidRequestException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Adds the specified tags to the specified resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates an EventIntegration, given a specified name, description, and a reference to an
+ * Amazon EventBridge bus in your account and a partner event source that pushes events to
+ * that bus. No objects are created in the your account, only metadata that is persisted on the
+ * EventIntegration control plane.
+ */
+export const createEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEventIntegrationRequest,
+    output: CreateEventIntegrationResponse,
+    errors: [
+      AccessDeniedException,
+      DuplicateResourceException,
+      InternalServiceError,
+      InvalidRequestException,
+      ResourceQuotaExceededException,
       ThrottlingException,
     ],
   }),
@@ -1284,44 +1308,20 @@ export const createDataIntegrationAssociation =
     ],
   }));
 /**
- * Creates an EventIntegration, given a specified name, description, and a reference to an
- * Amazon EventBridge bus in your account and a partner event source that pushes events to
- * that bus. No objects are created in the your account, only metadata that is persisted on the
- * EventIntegration control plane.
+ * Updates and persists an Application resource.
  */
-export const createEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEventIntegrationRequest,
-    output: CreateEventIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Returns a paginated list of DataIntegration associations in the account.
- *
- * You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
- * Use a different DataIntegration, or recreate the DataIntegration using the
- * CreateDataIntegration API.
- */
-export const listDataIntegrationAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDataIntegrationAssociationsRequest,
-    output: ListDataIntegrationAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Creates and persists an Application resource.
  */

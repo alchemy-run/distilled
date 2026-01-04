@@ -3515,872 +3515,60 @@ export class SendBulkEmailResponse extends S.Class<SendBulkEmailResponse>(
 )({ BulkEmailEntryResults: BulkEmailEntryResultList }) {}
 
 //# Errors
-export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
-  "AlreadyExistsException",
-  {},
-) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  {},
+export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
+  "AlreadyExistsException",
+  { message: S.optional(S.String) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
-) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { message: S.optional(S.String) },
+) {}
+export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
-) {}
-export class MailFromDomainNotVerifiedException extends S.TaggedError<MailFromDomainNotVerifiedException>()(
-  "MailFromDomainNotVerifiedException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
   { message: S.optional(S.String) },
 ) {}
-export class MessageRejected extends S.TaggedError<MessageRejected>()(
-  "MessageRejected",
-  { message: S.optional(S.String) },
-) {}
 export class AccountSuspendedException extends S.TaggedError<AccountSuspendedException>()(
   "AccountSuspendedException",
   { message: S.optional(S.String) },
 ) {}
-export class SendingPausedException extends S.TaggedError<SendingPausedException>()(
-  "SendingPausedException",
-  {},
+export class MailFromDomainNotVerifiedException extends S.TaggedError<MailFromDomainNotVerifiedException>()(
+  "MailFromDomainNotVerifiedException",
+  { message: S.optional(S.String) },
+) {}
+export class MessageRejected extends S.TaggedError<MessageRejected>()(
+  "MessageRejected",
+  { message: S.optional(S.String) },
 ) {}
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   { message: S.optional(S.String) },
 ) {}
+export class SendingPausedException extends S.TaggedError<SendingPausedException>()(
+  "SendingPausedException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Delete an event destination.
- *
- * *Events* include message sends, deliveries, opens, clicks, bounces,
- * and complaints. *Event destinations* are places that you can send
- * information about these events to. For example, you can send event data to Amazon EventBridge and
- * associate a rule to send the event to the specified target.
- */
-export const deleteConfigurationSetEventDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfigurationSetEventDestinationRequest,
-    output: DeleteConfigurationSetEventDestinationResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Removes a contact from a contact list.
- */
-export const deleteContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteContactRequest,
-  output: DeleteContactResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Deletes a contact list and all of the contacts on that list.
- */
-export const deleteContactList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteContactListRequest,
-  output: DeleteContactListResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes an existing custom verification email template.
- *
- * For more information about custom verification email templates, see Using
- * custom verification email templates in the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const deleteCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCustomVerificationEmailTemplateRequest,
-    output: DeleteCustomVerificationEmailTemplateResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Delete a dedicated IP pool.
- */
-export const deleteDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDedicatedIpPoolRequest,
-    output: DeleteDedicatedIpPoolResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Deletes an email identity. An identity can be either an email address or a domain
- * name.
- */
-export const deleteEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEmailIdentityRequest,
-  output: DeleteEmailIdentityResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Deletes the specified sending authorization policy for the given identity (an email
- * address or a domain). This API returns successfully even if a policy with the specified
- * name does not exist.
- *
- * This API is for the identity owner only. If you have not verified the identity,
- * this API will return an error.
- *
- * Sending authorization is a feature that enables an identity owner to authorize other
- * senders to use its identities. For information about using sending authorization, see
- * the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const deleteEmailIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEmailIdentityPolicyRequest,
-    output: DeleteEmailIdentityPolicyResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Deletes an email template.
- *
- * You can execute this operation no more than once per second.
- */
-export const deleteEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEmailTemplateRequest,
-  output: DeleteEmailTemplateResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Removes an email address from the suppression list for your account.
- */
-export const deleteSuppressedDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSuppressedDestinationRequest,
-    output: DeleteSuppressedDestinationResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Delete an existing tenant.
- *
- * When you delete a tenant, its associations with resources
- * are removed, but the resources themselves are not deleted.
- */
-export const deleteTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTenantRequest,
-  output: DeleteTenantResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Delete an association between a tenant and a resource.
- *
- * When you delete a tenant-resource association, the resource itself is not deleted,
- * only its association with the specific tenant is removed. After removal, the resource
- * will no longer be available for use with that tenant's email sending operations.
- */
-export const deleteTenantResourceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTenantResourceAssociationRequest,
-    output: DeleteTenantResourceAssociationResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Enable or disable the automatic warm-up feature for dedicated IP addresses.
- */
-export const putAccountDedicatedIpWarmupAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutAccountDedicatedIpWarmupAttributesRequest,
-    output: PutAccountDedicatedIpWarmupAttributesResponse,
-    errors: [BadRequestException, TooManyRequestsException],
-  }));
-/**
- * Enable or disable the ability of your account to send email.
- */
-export const putAccountSendingAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAccountSendingAttributesRequest,
-    output: PutAccountSendingAttributesResponse,
-    errors: [BadRequestException, TooManyRequestsException],
-  }),
-);
-/**
- * Update your Amazon SES account VDM attributes.
- *
- * You can execute this operation no more than once per second.
- */
-export const putAccountVdmAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAccountVdmAttributesRequest,
-    output: PutAccountVdmAttributesResponse,
-    errors: [BadRequestException, TooManyRequestsException],
-  }),
-);
-/**
- * Associate the configuration set with a MailManager archive. When you send email using the
- * `SendEmail` or `SendBulkEmail` operations the message as it will be given
- * to the receiving SMTP server will be archived, along with the recipient information.
- */
-export const putConfigurationSetArchivingOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutConfigurationSetArchivingOptionsRequest,
-    output: PutConfigurationSetArchivingOptionsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools
- * to create groups of dedicated IP addresses for sending specific types of email.
- */
-export const putConfigurationSetDeliveryOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutConfigurationSetDeliveryOptionsRequest,
-    output: PutConfigurationSetDeliveryOptionsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Enable or disable collection of reputation metrics for emails that you send using a
- * particular configuration set in a specific Amazon Web Services Region.
- */
-export const putConfigurationSetReputationOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutConfigurationSetReputationOptionsRequest,
-    output: PutConfigurationSetReputationOptionsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Enable or disable email sending for messages that use a particular configuration set
- * in a specific Amazon Web Services Region.
- */
-export const putConfigurationSetSendingOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutConfigurationSetSendingOptionsRequest,
-    output: PutConfigurationSetSendingOptionsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Specify a custom domain to use for open and click tracking elements in email that you
- * send.
- */
-export const putConfigurationSetTrackingOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutConfigurationSetTrackingOptionsRequest,
-    output: PutConfigurationSetTrackingOptionsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Specify VDM preferences for email that you send using the configuration set.
- *
- * You can execute this operation no more than once per second.
- */
-export const putConfigurationSetVdmOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutConfigurationSetVdmOptionsRequest,
-    output: PutConfigurationSetVdmOptionsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Move a dedicated IP address to an existing dedicated IP pool.
- *
- * The dedicated IP address that you specify must already exist, and must be
- * associated with your Amazon Web Services account.
- *
- * The dedicated IP pool you specify must already exist. You can create a new pool by
- * using the `CreateDedicatedIpPool` operation.
- */
-export const putDedicatedIpInPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutDedicatedIpInPoolRequest,
-    output: PutDedicatedIpInPoolResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Used to convert a dedicated IP pool to a different scaling mode.
- *
- * `MANAGED` pools cannot be converted to `STANDARD` scaling mode.
- */
-export const putDedicatedIpPoolScalingAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDedicatedIpPoolScalingAttributesRequest,
-    output: PutDedicatedIpPoolScalingAttributesResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- *
- */
-export const putDedicatedIpWarmupAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDedicatedIpWarmupAttributesRequest,
-    output: PutDedicatedIpWarmupAttributesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain
- * access to reputation, deliverability, and other metrics for the domains that you use to
- * send email. You also gain the ability to perform predictive inbox placement tests.
- *
- * When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition
- * to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more
- * information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
- */
-export const putDeliverabilityDashboardOption =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDeliverabilityDashboardOptionRequest,
-    output: PutDeliverabilityDashboardOptionResponse,
-    errors: [
-      AlreadyExistsException,
-      BadRequestException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Used to associate a configuration set with an email identity.
- */
-export const putEmailIdentityConfigurationSetAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutEmailIdentityConfigurationSetAttributesRequest,
-    output: PutEmailIdentityConfigurationSetAttributesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Used to enable or disable DKIM authentication for an email identity.
- */
-export const putEmailIdentityDkimAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutEmailIdentityDkimAttributesRequest,
-    output: PutEmailIdentityDkimAttributesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Used to enable or disable feedback forwarding for an identity. This setting determines
- * what happens when an identity is used to send an email that results in a bounce or
- * complaint event.
- *
- * If the value is `true`, you receive email notifications when bounce or
- * complaint events occur. These notifications are sent to the address that you specified
- * in the `Return-Path` header of the original email.
- *
- * You're required to have a method of tracking bounces and complaints. If you haven't
- * set up another mechanism for receiving bounce or complaint notifications (for example,
- * by setting up an event destination), you receive an email notification when these events
- * occur (even if this setting is disabled).
- */
-export const putEmailIdentityFeedbackAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutEmailIdentityFeedbackAttributesRequest,
-    output: PutEmailIdentityFeedbackAttributesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Used to enable or disable the custom Mail-From domain configuration for an email
- * identity.
- */
-export const putEmailIdentityMailFromAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutEmailIdentityMailFromAttributesRequest,
-    output: PutEmailIdentityMailFromAttributesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Adds an email address to the suppression list for your account.
- */
-export const putSuppressedDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutSuppressedDestinationRequest,
-    output: PutSuppressedDestinationResponse,
-    errors: [BadRequestException, TooManyRequestsException],
-  }),
-);
-/**
- * Add one or more tags (keys and values) to a specified resource. A
- * *tag* is a label that you optionally define and associate with a
- * resource. Tags can help you categorize and manage resources in different ways, such as
- * by purpose, owner, environment, or other criteria. A resource can have as many as 50
- * tags.
- *
- * Each tag consists of a required *tag key* and an
- * associated *tag value*, both of which you define. A tag key is a
- * general label that acts as a category for more specific tag values. A tag value acts as
- * a descriptor within a tag key.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Remove one or more tags (keys and values) from a specified resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Update the configuration of an event destination for a configuration set.
- *
- * *Events* include message sends, deliveries, opens, clicks, bounces,
- * and complaints. *Event destinations* are places that you can send
- * information about these events to. For example, you can send event data to Amazon EventBridge and
- * associate a rule to send the event to the specified target.
- */
-export const updateConfigurationSetEventDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationSetEventDestinationRequest,
-    output: UpdateConfigurationSetEventDestinationResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Updates a contact's preferences for a list.
- *
- * You must specify all existing topic preferences in the
- * `TopicPreferences` object, not just the ones that need updating;
- * otherwise, all your existing preferences will be removed.
- */
-export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateContactRequest,
-  output: UpdateContactResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates contact list metadata. This operation does a complete replacement.
- */
-export const updateContactList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateContactListRequest,
-  output: UpdateContactListResponse,
-  errors: [
-    BadRequestException,
-    ConcurrentModificationException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates an existing custom verification email template.
- *
- * For more information about custom verification email templates, see Using
- * custom verification email templates in the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const updateCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCustomVerificationEmailTemplateRequest,
-    output: UpdateCustomVerificationEmailTemplateResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Updates the specified sending authorization policy for the given identity (an email
- * address or a domain). This API returns successfully even if a policy with the specified
- * name does not exist.
- *
- * This API is for the identity owner only. If you have not verified the identity,
- * this API will return an error.
- *
- * Sending authorization is a feature that enables an identity owner to authorize other
- * senders to use its identities. For information about using sending authorization, see
- * the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const updateEmailIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEmailIdentityPolicyRequest,
-    output: UpdateEmailIdentityPolicyResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Updates an email template. Email templates enable you to send personalized email to
- * one or more destinations in a single API operation. For more information, see the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const updateEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEmailTemplateRequest,
-  output: UpdateEmailTemplateResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Update the customer-managed sending status for a reputation entity. This allows
- * you to enable, disable, or reinstate sending for the entity.
- *
- * The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status
- * to determine the overall sending capability. When you update the customer-managed status,
- * the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity,
- * it will not be allowed to send regardless of the customer-managed status setting. When you
- * reinstate an entity through the customer-managed status, it can continue sending only if
- * the Amazon Web Services Amazon SES-managed status also permits sending, even if there are active reputation
- * findings, until the findings are resolved or new violations occur.
- */
-export const updateReputationEntityCustomerManagedStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateReputationEntityCustomerManagedStatusRequest,
-    output: UpdateReputationEntityCustomerManagedStatusResponse,
-    errors: [BadRequestException, ConflictException, TooManyRequestsException],
-  }));
-/**
- * Update the reputation management policy for a reputation entity. The policy
- * determines how the entity responds to reputation findings, such as automatically
- * pausing sending when certain thresholds are exceeded.
- *
- * Reputation management policies are Amazon Web Services Amazon SES-managed (predefined policies).
- * You can select from none, standard, and strict policies.
- */
-export const updateReputationEntityPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateReputationEntityPolicyRequest,
-    output: UpdateReputationEntityPolicyResponse,
-    errors: [BadRequestException, ConflictException, TooManyRequestsException],
-  }));
-/**
- * Cancels an export job.
- */
-export const cancelExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelExportJobRequest,
-  output: CancelExportJobResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Creates a contact, which is an end-user who is receiving the email, and adds them to a
- * contact list.
- */
-export const createContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateContactRequest,
-  output: CreateContactResponse,
-  errors: [
-    AlreadyExistsException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a contact list.
- */
-export const createContactList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateContactListRequest,
-  output: CreateContactListResponse,
-  errors: [
-    AlreadyExistsException,
-    BadRequestException,
-    LimitExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Creates a new custom verification email template.
- *
- * For more information about custom verification email templates, see Using
- * custom verification email templates in the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const createCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCustomVerificationEmailTemplateRequest,
-    output: CreateCustomVerificationEmailTemplateResponse,
-    errors: [
-      AlreadyExistsException,
-      BadRequestException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Create a new pool of dedicated IP addresses. A pool can include one or more dedicated
- * IP addresses that are associated with your Amazon Web Services account. You can associate a pool with
- * a configuration set. When you send an email that uses that configuration set, the
- * message is sent from one of the addresses in the associated pool.
- */
-export const createDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDedicatedIpPoolRequest,
-    output: CreateDedicatedIpPoolResponse,
-    errors: [
-      AlreadyExistsException,
-      BadRequestException,
-      ConcurrentModificationException,
-      LimitExceededException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates the specified sending authorization policy for the given identity (an email
- * address or a domain).
- *
- * This API is for the identity owner only. If you have not verified the identity,
- * this API will return an error.
- *
- * Sending authorization is a feature that enables an identity owner to authorize other
- * senders to use its identities. For information about using sending authorization, see
- * the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const createEmailIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEmailIdentityPolicyRequest,
-    output: CreateEmailIdentityPolicyResponse,
-    errors: [
-      AlreadyExistsException,
-      BadRequestException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Creates an email template. Email templates enable you to send personalized email to
- * one or more destinations in a single API operation. For more information, see the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const createEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEmailTemplateRequest,
-  output: CreateEmailTemplateResponse,
-  errors: [
-    AlreadyExistsException,
-    BadRequestException,
-    LimitExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create a tenant.
- *
- * *Tenants* are logical containers that group related SES resources together.
- * Each tenant can have its own set of resources like email identities, configuration sets,
- * and templates, along with reputation metrics and sending status. This helps isolate and manage
- * email sending for different customers or business units within your Amazon SES API v2 account.
- */
-export const createTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTenantRequest,
-  output: CreateTenantResponse,
-  errors: [
-    AlreadyExistsException,
-    BadRequestException,
-    LimitExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Associate a resource with a tenant.
- *
- * *Resources* can be email identities, configuration sets, or email templates.
- * When you associate a resource with a tenant, you can use that resource when sending emails
- * on behalf of that tenant.
- *
- * A single resource can be associated with multiple tenants, allowing for resource sharing
- * across different tenants while maintaining isolation in email sending operations.
- */
-export const createTenantResourceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTenantResourceAssociationRequest,
-    output: CreateTenantResourceAssociationResponse,
-    errors: [
-      AlreadyExistsException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Delete an existing configuration set.
- *
- * *Configuration sets* are groups of rules that you can apply to the
- * emails you send. You apply a configuration set to an email by including a reference to
- * the configuration set in the headers of the email. When you apply a configuration set to
- * an email, all of the rules in that configuration set are applied to the email.
- */
-export const deleteConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationSetRequest,
-    output: DeleteConfigurationSetResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Deletes a multi-region endpoint (global-endpoint).
- *
- * Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region
- * where operation is executed can be deleted.
- */
-export const deleteMultiRegionEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMultiRegionEndpointRequest,
-    output: DeleteMultiRegionEndpointResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Get information about an existing configuration set, including the dedicated IP pool
- * that it's associated with, whether or not it's enabled for sending email, and
- * more.
- *
- * *Configuration sets* are groups of rules that you can apply to the
- * emails you send. You apply a configuration set to an email by including a reference to
- * the configuration set in the headers of the email. When you apply a configuration set to
- * an email, all of the rules in that configuration set are applied to the email.
- */
-export const getConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConfigurationSetRequest,
-  output: GetConfigurationSetResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Returns a contact from a contact list.
- */
-export const getContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetContactRequest,
-  output: GetContactResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Returns contact list metadata. It does not return any information about the contacts
- * present in the list.
- */
-export const getContactList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetContactListRequest,
-  output: GetContactListResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Returns the custom email verification template for the template name you
- * specify.
- *
- * For more information about custom verification email templates, see Using
- * custom verification email templates in the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const getCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCustomVerificationEmailTemplateRequest,
-    output: GetCustomVerificationEmailTemplateResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * List the dedicated IP addresses that are associated with your Amazon Web Services
- * account.
- */
-export const getDedicatedIps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDedicatedIpsRequest,
-  output: GetDedicatedIpsResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Returns the requested sending authorization policies for the given identity (an email
- * address or a domain). The policies are returned as a map of policy names to policy
- * contents. You can retrieve a maximum of 20 policies at a time.
- *
- * This API is for the identity owner only. If you have not verified the identity,
- * this API will return an error.
- *
- * Sending authorization is a feature that enables an identity owner to authorize other
- * senders to use its identities. For information about using sending authorization, see
- * the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const getEmailIdentityPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEmailIdentityPoliciesRequest,
-    output: GetEmailIdentityPoliciesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Displays the template object (which includes the subject line, HTML part and text
- * part) for the template you specify.
- *
- * You can execute this operation no more than once per second.
- */
-export const getEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEmailTemplateRequest,
-  output: GetEmailTemplateResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Provides information about an import job.
- */
-export const getImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetImportJobRequest,
-  output: GetImportJobResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
 /**
  * List all of the configuration sets associated with your account in the current
  * region.
@@ -4397,282 +3585,6 @@ export const listConfigurationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
     errors: [BadRequestException, TooManyRequestsException],
   }),
 );
-/**
- * List all of the dedicated IP pools that exist in your Amazon Web Services account in the current
- * Region.
- */
-export const listDedicatedIpPools = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDedicatedIpPoolsRequest,
-    output: ListDedicatedIpPoolsResponse,
-    errors: [BadRequestException, TooManyRequestsException],
-  }),
-);
-/**
- * Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For
- * predictive inbox placement tests that are complete, you can use the `GetDeliverabilityTestReport`
- * operation to view the results.
- */
-export const listDeliverabilityTestReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDeliverabilityTestReportsRequest,
-    output: ListDeliverabilityTestReportsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Retrieve deliverability data for all the campaigns that used a specific domain to send
- * email during a specified time range. This data is available for a domain only if you
- * enabled the Deliverability dashboard for the domain.
- */
-export const listDomainDeliverabilityCampaigns =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDomainDeliverabilityCampaignsRequest,
-    output: ListDomainDeliverabilityCampaignsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Retrieve a list of the tags (keys and values) that are associated with a specified
- * resource. A *tag* is a label that you optionally define and associate
- * with a resource. Each tag consists of a required *tag key* and an
- * optional associated *tag value*. A tag key is a general label that
- * acts as a category for more specific tag values. A tag value acts as a descriptor within
- * a tag key.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Update your Amazon SES account details.
- */
-export const putAccountDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutAccountDetailsRequest,
-  output: PutAccountDetailsResponse,
-  errors: [BadRequestException, ConflictException, TooManyRequestsException],
-}));
-/**
- * Specify the account suppression list preferences for a configuration set.
- */
-export const putConfigurationSetSuppressionOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutConfigurationSetSuppressionOptionsRequest,
-    output: PutConfigurationSetSuppressionOptionsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Used to configure or change the DKIM authentication settings for an email domain
- * identity. You can use this operation to do any of the following:
- *
- * - Update the signing attributes for an identity that uses Bring Your Own DKIM
- * (BYODKIM).
- *
- * - Update the key length that should be used for Easy DKIM.
- *
- * - Change from using no DKIM authentication to using Easy DKIM.
- *
- * - Change from using no DKIM authentication to using BYODKIM.
- *
- * - Change from using Easy DKIM to using BYODKIM.
- *
- * - Change from using BYODKIM to using Easy DKIM.
- */
-export const putEmailIdentityDkimSigningAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutEmailIdentityDkimSigningAttributesRequest,
-    output: PutEmailIdentityDkimSigningAttributesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Creates a preview of the MIME content of an email when provided with a template and a
- * set of replacement data.
- *
- * You can execute this operation no more than once per second.
- */
-export const testRenderEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TestRenderEmailTemplateRequest,
-    output: TestRenderEmailTemplateResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Create a configuration set. *Configuration sets* are groups of
- * rules that you can apply to the emails that you send. You apply a configuration set to
- * an email by specifying the name of the configuration set when you call the Amazon SES API v2. When
- * you apply a configuration set to an email, all of the rules in that configuration set
- * are applied to the email.
- */
-export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfigurationSetRequest,
-    output: CreateConfigurationSetResponse,
-    errors: [
-      AlreadyExistsException,
-      BadRequestException,
-      ConcurrentModificationException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Starts the process of verifying an email identity. An *identity* is
- * an email address or domain that you use when you send email. Before you can use an
- * identity to send email, you first have to verify it. By verifying an identity, you
- * demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2
- * permission to send email from the identity.
- *
- * When you verify an email address, Amazon SES sends an email to the address. Your email
- * address is verified as soon as you follow the link in the verification email.
- *
- * When you verify a domain without specifying the `DkimSigningAttributes`
- * object, this operation provides a set of DKIM tokens. You can convert these tokens into
- * CNAME records, which you then add to the DNS configuration for your domain. Your domain
- * is verified when Amazon SES detects these records in the DNS configuration for your domain.
- * This verification method is known as Easy DKIM.
- *
- * Alternatively, you can perform the verification process by providing your own
- * public-private key pair. This verification method is known as Bring Your Own DKIM
- * (BYODKIM). To use BYODKIM, your call to the `CreateEmailIdentity` operation
- * has to include the `DkimSigningAttributes` object. When you specify this
- * object, you provide a selector (a component of the DNS record name that identifies the
- * public key to use for DKIM authentication) and a private key.
- *
- * When you verify a domain, this operation provides a set of DKIM tokens, which you can
- * convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your
- * domain. Your domain is verified when Amazon SES detects these records in the DNS
- * configuration for your domain. For some DNS providers, it can take 72 hours or more to
- * complete the domain verification process.
- *
- * Additionally, you can associate an existing configuration set with the email identity that you're verifying.
- */
-export const createEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEmailIdentityRequest,
-  output: CreateEmailIdentityResponse,
-  errors: [
-    AlreadyExistsException,
-    BadRequestException,
-    ConcurrentModificationException,
-    LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Obtain information about the email-sending status and capabilities of your Amazon SES
- * account in the current Amazon Web Services Region.
- */
-export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountRequest,
-  output: GetAccountResponse,
-  errors: [BadRequestException, TooManyRequestsException],
-}));
-/**
- * Retrieve a list of event destinations that are associated with a configuration
- * set.
- *
- * *Events* include message sends, deliveries, opens, clicks, bounces,
- * and complaints. *Event destinations* are places that you can send
- * information about these events to. For example, you can send event data to Amazon EventBridge and
- * associate a rule to send the event to the specified target.
- */
-export const getConfigurationSetEventDestinations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConfigurationSetEventDestinationsRequest,
-    output: GetConfigurationSetEventDestinationsResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Get information about a dedicated IP address, including the name of the dedicated IP
- * pool that it's associated with, as well information about the automatic warm-up process
- * for the address.
- */
-export const getDedicatedIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDedicatedIpRequest,
-  output: GetDedicatedIpResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Retrieve information about the dedicated pool.
- */
-export const getDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDedicatedIpPoolRequest,
-  output: GetDedicatedIpPoolResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Retrieve information about the status of the Deliverability dashboard for your account. When
- * the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other
- * metrics for the domains that you use to send email. You also gain the ability to perform
- * predictive inbox placement tests.
- *
- * When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition
- * to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more
- * information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
- */
-export const getDeliverabilityDashboardOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDeliverabilityDashboardOptionsRequest,
-    output: GetDeliverabilityDashboardOptionsResponse,
-    errors: [
-      BadRequestException,
-      LimitExceededException,
-      TooManyRequestsException,
-    ],
-  }));
-/**
- * Retrieve the results of a predictive inbox placement test.
- */
-export const getDeliverabilityTestReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDeliverabilityTestReportRequest,
-    output: GetDeliverabilityTestReportResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Retrieve all the deliverability data for a specific campaign. This data is available
- * for a campaign only if the campaign sent email by using a domain that the
- * Deliverability dashboard is enabled for.
- */
-export const getDomainDeliverabilityCampaign =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDomainDeliverabilityCampaignRequest,
-    output: GetDomainDeliverabilityCampaignResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }));
-/**
- * Provides information about an export job.
- */
-export const getExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetExportJobRequest,
-  output: GetExportJobResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Displays the multi-region endpoint (global-endpoint) configuration.
- *
- * Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region
- * where operation is executed can be displayed.
- */
-export const getMultiRegionEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMultiRegionEndpointRequest,
-    output: GetMultiRegionEndpointResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
-/**
- * Get information about a specific tenant, including the tenant's name, ID, ARN,
- * creation timestamp, tags, and sending status.
- */
-export const getTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTenantRequest,
-  output: GetTenantResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
 /**
  * Lists all of the contact lists available.
  *
@@ -4790,6 +3702,1094 @@ export const listTenants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: ListTenantsResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+/**
+ * Update your Amazon SES account details.
+ */
+export const putAccountDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAccountDetailsRequest,
+  output: PutAccountDetailsResponse,
+  errors: [BadRequestException, ConflictException, TooManyRequestsException],
+}));
+/**
+ * Get information about an existing configuration set, including the dedicated IP pool
+ * that it's associated with, whether or not it's enabled for sending email, and
+ * more.
+ *
+ * *Configuration sets* are groups of rules that you can apply to the
+ * emails you send. You apply a configuration set to an email by including a reference to
+ * the configuration set in the headers of the email. When you apply a configuration set to
+ * an email, all of the rules in that configuration set are applied to the email.
+ */
+export const getConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationSetRequest,
+  output: GetConfigurationSetResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Returns a contact from a contact list.
+ */
+export const getContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContactRequest,
+  output: GetContactResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Returns contact list metadata. It does not return any information about the contacts
+ * present in the list.
+ */
+export const getContactList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContactListRequest,
+  output: GetContactListResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Returns the custom email verification template for the template name you
+ * specify.
+ *
+ * For more information about custom verification email templates, see Using
+ * custom verification email templates in the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const getCustomVerificationEmailTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetCustomVerificationEmailTemplateRequest,
+    output: GetCustomVerificationEmailTemplateResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * List the dedicated IP addresses that are associated with your Amazon Web Services
+ * account.
+ */
+export const getDedicatedIps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDedicatedIpsRequest,
+  output: GetDedicatedIpsResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Returns the requested sending authorization policies for the given identity (an email
+ * address or a domain). The policies are returned as a map of policy names to policy
+ * contents. You can retrieve a maximum of 20 policies at a time.
+ *
+ * This API is for the identity owner only. If you have not verified the identity,
+ * this API will return an error.
+ *
+ * Sending authorization is a feature that enables an identity owner to authorize other
+ * senders to use its identities. For information about using sending authorization, see
+ * the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const getEmailIdentityPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetEmailIdentityPoliciesRequest,
+    output: GetEmailIdentityPoliciesResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Displays the template object (which includes the subject line, HTML part and text
+ * part) for the template you specify.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const getEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEmailTemplateRequest,
+  output: GetEmailTemplateResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Provides information about an import job.
+ */
+export const getImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImportJobRequest,
+  output: GetImportJobResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For
+ * predictive inbox placement tests that are complete, you can use the `GetDeliverabilityTestReport`
+ * operation to view the results.
+ */
+export const listDeliverabilityTestReports =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDeliverabilityTestReportsRequest,
+    output: ListDeliverabilityTestReportsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Retrieve deliverability data for all the campaigns that used a specific domain to send
+ * email during a specified time range. This data is available for a domain only if you
+ * enabled the Deliverability dashboard for the domain.
+ */
+export const listDomainDeliverabilityCampaigns =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListDomainDeliverabilityCampaignsRequest,
+    output: ListDomainDeliverabilityCampaignsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Retrieve a list of the tags (keys and values) that are associated with a specified
+ * resource. A *tag* is a label that you optionally define and associate
+ * with a resource. Each tag consists of a required *tag key* and an
+ * optional associated *tag value*. A tag key is a general label that
+ * acts as a category for more specific tag values. A tag value acts as a descriptor within
+ * a tag key.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Specify the account suppression list preferences for a configuration set.
+ */
+export const putConfigurationSetSuppressionOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutConfigurationSetSuppressionOptionsRequest,
+    output: PutConfigurationSetSuppressionOptionsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Used to configure or change the DKIM authentication settings for an email domain
+ * identity. You can use this operation to do any of the following:
+ *
+ * - Update the signing attributes for an identity that uses Bring Your Own DKIM
+ * (BYODKIM).
+ *
+ * - Update the key length that should be used for Easy DKIM.
+ *
+ * - Change from using no DKIM authentication to using Easy DKIM.
+ *
+ * - Change from using no DKIM authentication to using BYODKIM.
+ *
+ * - Change from using Easy DKIM to using BYODKIM.
+ *
+ * - Change from using BYODKIM to using Easy DKIM.
+ */
+export const putEmailIdentityDkimSigningAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutEmailIdentityDkimSigningAttributesRequest,
+    output: PutEmailIdentityDkimSigningAttributesResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Creates a preview of the MIME content of an email when provided with a template and a
+ * set of replacement data.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const testRenderEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: TestRenderEmailTemplateRequest,
+    output: TestRenderEmailTemplateResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Delete an event destination.
+ *
+ * *Events* include message sends, deliveries, opens, clicks, bounces,
+ * and complaints. *Event destinations* are places that you can send
+ * information about these events to. For example, you can send event data to Amazon EventBridge and
+ * associate a rule to send the event to the specified target.
+ */
+export const deleteConfigurationSetEventDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteConfigurationSetEventDestinationRequest,
+    output: DeleteConfigurationSetEventDestinationResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Removes a contact from a contact list.
+ */
+export const deleteContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactRequest,
+  output: DeleteContactResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Deletes an existing custom verification email template.
+ *
+ * For more information about custom verification email templates, see Using
+ * custom verification email templates in the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const deleteCustomVerificationEmailTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteCustomVerificationEmailTemplateRequest,
+    output: DeleteCustomVerificationEmailTemplateResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Deletes the specified sending authorization policy for the given identity (an email
+ * address or a domain). This API returns successfully even if a policy with the specified
+ * name does not exist.
+ *
+ * This API is for the identity owner only. If you have not verified the identity,
+ * this API will return an error.
+ *
+ * Sending authorization is a feature that enables an identity owner to authorize other
+ * senders to use its identities. For information about using sending authorization, see
+ * the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const deleteEmailIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEmailIdentityPolicyRequest,
+    output: DeleteEmailIdentityPolicyResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Deletes an email template.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const deleteEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEmailTemplateRequest,
+  output: DeleteEmailTemplateResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Removes an email address from the suppression list for your account.
+ */
+export const deleteSuppressedDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSuppressedDestinationRequest,
+    output: DeleteSuppressedDestinationResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Delete an existing tenant.
+ *
+ * When you delete a tenant, its associations with resources
+ * are removed, but the resources themselves are not deleted.
+ */
+export const deleteTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTenantRequest,
+  output: DeleteTenantResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Delete an association between a tenant and a resource.
+ *
+ * When you delete a tenant-resource association, the resource itself is not deleted,
+ * only its association with the specific tenant is removed. After removal, the resource
+ * will no longer be available for use with that tenant's email sending operations.
+ */
+export const deleteTenantResourceAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteTenantResourceAssociationRequest,
+    output: DeleteTenantResourceAssociationResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Associate the configuration set with a MailManager archive. When you send email using the
+ * `SendEmail` or `SendBulkEmail` operations the message as it will be given
+ * to the receiving SMTP server will be archived, along with the recipient information.
+ */
+export const putConfigurationSetArchivingOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutConfigurationSetArchivingOptionsRequest,
+    output: PutConfigurationSetArchivingOptionsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools
+ * to create groups of dedicated IP addresses for sending specific types of email.
+ */
+export const putConfigurationSetDeliveryOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutConfigurationSetDeliveryOptionsRequest,
+    output: PutConfigurationSetDeliveryOptionsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Enable or disable collection of reputation metrics for emails that you send using a
+ * particular configuration set in a specific Amazon Web Services Region.
+ */
+export const putConfigurationSetReputationOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutConfigurationSetReputationOptionsRequest,
+    output: PutConfigurationSetReputationOptionsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Enable or disable email sending for messages that use a particular configuration set
+ * in a specific Amazon Web Services Region.
+ */
+export const putConfigurationSetSendingOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutConfigurationSetSendingOptionsRequest,
+    output: PutConfigurationSetSendingOptionsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Specify a custom domain to use for open and click tracking elements in email that you
+ * send.
+ */
+export const putConfigurationSetTrackingOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutConfigurationSetTrackingOptionsRequest,
+    output: PutConfigurationSetTrackingOptionsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Specify VDM preferences for email that you send using the configuration set.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const putConfigurationSetVdmOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutConfigurationSetVdmOptionsRequest,
+    output: PutConfigurationSetVdmOptionsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Move a dedicated IP address to an existing dedicated IP pool.
+ *
+ * The dedicated IP address that you specify must already exist, and must be
+ * associated with your Amazon Web Services account.
+ *
+ * The dedicated IP pool you specify must already exist. You can create a new pool by
+ * using the `CreateDedicatedIpPool` operation.
+ */
+export const putDedicatedIpInPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutDedicatedIpInPoolRequest,
+    output: PutDedicatedIpInPoolResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ *
+ */
+export const putDedicatedIpWarmupAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutDedicatedIpWarmupAttributesRequest,
+    output: PutDedicatedIpWarmupAttributesResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Used to associate a configuration set with an email identity.
+ */
+export const putEmailIdentityConfigurationSetAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutEmailIdentityConfigurationSetAttributesRequest,
+    output: PutEmailIdentityConfigurationSetAttributesResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Used to enable or disable DKIM authentication for an email identity.
+ */
+export const putEmailIdentityDkimAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutEmailIdentityDkimAttributesRequest,
+    output: PutEmailIdentityDkimAttributesResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Used to enable or disable feedback forwarding for an identity. This setting determines
+ * what happens when an identity is used to send an email that results in a bounce or
+ * complaint event.
+ *
+ * If the value is `true`, you receive email notifications when bounce or
+ * complaint events occur. These notifications are sent to the address that you specified
+ * in the `Return-Path` header of the original email.
+ *
+ * You're required to have a method of tracking bounces and complaints. If you haven't
+ * set up another mechanism for receiving bounce or complaint notifications (for example,
+ * by setting up an event destination), you receive an email notification when these events
+ * occur (even if this setting is disabled).
+ */
+export const putEmailIdentityFeedbackAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutEmailIdentityFeedbackAttributesRequest,
+    output: PutEmailIdentityFeedbackAttributesResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Used to enable or disable the custom Mail-From domain configuration for an email
+ * identity.
+ */
+export const putEmailIdentityMailFromAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutEmailIdentityMailFromAttributesRequest,
+    output: PutEmailIdentityMailFromAttributesResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Update the configuration of an event destination for a configuration set.
+ *
+ * *Events* include message sends, deliveries, opens, clicks, bounces,
+ * and complaints. *Event destinations* are places that you can send
+ * information about these events to. For example, you can send event data to Amazon EventBridge and
+ * associate a rule to send the event to the specified target.
+ */
+export const updateConfigurationSetEventDestination =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateConfigurationSetEventDestinationRequest,
+    output: UpdateConfigurationSetEventDestinationResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Updates an existing custom verification email template.
+ *
+ * For more information about custom verification email templates, see Using
+ * custom verification email templates in the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const updateCustomVerificationEmailTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateCustomVerificationEmailTemplateRequest,
+    output: UpdateCustomVerificationEmailTemplateResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Updates the specified sending authorization policy for the given identity (an email
+ * address or a domain). This API returns successfully even if a policy with the specified
+ * name does not exist.
+ *
+ * This API is for the identity owner only. If you have not verified the identity,
+ * this API will return an error.
+ *
+ * Sending authorization is a feature that enables an identity owner to authorize other
+ * senders to use its identities. For information about using sending authorization, see
+ * the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const updateEmailIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEmailIdentityPolicyRequest,
+    output: UpdateEmailIdentityPolicyResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Updates an email template. Email templates enable you to send personalized email to
+ * one or more destinations in a single API operation. For more information, see the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const updateEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEmailTemplateRequest,
+  output: UpdateEmailTemplateResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Associate a resource with a tenant.
+ *
+ * *Resources* can be email identities, configuration sets, or email templates.
+ * When you associate a resource with a tenant, you can use that resource when sending emails
+ * on behalf of that tenant.
+ *
+ * A single resource can be associated with multiple tenants, allowing for resource sharing
+ * across different tenants while maintaining isolation in email sending operations.
+ */
+export const createTenantResourceAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateTenantResourceAssociationRequest,
+    output: CreateTenantResourceAssociationResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Creates a contact, which is an end-user who is receiving the email, and adds them to a
+ * contact list.
+ */
+export const createContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContactRequest,
+  output: CreateContactResponse,
+  errors: [
+    AlreadyExistsException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates an email template. Email templates enable you to send personalized email to
+ * one or more destinations in a single API operation. For more information, see the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const createEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEmailTemplateRequest,
+  output: CreateEmailTemplateResponse,
+  errors: [
+    AlreadyExistsException,
+    BadRequestException,
+    LimitExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a tenant.
+ *
+ * *Tenants* are logical containers that group related SES resources together.
+ * Each tenant can have its own set of resources like email identities, configuration sets,
+ * and templates, along with reputation metrics and sending status. This helps isolate and manage
+ * email sending for different customers or business units within your Amazon SES API v2 account.
+ */
+export const createTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTenantRequest,
+  output: CreateTenantResponse,
+  errors: [
+    AlreadyExistsException,
+    BadRequestException,
+    LimitExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Creates the specified sending authorization policy for the given identity (an email
+ * address or a domain).
+ *
+ * This API is for the identity owner only. If you have not verified the identity,
+ * this API will return an error.
+ *
+ * Sending authorization is a feature that enables an identity owner to authorize other
+ * senders to use its identities. For information about using sending authorization, see
+ * the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const createEmailIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEmailIdentityPolicyRequest,
+    output: CreateEmailIdentityPolicyResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain
+ * access to reputation, deliverability, and other metrics for the domains that you use to
+ * send email. You also gain the ability to perform predictive inbox placement tests.
+ *
+ * When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition
+ * to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more
+ * information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
+ */
+export const putDeliverabilityDashboardOption =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutDeliverabilityDashboardOptionRequest,
+    output: PutDeliverabilityDashboardOptionResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Creates a contact list.
+ */
+export const createContactList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContactListRequest,
+  output: CreateContactListResponse,
+  errors: [
+    AlreadyExistsException,
+    BadRequestException,
+    LimitExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Delete an existing configuration set.
+ *
+ * *Configuration sets* are groups of rules that you can apply to the
+ * emails you send. You apply a configuration set to an email by including a reference to
+ * the configuration set in the headers of the email. When you apply a configuration set to
+ * an email, all of the rules in that configuration set are applied to the email.
+ */
+export const deleteConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConfigurationSetRequest,
+    output: DeleteConfigurationSetResponse,
+    errors: [
+      BadRequestException,
+      ConcurrentModificationException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Deletes a contact list and all of the contacts on that list.
+ */
+export const deleteContactList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactListRequest,
+  output: DeleteContactListResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Delete a dedicated IP pool.
+ */
+export const deleteDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDedicatedIpPoolRequest,
+    output: DeleteDedicatedIpPoolResponse,
+    errors: [
+      BadRequestException,
+      ConcurrentModificationException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Deletes an email identity. An identity can be either an email address or a domain
+ * name.
+ */
+export const deleteEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEmailIdentityRequest,
+  output: DeleteEmailIdentityResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Used to convert a dedicated IP pool to a different scaling mode.
+ *
+ * `MANAGED` pools cannot be converted to `STANDARD` scaling mode.
+ */
+export const putDedicatedIpPoolScalingAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutDedicatedIpPoolScalingAttributesRequest,
+    output: PutDedicatedIpPoolScalingAttributesResponse,
+    errors: [
+      BadRequestException,
+      ConcurrentModificationException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Add one or more tags (keys and values) to a specified resource. A
+ * *tag* is a label that you optionally define and associate with a
+ * resource. Tags can help you categorize and manage resources in different ways, such as
+ * by purpose, owner, environment, or other criteria. A resource can have as many as 50
+ * tags.
+ *
+ * Each tag consists of a required *tag key* and an
+ * associated *tag value*, both of which you define. A tag key is a
+ * general label that acts as a category for more specific tag values. A tag value acts as
+ * a descriptor within a tag key.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Remove one or more tags (keys and values) from a specified resource.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates a contact's preferences for a list.
+ *
+ * You must specify all existing topic preferences in the
+ * `TopicPreferences` object, not just the ones that need updating;
+ * otherwise, all your existing preferences will be removed.
+ */
+export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactRequest,
+  output: UpdateContactResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates contact list metadata. This operation does a complete replacement.
+ */
+export const updateContactList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactListRequest,
+  output: UpdateContactListResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a new pool of dedicated IP addresses. A pool can include one or more dedicated
+ * IP addresses that are associated with your Amazon Web Services account. You can associate a pool with
+ * a configuration set. When you send an email that uses that configuration set, the
+ * message is sent from one of the addresses in the associated pool.
+ */
+export const createDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateDedicatedIpPoolRequest,
+    output: CreateDedicatedIpPoolResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      ConcurrentModificationException,
+      LimitExceededException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Create a configuration set. *Configuration sets* are groups of
+ * rules that you can apply to the emails that you send. You apply a configuration set to
+ * an email by specifying the name of the configuration set when you call the Amazon SES API v2. When
+ * you apply a configuration set to an email, all of the rules in that configuration set
+ * are applied to the email.
+ */
+export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateConfigurationSetRequest,
+    output: CreateConfigurationSetResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      ConcurrentModificationException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Starts the process of verifying an email identity. An *identity* is
+ * an email address or domain that you use when you send email. Before you can use an
+ * identity to send email, you first have to verify it. By verifying an identity, you
+ * demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2
+ * permission to send email from the identity.
+ *
+ * When you verify an email address, Amazon SES sends an email to the address. Your email
+ * address is verified as soon as you follow the link in the verification email.
+ *
+ * When you verify a domain without specifying the `DkimSigningAttributes`
+ * object, this operation provides a set of DKIM tokens. You can convert these tokens into
+ * CNAME records, which you then add to the DNS configuration for your domain. Your domain
+ * is verified when Amazon SES detects these records in the DNS configuration for your domain.
+ * This verification method is known as Easy DKIM.
+ *
+ * Alternatively, you can perform the verification process by providing your own
+ * public-private key pair. This verification method is known as Bring Your Own DKIM
+ * (BYODKIM). To use BYODKIM, your call to the `CreateEmailIdentity` operation
+ * has to include the `DkimSigningAttributes` object. When you specify this
+ * object, you provide a selector (a component of the DNS record name that identifies the
+ * public key to use for DKIM authentication) and a private key.
+ *
+ * When you verify a domain, this operation provides a set of DKIM tokens, which you can
+ * convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your
+ * domain. Your domain is verified when Amazon SES detects these records in the DNS
+ * configuration for your domain. For some DNS providers, it can take 72 hours or more to
+ * complete the domain verification process.
+ *
+ * Additionally, you can associate an existing configuration set with the email identity that you're verifying.
+ */
+export const createEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEmailIdentityRequest,
+  output: CreateEmailIdentityResponse,
+  errors: [
+    AlreadyExistsException,
+    BadRequestException,
+    ConcurrentModificationException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * List all of the dedicated IP pools that exist in your Amazon Web Services account in the current
+ * Region.
+ */
+export const listDedicatedIpPools = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListDedicatedIpPoolsRequest,
+    output: ListDedicatedIpPoolsResponse,
+    errors: [BadRequestException, TooManyRequestsException],
+  }),
+);
+/**
+ * Enable or disable the automatic warm-up feature for dedicated IP addresses.
+ */
+export const putAccountDedicatedIpWarmupAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutAccountDedicatedIpWarmupAttributesRequest,
+    output: PutAccountDedicatedIpWarmupAttributesResponse,
+    errors: [BadRequestException, TooManyRequestsException],
+  }));
+/**
+ * Enable or disable the ability of your account to send email.
+ */
+export const putAccountSendingAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutAccountSendingAttributesRequest,
+    output: PutAccountSendingAttributesResponse,
+    errors: [BadRequestException, TooManyRequestsException],
+  }),
+);
+/**
+ * Update your Amazon SES account VDM attributes.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const putAccountVdmAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutAccountVdmAttributesRequest,
+    output: PutAccountVdmAttributesResponse,
+    errors: [BadRequestException, TooManyRequestsException],
+  }),
+);
+/**
+ * Adds an email address to the suppression list for your account.
+ */
+export const putSuppressedDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutSuppressedDestinationRequest,
+    output: PutSuppressedDestinationResponse,
+    errors: [BadRequestException, TooManyRequestsException],
+  }),
+);
+/**
+ * Cancels an export job.
+ */
+export const cancelExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelExportJobRequest,
+  output: CancelExportJobResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Creates a new custom verification email template.
+ *
+ * For more information about custom verification email templates, see Using
+ * custom verification email templates in the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const createCustomVerificationEmailTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateCustomVerificationEmailTemplateRequest,
+    output: CreateCustomVerificationEmailTemplateResponse,
+    errors: [
+      AlreadyExistsException,
+      BadRequestException,
+      LimitExceededException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Deletes a multi-region endpoint (global-endpoint).
+ *
+ * Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region
+ * where operation is executed can be deleted.
+ */
+export const deleteMultiRegionEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMultiRegionEndpointRequest,
+    output: DeleteMultiRegionEndpointResponse,
+    errors: [
+      BadRequestException,
+      ConcurrentModificationException,
+      NotFoundException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Obtain information about the email-sending status and capabilities of your Amazon SES
+ * account in the current Amazon Web Services Region.
+ */
+export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountRequest,
+  output: GetAccountResponse,
+  errors: [BadRequestException, TooManyRequestsException],
+}));
+/**
+ * Retrieve a list of event destinations that are associated with a configuration
+ * set.
+ *
+ * *Events* include message sends, deliveries, opens, clicks, bounces,
+ * and complaints. *Event destinations* are places that you can send
+ * information about these events to. For example, you can send event data to Amazon EventBridge and
+ * associate a rule to send the event to the specified target.
+ */
+export const getConfigurationSetEventDestinations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetConfigurationSetEventDestinationsRequest,
+    output: GetConfigurationSetEventDestinationsResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Get information about a dedicated IP address, including the name of the dedicated IP
+ * pool that it's associated with, as well information about the automatic warm-up process
+ * for the address.
+ */
+export const getDedicatedIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDedicatedIpRequest,
+  output: GetDedicatedIpResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Retrieve information about the dedicated pool.
+ */
+export const getDedicatedIpPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDedicatedIpPoolRequest,
+  output: GetDedicatedIpPoolResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Retrieve information about the status of the Deliverability dashboard for your account. When
+ * the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other
+ * metrics for the domains that you use to send email. You also gain the ability to perform
+ * predictive inbox placement tests.
+ *
+ * When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition
+ * to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more
+ * information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
+ */
+export const getDeliverabilityDashboardOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetDeliverabilityDashboardOptionsRequest,
+    output: GetDeliverabilityDashboardOptionsResponse,
+    errors: [
+      BadRequestException,
+      LimitExceededException,
+      TooManyRequestsException,
+    ],
+  }));
+/**
+ * Retrieve the results of a predictive inbox placement test.
+ */
+export const getDeliverabilityTestReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetDeliverabilityTestReportRequest,
+    output: GetDeliverabilityTestReportResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Retrieve all the deliverability data for a specific campaign. This data is available
+ * for a campaign only if the campaign sent email by using a domain that the
+ * Deliverability dashboard is enabled for.
+ */
+export const getDomainDeliverabilityCampaign =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetDomainDeliverabilityCampaignRequest,
+    output: GetDomainDeliverabilityCampaignResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }));
+/**
+ * Provides information about an export job.
+ */
+export const getExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExportJobRequest,
+  output: GetExportJobResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Displays the multi-region endpoint (global-endpoint) configuration.
+ *
+ * Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region
+ * where operation is executed can be displayed.
+ */
+export const getMultiRegionEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMultiRegionEndpointRequest,
+    output: GetMultiRegionEndpointResponse,
+    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  }),
+);
+/**
+ * Get information about a specific tenant, including the tenant's name, ID, ARN,
+ * creation timestamp, tags, and sending status.
+ */
+export const getTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTenantRequest,
+  output: GetTenantResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Update the customer-managed sending status for a reputation entity. This allows
+ * you to enable, disable, or reinstate sending for the entity.
+ *
+ * The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status
+ * to determine the overall sending capability. When you update the customer-managed status,
+ * the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity,
+ * it will not be allowed to send regardless of the customer-managed status setting. When you
+ * reinstate an entity through the customer-managed status, it can continue sending only if
+ * the Amazon Web Services Amazon SES-managed status also permits sending, even if there are active reputation
+ * findings, until the findings are resolved or new violations occur.
+ */
+export const updateReputationEntityCustomerManagedStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateReputationEntityCustomerManagedStatusRequest,
+    output: UpdateReputationEntityCustomerManagedStatusResponse,
+    errors: [BadRequestException, ConflictException, TooManyRequestsException],
+  }));
+/**
+ * Update the reputation management policy for a reputation entity. The policy
+ * determines how the entity responds to reputation findings, such as automatically
+ * pausing sending when certain thresholds are exceeded.
+ *
+ * Reputation management policies are Amazon Web Services Amazon SES-managed (predefined policies).
+ * You can select from none, standard, and strict policies.
+ */
+export const updateReputationEntityPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateReputationEntityPolicyRequest,
+    output: UpdateReputationEntityPolicyResponse,
+    errors: [BadRequestException, ConflictException, TooManyRequestsException],
+  }));
 /**
  * Create an event destination. *Events* include message sends,
  * deliveries, opens, clicks, bounces, and complaints. Event
@@ -4956,6 +4956,84 @@ export const putAccountSuppressionAttributes =
     errors: [BadRequestException, TooManyRequestsException],
   }));
 /**
+ * Creates an export job for a data source and destination.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const createExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateExportJobRequest,
+  output: CreateExportJobResponse,
+  errors: [
+    BadRequestException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Lists the contacts present in a specific contact list.
+ */
+export const listContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListContactsRequest,
+  output: ListContactsResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Retrieves batches of metric data collected based on your sending activity.
+ *
+ * You can execute this operation no more than 16 times per second,
+ * and with at most 160 queries from the batches per second (cumulative).
+ */
+export const batchGetMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetMetricDataRequest,
+  output: BatchGetMetricDataResponse,
+  errors: [
+    BadRequestException,
+    InternalServiceErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Provides information about a specific message, including the from address, the
+ * subject, the recipient address, email tags, as well as events associated with the message.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const getMessageInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMessageInsightsRequest,
+  output: GetMessageInsightsResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
+/**
+ * Adds an email address to the list of identities for your Amazon SES account in the current
+ * Amazon Web Services Region and attempts to verify it. As a result of executing this
+ * operation, a customized verification email is sent to the specified address.
+ *
+ * To use this operation, you must first create a custom verification email template. For
+ * more information about creating and using custom verification email templates, see
+ * Using
+ * custom verification email templates in the Amazon SES Developer
+ * Guide.
+ *
+ * You can execute this operation no more than once per second.
+ */
+export const sendCustomVerificationEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SendCustomVerificationEmailRequest,
+    output: SendCustomVerificationEmailResponse,
+    errors: [
+      BadRequestException,
+      LimitExceededException,
+      MailFromDomainNotVerifiedException,
+      MessageRejected,
+      NotFoundException,
+      SendingPausedException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
  * Sends an email message. You can use the Amazon SES API v2 to send the following types of
  * messages:
  *
@@ -5012,84 +5090,6 @@ export const createDeliverabilityTestReport =
       TooManyRequestsException,
     ],
   }));
-/**
- * Creates an export job for a data source and destination.
- *
- * You can execute this operation no more than once per second.
- */
-export const createExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateExportJobRequest,
-  output: CreateExportJobResponse,
-  errors: [
-    BadRequestException,
-    LimitExceededException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Lists the contacts present in a specific contact list.
- */
-export const listContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListContactsRequest,
-  output: ListContactsResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
-/**
- * Adds an email address to the list of identities for your Amazon SES account in the current
- * Amazon Web Services Region and attempts to verify it. As a result of executing this
- * operation, a customized verification email is sent to the specified address.
- *
- * To use this operation, you must first create a custom verification email template. For
- * more information about creating and using custom verification email templates, see
- * Using
- * custom verification email templates in the Amazon SES Developer
- * Guide.
- *
- * You can execute this operation no more than once per second.
- */
-export const sendCustomVerificationEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendCustomVerificationEmailRequest,
-    output: SendCustomVerificationEmailResponse,
-    errors: [
-      BadRequestException,
-      LimitExceededException,
-      MailFromDomainNotVerifiedException,
-      MessageRejected,
-      NotFoundException,
-      SendingPausedException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Retrieves batches of metric data collected based on your sending activity.
- *
- * You can execute this operation no more than 16 times per second,
- * and with at most 160 queries from the batches per second (cumulative).
- */
-export const batchGetMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGetMetricDataRequest,
-  output: BatchGetMetricDataResponse,
-  errors: [
-    BadRequestException,
-    InternalServiceErrorException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Provides information about a specific message, including the from address, the
- * subject, the recipient address, email tags, as well as events associated with the message.
- *
- * You can execute this operation no more than once per second.
- */
-export const getMessageInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMessageInsightsRequest,
-  output: GetMessageInsightsResponse,
-  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-}));
 /**
  * Composes an email message to multiple destinations.
  */

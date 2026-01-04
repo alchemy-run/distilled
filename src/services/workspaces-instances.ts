@@ -327,10 +327,6 @@ export class WorkspaceInstance extends S.Class<WorkspaceInstance>(
   EC2ManagedInstance: S.optional(EC2ManagedInstance),
 }) {}
 export const WorkspaceInstances = S.Array(WorkspaceInstance);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Reason: S.String, Message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class EbsBlockDevice extends S.Class<EbsBlockDevice>("EbsBlockDevice")({
   VolumeType: S.optional(S.String),
   Encrypted: S.optional(S.Boolean),
@@ -505,6 +501,10 @@ export class CreateWorkspaceInstanceRequest extends S.Class<CreateWorkspaceInsta
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, Reason: S.String, Message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class CreateWorkspaceInstanceResponse extends S.Class<CreateWorkspaceInstanceResponse>(
   "CreateWorkspaceInstanceResponse",
 )({ WorkspaceInstanceId: S.optional(S.String) }) {}
@@ -512,27 +512,31 @@ export class CreateWorkspaceInstanceResponse extends S.Class<CreateWorkspaceInst
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  {
+    Message: S.String,
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    Message: S.String,
+    ServiceCode: S.optional(S.String),
+    QuotaCode: S.optional(S.String),
+    RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -544,19 +548,42 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
     QuotaCode: S.String,
   },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.String,
+    Reason: S.String,
+    FieldList: S.optional(ValidationExceptionFieldList),
+  },
+) {}
 
 //# Operations
 /**
- * Attaches a volume to a WorkSpace Instance.
+ * Retrieves a collection of WorkSpaces Instances based on specified filters.
  */
-export const associateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateVolumeRequest,
-  output: AssociateVolumeResponse,
+export const listWorkspaceInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListWorkspaceInstancesRequest,
+    output: ListWorkspaceInstancesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a new volume for WorkSpace Instances.
+ */
+export const createVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVolumeRequest,
+  output: CreateVolumeResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -609,11 +636,11 @@ export const disassociateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves tags for a WorkSpace Instance.
+ * Adds tags to a WorkSpace Instance.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -623,13 +650,28 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Adds tags to a WorkSpace Instance.
+ * Removes tags from a WorkSpace Instance.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Attaches a volume to a WorkSpace Instance.
+ */
+export const associateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateVolumeRequest,
+  output: AssociateVolumeResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -679,45 +721,15 @@ export const listRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves a collection of WorkSpaces Instances based on specified filters.
+ * Retrieves tags for a WorkSpace Instance.
  */
-export const listWorkspaceInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListWorkspaceInstancesRequest,
-    output: ListWorkspaceInstancesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Removes tags from a WorkSpace Instance.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new volume for WorkSpace Instances.
- */
-export const createVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVolumeRequest,
-  output: CreateVolumeResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],

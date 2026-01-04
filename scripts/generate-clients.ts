@@ -1047,7 +1047,6 @@ const convertShapeToSchema: (
               if (isErrorShape) {
                 return Effect.gen(function* () {
                   const tsName = currentSchemaName;
-                  yield* Deferred.succeed(deferredValue, tsName);
                   const members = yield* membersEffect;
                   const fields = `{${members.join(", ")}}`;
                   // Store the fields for later use in TaggedError generation
@@ -1055,6 +1054,8 @@ const convertShapeToSchema: (
                     map.set(tsName, fields);
                     return map;
                   });
+                  // Succeed the deferred AFTER storing fields, so addError can access them
+                  yield* Deferred.succeed(deferredValue, tsName);
                   return tsName;
                 });
               }
@@ -1401,12 +1402,55 @@ const generateClient = Effect.fn(function* (
       return yield* Effect.fail(new ProtocolNotFound());
     }
 
-    //todo(pear): resource based models don't work, only operation based models get clients right now
-
     const sdkFile = yield* SdkFile;
 
+    // Collect all operation IDs from service and resources (recursively)
+    const allOperationIds: string[] = [];
+
+    // Add direct service operations
+    for (const op of serviceShape.operations ?? []) {
+      allOperationIds.push(op.target);
+    }
+
+    // Recursively collect operations from resources
+    const collectResourceOperations = (resourceTarget: string) => {
+      const resourceShape = model.shapes[resourceTarget];
+      if (!resourceShape || resourceShape.type !== "resource") return;
+
+      const resource =
+        resourceShape as typeof import("./model-schema.ts").ResourceShape.Type;
+
+      // Lifecycle operations
+      if (resource.create) allOperationIds.push(resource.create.target);
+      if (resource.put) allOperationIds.push(resource.put.target);
+      if (resource.read) allOperationIds.push(resource.read.target);
+      if (resource.update) allOperationIds.push(resource.update.target);
+      if (resource.delete) allOperationIds.push(resource.delete.target);
+      if (resource.list) allOperationIds.push(resource.list.target);
+
+      // Instance operations
+      for (const op of resource.operations ?? []) {
+        allOperationIds.push(op.target);
+      }
+
+      // Collection operations
+      for (const op of resource.collectionOperations ?? []) {
+        allOperationIds.push(op.target);
+      }
+
+      // Recursively process nested resources
+      for (const nestedResource of resource.resources ?? []) {
+        collectResourceOperations(nestedResource.target);
+      }
+    };
+
+    // Process all top-level resources
+    for (const resource of serviceShape.resources ?? []) {
+      collectResourceOperations(resource.target);
+    }
+
     yield* Effect.forEach(
-      serviceShape.operations ?? [],
+      [...new Set(allOperationIds)].map((target) => ({ target })),
       Effect.fn(function* ({ target: operationId }: { target: string }) {
         const [operationShapeName, operationShape] = yield* findShape(
           operationId,

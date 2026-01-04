@@ -598,19 +598,19 @@ export class ListLinuxSubscriptionInstancesResponse extends S.Class<ListLinuxSub
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -630,6 +630,60 @@ export const getServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetServiceSettingsResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
 }));
+/**
+ * Lists the running Amazon EC2 instances that were discovered with commercial Linux
+ * subscriptions.
+ */
+export const listLinuxSubscriptionInstances =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListLinuxSubscriptionInstancesRequest,
+    output: ListLinuxSubscriptionInstancesResponse,
+    errors: [InternalServerException, ThrottlingException, ValidationException],
+  }));
+/**
+ * Lists the Linux subscriptions that have been discovered. If you have linked your
+ * organization, the returned results will include data aggregated across your accounts in
+ * Organizations.
+ */
+export const listLinuxSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListLinuxSubscriptionsRequest,
+    output: ListLinuxSubscriptionsResponse,
+    errors: [InternalServerException, ThrottlingException, ValidationException],
+  }),
+);
+/**
+ * List Bring Your Own License (BYOL) subscription registration resources for your account.
+ */
+export const listRegisteredSubscriptionProviders =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListRegisteredSubscriptionProvidersRequest,
+    output: ListRegisteredSubscriptionProvidersResponse,
+    errors: [InternalServerException, ThrottlingException, ValidationException],
+  }));
+/**
+ * Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
+ */
+export const registerSubscriptionProvider =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RegisterSubscriptionProviderRequest,
+    output: RegisterSubscriptionProviderResponse,
+    errors: [InternalServerException, ThrottlingException, ValidationException],
+  }));
+/**
+ * Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
+ */
+export const getRegisteredSubscriptionProvider =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetRegisteredSubscriptionProviderRequest,
+    output: GetRegisteredSubscriptionProviderResponse,
+    errors: [
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * List the metadata tags that are assigned to the
  * specified Amazon Web Services resource.
@@ -679,58 +733,4 @@ export const deregisterSubscriptionProvider =
       ThrottlingException,
       ValidationException,
     ],
-  }));
-/**
- * Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
- */
-export const getRegisteredSubscriptionProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRegisteredSubscriptionProviderRequest,
-    output: GetRegisteredSubscriptionProviderResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the Linux subscriptions that have been discovered. If you have linked your
- * organization, the returned results will include data aggregated across your accounts in
- * Organizations.
- */
-export const listLinuxSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLinuxSubscriptionsRequest,
-    output: ListLinuxSubscriptionsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-  }),
-);
-/**
- * List Bring Your Own License (BYOL) subscription registration resources for your account.
- */
-export const listRegisteredSubscriptionProviders =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListRegisteredSubscriptionProvidersRequest,
-    output: ListRegisteredSubscriptionProvidersResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-  }));
-/**
- * Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
- */
-export const registerSubscriptionProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterSubscriptionProviderRequest,
-    output: RegisterSubscriptionProviderResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-  }));
-/**
- * Lists the running Amazon EC2 instances that were discovered with commercial Linux
- * subscriptions.
- */
-export const listLinuxSubscriptionInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListLinuxSubscriptionInstancesRequest,
-    output: ListLinuxSubscriptionInstancesResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
   }));

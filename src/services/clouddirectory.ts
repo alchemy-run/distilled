@@ -2423,118 +2423,42 @@ export class BatchReadResponse extends S.Class<BatchReadResponse>(
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class DirectoryNotEnabledException extends S.TaggedError<DirectoryNotEnabledException>()(
   "DirectoryNotEnabledException",
-  {},
-) {}
-export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
-  "InternalServiceException",
-  {},
-) {}
-export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
-  "InvalidArnException",
-  {},
-) {}
-export class FacetValidationException extends S.TaggedError<FacetValidationException>()(
-  "FacetValidationException",
-  {},
-) {}
-export class InvalidAttachmentException extends S.TaggedError<InvalidAttachmentException>()(
-  "InvalidAttachmentException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class FacetInUseException extends S.TaggedError<FacetInUseException>()(
-  "FacetInUseException",
   { Message: S.optional(S.String) },
-) {}
-export class FacetNotFoundException extends S.TaggedError<FacetNotFoundException>()(
-  "FacetNotFoundException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class RetryableConflictException extends S.TaggedError<RetryableConflictException>()(
-  "RetryableConflictException",
-  {},
-) {}
-export class NotPolicyException extends S.TaggedError<NotPolicyException>()(
-  "NotPolicyException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class DirectoryDeletedException extends S.TaggedError<DirectoryDeletedException>()(
-  "DirectoryDeletedException",
-  {},
-) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  {},
-) {}
-export class InvalidTaggingRequestException extends S.TaggedError<InvalidTaggingRequestException>()(
-  "InvalidTaggingRequestException",
-  {},
-) {}
-export class InvalidFacetUpdateException extends S.TaggedError<InvalidFacetUpdateException>()(
-  "InvalidFacetUpdateException",
-  {},
-) {}
-export class InvalidRuleException extends S.TaggedError<InvalidRuleException>()(
-  "InvalidRuleException",
-  {},
-) {}
-export class IncompatibleSchemaException extends S.TaggedError<IncompatibleSchemaException>()(
-  "IncompatibleSchemaException",
-  {},
-) {}
-export class LinkNameAlreadyInUseException extends S.TaggedError<LinkNameAlreadyInUseException>()(
-  "LinkNameAlreadyInUseException",
-  {},
-) {}
-export class IndexedAttributeMissingException extends S.TaggedError<IndexedAttributeMissingException>()(
-  "IndexedAttributeMissingException",
-  { Message: S.optional(S.String) },
-) {}
-export class NotIndexException extends S.TaggedError<NotIndexException>()(
-  "NotIndexException",
-  {},
 ) {}
 export class DirectoryAlreadyExistsException extends S.TaggedError<DirectoryAlreadyExistsException>()(
   "DirectoryAlreadyExistsException",
   { Message: S.optional(S.String) },
 ) {}
-export class UnsupportedIndexTypeException extends S.TaggedError<UnsupportedIndexTypeException>()(
-  "UnsupportedIndexTypeException",
-  {},
-) {}
-export class SchemaAlreadyExistsException extends S.TaggedError<SchemaAlreadyExistsException>()(
-  "SchemaAlreadyExistsException",
-  {},
-) {}
-export class ObjectNotDetachedException extends S.TaggedError<ObjectNotDetachedException>()(
-  "ObjectNotDetachedException",
+export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
+  "InternalServiceException",
   { Message: S.optional(S.String) },
 ) {}
-export class StillContainsLinksException extends S.TaggedError<StillContainsLinksException>()(
-  "StillContainsLinksException",
+export class DirectoryDeletedException extends S.TaggedError<DirectoryDeletedException>()(
+  "DirectoryDeletedException",
   { Message: S.optional(S.String) },
 ) {}
-export class NotNodeException extends S.TaggedError<NotNodeException>()(
-  "NotNodeException",
+export class FacetNotFoundException extends S.TaggedError<FacetNotFoundException>()(
+  "FacetNotFoundException",
   { Message: S.optional(S.String) },
 ) {}
-export class SchemaAlreadyPublishedException extends S.TaggedError<SchemaAlreadyPublishedException>()(
-  "SchemaAlreadyPublishedException",
+export class IncompatibleSchemaException extends S.TaggedError<IncompatibleSchemaException>()(
+  "IncompatibleSchemaException",
+  { Message: S.optional(S.String) },
+) {}
+export class FacetInUseException extends S.TaggedError<FacetInUseException>()(
+  "FacetInUseException",
+  { Message: S.optional(S.String) },
+) {}
+export class FacetValidationException extends S.TaggedError<FacetValidationException>()(
+  "FacetValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
+  "InvalidArnException",
   { Message: S.optional(S.String) },
 ) {}
 export class FacetAlreadyExistsException extends S.TaggedError<FacetAlreadyExistsException>()(
@@ -2545,12 +2469,64 @@ export class DirectoryNotDisabledException extends S.TaggedError<DirectoryNotDis
   "DirectoryNotDisabledException",
   { Message: S.optional(S.String) },
 ) {}
-export class ObjectAlreadyDetachedException extends S.TaggedError<ObjectAlreadyDetachedException>()(
-  "ObjectAlreadyDetachedException",
-  { Message: S.optional(S.String) },
-) {}
 export class CannotListParentOfRootException extends S.TaggedError<CannotListParentOfRootException>()(
   "CannotListParentOfRootException",
+  { Message: S.optional(S.String) },
+) {}
+export class IndexedAttributeMissingException extends S.TaggedError<IndexedAttributeMissingException>()(
+  "IndexedAttributeMissingException",
+  { Message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidRuleException extends S.TaggedError<InvalidRuleException>()(
+  "InvalidRuleException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidAttachmentException extends S.TaggedError<InvalidAttachmentException>()(
+  "InvalidAttachmentException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidFacetUpdateException extends S.TaggedError<InvalidFacetUpdateException>()(
+  "InvalidFacetUpdateException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidTaggingRequestException extends S.TaggedError<InvalidTaggingRequestException>()(
+  "InvalidTaggingRequestException",
+  { Message: S.optional(S.String) },
+) {}
+export class RetryableConflictException extends S.TaggedError<RetryableConflictException>()(
+  "RetryableConflictException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class LinkNameAlreadyInUseException extends S.TaggedError<LinkNameAlreadyInUseException>()(
+  "LinkNameAlreadyInUseException",
+  { Message: S.optional(S.String) },
+) {}
+export class NotIndexException extends S.TaggedError<NotIndexException>()(
+  "NotIndexException",
+  { Message: S.optional(S.String) },
+) {}
+export class NotNodeException extends S.TaggedError<NotNodeException>()(
+  "NotNodeException",
+  { Message: S.optional(S.String) },
+) {}
+export class ObjectNotDetachedException extends S.TaggedError<ObjectNotDetachedException>()(
+  "ObjectNotDetachedException",
+  { Message: S.optional(S.String) },
+) {}
+export class NotPolicyException extends S.TaggedError<NotPolicyException>()(
+  "NotPolicyException",
   { Message: S.optional(S.String) },
 ) {}
 export class InvalidSchemaDocException extends S.TaggedError<InvalidSchemaDocException>()(
@@ -2565,8 +2541,183 @@ export class BatchWriteException extends S.TaggedError<BatchWriteException>()(
     Message: S.optional(S.String),
   },
 ) {}
+export class SchemaAlreadyExistsException extends S.TaggedError<SchemaAlreadyExistsException>()(
+  "SchemaAlreadyExistsException",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class ObjectAlreadyDetachedException extends S.TaggedError<ObjectAlreadyDetachedException>()(
+  "ObjectAlreadyDetachedException",
+  { Message: S.optional(S.String) },
+) {}
+export class StillContainsLinksException extends S.TaggedError<StillContainsLinksException>()(
+  "StillContainsLinksException",
+  { Message: S.optional(S.String) },
+) {}
+export class SchemaAlreadyPublishedException extends S.TaggedError<SchemaAlreadyPublishedException>()(
+  "SchemaAlreadyPublishedException",
+  { Message: S.optional(S.String) },
+) {}
+export class UnsupportedIndexTypeException extends S.TaggedError<UnsupportedIndexTypeException>()(
+  "UnsupportedIndexTypeException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Creates a TypedLinkFacet. For more information, see Typed Links.
+ */
+export const createTypedLinkFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateTypedLinkFacetRequest,
+    output: CreateTypedLinkFacetResponse,
+    errors: [
+      AccessDeniedException,
+      FacetAlreadyExistsException,
+      FacetValidationException,
+      InternalServiceException,
+      InvalidArnException,
+      InvalidRuleException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Detaches the specified object from the specified index.
+ */
+export const detachFromIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachFromIndexRequest,
+  output: DetachFromIndexResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    NotIndexException,
+    ObjectAlreadyDetachedException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Upgrades a single directory in-place using the `PublishedSchemaArn` with schema updates found in `MinorVersion`. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
+ */
+export const upgradeAppliedSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpgradeAppliedSchemaRequest,
+    output: UpgradeAppliedSchemaResponse,
+    errors: [
+      AccessDeniedException,
+      IncompatibleSchemaException,
+      InternalServiceException,
+      InvalidArnException,
+      InvalidAttachmentException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      SchemaAlreadyExistsException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Copies the input published schema, at the specified version, into the Directory with the same
+ * name and version as that of the published schema.
+ */
+export const applySchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ApplySchemaRequest,
+  output: ApplySchemaResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidAttachmentException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    SchemaAlreadyExistsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a given schema. Schemas in a development and published state can only be deleted.
+ */
+export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSchemaRequest,
+  output: DeleteSchemaResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    StillContainsLinksException,
+    ValidationException,
+  ],
+}));
+/**
+ * Publishes a development schema with a major version and a recommended minor version.
+ */
+export const publishSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishSchemaRequest,
+  output: PublishSchemaResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    SchemaAlreadyPublishedException,
+    ValidationException,
+  ],
+}));
+/**
+ * Detaches a given object from the parent object. The object that is to be detached from the
+ * parent is specified by the link name.
+ */
+export const detachObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachObjectRequest,
+  output: DetachObjectResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    NotNodeException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an object and its associated attributes. Only objects with no children and no
+ * parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits.
+ */
+export const deleteObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteObjectRequest,
+  output: DeleteObjectResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ObjectNotDetachedException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Detaches a policy from an object.
  */
@@ -2586,6 +2737,162 @@ export const detachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Retrieves metadata about a directory.
+ */
+export const getDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDirectoryRequest,
+  output: GetDirectoryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists directories created within an account.
+ */
+export const listDirectories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDirectoriesRequest,
+  output: ListDirectoriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information.
+ */
+export const putSchemaFromJson = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSchemaFromJsonRequest,
+  output: PutSchemaFromJsonResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidRuleException,
+    InvalidSchemaDocException,
+    LimitExceededException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a paginated list of all the incoming TypedLinkSpecifier
+ * information for an object. It also supports filtering by typed link facet and identity
+ * attributes. For more information, see Typed Links.
+ */
+export const listIncomingTypedLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListIncomingTypedLinksRequest,
+    output: ListIncomingTypedLinksResponse,
+    errors: [
+      AccessDeniedException,
+      DirectoryNotEnabledException,
+      FacetValidationException,
+      InternalServiceException,
+      InvalidArnException,
+      InvalidNextTokenException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Does the following:
+ *
+ * - Adds new `Attributes`, `Rules`, or `ObjectTypes`.
+ *
+ * - Updates existing `Attributes`, `Rules`, or `ObjectTypes`.
+ *
+ * - Deletes existing `Attributes`, `Rules`, or `ObjectTypes`.
+ */
+export const updateFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFacetRequest,
+  output: UpdateFacetResponse,
+  errors: [
+    AccessDeniedException,
+    FacetNotFoundException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidFacetUpdateException,
+    InvalidRuleException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns tags for a resource. Tagging is currently supported only for directories with a
+ * limit of 50 tags per directory. All 50 tags are returned for a given directory with this API
+ * call.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidTaggingRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme
+ * caution
+ * when deleting directories.
+ */
+export const deleteDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDirectoryRequest,
+  output: DeleteDirectoryResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryDeletedException,
+    DirectoryNotDisabledException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its `IdentityAttributeOrder`.
+ */
+export const updateLinkAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateLinkAttributesRequest,
+    output: UpdateLinkAttributesResponse,
+    errors: [
+      AccessDeniedException,
+      DirectoryNotEnabledException,
+      FacetValidationException,
+      InternalServiceException,
+      InvalidArnException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
  * Detaches a typed link from a specified source and target object. For more information, see Typed Links.
  */
 export const detachTypedLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2595,6 +2902,208 @@ export const detachTypedLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     DirectoryNotEnabledException,
     FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves attributes that are associated with a typed link.
+ */
+export const getLinkAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLinkAttributesRequest,
+  output: GetLinkAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves attributes within a facet that are associated with an object.
+ */
+export const getObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetObjectAttributesRequest,
+  output: GetObjectAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the specified facet from the specified object.
+ */
+export const removeFacetFromObject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RemoveFacetFromObjectRequest,
+    output: RemoveFacetFromObjectResponse,
+    errors: [
+      AccessDeniedException,
+      DirectoryNotEnabledException,
+      FacetValidationException,
+      InternalServiceException,
+      InvalidArnException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Adds a new Facet to an object. An object can have more than one facet applied on it.
+ */
+export const addFacetToObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddFacetToObjectRequest,
+  output: AddFacetToObjectResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists indices attached to the specified object.
+ */
+export const listAttachedIndices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAttachedIndicesRequest,
+  output: ListAttachedIndicesResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a given Facet. All attributes and Rules
+ * that are associated with the facet will be deleted. Only development schema facets are allowed
+ * deletion.
+ */
+export const deleteFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFacetRequest,
+  output: DeleteFacetResponse,
+  errors: [
+    AccessDeniedException,
+    FacetInUseException,
+    FacetNotFoundException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves metadata about an object.
+ */
+export const getObjectInformation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetObjectInformationRequest,
+    output: GetObjectInformationResponse,
+    errors: [
+      AccessDeniedException,
+      DirectoryNotEnabledException,
+      InternalServiceException,
+      InvalidArnException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns current applied schema version ARN, including the minor version in use.
+ */
+export const getAppliedSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetAppliedSchemaVersionRequest,
+    output: GetAppliedSchemaVersionResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceException,
+      InvalidArnException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves a JSON representation of the schema. See JSON Schema Format for more information.
+ */
+export const getSchemaAsJson = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSchemaAsJsonRequest,
+  output: GetSchemaAsJsonResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the schema name with a new name. Only development schema names can be
+ * updated.
+ */
+export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSchemaRequest,
+  output: UpdateSchemaResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a Directory by copying the published schema into the
+ * directory. A directory cannot be created without a schema.
+ *
+ * You can also quickly create a directory using a managed schema, called the
+ * `QuickStartSchema`. For more information, see Managed Schema in the *Amazon Cloud Directory Developer Guide*.
+ */
+export const createDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDirectoryRequest,
+  output: CreateDirectoryResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryAlreadyExistsException,
     InternalServiceException,
     InvalidArnException,
     LimitExceededException,
@@ -2640,14 +3149,15 @@ export const enableDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Returns current applied schema version ARN, including the minor version in use.
+ * Deletes a TypedLinkFacet. For more information, see Typed Links.
  */
-export const getAppliedSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteTypedLinkFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetAppliedSchemaVersionRequest,
-    output: GetAppliedSchemaVersionResponse,
+    input: DeleteTypedLinkFacetRequest,
+    output: DeleteTypedLinkFacetResponse,
     errors: [
       AccessDeniedException,
+      FacetNotFoundException,
       InternalServiceException,
       InvalidArnException,
       LimitExceededException,
@@ -2658,15 +3168,15 @@ export const getAppliedSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves attributes that are associated with a typed link.
+ * Gets details of the Facet, such as facet name, attributes, Rules, or `ObjectType`. You can call this on all kinds of schema
+ * facets -- published, development, or applied.
  */
-export const getLinkAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLinkAttributesRequest,
-  output: GetLinkAttributesResponse,
+export const getFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFacetRequest,
+  output: GetFacetResponse,
   errors: [
     AccessDeniedException,
-    DirectoryNotEnabledException,
-    FacetValidationException,
+    FacetNotFoundException,
     InternalServiceException,
     InvalidArnException,
     LimitExceededException,
@@ -2676,17 +3186,19 @@ export const getLinkAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves attributes within a facet that are associated with an object.
+ * Lists parent objects that are associated with a given object in pagination
+ * fashion.
  */
-export const getObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetObjectAttributesRequest,
-  output: GetObjectAttributesResponse,
+export const listObjectParents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListObjectParentsRequest,
+  output: ListObjectParentsResponse,
   errors: [
     AccessDeniedException,
+    CannotListParentOfRootException,
     DirectoryNotEnabledException,
-    FacetValidationException,
     InternalServiceException,
     InvalidArnException,
+    InvalidNextTokenException,
     LimitExceededException,
     ResourceNotFoundException,
     RetryableConflictException,
@@ -2694,17 +3206,112 @@ export const getObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Retrieves metadata about an object.
+ * Lists all policies from the root of the Directory to the object
+ * specified. If there are no policies present, an empty list is returned. If policies are
+ * present, and if some objects don't have the policies attached, it returns the `ObjectIdentifier`
+ * for such objects. If policies are present, it returns `ObjectIdentifier`, `policyId`, and
+ * `policyType`. Paths that don't lead to the root from the target object are ignored. For more
+ * information, see Policies.
  */
-export const getObjectInformation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const lookupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: LookupPolicyRequest,
+  output: LookupPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all attributes that are associated with an object.
+ */
+export const listObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: GetObjectInformationRequest,
-    output: GetObjectInformationResponse,
+    input: ListObjectAttributesRequest,
+    output: ListObjectAttributesResponse,
+    errors: [
+      AccessDeniedException,
+      DirectoryNotEnabledException,
+      FacetValidationException,
+      InternalServiceException,
+      InvalidArnException,
+      InvalidNextTokenException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns a paginated list of all the outgoing TypedLinkSpecifier
+ * information for an object. It also supports filtering by typed link facet and identity
+ * attributes. For more information, see Typed Links.
+ */
+export const listOutgoingTypedLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListOutgoingTypedLinksRequest,
+    output: ListOutgoingTypedLinksResponse,
+    errors: [
+      AccessDeniedException,
+      DirectoryNotEnabledException,
+      FacetValidationException,
+      InternalServiceException,
+      InvalidArnException,
+      InvalidNextTokenException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Returns the identity attribute order for a specific TypedLinkFacet. For more information, see Typed Links.
+ */
+export const getTypedLinkFacetInformation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTypedLinkFacetInformationRequest,
+    output: GetTypedLinkFacetInformationResponse,
+    errors: [
+      AccessDeniedException,
+      FacetNotFoundException,
+      InternalServiceException,
+      InvalidArnException,
+      InvalidNextTokenException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves all available parent paths for any object type such as node, leaf node,
+ * policy node, and index node objects. For more information about objects, see Directory Structure.
+ *
+ * Use this API to evaluate all parents for an object. The call returns all objects from
+ * the root of the directory up to the requested object. The API returns the number of paths
+ * based on user-defined `MaxResults`, in case there are multiple paths to the parent.
+ * The order of the paths and nodes returned is consistent among multiple API calls unless the
+ * objects are deleted or moved. Paths not leading to the directory root are ignored from the
+ * target object.
+ */
+export const listObjectParentPaths = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListObjectParentPathsRequest,
+    output: ListObjectParentPathsResponse,
     errors: [
       AccessDeniedException,
       DirectoryNotEnabledException,
       InternalServiceException,
       InvalidArnException,
+      InvalidNextTokenException,
       LimitExceededException,
       ResourceNotFoundException,
       RetryableConflictException,
@@ -2713,15 +3320,17 @@ export const getObjectInformation = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Retrieves a JSON representation of the schema. See JSON Schema Format for more information.
+ * Returns policies attached to an object in pagination fashion.
  */
-export const getSchemaAsJson = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSchemaAsJsonRequest,
-  output: GetSchemaAsJsonResponse,
+export const listObjectPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListObjectPoliciesRequest,
+  output: ListObjectPoliciesResponse,
   errors: [
     AccessDeniedException,
+    DirectoryNotEnabledException,
     InternalServiceException,
     InvalidArnException,
+    InvalidNextTokenException,
     LimitExceededException,
     ResourceNotFoundException,
     RetryableConflictException,
@@ -2768,40 +3377,6 @@ export const listDevelopmentSchemaArns = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists directories created within an account.
- */
-export const listDirectories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDirectoriesRequest,
-  output: ListDirectoriesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves attributes attached to the facet.
- */
-export const listFacetAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFacetAttributesRequest,
-  output: ListFacetAttributesResponse,
-  errors: [
-    AccessDeniedException,
-    FacetNotFoundException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
  * Retrieves the names of facets that exist in a schema.
  */
 export const listFacetNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -2836,89 +3411,6 @@ export const listManagedSchemaArns = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists all attributes that are associated with an object.
- */
-export const listObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListObjectAttributesRequest,
-    output: ListObjectAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns policies attached to an object in pagination fashion.
- */
-export const listObjectPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListObjectPoliciesRequest,
-  output: ListObjectPoliciesResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a paginated list of all the outgoing TypedLinkSpecifier
- * information for an object. It also supports filtering by typed link facet and identity
- * attributes. For more information, see Typed Links.
- */
-export const listOutgoingTypedLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOutgoingTypedLinksRequest,
-    output: ListOutgoingTypedLinksResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns all of the `ObjectIdentifiers` to which a given policy is attached.
- */
-export const listPolicyAttachments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPolicyAttachmentsRequest,
-    output: ListPolicyAttachmentsResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      NotPolicyException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Lists the major version families of each published schema. If a major version ARN is provided as `SchemaArn`, the minor version revisions in that family are listed instead.
  */
 export const listPublishedSchemaArns = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2937,25 +3429,6 @@ export const listPublishedSchemaArns = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
- */
-export const listTypedLinkFacetAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListTypedLinkFacetAttributesRequest,
-    output: ListTypedLinkFacetAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      FacetNotFoundException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }));
 /**
  * Returns a paginated list of `TypedLink` facet names for a particular schema.
  * For more information, see Typed Links.
@@ -2977,18 +3450,96 @@ export const listTypedLinkFacetNames = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Removes the specified facet from the specified object.
+ * Retrieves attributes attached to the facet.
  */
-export const removeFacetFromObject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveFacetFromObjectRequest,
-    output: RemoveFacetFromObjectResponse,
+export const listFacetAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFacetAttributesRequest,
+  output: ListFacetAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    FacetNotFoundException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
+ */
+export const listTypedLinkFacetAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListTypedLinkFacetAttributesRequest,
+    output: ListTypedLinkFacetAttributesResponse,
     errors: [
       AccessDeniedException,
-      DirectoryNotEnabledException,
+      FacetNotFoundException,
+      InternalServiceException,
+      InvalidArnException,
+      InvalidNextTokenException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Upgrades a published schema under a new minor version revision using the current contents of `DevelopmentSchemaArn`.
+ */
+export const upgradePublishedSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpgradePublishedSchemaRequest,
+    output: UpgradePublishedSchemaResponse,
+    errors: [
+      AccessDeniedException,
+      IncompatibleSchemaException,
+      InternalServiceException,
+      InvalidArnException,
+      InvalidAttachmentException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Attaches a typed link to a specified source and target object. For more information, see Typed Links.
+ */
+export const attachTypedLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachTypedLinkRequest,
+  output: AttachTypedLinkResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidAttachmentException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a TypedLinkFacet. For more information, see Typed Links.
+ */
+export const updateTypedLinkFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateTypedLinkFacetRequest,
+    output: UpdateTypedLinkFacetResponse,
+    errors: [
+      AccessDeniedException,
+      FacetNotFoundException,
       FacetValidationException,
       InternalServiceException,
       InvalidArnException,
+      InvalidFacetUpdateException,
+      InvalidRuleException,
       LimitExceededException,
       ResourceNotFoundException,
       RetryableConflictException,
@@ -3031,82 +3582,46 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Updates the schema name with a new name. Only development schema names can be
- * updated.
+ * Creates a new Facet in a schema. Facet creation is allowed only
+ * in development or applied schemas.
  */
-export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSchemaRequest,
-  output: UpdateSchemaResponse,
+export const createFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFacetRequest,
+  output: CreateFacetResponse,
   errors: [
     AccessDeniedException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a TypedLinkFacet. For more information, see Typed Links.
- */
-export const updateTypedLinkFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTypedLinkFacetRequest,
-    output: UpdateTypedLinkFacetResponse,
-    errors: [
-      AccessDeniedException,
-      FacetNotFoundException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidFacetUpdateException,
-      InvalidRuleException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Upgrades a published schema under a new minor version revision using the current contents of `DevelopmentSchemaArn`.
- */
-export const upgradePublishedSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpgradePublishedSchemaRequest,
-    output: UpgradePublishedSchemaResponse,
-    errors: [
-      AccessDeniedException,
-      IncompatibleSchemaException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidAttachmentException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Adds a new Facet to an object. An object can have more than one facet applied on it.
- */
-export const addFacetToObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddFacetToObjectRequest,
-  output: AddFacetToObjectResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryNotEnabledException,
+    FacetAlreadyExistsException,
     FacetValidationException,
     InternalServiceException,
     InvalidArnException,
+    InvalidRuleException,
     LimitExceededException,
     ResourceNotFoundException,
     RetryableConflictException,
     ValidationException,
   ],
 }));
+/**
+ * Updates a given object's attributes.
+ */
+export const updateObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateObjectAttributesRequest,
+    output: UpdateObjectAttributesResponse,
+    errors: [
+      AccessDeniedException,
+      DirectoryNotEnabledException,
+      FacetValidationException,
+      InternalServiceException,
+      InvalidArnException,
+      LimitExceededException,
+      LinkNameAlreadyInUseException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Attaches an existing object to another object. An object can be accessed in two
  * ways:
@@ -3133,19 +3648,20 @@ export const attachObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Attaches a policy object to a regular object. An object can have a limited number of attached
- * policies.
+ * Lists objects attached to the specified index.
  */
-export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AttachPolicyRequest,
-  output: AttachPolicyResponse,
+export const listIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIndexRequest,
+  output: ListIndexResponse,
   errors: [
     AccessDeniedException,
     DirectoryNotEnabledException,
+    FacetValidationException,
     InternalServiceException,
     InvalidArnException,
+    InvalidNextTokenException,
     LimitExceededException,
-    NotPolicyException,
+    NotIndexException,
     ResourceNotFoundException,
     RetryableConflictException,
     ValidationException,
@@ -3173,65 +3689,96 @@ export const attachToIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Attaches a typed link to a specified source and target object. For more information, see Typed Links.
+ * Returns a paginated list of child objects that are associated with a given
+ * object.
  */
-export const attachTypedLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AttachTypedLinkRequest,
-  output: AttachTypedLinkResponse,
+export const listObjectChildren = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListObjectChildrenRequest,
+  output: ListObjectChildrenResponse,
   errors: [
     AccessDeniedException,
     DirectoryNotEnabledException,
-    FacetValidationException,
     InternalServiceException,
     InvalidArnException,
-    InvalidAttachmentException,
+    InvalidNextTokenException,
     LimitExceededException,
+    NotNodeException,
     ResourceNotFoundException,
     RetryableConflictException,
     ValidationException,
   ],
 }));
 /**
- * Creates a Directory by copying the published schema into the
- * directory. A directory cannot be created without a schema.
- *
- * You can also quickly create a directory using a managed schema, called the
- * `QuickStartSchema`. For more information, see Managed Schema in the *Amazon Cloud Directory Developer Guide*.
+ * Attaches a policy object to a regular object. An object can have a limited number of attached
+ * policies.
  */
-export const createDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDirectoryRequest,
-  output: CreateDirectoryResponse,
+export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachPolicyRequest,
+  output: AttachPolicyResponse,
   errors: [
     AccessDeniedException,
-    DirectoryAlreadyExistsException,
+    DirectoryNotEnabledException,
     InternalServiceException,
     InvalidArnException,
     LimitExceededException,
+    NotPolicyException,
     ResourceNotFoundException,
     RetryableConflictException,
     ValidationException,
   ],
 }));
 /**
- * Creates an object in a Directory. Additionally attaches the object to
- * a parent, if a parent reference and `LinkName` is specified. An object is simply a
- * collection of Facet attributes. You can also use this API call to create a
- * policy object, if the facet from which you create the object is a policy facet.
+ * Returns all of the `ObjectIdentifiers` to which a given policy is attached.
  */
-export const createObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateObjectRequest,
-  output: CreateObjectResponse,
+export const listPolicyAttachments = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListPolicyAttachmentsRequest,
+    output: ListPolicyAttachmentsResponse,
+    errors: [
+      AccessDeniedException,
+      DirectoryNotEnabledException,
+      InternalServiceException,
+      InvalidArnException,
+      InvalidNextTokenException,
+      LimitExceededException,
+      NotPolicyException,
+      ResourceNotFoundException,
+      RetryableConflictException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Performs all the read operations in a batch.
+ */
+export const batchRead = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchReadRequest,
+  output: BatchReadResponse,
   errors: [
     AccessDeniedException,
     DirectoryNotEnabledException,
-    FacetValidationException,
     InternalServiceException,
     InvalidArnException,
     LimitExceededException,
-    LinkNameAlreadyInUseException,
-    ResourceNotFoundException,
     RetryableConflictException,
-    UnsupportedIndexTypeException,
+    ValidationException,
+  ],
+}));
+/**
+ * Performs all the write operations in a batch. Either all the operations succeed or
+ * none.
+ */
+export const batchWrite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchWriteRequest,
+  output: BatchWriteResponse,
+  errors: [
+    AccessDeniedException,
+    BatchWriteException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    RetryableConflictException,
     ValidationException,
   ],
 }));
@@ -3264,358 +3811,6 @@ export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes a given Facet. All attributes and Rules
- * that are associated with the facet will be deleted. Only development schema facets are allowed
- * deletion.
- */
-export const deleteFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFacetRequest,
-  output: DeleteFacetResponse,
-  errors: [
-    AccessDeniedException,
-    FacetInUseException,
-    FacetNotFoundException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an object and its associated attributes. Only objects with no children and no
- * parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits.
- */
-export const deleteObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteObjectRequest,
-  output: DeleteObjectResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    ObjectNotDetachedException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a given schema. Schemas in a development and published state can only be deleted.
- */
-export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSchemaRequest,
-  output: DeleteSchemaResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    StillContainsLinksException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a TypedLinkFacet. For more information, see Typed Links.
- */
-export const deleteTypedLinkFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTypedLinkFacetRequest,
-    output: DeleteTypedLinkFacetResponse,
-    errors: [
-      AccessDeniedException,
-      FacetNotFoundException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Detaches a given object from the parent object. The object that is to be detached from the
- * parent is specified by the link name.
- */
-export const detachObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetachObjectRequest,
-  output: DetachObjectResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    NotNodeException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves metadata about a directory.
- */
-export const getDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDirectoryRequest,
-  output: GetDirectoryResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets details of the Facet, such as facet name, attributes, Rules, or `ObjectType`. You can call this on all kinds of schema
- * facets -- published, development, or applied.
- */
-export const getFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFacetRequest,
-  output: GetFacetResponse,
-  errors: [
-    AccessDeniedException,
-    FacetNotFoundException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the identity attribute order for a specific TypedLinkFacet. For more information, see Typed Links.
- */
-export const getTypedLinkFacetInformation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTypedLinkFacetInformationRequest,
-    output: GetTypedLinkFacetInformationResponse,
-    errors: [
-      AccessDeniedException,
-      FacetNotFoundException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists indices attached to the specified object.
- */
-export const listAttachedIndices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAttachedIndicesRequest,
-  output: ListAttachedIndicesResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists objects attached to the specified index.
- */
-export const listIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListIndexRequest,
-  output: ListIndexResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryNotEnabledException,
-    FacetValidationException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    NotIndexException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a paginated list of child objects that are associated with a given
- * object.
- */
-export const listObjectChildren = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListObjectChildrenRequest,
-  output: ListObjectChildrenResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    NotNodeException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves all available parent paths for any object type such as node, leaf node,
- * policy node, and index node objects. For more information about objects, see Directory Structure.
- *
- * Use this API to evaluate all parents for an object. The call returns all objects from
- * the root of the directory up to the requested object. The API returns the number of paths
- * based on user-defined `MaxResults`, in case there are multiple paths to the parent.
- * The order of the paths and nodes returned is consistent among multiple API calls unless the
- * objects are deleted or moved. Paths not leading to the directory root are ignored from the
- * target object.
- */
-export const listObjectParentPaths = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListObjectParentPathsRequest,
-    output: ListObjectParentPathsResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns tags for a resource. Tagging is currently supported only for directories with a
- * limit of 50 tags per directory. All 50 tags are returned for a given directory with this API
- * call.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidTaggingRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Publishes a development schema with a major version and a recommended minor version.
- */
-export const publishSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PublishSchemaRequest,
-  output: PublishSchemaResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    SchemaAlreadyPublishedException,
-    ValidationException,
-  ],
-}));
-/**
- * Does the following:
- *
- * - Adds new `Attributes`, `Rules`, or `ObjectTypes`.
- *
- * - Updates existing `Attributes`, `Rules`, or `ObjectTypes`.
- *
- * - Deletes existing `Attributes`, `Rules`, or `ObjectTypes`.
- */
-export const updateFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateFacetRequest,
-  output: UpdateFacetResponse,
-  errors: [
-    AccessDeniedException,
-    FacetNotFoundException,
-    FacetValidationException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidFacetUpdateException,
-    InvalidRuleException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its `IdentityAttributeOrder`.
- */
-export const updateLinkAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLinkAttributesRequest,
-    output: UpdateLinkAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Upgrades a single directory in-place using the `PublishedSchemaArn` with schema updates found in `MinorVersion`. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
- */
-export const upgradeAppliedSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpgradeAppliedSchemaRequest,
-    output: UpgradeAppliedSchemaResponse,
-    errors: [
-      AccessDeniedException,
-      IncompatibleSchemaException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidAttachmentException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      SchemaAlreadyExistsException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Copies the input published schema, at the specified version, into the Directory with the same
- * name and version as that of the published schema.
- */
-export const applySchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ApplySchemaRequest,
-  output: ApplySchemaResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidAttachmentException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    SchemaAlreadyExistsException,
-    ValidationException,
-  ],
-}));
-/**
  * Creates an index object. See Indexing and search for more information.
  */
 export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3636,220 +3831,25 @@ export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Creates a TypedLinkFacet. For more information, see Typed Links.
+ * Creates an object in a Directory. Additionally attaches the object to
+ * a parent, if a parent reference and `LinkName` is specified. An object is simply a
+ * collection of Facet attributes. You can also use this API call to create a
+ * policy object, if the facet from which you create the object is a policy facet.
  */
-export const createTypedLinkFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTypedLinkFacetRequest,
-    output: CreateTypedLinkFacetResponse,
-    errors: [
-      AccessDeniedException,
-      FacetAlreadyExistsException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidRuleException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme
- * caution
- * when deleting directories.
- */
-export const deleteDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDirectoryRequest,
-  output: DeleteDirectoryResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryDeletedException,
-    DirectoryNotDisabledException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Detaches the specified object from the specified index.
- */
-export const detachFromIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DetachFromIndexRequest,
-  output: DetachFromIndexResponse,
+export const createObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateObjectRequest,
+  output: CreateObjectResponse,
   errors: [
     AccessDeniedException,
     DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    NotIndexException,
-    ObjectAlreadyDetachedException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a paginated list of all the incoming TypedLinkSpecifier
- * information for an object. It also supports filtering by typed link facet and identity
- * attributes. For more information, see Typed Links.
- */
-export const listIncomingTypedLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIncomingTypedLinksRequest,
-    output: ListIncomingTypedLinksResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists parent objects that are associated with a given object in pagination
- * fashion.
- */
-export const listObjectParents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListObjectParentsRequest,
-  output: ListObjectParentsResponse,
-  errors: [
-    AccessDeniedException,
-    CannotListParentOfRootException,
-    DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all policies from the root of the Directory to the object
- * specified. If there are no policies present, an empty list is returned. If policies are
- * present, and if some objects don't have the policies attached, it returns the `ObjectIdentifier`
- * for such objects. If policies are present, it returns `ObjectIdentifier`, `policyId`, and
- * `policyType`. Paths that don't lead to the root from the target object are ignored. For more
- * information, see Policies.
- */
-export const lookupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: LookupPolicyRequest,
-  output: LookupPolicyResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidNextTokenException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information.
- */
-export const putSchemaFromJson = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutSchemaFromJsonRequest,
-  output: PutSchemaFromJsonResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidArnException,
-    InvalidRuleException,
-    InvalidSchemaDocException,
-    LimitExceededException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates a given object's attributes.
- */
-export const updateObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateObjectAttributesRequest,
-    output: UpdateObjectAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      LinkNameAlreadyInUseException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a new Facet in a schema. Facet creation is allowed only
- * in development or applied schemas.
- */
-export const createFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFacetRequest,
-  output: CreateFacetResponse,
-  errors: [
-    AccessDeniedException,
-    FacetAlreadyExistsException,
     FacetValidationException,
     InternalServiceException,
     InvalidArnException,
-    InvalidRuleException,
     LimitExceededException,
+    LinkNameAlreadyInUseException,
     ResourceNotFoundException,
     RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Performs all the read operations in a batch.
- */
-export const batchRead = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchReadRequest,
-  output: BatchReadResponse,
-  errors: [
-    AccessDeniedException,
-    DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    RetryableConflictException,
-    ValidationException,
-  ],
-}));
-/**
- * Performs all the write operations in a batch. Either all the operations succeed or
- * none.
- */
-export const batchWrite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchWriteRequest,
-  output: BatchWriteResponse,
-  errors: [
-    AccessDeniedException,
-    BatchWriteException,
-    DirectoryNotEnabledException,
-    InternalServiceException,
-    InvalidArnException,
-    LimitExceededException,
-    RetryableConflictException,
+    UnsupportedIndexTypeException,
     ValidationException,
   ],
 }));

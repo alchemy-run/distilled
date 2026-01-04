@@ -24,8 +24,12 @@ import {
   NoSuchEntityException,
 } from "../../src/services/iam.ts";
 
-// Import SNS for map with xmlName on key/value
-import { PublishInput, PublishResponse } from "../../src/services/sns.ts";
+// Import SNS for map with xmlName on key/value and map deserialization tests
+import {
+  GetTopicAttributesResponse,
+  PublishInput,
+  PublishResponse,
+} from "../../src/services/sns.ts";
 
 // Import Neptune for lists with xmlName on element
 import {
@@ -470,6 +474,164 @@ describe("awsQuery protocol", () => {
 
         const result = yield* parseResponse(PublishResponse, response);
         expect(result.MessageId).toBe("567910cd-659e-55d4-8ccb-5aaf14679dc0");
+      }),
+    );
+
+    it.effect(
+      "should deserialize map with entry format (SNS GetTopicAttributes)",
+      () =>
+        Effect.gen(function* () {
+          const response: Response = {
+            status: 200,
+            statusText: "OK",
+            headers: { "Content-Type": "text/xml;charset=UTF-8" },
+            body: `<?xml version="1.0" encoding="UTF-8"?>
+<GetTopicAttributesResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+    <GetTopicAttributesResult>
+        <Attributes>
+            <entry><key>TopicArn</key><value>arn:aws:sns:us-east-1:123456789012:MyTopic</value></entry>
+            <entry><key>Owner</key><value>123456789012</value></entry>
+            <entry><key>DisplayName</key><value>My Topic</value></entry>
+        </Attributes>
+    </GetTopicAttributesResult>
+    <ResponseMetadata>
+        <RequestId>abc123</RequestId>
+    </ResponseMetadata>
+</GetTopicAttributesResponse>`,
+          };
+
+          const result = yield* parseResponse(
+            GetTopicAttributesResponse,
+            response,
+          );
+          expect(result.Attributes).toBeDefined();
+          expect(result.Attributes?.TopicArn).toBe(
+            "arn:aws:sns:us-east-1:123456789012:MyTopic",
+          );
+          expect(result.Attributes?.Owner).toBe("123456789012");
+          expect(result.Attributes?.DisplayName).toBe("My Topic");
+        }),
+    );
+
+    it.effect("should deserialize map with empty values as empty strings", () =>
+      Effect.gen(function* () {
+        // AWS returns empty <value /> elements for unset attributes
+        const response: Response = {
+          status: 200,
+          statusText: "OK",
+          headers: { "Content-Type": "text/xml;charset=UTF-8" },
+          body: `<?xml version="1.0" encoding="UTF-8"?>
+<GetTopicAttributesResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+    <GetTopicAttributesResult>
+        <Attributes>
+            <entry><key>TopicArn</key><value>arn:aws:sns:us-east-1:123456789012:MyTopic</value></entry>
+            <entry><key>DisplayName</key><value /></entry>
+            <entry><key>DeliveryPolicy</key><value></value></entry>
+        </Attributes>
+    </GetTopicAttributesResult>
+    <ResponseMetadata>
+        <RequestId>abc123</RequestId>
+    </ResponseMetadata>
+</GetTopicAttributesResponse>`,
+        };
+
+        const result = yield* parseResponse(
+          GetTopicAttributesResponse,
+          response,
+        );
+        expect(result.Attributes).toBeDefined();
+        expect(result.Attributes?.TopicArn).toBe(
+          "arn:aws:sns:us-east-1:123456789012:MyTopic",
+        );
+        // Empty values should be empty strings, not undefined
+        expect(result.Attributes?.DisplayName).toBe("");
+        expect(result.Attributes?.DeliveryPolicy).toBe("");
+      }),
+    );
+
+    it.effect("should deserialize map with single entry", () =>
+      Effect.gen(function* () {
+        const response: Response = {
+          status: 200,
+          statusText: "OK",
+          headers: { "Content-Type": "text/xml;charset=UTF-8" },
+          body: `<?xml version="1.0" encoding="UTF-8"?>
+<GetTopicAttributesResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+    <GetTopicAttributesResult>
+        <Attributes>
+            <entry><key>TopicArn</key><value>arn:aws:sns:us-east-1:123456789012:MyTopic</value></entry>
+        </Attributes>
+    </GetTopicAttributesResult>
+    <ResponseMetadata>
+        <RequestId>abc123</RequestId>
+    </ResponseMetadata>
+</GetTopicAttributesResponse>`,
+        };
+
+        const result = yield* parseResponse(
+          GetTopicAttributesResponse,
+          response,
+        );
+        expect(result.Attributes).toBeDefined();
+        expect(result.Attributes?.TopicArn).toBe(
+          "arn:aws:sns:us-east-1:123456789012:MyTopic",
+        );
+        expect(Object.keys(result.Attributes ?? {}).length).toBe(1);
+      }),
+    );
+
+    it.effect("should handle empty self-closing map element", () =>
+      Effect.gen(function* () {
+        // When XML has <Attributes />, the parser returns "" which becomes undefined
+        // Since Attributes is optional, this is fine
+        const response: Response = {
+          status: 200,
+          statusText: "OK",
+          headers: { "Content-Type": "text/xml;charset=UTF-8" },
+          body: `<?xml version="1.0" encoding="UTF-8"?>
+<GetTopicAttributesResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+    <GetTopicAttributesResult>
+        <Attributes />
+    </GetTopicAttributesResult>
+    <ResponseMetadata>
+        <RequestId>abc123</RequestId>
+    </ResponseMetadata>
+</GetTopicAttributesResponse>`,
+        };
+
+        const result = yield* parseResponse(
+          GetTopicAttributesResponse,
+          response,
+        );
+        // Empty self-closing element becomes undefined for optional fields
+        expect(result.Attributes).toBeUndefined();
+      }),
+    );
+
+    it.effect("should deserialize map with empty Attributes element", () =>
+      Effect.gen(function* () {
+        // When XML has <Attributes></Attributes> with no entries
+        const response: Response = {
+          status: 200,
+          statusText: "OK",
+          headers: { "Content-Type": "text/xml;charset=UTF-8" },
+          body: `<?xml version="1.0" encoding="UTF-8"?>
+<GetTopicAttributesResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+    <GetTopicAttributesResult>
+        <Attributes></Attributes>
+    </GetTopicAttributesResult>
+    <ResponseMetadata>
+        <RequestId>abc123</RequestId>
+    </ResponseMetadata>
+</GetTopicAttributesResponse>`,
+        };
+
+        const result = yield* parseResponse(
+          GetTopicAttributesResponse,
+          response,
+        );
+        // Empty element with no entries becomes undefined for optional fields
+        expect(result.Attributes).toBeUndefined();
       }),
     );
   });

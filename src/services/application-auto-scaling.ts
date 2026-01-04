@@ -745,41 +745,41 @@ export class PutScalingPolicyResponse extends S.Class<PutScalingPolicyResponse>(
 //# Errors
 export class ConcurrentUpdateException extends S.TaggedError<ConcurrentUpdateException>()(
   "ConcurrentUpdateException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConcurrentUpdateException", httpResponseCode: 500 }),
-) {}
-export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
-  "InternalServiceException",
-  {},
-  T.AwsQueryError({ code: "InternalServiceException", httpResponseCode: 500 }),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
 ) {}
-export class ObjectNotFoundException extends S.TaggedError<ObjectNotFoundException>()(
-  "ObjectNotFoundException",
-  {},
-  T.AwsQueryError({ code: "ObjectNotFoundException", httpResponseCode: 400 }),
+export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
+  "InternalServiceException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InternalServiceException", httpResponseCode: 500 }),
+) {}
+export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+  "TooManyTagsException",
+  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
+) {}
+export class ObjectNotFoundException extends S.TaggedError<ObjectNotFoundException>()(
+  "ObjectNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ObjectNotFoundException", httpResponseCode: 400 }),
 ) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
-  {},
+  { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidNextTokenException", httpResponseCode: 400 }),
 ) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 400 }),
-) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
-  "TooManyTagsException",
-  { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
 ) {}
 export class FailedResourceAccessException extends S.TaggedError<FailedResourceAccessException>()(
   "FailedResourceAccessException",
@@ -791,62 +791,6 @@ export class FailedResourceAccessException extends S.TaggedError<FailedResourceA
 ) {}
 
 //# Operations
-/**
- * Deletes the specified scaling policy for an Application Auto Scaling scalable target.
- *
- * Deleting a step scaling policy deletes the underlying alarm action, but does not delete
- * the CloudWatch alarm associated with the scaling policy, even if it no longer has an associated
- * action.
- *
- * For more information, see Delete a step scaling policy and Delete a target tracking scaling policy in the
- * *Application Auto Scaling User Guide*.
- */
-export const deleteScalingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteScalingPolicyRequest,
-  output: DeleteScalingPolicyResponse,
-  errors: [
-    ConcurrentUpdateException,
-    InternalServiceException,
-    ObjectNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified scheduled action for an Application Auto Scaling scalable target.
- *
- * For more information, see Delete a scheduled action in the *Application Auto Scaling User Guide*.
- */
-export const deleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteScheduledActionRequest,
-    output: DeleteScheduledActionResponse,
-    errors: [
-      ConcurrentUpdateException,
-      InternalServiceException,
-      ObjectNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deregisters an Application Auto Scaling scalable target when you have finished using it. To see which
- * resources have been registered, use DescribeScalableTargets.
- *
- * Deregistering a scalable target deletes the scaling policies and the scheduled
- * actions that are associated with it.
- */
-export const deregisterScalableTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterScalableTargetRequest,
-    output: DeregisterScalableTargetResponse,
-    errors: [
-      ConcurrentUpdateException,
-      InternalServiceException,
-      ObjectNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Returns all the tags on the specified Application Auto Scaling scalable target.
  *
@@ -868,26 +812,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
- * Describes the Application Auto Scaling scheduled actions for the specified service namespace.
- *
- * You can filter the results using the `ResourceId`,
- * `ScalableDimension`, and `ScheduledActionNames` parameters.
- *
- * For more information, see Scheduled scaling in the *Application Auto Scaling User Guide*.
- */
-export const describeScheduledActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeScheduledActionsRequest,
-    output: DescribeScheduledActionsResponse,
-    errors: [
-      ConcurrentUpdateException,
-      InternalServiceException,
-      InvalidNextTokenException,
-      ValidationException,
-    ],
-  }),
-);
-/**
  * Retrieves the forecast data for a predictive scaling policy.
  *
  * Load forecasts are predictions of the hourly load values using historical load data
@@ -905,36 +829,92 @@ export const getPredictiveScalingForecast =
     errors: [InternalServiceException, ValidationException],
   }));
 /**
- * Creates or updates a scheduled action for an Application Auto Scaling scalable target.
+ * Adds or edits tags on an Application Auto Scaling scalable target.
  *
- * Each scalable target is identified by a service namespace, resource ID, and scalable
- * dimension. A scheduled action applies to the scalable target identified by those three
- * attributes. You cannot create a scheduled action until you have registered the resource as
- * a scalable target.
+ * Each tag consists of a tag key and a tag value, which are both case-sensitive strings.
+ * To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag
+ * key and a new tag value.
  *
- * When you specify start and end times with a recurring schedule using a cron expression
- * or rates, they form the boundaries for when the recurring action starts and stops.
+ * You can use this operation to tag an Application Auto Scaling scalable target, but you cannot tag a
+ * scaling policy or scheduled action.
  *
- * To update a scheduled action, specify the parameters that you want to change. If you
- * don't specify start and end times, the old values are deleted.
+ * You can also add tags to an Application Auto Scaling scalable target while creating it
+ * (`RegisterScalableTarget`).
  *
- * For more information, see Scheduled scaling in the *Application Auto Scaling User Guide*.
+ * For general information about tags, including the format and syntax, see Tagging your Amazon Web Services
+ * resources in the *Amazon Web Services General Reference*.
  *
- * If a scalable target is deregistered, the scalable target is no longer available to
- * run scheduled actions. Any scheduled actions that were specified for the scalable target
- * are deleted.
+ * Use tags to control access to a scalable target. For more information, see Tagging support
+ * for Application Auto Scaling in the *Application Auto Scaling User Guide*.
  */
-export const putScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutScheduledActionRequest,
-  output: PutScheduledActionResponse,
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ResourceNotFoundException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified scaling policy for an Application Auto Scaling scalable target.
+ *
+ * Deleting a step scaling policy deletes the underlying alarm action, but does not delete
+ * the CloudWatch alarm associated with the scaling policy, even if it no longer has an associated
+ * action.
+ *
+ * For more information, see Delete a step scaling policy and Delete a target tracking scaling policy in the
+ * *Application Auto Scaling User Guide*.
+ */
+export const deleteScalingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScalingPolicyRequest,
+  output: DeleteScalingPolicyResponse,
   errors: [
     ConcurrentUpdateException,
     InternalServiceException,
-    LimitExceededException,
     ObjectNotFoundException,
     ValidationException,
   ],
 }));
+/**
+ * Gets information about the scalable targets in the specified namespace.
+ *
+ * You can filter the results using `ResourceIds` and
+ * `ScalableDimension`.
+ */
+export const describeScalableTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeScalableTargetsRequest,
+    output: DescribeScalableTargetsResponse,
+    errors: [
+      ConcurrentUpdateException,
+      InternalServiceException,
+      InvalidNextTokenException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Provides descriptive information about the scaling activities in the specified namespace
+ * from the previous six weeks.
+ *
+ * You can filter the results using `ResourceId` and
+ * `ScalableDimension`.
+ *
+ * For information about viewing scaling activities using the Amazon Web Services CLI, see Scaling activities for Application Auto Scaling.
+ */
+export const describeScalingActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeScalingActivitiesRequest,
+    output: DescribeScalingActivitiesResponse,
+    errors: [
+      ConcurrentUpdateException,
+      InternalServiceException,
+      InvalidNextTokenException,
+      ValidationException,
+    ],
+  }),
+);
 /**
  * Registers or updates a scalable target, which is the resource that you want to
  * scale.
@@ -987,72 +967,92 @@ export const registerScalableTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Adds or edits tags on an Application Auto Scaling scalable target.
+ * Deletes the specified scheduled action for an Application Auto Scaling scalable target.
  *
- * Each tag consists of a tag key and a tag value, which are both case-sensitive strings.
- * To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag
- * key and a new tag value.
- *
- * You can use this operation to tag an Application Auto Scaling scalable target, but you cannot tag a
- * scaling policy or scheduled action.
- *
- * You can also add tags to an Application Auto Scaling scalable target while creating it
- * (`RegisterScalableTarget`).
- *
- * For general information about tags, including the format and syntax, see Tagging your Amazon Web Services
- * resources in the *Amazon Web Services General Reference*.
- *
- * Use tags to control access to a scalable target. For more information, see Tagging support
- * for Application Auto Scaling in the *Application Auto Scaling User Guide*.
+ * For more information, see Delete a scheduled action in the *Application Auto Scaling User Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+export const deleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteScheduledActionRequest,
+    output: DeleteScheduledActionResponse,
+    errors: [
+      ConcurrentUpdateException,
+      InternalServiceException,
+      ObjectNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deregisters an Application Auto Scaling scalable target when you have finished using it. To see which
+ * resources have been registered, use DescribeScalableTargets.
+ *
+ * Deregistering a scalable target deletes the scaling policies and the scheduled
+ * actions that are associated with it.
+ */
+export const deregisterScalableTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeregisterScalableTargetRequest,
+    output: DeregisterScalableTargetResponse,
+    errors: [
+      ConcurrentUpdateException,
+      InternalServiceException,
+      ObjectNotFoundException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Describes the Application Auto Scaling scheduled actions for the specified service namespace.
+ *
+ * You can filter the results using the `ResourceId`,
+ * `ScalableDimension`, and `ScheduledActionNames` parameters.
+ *
+ * For more information, see Scheduled scaling in the *Application Auto Scaling User Guide*.
+ */
+export const describeScheduledActions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeScheduledActionsRequest,
+    output: DescribeScheduledActionsResponse,
+    errors: [
+      ConcurrentUpdateException,
+      InternalServiceException,
+      InvalidNextTokenException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates or updates a scheduled action for an Application Auto Scaling scalable target.
+ *
+ * Each scalable target is identified by a service namespace, resource ID, and scalable
+ * dimension. A scheduled action applies to the scalable target identified by those three
+ * attributes. You cannot create a scheduled action until you have registered the resource as
+ * a scalable target.
+ *
+ * When you specify start and end times with a recurring schedule using a cron expression
+ * or rates, they form the boundaries for when the recurring action starts and stops.
+ *
+ * To update a scheduled action, specify the parameters that you want to change. If you
+ * don't specify start and end times, the old values are deleted.
+ *
+ * For more information, see Scheduled scaling in the *Application Auto Scaling User Guide*.
+ *
+ * If a scalable target is deregistered, the scalable target is no longer available to
+ * run scheduled actions. Any scheduled actions that were specified for the scalable target
+ * are deleted.
+ */
+export const putScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutScheduledActionRequest,
+  output: PutScheduledActionResponse,
   errors: [
-    ResourceNotFoundException,
-    TooManyTagsException,
+    ConcurrentUpdateException,
+    InternalServiceException,
+    LimitExceededException,
+    ObjectNotFoundException,
     ValidationException,
   ],
 }));
-/**
- * Gets information about the scalable targets in the specified namespace.
- *
- * You can filter the results using `ResourceIds` and
- * `ScalableDimension`.
- */
-export const describeScalableTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeScalableTargetsRequest,
-    output: DescribeScalableTargetsResponse,
-    errors: [
-      ConcurrentUpdateException,
-      InternalServiceException,
-      InvalidNextTokenException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Provides descriptive information about the scaling activities in the specified namespace
- * from the previous six weeks.
- *
- * You can filter the results using `ResourceId` and
- * `ScalableDimension`.
- *
- * For information about viewing scaling activities using the Amazon Web Services CLI, see Scaling activities for Application Auto Scaling.
- */
-export const describeScalingActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeScalingActivitiesRequest,
-    output: DescribeScalingActivitiesResponse,
-    errors: [
-      ConcurrentUpdateException,
-      InternalServiceException,
-      InvalidNextTokenException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Describes the Application Auto Scaling scaling policies for the specified service namespace.
  *

@@ -3427,95 +3427,20 @@ export class OrderableClusterOptionsMessage extends S.Class<OrderableClusterOpti
 ) {}
 
 //# Errors
-export class InvalidDataShareFault extends S.TaggedError<InvalidDataShareFault>()(
-  "InvalidDataShareFault",
-  {},
-  T.AwsQueryError({ code: "InvalidDataShareFault", httpResponseCode: 400 }),
-) {}
 export class ClusterNotFoundFault extends S.TaggedError<ClusterNotFoundFault>()(
   "ClusterNotFoundFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ClusterNotFound", httpResponseCode: 404 }),
+) {}
+export class InvalidDataShareFault extends S.TaggedError<InvalidDataShareFault>()(
+  "InvalidDataShareFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidDataShareFault", httpResponseCode: 400 }),
 ) {}
 export class InvalidClusterStateFault extends S.TaggedError<InvalidClusterStateFault>()(
   "InvalidClusterStateFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidClusterState", httpResponseCode: 400 }),
-) {}
-export class UnsupportedOperationFault extends S.TaggedError<UnsupportedOperationFault>()(
-  "UnsupportedOperationFault",
-  {},
-  T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
-) {}
-export class InvalidClusterSnapshotScheduleStateFault extends S.TaggedError<InvalidClusterSnapshotScheduleStateFault>()(
-  "InvalidClusterSnapshotScheduleStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidClusterSnapshotScheduleState",
-    httpResponseCode: 400,
-  }),
-) {}
-export class EndpointNotFoundFault extends S.TaggedError<EndpointNotFoundFault>()(
-  "EndpointNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "EndpointNotFound", httpResponseCode: 404 }),
-) {}
-export class PartnerNotFoundFault extends S.TaggedError<PartnerNotFoundFault>()(
-  "PartnerNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "PartnerNotFound", httpResponseCode: 404 }),
-) {}
-export class UnauthorizedPartnerIntegrationFault extends S.TaggedError<UnauthorizedPartnerIntegrationFault>()(
-  "UnauthorizedPartnerIntegrationFault",
-  {},
-  T.AwsQueryError({
-    code: "UnauthorizedPartnerIntegration",
-    httpResponseCode: 401,
-  }),
-) {}
-export class ResizeNotFoundFault extends S.TaggedError<ResizeNotFoundFault>()(
-  "ResizeNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "ResizeNotFound", httpResponseCode: 404 }),
-) {}
-export class ClusterSnapshotAlreadyExistsFault extends S.TaggedError<ClusterSnapshotAlreadyExistsFault>()(
-  "ClusterSnapshotAlreadyExistsFault",
-  {},
-  T.AwsQueryError({
-    code: "ClusterSnapshotAlreadyExists",
-    httpResponseCode: 400,
-  }),
-) {}
-export class CustomCnameAssociationFault extends S.TaggedError<CustomCnameAssociationFault>()(
-  "CustomCnameAssociationFault",
-  {},
-  T.AwsQueryError({
-    code: "CustomCnameAssociationFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class IntegrationAlreadyExistsFault extends S.TaggedError<IntegrationAlreadyExistsFault>()(
-  "IntegrationAlreadyExistsFault",
-  {},
-  T.AwsQueryError({
-    code: "IntegrationAlreadyExistsFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidTagFault extends S.TaggedError<InvalidTagFault>()(
-  "InvalidTagFault",
-  {},
-  T.AwsQueryError({ code: "InvalidTagFault", httpResponseCode: 400 }),
-) {}
-export class ResourceNotFoundFault extends S.TaggedError<ResourceNotFoundFault>()(
-  "ResourceNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "ResourceNotFoundFault", httpResponseCode: 404 }),
-) {}
-export class InvalidUsageLimitFault extends S.TaggedError<InvalidUsageLimitFault>()(
-  "InvalidUsageLimitFault",
-  {},
-  T.AwsQueryError({ code: "InvalidUsageLimit", httpResponseCode: 400 }),
 ) {}
 export class ClusterParameterGroupNotFoundFault extends S.TaggedError<ClusterParameterGroupNotFoundFault>()(
   "ClusterParameterGroupNotFoundFault",
@@ -3531,14 +3456,6 @@ export class ClusterSecurityGroupNotFoundFault extends S.TaggedError<ClusterSecu
   T.AwsQueryError({
     code: "ClusterSecurityGroupNotFound",
     httpResponseCode: 404,
-  }),
-) {}
-export class InvalidClusterSecurityGroupStateFault extends S.TaggedError<InvalidClusterSecurityGroupStateFault>()(
-  "InvalidClusterSecurityGroupStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidClusterSecurityGroupState",
-    httpResponseCode: 400,
   }),
 ) {}
 export class ClusterSubnetGroupNotFoundFault extends S.TaggedError<ClusterSubnetGroupNotFoundFault>()(
@@ -3581,6 +3498,11 @@ export class DependentServiceAccessDeniedFault extends S.TaggedError<DependentSe
     httpResponseCode: 403,
   }),
 ) {}
+export class ResourceNotFoundFault extends S.TaggedError<ResourceNotFoundFault>()(
+  "ResourceNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotFoundFault", httpResponseCode: 404 }),
+) {}
 export class ScheduledActionNotFoundFault extends S.TaggedError<ScheduledActionNotFoundFault>()(
   "ScheduledActionNotFoundFault",
   { message: S.optional(S.String) },
@@ -3594,137 +3516,51 @@ export class InvalidSnapshotCopyGrantStateFault extends S.TaggedError<InvalidSna
     httpResponseCode: 400,
   }),
 ) {}
-export class SnapshotScheduleNotFoundFault extends S.TaggedError<SnapshotScheduleNotFoundFault>()(
-  "SnapshotScheduleNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "SnapshotScheduleNotFound", httpResponseCode: 400 }),
-) {}
-export class InvalidNamespaceFault extends S.TaggedError<InvalidNamespaceFault>()(
-  "InvalidNamespaceFault",
-  {},
-  T.AwsQueryError({ code: "InvalidNamespaceFault", httpResponseCode: 400 }),
-) {}
-export class SubscriptionNotFoundFault extends S.TaggedError<SubscriptionNotFoundFault>()(
-  "SubscriptionNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "SubscriptionNotFound", httpResponseCode: 404 }),
-) {}
-export class DependentServiceUnavailableFault extends S.TaggedError<DependentServiceUnavailableFault>()(
-  "DependentServiceUnavailableFault",
-  {},
+export class InvalidClusterSnapshotScheduleStateFault extends S.TaggedError<InvalidClusterSnapshotScheduleStateFault>()(
+  "InvalidClusterSnapshotScheduleStateFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "DependentServiceUnavailableFault",
+    code: "InvalidClusterSnapshotScheduleState",
     httpResponseCode: 400,
   }),
 ) {}
-export class SnapshotCopyGrantNotFoundFault extends S.TaggedError<SnapshotCopyGrantNotFoundFault>()(
-  "SnapshotCopyGrantNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "SnapshotCopyGrantNotFoundFault",
-    httpResponseCode: 400,
-  }),
+export class InvalidTagFault extends S.TaggedError<InvalidTagFault>()(
+  "InvalidTagFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidTagFault", httpResponseCode: 400 }),
+) {}
+export class UnsupportedOperationFault extends S.TaggedError<UnsupportedOperationFault>()(
+  "UnsupportedOperationFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
 ) {}
 export class BucketNotFoundFault extends S.TaggedError<BucketNotFoundFault>()(
   "BucketNotFoundFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "BucketNotFoundFault", httpResponseCode: 400 }),
 ) {}
-export class UnauthorizedOperation extends S.TaggedError<UnauthorizedOperation>()(
-  "UnauthorizedOperation",
-  {},
-  T.AwsQueryError({ code: "UnauthorizedOperation", httpResponseCode: 400 }),
-) {}
-export class AuthenticationProfileNotFoundFault extends S.TaggedError<AuthenticationProfileNotFoundFault>()(
-  "AuthenticationProfileNotFoundFault",
-  {},
+export class IntegrationAlreadyExistsFault extends S.TaggedError<IntegrationAlreadyExistsFault>()(
+  "IntegrationAlreadyExistsFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "AuthenticationProfileNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidClusterParameterGroupStateFault extends S.TaggedError<InvalidClusterParameterGroupStateFault>()(
-  "InvalidClusterParameterGroupStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidClusterParameterGroupState",
+    code: "IntegrationAlreadyExistsFault",
     httpResponseCode: 400,
   }),
-) {}
-export class ClusterSnapshotNotFoundFault extends S.TaggedError<ClusterSnapshotNotFoundFault>()(
-  "ClusterSnapshotNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "ClusterSnapshotNotFound", httpResponseCode: 404 }),
-) {}
-export class CustomDomainAssociationNotFoundFault extends S.TaggedError<CustomDomainAssociationNotFoundFault>()(
-  "CustomDomainAssociationNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "CustomDomainAssociationNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidEndpointStateFault extends S.TaggedError<InvalidEndpointStateFault>()(
-  "InvalidEndpointStateFault",
-  {},
-  T.AwsQueryError({ code: "InvalidEndpointState", httpResponseCode: 400 }),
-) {}
-export class IntegrationConflictOperationFault extends S.TaggedError<IntegrationConflictOperationFault>()(
-  "IntegrationConflictOperationFault",
-  {},
-  T.AwsQueryError({
-    code: "IntegrationConflictOperationFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class RedshiftIdcApplicationNotExistsFault extends S.TaggedError<RedshiftIdcApplicationNotExistsFault>()(
-  "RedshiftIdcApplicationNotExistsFault",
-  {},
-  T.AwsQueryError({
-    code: "RedshiftIdcApplicationNotExists",
-    httpResponseCode: 404,
-  }),
-) {}
-export class InvalidScheduledActionFault extends S.TaggedError<InvalidScheduledActionFault>()(
-  "InvalidScheduledActionFault",
-  {},
-  T.AwsQueryError({ code: "InvalidScheduledAction", httpResponseCode: 400 }),
 ) {}
 export class InvalidScheduleFault extends S.TaggedError<InvalidScheduleFault>()(
   "InvalidScheduleFault",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidSchedule", httpResponseCode: 400 }),
 ) {}
-export class UsageLimitNotFoundFault extends S.TaggedError<UsageLimitNotFoundFault>()(
-  "UsageLimitNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "UsageLimitNotFound", httpResponseCode: 404 }),
-) {}
-export class InsufficientClusterCapacityFault extends S.TaggedError<InsufficientClusterCapacityFault>()(
-  "InsufficientClusterCapacityFault",
-  {},
-  T.AwsQueryError({
-    code: "InsufficientClusterCapacity",
-    httpResponseCode: 400,
-  }),
-) {}
-export class EndpointAuthorizationNotFoundFault extends S.TaggedError<EndpointAuthorizationNotFoundFault>()(
-  "EndpointAuthorizationNotFoundFault",
+export class InvalidUsageLimitFault extends S.TaggedError<InvalidUsageLimitFault>()(
+  "InvalidUsageLimitFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "EndpointAuthorizationNotFound",
-    httpResponseCode: 404,
-  }),
+  T.AwsQueryError({ code: "InvalidUsageLimit", httpResponseCode: 400 }),
 ) {}
-export class AccessToSnapshotDeniedFault extends S.TaggedError<AccessToSnapshotDeniedFault>()(
-  "AccessToSnapshotDeniedFault",
-  {},
-  T.AwsQueryError({ code: "AccessToSnapshotDenied", httpResponseCode: 400 }),
-) {}
-export class AuthorizationNotFoundFault extends S.TaggedError<AuthorizationNotFoundFault>()(
-  "AuthorizationNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "AuthorizationNotFound", httpResponseCode: 404 }),
+export class PartnerNotFoundFault extends S.TaggedError<PartnerNotFoundFault>()(
+  "PartnerNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "PartnerNotFound", httpResponseCode: 404 }),
 ) {}
 export class EndpointAuthorizationAlreadyExistsFault extends S.TaggedError<EndpointAuthorizationAlreadyExistsFault>()(
   "EndpointAuthorizationAlreadyExistsFault",
@@ -3742,27 +3578,11 @@ export class BatchModifyClusterSnapshotsLimitExceededFault extends S.TaggedError
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidRetentionPeriodFault extends S.TaggedError<InvalidRetentionPeriodFault>()(
-  "InvalidRetentionPeriodFault",
-  {},
+export class ClusterSnapshotAlreadyExistsFault extends S.TaggedError<ClusterSnapshotAlreadyExistsFault>()(
+  "ClusterSnapshotAlreadyExistsFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InvalidRetentionPeriodFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ClusterSnapshotQuotaExceededFault extends S.TaggedError<ClusterSnapshotQuotaExceededFault>()(
-  "ClusterSnapshotQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "ClusterSnapshotQuotaExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidClusterSnapshotStateFault extends S.TaggedError<InvalidClusterSnapshotStateFault>()(
-  "InvalidClusterSnapshotStateFault",
-  {},
-  T.AwsQueryError({
-    code: "InvalidClusterSnapshotState",
+    code: "ClusterSnapshotAlreadyExists",
     httpResponseCode: 400,
   }),
 ) {}
@@ -3774,19 +3594,6 @@ export class AuthenticationProfileAlreadyExistsFault extends S.TaggedError<Authe
     httpResponseCode: 400,
   }),
 ) {}
-export class AuthenticationProfileQuotaExceededFault extends S.TaggedError<AuthenticationProfileQuotaExceededFault>()(
-  "AuthenticationProfileQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "AuthenticationProfileQuotaExceededFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ClusterAlreadyExistsFault extends S.TaggedError<ClusterAlreadyExistsFault>()(
-  "ClusterAlreadyExistsFault",
-  {},
-  T.AwsQueryError({ code: "ClusterAlreadyExists", httpResponseCode: 400 }),
-) {}
 export class ClusterSecurityGroupAlreadyExistsFault extends S.TaggedError<ClusterSecurityGroupAlreadyExistsFault>()(
   "ClusterSecurityGroupAlreadyExistsFault",
   { message: S.optional(S.String) },
@@ -3795,31 +3602,47 @@ export class ClusterSecurityGroupAlreadyExistsFault extends S.TaggedError<Cluste
     httpResponseCode: 400,
   }),
 ) {}
-export class TagLimitExceededFault extends S.TaggedError<TagLimitExceededFault>()(
-  "TagLimitExceededFault",
-  {},
-  T.AwsQueryError({ code: "TagLimitExceededFault", httpResponseCode: 400 }),
-) {}
-export class DependentServiceRequestThrottlingFault extends S.TaggedError<DependentServiceRequestThrottlingFault>()(
-  "DependentServiceRequestThrottlingFault",
-  {},
+export class CustomCnameAssociationFault extends S.TaggedError<CustomCnameAssociationFault>()(
+  "CustomCnameAssociationFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "DependentServiceRequestThrottlingFault",
+    code: "CustomCnameAssociationFault",
     httpResponseCode: 400,
   }),
 ) {}
-export class LimitExceededFault extends S.TaggedError<LimitExceededFault>()(
-  "LimitExceededFault",
-  {},
-  T.AwsQueryError({ code: "LimitExceededFault", httpResponseCode: 400 }),
+export class InvalidScheduledActionFault extends S.TaggedError<InvalidScheduledActionFault>()(
+  "InvalidScheduledActionFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidScheduledAction", httpResponseCode: 400 }),
 ) {}
-export class InvalidAuthenticationProfileRequestFault extends S.TaggedError<InvalidAuthenticationProfileRequestFault>()(
-  "InvalidAuthenticationProfileRequestFault",
-  {},
+export class AuthenticationProfileNotFoundFault extends S.TaggedError<AuthenticationProfileNotFoundFault>()(
+  "AuthenticationProfileNotFoundFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InvalidAuthenticationProfileRequestFault",
+    code: "AuthenticationProfileNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
+export class InvalidClusterParameterGroupStateFault extends S.TaggedError<InvalidClusterParameterGroupStateFault>()(
+  "InvalidClusterParameterGroupStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidClusterParameterGroupState",
     httpResponseCode: 400,
   }),
+) {}
+export class InvalidClusterSecurityGroupStateFault extends S.TaggedError<InvalidClusterSecurityGroupStateFault>()(
+  "InvalidClusterSecurityGroupStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidClusterSecurityGroupState",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ClusterSnapshotNotFoundFault extends S.TaggedError<ClusterSnapshotNotFoundFault>()(
+  "ClusterSnapshotNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ClusterSnapshotNotFound", httpResponseCode: 404 }),
 ) {}
 export class InvalidClusterSubnetGroupStateFault extends S.TaggedError<InvalidClusterSubnetGroupStateFault>()(
   "InvalidClusterSubnetGroupStateFault",
@@ -3828,6 +3651,11 @@ export class InvalidClusterSubnetGroupStateFault extends S.TaggedError<InvalidCl
     code: "InvalidClusterSubnetGroupStateFault",
     httpResponseCode: 400,
   }),
+) {}
+export class SubscriptionNotFoundFault extends S.TaggedError<SubscriptionNotFoundFault>()(
+  "SubscriptionNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubscriptionNotFound", httpResponseCode: 404 }),
 ) {}
 export class InvalidHsmClientCertificateStateFault extends S.TaggedError<InvalidHsmClientCertificateStateFault>()(
   "InvalidHsmClientCertificateStateFault",
@@ -3845,23 +3673,46 @@ export class InvalidHsmConfigurationStateFault extends S.TaggedError<InvalidHsmC
     httpResponseCode: 400,
   }),
 ) {}
-export class IntegrationConflictStateFault extends S.TaggedError<IntegrationConflictStateFault>()(
-  "IntegrationConflictStateFault",
-  {},
+export class DependentServiceUnavailableFault extends S.TaggedError<DependentServiceUnavailableFault>()(
+  "DependentServiceUnavailableFault",
+  { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "IntegrationConflictStateFault",
+    code: "DependentServiceUnavailableFault",
     httpResponseCode: 400,
   }),
 ) {}
-export class IntegrationNotFoundFault extends S.TaggedError<IntegrationNotFoundFault>()(
-  "IntegrationNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "IntegrationNotFoundFault", httpResponseCode: 404 }),
-) {}
-export class ReservedNodeNotFoundFault extends S.TaggedError<ReservedNodeNotFoundFault>()(
-  "ReservedNodeNotFoundFault",
+export class UnauthorizedOperation extends S.TaggedError<UnauthorizedOperation>()(
+  "UnauthorizedOperation",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ReservedNodeNotFound", httpResponseCode: 404 }),
+  T.AwsQueryError({ code: "UnauthorizedOperation", httpResponseCode: 400 }),
+) {}
+export class SnapshotCopyGrantNotFoundFault extends S.TaggedError<SnapshotCopyGrantNotFoundFault>()(
+  "SnapshotCopyGrantNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SnapshotCopyGrantNotFoundFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class SnapshotScheduleNotFoundFault extends S.TaggedError<SnapshotScheduleNotFoundFault>()(
+  "SnapshotScheduleNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SnapshotScheduleNotFound", httpResponseCode: 400 }),
+) {}
+export class UsageLimitNotFoundFault extends S.TaggedError<UsageLimitNotFoundFault>()(
+  "UsageLimitNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UsageLimitNotFound", httpResponseCode: 404 }),
+) {}
+export class InvalidNamespaceFault extends S.TaggedError<InvalidNamespaceFault>()(
+  "InvalidNamespaceFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidNamespaceFault", httpResponseCode: 400 }),
+) {}
+export class EndpointNotFoundFault extends S.TaggedError<EndpointNotFoundFault>()(
+  "EndpointNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "EndpointNotFound", httpResponseCode: 404 }),
 ) {}
 export class SnapshotCopyAlreadyDisabledFault extends S.TaggedError<SnapshotCopyAlreadyDisabledFault>()(
   "SnapshotCopyAlreadyDisabledFault",
@@ -3889,26 +3740,10 @@ export class RedshiftInvalidParameterFault extends S.TaggedError<RedshiftInvalid
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "RedshiftInvalidParameter", httpResponseCode: 400 }),
 ) {}
-export class InvalidReservedNodeStateFault extends S.TaggedError<InvalidReservedNodeStateFault>()(
-  "InvalidReservedNodeStateFault",
-  {},
-  T.AwsQueryError({ code: "InvalidReservedNodeState", httpResponseCode: 400 }),
-) {}
-export class ReservedNodeAlreadyMigratedFault extends S.TaggedError<ReservedNodeAlreadyMigratedFault>()(
-  "ReservedNodeAlreadyMigratedFault",
-  {},
-  T.AwsQueryError({
-    code: "ReservedNodeAlreadyMigrated",
-    httpResponseCode: 400,
-  }),
-) {}
-export class ReservedNodeOfferingNotFoundFault extends S.TaggedError<ReservedNodeOfferingNotFoundFault>()(
-  "ReservedNodeOfferingNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "ReservedNodeOfferingNotFound",
-    httpResponseCode: 404,
-  }),
+export class ClusterAlreadyExistsFault extends S.TaggedError<ClusterAlreadyExistsFault>()(
+  "ClusterAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ClusterAlreadyExists", httpResponseCode: 400 }),
 ) {}
 export class ClusterOnLatestRevisionFault extends S.TaggedError<ClusterOnLatestRevisionFault>()(
   "ClusterOnLatestRevisionFault",
@@ -3928,19 +3763,19 @@ export class SNSInvalidTopicFault extends S.TaggedError<SNSInvalidTopicFault>()(
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "SNSInvalidTopic", httpResponseCode: 400 }),
 ) {}
-export class ScheduledActionTypeUnsupportedFault extends S.TaggedError<ScheduledActionTypeUnsupportedFault>()(
-  "ScheduledActionTypeUnsupportedFault",
+export class IntegrationConflictOperationFault extends S.TaggedError<IntegrationConflictOperationFault>()(
+  "IntegrationConflictOperationFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "ScheduledActionTypeUnsupported",
+    code: "IntegrationConflictOperationFault",
     httpResponseCode: 400,
   }),
 ) {}
-export class SnapshotScheduleUpdateInProgressFault extends S.TaggedError<SnapshotScheduleUpdateInProgressFault>()(
-  "SnapshotScheduleUpdateInProgressFault",
+export class InvalidRetentionPeriodFault extends S.TaggedError<InvalidRetentionPeriodFault>()(
+  "InvalidRetentionPeriodFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "SnapshotScheduleUpdateInProgress",
+    code: "InvalidRetentionPeriodFault",
     httpResponseCode: 400,
   }),
 ) {}
@@ -3954,47 +3789,68 @@ export class ConflictPolicyUpdateFault extends S.TaggedError<ConflictPolicyUpdat
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConflictPolicyUpdateFault", httpResponseCode: 409 }),
 ) {}
-export class InvalidPolicyFault extends S.TaggedError<InvalidPolicyFault>()(
-  "InvalidPolicyFault",
-  {},
-  T.AwsQueryError({ code: "InvalidPolicyFault", httpResponseCode: 400 }),
+export class AccessToSnapshotDeniedFault extends S.TaggedError<AccessToSnapshotDeniedFault>()(
+  "AccessToSnapshotDeniedFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "AccessToSnapshotDenied", httpResponseCode: 400 }),
 ) {}
-export class ClusterQuotaExceededFault extends S.TaggedError<ClusterQuotaExceededFault>()(
-  "ClusterQuotaExceededFault",
-  {},
-  T.AwsQueryError({ code: "ClusterQuotaExceeded", httpResponseCode: 400 }),
-) {}
-export class InvalidClusterTrackFault extends S.TaggedError<InvalidClusterTrackFault>()(
-  "InvalidClusterTrackFault",
-  {},
-  T.AwsQueryError({ code: "InvalidClusterTrack", httpResponseCode: 400 }),
-) {}
-export class InProgressTableRestoreQuotaExceededFault extends S.TaggedError<InProgressTableRestoreQuotaExceededFault>()(
-  "InProgressTableRestoreQuotaExceededFault",
+export class InsufficientClusterCapacityFault extends S.TaggedError<InsufficientClusterCapacityFault>()(
+  "InsufficientClusterCapacityFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "InProgressTableRestoreQuotaExceededFault",
+    code: "InsufficientClusterCapacity",
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidAuthorizationStateFault extends S.TaggedError<InvalidAuthorizationStateFault>()(
-  "InvalidAuthorizationStateFault",
+export class AuthorizationNotFoundFault extends S.TaggedError<AuthorizationNotFoundFault>()(
+  "AuthorizationNotFoundFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidAuthorizationState", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "AuthorizationNotFound", httpResponseCode: 404 }),
+) {}
+export class DependentServiceRequestThrottlingFault extends S.TaggedError<DependentServiceRequestThrottlingFault>()(
+  "DependentServiceRequestThrottlingFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "DependentServiceRequestThrottlingFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ResizeNotFoundFault extends S.TaggedError<ResizeNotFoundFault>()(
+  "ResizeNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResizeNotFound", httpResponseCode: 404 }),
+) {}
+export class EndpointAuthorizationNotFoundFault extends S.TaggedError<EndpointAuthorizationNotFoundFault>()(
+  "EndpointAuthorizationNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "EndpointAuthorizationNotFound",
+    httpResponseCode: 404,
+  }),
+) {}
+export class TagLimitExceededFault extends S.TaggedError<TagLimitExceededFault>()(
+  "TagLimitExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TagLimitExceededFault", httpResponseCode: 400 }),
+) {}
+export class LimitExceededFault extends S.TaggedError<LimitExceededFault>()(
+  "LimitExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "LimitExceededFault", httpResponseCode: 400 }),
+) {}
+export class UnauthorizedPartnerIntegrationFault extends S.TaggedError<UnauthorizedPartnerIntegrationFault>()(
+  "UnauthorizedPartnerIntegrationFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "UnauthorizedPartnerIntegration",
+    httpResponseCode: 401,
+  }),
 ) {}
 export class EndpointAuthorizationsPerClusterLimitExceededFault extends S.TaggedError<EndpointAuthorizationsPerClusterLimitExceededFault>()(
   "EndpointAuthorizationsPerClusterLimitExceededFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "EndpointAuthorizationsPerClusterLimitExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class AuthorizationAlreadyExistsFault extends S.TaggedError<AuthorizationAlreadyExistsFault>()(
-  "AuthorizationAlreadyExistsFault",
-  {},
-  T.AwsQueryError({
-    code: "AuthorizationAlreadyExists",
     httpResponseCode: 400,
   }),
 ) {}
@@ -4006,15 +3862,13 @@ export class BatchDeleteRequestSizeExceededFault extends S.TaggedError<BatchDele
     httpResponseCode: 400,
   }),
 ) {}
-export class InvalidElasticIpFault extends S.TaggedError<InvalidElasticIpFault>()(
-  "InvalidElasticIpFault",
-  {},
-  T.AwsQueryError({ code: "InvalidElasticIpFault", httpResponseCode: 400 }),
-) {}
-export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
-  "InvalidSubnet",
-  {},
-  T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
+export class AuthenticationProfileQuotaExceededFault extends S.TaggedError<AuthenticationProfileQuotaExceededFault>()(
+  "AuthenticationProfileQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "AuthenticationProfileQuotaExceededFault",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class ClusterParameterGroupAlreadyExistsFault extends S.TaggedError<ClusterParameterGroupAlreadyExistsFault>()(
   "ClusterParameterGroupAlreadyExistsFault",
@@ -4040,11 +3894,6 @@ export class EventSubscriptionQuotaExceededFault extends S.TaggedError<EventSubs
     httpResponseCode: 400,
   }),
 ) {}
-export class SNSNoAuthorizationFault extends S.TaggedError<SNSNoAuthorizationFault>()(
-  "SNSNoAuthorizationFault",
-  {},
-  T.AwsQueryError({ code: "SNSNoAuthorization", httpResponseCode: 400 }),
-) {}
 export class HsmClientCertificateAlreadyExistsFault extends S.TaggedError<HsmClientCertificateAlreadyExistsFault>()(
   "HsmClientCertificateAlreadyExistsFault",
   { message: S.optional(S.String) },
@@ -4061,27 +3910,11 @@ export class HsmConfigurationAlreadyExistsFault extends S.TaggedError<HsmConfigu
     httpResponseCode: 400,
   }),
 ) {}
-export class IntegrationQuotaExceededFault extends S.TaggedError<IntegrationQuotaExceededFault>()(
-  "IntegrationQuotaExceededFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "IntegrationQuotaExceededFault",
-    httpResponseCode: 400,
-  }),
-) {}
 export class ScheduledActionAlreadyExistsFault extends S.TaggedError<ScheduledActionAlreadyExistsFault>()(
   "ScheduledActionAlreadyExistsFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ScheduledActionAlreadyExists",
-    httpResponseCode: 400,
-  }),
-) {}
-export class SnapshotCopyGrantAlreadyExistsFault extends S.TaggedError<SnapshotCopyGrantAlreadyExistsFault>()(
-  "SnapshotCopyGrantAlreadyExistsFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "SnapshotCopyGrantAlreadyExistsFault",
     httpResponseCode: 400,
   }),
 ) {}
@@ -4093,10 +3926,21 @@ export class ScheduleDefinitionTypeUnsupportedFault extends S.TaggedError<Schedu
     httpResponseCode: 400,
   }),
 ) {}
-export class UsageLimitAlreadyExistsFault extends S.TaggedError<UsageLimitAlreadyExistsFault>()(
-  "UsageLimitAlreadyExistsFault",
+export class InvalidAuthenticationProfileRequestFault extends S.TaggedError<InvalidAuthenticationProfileRequestFault>()(
+  "InvalidAuthenticationProfileRequestFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "UsageLimitAlreadyExists", httpResponseCode: 400 }),
+  T.AwsQueryError({
+    code: "InvalidAuthenticationProfileRequestFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidClusterSnapshotStateFault extends S.TaggedError<InvalidClusterSnapshotStateFault>()(
+  "InvalidClusterSnapshotStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidClusterSnapshotState",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class InvalidClusterSubnetStateFault extends S.TaggedError<InvalidClusterSubnetStateFault>()(
   "InvalidClusterSubnetStateFault",
@@ -4106,11 +3950,32 @@ export class InvalidClusterSubnetStateFault extends S.TaggedError<InvalidCluster
     httpResponseCode: 400,
   }),
 ) {}
+export class RedshiftIdcApplicationNotExistsFault extends S.TaggedError<RedshiftIdcApplicationNotExistsFault>()(
+  "RedshiftIdcApplicationNotExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "RedshiftIdcApplicationNotExists",
+    httpResponseCode: 404,
+  }),
+) {}
+export class IntegrationNotFoundFault extends S.TaggedError<IntegrationNotFoundFault>()(
+  "IntegrationNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "IntegrationNotFoundFault", httpResponseCode: 404 }),
+) {}
 export class ReservedNodeExchangeNotFoundFault extends S.TaggedError<ReservedNodeExchangeNotFoundFault>()(
   "ReservedNodeExchangeNotFoundFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ReservedNodeExchangeNotFond",
+    httpResponseCode: 404,
+  }),
+) {}
+export class ReservedNodeOfferingNotFoundFault extends S.TaggedError<ReservedNodeOfferingNotFoundFault>()(
+  "ReservedNodeOfferingNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ReservedNodeOfferingNotFound",
     httpResponseCode: 404,
   }),
 ) {}
@@ -4124,6 +3989,115 @@ export class InvalidS3BucketNameFault extends S.TaggedError<InvalidS3BucketNameF
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidS3BucketNameFault", httpResponseCode: 400 }),
 ) {}
+export class InvalidReservedNodeStateFault extends S.TaggedError<InvalidReservedNodeStateFault>()(
+  "InvalidReservedNodeStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidReservedNodeState", httpResponseCode: 400 }),
+) {}
+export class InvalidPolicyFault extends S.TaggedError<InvalidPolicyFault>()(
+  "InvalidPolicyFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidPolicyFault", httpResponseCode: 400 }),
+) {}
+export class SNSNoAuthorizationFault extends S.TaggedError<SNSNoAuthorizationFault>()(
+  "SNSNoAuthorizationFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SNSNoAuthorization", httpResponseCode: 400 }),
+) {}
+export class IntegrationConflictStateFault extends S.TaggedError<IntegrationConflictStateFault>()(
+  "IntegrationConflictStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "IntegrationConflictStateFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class SnapshotCopyDisabledFault extends S.TaggedError<SnapshotCopyDisabledFault>()(
+  "SnapshotCopyDisabledFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SnapshotCopyDisabledFault", httpResponseCode: 400 }),
+) {}
+export class ClusterQuotaExceededFault extends S.TaggedError<ClusterQuotaExceededFault>()(
+  "ClusterQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ClusterQuotaExceeded", httpResponseCode: 400 }),
+) {}
+export class InvalidAuthorizationStateFault extends S.TaggedError<InvalidAuthorizationStateFault>()(
+  "InvalidAuthorizationStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidAuthorizationState", httpResponseCode: 400 }),
+) {}
+export class ClusterSnapshotQuotaExceededFault extends S.TaggedError<ClusterSnapshotQuotaExceededFault>()(
+  "ClusterSnapshotQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ClusterSnapshotQuotaExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class CustomDomainAssociationNotFoundFault extends S.TaggedError<CustomDomainAssociationNotFoundFault>()(
+  "CustomDomainAssociationNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CustomDomainAssociationNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
+export class ScheduledActionTypeUnsupportedFault extends S.TaggedError<ScheduledActionTypeUnsupportedFault>()(
+  "ScheduledActionTypeUnsupportedFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ScheduledActionTypeUnsupported",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InProgressTableRestoreQuotaExceededFault extends S.TaggedError<InProgressTableRestoreQuotaExceededFault>()(
+  "InProgressTableRestoreQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InProgressTableRestoreQuotaExceededFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ReservedNodeNotFoundFault extends S.TaggedError<ReservedNodeNotFoundFault>()(
+  "ReservedNodeNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ReservedNodeNotFound", httpResponseCode: 404 }),
+) {}
+export class SnapshotScheduleUpdateInProgressFault extends S.TaggedError<SnapshotScheduleUpdateInProgressFault>()(
+  "SnapshotScheduleUpdateInProgressFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SnapshotScheduleUpdateInProgress",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidEndpointStateFault extends S.TaggedError<InvalidEndpointStateFault>()(
+  "InvalidEndpointStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidEndpointState", httpResponseCode: 400 }),
+) {}
+export class IntegrationQuotaExceededFault extends S.TaggedError<IntegrationQuotaExceededFault>()(
+  "IntegrationQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "IntegrationQuotaExceededFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class UsageLimitAlreadyExistsFault extends S.TaggedError<UsageLimitAlreadyExistsFault>()(
+  "UsageLimitAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UsageLimitAlreadyExists", httpResponseCode: 400 }),
+) {}
+export class SnapshotCopyGrantAlreadyExistsFault extends S.TaggedError<SnapshotCopyGrantAlreadyExistsFault>()(
+  "SnapshotCopyGrantAlreadyExistsFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SnapshotCopyGrantAlreadyExistsFault",
+    httpResponseCode: 400,
+  }),
+) {}
 export class IncompatibleOrderableOptions extends S.TaggedError<IncompatibleOrderableOptions>()(
   "IncompatibleOrderableOptions",
   { message: S.optional(S.String) },
@@ -4132,66 +4106,21 @@ export class IncompatibleOrderableOptions extends S.TaggedError<IncompatibleOrde
     httpResponseCode: 400,
   }),
 ) {}
-export class SNSTopicArnNotFoundFault extends S.TaggedError<SNSTopicArnNotFoundFault>()(
-  "SNSTopicArnNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "SNSTopicArnNotFound", httpResponseCode: 404 }),
-) {}
-export class SnapshotCopyDisabledFault extends S.TaggedError<SnapshotCopyDisabledFault>()(
-  "SnapshotCopyDisabledFault",
+export class InvalidClusterTrackFault extends S.TaggedError<InvalidClusterTrackFault>()(
+  "InvalidClusterTrackFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SnapshotCopyDisabledFault", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidClusterTrack", httpResponseCode: 400 }),
 ) {}
-export class ReservedNodeQuotaExceededFault extends S.TaggedError<ReservedNodeQuotaExceededFault>()(
-  "ReservedNodeQuotaExceededFault",
+export class InvalidSubnet extends S.TaggedError<InvalidSubnet>()(
+  "InvalidSubnet",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ReservedNodeQuotaExceeded", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
 ) {}
-export class NumberOfNodesPerClusterLimitExceededFault extends S.TaggedError<NumberOfNodesPerClusterLimitExceededFault>()(
-  "NumberOfNodesPerClusterLimitExceededFault",
+export class AuthorizationAlreadyExistsFault extends S.TaggedError<AuthorizationAlreadyExistsFault>()(
+  "AuthorizationAlreadyExistsFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
-    code: "NumberOfNodesPerClusterLimitExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidTableRestoreArgumentFault extends S.TaggedError<InvalidTableRestoreArgumentFault>()(
-  "InvalidTableRestoreArgumentFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "InvalidTableRestoreArgument",
-    httpResponseCode: 400,
-  }),
-) {}
-export class AuthorizationQuotaExceededFault extends S.TaggedError<AuthorizationQuotaExceededFault>()(
-  "AuthorizationQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "AuthorizationQuotaExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class InvalidVPCNetworkStateFault extends S.TaggedError<InvalidVPCNetworkStateFault>()(
-  "InvalidVPCNetworkStateFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "InvalidVPCNetworkStateFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class Ipv6CidrBlockNotFoundFault extends S.TaggedError<Ipv6CidrBlockNotFoundFault>()(
-  "Ipv6CidrBlockNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "Ipv6CidrBlockNotFoundFault",
-    httpResponseCode: 400,
-  }),
-) {}
-export class NumberOfNodesQuotaExceededFault extends S.TaggedError<NumberOfNodesQuotaExceededFault>()(
-  "NumberOfNodesQuotaExceededFault",
-  {},
-  T.AwsQueryError({
-    code: "NumberOfNodesQuotaExceeded",
+    code: "AuthorizationAlreadyExists",
     httpResponseCode: 400,
   }),
 ) {}
@@ -4216,11 +4145,6 @@ export class AccessToClusterDeniedFault extends S.TaggedError<AccessToClusterDen
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "AccessToClusterDenied", httpResponseCode: 400 }),
 ) {}
-export class SourceNotFoundFault extends S.TaggedError<SourceNotFoundFault>()(
-  "SourceNotFoundFault",
-  {},
-  T.AwsQueryError({ code: "SourceNotFound", httpResponseCode: 404 }),
-) {}
 export class HsmClientCertificateQuotaExceededFault extends S.TaggedError<HsmClientCertificateQuotaExceededFault>()(
   "HsmClientCertificateQuotaExceededFault",
   { message: S.optional(S.String) },
@@ -4237,27 +4161,11 @@ export class HsmConfigurationQuotaExceededFault extends S.TaggedError<HsmConfigu
     httpResponseCode: 400,
   }),
 ) {}
-export class IntegrationSourceNotFoundFault extends S.TaggedError<IntegrationSourceNotFoundFault>()(
-  "IntegrationSourceNotFoundFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "IntegrationSourceNotFoundFault",
-    httpResponseCode: 404,
-  }),
-) {}
 export class ScheduledActionQuotaExceededFault extends S.TaggedError<ScheduledActionQuotaExceededFault>()(
   "ScheduledActionQuotaExceededFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ScheduledActionQuotaExceeded",
-    httpResponseCode: 400,
-  }),
-) {}
-export class SnapshotCopyGrantQuotaExceededFault extends S.TaggedError<SnapshotCopyGrantQuotaExceededFault>()(
-  "SnapshotCopyGrantQuotaExceededFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "SnapshotCopyGrantQuotaExceededFault",
     httpResponseCode: 400,
   }),
 ) {}
@@ -4274,6 +4182,56 @@ export class InvalidS3KeyPrefixFault extends S.TaggedError<InvalidS3KeyPrefixFau
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidS3KeyPrefixFault", httpResponseCode: 400 }),
 ) {}
+export class ReservedNodeAlreadyMigratedFault extends S.TaggedError<ReservedNodeAlreadyMigratedFault>()(
+  "ReservedNodeAlreadyMigratedFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ReservedNodeAlreadyMigrated",
+    httpResponseCode: 400,
+  }),
+) {}
+export class SNSTopicArnNotFoundFault extends S.TaggedError<SNSTopicArnNotFoundFault>()(
+  "SNSTopicArnNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SNSTopicArnNotFound", httpResponseCode: 404 }),
+) {}
+export class InvalidTableRestoreArgumentFault extends S.TaggedError<InvalidTableRestoreArgumentFault>()(
+  "InvalidTableRestoreArgumentFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidTableRestoreArgument",
+    httpResponseCode: 400,
+  }),
+) {}
+export class ReservedNodeQuotaExceededFault extends S.TaggedError<ReservedNodeQuotaExceededFault>()(
+  "ReservedNodeQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ReservedNodeQuotaExceeded", httpResponseCode: 400 }),
+) {}
+export class NumberOfNodesPerClusterLimitExceededFault extends S.TaggedError<NumberOfNodesPerClusterLimitExceededFault>()(
+  "NumberOfNodesPerClusterLimitExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "NumberOfNodesPerClusterLimitExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class IntegrationSourceNotFoundFault extends S.TaggedError<IntegrationSourceNotFoundFault>()(
+  "IntegrationSourceNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "IntegrationSourceNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
+export class SnapshotCopyGrantQuotaExceededFault extends S.TaggedError<SnapshotCopyGrantQuotaExceededFault>()(
+  "SnapshotCopyGrantQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SnapshotCopyGrantQuotaExceededFault",
+    httpResponseCode: 400,
+  }),
+) {}
 export class SnapshotCopyAlreadyEnabledFault extends S.TaggedError<SnapshotCopyAlreadyEnabledFault>()(
   "SnapshotCopyAlreadyEnabledFault",
   { message: S.optional(S.String) },
@@ -4282,15 +4240,23 @@ export class SnapshotCopyAlreadyEnabledFault extends S.TaggedError<SnapshotCopyA
     httpResponseCode: 400,
   }),
 ) {}
+export class InvalidElasticIpFault extends S.TaggedError<InvalidElasticIpFault>()(
+  "InvalidElasticIpFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidElasticIpFault", httpResponseCode: 400 }),
+) {}
 export class SubnetAlreadyInUse extends S.TaggedError<SubnetAlreadyInUse>()(
   "SubnetAlreadyInUse",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "SubnetAlreadyInUse", httpResponseCode: 400 }),
 ) {}
-export class InvalidRestoreFault extends S.TaggedError<InvalidRestoreFault>()(
-  "InvalidRestoreFault",
+export class AuthorizationQuotaExceededFault extends S.TaggedError<AuthorizationQuotaExceededFault>()(
+  "AuthorizationQuotaExceededFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidRestore", httpResponseCode: 406 }),
+  T.AwsQueryError({
+    code: "AuthorizationQuotaExceeded",
+    httpResponseCode: 400,
+  }),
 ) {}
 export class ClusterSubnetGroupQuotaExceededFault extends S.TaggedError<ClusterSubnetGroupQuotaExceededFault>()(
   "ClusterSubnetGroupQuotaExceededFault",
@@ -4304,27 +4270,6 @@ export class EndpointAlreadyExistsFault extends S.TaggedError<EndpointAlreadyExi
   "EndpointAlreadyExistsFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "EndpointAlreadyExists", httpResponseCode: 400 }),
-) {}
-export class SubscriptionAlreadyExistFault extends S.TaggedError<SubscriptionAlreadyExistFault>()(
-  "SubscriptionAlreadyExistFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "SubscriptionAlreadyExist", httpResponseCode: 400 }),
-) {}
-export class SubscriptionCategoryNotFoundFault extends S.TaggedError<SubscriptionCategoryNotFoundFault>()(
-  "SubscriptionCategoryNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "SubscriptionCategoryNotFound",
-    httpResponseCode: 404,
-  }),
-) {}
-export class IntegrationTargetNotFoundFault extends S.TaggedError<IntegrationTargetNotFoundFault>()(
-  "IntegrationTargetNotFoundFault",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "IntegrationTargetNotFoundFault",
-    httpResponseCode: 404,
-  }),
 ) {}
 export class RedshiftIdcApplicationAlreadyExistsFault extends S.TaggedError<RedshiftIdcApplicationAlreadyExistsFault>()(
   "RedshiftIdcApplicationAlreadyExistsFault",
@@ -4342,6 +4287,27 @@ export class SnapshotScheduleQuotaExceededFault extends S.TaggedError<SnapshotSc
     httpResponseCode: 400,
   }),
 ) {}
+export class SourceNotFoundFault extends S.TaggedError<SourceNotFoundFault>()(
+  "SourceNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SourceNotFound", httpResponseCode: 404 }),
+) {}
+export class NumberOfNodesQuotaExceededFault extends S.TaggedError<NumberOfNodesQuotaExceededFault>()(
+  "NumberOfNodesQuotaExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "NumberOfNodesQuotaExceeded",
+    httpResponseCode: 400,
+  }),
+) {}
+export class IntegrationTargetNotFoundFault extends S.TaggedError<IntegrationTargetNotFoundFault>()(
+  "IntegrationTargetNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "IntegrationTargetNotFoundFault",
+    httpResponseCode: 404,
+  }),
+) {}
 export class UnknownSnapshotCopyRegionFault extends S.TaggedError<UnknownSnapshotCopyRegionFault>()(
   "UnknownSnapshotCopyRegionFault",
   { message: S.optional(S.String) },
@@ -4350,22 +4316,25 @@ export class UnknownSnapshotCopyRegionFault extends S.TaggedError<UnknownSnapsho
     httpResponseCode: 404,
   }),
 ) {}
-export class TableLimitExceededFault extends S.TaggedError<TableLimitExceededFault>()(
-  "TableLimitExceededFault",
+export class Ipv6CidrBlockNotFoundFault extends S.TaggedError<Ipv6CidrBlockNotFoundFault>()(
+  "Ipv6CidrBlockNotFoundFault",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TableLimitExceeded", httpResponseCode: 400 }),
-) {}
-export class UnsupportedOptionFault extends S.TaggedError<UnsupportedOptionFault>()(
-  "UnsupportedOptionFault",
-  {},
-  T.AwsQueryError({ code: "UnsupportedOptionFault", httpResponseCode: 400 }),
-) {}
-export class SubscriptionEventIdNotFoundFault extends S.TaggedError<SubscriptionEventIdNotFoundFault>()(
-  "SubscriptionEventIdNotFoundFault",
-  {},
   T.AwsQueryError({
-    code: "SubscriptionEventIdNotFound",
-    httpResponseCode: 404,
+    code: "Ipv6CidrBlockNotFoundFault",
+    httpResponseCode: 400,
+  }),
+) {}
+export class InvalidRestoreFault extends S.TaggedError<InvalidRestoreFault>()(
+  "InvalidRestoreFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidRestore", httpResponseCode: 406 }),
+) {}
+export class InvalidVPCNetworkStateFault extends S.TaggedError<InvalidVPCNetworkStateFault>()(
+  "InvalidVPCNetworkStateFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidVPCNetworkStateFault",
+    httpResponseCode: 400,
   }),
 ) {}
 export class EndpointsPerAuthorizationLimitExceededFault extends S.TaggedError<EndpointsPerAuthorizationLimitExceededFault>()(
@@ -4376,14 +4345,6 @@ export class EndpointsPerAuthorizationLimitExceededFault extends S.TaggedError<E
     httpResponseCode: 400,
   }),
 ) {}
-export class SubscriptionSeverityNotFoundFault extends S.TaggedError<SubscriptionSeverityNotFoundFault>()(
-  "SubscriptionSeverityNotFoundFault",
-  {},
-  T.AwsQueryError({
-    code: "SubscriptionSeverityNotFound",
-    httpResponseCode: 404,
-  }),
-) {}
 export class RedshiftIdcApplicationQuotaExceededFault extends S.TaggedError<RedshiftIdcApplicationQuotaExceededFault>()(
   "RedshiftIdcApplicationQuotaExceededFault",
   { message: S.optional(S.String) },
@@ -4391,6 +4352,29 @@ export class RedshiftIdcApplicationQuotaExceededFault extends S.TaggedError<Reds
     code: "RedshiftIdcApplicationQuotaExceeded",
     httpResponseCode: 400,
   }),
+) {}
+export class SubscriptionCategoryNotFoundFault extends S.TaggedError<SubscriptionCategoryNotFoundFault>()(
+  "SubscriptionCategoryNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SubscriptionCategoryNotFound",
+    httpResponseCode: 404,
+  }),
+) {}
+export class UnsupportedOptionFault extends S.TaggedError<UnsupportedOptionFault>()(
+  "UnsupportedOptionFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UnsupportedOptionFault", httpResponseCode: 400 }),
+) {}
+export class SubscriptionAlreadyExistFault extends S.TaggedError<SubscriptionAlreadyExistFault>()(
+  "SubscriptionAlreadyExistFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "SubscriptionAlreadyExist", httpResponseCode: 400 }),
+) {}
+export class TableLimitExceededFault extends S.TaggedError<TableLimitExceededFault>()(
+  "TableLimitExceededFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TableLimitExceeded", httpResponseCode: 400 }),
 ) {}
 export class EndpointsPerClusterLimitExceededFault extends S.TaggedError<EndpointsPerClusterLimitExceededFault>()(
   "EndpointsPerClusterLimitExceededFault",
@@ -4400,18 +4384,24 @@ export class EndpointsPerClusterLimitExceededFault extends S.TaggedError<Endpoin
     httpResponseCode: 400,
   }),
 ) {}
+export class SubscriptionEventIdNotFoundFault extends S.TaggedError<SubscriptionEventIdNotFoundFault>()(
+  "SubscriptionEventIdNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SubscriptionEventIdNotFound",
+    httpResponseCode: 404,
+  }),
+) {}
+export class SubscriptionSeverityNotFoundFault extends S.TaggedError<SubscriptionSeverityNotFoundFault>()(
+  "SubscriptionSeverityNotFoundFault",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "SubscriptionSeverityNotFound",
+    httpResponseCode: 404,
+  }),
+) {}
 
 //# Operations
-/**
- * From a datashare producer account, removes authorization from the specified datashare.
- */
-export const deauthorizeDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeauthorizeDataShareMessage,
-    output: DataShare,
-    errors: [InvalidDataShareFault],
-  }),
-);
 /**
  * Returns account level backups storage size and provisional storage.
  */
@@ -4419,42 +4409,6 @@ export const describeStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStorageRequest,
   output: CustomerStorageMessage,
   errors: [],
-}));
-/**
- * Stops logging information, such as queries and connection attempts, for the
- * specified Amazon Redshift cluster.
- */
-export const disableLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableLoggingMessage,
-  output: LoggingStatus,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    UnsupportedOperationFault,
-  ],
-}));
-/**
- * From a datashare consumer account, rejects the specified datashare.
- */
-export const rejectDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RejectDataShareMessage,
-  output: DataShare,
-  errors: [InvalidDataShareFault],
-}));
-/**
- * Adds a partner integration to a cluster.
- * This operation authorizes a partner to push status updates for the specified database.
- * To complete the integration, you also set up the integration on the partner website.
- */
-export const addPartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PartnerIntegrationInputMessage,
-  output: PartnerIntegrationOutputMessage,
-  errors: [
-    ClusterNotFoundFault,
-    PartnerNotFoundFault,
-    UnauthorizedPartnerIntegrationFault,
-    UnsupportedOperationFault,
-  ],
 }));
 /**
  * From a data producer account, authorizes the sharing of a datashare with one or more
@@ -4466,89 +4420,6 @@ export const authorizeDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DataShare,
   errors: [InvalidDataShareFault],
 }));
-/**
- * Cancels a resize operation for a cluster.
- */
-export const cancelResize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelResizeMessage,
-  output: ResizeProgressMessage,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    ResizeNotFoundFault,
-    UnsupportedOperationFault,
-  ],
-}));
-/**
- * Used to create a custom domain name for a cluster. Properties include the custom domain name, the
- * cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
- */
-export const createCustomDomainAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCustomDomainAssociationMessage,
-    output: CreateCustomDomainAssociationResult,
-    errors: [
-      ClusterNotFoundFault,
-      CustomCnameAssociationFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
- * Deletes an Amazon Redshift security group.
- *
- * You cannot delete a security group that is associated with any clusters. You
- * cannot delete the default security group.
- *
- * For information about managing security groups, go to
- * Amazon Redshift Cluster Security Groups in the
- * *Amazon Redshift Cluster Management Guide*.
- */
-export const deleteClusterSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClusterSecurityGroupMessage,
-    output: DeleteClusterSecurityGroupResponse,
-    errors: [
-      ClusterSecurityGroupNotFoundFault,
-      InvalidClusterSecurityGroupStateFault,
-    ],
-  }),
-);
-/**
- * Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
- */
-export const deletePartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PartnerIntegrationInputMessage,
-  output: PartnerIntegrationOutputMessage,
-  errors: [
-    ClusterNotFoundFault,
-    PartnerNotFoundFault,
-    UnauthorizedPartnerIntegrationFault,
-    UnsupportedOperationFault,
-  ],
-}));
-/**
- * Deletes the resource policy for a specified resource.
- */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyMessage,
-    output: DeleteResourcePolicyResponse,
-    errors: [ResourceNotFoundFault, UnsupportedOperationFault],
-  }),
-);
-/**
- * Deletes a snapshot schedule.
- */
-export const deleteSnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSnapshotScheduleMessage,
-    output: DeleteSnapshotScheduleResponse,
-    errors: [
-      InvalidClusterSnapshotScheduleStateFault,
-      SnapshotScheduleNotFoundFault,
-    ],
-  }),
-);
 /**
  * Deletes tags from a resource. You must provide the ARN of the resource
  * from which you want to delete the tag or tags.
@@ -4686,38 +4557,6 @@ export const describeDataShares = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [InvalidDataShareFault],
 }));
 /**
- * Returns a list of datashares where the account identifier being called is a consumer account identifier.
- */
-export const describeDataSharesForConsumer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDataSharesForConsumerMessage,
-    output: DescribeDataSharesForConsumerResult,
-    errors: [InvalidNamespaceFault],
-  }));
-/**
- * Returns a list of datashares when the account identifier being called is a producer account identifier.
- */
-export const describeDataSharesForProducer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDataSharesForProducerMessage,
-    output: DescribeDataSharesForProducerResult,
-    errors: [InvalidNamespaceFault],
-  }));
-/**
- * Describes a Redshift-managed VPC endpoint.
- */
-export const describeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEndpointAccessMessage,
-    output: EndpointAccessList,
-    errors: [
-      ClusterNotFoundFault,
-      EndpointNotFoundFault,
-      InvalidClusterStateFault,
-    ],
-  }),
-);
-/**
  * Describes an endpoint authorization.
  */
 export const describeEndpointAuthorization =
@@ -4726,28 +4565,6 @@ export const describeEndpointAuthorization =
     output: EndpointAuthorizationList,
     errors: [ClusterNotFoundFault, UnsupportedOperationFault],
   }));
-/**
- * Lists descriptions of all the Amazon Redshift event notification subscriptions for a
- * customer account. If you specify a subscription name, lists the description for that
- * subscription.
- *
- * If you specify both tag keys and tag values in the same request, Amazon Redshift returns
- * all event notification subscriptions that match any combination of the specified keys
- * and values. For example, if you have `owner` and `environment` for
- * tag keys, and `admin` and `test` for tag values, all subscriptions
- * that have any combination of those values are returned.
- *
- * If both tag keys and values are omitted from the request, subscriptions are
- * returned regardless of whether they have tag keys or values associated with
- * them.
- */
-export const describeEventSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventSubscriptionsMessage,
-    output: EventSubscriptionsMessage,
-    errors: [InvalidTagFault, SubscriptionNotFoundFault],
-  }),
-);
 /**
  * Returns information about the specified HSM client certificate. If no certificate
  * ID is specified, returns information about all the HSM certificates owned by your Amazon Web Services account.
@@ -4802,39 +4619,6 @@ export const describeLoggingStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns information about the last resize operation for the specified cluster. If
- * no resize operation has ever been initiated for the specified cluster, a HTTP
- * 404 error is returned. If a resize operation was initiated and completed, the
- * status of the resize remains as `SUCCEEDED` until the next resize.
- *
- * A resize operation can be requested using ModifyCluster and
- * specifying a different number or type of nodes for the cluster.
- */
-export const describeResize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeResizeMessage,
-  output: ResizeProgressMessage,
-  errors: [
-    ClusterNotFoundFault,
-    ResizeNotFoundFault,
-    UnsupportedOperationFault,
-  ],
-}));
-/**
- * Returns a list of snapshot copy grants owned by the Amazon Web Services account in the destination
- * region.
- *
- * For more information about managing snapshot copy grants, go to
- * Amazon Redshift Database Encryption
- * in the *Amazon Redshift Cluster Management Guide*.
- */
-export const describeSnapshotCopyGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSnapshotCopyGrantsMessage,
-    output: SnapshotCopyGrantMessage,
-    errors: [InvalidTagFault, SnapshotCopyGrantNotFoundFault],
-  }),
-);
-/**
  * Returns a list of snapshot schedules.
  */
 export const describeSnapshotSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -4865,30 +4649,6 @@ export const describeUsageLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: UsageLimitList,
   errors: [ClusterNotFoundFault, UnsupportedOperationFault],
 }));
-/**
- * From a datashare consumer account, remove association for the specified datashare.
- */
-export const disassociateDataShareConsumer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDataShareConsumerMessage,
-    output: DataShare,
-    errors: [InvalidDataShareFault, InvalidNamespaceFault],
-  }));
-/**
- * Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
- */
-export const failoverPrimaryCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: FailoverPrimaryComputeInputMessage,
-    output: FailoverPrimaryComputeResult,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidClusterStateFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
 /**
  * Returns a database user name and temporary password with temporary authorization to
  * log on to an Amazon Redshift database. The action returns the database user name
@@ -4968,94 +4728,6 @@ export const modifyClusterMaintenance = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Modifies the parameters of a parameter group. For the parameters parameter, it can't contain ASCII characters.
- *
- * For more information about parameters and parameter groups, go to
- * Amazon Redshift Parameter Groups
- * in the *Amazon Redshift Cluster Management Guide*.
- */
-export const modifyClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClusterParameterGroupMessage,
-    output: ClusterParameterGroupNameMessage,
-    errors: [
-      ClusterParameterGroupNotFoundFault,
-      InvalidClusterParameterGroupStateFault,
-    ],
-  }),
-);
-/**
- * Modifies a snapshot schedule for a cluster.
- */
-export const modifyClusterSnapshotSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyClusterSnapshotScheduleMessage,
-    output: ModifyClusterSnapshotScheduleResponse,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidClusterSnapshotScheduleStateFault,
-      SnapshotScheduleNotFoundFault,
-    ],
-  }));
-/**
- * Contains information for changing a custom domain association.
- */
-export const modifyCustomDomainAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyCustomDomainAssociationMessage,
-    output: ModifyCustomDomainAssociationResult,
-    errors: [
-      ClusterNotFoundFault,
-      CustomCnameAssociationFault,
-      CustomDomainAssociationNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
- * Modifies a Redshift-managed VPC endpoint.
- */
-export const modifyEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyEndpointAccessMessage,
-    output: EndpointAccess,
-    errors: [
-      ClusterNotFoundFault,
-      EndpointNotFoundFault,
-      InvalidClusterSecurityGroupStateFault,
-      InvalidClusterStateFault,
-      InvalidEndpointStateFault,
-      UnauthorizedOperation,
-    ],
-  }),
-);
-/**
- * Changes an existing Amazon Redshift IAM Identity Center application.
- */
-export const modifyRedshiftIdcApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyRedshiftIdcApplicationMessage,
-    output: ModifyRedshiftIdcApplicationResult,
-    errors: [
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      RedshiftIdcApplicationNotExistsFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
- * Modifies a usage limit in a cluster.
- * You can't modify the feature type or period of a usage limit.
- */
-export const modifyUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyUsageLimitMessage,
-  output: UsageLimit,
-  errors: [
-    InvalidUsageLimitFault,
-    UnsupportedOperationFault,
-    UsageLimitNotFoundFault,
-  ],
-}));
-/**
  * Pauses a cluster.
  */
 export const pauseCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5083,187 +4755,60 @@ export const rebootCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [ClusterNotFoundFault, InvalidClusterStateFault],
 }));
 /**
- * Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
+ * Stops logging information, such as queries and connection attempts, for the
+ * specified Amazon Redshift cluster.
  */
-export const registerNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterNamespaceInputMessage,
-  output: RegisterNamespaceOutputMessage,
+export const disableLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableLoggingMessage,
+  output: LoggingStatus,
   errors: [
     ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    InvalidNamespaceFault,
-  ],
-}));
-/**
- * Sets one or more parameters of the specified parameter group to their default
- * values and sets the source values of the parameters to "engine-default". To reset the
- * entire parameter group specify the *ResetAllParameters* parameter.
- * For parameter changes to take effect you must reboot any associated clusters.
- */
-export const resetClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetClusterParameterGroupMessage,
-    output: ClusterParameterGroupNameMessage,
-    errors: [
-      ClusterParameterGroupNotFoundFault,
-      InvalidClusterParameterGroupStateFault,
-    ],
-  }),
-);
-/**
- * Resumes a paused cluster.
- */
-export const resumeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResumeClusterMessage,
-  output: ResumeClusterResult,
-  errors: [
-    ClusterNotFoundFault,
-    InsufficientClusterCapacityFault,
     InvalidClusterStateFault,
     UnsupportedOperationFault,
   ],
 }));
 /**
- * Removes the ability of the specified Amazon Web Services account to restore the specified
- * snapshot. If the account is currently restoring the snapshot, the restore will run to
- * completion.
- *
- * For more information about working with snapshots, go to
- * Amazon Redshift Snapshots
- * in the *Amazon Redshift Cluster Management Guide*.
+ * From a datashare producer account, removes authorization from the specified datashare.
  */
-export const revokeSnapshotAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deauthorizeDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: RevokeSnapshotAccessMessage,
-    output: RevokeSnapshotAccessResult,
-    errors: [
-      AccessToSnapshotDeniedFault,
-      AuthorizationNotFoundFault,
-      ClusterSnapshotNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
-/**
- * Updates the status of a partner integration.
- */
-export const updatePartnerStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePartnerStatusInputMessage,
-  output: PartnerIntegrationOutputMessage,
-  errors: [
-    ClusterNotFoundFault,
-    PartnerNotFoundFault,
-    UnauthorizedPartnerIntegrationFault,
-    UnsupportedOperationFault,
-  ],
-}));
-/**
- * From a datashare consumer account, associates a datashare with the
- * account (AssociateEntireAccount) or the specified namespace (ConsumerArn). If you make this association, the consumer
- * can consume the datashare.
- */
-export const associateDataShareConsumer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDataShareConsumerMessage,
+    input: DeauthorizeDataShareMessage,
     output: DataShare,
-    errors: [InvalidDataShareFault, InvalidNamespaceFault],
+    errors: [InvalidDataShareFault],
   }),
 );
 /**
- * Modifies the settings for a set of cluster snapshots.
+ * From a datashare consumer account, rejects the specified datashare.
  */
-export const batchModifyClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchModifyClusterSnapshotsMessage,
-    output: BatchModifyClusterSnapshotsOutputMessage,
-    errors: [
-      BatchModifyClusterSnapshotsLimitExceededFault,
-      InvalidRetentionPeriodFault,
-    ],
-  }),
-);
-/**
- * Copies the specified automated cluster snapshot to a new manual cluster snapshot.
- * The source must be an automated snapshot and it must be in the available
- * state.
- *
- * When you delete a cluster, Amazon Redshift deletes any automated snapshots of the
- * cluster. Also, when the retention period of the snapshot expires, Amazon Redshift
- * automatically deletes it. If you want to keep an automated snapshot for a longer period,
- * you can make a manual copy of the snapshot. Manual snapshots are retained until you
- * delete them.
- *
- * For more information about working with snapshots, go to
- * Amazon Redshift Snapshots
- * in the *Amazon Redshift Cluster Management Guide*.
- */
-export const copyClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CopyClusterSnapshotMessage,
-  output: CopyClusterSnapshotResult,
-  errors: [
-    ClusterNotFoundFault,
-    ClusterSnapshotAlreadyExistsFault,
-    ClusterSnapshotNotFoundFault,
-    ClusterSnapshotQuotaExceededFault,
-    InvalidClusterSnapshotStateFault,
-    InvalidRetentionPeriodFault,
-  ],
+export const rejectDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectDataShareMessage,
+  output: DataShare,
+  errors: [InvalidDataShareFault],
 }));
 /**
- * Creates a manual snapshot of the specified cluster. The cluster must be in the
- * `available` state.
- *
- * For more information about working with snapshots, go to
- * Amazon Redshift Snapshots
- * in the *Amazon Redshift Cluster Management Guide*.
+ * Deletes the resource policy for a specified resource.
  */
-export const createClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: CreateClusterSnapshotMessage,
-    output: CreateClusterSnapshotResult,
+    input: DeleteResourcePolicyMessage,
+    output: DeleteResourcePolicyResponse,
+    errors: [ResourceNotFoundFault, UnsupportedOperationFault],
+  }),
+);
+/**
+ * Used to create a custom domain name for a cluster. Properties include the custom domain name, the
+ * cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
+ */
+export const createCustomDomainAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateCustomDomainAssociationMessage,
+    output: CreateCustomDomainAssociationResult,
     errors: [
       ClusterNotFoundFault,
-      ClusterSnapshotAlreadyExistsFault,
-      ClusterSnapshotQuotaExceededFault,
-      InvalidClusterStateFault,
-      InvalidRetentionPeriodFault,
-      InvalidTagFault,
-      TagLimitExceededFault,
+      CustomCnameAssociationFault,
+      UnsupportedOperationFault,
     ],
-  }),
-);
-/**
- * Adds tags to a cluster.
- *
- * A resource can have up to 50 tags. If you try to create more than 50 tags for a
- * resource, you will receive an error and the attempt will fail.
- *
- * If you specify a key that already exists for the resource, the value for that key
- * will be updated with the new value.
- */
-export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTagsMessage,
-  output: CreateTagsResponse,
-  errors: [
-    InvalidClusterStateFault,
-    InvalidTagFault,
-    ResourceNotFoundFault,
-    TagLimitExceededFault,
-  ],
-}));
-/**
- * Deletes an authentication profile.
- */
-export const deleteAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAuthenticationProfileMessage,
-    output: DeleteAuthenticationProfileResult,
-    errors: [
-      AuthenticationProfileNotFoundFault,
-      InvalidAuthenticationProfileRequestFault,
-    ],
-  }),
-);
+  }));
 /**
  * Deletes a specified Amazon Redshift parameter group.
  *
@@ -5281,49 +4826,22 @@ export const deleteClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes the specified manual snapshot. The snapshot must be in the
- * `available` state, with no other users authorized to access the snapshot.
+ * Deletes an Amazon Redshift security group.
  *
- * Unlike automated snapshots, manual snapshots are retained even after you delete
- * your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual
- * snapshot explicitly to avoid getting charged. If other accounts are authorized to access
- * the snapshot, you must revoke all of the authorizations before you can delete the
- * snapshot.
+ * You cannot delete a security group that is associated with any clusters. You
+ * cannot delete the default security group.
+ *
+ * For information about managing security groups, go to
+ * Amazon Redshift Cluster Security Groups in the
+ * *Amazon Redshift Cluster Management Guide*.
  */
-export const deleteClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const deleteClusterSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: DeleteClusterSnapshotMessage,
-    output: DeleteClusterSnapshotResult,
-    errors: [ClusterSnapshotNotFoundFault, InvalidClusterSnapshotStateFault],
-  }),
-);
-/**
- * Contains information about deleting a custom domain association for a cluster.
- */
-export const deleteCustomDomainAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCustomDomainAssociationMessage,
-    output: DeleteCustomDomainAssociationResponse,
+    input: DeleteClusterSecurityGroupMessage,
+    output: DeleteClusterSecurityGroupResponse,
     errors: [
-      ClusterNotFoundFault,
-      CustomCnameAssociationFault,
-      CustomDomainAssociationNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
- * Deletes a Redshift-managed VPC endpoint.
- */
-export const deleteEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEndpointAccessMessage,
-    output: EndpointAccess,
-    errors: [
-      ClusterNotFoundFault,
-      EndpointNotFoundFault,
+      ClusterSecurityGroupNotFoundFault,
       InvalidClusterSecurityGroupStateFault,
-      InvalidClusterStateFault,
-      InvalidEndpointStateFault,
     ],
   }),
 );
@@ -5361,20 +4879,6 @@ export const deleteHsmConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes an Amazon Redshift IAM Identity Center application.
- */
-export const deleteRedshiftIdcApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRedshiftIdcApplicationMessage,
-    output: DeleteRedshiftIdcApplicationResponse,
-    errors: [
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      RedshiftIdcApplicationNotExistsFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
  * Deletes a scheduled action.
  */
 export const deleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -5398,6 +4902,19 @@ export const deleteSnapshotCopyGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deletes a snapshot schedule.
+ */
+export const deleteSnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteSnapshotScheduleMessage,
+    output: DeleteSnapshotScheduleResponse,
+    errors: [
+      InvalidClusterSnapshotScheduleStateFault,
+      SnapshotScheduleNotFoundFault,
+    ],
+  }),
+);
+/**
  * Deletes a usage limit from a cluster.
  */
 export const deleteUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5405,18 +4922,6 @@ export const deleteUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: DeleteUsageLimitResponse,
   errors: [UnsupportedOperationFault, UsageLimitNotFoundFault],
 }));
-/**
- * Describes an authentication profile.
- */
-export const describeAuthenticationProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAuthenticationProfilesMessage,
-    output: DescribeAuthenticationProfilesResult,
-    errors: [
-      AuthenticationProfileNotFoundFault,
-      InvalidAuthenticationProfileRequestFault,
-    ],
-  }));
 /**
  * Returns one or more snapshot objects, which contain metadata about your cluster
  * snapshots. By default, this operation returns information about all snapshots of all
@@ -5462,6 +4967,15 @@ export const describeClusterVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Returns a list of datashares where the account identifier being called is a consumer account identifier.
+ */
+export const describeDataSharesForConsumer =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeDataSharesForConsumerMessage,
+    output: DescribeDataSharesForConsumerResult,
+    errors: [InvalidNamespaceFault],
+  }));
+/**
  * Returns a list of parameter settings for the specified parameter group
  * family.
  *
@@ -5476,6 +4990,20 @@ export const describeDefaultClusterParameters =
     errors: [],
   }));
 /**
+ * Describes a Redshift-managed VPC endpoint.
+ */
+export const describeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEndpointAccessMessage,
+    output: EndpointAccessList,
+    errors: [
+      ClusterNotFoundFault,
+      EndpointNotFoundFault,
+      InvalidClusterStateFault,
+    ],
+  }),
+);
+/**
  * Returns events related to clusters, security groups, snapshots, and parameter
  * groups for the past 14 days. Events specific to a particular cluster, security group,
  * snapshot or parameter group can be obtained by providing the name as a parameter. By
@@ -5486,66 +5014,6 @@ export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: EventsMessage,
   errors: [],
 }));
-/**
- * Returns a list of inbound integrations.
- */
-export const describeInboundIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInboundIntegrationsMessage,
-    output: InboundIntegrationsMessage,
-    errors: [
-      IntegrationNotFoundFault,
-      InvalidNamespaceFault,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
-/**
- * Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
- */
-export const describeIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIntegrationsMessage,
-    output: IntegrationsMessage,
-    errors: [IntegrationNotFoundFault, UnsupportedOperationFault],
-  }),
-);
-/**
- * Returns information about the partner integrations defined for a cluster.
- */
-export const describePartners = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribePartnersInputMessage,
-  output: DescribePartnersOutputMessage,
-  errors: [
-    ClusterNotFoundFault,
-    UnauthorizedPartnerIntegrationFault,
-    UnsupportedOperationFault,
-  ],
-}));
-/**
- * Lists the Amazon Redshift IAM Identity Center applications.
- */
-export const describeRedshiftIdcApplications =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRedshiftIdcApplicationsMessage,
-    output: DescribeRedshiftIdcApplicationsResult,
-    errors: [
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      RedshiftIdcApplicationNotExistsFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
- * Returns the descriptions of the reserved nodes.
- */
-export const describeReservedNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReservedNodesMessage,
-    output: ReservedNodesMessage,
-    errors: [DependentServiceUnavailableFault, ReservedNodeNotFoundFault],
-  }),
-);
 /**
  * Describes properties of scheduled actions.
  */
@@ -5632,23 +5100,6 @@ export const getIdentityCenterAuthToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term,
- * and usage price of the given DC1 reserved node.
- */
-export const getReservedNodeExchangeOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetReservedNodeExchangeOfferingsInputMessage,
-    output: GetReservedNodeExchangeOfferingsOutputMessage,
-    errors: [
-      DependentServiceUnavailableFault,
-      InvalidReservedNodeStateFault,
-      ReservedNodeAlreadyMigratedFault,
-      ReservedNodeNotFoundFault,
-      ReservedNodeOfferingNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
  * This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
  */
 export const modifyAquaConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -5659,20 +5110,6 @@ export const modifyAquaConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ClusterNotFoundFault,
       InvalidClusterStateFault,
       UnsupportedOperationFault,
-    ],
-  }),
-);
-/**
- * Modifies an authentication profile.
- */
-export const modifyAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyAuthenticationProfileMessage,
-    output: ModifyAuthenticationProfileResult,
-    errors: [
-      AuthenticationProfileNotFoundFault,
-      AuthenticationProfileQuotaExceededFault,
-      InvalidAuthenticationProfileRequestFault,
     ],
   }),
 );
@@ -5693,95 +5130,15 @@ export const modifyClusterDbRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Modifies the settings for a snapshot.
- *
- * This exanmple modifies the manual retention period setting for a cluster snapshot.
+ * Resumes a paused cluster.
  */
-export const modifyClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClusterSnapshotMessage,
-    output: ModifyClusterSnapshotResult,
-    errors: [
-      ClusterSnapshotNotFoundFault,
-      InvalidClusterSnapshotStateFault,
-      InvalidRetentionPeriodFault,
-    ],
-  }),
-);
-/**
- * Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
- */
-export const modifyIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ModifyIntegrationMessage,
-  output: Integration,
+export const resumeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResumeClusterMessage,
+  output: ResumeClusterResult,
   errors: [
-    IntegrationAlreadyExistsFault,
-    IntegrationConflictOperationFault,
-    IntegrationConflictStateFault,
-    IntegrationNotFoundFault,
-    UnsupportedOperationFault,
-  ],
-}));
-/**
- * Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
- */
-export const modifyLakehouseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyLakehouseConfigurationMessage,
-    output: LakehouseConfiguration,
-    errors: [
-      ClusterNotFoundFault,
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      InvalidClusterStateFault,
-      RedshiftIdcApplicationNotExistsFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
- * Modifies a scheduled action.
- */
-export const modifyScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyScheduledActionMessage,
-    output: ScheduledAction,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidScheduledActionFault,
-      InvalidScheduleFault,
-      ScheduledActionNotFoundFault,
-      ScheduledActionTypeUnsupportedFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
-/**
- * Modifies a snapshot schedule. Any schedule associated with a cluster is modified
- * asynchronously.
- */
-export const modifySnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifySnapshotScheduleMessage,
-    output: SnapshotSchedule,
-    errors: [
-      InvalidScheduleFault,
-      SnapshotScheduleNotFoundFault,
-      SnapshotScheduleUpdateInProgressFault,
-    ],
-  }),
-);
-/**
- * Updates the resource policy for a specified resource.
- */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyMessage,
-  output: PutResourcePolicyResult,
-  errors: [
-    ConflictPolicyUpdateFault,
-    InvalidPolicyFault,
-    ResourceNotFoundFault,
+    ClusterNotFoundFault,
+    InsufficientClusterCapacityFault,
+    InvalidClusterStateFault,
     UnsupportedOperationFault,
   ],
 }));
@@ -5803,24 +5160,6 @@ export const revokeClusterSecurityGroupIngress =
     ],
   }));
 /**
- * Revokes access to a cluster.
- */
-export const revokeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeEndpointAccessMessage,
-    output: EndpointAuthorization,
-    errors: [
-      ClusterNotFoundFault,
-      EndpointAuthorizationNotFoundFault,
-      EndpointNotFoundFault,
-      InvalidAuthorizationStateFault,
-      InvalidClusterSecurityGroupStateFault,
-      InvalidClusterStateFault,
-      InvalidEndpointStateFault,
-    ],
-  }),
-);
-/**
  * Rotates the encryption keys for a cluster.
  */
 export const rotateEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -5834,41 +5173,257 @@ export const rotateEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the
- * configuration (term, payment type, or number of nodes) and no additional costs.
+ * Returns information about the last resize operation for the specified cluster. If
+ * no resize operation has ever been initiated for the specified cluster, a HTTP
+ * 404 error is returned. If a resize operation was initiated and completed, the
+ * status of the resize remains as `SUCCEEDED` until the next resize.
+ *
+ * A resize operation can be requested using ModifyCluster and
+ * specifying a different number or type of nodes for the cluster.
  */
-export const acceptReservedNodeExchange = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeResize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResizeMessage,
+  output: ResizeProgressMessage,
+  errors: [
+    ClusterNotFoundFault,
+    ResizeNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+}));
+/**
+ * Modifies the parameters of a parameter group. For the parameters parameter, it can't contain ASCII characters.
+ *
+ * For more information about parameters and parameter groups, go to
+ * Amazon Redshift Parameter Groups
+ * in the *Amazon Redshift Cluster Management Guide*.
+ */
+export const modifyClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AcceptReservedNodeExchangeInputMessage,
-    output: AcceptReservedNodeExchangeOutputMessage,
+    input: ModifyClusterParameterGroupMessage,
+    output: ClusterParameterGroupNameMessage,
     errors: [
-      DependentServiceUnavailableFault,
-      InvalidReservedNodeStateFault,
-      ReservedNodeAlreadyExistsFault,
-      ReservedNodeAlreadyMigratedFault,
-      ReservedNodeNotFoundFault,
-      ReservedNodeOfferingNotFoundFault,
+      ClusterParameterGroupNotFoundFault,
+      InvalidClusterParameterGroupStateFault,
+    ],
+  }),
+);
+/**
+ * Sets one or more parameters of the specified parameter group to their default
+ * values and sets the source values of the parameters to "engine-default". To reset the
+ * entire parameter group specify the *ResetAllParameters* parameter.
+ * For parameter changes to take effect you must reboot any associated clusters.
+ */
+export const resetClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResetClusterParameterGroupMessage,
+    output: ClusterParameterGroupNameMessage,
+    errors: [
+      ClusterParameterGroupNotFoundFault,
+      InvalidClusterParameterGroupStateFault,
+    ],
+  }),
+);
+/**
+ * Lists descriptions of all the Amazon Redshift event notification subscriptions for a
+ * customer account. If you specify a subscription name, lists the description for that
+ * subscription.
+ *
+ * If you specify both tag keys and tag values in the same request, Amazon Redshift returns
+ * all event notification subscriptions that match any combination of the specified keys
+ * and values. For example, if you have `owner` and `environment` for
+ * tag keys, and `admin` and `test` for tag values, all subscriptions
+ * that have any combination of those values are returned.
+ *
+ * If both tag keys and values are omitted from the request, subscriptions are
+ * returned regardless of whether they have tag keys or values associated with
+ * them.
+ */
+export const describeEventSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeEventSubscriptionsMessage,
+    output: EventSubscriptionsMessage,
+    errors: [InvalidTagFault, SubscriptionNotFoundFault],
+  }),
+);
+/**
+ * Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
+ */
+export const failoverPrimaryCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: FailoverPrimaryComputeInputMessage,
+    output: FailoverPrimaryComputeResult,
+    errors: [
+      ClusterNotFoundFault,
+      InvalidClusterStateFault,
+      UnauthorizedOperation,
       UnsupportedOperationFault,
     ],
   }),
 );
 /**
- * Grants access to a cluster.
+ * Returns a list of snapshot copy grants owned by the Amazon Web Services account in the destination
+ * region.
+ *
+ * For more information about managing snapshot copy grants, go to
+ * Amazon Redshift Database Encryption
+ * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const authorizeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const describeSnapshotCopyGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AuthorizeEndpointAccessMessage,
-    output: EndpointAuthorization,
+    input: DescribeSnapshotCopyGrantsMessage,
+    output: SnapshotCopyGrantMessage,
+    errors: [InvalidTagFault, SnapshotCopyGrantNotFoundFault],
+  }),
+);
+/**
+ * Modifies a snapshot schedule for a cluster.
+ */
+export const modifyClusterSnapshotSchedule =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyClusterSnapshotScheduleMessage,
+    output: ModifyClusterSnapshotScheduleResponse,
     errors: [
       ClusterNotFoundFault,
-      EndpointAuthorizationAlreadyExistsFault,
-      EndpointAuthorizationsPerClusterLimitExceededFault,
-      InvalidAuthorizationStateFault,
-      InvalidClusterStateFault,
+      InvalidClusterSnapshotScheduleStateFault,
+      SnapshotScheduleNotFoundFault,
+    ],
+  }));
+/**
+ * Adds tags to a cluster.
+ *
+ * A resource can have up to 50 tags. If you try to create more than 50 tags for a
+ * resource, you will receive an error and the attempt will fail.
+ *
+ * If you specify a key that already exists for the resource, the value for that key
+ * will be updated with the new value.
+ */
+export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTagsMessage,
+  output: CreateTagsResponse,
+  errors: [
+    InvalidClusterStateFault,
+    InvalidTagFault,
+    ResourceNotFoundFault,
+    TagLimitExceededFault,
+  ],
+}));
+/**
+ * Modifies a usage limit in a cluster.
+ * You can't modify the feature type or period of a usage limit.
+ */
+export const modifyUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyUsageLimitMessage,
+  output: UsageLimit,
+  errors: [
+    InvalidUsageLimitFault,
+    UnsupportedOperationFault,
+    UsageLimitNotFoundFault,
+  ],
+}));
+/**
+ * Returns a list of datashares when the account identifier being called is a producer account identifier.
+ */
+export const describeDataSharesForProducer =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeDataSharesForProducerMessage,
+    output: DescribeDataSharesForProducerResult,
+    errors: [InvalidNamespaceFault],
+  }));
+/**
+ * Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
+ */
+export const registerNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterNamespaceInputMessage,
+  output: RegisterNamespaceOutputMessage,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
+    InvalidNamespaceFault,
+  ],
+}));
+/**
+ * From a datashare consumer account, remove association for the specified datashare.
+ */
+export const disassociateDataShareConsumer =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateDataShareConsumerMessage,
+    output: DataShare,
+    errors: [InvalidDataShareFault, InvalidNamespaceFault],
+  }));
+/**
+ * From a datashare consumer account, associates a datashare with the
+ * account (AssociateEntireAccount) or the specified namespace (ConsumerArn). If you make this association, the consumer
+ * can consume the datashare.
+ */
+export const associateDataShareConsumer = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateDataShareConsumerMessage,
+    output: DataShare,
+    errors: [InvalidDataShareFault, InvalidNamespaceFault],
+  }),
+);
+/**
+ * Modifies the settings for a set of cluster snapshots.
+ */
+export const batchModifyClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: BatchModifyClusterSnapshotsMessage,
+    output: BatchModifyClusterSnapshotsOutputMessage,
+    errors: [
+      BatchModifyClusterSnapshotsLimitExceededFault,
+      InvalidRetentionPeriodFault,
+    ],
+  }),
+);
+/**
+ * Removes the ability of the specified Amazon Web Services account to restore the specified
+ * snapshot. If the account is currently restoring the snapshot, the restore will run to
+ * completion.
+ *
+ * For more information about working with snapshots, go to
+ * Amazon Redshift Snapshots
+ * in the *Amazon Redshift Cluster Management Guide*.
+ */
+export const revokeSnapshotAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RevokeSnapshotAccessMessage,
+    output: RevokeSnapshotAccessResult,
+    errors: [
+      AccessToSnapshotDeniedFault,
+      AuthorizationNotFoundFault,
+      ClusterSnapshotNotFoundFault,
       UnsupportedOperationFault,
     ],
   }),
 );
+/**
+ * Cancels a resize operation for a cluster.
+ */
+export const cancelResize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelResizeMessage,
+  output: ResizeProgressMessage,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
+    ResizeNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+}));
+/**
+ * Adds a partner integration to a cluster.
+ * This operation authorizes a partner to push status updates for the specified database.
+ * To complete the integration, you also set up the integration on the partner website.
+ */
+export const addPartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PartnerIntegrationInputMessage,
+  output: PartnerIntegrationOutputMessage,
+  errors: [
+    ClusterNotFoundFault,
+    PartnerNotFoundFault,
+    UnauthorizedPartnerIntegrationFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Deletes a set of cluster snapshots.
  */
@@ -5877,20 +5432,6 @@ export const batchDeleteClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: BatchDeleteClusterSnapshotsRequest,
     output: BatchDeleteClusterSnapshotsResult,
     errors: [BatchDeleteRequestSizeExceededFault],
-  }),
-);
-/**
- * Creates an authentication profile with the specified parameters.
- */
-export const createAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAuthenticationProfileMessage,
-    output: CreateAuthenticationProfileResult,
-    errors: [
-      AuthenticationProfileAlreadyExistsFault,
-      AuthenticationProfileQuotaExceededFault,
-      InvalidAuthenticationProfileRequestFault,
-    ],
   }),
 );
 /**
@@ -5914,22 +5455,35 @@ export const createClusterSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a usage limit for a specified Amazon Redshift feature on a cluster.
- * The usage limit is identified by the returned usage limit identifier.
+ * Deletes an authentication profile.
  */
-export const createUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateUsageLimitMessage,
-  output: UsageLimit,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    InvalidUsageLimitFault,
-    LimitExceededFault,
-    TagLimitExceededFault,
-    UnsupportedOperationFault,
-    UsageLimitAlreadyExistsFault,
-  ],
-}));
+export const deleteAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteAuthenticationProfileMessage,
+    output: DeleteAuthenticationProfileResult,
+    errors: [
+      AuthenticationProfileNotFoundFault,
+      InvalidAuthenticationProfileRequestFault,
+    ],
+  }),
+);
+/**
+ * Deletes the specified manual snapshot. The snapshot must be in the
+ * `available` state, with no other users authorized to access the snapshot.
+ *
+ * Unlike automated snapshots, manual snapshots are retained even after you delete
+ * your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual
+ * snapshot explicitly to avoid getting charged. If other accounts are authorized to access
+ * the snapshot, you must revoke all of the authorizations before you can delete the
+ * snapshot.
+ */
+export const deleteClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteClusterSnapshotMessage,
+    output: DeleteClusterSnapshotResult,
+    errors: [ClusterSnapshotNotFoundFault, InvalidClusterSnapshotStateFault],
+  }),
+);
 /**
  * Deletes the specified cluster subnet group.
  */
@@ -5945,18 +5499,19 @@ export const deleteClusterSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
+ * Deletes an Amazon Redshift IAM Identity Center application.
  */
-export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIntegrationMessage,
-  output: Integration,
-  errors: [
-    IntegrationConflictOperationFault,
-    IntegrationConflictStateFault,
-    IntegrationNotFoundFault,
-    UnsupportedOperationFault,
-  ],
-}));
+export const deleteRedshiftIdcApplication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteRedshiftIdcApplicationMessage,
+    output: DeleteRedshiftIdcApplicationResponse,
+    errors: [
+      DependentServiceAccessDeniedFault,
+      DependentServiceUnavailableFault,
+      RedshiftIdcApplicationNotExistsFault,
+      UnsupportedOperationFault,
+    ],
+  }));
 /**
  * Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog.
  */
@@ -5990,15 +5545,6 @@ export const describeClusterDbRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Contains information about custom domain associations for a cluster.
- */
-export const describeCustomDomainAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCustomDomainAssociationsMessage,
-    output: CustomDomainAssociationsMessage,
-    errors: [CustomDomainAssociationNotFoundFault, UnsupportedOperationFault],
-  }));
-/**
  * Displays a list of event categories for all event source types, or for a specified
  * source type. For a list of the event categories and source types, go to Amazon Redshift Event
  * Notifications.
@@ -6008,6 +5554,20 @@ export const describeEventCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(
     input: DescribeEventCategoriesMessage,
     output: EventCategoriesMessage,
     errors: [],
+  }),
+);
+/**
+ * Returns a list of inbound integrations.
+ */
+export const describeInboundIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeInboundIntegrationsMessage,
+    output: InboundIntegrationsMessage,
+    errors: [
+      IntegrationNotFoundFault,
+      InvalidNamespaceFault,
+      UnsupportedOperationFault,
+    ],
   }),
 );
 /**
@@ -6023,20 +5583,6 @@ export const describeNodeConfigurationOptions =
       ClusterNotFoundFault,
       ClusterSnapshotNotFoundFault,
       InvalidClusterSnapshotStateFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
- * Returns exchange status details and associated metadata for a reserved-node
- * exchange. Statuses include such values as in progress and requested.
- */
-export const describeReservedNodeExchangeStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeReservedNodeExchangeStatusInputMessage,
-    output: DescribeReservedNodeExchangeStatusOutputMessage,
-    errors: [
-      ReservedNodeExchangeNotFoundFault,
-      ReservedNodeNotFoundFault,
       UnsupportedOperationFault,
     ],
   }));
@@ -6078,26 +5624,6 @@ export const describeTableRestoreStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Gets the configuration options for the reserved-node exchange. These options
- * include information about the source reserved node and target reserved node offering.
- * Details include the node type, the price, the node count, and the offering type.
- */
-export const getReservedNodeExchangeConfigurationOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
-    output: GetReservedNodeExchangeConfigurationOptionsOutputMessage,
-    errors: [
-      ClusterNotFoundFault,
-      ClusterSnapshotNotFoundFault,
-      DependentServiceUnavailableFault,
-      InvalidReservedNodeStateFault,
-      ReservedNodeAlreadyMigratedFault,
-      ReservedNodeNotFoundFault,
-      ReservedNodeOfferingNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
  * Get the resource policy for a specified resource.
  */
 export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -6116,6 +5642,20 @@ export const listRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRecommendationsMessage,
   output: ListRecommendationsResult,
   errors: [ClusterNotFoundFault, UnsupportedOperationFault],
+}));
+/**
+ * Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
+ */
+export const modifyIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyIntegrationMessage,
+  output: Integration,
+  errors: [
+    IntegrationAlreadyExistsFault,
+    IntegrationConflictOperationFault,
+    IntegrationConflictStateFault,
+    IntegrationNotFoundFault,
+    UnsupportedOperationFault,
+  ],
 }));
 /**
  * Modifies the number of days to retain snapshots in the destination Amazon Web Services Region after
@@ -6139,175 +5679,409 @@ export const modifySnapshotCopyRetentionPeriod =
     ],
   }));
 /**
- * Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of
- * reserved node offerings. You can purchase one or more of the offerings. You can call the
- * DescribeReservedNodeOfferings API to obtain the available reserved
- * node offerings. You can call this API by providing a specific reserved node offering and
- * the number of nodes you want to reserve.
- *
- * For more information about reserved node offerings, go to
- * Purchasing Reserved Nodes
- * in the *Amazon Redshift Cluster Management Guide*.
+ * Returns information about the partner integrations defined for a cluster.
  */
-export const purchaseReservedNodeOffering =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseReservedNodeOfferingMessage,
-    output: PurchaseReservedNodeOfferingResult,
-    errors: [
-      ReservedNodeAlreadyExistsFault,
-      ReservedNodeOfferingNotFoundFault,
-      ReservedNodeQuotaExceededFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const describePartners = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePartnersInputMessage,
+  output: DescribePartnersOutputMessage,
+  errors: [
+    ClusterNotFoundFault,
+    UnauthorizedPartnerIntegrationFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
- * Creates a new table from a table in an Amazon Redshift cluster snapshot. You must
- * create the new table within the Amazon Redshift cluster that the snapshot was taken
- * from.
- *
- * You cannot use `RestoreTableFromClusterSnapshot` to restore a table with
- * the same name as an existing table in an Amazon Redshift cluster. That is, you cannot
- * overwrite an existing table in a cluster with a restored table. If you want to replace
- * your original table with a new, restored table, then rename or drop your original table
- * before you call `RestoreTableFromClusterSnapshot`. When you have renamed your
- * original table, then you can pass the original name of the table as the
- * `NewTableName` parameter value in the call to
- * `RestoreTableFromClusterSnapshot`. This way, you can replace the original
- * table with the table created from the snapshot.
- *
- * You can't use this operation to restore tables with
- * interleaved sort keys.
+ * Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
  */
-export const restoreTableFromClusterSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreTableFromClusterSnapshotMessage,
-    output: RestoreTableFromClusterSnapshotResult,
-    errors: [
-      ClusterNotFoundFault,
-      ClusterSnapshotNotFoundFault,
-      InProgressTableRestoreQuotaExceededFault,
-      InvalidClusterSnapshotStateFault,
-      InvalidClusterStateFault,
-      InvalidTableRestoreArgumentFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const deletePartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PartnerIntegrationInputMessage,
+  output: PartnerIntegrationOutputMessage,
+  errors: [
+    ClusterNotFoundFault,
+    PartnerNotFoundFault,
+    UnauthorizedPartnerIntegrationFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
- * Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether
- * the application accessing your cluster is running on the Internet or an Amazon EC2
- * instance, you can authorize inbound access to either a Classless Interdomain Routing
- * (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as
- * many as 20 ingress rules to an Amazon Redshift security group.
- *
- * If you authorize access to an Amazon EC2 security group, specify
- * *EC2SecurityGroupName* and
- * *EC2SecurityGroupOwnerId*. The Amazon EC2 security group and
- * Amazon Redshift cluster must be in the same Amazon Web Services Region.
- *
- * If you authorize access to a CIDR/IP address range, specify
- * *CIDRIP*. For an overview of CIDR blocks, see the Wikipedia
- * article on Classless Inter-Domain Routing.
- *
- * You must also associate the security group with a cluster so that clients running
- * on these IP addresses or the EC2 instance are authorized to connect to the cluster. For
- * information about managing security groups, go to Working with Security
- * Groups in the *Amazon Redshift Cluster Management Guide*.
+ * Updates the status of a partner integration.
  */
-export const authorizeClusterSecurityGroupIngress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AuthorizeClusterSecurityGroupIngressMessage,
-    output: AuthorizeClusterSecurityGroupIngressResult,
-    errors: [
-      AuthorizationAlreadyExistsFault,
-      AuthorizationQuotaExceededFault,
-      ClusterSecurityGroupNotFoundFault,
-      InvalidClusterSecurityGroupStateFault,
-    ],
-  }));
+export const updatePartnerStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePartnerStatusInputMessage,
+  output: PartnerIntegrationOutputMessage,
+  errors: [
+    ClusterNotFoundFault,
+    PartnerNotFoundFault,
+    UnauthorizedPartnerIntegrationFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
- * Authorizes the specified Amazon Web Services account to restore the specified
- * snapshot.
+ * Creates a manual snapshot of the specified cluster. The cluster must be in the
+ * `available` state.
  *
  * For more information about working with snapshots, go to
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const authorizeSnapshotAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const createClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: AuthorizeSnapshotAccessMessage,
-    output: AuthorizeSnapshotAccessResult,
+    input: CreateClusterSnapshotMessage,
+    output: CreateClusterSnapshotResult,
     errors: [
-      AuthorizationAlreadyExistsFault,
-      AuthorizationQuotaExceededFault,
-      ClusterSnapshotNotFoundFault,
-      DependentServiceRequestThrottlingFault,
-      InvalidClusterSnapshotStateFault,
-      LimitExceededFault,
+      ClusterNotFoundFault,
+      ClusterSnapshotAlreadyExistsFault,
+      ClusterSnapshotQuotaExceededFault,
+      InvalidClusterStateFault,
+      InvalidRetentionPeriodFault,
+      InvalidTagFault,
+      TagLimitExceededFault,
+    ],
+  }),
+);
+/**
+ * Modifies an authentication profile.
+ */
+export const modifyAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyAuthenticationProfileMessage,
+    output: ModifyAuthenticationProfileResult,
+    errors: [
+      AuthenticationProfileNotFoundFault,
+      AuthenticationProfileQuotaExceededFault,
+      InvalidAuthenticationProfileRequestFault,
+    ],
+  }),
+);
+/**
+ * Contains information for changing a custom domain association.
+ */
+export const modifyCustomDomainAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyCustomDomainAssociationMessage,
+    output: ModifyCustomDomainAssociationResult,
+    errors: [
+      ClusterNotFoundFault,
+      CustomCnameAssociationFault,
+      CustomDomainAssociationNotFoundFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Modifies a scheduled action.
+ */
+export const modifyScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyScheduledActionMessage,
+    output: ScheduledAction,
+    errors: [
+      ClusterNotFoundFault,
+      InvalidScheduledActionFault,
+      InvalidScheduleFault,
+      ScheduledActionNotFoundFault,
+      ScheduledActionTypeUnsupportedFault,
+      UnauthorizedOperation,
       UnsupportedOperationFault,
     ],
   }),
 );
 /**
- * Creates a new cluster with the specified parameters.
- *
- * To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster
- * subnet group name. The cluster subnet group identifies the subnets of your VPC that
- * Amazon Redshift uses when creating the cluster.
- * For more information about managing clusters, go to
- * Amazon Redshift Clusters
- * in the *Amazon Redshift Cluster Management Guide*.
- *
- * VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that
- * you own in a Region from reaching or being reached from the internet through internet
- * gateways and egress-only internet gateways. If a subnet group for a
- * provisioned cluster is in an account with VPC BPA turned on, the following capabilities
- * are blocked:
- *
- * - Creating a public cluster
- *
- * - Restoring a public cluster
- *
- * - Modifying a private cluster to be public
- *
- * - Adding a subnet with VPC BPA turned on to the subnet group when there's at
- * least one public cluster within the group
- *
- * For more information about VPC BPA, see Block public access to VPCs and
- * subnets in the *Amazon VPC User Guide*.
+ * Describes an authentication profile.
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateClusterMessage,
-  output: CreateClusterResult,
+export const describeAuthenticationProfiles =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAuthenticationProfilesMessage,
+    output: DescribeAuthenticationProfilesResult,
+    errors: [
+      AuthenticationProfileNotFoundFault,
+      InvalidAuthenticationProfileRequestFault,
+    ],
+  }));
+/**
+ * Creates an authentication profile with the specified parameters.
+ */
+export const createAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateAuthenticationProfileMessage,
+    output: CreateAuthenticationProfileResult,
+    errors: [
+      AuthenticationProfileAlreadyExistsFault,
+      AuthenticationProfileQuotaExceededFault,
+      InvalidAuthenticationProfileRequestFault,
+    ],
+  }),
+);
+/**
+ * Modifies the settings for a snapshot.
+ *
+ * This exanmple modifies the manual retention period setting for a cluster snapshot.
+ */
+export const modifyClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyClusterSnapshotMessage,
+    output: ModifyClusterSnapshotResult,
+    errors: [
+      ClusterSnapshotNotFoundFault,
+      InvalidClusterSnapshotStateFault,
+      InvalidRetentionPeriodFault,
+    ],
+  }),
+);
+/**
+ * Returns the descriptions of the reserved nodes.
+ */
+export const describeReservedNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeReservedNodesMessage,
+    output: ReservedNodesMessage,
+    errors: [DependentServiceUnavailableFault, ReservedNodeNotFoundFault],
+  }),
+);
+/**
+ * Lists the Amazon Redshift IAM Identity Center applications.
+ */
+export const describeRedshiftIdcApplications =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeRedshiftIdcApplicationsMessage,
+    output: DescribeRedshiftIdcApplicationsResult,
+    errors: [
+      DependentServiceAccessDeniedFault,
+      DependentServiceUnavailableFault,
+      RedshiftIdcApplicationNotExistsFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
+ */
+export const modifyLakehouseConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyLakehouseConfigurationMessage,
+    output: LakehouseConfiguration,
+    errors: [
+      ClusterNotFoundFault,
+      DependentServiceAccessDeniedFault,
+      DependentServiceUnavailableFault,
+      InvalidClusterStateFault,
+      RedshiftIdcApplicationNotExistsFault,
+      UnauthorizedOperation,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Changes an existing Amazon Redshift IAM Identity Center application.
+ */
+export const modifyRedshiftIdcApplication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ModifyRedshiftIdcApplicationMessage,
+    output: ModifyRedshiftIdcApplicationResult,
+    errors: [
+      DependentServiceAccessDeniedFault,
+      DependentServiceUnavailableFault,
+      RedshiftIdcApplicationNotExistsFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Modifies a snapshot schedule. Any schedule associated with a cluster is modified
+ * asynchronously.
+ */
+export const modifySnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifySnapshotScheduleMessage,
+    output: SnapshotSchedule,
+    errors: [
+      InvalidScheduleFault,
+      SnapshotScheduleNotFoundFault,
+      SnapshotScheduleUpdateInProgressFault,
+    ],
+  }),
+);
+/**
+ * Deletes a Redshift-managed VPC endpoint.
+ */
+export const deleteEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEndpointAccessMessage,
+    output: EndpointAccess,
+    errors: [
+      ClusterNotFoundFault,
+      EndpointNotFoundFault,
+      InvalidClusterSecurityGroupStateFault,
+      InvalidClusterStateFault,
+      InvalidEndpointStateFault,
+    ],
+  }),
+);
+/**
+ * Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
+ */
+export const describeIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeIntegrationsMessage,
+    output: IntegrationsMessage,
+    errors: [IntegrationNotFoundFault, UnsupportedOperationFault],
+  }),
+);
+/**
+ * Updates the resource policy for a specified resource.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyMessage,
+  output: PutResourcePolicyResult,
   errors: [
-    ClusterAlreadyExistsFault,
-    ClusterParameterGroupNotFoundFault,
-    ClusterQuotaExceededFault,
-    ClusterSecurityGroupNotFoundFault,
-    ClusterSubnetGroupNotFoundFault,
-    DependentServiceAccessDeniedFault,
-    DependentServiceRequestThrottlingFault,
-    DependentServiceUnavailableFault,
-    HsmClientCertificateNotFoundFault,
-    HsmConfigurationNotFoundFault,
-    InsufficientClusterCapacityFault,
-    InvalidClusterSubnetGroupStateFault,
-    InvalidClusterTrackFault,
-    InvalidElasticIpFault,
-    InvalidRetentionPeriodFault,
-    InvalidSubnet,
-    InvalidTagFault,
-    InvalidVPCNetworkStateFault,
-    Ipv6CidrBlockNotFoundFault,
-    LimitExceededFault,
-    NumberOfNodesPerClusterLimitExceededFault,
-    NumberOfNodesQuotaExceededFault,
-    RedshiftIdcApplicationNotExistsFault,
-    SnapshotScheduleNotFoundFault,
-    TagLimitExceededFault,
-    UnauthorizedOperation,
+    ConflictPolicyUpdateFault,
+    InvalidPolicyFault,
+    ResourceNotFoundFault,
     UnsupportedOperationFault,
   ],
 }));
+/**
+ * Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
+ */
+export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntegrationMessage,
+  output: Integration,
+  errors: [
+    IntegrationConflictOperationFault,
+    IntegrationConflictStateFault,
+    IntegrationNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+}));
+/**
+ * Creates a usage limit for a specified Amazon Redshift feature on a cluster.
+ * The usage limit is identified by the returned usage limit identifier.
+ */
+export const createUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUsageLimitMessage,
+  output: UsageLimit,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
+    InvalidUsageLimitFault,
+    LimitExceededFault,
+    TagLimitExceededFault,
+    UnsupportedOperationFault,
+    UsageLimitAlreadyExistsFault,
+  ],
+}));
+/**
+ * Grants access to a cluster.
+ */
+export const authorizeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AuthorizeEndpointAccessMessage,
+    output: EndpointAuthorization,
+    errors: [
+      ClusterNotFoundFault,
+      EndpointAuthorizationAlreadyExistsFault,
+      EndpointAuthorizationsPerClusterLimitExceededFault,
+      InvalidAuthorizationStateFault,
+      InvalidClusterStateFault,
+      UnsupportedOperationFault,
+    ],
+  }),
+);
+/**
+ * Copies the specified automated cluster snapshot to a new manual cluster snapshot.
+ * The source must be an automated snapshot and it must be in the available
+ * state.
+ *
+ * When you delete a cluster, Amazon Redshift deletes any automated snapshots of the
+ * cluster. Also, when the retention period of the snapshot expires, Amazon Redshift
+ * automatically deletes it. If you want to keep an automated snapshot for a longer period,
+ * you can make a manual copy of the snapshot. Manual snapshots are retained until you
+ * delete them.
+ *
+ * For more information about working with snapshots, go to
+ * Amazon Redshift Snapshots
+ * in the *Amazon Redshift Cluster Management Guide*.
+ */
+export const copyClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopyClusterSnapshotMessage,
+  output: CopyClusterSnapshotResult,
+  errors: [
+    ClusterNotFoundFault,
+    ClusterSnapshotAlreadyExistsFault,
+    ClusterSnapshotNotFoundFault,
+    ClusterSnapshotQuotaExceededFault,
+    InvalidClusterSnapshotStateFault,
+    InvalidRetentionPeriodFault,
+  ],
+}));
+/**
+ * Contains information about deleting a custom domain association for a cluster.
+ */
+export const deleteCustomDomainAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteCustomDomainAssociationMessage,
+    output: DeleteCustomDomainAssociationResponse,
+    errors: [
+      ClusterNotFoundFault,
+      CustomCnameAssociationFault,
+      CustomDomainAssociationNotFoundFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Contains information about custom domain associations for a cluster.
+ */
+export const describeCustomDomainAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeCustomDomainAssociationsMessage,
+    output: CustomDomainAssociationsMessage,
+    errors: [CustomDomainAssociationNotFoundFault, UnsupportedOperationFault],
+  }));
+/**
+ * Returns exchange status details and associated metadata for a reserved-node
+ * exchange. Statuses include such values as in progress and requested.
+ */
+export const describeReservedNodeExchangeStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeReservedNodeExchangeStatusInputMessage,
+    output: DescribeReservedNodeExchangeStatusOutputMessage,
+    errors: [
+      ReservedNodeExchangeNotFoundFault,
+      ReservedNodeNotFoundFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Modifies a Redshift-managed VPC endpoint.
+ */
+export const modifyEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyEndpointAccessMessage,
+    output: EndpointAccess,
+    errors: [
+      ClusterNotFoundFault,
+      EndpointNotFoundFault,
+      InvalidClusterSecurityGroupStateFault,
+      InvalidClusterStateFault,
+      InvalidEndpointStateFault,
+      UnauthorizedOperation,
+    ],
+  }),
+);
+/**
+ * Revokes access to a cluster.
+ */
+export const revokeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: RevokeEndpointAccessMessage,
+    output: EndpointAuthorization,
+    errors: [
+      ClusterNotFoundFault,
+      EndpointAuthorizationNotFoundFault,
+      EndpointNotFoundFault,
+      InvalidAuthorizationStateFault,
+      InvalidClusterSecurityGroupStateFault,
+      InvalidClusterStateFault,
+      InvalidEndpointStateFault,
+    ],
+  }),
+);
 /**
  * Creates an Amazon Redshift parameter group.
  *
@@ -6399,29 +6173,6 @@ export const createScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a snapshot copy grant that permits Amazon Redshift to use an encrypted symmetric key
- * from Key Management Service (KMS) to encrypt copied snapshots in a
- * destination region.
- *
- * For more information about managing snapshot copy grants, go to
- * Amazon Redshift Database Encryption
- * in the *Amazon Redshift Cluster Management Guide*.
- */
-export const createSnapshotCopyGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSnapshotCopyGrantMessage,
-    output: CreateSnapshotCopyGrantResult,
-    errors: [
-      DependentServiceRequestThrottlingFault,
-      InvalidTagFault,
-      LimitExceededFault,
-      SnapshotCopyGrantAlreadyExistsFault,
-      SnapshotCopyGrantQuotaExceededFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
-/**
  * Deletes a previously provisioned cluster without its final snapshot being created. A successful response from the web
  * service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete
  * operation cannot be canceled or reverted once submitted.
@@ -6496,6 +6247,139 @@ export const enableLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Gets the configuration options for the reserved-node exchange. These options
+ * include information about the source reserved node and target reserved node offering.
+ * Details include the node type, the price, the node count, and the offering type.
+ */
+export const getReservedNodeExchangeConfigurationOptions =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
+    output: GetReservedNodeExchangeConfigurationOptionsOutputMessage,
+    errors: [
+      ClusterNotFoundFault,
+      ClusterSnapshotNotFoundFault,
+      DependentServiceUnavailableFault,
+      InvalidReservedNodeStateFault,
+      ReservedNodeAlreadyMigratedFault,
+      ReservedNodeNotFoundFault,
+      ReservedNodeOfferingNotFoundFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Creates a new table from a table in an Amazon Redshift cluster snapshot. You must
+ * create the new table within the Amazon Redshift cluster that the snapshot was taken
+ * from.
+ *
+ * You cannot use `RestoreTableFromClusterSnapshot` to restore a table with
+ * the same name as an existing table in an Amazon Redshift cluster. That is, you cannot
+ * overwrite an existing table in a cluster with a restored table. If you want to replace
+ * your original table with a new, restored table, then rename or drop your original table
+ * before you call `RestoreTableFromClusterSnapshot`. When you have renamed your
+ * original table, then you can pass the original name of the table as the
+ * `NewTableName` parameter value in the call to
+ * `RestoreTableFromClusterSnapshot`. This way, you can replace the original
+ * table with the table created from the snapshot.
+ *
+ * You can't use this operation to restore tables with
+ * interleaved sort keys.
+ */
+export const restoreTableFromClusterSnapshot =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RestoreTableFromClusterSnapshotMessage,
+    output: RestoreTableFromClusterSnapshotResult,
+    errors: [
+      ClusterNotFoundFault,
+      ClusterSnapshotNotFoundFault,
+      InProgressTableRestoreQuotaExceededFault,
+      InvalidClusterSnapshotStateFault,
+      InvalidClusterStateFault,
+      InvalidTableRestoreArgumentFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of
+ * reserved node offerings. You can purchase one or more of the offerings. You can call the
+ * DescribeReservedNodeOfferings API to obtain the available reserved
+ * node offerings. You can call this API by providing a specific reserved node offering and
+ * the number of nodes you want to reserve.
+ *
+ * For more information about reserved node offerings, go to
+ * Purchasing Reserved Nodes
+ * in the *Amazon Redshift Cluster Management Guide*.
+ */
+export const purchaseReservedNodeOffering =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PurchaseReservedNodeOfferingMessage,
+    output: PurchaseReservedNodeOfferingResult,
+    errors: [
+      ReservedNodeAlreadyExistsFault,
+      ReservedNodeOfferingNotFoundFault,
+      ReservedNodeQuotaExceededFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term,
+ * and usage price of the given DC1 reserved node.
+ */
+export const getReservedNodeExchangeOfferings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetReservedNodeExchangeOfferingsInputMessage,
+    output: GetReservedNodeExchangeOfferingsOutputMessage,
+    errors: [
+      DependentServiceUnavailableFault,
+      InvalidReservedNodeStateFault,
+      ReservedNodeAlreadyMigratedFault,
+      ReservedNodeNotFoundFault,
+      ReservedNodeOfferingNotFoundFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the
+ * configuration (term, payment type, or number of nodes) and no additional costs.
+ */
+export const acceptReservedNodeExchange = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AcceptReservedNodeExchangeInputMessage,
+    output: AcceptReservedNodeExchangeOutputMessage,
+    errors: [
+      DependentServiceUnavailableFault,
+      InvalidReservedNodeStateFault,
+      ReservedNodeAlreadyExistsFault,
+      ReservedNodeAlreadyMigratedFault,
+      ReservedNodeNotFoundFault,
+      ReservedNodeOfferingNotFoundFault,
+      UnsupportedOperationFault,
+    ],
+  }),
+);
+/**
+ * Creates a snapshot copy grant that permits Amazon Redshift to use an encrypted symmetric key
+ * from Key Management Service (KMS) to encrypt copied snapshots in a
+ * destination region.
+ *
+ * For more information about managing snapshot copy grants, go to
+ * Amazon Redshift Database Encryption
+ * in the *Amazon Redshift Cluster Management Guide*.
+ */
+export const createSnapshotCopyGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateSnapshotCopyGrantMessage,
+    output: CreateSnapshotCopyGrantResult,
+    errors: [
+      DependentServiceRequestThrottlingFault,
+      InvalidTagFault,
+      LimitExceededFault,
+      SnapshotCopyGrantAlreadyExistsFault,
+      SnapshotCopyGrantQuotaExceededFault,
+      TagLimitExceededFault,
+    ],
+  }),
+);
+/**
  * Modifies a cluster subnet group to include the specified list of VPC subnets. The
  * operation replaces the existing list of subnets with the new list of subnets.
  *
@@ -6531,6 +6415,203 @@ export const modifyClusterSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether
+ * the application accessing your cluster is running on the Internet or an Amazon EC2
+ * instance, you can authorize inbound access to either a Classless Interdomain Routing
+ * (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as
+ * many as 20 ingress rules to an Amazon Redshift security group.
+ *
+ * If you authorize access to an Amazon EC2 security group, specify
+ * *EC2SecurityGroupName* and
+ * *EC2SecurityGroupOwnerId*. The Amazon EC2 security group and
+ * Amazon Redshift cluster must be in the same Amazon Web Services Region.
+ *
+ * If you authorize access to a CIDR/IP address range, specify
+ * *CIDRIP*. For an overview of CIDR blocks, see the Wikipedia
+ * article on Classless Inter-Domain Routing.
+ *
+ * You must also associate the security group with a cluster so that clients running
+ * on these IP addresses or the EC2 instance are authorized to connect to the cluster. For
+ * information about managing security groups, go to Working with Security
+ * Groups in the *Amazon Redshift Cluster Management Guide*.
+ */
+export const authorizeClusterSecurityGroupIngress =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AuthorizeClusterSecurityGroupIngressMessage,
+    output: AuthorizeClusterSecurityGroupIngressResult,
+    errors: [
+      AuthorizationAlreadyExistsFault,
+      AuthorizationQuotaExceededFault,
+      ClusterSecurityGroupNotFoundFault,
+      InvalidClusterSecurityGroupStateFault,
+    ],
+  }));
+/**
+ * Creates a new Amazon Redshift subnet group. You must provide a list of one or more
+ * subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating
+ * Amazon Redshift subnet group.
+ *
+ * For information about subnet groups, go to
+ * Amazon Redshift Cluster Subnet Groups in the
+ * *Amazon Redshift Cluster Management Guide*.
+ */
+export const createClusterSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateClusterSubnetGroupMessage,
+    output: CreateClusterSubnetGroupResult,
+    errors: [
+      ClusterSubnetGroupAlreadyExistsFault,
+      ClusterSubnetGroupQuotaExceededFault,
+      ClusterSubnetQuotaExceededFault,
+      DependentServiceRequestThrottlingFault,
+      InvalidSubnet,
+      InvalidTagFault,
+      TagLimitExceededFault,
+      UnauthorizedOperation,
+    ],
+  }),
+);
+/**
+ * Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule.
+ */
+export const createSnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateSnapshotScheduleMessage,
+    output: SnapshotSchedule,
+    errors: [
+      InvalidScheduleFault,
+      InvalidTagFault,
+      ScheduleDefinitionTypeUnsupportedFault,
+      SnapshotScheduleAlreadyExistsFault,
+      SnapshotScheduleQuotaExceededFault,
+      TagLimitExceededFault,
+    ],
+  }),
+);
+/**
+ * Authorizes the specified Amazon Web Services account to restore the specified
+ * snapshot.
+ *
+ * For more information about working with snapshots, go to
+ * Amazon Redshift Snapshots
+ * in the *Amazon Redshift Cluster Management Guide*.
+ */
+export const authorizeSnapshotAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AuthorizeSnapshotAccessMessage,
+    output: AuthorizeSnapshotAccessResult,
+    errors: [
+      AuthorizationAlreadyExistsFault,
+      AuthorizationQuotaExceededFault,
+      ClusterSnapshotNotFoundFault,
+      DependentServiceRequestThrottlingFault,
+      InvalidClusterSnapshotStateFault,
+      LimitExceededFault,
+      UnsupportedOperationFault,
+    ],
+  }),
+);
+/**
+ * Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
+ */
+export const createIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIntegrationMessage,
+  output: Integration,
+  errors: [
+    IntegrationAlreadyExistsFault,
+    IntegrationConflictOperationFault,
+    IntegrationQuotaExceededFault,
+    IntegrationSourceNotFoundFault,
+    IntegrationTargetNotFoundFault,
+    InvalidClusterStateFault,
+    InvalidTagFault,
+    TagLimitExceededFault,
+    UnsupportedOperationFault,
+  ],
+}));
+/**
+ * Enables the automatic copy of snapshots from one region to another region for a
+ * specified cluster.
+ */
+export const enableSnapshotCopy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableSnapshotCopyMessage,
+  output: EnableSnapshotCopyResult,
+  errors: [
+    ClusterNotFoundFault,
+    CopyToRegionDisabledFault,
+    DependentServiceRequestThrottlingFault,
+    IncompatibleOrderableOptions,
+    InvalidClusterStateFault,
+    InvalidRetentionPeriodFault,
+    LimitExceededFault,
+    SnapshotCopyAlreadyEnabledFault,
+    SnapshotCopyGrantNotFoundFault,
+    UnauthorizedOperation,
+    UnknownSnapshotCopyRegionFault,
+  ],
+}));
+/**
+ * Creates a new cluster with the specified parameters.
+ *
+ * To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster
+ * subnet group name. The cluster subnet group identifies the subnets of your VPC that
+ * Amazon Redshift uses when creating the cluster.
+ * For more information about managing clusters, go to
+ * Amazon Redshift Clusters
+ * in the *Amazon Redshift Cluster Management Guide*.
+ *
+ * VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that
+ * you own in a Region from reaching or being reached from the internet through internet
+ * gateways and egress-only internet gateways. If a subnet group for a
+ * provisioned cluster is in an account with VPC BPA turned on, the following capabilities
+ * are blocked:
+ *
+ * - Creating a public cluster
+ *
+ * - Restoring a public cluster
+ *
+ * - Modifying a private cluster to be public
+ *
+ * - Adding a subnet with VPC BPA turned on to the subnet group when there's at
+ * least one public cluster within the group
+ *
+ * For more information about VPC BPA, see Block public access to VPCs and
+ * subnets in the *Amazon VPC User Guide*.
+ */
+export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterMessage,
+  output: CreateClusterResult,
+  errors: [
+    ClusterAlreadyExistsFault,
+    ClusterParameterGroupNotFoundFault,
+    ClusterQuotaExceededFault,
+    ClusterSecurityGroupNotFoundFault,
+    ClusterSubnetGroupNotFoundFault,
+    DependentServiceAccessDeniedFault,
+    DependentServiceRequestThrottlingFault,
+    DependentServiceUnavailableFault,
+    HsmClientCertificateNotFoundFault,
+    HsmConfigurationNotFoundFault,
+    InsufficientClusterCapacityFault,
+    InvalidClusterSubnetGroupStateFault,
+    InvalidClusterTrackFault,
+    InvalidElasticIpFault,
+    InvalidRetentionPeriodFault,
+    InvalidSubnet,
+    InvalidTagFault,
+    InvalidVPCNetworkStateFault,
+    Ipv6CidrBlockNotFoundFault,
+    LimitExceededFault,
+    NumberOfNodesPerClusterLimitExceededFault,
+    NumberOfNodesQuotaExceededFault,
+    RedshiftIdcApplicationNotExistsFault,
+    SnapshotScheduleNotFoundFault,
+    TagLimitExceededFault,
+    UnauthorizedOperation,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting
  * cluster with the same configuration as the original cluster from which the snapshot was
@@ -6608,84 +6689,66 @@ export const restoreFromClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Creates a new Amazon Redshift subnet group. You must provide a list of one or more
- * subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating
- * Amazon Redshift subnet group.
+ * Creates an Amazon Redshift application for use with IAM Identity Center.
+ */
+export const createRedshiftIdcApplication =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateRedshiftIdcApplicationMessage,
+    output: CreateRedshiftIdcApplicationResult,
+    errors: [
+      DependentServiceAccessDeniedFault,
+      DependentServiceUnavailableFault,
+      InvalidTagFault,
+      RedshiftIdcApplicationAlreadyExistsFault,
+      RedshiftIdcApplicationQuotaExceededFault,
+      TagLimitExceededFault,
+      UnsupportedOperationFault,
+    ],
+  }));
+/**
+ * Changes the size of the cluster. You can change the cluster's type, or change the
+ * number or type of nodes. The default behavior is to use the elastic resize method. With
+ * an elastic resize, your cluster is available for read and write operations more quickly
+ * than with the classic resize method.
  *
- * For information about subnet groups, go to
- * Amazon Redshift Cluster Subnet Groups in the
- * *Amazon Redshift Cluster Management Guide*.
+ * Elastic resize operations have the following restrictions:
+ *
+ * - You can only resize clusters of the following types:
+ *
+ * - dc2.large
+ *
+ * - dc2.8xlarge
+ *
+ * - ra3.large
+ *
+ * - ra3.xlplus
+ *
+ * - ra3.4xlarge
+ *
+ * - ra3.16xlarge
+ *
+ * - The type of nodes that you add must match the node type for the
+ * cluster.
  */
-export const createClusterSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateClusterSubnetGroupMessage,
-    output: CreateClusterSubnetGroupResult,
-    errors: [
-      ClusterSubnetGroupAlreadyExistsFault,
-      ClusterSubnetGroupQuotaExceededFault,
-      ClusterSubnetQuotaExceededFault,
-      DependentServiceRequestThrottlingFault,
-      InvalidSubnet,
-      InvalidTagFault,
-      TagLimitExceededFault,
-      UnauthorizedOperation,
-    ],
-  }),
-);
-/**
- * Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
- */
-export const createIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIntegrationMessage,
-  output: Integration,
-  errors: [
-    IntegrationAlreadyExistsFault,
-    IntegrationConflictOperationFault,
-    IntegrationQuotaExceededFault,
-    IntegrationSourceNotFoundFault,
-    IntegrationTargetNotFoundFault,
-    InvalidClusterStateFault,
-    InvalidTagFault,
-    TagLimitExceededFault,
-    UnsupportedOperationFault,
-  ],
-}));
-/**
- * Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule.
- */
-export const createSnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSnapshotScheduleMessage,
-    output: SnapshotSchedule,
-    errors: [
-      InvalidScheduleFault,
-      InvalidTagFault,
-      ScheduleDefinitionTypeUnsupportedFault,
-      SnapshotScheduleAlreadyExistsFault,
-      SnapshotScheduleQuotaExceededFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
-/**
- * Enables the automatic copy of snapshots from one region to another region for a
- * specified cluster.
- */
-export const enableSnapshotCopy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableSnapshotCopyMessage,
-  output: EnableSnapshotCopyResult,
+export const resizeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResizeClusterMessage,
+  output: ResizeClusterResult,
   errors: [
     ClusterNotFoundFault,
-    CopyToRegionDisabledFault,
-    DependentServiceRequestThrottlingFault,
-    IncompatibleOrderableOptions,
+    DependentServiceUnavailableFault,
+    InsufficientClusterCapacityFault,
     InvalidClusterStateFault,
-    InvalidRetentionPeriodFault,
+    InvalidReservedNodeStateFault,
     LimitExceededFault,
-    SnapshotCopyAlreadyEnabledFault,
-    SnapshotCopyGrantNotFoundFault,
+    NumberOfNodesPerClusterLimitExceededFault,
+    NumberOfNodesQuotaExceededFault,
+    ReservedNodeAlreadyExistsFault,
+    ReservedNodeAlreadyMigratedFault,
+    ReservedNodeNotFoundFault,
+    ReservedNodeOfferingNotFoundFault,
     UnauthorizedOperation,
-    UnknownSnapshotCopyRegionFault,
+    UnsupportedOperationFault,
+    UnsupportedOptionFault,
   ],
 }));
 /**
@@ -6748,51 +6811,46 @@ export const modifyCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Changes the size of the cluster. You can change the cluster's type, or change the
- * number or type of nodes. The default behavior is to use the elastic resize method. With
- * an elastic resize, your cluster is available for read and write operations more quickly
- * than with the classic resize method.
- *
- * Elastic resize operations have the following restrictions:
- *
- * - You can only resize clusters of the following types:
- *
- * - dc2.large
- *
- * - dc2.8xlarge
- *
- * - ra3.large
- *
- * - ra3.xlplus
- *
- * - ra3.4xlarge
- *
- * - ra3.16xlarge
- *
- * - The type of nodes that you add must match the node type for the
- * cluster.
+ * Creates a Redshift-managed VPC endpoint.
  */
-export const resizeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResizeClusterMessage,
-  output: ResizeClusterResult,
-  errors: [
-    ClusterNotFoundFault,
-    DependentServiceUnavailableFault,
-    InsufficientClusterCapacityFault,
-    InvalidClusterStateFault,
-    InvalidReservedNodeStateFault,
-    LimitExceededFault,
-    NumberOfNodesPerClusterLimitExceededFault,
-    NumberOfNodesQuotaExceededFault,
-    ReservedNodeAlreadyExistsFault,
-    ReservedNodeAlreadyMigratedFault,
-    ReservedNodeNotFoundFault,
-    ReservedNodeOfferingNotFoundFault,
-    UnauthorizedOperation,
-    UnsupportedOperationFault,
-    UnsupportedOptionFault,
-  ],
-}));
+export const createEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEndpointAccessMessage,
+    output: EndpointAccess,
+    errors: [
+      AccessToClusterDeniedFault,
+      ClusterNotFoundFault,
+      ClusterSubnetGroupNotFoundFault,
+      EndpointAlreadyExistsFault,
+      EndpointsPerAuthorizationLimitExceededFault,
+      EndpointsPerClusterLimitExceededFault,
+      InvalidClusterSecurityGroupStateFault,
+      InvalidClusterStateFault,
+      UnauthorizedOperation,
+      UnsupportedOperationFault,
+    ],
+  }),
+);
+/**
+ * Modifies an existing Amazon Redshift event notification subscription.
+ */
+export const modifyEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ModifyEventSubscriptionMessage,
+    output: ModifyEventSubscriptionResult,
+    errors: [
+      InvalidSubscriptionStateFault,
+      SNSInvalidTopicFault,
+      SNSNoAuthorizationFault,
+      SNSTopicArnNotFoundFault,
+      SourceNotFoundFault,
+      SubscriptionCategoryNotFoundFault,
+      SubscriptionEventIdNotFoundFault,
+      SubscriptionNotFoundFault,
+      SubscriptionSeverityNotFoundFault,
+    ],
+  }),
+);
 /**
  * Creates an Amazon Redshift event notification subscription. This action requires an ARN
  * (Amazon Resource Name) of an Amazon SNS topic created by either the Amazon Redshift console,
@@ -6830,64 +6888,6 @@ export const createEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
       SubscriptionEventIdNotFoundFault,
       SubscriptionSeverityNotFoundFault,
       TagLimitExceededFault,
-    ],
-  }),
-);
-/**
- * Creates an Amazon Redshift application for use with IAM Identity Center.
- */
-export const createRedshiftIdcApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRedshiftIdcApplicationMessage,
-    output: CreateRedshiftIdcApplicationResult,
-    errors: [
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      InvalidTagFault,
-      RedshiftIdcApplicationAlreadyExistsFault,
-      RedshiftIdcApplicationQuotaExceededFault,
-      TagLimitExceededFault,
-      UnsupportedOperationFault,
-    ],
-  }));
-/**
- * Modifies an existing Amazon Redshift event notification subscription.
- */
-export const modifyEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyEventSubscriptionMessage,
-    output: ModifyEventSubscriptionResult,
-    errors: [
-      InvalidSubscriptionStateFault,
-      SNSInvalidTopicFault,
-      SNSNoAuthorizationFault,
-      SNSTopicArnNotFoundFault,
-      SourceNotFoundFault,
-      SubscriptionCategoryNotFoundFault,
-      SubscriptionEventIdNotFoundFault,
-      SubscriptionNotFoundFault,
-      SubscriptionSeverityNotFoundFault,
-    ],
-  }),
-);
-/**
- * Creates a Redshift-managed VPC endpoint.
- */
-export const createEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEndpointAccessMessage,
-    output: EndpointAccess,
-    errors: [
-      AccessToClusterDeniedFault,
-      ClusterNotFoundFault,
-      ClusterSubnetGroupNotFoundFault,
-      EndpointAlreadyExistsFault,
-      EndpointsPerAuthorizationLimitExceededFault,
-      EndpointsPerClusterLimitExceededFault,
-      InvalidClusterSecurityGroupStateFault,
-      InvalidClusterStateFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
     ],
   }),
 );

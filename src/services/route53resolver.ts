@@ -1394,117 +1394,107 @@ export class UpdateResolverRuleResponse extends S.Class<UpdateResolverRuleRespon
 //# Errors
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
   "InternalServiceErrorException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
-) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
-  {},
-) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
-  "InvalidRequestException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-) {}
-export class UnknownResourceException extends S.TaggedError<UnknownResourceException>()(
-  "UnknownResourceException",
-  {},
+  { Message: S.String, FieldName: S.optional(S.String) },
 ) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
+export class ConflictException extends S.TaggedError<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+  "InvalidRequestException",
+  { Message: S.optional(S.String) },
+) {}
+export class UnknownResourceException extends S.TaggedError<UnknownResourceException>()(
+  "UnknownResourceException",
+  { Message: S.optional(S.String) },
 ) {}
 export class InvalidPolicyDocument extends S.TaggedError<InvalidPolicyDocument>()(
   "InvalidPolicyDocument",
-  {},
-) {}
-export class ResourceExistsException extends S.TaggedError<ResourceExistsException>()(
-  "ResourceExistsException",
-  {},
-) {}
-export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
-  "ResourceUnavailableException",
-  {},
-) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {},
-) {}
-export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
-  "InvalidTagException",
   { Message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
 ) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
   { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
 ) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
+  "InvalidTagException",
+  { Message: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
+  "ResourceUnavailableException",
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
+) {}
+export class ResourceExistsException extends S.TaggedError<ResourceExistsException>()(
+  "ResourceExistsException",
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
+) {}
 
 //# Operations
 /**
- * Disassociates a VPC from a query logging configuration.
- *
- * Before you can delete a query logging configuration, you must first disassociate all VPCs
- * from the configuration. If you used Resource Access Manager (RAM) to share a
- * query logging configuration with other accounts, VPCs can be disassociated from the
- * configuration in the following ways:
- *
- * - The accounts that you shared the configuration with can disassociate VPCs from the configuration.
- *
- * - You can stop sharing the configuration.
+ * Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share
+ * with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
  */
-export const disassociateResolverQueryLogConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateResolverQueryLogConfigRequest,
-    output: DisassociateResolverQueryLogConfigResponse,
+export const getResolverRulePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetResolverRulePolicyRequest,
+    output: GetResolverRulePolicyResponse,
     errors: [
       AccessDeniedException,
       InternalServiceErrorException,
       InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Removes the association between a specified Resolver rule and a specified VPC.
- *
- * If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the
- * domain name that you specified in the Resolver rule.
- */
-export const disassociateResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateResolverRuleRequest,
-    output: DisassociateResolverRuleResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
+      UnknownResourceException,
     ],
   }),
 );
+/**
+ * Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share,
+ * and the operations that you want the account to be able to perform on the configuration.
+ */
+export const putResolverQueryLogConfigPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutResolverQueryLogConfigPolicyRequest,
+    output: PutResolverQueryLogConfigPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      InvalidParameterException,
+      InvalidPolicyDocument,
+      InvalidRequestException,
+      UnknownResourceException,
+    ],
+  }));
 /**
  * Retrieves the specified firewall domain list.
  */
@@ -1550,20 +1540,23 @@ export const getFirewallRuleGroupAssociation =
     ],
   }));
 /**
- * Gets information about a specified Resolver on the Outpost, such as its instance count and
- * type, name, and the current status of the Resolver.
+ * Removes the association between a specified Resolver rule and a specified VPC.
+ *
+ * If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the
+ * domain name that you specified in the Resolver rule.
  */
-export const getOutpostResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetOutpostResolverRequest,
-  output: GetOutpostResolverResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
+export const disassociateResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateResolverRuleRequest,
+    output: DisassociateResolverRuleResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
 /**
  * Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the
  * current status of the endpoint.
@@ -1578,6 +1571,152 @@ export const getResolverEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ThrottlingException,
   ],
 }));
+/**
+ * Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the
+ * outbound Resolver endpoint that the rule is associated with.
+ */
+export const getResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResolverRuleRequest,
+  output: GetResolverRuleResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using
+ * AssociateResolverRule.
+ */
+export const getResolverRuleAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetResolverRuleAssociationRequest,
+    output: GetResolverRuleAssociationResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Gets the IP addresses for a specified Resolver endpoint.
+ */
+export const listResolverEndpointIpAddresses =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListResolverEndpointIpAddressesRequest,
+    output: ListResolverEndpointIpAddressesResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidNextTokenException,
+      InvalidParameterException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Deletes the specified domain list.
+ */
+export const deleteFirewallDomainList = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteFirewallDomainListRequest,
+    output: DeleteFirewallDomainListResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you
+ * associated the Resolver rule with. For more information, see
+ * DisassociateResolverRule.
+ */
+export const deleteResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResolverRuleRequest,
+  output: DeleteResolverRuleResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidParameterException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint.
+ * You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
+ */
+export const updateResolverEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateResolverEndpointRequest,
+    output: UpdateResolverEndpointResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }),
+);
+/**
+ * Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are
+ * associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and
+ * the other accounts have associated VPCs with the shared configuration.
+ *
+ * Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See
+ * DisassociateResolverQueryLogConfig.
+ *
+ * If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing
+ * the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs
+ * that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically
+ * disassociated from the configuration.
+ */
+export const deleteResolverQueryLogConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteResolverQueryLogConfigRequest,
+    output: DeleteResolverQueryLogConfigResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Disassociates a VPC from a query logging configuration.
+ *
+ * Before you can delete a query logging configuration, you must first disassociate all VPCs
+ * from the configuration. If you used Resource Access Manager (RAM) to share a
+ * query logging configuration with other accounts, VPCs can be disassociated from the
+ * configuration in the following ways:
+ *
+ * - The accounts that you shared the configuration with can disassociate VPCs from the configuration.
+ *
+ * - You can stop sharing the configuration.
+ */
+export const disassociateResolverQueryLogConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateResolverQueryLogConfigRequest,
+    output: DisassociateResolverQueryLogConfigResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
 /**
  * Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration
  * is logging queries for and the location that logs are sent to.
@@ -1614,127 +1753,51 @@ export const getResolverQueryLogConfigAssociation =
     ],
   }));
 /**
- * Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the
- * outbound Resolver endpoint that the rule is associated with.
+ * Gets information about a query logging policy. A query logging policy specifies the Resolver query logging
+ * operations and resources that you want to allow another Amazon Web Services account to be able to use.
  */
-export const getResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResolverRuleRequest,
-  output: GetResolverRuleResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using
- * AssociateResolverRule.
- */
-export const getResolverRuleAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResolverRuleAssociationRequest,
-    output: GetResolverRuleAssociationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share
- * with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
- */
-export const getResolverRulePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResolverRulePolicyRequest,
-    output: GetResolverRulePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      UnknownResourceException,
-    ],
-  }),
-);
-/**
- * Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs.
- *
- * A single call might return only a partial list of the configurations. For information, see `MaxResults`.
- */
-export const listFirewallConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFirewallConfigsRequest,
-  output: ListFirewallConfigsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the domains that you have defined for the specified firewall domain list.
- *
- * A single call might return only a partial list of the domains. For information, see `MaxResults`.
- */
-export const listFirewallDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFirewallDomainsRequest,
-  output: ListFirewallDomainsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group.
- *
- * A single call might return only a partial list of the associations. For information, see `MaxResults`.
- */
-export const listFirewallRuleGroupAssociations =
+export const getResolverQueryLogConfigPolicy =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListFirewallRuleGroupAssociationsRequest,
-    output: ListFirewallRuleGroupAssociationsResponse,
+    input: GetResolverQueryLogConfigPolicyRequest,
+    output: GetResolverQueryLogConfigPolicyResponse,
     errors: [
       AccessDeniedException,
       InternalServiceErrorException,
-      ThrottlingException,
-      ValidationException,
+      InvalidParameterException,
+      InvalidRequestException,
+      UnknownResourceException,
     ],
   }));
 /**
- * Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.
- *
- * A single call might return only a partial list of the rules. For information, see `MaxResults`.
+ * Lists information about associations between Amazon VPCs and query logging configurations.
  */
-export const listFirewallRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFirewallRulesRequest,
-  output: ListFirewallRulesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
- */
-export const listOutpostResolvers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOutpostResolversRequest,
-    output: ListOutpostResolversResponse,
+export const listResolverQueryLogConfigAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListResolverQueryLogConfigAssociationsRequest,
+    output: ListResolverQueryLogConfigAssociationsResponse,
     errors: [
       AccessDeniedException,
       InternalServiceErrorException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
+ */
+export const updateResolverDnssecConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateResolverDnssecConfigRequest,
+    output: UpdateResolverDnssecConfigResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      InvalidParameterException,
+      InvalidRequestException,
       ResourceNotFoundException,
       ThrottlingException,
-      ValidationException,
     ],
   }),
 );
@@ -1755,35 +1818,54 @@ export const listResolverEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Lists information about associations between Amazon VPCs and query logging configurations.
+ * Removes one or more tags from a specified resource.
  */
-export const listResolverQueryLogConfigAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListResolverQueryLogConfigAssociationsRequest,
-    output: ListResolverQueryLogConfigAssociationsResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound
+ * Resolver endpoint:
+ *
+ * - **Inbound**: DNS queries from your network are no longer routed
+ * to the DNS service for the specified VPC.
+ *
+ * - **Outbound**: DNS queries from a VPC are no longer routed to your network.
+ */
+export const deleteResolverEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResolverEndpointRequest,
+    output: DeleteResolverEndpointResponse,
     errors: [
-      AccessDeniedException,
       InternalServiceErrorException,
       InvalidParameterException,
       InvalidRequestException,
-      LimitExceededException,
+      ResourceNotFoundException,
       ThrottlingException,
     ],
-  }));
+  }),
+);
 /**
- * Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save
- * DNS query logs and specifies the VPCs that you want to log queries for.
+ * Gets DNSSEC validation information for a specified resource.
  */
-export const listResolverQueryLogConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getResolverDnssecConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: ListResolverQueryLogConfigsRequest,
-    output: ListResolverQueryLogConfigsResponse,
+    input: GetResolverDnssecConfigRequest,
+    output: GetResolverDnssecConfigResponse,
     errors: [
       AccessDeniedException,
       InternalServiceErrorException,
-      InvalidNextTokenException,
       InvalidParameterException,
       InvalidRequestException,
+      ResourceNotFoundException,
       ThrottlingException,
     ],
   }),
@@ -1833,20 +1915,37 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule
- * group. You can use the policy to share the rule group using Resource Access Manager
- * (RAM).
+ * Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
  */
-export const putFirewallRuleGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const listResolverDnssecConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: PutFirewallRuleGroupPolicyRequest,
-    output: PutFirewallRuleGroupPolicyResponse,
+    input: ListResolverDnssecConfigsRequest,
+    output: ListResolverDnssecConfigsResponse,
     errors: [
       AccessDeniedException,
       InternalServiceErrorException,
-      ResourceNotFoundException,
+      InvalidNextTokenException,
+      InvalidParameterException,
+      InvalidRequestException,
       ThrottlingException,
-      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save
+ * DNS query logs and specifies the VPCs that you want to log queries for.
+ */
+export const listResolverQueryLogConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListResolverQueryLogConfigsRequest,
+    output: ListResolverQueryLogConfigsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      InvalidNextTokenException,
+      InvalidParameterException,
+      InvalidRequestException,
+      ThrottlingException,
     ],
   }),
 );
@@ -1868,30 +1967,145 @@ export const putResolverRulePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Removes one or more tags from a specified resource.
+ * Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling ListFirewallDomains.
+ *
+ * A single call to this list operation might return only a partial list of the domain lists. For information, see `MaxResults`.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const listFirewallDomainLists = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListFirewallDomainListsRequest,
+    output: ListFirewallDomainListsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Adds one or more tags to a specified resource.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
     InvalidRequestException,
+    InvalidTagException,
+    LimitExceededException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
 }));
 /**
- * Updates the configuration of the firewall behavior provided by DNS Firewall for a single
- * VPC from Amazon Virtual Private Cloud (Amazon VPC).
+ * You can use `UpdateOutpostResolver` to update the instance count, type, or name of a Resolver on an Outpost.
  */
-export const updateFirewallConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const updateOutpostResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateFirewallConfigRequest,
-    output: UpdateFirewallConfigResponse,
+    input: UpdateOutpostResolverRequest,
+    output: UpdateOutpostResolverResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
+ */
+export const createFirewallDomainList = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateFirewallDomainListRequest,
+    output: CreateFirewallDomainListResponse,
     errors: [
       AccessDeniedException,
       InternalServiceErrorException,
+      LimitExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
+ */
+export const disassociateFirewallRuleGroup =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateFirewallRuleGroupRequest,
+    output: DisassociateFirewallRuleGroupResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes the specified firewall rule group.
+ */
+export const deleteFirewallRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteFirewallRuleGroupRequest,
+    output: DeleteFirewallRuleGroupResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes a Resolver on the Outpost.
+ */
+export const deleteOutpostResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteOutpostResolverRequest,
+    output: DeleteOutpostResolverResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
+ *
+ * Each domain specification in your domain list must satisfy the following
+ * requirements:
+ *
+ * - It can optionally start with `*` (asterisk).
+ *
+ * - With the exception of the optional starting asterisk, it must only contain
+ * the following characters: `A-Z`, `a-z`,
+ * `0-9`, `-` (hyphen).
+ *
+ * - It must be from 1-255 characters in length.
+ */
+export const importFirewallDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ImportFirewallDomainsRequest,
+    output: ImportFirewallDomainsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServiceErrorException,
+      LimitExceededException,
       ResourceNotFoundException,
       ThrottlingException,
       ValidationException,
@@ -1948,23 +2162,6 @@ export const updateFirewallRuleGroupAssociation =
     ],
   }));
 /**
- * Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
- */
-export const updateResolverDnssecConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResolverDnssecConfigRequest,
-    output: UpdateResolverDnssecConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
  * Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
  */
 export const associateFirewallRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -1983,89 +2180,230 @@ export const associateFirewallRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address,
- * submit one `AssociateResolverEndpointIpAddress` request for each IP address.
- *
- * To remove an IP address from an endpoint, see
- * DisassociateResolverEndpointIpAddress.
+ * Deletes the specified firewall rule.
  */
-export const associateResolverEndpointIpAddress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateResolverEndpointIpAddressRequest,
-    output: AssociateResolverEndpointIpAddressResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteFirewallRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFirewallRuleRequest,
+  output: DeleteFirewallRuleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
- * Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs
- * that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one `AssociateResolverQueryLogConfig`
- * request for each VPC.
- *
- * The VPCs that you associate with a query logging configuration must be in the same Region as the configuration.
- *
- * To remove a VPC from a query logging configuration, see
- * DisassociateResolverQueryLogConfig.
+ * Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the
+ * specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
  */
-export const associateResolverQueryLogConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateResolverQueryLogConfigRequest,
-    output: AssociateResolverQueryLogConfigResponse,
+export const getFirewallRuleGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetFirewallRuleGroupPolicyRequest,
+    output: GetFirewallRuleGroupPolicyResponse,
     errors: [
       AccessDeniedException,
       InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceExistsException,
       ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries
- * for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the
- * IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see
- * CreateResolverRule.
- */
-export const associateResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateResolverRuleRequest,
-    output: AssociateResolverRuleResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
- */
-export const createFirewallDomainList = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFirewallDomainListRequest,
-    output: CreateFirewallDomainListResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      LimitExceededException,
       ThrottlingException,
       ValidationException,
     ],
   }),
 );
+/**
+ * Gets information about a specified Resolver on the Outpost, such as its instance count and
+ * type, name, and the current status of the Resolver.
+ */
+export const getOutpostResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOutpostResolverRequest,
+  output: GetOutpostResolverResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the domains that you have defined for the specified firewall domain list.
+ *
+ * A single call might return only a partial list of the domains. For information, see `MaxResults`.
+ */
+export const listFirewallDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFirewallDomainsRequest,
+  output: ListFirewallDomainsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.
+ *
+ * A single call might return only a partial list of the rules. For information, see `MaxResults`.
+ */
+export const listFirewallRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFirewallRulesRequest,
+  output: ListFirewallRulesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
+ */
+export const listOutpostResolvers = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListOutpostResolversRequest,
+    output: ListOutpostResolversResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule
+ * group. You can use the policy to share the rule group using Resource Access Manager
+ * (RAM).
+ */
+export const putFirewallRuleGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutFirewallRuleGroupPolicyRequest,
+    output: PutFirewallRuleGroupPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration of the firewall behavior provided by DNS Firewall for a single
+ * VPC from Amazon Virtual Private Cloud (Amazon VPC).
+ */
+export const updateFirewallConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateFirewallConfigRequest,
+    output: UpdateFirewallConfigResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
+ * Amazon Virtual Private Cloud.
+ */
+export const getResolverConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResolverConfigRequest,
+  output: GetResolverConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the minimal high-level information for the rule groups that you have defined.
+ *
+ * A single call might return only a partial list of the rule groups. For information, see `MaxResults`.
+ */
+export const listFirewallRuleGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListFirewallRuleGroupsRequest,
+    output: ListFirewallRuleGroupsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs.
+ *
+ * A single call might return only a partial list of the configurations. For information, see `MaxResults`.
+ */
+export const listFirewallConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFirewallConfigsRequest,
+  output: ListFirewallConfigsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group.
+ *
+ * A single call might return only a partial list of the associations. For information, see `MaxResults`.
+ */
+export const listFirewallRuleGroupAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListFirewallRuleGroupAssociationsRequest,
+    output: ListFirewallRuleGroupAssociationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves the configuration of the firewall behavior provided by DNS Firewall for a
+ * single VPC from Amazon Virtual Private Cloud (Amazon VPC).
+ */
+export const getFirewallConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFirewallConfigRequest,
+  output: GetFirewallConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the Resolver configurations that you have defined.
+ * Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
+ */
+export const listResolverConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResolverConfigsRequest,
+  output: ListResolverConfigsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
  */
@@ -2099,6 +2437,49 @@ export const createFirewallRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Updates settings for a specified Resolver rule. `ResolverRuleId` is required, and all other parameters are optional.
+ * If you don't specify a parameter, it retains its current value.
+ */
+export const updateResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResolverRuleRequest,
+  output: UpdateResolverRuleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs
+ * that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one `AssociateResolverQueryLogConfig`
+ * request for each VPC.
+ *
+ * The VPCs that you associate with a query logging configuration must be in the same Region as the configuration.
+ *
+ * To remove a VPC from a query logging configuration, see
+ * DisassociateResolverQueryLogConfig.
+ */
+export const associateResolverQueryLogConfig =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateResolverQueryLogConfigRequest,
+    output: AssociateResolverQueryLogConfigResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
  * Creates a Route 53 Resolver on an Outpost.
  */
 export const createOutpostResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(
@@ -2110,6 +2491,27 @@ export const createOutpostResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(
       InternalServiceErrorException,
       ResourceNotFoundException,
       ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
+ * Amazon Virtual Private Cloud.
+ */
+export const updateResolverConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateResolverConfigRequest,
+    output: UpdateResolverConfigResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServiceErrorException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceNotFoundException,
+      ResourceUnavailableException,
       ThrottlingException,
       ValidationException,
     ],
@@ -2186,134 +2588,6 @@ export const createResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes the specified domain list.
- */
-export const deleteFirewallDomainList = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFirewallDomainListRequest,
-    output: DeleteFirewallDomainListResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes the specified firewall rule.
- */
-export const deleteFirewallRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFirewallRuleRequest,
-  output: DeleteFirewallRuleResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified firewall rule group.
- */
-export const deleteFirewallRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFirewallRuleGroupRequest,
-    output: DeleteFirewallRuleGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a Resolver on the Outpost.
- */
-export const deleteOutpostResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOutpostResolverRequest,
-    output: DeleteOutpostResolverResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound
- * Resolver endpoint:
- *
- * - **Inbound**: DNS queries from your network are no longer routed
- * to the DNS service for the specified VPC.
- *
- * - **Outbound**: DNS queries from a VPC are no longer routed to your network.
- */
-export const deleteResolverEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResolverEndpointRequest,
-    output: DeleteResolverEndpointResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are
- * associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and
- * the other accounts have associated VPCs with the shared configuration.
- *
- * Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See
- * DisassociateResolverQueryLogConfig.
- *
- * If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing
- * the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs
- * that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically
- * disassociated from the configuration.
- */
-export const deleteResolverQueryLogConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteResolverQueryLogConfigRequest,
-    output: DeleteResolverQueryLogConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
- */
-export const disassociateFirewallRuleGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFirewallRuleGroupRequest,
-    output: DisassociateFirewallRuleGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
  * Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address,
  * submit one `DisassociateResolverEndpointIpAddress` request for each IP address.
  *
@@ -2334,319 +2608,45 @@ export const disassociateResolverEndpointIpAddress =
     ],
   }));
 /**
- * Retrieves the configuration of the firewall behavior provided by DNS Firewall for a
- * single VPC from Amazon Virtual Private Cloud (Amazon VPC).
+ * Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address,
+ * submit one `AssociateResolverEndpointIpAddress` request for each IP address.
+ *
+ * To remove an IP address from an endpoint, see
+ * DisassociateResolverEndpointIpAddress.
  */
-export const getFirewallConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFirewallConfigRequest,
-  output: GetFirewallConfigResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the
- * specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
- */
-export const getFirewallRuleGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetFirewallRuleGroupPolicyRequest,
-    output: GetFirewallRuleGroupPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
- * Amazon Virtual Private Cloud.
- */
-export const getResolverConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResolverConfigRequest,
-  output: GetResolverConfigResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets DNSSEC validation information for a specified resource.
- */
-export const getResolverDnssecConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResolverDnssecConfigRequest,
-    output: GetResolverDnssecConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Gets information about a query logging policy. A query logging policy specifies the Resolver query logging
- * operations and resources that you want to allow another Amazon Web Services account to be able to use.
- */
-export const getResolverQueryLogConfigPolicy =
+export const associateResolverEndpointIpAddress =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetResolverQueryLogConfigPolicyRequest,
-    output: GetResolverQueryLogConfigPolicyResponse,
+    input: AssociateResolverEndpointIpAddressRequest,
+    output: AssociateResolverEndpointIpAddressResponse,
     errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidRequestException,
-      UnknownResourceException,
-    ],
-  }));
-/**
- * Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
- *
- * Each domain specification in your domain list must satisfy the following
- * requirements:
- *
- * - It can optionally start with `*` (asterisk).
- *
- * - With the exception of the optional starting asterisk, it must only contain
- * the following characters: `A-Z`, `a-z`,
- * `0-9`, `-` (hyphen).
- *
- * - It must be from 1-255 characters in length.
- */
-export const importFirewallDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportFirewallDomainsRequest,
-    output: ImportFirewallDomainsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling ListFirewallDomains.
- *
- * A single call to this list operation might return only a partial list of the domain lists. For information, see `MaxResults`.
- */
-export const listFirewallDomainLists = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListFirewallDomainListsRequest,
-    output: ListFirewallDomainListsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves the minimal high-level information for the rule groups that you have defined.
- *
- * A single call might return only a partial list of the rule groups. For information, see `MaxResults`.
- */
-export const listFirewallRuleGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListFirewallRuleGroupsRequest,
-    output: ListFirewallRuleGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieves the Resolver configurations that you have defined.
- * Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
- */
-export const listResolverConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListResolverConfigsRequest,
-  output: ListResolverConfigsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    InvalidNextTokenException,
-    InvalidParameterException,
-    InvalidRequestException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
- */
-export const listResolverDnssecConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResolverDnssecConfigsRequest,
-    output: ListResolverDnssecConfigsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Gets the IP addresses for a specified Resolver endpoint.
- */
-export const listResolverEndpointIpAddresses =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListResolverEndpointIpAddressesRequest,
-    output: ListResolverEndpointIpAddressesResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
-/**
- * Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share,
- * and the operations that you want the account to be able to perform on the configuration.
- */
-export const putResolverQueryLogConfigPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutResolverQueryLogConfigPolicyRequest,
-    output: PutResolverQueryLogConfigPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidPolicyDocument,
-      InvalidRequestException,
-      UnknownResourceException,
-    ],
-  }));
-/**
- * Adds one or more tags to a specified resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidParameterException,
-    InvalidRequestException,
-    InvalidTagException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * You can use `UpdateOutpostResolver` to update the instance count, type, or name of a Resolver on an Outpost.
- */
-export const updateOutpostResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateOutpostResolverRequest,
-    output: UpdateOutpostResolverResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
- * Amazon Virtual Private Cloud.
- */
-export const updateResolverConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResolverConfigRequest,
-    output: UpdateResolverConfigResponse,
-    errors: [
-      AccessDeniedException,
       InternalServiceErrorException,
       InvalidParameterException,
       InvalidRequestException,
       LimitExceededException,
+      ResourceExistsException,
+      ResourceNotFoundException,
+      ThrottlingException,
+    ],
+  }));
+/**
+ * Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries
+ * for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the
+ * IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see
+ * CreateResolverRule.
+ */
+export const associateResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateResolverRuleRequest,
+    output: AssociateResolverRuleResponse,
+    errors: [
+      InternalServiceErrorException,
+      InvalidParameterException,
+      InvalidRequestException,
+      LimitExceededException,
+      ResourceExistsException,
       ResourceNotFoundException,
       ResourceUnavailableException,
       ThrottlingException,
-      ValidationException,
     ],
   }),
 );
-/**
- * Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint.
- * You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
- */
-export const updateResolverEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResolverEndpointRequest,
-    output: UpdateResolverEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
-/**
- * Updates settings for a specified Resolver rule. `ResolverRuleId` is required, and all other parameters are optional.
- * If you don't specify a parameter, it retains its current value.
- */
-export const updateResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateResolverRuleRequest,
-  output: UpdateResolverRuleResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    InvalidParameterException,
-    InvalidRequestException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you
- * associated the Resolver rule with. For more information, see
- * DisassociateResolverRule.
- */
-export const deleteResolverRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteResolverRuleRequest,
-  output: DeleteResolverRuleResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidParameterException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));

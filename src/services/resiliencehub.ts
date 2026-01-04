@@ -2245,189 +2245,42 @@ export class ListAppComponentRecommendationsResponse extends S.Class<ListAppComp
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    message: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.optional(S.String) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  {
+    message: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String), retryAfterSeconds: S.optional(S.Number) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Describes the Resilience Hub application version.
- */
-export const describeAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAppVersionRequest,
-  output: DescribeAppVersionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Describes an Application Component in the Resilience Hub application.
- */
-export const describeAppVersionAppComponent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAppVersionAppComponentRequest,
-    output: DescribeAppVersionAppComponentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Describes a resource of the Resilience Hub application.
- *
- * This API accepts only one of the following parameters to describe the resource:
- *
- * - `resourceName`
- *
- * - `logicalResourceId`
- *
- * - `physicalResourceId` (Along with `physicalResourceId`, you can
- * also provide `awsAccountId`, and `awsRegion`)
- */
-export const describeAppVersionResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAppVersionResourceRequest,
-    output: DescribeAppVersionResourceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Returns the resolution status for the specified resolution identifier for an application
- * version. If `resolutionId` is not specified, the current resolution status is
- * returned.
- */
-export const describeAppVersionResourcesResolutionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAppVersionResourcesResolutionStatusRequest,
-    output: DescribeAppVersionResourcesResolutionStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Describes details about an Resilience Hub application.
- */
-export const describeAppVersionTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAppVersionTemplateRequest,
-    output: DescribeAppVersionTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Describes the resource grouping recommendation tasks run by Resilience Hub for your application.
- */
-export const describeResourceGroupingRecommendationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeResourceGroupingRecommendationTaskRequest,
-    output: DescribeResourceGroupingRecommendationTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists all the Application Components in the Resilience Hub application.
- */
-export const listAppVersionAppComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAppVersionAppComponentsRequest,
-    output: ListAppVersionAppComponentsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists how the resources in an application version are mapped/sourced from. Mappings can be
- * physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry
- * app.
- */
-export const listAppVersionResourceMappings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAppVersionResourceMappingsRequest,
-    output: ListAppVersionResourceMappingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists all the resources in an Resilience Hub application.
- */
-export const listAppVersionResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAppVersionResourcesRequest,
-    output: ListAppVersionResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
 /**
  * Lists the recommendation templates for the Resilience Hub applications.
  */
@@ -2443,177 +2296,6 @@ export const listRecommendationTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Lists the resiliency policies for the Resilience Hub applications.
- */
-export const listResiliencyPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResiliencyPoliciesRequest,
-    output: ListResiliencyPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Lists the suggested resiliency policies for the Resilience Hub
- * applications.
- */
-export const listSuggestedResiliencyPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSuggestedResiliencyPoliciesRequest,
-    output: ListSuggestedResiliencyPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Lists the tags for your resources in your Resilience Hub applications.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Publishes a new version of a specific Resilience Hub application.
- */
-export const publishAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PublishAppVersionRequest,
-  output: PublishAppVersionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds or updates the app template for an Resilience Hub application draft
- * version.
- */
-export const putDraftAppVersionTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutDraftAppVersionTemplateRequest,
-    output: PutDraftAppVersionTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Removes resource mappings from a draft application version.
- */
-export const removeDraftAppVersionResourceMappings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveDraftAppVersionResourceMappingsRequest,
-    output: RemoveDraftAppVersionResourceMappingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Resolves the resources for an application version.
- */
-export const resolveAppVersionResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResolveAppVersionResourcesRequest,
-    output: ResolveAppVersionResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Initiates the export task of metrics.
- */
-export const startMetricsExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartMetricsExportRequest,
-  output: StartMetricsExportResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts grouping recommendation task.
- */
-export const startResourceGroupingRecommendationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartResourceGroupingRecommendationTaskRequest,
-    output: StartResourceGroupingRecommendationTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Applies one or more tags to a resource.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes one or more tags from a resource.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Updates an application.
  */
@@ -2721,6 +2403,213 @@ export const updateResiliencyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deletes an Resilience Hub application assessment. This is a destructive action
+ * that can't be undone.
+ */
+export const deleteAppAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppAssessmentRequest,
+  output: DeleteAppAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a resiliency policy. This is a destructive action that can't be undone.
+ */
+export const deleteResiliencyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResiliencyPolicyRequest,
+    output: DeleteResiliencyPolicyResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Describes an Application Component in the Resilience Hub application.
+ */
+export const describeAppVersionAppComponent =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAppVersionAppComponentRequest,
+    output: DescribeAppVersionAppComponentResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Describes a resource of the Resilience Hub application.
+ *
+ * This API accepts only one of the following parameters to describe the resource:
+ *
+ * - `resourceName`
+ *
+ * - `logicalResourceId`
+ *
+ * - `physicalResourceId` (Along with `physicalResourceId`, you can
+ * also provide `awsAccountId`, and `awsRegion`)
+ */
+export const describeAppVersionResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAppVersionResourceRequest,
+    output: DescribeAppVersionResourceResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all the Application Components in the Resilience Hub application.
+ */
+export const listAppVersionAppComponents = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAppVersionAppComponentsRequest,
+    output: ListAppVersionAppComponentsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists all the resources in an Resilience Hub application.
+ */
+export const listAppVersionResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListAppVersionResourcesRequest,
+    output: ListAppVersionResourcesResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Publishes a new version of a specific Resilience Hub application.
+ */
+export const publishAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishAppVersionRequest,
+  output: PublishAppVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds or updates the app template for an Resilience Hub application draft
+ * version.
+ */
+export const putDraftAppVersionTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutDraftAppVersionTemplateRequest,
+    output: PutDraftAppVersionTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Removes resource mappings from a draft application version.
+ */
+export const removeDraftAppVersionResourceMappings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: RemoveDraftAppVersionResourceMappingsRequest,
+    output: RemoveDraftAppVersionResourceMappingsResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Resolves the resources for an application version.
+ */
+export const resolveAppVersionResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ResolveAppVersionResourcesRequest,
+    output: ResolveAppVersionResourcesResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a new application assessment for an application.
+ */
+export const startAppAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAppAssessmentRequest,
+  output: StartAppAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts grouping recommendation task.
+ */
+export const startResourceGroupingRecommendationTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartResourceGroupingRecommendationTaskRequest,
+    output: StartResourceGroupingRecommendationTaskResponse,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
  * Creates an Resilience Hub application. An Resilience Hub application is a
  * collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an
  * application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate
@@ -2815,14 +2704,13 @@ export const createRecommendationTemplate =
     ],
   }));
 /**
- * Deletes an Resilience Hub application. This is a destructive action that can't be
- * undone.
+ * Removes one or more tags from a resource.
  */
-export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAppRequest,
-  output: DeleteAppResponse,
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
-    ConflictException,
+    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -2830,14 +2718,154 @@ export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Deletes an Resilience Hub application assessment. This is a destructive action
- * that can't be undone.
+ * Deletes a recommendation template. This is a destructive action that can't be
+ * undone.
  */
-export const deleteAppAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAppAssessmentRequest,
-  output: DeleteAppAssessmentResponse,
+export const deleteRecommendationTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteRecommendationTemplateRequest,
+    output: DeleteRecommendationTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Describes the Resilience Hub application version.
+ */
+export const describeAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppVersionRequest,
+  output: DescribeAppVersionResponse,
   errors: [
     AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the resolution status for the specified resolution identifier for an application
+ * version. If `resolutionId` is not specified, the current resolution status is
+ * returned.
+ */
+export const describeAppVersionResourcesResolutionStatus =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeAppVersionResourcesResolutionStatusRequest,
+    output: DescribeAppVersionResourcesResolutionStatusResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Describes details about an Resilience Hub application.
+ */
+export const describeAppVersionTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAppVersionTemplateRequest,
+    output: DescribeAppVersionTemplateResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Describes the resource grouping recommendation tasks run by Resilience Hub for your application.
+ */
+export const describeResourceGroupingRecommendationTask =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeResourceGroupingRecommendationTaskRequest,
+    output: DescribeResourceGroupingRecommendationTaskResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists how the resources in an application version are mapped/sourced from. Mappings can be
+ * physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry
+ * app.
+ */
+export const listAppVersionResourceMappings =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAppVersionResourceMappingsRequest,
+    output: ListAppVersionResourceMappingsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the resiliency policies for the Resilience Hub applications.
+ */
+export const listResiliencyPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListResiliencyPoliciesRequest,
+    output: ListResiliencyPoliciesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Lists the suggested resiliency policies for the Resilience Hub
+ * applications.
+ */
+export const listSuggestedResiliencyPolicies =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListSuggestedResiliencyPoliciesRequest,
+    output: ListSuggestedResiliencyPoliciesResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists the tags for your resources in your Resilience Hub applications.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an Resilience Hub application. This is a destructive action that can't be
+ * undone.
+ */
+export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppRequest,
+  output: DeleteAppResponse,
+  errors: [
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
@@ -2902,39 +2930,6 @@ export const deleteAppVersionResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     input: DeleteAppVersionResourceRequest,
     output: DeleteAppVersionResourceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes a recommendation template. This is a destructive action that can't be
- * undone.
- */
-export const deleteRecommendationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRecommendationTemplateRequest,
-    output: DeleteRecommendationTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes a resiliency policy. This is a destructive action that can't be undone.
- */
-export const deleteResiliencyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResiliencyPolicyRequest,
-    output: DeleteResiliencyPolicyResponse,
     errors: [
       AccessDeniedException,
       ConflictException,
@@ -3034,21 +3029,6 @@ export const importResourcesToDraftAppVersion =
     ],
   }));
 /**
- * List of compliance drifts that were detected while running an
- * assessment.
- */
-export const listAppAssessmentComplianceDrifts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAppAssessmentComplianceDriftsRequest,
-    output: ListAppAssessmentComplianceDriftsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
  * Lists the assessments for an Resilience Hub application. You can use request
  * parameters to refine the results for the response object.
  */
@@ -3096,26 +3076,6 @@ export const listAppInputSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Lists your Resilience Hub applications.
- *
- * You can filter applications using only one filter at a time or without using any filter.
- * If you try to filter applications using multiple filters, you will get the following
- * error:
- *
- * An error occurred (ValidationException) when calling the ListApps operation: Only
- * one filter is supported for this operation.
- */
-export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListAppsRequest,
-  output: ListAppsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists the different versions for the Resilience Hub applications.
  */
 export const listAppVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -3125,19 +3085,6 @@ export const listAppVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the metrics that can be exported.
- */
-export const listMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMetricsRequest,
-  output: ListMetricsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -3209,22 +3156,6 @@ export const rejectResourceGroupingRecommendations =
     ],
   }));
 /**
- * Creates a new application assessment for an application.
- */
-export const startAppAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartAppAssessmentRequest,
-  output: StartAppAssessmentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Accepts the resource grouping recommendations suggested by Resilience Hub for your application.
  */
 export const acceptResourceGroupingRecommendations =
@@ -3262,6 +3193,21 @@ export const addDraftAppVersionResourceMappings =
     ],
   }));
 /**
+ * Lists the resource grouping recommendations suggested by Resilience Hub for your application.
+ */
+export const listResourceGroupingRecommendations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListResourceGroupingRecommendationsRequest,
+    output: ListResourceGroupingRecommendationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
  * Creates a resiliency policy for an application.
  *
  * Resilience Hub allows you to provide a value of zero for `rtoInSecs`
@@ -3287,6 +3233,54 @@ export const createResiliencyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * List of compliance drifts that were detected while running an
+ * assessment.
+ */
+export const listAppAssessmentComplianceDrifts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListAppAssessmentComplianceDriftsRequest,
+    output: ListAppAssessmentComplianceDriftsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Lists your Resilience Hub applications.
+ *
+ * You can filter applications using only one filter at a time or without using any filter.
+ * If you try to filter applications using multiple filters, you will get the following
+ * error:
+ *
+ * An error occurred (ValidationException) when calling the ListApps operation: Only
+ * one filter is supported for this operation.
+ */
+export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAppsRequest,
+  output: ListAppsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the metrics that can be exported.
+ */
+export const listMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMetricsRequest,
+  output: ListMetricsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * List of resource drifts that were detected while running an
  * assessment.
  */
@@ -3302,20 +3296,34 @@ export const listAppAssessmentResourceDrifts =
     ],
   }));
 /**
- * Lists the resource grouping recommendations suggested by Resilience Hub for your application.
+ * Applies one or more tags to a resource.
  */
-export const listResourceGroupingRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListResourceGroupingRecommendationsRequest,
-    output: ListResourceGroupingRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Initiates the export task of metrics.
+ */
+export const startMetricsExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMetricsExportRequest,
+  output: StartMetricsExportResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables you to include or exclude one or more operational recommendations.
  */

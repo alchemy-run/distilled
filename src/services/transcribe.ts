@@ -1678,766 +1678,26 @@ export class GetCallAnalyticsJobResponse extends S.Class<GetCallAnalyticsJobResp
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
-  {},
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {},
-) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class NotFoundException extends S.TaggedError<NotFoundException>()(
+  "NotFoundException",
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Deletes a Medical Scribe job. To use this operation, specify the name of the
- * job you want to delete using `MedicalScribeJobName`. Job names are
- * case sensitive.
- */
-export const deleteMedicalScribeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMedicalScribeJobRequest,
-    output: DeleteMedicalScribeJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Deletes a medical transcription job. To use this operation, specify the name of the
- * job you want to delete using `MedicalTranscriptionJobName`. Job names are
- * case sensitive.
- */
-export const deleteMedicalTranscriptionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMedicalTranscriptionJobRequest,
-    output: DeleteMedicalTranscriptionJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }));
-/**
- * Deletes a transcription job. To use this operation, specify the name of the job you
- * want to delete using `TranscriptionJobName`. Job names are case
- * sensitive.
- */
-export const deleteTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTranscriptionJobRequest,
-    output: DeleteTranscriptionJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Deletes a custom vocabulary. To use this operation, specify the name of the custom
- * vocabulary you want to delete using `VocabularyName`. Custom vocabulary names
- * are case sensitive.
- */
-export const deleteVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVocabularyRequest,
-  output: DeleteVocabularyResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Deletes a custom vocabulary filter. To use this operation, specify the name of the
- * custom vocabulary filter you want to delete using `VocabularyFilterName`.
- * Custom vocabulary filter names are case sensitive.
- */
-export const deleteVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVocabularyFilterRequest,
-    output: DeleteVocabularyFilterResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Removes the specified tags from the specified Amazon Transcribe resource.
- *
- * If you include `UntagResource` in your request, you must also include
- * `ResourceArn` and `TagKeys`.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Creates a new custom medical vocabulary.
- *
- * Before creating a new custom medical vocabulary, you must first upload a text file
- * that contains your vocabulary table into an Amazon S3 bucket.
- * Note that this differs from , where you can
- * include a list of terms within your request using the `Phrases` flag;
- * `CreateMedicalVocabulary` does not support the `Phrases`
- * flag and only accepts vocabularies in table format.
- *
- * Each language has a character set that contains all allowed characters for that
- * specific language. If you use unsupported characters, your custom vocabulary request
- * fails. Refer to Character Sets for Custom Vocabularies to get the character set for your
- * language.
- *
- * For more information, see Custom
- * vocabularies.
- */
-export const createMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMedicalVocabularyRequest,
-    output: CreateMedicalVocabularyResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Creates a new custom vocabulary.
- *
- * When creating a new custom vocabulary, you can either upload a text file that contains
- * your new entries, phrases, and terms into an Amazon S3 bucket and include the
- * URI in your request. Or you can include a list of terms directly in your request using
- * the `Phrases` flag.
- *
- * Each language has a character set that contains all allowed characters for that
- * specific language. If you use unsupported characters, your custom vocabulary request
- * fails. Refer to Character Sets for Custom Vocabularies to get the character set for your
- * language.
- *
- * For more information, see Custom
- * vocabularies.
- */
-export const createVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVocabularyRequest,
-  output: CreateVocabularyResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
-}));
-/**
- * Creates a new custom vocabulary filter.
- *
- * You can use custom vocabulary filters to mask, delete, or flag specific words from
- * your transcript. Custom vocabulary filters are commonly used to mask profanity in
- * transcripts.
- *
- * Each language has a character set that contains all allowed characters for that
- * specific language. If you use unsupported characters, your custom vocabulary filter
- * request fails. Refer to Character Sets for Custom
- * Vocabularies to get the character set for your language.
- *
- * For more information, see Vocabulary
- * filtering.
- */
-export const createVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVocabularyFilterRequest,
-    output: CreateVocabularyFilterResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Deletes a Call Analytics category. To use this operation, specify the name of the
- * category you want to delete using `CategoryName`. Category names are case
- * sensitive.
- */
-export const deleteCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCallAnalyticsCategoryRequest,
-    output: DeleteCallAnalyticsCategoryResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Deletes a Call Analytics job. To use this operation, specify the name of the job you
- * want to delete using `CallAnalyticsJobName`. Job names are case
- * sensitive.
- */
-export const deleteCallAnalyticsJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCallAnalyticsJobRequest,
-    output: DeleteCallAnalyticsJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Deletes a custom language model. To use this operation, specify the name of the
- * language model you want to delete using `ModelName`. custom language model
- * names are case sensitive.
- */
-export const deleteLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteLanguageModelRequest,
-  output: DeleteLanguageModelResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
-}));
-/**
- * Deletes a custom medical vocabulary. To use this operation, specify the name of the
- * custom vocabulary you want to delete using `VocabularyName`. Custom
- * vocabulary names are case sensitive.
- */
-export const deleteMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMedicalVocabularyRequest,
-    output: DeleteMedicalVocabularyResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Provides information about the specified custom medical vocabulary.
- *
- * To view the status of the specified custom medical vocabulary, check the
- * `VocabularyState` field. If the status is `READY`, your custom
- * vocabulary is available to use. If the status is `FAILED`,
- * `FailureReason` provides details on why your vocabulary failed.
- *
- * To get a list of your custom medical vocabularies, use the operation.
- */
-export const getMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMedicalVocabularyRequest,
-    output: GetMedicalVocabularyResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Provides information about the specified custom vocabulary.
- *
- * To view the status of the specified custom vocabulary, check the
- * `VocabularyState` field. If the status is `READY`, your custom
- * vocabulary is available to use. If the status is `FAILED`,
- * `FailureReason` provides details on why your custom vocabulary
- * failed.
- *
- * To get a list of your custom vocabularies, use the operation.
- */
-export const getVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVocabularyRequest,
-  output: GetVocabularyResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Provides information about the specified custom vocabulary filter.
- *
- * To get a list of your custom vocabulary filters, use the operation.
- */
-export const getVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVocabularyFilterRequest,
-  output: GetVocabularyFilterResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Provides a list of Call Analytics categories, including all rules that make up each
- * category.
- *
- * To get detailed information about a specific Call Analytics category, use the operation.
- */
-export const listCallAnalyticsCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCallAnalyticsCategoriesRequest,
-    output: ListCallAnalyticsCategoriesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Provides a list of custom language models that match the specified criteria. If no
- * criteria are specified, all custom language models are returned.
- *
- * To get detailed information about a specific custom language model, use the operation.
- */
-export const listLanguageModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLanguageModelsRequest,
-  output: ListLanguageModelsResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
-}));
-/**
- * Lists all tags associated with the specified transcription job, vocabulary, model, or
- * resource.
- *
- * To learn more about using tags with Amazon Transcribe, refer to Tagging
- * resources.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Provides a list of custom vocabularies that match the specified criteria. If no
- * criteria are specified, all custom vocabularies are returned.
- *
- * To get detailed information about a specific custom vocabulary, use the operation.
- */
-export const listVocabularies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListVocabulariesRequest,
-  output: ListVocabulariesResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
-}));
-/**
- * Adds one or more custom tags, each in the form of a key:value pair, to the specified
- * resource.
- *
- * To learn more about using tags with Amazon Transcribe, refer to Tagging
- * resources.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Updates the specified Call Analytics category with new rules. Note that the
- * `UpdateCallAnalyticsCategory` operation overwrites all existing rules
- * contained in the specified category. You cannot append additional rules onto an existing
- * category.
- *
- * To create a new category, see .
- */
-export const updateCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCallAnalyticsCategoryRequest,
-    output: UpdateCallAnalyticsCategoryResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Updates an existing custom medical vocabulary with new values. This operation
- * overwrites all existing information with your new values; you cannot append new terms
- * onto an existing custom vocabulary.
- */
-export const updateMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMedicalVocabularyRequest,
-    output: UpdateMedicalVocabularyResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Updates an existing custom vocabulary with new values. This operation overwrites all
- * existing information with your new values; you cannot append new terms onto an existing
- * custom vocabulary.
- */
-export const updateVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateVocabularyRequest,
-  output: UpdateVocabularyResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Updates an existing custom vocabulary filter with a new list of words. The new list
- * you provide overwrites all previous entries; you cannot append new terms onto an
- * existing custom vocabulary filter.
- */
-export const updateVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateVocabularyFilterRequest,
-    output: UpdateVocabularyFilterResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Creates a new custom language model.
- *
- * When creating a new custom language model, you must specify:
- *
- * - If you want a Wideband (audio sample rates over 16,000 Hz) or Narrowband
- * (audio sample rates under 16,000 Hz) base model
- *
- * - The location of your training and tuning files (this must be an Amazon S3 URI)
- *
- * - The language of your model
- *
- * - A unique name for your model
- */
-export const createLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLanguageModelRequest,
-  output: CreateLanguageModelResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
-}));
-/**
- * Provides information about the specified custom language model.
- *
- * This operation also shows if the base language model that you used to create your
- * custom language model has been updated. If Amazon Transcribe has updated the base
- * model, you can create a new custom language model using the updated base model.
- *
- * If you tried to create a new custom language model and the request wasn't successful,
- * you can use `DescribeLanguageModel` to help identify the reason for this
- * failure.
- */
-export const describeLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLanguageModelRequest,
-    output: DescribeLanguageModelResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Provides information about the specified Call Analytics category.
- *
- * To get a list of your Call Analytics categories, use the operation.
- */
-export const getCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCallAnalyticsCategoryRequest,
-    output: GetCallAnalyticsCategoryResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Provides a list of Call Analytics jobs that match the specified criteria. If no
- * criteria are specified, all Call Analytics jobs are returned.
- *
- * To get detailed information about a specific Call Analytics job, use the operation.
- */
-export const listCallAnalyticsJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCallAnalyticsJobsRequest,
-    output: ListCallAnalyticsJobsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Provides a list of Medical Scribe jobs that match the specified criteria. If no
- * criteria are specified, all Medical Scribe jobs are returned.
- *
- * To get detailed information about a specific Medical Scribe job, use the operation.
- */
-export const listMedicalScribeJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMedicalScribeJobsRequest,
-    output: ListMedicalScribeJobsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Provides a list of medical transcription jobs that match the specified criteria. If no
- * criteria are specified, all medical transcription jobs are returned.
- *
- * To get detailed information about a specific medical transcription job, use the operation.
- */
-export const listMedicalTranscriptionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListMedicalTranscriptionJobsRequest,
-    output: ListMedicalTranscriptionJobsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }));
-/**
- * Provides a list of custom medical vocabularies that match the specified criteria. If
- * no criteria are specified, all custom medical vocabularies are returned.
- *
- * To get detailed information about a specific custom medical vocabulary, use the operation.
- */
-export const listMedicalVocabularies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMedicalVocabulariesRequest,
-    output: ListMedicalVocabulariesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Provides a list of transcription jobs that match the specified criteria. If no
- * criteria are specified, all transcription jobs are returned.
- *
- * To get detailed information about a specific transcription job, use the operation.
- */
-export const listTranscriptionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTranscriptionJobsRequest,
-    output: ListTranscriptionJobsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Provides a list of custom vocabulary filters that match the specified criteria. If no
- * criteria are specified, all custom vocabularies are returned.
- *
- * To get detailed information about a specific custom vocabulary filter, use the operation.
- */
-export const listVocabularyFilters = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVocabularyFiltersRequest,
-    output: ListVocabularyFiltersResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
-/**
- * Transcribes the audio from a medical dictation or conversation and applies any
- * additional Request Parameters you choose to include in your request.
- *
- * In addition to many standard transcription features, Amazon Transcribe Medical
- * provides you with a robust medical vocabulary and, optionally, content identification,
- * which adds flags to personal health information (PHI). To learn more about these
- * features, refer to How Amazon Transcribe Medical
- * works.
- *
- * To make a `StartMedicalTranscriptionJob` request, you must first upload
- * your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location
- * of the file using the `Media` parameter.
- *
- * You must include the following parameters in your
- * `StartMedicalTranscriptionJob` request:
- *
- * - `region`: The Amazon Web Services Region where you are making your
- * request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe endpoints and
- * quotas.
- *
- * - `MedicalTranscriptionJobName`: A custom name you create for your
- * transcription job that is unique within your Amazon Web Services account.
- *
- * - `Media` (`MediaFileUri`): The Amazon S3 location
- * of your media file.
- *
- * - `LanguageCode`: This must be `en-US`.
- *
- * - `OutputBucketName`: The Amazon S3 bucket where you want
- * your transcript stored. If you want your output stored in a sub-folder of this
- * bucket, you must also include `OutputKey`.
- *
- * - `Specialty`: This must be `PRIMARYCARE`.
- *
- * - `Type`: Choose whether your audio is a conversation or a
- * dictation.
- */
-export const startMedicalTranscriptionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMedicalTranscriptionJobRequest,
-    output: StartMedicalTranscriptionJobResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }));
-/**
- * Provides information about the specified Medical Scribe job.
- *
- * To view the status of the specified medical transcription job, check the
- * `MedicalScribeJobStatus` field. If the status is `COMPLETED`,
- * the job is finished. You can find the results at the location specified in
- * `MedicalScribeOutput`.
- * If the status is `FAILED`, `FailureReason` provides details on why your Medical Scribe job
- * failed.
- *
- * To get a list of your Medical Scribe jobs, use the operation.
- */
-export const getMedicalScribeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMedicalScribeJobRequest,
-  output: GetMedicalScribeJobResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Provides information about the specified medical transcription job.
- *
- * To view the status of the specified medical transcription job, check the
- * `TranscriptionJobStatus` field. If the status is `COMPLETED`,
- * the job is finished. You can find the results at the location specified in
- * `TranscriptFileUri`. If the status is `FAILED`,
- * `FailureReason` provides details on why your transcription job
- * failed.
- *
- * To get a list of your medical transcription jobs, use the operation.
- */
-export const getMedicalTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMedicalTranscriptionJobRequest,
-    output: GetMedicalTranscriptionJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
-/**
- * Provides information about the specified transcription job.
- *
- * To view the status of the specified transcription job, check the
- * `TranscriptionJobStatus` field. If the status is `COMPLETED`,
- * the job is finished. You can find the results at the location specified in
- * `TranscriptFileUri`. If the status is `FAILED`,
- * `FailureReason` provides details on why your transcription job
- * failed.
- *
- * If you enabled content redaction, the redacted transcript can be found at the location
- * specified in `RedactedTranscriptFileUri`.
- *
- * To get a list of your transcription jobs, use the operation.
- */
-export const getTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTranscriptionJobRequest,
-  output: GetTranscriptionJobResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
 /**
  * Transcribes the audio from a customer service call and applies any additional Request
  * Parameters you choose to include in your request.
@@ -2584,6 +1844,387 @@ export const startTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Provides a list of Call Analytics jobs that match the specified criteria. If no
+ * criteria are specified, all Call Analytics jobs are returned.
+ *
+ * To get detailed information about a specific Call Analytics job, use the operation.
+ */
+export const listCallAnalyticsJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListCallAnalyticsJobsRequest,
+    output: ListCallAnalyticsJobsResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Provides a list of Medical Scribe jobs that match the specified criteria. If no
+ * criteria are specified, all Medical Scribe jobs are returned.
+ *
+ * To get detailed information about a specific Medical Scribe job, use the operation.
+ */
+export const listMedicalScribeJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMedicalScribeJobsRequest,
+    output: ListMedicalScribeJobsResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Provides a list of medical transcription jobs that match the specified criteria. If no
+ * criteria are specified, all medical transcription jobs are returned.
+ *
+ * To get detailed information about a specific medical transcription job, use the operation.
+ */
+export const listMedicalTranscriptionJobs =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListMedicalTranscriptionJobsRequest,
+    output: ListMedicalTranscriptionJobsResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }));
+/**
+ * Provides a list of custom medical vocabularies that match the specified criteria. If
+ * no criteria are specified, all custom medical vocabularies are returned.
+ *
+ * To get detailed information about a specific custom medical vocabulary, use the operation.
+ */
+export const listMedicalVocabularies = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListMedicalVocabulariesRequest,
+    output: ListMedicalVocabulariesResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Provides a list of transcription jobs that match the specified criteria. If no
+ * criteria are specified, all transcription jobs are returned.
+ *
+ * To get detailed information about a specific transcription job, use the operation.
+ */
+export const listTranscriptionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListTranscriptionJobsRequest,
+    output: ListTranscriptionJobsResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Provides a list of custom vocabulary filters that match the specified criteria. If no
+ * criteria are specified, all custom vocabularies are returned.
+ *
+ * To get detailed information about a specific custom vocabulary filter, use the operation.
+ */
+export const listVocabularyFilters = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListVocabularyFiltersRequest,
+    output: ListVocabularyFiltersResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Provides a list of Call Analytics categories, including all rules that make up each
+ * category.
+ *
+ * To get detailed information about a specific Call Analytics category, use the operation.
+ */
+export const listCallAnalyticsCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: ListCallAnalyticsCategoriesRequest,
+    output: ListCallAnalyticsCategoriesResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Provides a list of custom language models that match the specified criteria. If no
+ * criteria are specified, all custom language models are returned.
+ *
+ * To get detailed information about a specific custom language model, use the operation.
+ */
+export const listLanguageModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLanguageModelsRequest,
+  output: ListLanguageModelsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
+/**
+ * Provides a list of custom vocabularies that match the specified criteria. If no
+ * criteria are specified, all custom vocabularies are returned.
+ *
+ * To get detailed information about a specific custom vocabulary, use the operation.
+ */
+export const listVocabularies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVocabulariesRequest,
+  output: ListVocabulariesResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
+/**
+ * Deletes a Call Analytics job. To use this operation, specify the name of the job you
+ * want to delete using `CallAnalyticsJobName`. Job names are case
+ * sensitive.
+ */
+export const deleteCallAnalyticsJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCallAnalyticsJobRequest,
+    output: DeleteCallAnalyticsJobResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Deletes a custom language model. To use this operation, specify the name of the
+ * language model you want to delete using `ModelName`. custom language model
+ * names are case sensitive.
+ */
+export const deleteLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLanguageModelRequest,
+  output: DeleteLanguageModelResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
+/**
+ * Deletes a Medical Scribe job. To use this operation, specify the name of the
+ * job you want to delete using `MedicalScribeJobName`. Job names are
+ * case sensitive.
+ */
+export const deleteMedicalScribeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMedicalScribeJobRequest,
+    output: DeleteMedicalScribeJobResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Deletes a medical transcription job. To use this operation, specify the name of the
+ * job you want to delete using `MedicalTranscriptionJobName`. Job names are
+ * case sensitive.
+ */
+export const deleteMedicalTranscriptionJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteMedicalTranscriptionJobRequest,
+    output: DeleteMedicalTranscriptionJobResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }));
+/**
+ * Deletes a transcription job. To use this operation, specify the name of the job you
+ * want to delete using `TranscriptionJobName`. Job names are case
+ * sensitive.
+ */
+export const deleteTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteTranscriptionJobRequest,
+    output: DeleteTranscriptionJobResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a new custom medical vocabulary.
+ *
+ * Before creating a new custom medical vocabulary, you must first upload a text file
+ * that contains your vocabulary table into an Amazon S3 bucket.
+ * Note that this differs from , where you can
+ * include a list of terms within your request using the `Phrases` flag;
+ * `CreateMedicalVocabulary` does not support the `Phrases`
+ * flag and only accepts vocabularies in table format.
+ *
+ * Each language has a character set that contains all allowed characters for that
+ * specific language. If you use unsupported characters, your custom vocabulary request
+ * fails. Refer to Character Sets for Custom Vocabularies to get the character set for your
+ * language.
+ *
+ * For more information, see Custom
+ * vocabularies.
+ */
+export const createMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateMedicalVocabularyRequest,
+    output: CreateMedicalVocabularyResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a new custom vocabulary.
+ *
+ * When creating a new custom vocabulary, you can either upload a text file that contains
+ * your new entries, phrases, and terms into an Amazon S3 bucket and include the
+ * URI in your request. Or you can include a list of terms directly in your request using
+ * the `Phrases` flag.
+ *
+ * Each language has a character set that contains all allowed characters for that
+ * specific language. If you use unsupported characters, your custom vocabulary request
+ * fails. Refer to Character Sets for Custom Vocabularies to get the character set for your
+ * language.
+ *
+ * For more information, see Custom
+ * vocabularies.
+ */
+export const createVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVocabularyRequest,
+  output: CreateVocabularyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
+/**
+ * Creates a new custom vocabulary filter.
+ *
+ * You can use custom vocabulary filters to mask, delete, or flag specific words from
+ * your transcript. Custom vocabulary filters are commonly used to mask profanity in
+ * transcripts.
+ *
+ * Each language has a character set that contains all allowed characters for that
+ * specific language. If you use unsupported characters, your custom vocabulary filter
+ * request fails. Refer to Character Sets for Custom
+ * Vocabularies to get the character set for your language.
+ *
+ * For more information, see Vocabulary
+ * filtering.
+ */
+export const createVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateVocabularyFilterRequest,
+    output: CreateVocabularyFilterResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }),
+);
+/**
+ * Creates a new custom language model.
+ *
+ * When creating a new custom language model, you must specify:
+ *
+ * - If you want a Wideband (audio sample rates over 16,000 Hz) or Narrowband
+ * (audio sample rates under 16,000 Hz) base model
+ *
+ * - The location of your training and tuning files (this must be an Amazon S3 URI)
+ *
+ * - The language of your model
+ *
+ * - A unique name for your model
+ */
+export const createLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLanguageModelRequest,
+  output: CreateLanguageModelResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
+/**
+ * Transcribes the audio from a medical dictation or conversation and applies any
+ * additional Request Parameters you choose to include in your request.
+ *
+ * In addition to many standard transcription features, Amazon Transcribe Medical
+ * provides you with a robust medical vocabulary and, optionally, content identification,
+ * which adds flags to personal health information (PHI). To learn more about these
+ * features, refer to How Amazon Transcribe Medical
+ * works.
+ *
+ * To make a `StartMedicalTranscriptionJob` request, you must first upload
+ * your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location
+ * of the file using the `Media` parameter.
+ *
+ * You must include the following parameters in your
+ * `StartMedicalTranscriptionJob` request:
+ *
+ * - `region`: The Amazon Web Services Region where you are making your
+ * request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe endpoints and
+ * quotas.
+ *
+ * - `MedicalTranscriptionJobName`: A custom name you create for your
+ * transcription job that is unique within your Amazon Web Services account.
+ *
+ * - `Media` (`MediaFileUri`): The Amazon S3 location
+ * of your media file.
+ *
+ * - `LanguageCode`: This must be `en-US`.
+ *
+ * - `OutputBucketName`: The Amazon S3 bucket where you want
+ * your transcript stored. If you want your output stored in a sub-folder of this
+ * bucket, you must also include `OutputKey`.
+ *
+ * - `Specialty`: This must be `PRIMARYCARE`.
+ *
+ * - `Type`: Choose whether your audio is a conversation or a
+ * dictation.
+ */
+export const startMedicalTranscriptionJob =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: StartMedicalTranscriptionJobRequest,
+    output: StartMedicalTranscriptionJobResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      InternalFailureException,
+      LimitExceededException,
+    ],
+  }));
+/**
  * Creates a new Call Analytics category.
  *
  * All categories are automatically applied to your Call Analytics transcriptions. Note that in
@@ -2619,6 +2260,23 @@ export const createCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
+ * Deletes a Call Analytics category. To use this operation, specify the name of the
+ * category you want to delete using `CategoryName`. Category names are case
+ * sensitive.
+ */
+export const deleteCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteCallAnalyticsCategoryRequest,
+    output: DeleteCallAnalyticsCategoryResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
  * Provides information about the specified Call Analytics job.
  *
  * To view the job's status, refer to `CallAnalyticsJobStatus`. If the status
@@ -2641,6 +2299,348 @@ export const getCallAnalyticsJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: GetCallAnalyticsJobResponse,
   errors: [
     BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Provides information about the specified Medical Scribe job.
+ *
+ * To view the status of the specified medical transcription job, check the
+ * `MedicalScribeJobStatus` field. If the status is `COMPLETED`,
+ * the job is finished. You can find the results at the location specified in
+ * `MedicalScribeOutput`.
+ * If the status is `FAILED`, `FailureReason` provides details on why your Medical Scribe job
+ * failed.
+ *
+ * To get a list of your Medical Scribe jobs, use the operation.
+ */
+export const getMedicalScribeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMedicalScribeJobRequest,
+  output: GetMedicalScribeJobResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Provides information about the specified medical transcription job.
+ *
+ * To view the status of the specified medical transcription job, check the
+ * `TranscriptionJobStatus` field. If the status is `COMPLETED`,
+ * the job is finished. You can find the results at the location specified in
+ * `TranscriptFileUri`. If the status is `FAILED`,
+ * `FailureReason` provides details on why your transcription job
+ * failed.
+ *
+ * To get a list of your medical transcription jobs, use the operation.
+ */
+export const getMedicalTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMedicalTranscriptionJobRequest,
+    output: GetMedicalTranscriptionJobResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Provides information about the specified transcription job.
+ *
+ * To view the status of the specified transcription job, check the
+ * `TranscriptionJobStatus` field. If the status is `COMPLETED`,
+ * the job is finished. You can find the results at the location specified in
+ * `TranscriptFileUri`. If the status is `FAILED`,
+ * `FailureReason` provides details on why your transcription job
+ * failed.
+ *
+ * If you enabled content redaction, the redacted transcript can be found at the location
+ * specified in `RedactedTranscriptFileUri`.
+ *
+ * To get a list of your transcription jobs, use the operation.
+ */
+export const getTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTranscriptionJobRequest,
+  output: GetTranscriptionJobResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Provides information about the specified custom language model.
+ *
+ * This operation also shows if the base language model that you used to create your
+ * custom language model has been updated. If Amazon Transcribe has updated the base
+ * model, you can create a new custom language model using the updated base model.
+ *
+ * If you tried to create a new custom language model and the request wasn't successful,
+ * you can use `DescribeLanguageModel` to help identify the reason for this
+ * failure.
+ */
+export const describeLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeLanguageModelRequest,
+    output: DescribeLanguageModelResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Provides information about the specified Call Analytics category.
+ *
+ * To get a list of your Call Analytics categories, use the operation.
+ */
+export const getCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetCallAnalyticsCategoryRequest,
+    output: GetCallAnalyticsCategoryResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates the specified Call Analytics category with new rules. Note that the
+ * `UpdateCallAnalyticsCategory` operation overwrites all existing rules
+ * contained in the specified category. You cannot append additional rules onto an existing
+ * category.
+ *
+ * To create a new category, see .
+ */
+export const updateCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateCallAnalyticsCategoryRequest,
+    output: UpdateCallAnalyticsCategoryResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Provides information about the specified custom medical vocabulary.
+ *
+ * To view the status of the specified custom medical vocabulary, check the
+ * `VocabularyState` field. If the status is `READY`, your custom
+ * vocabulary is available to use. If the status is `FAILED`,
+ * `FailureReason` provides details on why your vocabulary failed.
+ *
+ * To get a list of your custom medical vocabularies, use the operation.
+ */
+export const getMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetMedicalVocabularyRequest,
+    output: GetMedicalVocabularyResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Provides information about the specified custom vocabulary.
+ *
+ * To view the status of the specified custom vocabulary, check the
+ * `VocabularyState` field. If the status is `READY`, your custom
+ * vocabulary is available to use. If the status is `FAILED`,
+ * `FailureReason` provides details on why your custom vocabulary
+ * failed.
+ *
+ * To get a list of your custom vocabularies, use the operation.
+ */
+export const getVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVocabularyRequest,
+  output: GetVocabularyResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Provides information about the specified custom vocabulary filter.
+ *
+ * To get a list of your custom vocabulary filters, use the operation.
+ */
+export const getVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVocabularyFilterRequest,
+  output: GetVocabularyFilterResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Lists all tags associated with the specified transcription job, vocabulary, model, or
+ * resource.
+ *
+ * To learn more about using tags with Amazon Transcribe, refer to Tagging
+ * resources.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Updates an existing custom vocabulary filter with a new list of words. The new list
+ * you provide overwrites all previous entries; you cannot append new terms onto an
+ * existing custom vocabulary filter.
+ */
+export const updateVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateVocabularyFilterRequest,
+    output: UpdateVocabularyFilterResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes a custom medical vocabulary. To use this operation, specify the name of the
+ * custom vocabulary you want to delete using `VocabularyName`. Custom
+ * vocabulary names are case sensitive.
+ */
+export const deleteMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteMedicalVocabularyRequest,
+    output: DeleteMedicalVocabularyResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Deletes a custom vocabulary. To use this operation, specify the name of the custom
+ * vocabulary you want to delete using `VocabularyName`. Custom vocabulary names
+ * are case sensitive.
+ */
+export const deleteVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVocabularyRequest,
+  output: DeleteVocabularyResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes a custom vocabulary filter. To use this operation, specify the name of the
+ * custom vocabulary filter you want to delete using `VocabularyFilterName`.
+ * Custom vocabulary filter names are case sensitive.
+ */
+export const deleteVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteVocabularyFilterRequest,
+    output: DeleteVocabularyFilterResponse,
+    errors: [
+      BadRequestException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates an existing custom medical vocabulary with new values. This operation
+ * overwrites all existing information with your new values; you cannot append new terms
+ * onto an existing custom vocabulary.
+ */
+export const updateMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateMedicalVocabularyRequest,
+    output: UpdateMedicalVocabularyResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      InternalFailureException,
+      LimitExceededException,
+      NotFoundException,
+    ],
+  }),
+);
+/**
+ * Updates an existing custom vocabulary with new values. This operation overwrites all
+ * existing information with your new values; you cannot append new terms onto an existing
+ * custom vocabulary.
+ */
+export const updateVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVocabularyRequest,
+  output: UpdateVocabularyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Adds one or more custom tags, each in the form of a key:value pair, to the specified
+ * resource.
+ *
+ * To learn more about using tags with Amazon Transcribe, refer to Tagging
+ * resources.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Removes the specified tags from the specified Amazon Transcribe resource.
+ *
+ * If you include `UntagResource` in your request, you must also include
+ * `ResourceArn` and `TagKeys`.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
     InternalFailureException,
     LimitExceededException,
     NotFoundException,

@@ -1767,10 +1767,6 @@ export class VerifyDestinationNumberResult extends S.Class<VerifyDestinationNumb
   CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
 }) {}
 export const EventDestinationList = S.Array(EventDestination);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class AccountAttribute extends S.Class<AccountAttribute>(
   "AccountAttribute",
 )({ Name: S.String, Value: S.String }) {}
@@ -2308,1146 +2304,55 @@ export class DescribeRegistrationVersionsResult extends S.Class<DescribeRegistra
   RegistrationVersions: RegistrationVersionInformationList,
   NextToken: S.optional(S.String),
 }) {}
+export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
+  "ValidationExceptionField",
+)({ Name: S.String, Message: S.String }) {}
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  {},
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {},
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
+  { Message: S.optional(S.String), RequestId: S.optional(S.String) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+  },
+) {}
+export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    Message: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+  },
+) {}
+export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(S.String),
+    Fields: S.optional(ValidationExceptionFieldList),
+  },
 ) {}
 
 //# Operations
-/**
- * Removes the association of the specified tags from a resource. For more information on tags see Tags in the *End User Messaging SMS User Guide*.
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets.
- */
-export const associateProtectConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateProtectConfigurationRequest,
-    output: AssociateProtectConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates a new opt-out list.
- *
- * If the opt-out list name already exists, an error is returned.
- *
- * An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see SMS opt out in the End User Messaging SMS User Guide.
- */
-export const createOptOutList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateOptOutListRequest,
-  output: CreateOptOutListResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new pool and associates the specified origination identity to the pool. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
- *
- * The new pool inherits its configuration from the specified origination identity. This includes keywords, message type, opt-out list, two-way configuration, and self-managed opt-out configuration. Deletion protection isn't inherited from the origination identity and defaults to false.
- *
- * If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools.
- */
-export const createPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePoolRequest,
-  output: CreatePoolResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Create a new protect configuration. By default all country rule sets for each capability are set to `ALLOW`. Update the country rule sets using `UpdateProtectConfigurationCountryRuleSet`. A protect configurations name is stored as a Tag with the key set to `Name` and value as the name of the protect configuration.
- */
-export const createProtectConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProtectConfigurationRequest,
-    output: CreateProtectConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Associate the registration with an origination identity such as a phone number or sender ID.
- */
-export const createRegistrationAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRegistrationAssociationRequest,
-    output: CreateRegistrationAssociationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.
- *
- * Use either `AttachmentUrl` or `AttachmentBody` to upload your attachment. If both are specified then an exception is returned.
- */
-export const createRegistrationAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRegistrationAttachmentRequest,
-    output: CreateRegistrationAttachmentResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * You can only send messages to verified destination numbers when your account is in the sandbox. You can add up to 10 verified destination numbers.
- */
-export const createVerifiedDestinationNumber =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVerifiedDestinationNumberRequest,
-    output: CreateVerifiedDestinationNumberResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Removes the current account default protect configuration.
- */
-export const deleteAccountDefaultProtectConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAccountDefaultProtectConfigurationRequest,
-    output: DeleteAccountDefaultProtectConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes an existing default message type on a configuration set.
- *
- * A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose **Transactional**. If you plan to send messages that contain marketing material or other promotional content, choose **Promotional**. This setting applies to your entire Amazon Web Services account.
- */
-export const deleteDefaultMessageType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDefaultMessageTypeRequest,
-    output: DeleteDefaultMessageTypeResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes an existing default sender ID on a configuration set.
- *
- * A default sender ID is the identity that appears on recipients' devices when they receive SMS messages. Support for sender ID capabilities varies by country or region.
- */
-export const deleteDefaultSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDefaultSenderIdRequest,
-    output: DeleteDefaultSenderIdResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes an existing event destination.
- *
- * An event destination is a location where you send response information about the messages that you send. For example, when a message is delivered successfully, you can send information about that event to an Amazon CloudWatch destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.
- */
-export const deleteEventDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventDestinationRequest,
-    output: DeleteEventDestinationResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes an existing keyword from an origination phone number or pool.
- *
- * A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message.
- *
- * Keywords "HELP" and "STOP" can't be deleted or modified.
- */
-export const deleteKeyword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteKeywordRequest,
-  output: DeleteKeywordResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas for Server Migration Service in the *Server Migration Service User Guide*.
- */
-export const deleteMediaMessageSpendLimitOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMediaMessageSpendLimitOverrideRequest,
-    output: DeleteMediaMessageSpendLimitOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes an existing opted out destination phone number from the specified opt-out list.
- *
- * Each destination phone number can only be deleted once every 30 days.
- *
- * If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned.
- */
-export const deleteOptedOutNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOptedOutNumberRequest,
-    output: DeleteOptedOutNumberResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted.
- *
- * If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
- */
-export const deleteOptOutList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteOptOutListRequest,
-  output: DeleteOptOutListResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool.
- *
- * If the pool status isn't active or if deletion protection is enabled, an error is returned.
- *
- * A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
- */
-export const deletePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePoolRequest,
-  output: DeletePoolResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set.
- */
-export const deleteProtectConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProtectConfigurationRequest,
-    output: DeleteProtectConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Permanently delete the protect configuration rule set number override.
- */
-export const deleteProtectConfigurationRuleSetNumberOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteProtectConfigurationRuleSetNumberOverrideRequest,
-    output: DeleteProtectConfigurationRuleSetNumberOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Permanently delete an existing registration from your account.
- */
-export const deleteRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRegistrationRequest,
-  output: DeleteRegistrationResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Permanently delete the specified registration attachment.
- */
-export const deleteRegistrationAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRegistrationAttachmentRequest,
-    output: DeleteRegistrationAttachmentResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Delete the value in a registration form field.
- */
-export const deleteRegistrationFieldValue =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRegistrationFieldValueRequest,
-    output: DeleteRegistrationFieldValueResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Deletes the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
- */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
- */
-export const deleteTextMessageSpendLimitOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTextMessageSpendLimitOverrideRequest,
-    output: DeleteTextMessageSpendLimitOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Delete a verified destination phone number.
- */
-export const deleteVerifiedDestinationNumber =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVerifiedDestinationNumberRequest,
-    output: DeleteVerifiedDestinationNumberResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Removes the specified origination identity from an existing pool.
- *
- * If the origination identity isn't associated with the specified pool, an error is returned.
- */
-export const disassociateOriginationIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateOriginationIdentityRequest,
-    output: DisassociateOriginationIdentityResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Disassociate a protect configuration from a configuration set.
- */
-export const disassociateProtectConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateProtectConfigurationRequest,
-    output: DisassociateProtectConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Discard the current version of the registration.
- */
-export const discardRegistrationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DiscardRegistrationVersionRequest,
-    output: DiscardRegistrationVersionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration.
- */
-export const getProtectConfigurationCountryRuleSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetProtectConfigurationCountryRuleSetRequest,
-    output: GetProtectConfigurationCountryRuleSetResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Retrieves the JSON text of the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
- */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List all tags associated with a resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates or updates a keyword configuration on an origination phone number or pool.
- *
- * A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message.
- *
- * If you specify a keyword that isn't valid, an error is returned.
- */
-export const putKeyword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutKeywordRequest,
-  output: PutKeywordResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Set the MessageFeedbackStatus as `RECEIVED` or `FAILED` for the passed in MessageId.
- *
- * If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use `PutMessageFeedback` to set the message feedback record as `RECEIVED`; Otherwise, an hour after the message feedback record is set to `FAILED`.
- */
-export const putMessageFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutMessageFeedbackRequest,
-  output: PutMessageFeedbackResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an opted out destination phone number in the opt-out list.
- *
- * If the destination phone number isn't valid or if the specified opt-out list doesn't exist, an error is returned.
- */
-export const putOptedOutNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutOptedOutNumberRequest,
-  output: PutOptedOutNumberResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Create or update a phone number rule override and associate it with a protect configuration.
- */
-export const putProtectConfigurationRuleSetNumberOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutProtectConfigurationRuleSetNumberOverrideRequest,
-    output: PutProtectConfigurationRuleSetNumberOverrideResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Creates or updates a field value for a registration.
- */
-export const putRegistrationFieldValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRegistrationFieldValueRequest,
-    output: PutRegistrationFieldValueResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Attaches a resource-based policy to a End User Messaging SMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the *End User Messaging SMS User Guide*.
- */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Releases an existing origination phone number in your account. Once released, a phone number is no longer available for sending messages.
- *
- * If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned.
- */
-export const releasePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReleasePhoneNumberRequest,
-  output: ReleasePhoneNumberResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Releases an existing sender ID in your account.
- */
-export const releaseSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReleaseSenderIdRequest,
-  output: ReleaseSenderIdResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the *End User Messaging SMS User Guide*.
- */
-export const requestPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RequestPhoneNumberRequest,
-  output: RequestPhoneNumberResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Request a new sender ID that doesn't require registration.
- */
-export const requestSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RequestSenderIdRequest,
-  output: RequestSenderIdResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
- */
-export const sendMediaMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendMediaMessageRequest,
-  output: SendMediaMessageResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked.
- *
- * SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the *End User Messaging SMS User Guide*.
- */
-export const sendTextMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendTextMessageRequest,
-  output: SendTextMessageResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Allows you to send a request that sends a voice message. This operation uses Amazon Polly to convert a text script into a voice message.
- */
-export const sendVoiceMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendVoiceMessageRequest,
-  output: SendVoiceMessageResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current account default protect configuration is replaced with the provided protect configuration.
- */
-export const setAccountDefaultProtectConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetAccountDefaultProtectConfigurationRequest,
-    output: SetAccountDefaultProtectConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Sets a configuration set's default for message feedback.
- */
-export const setDefaultMessageFeedbackEnabled =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetDefaultMessageFeedbackEnabledRequest,
-    output: SetDefaultMessageFeedbackEnabledResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Sets the default message type on a configuration set.
- *
- * Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose **Transactional**. If you plan to send messages that contain marketing material or other promotional content, choose **Promotional**. This setting applies to your entire Amazon Web Services account.
- */
-export const setDefaultMessageType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetDefaultMessageTypeRequest,
-    output: SetDefaultMessageTypeResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Sets default sender ID on a configuration set.
- *
- * When sending a text message to a destination country that supports sender IDs, the default sender ID on the configuration set specified will be used if no dedicated origination phone numbers or registered sender IDs are available in your account.
- */
-export const setDefaultSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetDefaultSenderIdRequest,
-  output: SetDefaultSenderIdResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Sets an account level monthly spend limit override for sending MMS messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
- */
-export const setMediaMessageSpendLimitOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetMediaMessageSpendLimitOverrideRequest,
-    output: SetMediaMessageSpendLimitOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Sets an account level monthly spend limit override for sending text messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
- */
-export const setTextMessageSpendLimitOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetTextMessageSpendLimitOverrideRequest,
-    output: SetTextMessageSpendLimitOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Sets an account level monthly spend limit override for sending voice messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
- */
-export const setVoiceMessageSpendLimitOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetVoiceMessageSpendLimitOverrideRequest,
-    output: SetVoiceMessageSpendLimitOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Submit the specified registration for review and approval.
- */
-export const submitRegistrationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SubmitRegistrationVersionRequest,
-    output: SubmitRegistrationVersionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags in the *End User Messaging SMS User Guide*.
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination.
- *
- * You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Amazon SNS.
- */
-export const updateEventDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEventDestinationRequest,
-    output: UpdateEventDestinationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the configuration of an existing origination phone number. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or disable self-managed opt-outs, and enable or disable deletion protection.
- *
- * If the origination phone number is associated with a pool, an error is returned.
- */
-export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePhoneNumberRequest,
-  output: UpdatePhoneNumberResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the `TwoWayChannelArn`, enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes.
- */
-export const updatePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePoolRequest,
-  output: UpdatePoolResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Update the setting for an existing protect configuration.
- */
-export const updateProtectConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProtectConfigurationRequest,
-    output: UpdateProtectConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Updates the configuration of an existing sender ID.
- */
-export const updateSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSenderIdRequest,
-  output: UpdateSenderIdResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Use the verification code that was received by the verified destination phone number to opt-in the verified destination phone number to receive more messages.
- */
-export const verifyDestinationNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: VerifyDestinationNumberRequest,
-    output: VerifyDestinationNumberResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Associates the specified origination identity with a pool.
- *
- * If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools.
- *
- * If the origination identity configuration doesn't match the pool's configuration, an error is returned.
- */
-export const associateOriginationIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateOriginationIdentityRequest,
-    output: AssociateOriginationIdentityResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Returns information about a destination phone number, including whether the number type and whether it is valid, the carrier, and more.
- */
-export const carrierLookup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CarrierLookupRequest,
-  output: CarrierLookupResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
- *
- * A configuration set is a set of rules that you apply to the SMS and voice messages that you send.
- *
- * When you send a message, you can optionally specify a single configuration set.
- */
-export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfigurationSetRequest,
-    output: CreateConfigurationSetResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a new event destination in a configuration set.
- *
- * An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.
- *
- * You can only create one event destination at a time. You must provide a value for a single event destination using either `CloudWatchLogsDestination`, `KinesisFirehoseDestination` or `SnsDestination`. If an event destination isn't provided then an exception is returned.
- *
- * Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
- */
-export const createEventDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEventDestinationRequest,
-    output: CreateEventDestinationResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Creates a new registration based on the **RegistrationType** field.
- */
-export const createRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateRegistrationRequest,
-  output: CreateRegistrationResult,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Create a new version of the registration and increase the **VersionNumber**. The previous version of the registration becomes read-only.
- */
-export const createRegistrationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRegistrationVersionRequest,
-    output: CreateRegistrationVersionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes an existing configuration set.
- *
- * A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a destination for specific types of events related to voice and SMS messages.
- */
-export const deleteConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationSetRequest,
-    output: DeleteConfigurationSetResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the `EnforcedLimit` equal to the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
- */
-export const deleteVoiceMessageSpendLimitOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVoiceMessageSpendLimitOverrideRequest,
-    output: DeleteVoiceMessageSpendLimitOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Describes attributes of your Amazon Web Services account. The supported account attributes include account tier, which indicates whether your account is in the sandbox or production environment. When you're ready to move your account out of the sandbox, create an Amazon Web Services Support case for a service limit increase request.
  *
@@ -3465,88 +2370,6 @@ export const describeAccountAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Describes the current End User Messaging SMS SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value.
- *
- * When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas in the *End User Messaging SMS User Guide*.
- */
-export const describeAccountLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountLimitsRequest,
-    output: DescribeAccountLimitsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
-/**
- * Describes the specified opt-out list or all opt-out lists in your account.
- *
- * If you specify opt-out list names, the output includes information for only the specified opt-out lists. Opt-out lists include only those that meet the filter criteria. If you don't specify opt-out list names or filters, the output includes information for all opt-out lists.
- *
- * If you specify an opt-out list name that isn't valid, an error is returned.
- */
-export const describeOptOutLists = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeOptOutListsRequest,
-  output: DescribeOptOutListsResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the specified registration field values.
- */
-export const describeRegistrationFieldValues =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRegistrationFieldValuesRequest,
-    output: DescribeRegistrationFieldValuesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Describes the current monthly spend limits for sending voice and text messages.
- *
- * When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see Requesting increases to your monthly SMS, MMS, or Voice spending quota in the *End User Messaging SMS User Guide*.
- */
-export const describeSpendLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSpendLimitsRequest,
-  output: DescribeSpendLimitsResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use VerifyDestinationNumber to opt-in the verified destination phone number to receive messages.
- */
-export const sendDestinationNumberVerificationCode =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SendDestinationNumberVerificationCodeRequest,
-    output: SendDestinationNumberVerificationCodeResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
 /**
  * Describes the specified configuration sets or all in your account.
  *
@@ -3800,6 +2623,1196 @@ export const updateProtectConfigurationCountryRuleSet =
       ValidationException,
     ],
   }));
+/**
+ * Returns information about a destination phone number, including whether the number type and whether it is valid, the carrier, and more.
+ */
+export const carrierLookup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CarrierLookupRequest,
+  output: CarrierLookupResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an existing configuration set.
+ *
+ * A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a destination for specific types of events related to voice and SMS messages.
+ */
+export const deleteConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteConfigurationSetRequest,
+    output: DeleteConfigurationSetResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an existing keyword from an origination phone number or pool.
+ *
+ * A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message.
+ *
+ * Keywords "HELP" and "STOP" can't be deleted or modified.
+ */
+export const deleteKeyword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteKeywordRequest,
+  output: DeleteKeywordResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Describes the specified opt-out list or all opt-out lists in your account.
+ *
+ * If you specify opt-out list names, the output includes information for only the specified opt-out lists. Opt-out lists include only those that meet the filter criteria. If you don't specify opt-out list names or filters, the output includes information for all opt-out lists.
+ *
+ * If you specify an opt-out list name that isn't valid, an error is returned.
+ */
+export const describeOptOutLists = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOptOutListsRequest,
+  output: DescribeOptOutListsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the specified registration field values.
+ */
+export const describeRegistrationFieldValues =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DescribeRegistrationFieldValuesRequest,
+    output: DescribeRegistrationFieldValuesResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use VerifyDestinationNumber to opt-in the verified destination phone number to receive messages.
+ */
+export const sendDestinationNumberVerificationCode =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SendDestinationNumberVerificationCodeRequest,
+    output: SendDestinationNumberVerificationCodeResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an existing default message type on a configuration set.
+ *
+ * A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose **Transactional**. If you plan to send messages that contain marketing material or other promotional content, choose **Promotional**. This setting applies to your entire Amazon Web Services account.
+ */
+export const deleteDefaultMessageType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDefaultMessageTypeRequest,
+    output: DeleteDefaultMessageTypeResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an existing default sender ID on a configuration set.
+ *
+ * A default sender ID is the identity that appears on recipients' devices when they receive SMS messages. Support for sender ID capabilities varies by country or region.
+ */
+export const deleteDefaultSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteDefaultSenderIdRequest,
+    output: DeleteDefaultSenderIdResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an existing event destination.
+ *
+ * An event destination is a location where you send response information about the messages that you send. For example, when a message is delivered successfully, you can send information about that event to an Amazon CloudWatch destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.
+ */
+export const deleteEventDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteEventDestinationRequest,
+    output: DeleteEventDestinationResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Permanently delete the protect configuration rule set number override.
+ */
+export const deleteProtectConfigurationRuleSetNumberOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteProtectConfigurationRuleSetNumberOverrideRequest,
+    output: DeleteProtectConfigurationRuleSetNumberOverrideResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+ */
+export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteResourcePolicyRequest,
+    output: DeleteResourcePolicyResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration.
+ */
+export const getProtectConfigurationCountryRuleSet =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetProtectConfigurationCountryRuleSetRequest,
+    output: GetProtectConfigurationCountryRuleSetResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Retrieves the JSON text of the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+ */
+export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List all tags associated with a resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Set the MessageFeedbackStatus as `RECEIVED` or `FAILED` for the passed in MessageId.
+ *
+ * If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use `PutMessageFeedback` to set the message feedback record as `RECEIVED`; Otherwise, an hour after the message feedback record is set to `FAILED`.
+ */
+export const putMessageFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutMessageFeedbackRequest,
+  output: PutMessageFeedbackResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an opted out destination phone number in the opt-out list.
+ *
+ * If the destination phone number isn't valid or if the specified opt-out list doesn't exist, an error is returned.
+ */
+export const putOptedOutNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutOptedOutNumberRequest,
+  output: PutOptedOutNumberResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Attaches a resource-based policy to a End User Messaging SMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the *End User Messaging SMS User Guide*.
+ */
+export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current account default protect configuration is replaced with the provided protect configuration.
+ */
+export const setAccountDefaultProtectConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetAccountDefaultProtectConfigurationRequest,
+    output: SetAccountDefaultProtectConfigurationResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Sets a configuration set's default for message feedback.
+ */
+export const setDefaultMessageFeedbackEnabled =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetDefaultMessageFeedbackEnabledRequest,
+    output: SetDefaultMessageFeedbackEnabledResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Sets the default message type on a configuration set.
+ *
+ * Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose **Transactional**. If you plan to send messages that contain marketing material or other promotional content, choose **Promotional**. This setting applies to your entire Amazon Web Services account.
+ */
+export const setDefaultMessageType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SetDefaultMessageTypeRequest,
+    output: SetDefaultMessageTypeResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Sets default sender ID on a configuration set.
+ *
+ * When sending a text message to a destination country that supports sender IDs, the default sender ID on the configuration set specified will be used if no dedicated origination phone numbers or registered sender IDs are available in your account.
+ */
+export const setDefaultSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetDefaultSenderIdRequest,
+  output: SetDefaultSenderIdResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Update the setting for an existing protect configuration.
+ */
+export const updateProtectConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateProtectConfigurationRequest,
+    output: UpdateProtectConfigurationResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration of an existing sender ID.
+ */
+export const updateSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSenderIdRequest,
+  output: UpdateSenderIdResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags in the *End User Messaging SMS User Guide*.
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the association of the specified tags from a resource. For more information on tags see Tags in the *End User Messaging SMS User Guide*.
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an existing opted out destination phone number from the specified opt-out list.
+ *
+ * Each destination phone number can only be deleted once every 30 days.
+ *
+ * If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned.
+ */
+export const deleteOptedOutNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteOptedOutNumberRequest,
+    output: DeleteOptedOutNumberResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted.
+ *
+ * If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
+ */
+export const deleteOptOutList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOptOutListRequest,
+  output: DeleteOptOutListResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool.
+ *
+ * If the pool status isn't active or if deletion protection is enabled, an error is returned.
+ *
+ * A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
+ */
+export const deletePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePoolRequest,
+  output: DeletePoolResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set.
+ */
+export const deleteProtectConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DeleteProtectConfigurationRequest,
+    output: DeleteProtectConfigurationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Permanently delete an existing registration from your account.
+ */
+export const deleteRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRegistrationRequest,
+  output: DeleteRegistrationResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Permanently delete the specified registration attachment.
+ */
+export const deleteRegistrationAttachment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteRegistrationAttachmentRequest,
+    output: DeleteRegistrationAttachmentResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Delete the value in a registration form field.
+ */
+export const deleteRegistrationFieldValue =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteRegistrationFieldValueRequest,
+    output: DeleteRegistrationFieldValueResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Delete a verified destination phone number.
+ */
+export const deleteVerifiedDestinationNumber =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteVerifiedDestinationNumberRequest,
+    output: DeleteVerifiedDestinationNumberResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Removes the specified origination identity from an existing pool.
+ *
+ * If the origination identity isn't associated with the specified pool, an error is returned.
+ */
+export const disassociateOriginationIdentity =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateOriginationIdentityRequest,
+    output: DisassociateOriginationIdentityResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Disassociate a protect configuration from a configuration set.
+ */
+export const disassociateProtectConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DisassociateProtectConfigurationRequest,
+    output: DisassociateProtectConfigurationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Discard the current version of the registration.
+ */
+export const discardRegistrationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DiscardRegistrationVersionRequest,
+    output: DiscardRegistrationVersionResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates or updates a keyword configuration on an origination phone number or pool.
+ *
+ * A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message.
+ *
+ * If you specify a keyword that isn't valid, an error is returned.
+ */
+export const putKeyword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutKeywordRequest,
+  output: PutKeywordResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates or updates a field value for a registration.
+ */
+export const putRegistrationFieldValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: PutRegistrationFieldValueRequest,
+    output: PutRegistrationFieldValueResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Releases an existing origination phone number in your account. Once released, a phone number is no longer available for sending messages.
+ *
+ * If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned.
+ */
+export const releasePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReleasePhoneNumberRequest,
+  output: ReleasePhoneNumberResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Releases an existing sender ID in your account.
+ */
+export const releaseSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReleaseSenderIdRequest,
+  output: ReleaseSenderIdResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the *End User Messaging SMS User Guide*.
+ */
+export const requestPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RequestPhoneNumberRequest,
+  output: RequestPhoneNumberResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
+ */
+export const sendMediaMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendMediaMessageRequest,
+  output: SendMediaMessageResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked.
+ *
+ * SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the *End User Messaging SMS User Guide*.
+ */
+export const sendTextMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendTextMessageRequest,
+  output: SendTextMessageResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Allows you to send a request that sends a voice message. This operation uses Amazon Polly to convert a text script into a voice message.
+ */
+export const sendVoiceMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendVoiceMessageRequest,
+  output: SendVoiceMessageResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Submit the specified registration for review and approval.
+ */
+export const submitRegistrationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: SubmitRegistrationVersionRequest,
+    output: SubmitRegistrationVersionResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination.
+ *
+ * You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Amazon SNS.
+ */
+export const updateEventDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateEventDestinationRequest,
+    output: UpdateEventDestinationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Updates the configuration of an existing origination phone number. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or disable self-managed opt-outs, and enable or disable deletion protection.
+ *
+ * If the origination phone number is associated with a pool, an error is returned.
+ */
+export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePhoneNumberRequest,
+  output: UpdatePhoneNumberResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the `TwoWayChannelArn`, enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes.
+ */
+export const updatePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePoolRequest,
+  output: UpdatePoolResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Use the verification code that was received by the verified destination phone number to opt-in the verified destination phone number to receive more messages.
+ */
+export const verifyDestinationNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: VerifyDestinationNumberRequest,
+    output: VerifyDestinationNumberResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Associates the specified origination identity with a pool.
+ *
+ * If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools.
+ *
+ * If the origination identity configuration doesn't match the pool's configuration, an error is returned.
+ */
+export const associateOriginationIdentity =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateOriginationIdentityRequest,
+    output: AssociateOriginationIdentityResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets.
+ */
+export const associateProtectConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: AssociateProtectConfigurationRequest,
+    output: AssociateProtectConfigurationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a new pool and associates the specified origination identity to the pool. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
+ *
+ * The new pool inherits its configuration from the specified origination identity. This includes keywords, message type, opt-out list, two-way configuration, and self-managed opt-out configuration. Deletion protection isn't inherited from the origination identity and defaults to false.
+ *
+ * If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools.
+ */
+export const createPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePoolRequest,
+  output: CreatePoolResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associate the registration with an origination identity such as a phone number or sender ID.
+ */
+export const createRegistrationAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateRegistrationAssociationRequest,
+    output: CreateRegistrationAssociationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a new event destination in a configuration set.
+ *
+ * An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.
+ *
+ * You can only create one event destination at a time. You must provide a value for a single event destination using either `CloudWatchLogsDestination`, `KinesisFirehoseDestination` or `SnsDestination`. If an event destination isn't provided then an exception is returned.
+ *
+ * Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
+ */
+export const createEventDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateEventDestinationRequest,
+    output: CreateEventDestinationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Create a new version of the registration and increase the **VersionNumber**. The previous version of the registration becomes read-only.
+ */
+export const createRegistrationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateRegistrationVersionRequest,
+    output: CreateRegistrationVersionResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Describes the current End User Messaging SMS SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value.
+ *
+ * When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas in the *End User Messaging SMS User Guide*.
+ */
+export const describeAccountLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DescribeAccountLimitsRequest,
+    output: DescribeAccountLimitsResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Describes the current monthly spend limits for sending voice and text messages.
+ *
+ * When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see Requesting increases to your monthly SMS, MMS, or Voice spending quota in the *End User Messaging SMS User Guide*.
+ */
+export const describeSpendLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSpendLimitsRequest,
+  output: DescribeSpendLimitsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Sets an account level monthly spend limit override for sending MMS messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
+ */
+export const setMediaMessageSpendLimitOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetMediaMessageSpendLimitOverrideRequest,
+    output: SetMediaMessageSpendLimitOverrideResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Sets an account level monthly spend limit override for sending text messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
+ */
+export const setTextMessageSpendLimitOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetTextMessageSpendLimitOverrideRequest,
+    output: SetTextMessageSpendLimitOverrideResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Sets an account level monthly spend limit override for sending voice messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
+ */
+export const setVoiceMessageSpendLimitOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: SetVoiceMessageSpendLimitOverrideRequest,
+    output: SetVoiceMessageSpendLimitOverrideResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas for Server Migration Service in the *Server Migration Service User Guide*.
+ */
+export const deleteMediaMessageSpendLimitOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteMediaMessageSpendLimitOverrideRequest,
+    output: DeleteMediaMessageSpendLimitOverrideResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
+ */
+export const deleteTextMessageSpendLimitOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteTextMessageSpendLimitOverrideRequest,
+    output: DeleteTextMessageSpendLimitOverrideResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the `EnforcedLimit` equal to the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
+ */
+export const deleteVoiceMessageSpendLimitOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteVoiceMessageSpendLimitOverrideRequest,
+    output: DeleteVoiceMessageSpendLimitOverrideResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Removes the current account default protect configuration.
+ */
+export const deleteAccountDefaultProtectConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: DeleteAccountDefaultProtectConfigurationRequest,
+    output: DeleteAccountDefaultProtectConfigurationResult,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Create or update a phone number rule override and associate it with a protect configuration.
+ */
+export const putProtectConfigurationRuleSetNumberOverride =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: PutProtectConfigurationRuleSetNumberOverrideRequest,
+    output: PutProtectConfigurationRuleSetNumberOverrideResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Request a new sender ID that doesn't require registration.
+ */
+export const requestSenderId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RequestSenderIdRequest,
+  output: RequestSenderIdResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new opt-out list.
+ *
+ * If the opt-out list name already exists, an error is returned.
+ *
+ * An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see SMS opt out in the End User Messaging SMS User Guide.
+ */
+export const createOptOutList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOptOutListRequest,
+  output: CreateOptOutListResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Create a new protect configuration. By default all country rule sets for each capability are set to `ALLOW`. Update the country rule sets using `UpdateProtectConfigurationCountryRuleSet`. A protect configurations name is stored as a Tag with the key set to `Name` and value as the name of the protect configuration.
+ */
+export const createProtectConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateProtectConfigurationRequest,
+    output: CreateProtectConfigurationResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.
+ *
+ * Use either `AttachmentUrl` or `AttachmentBody` to upload your attachment. If both are specified then an exception is returned.
+ */
+export const createRegistrationAttachment =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateRegistrationAttachmentRequest,
+    output: CreateRegistrationAttachmentResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * You can only send messages to verified destination numbers when your account is in the sandbox. You can add up to 10 verified destination numbers.
+ */
+export const createVerifiedDestinationNumber =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: CreateVerifiedDestinationNumberRequest,
+    output: CreateVerifiedDestinationNumberResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * Creates a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
+ *
+ * A configuration set is a set of rules that you apply to the SMS and voice messages that you send.
+ *
+ * When you send a message, you can optionally specify a single configuration set.
+ */
+export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: CreateConfigurationSetRequest,
+    output: CreateConfigurationSetResult,
+    errors: [
+      AccessDeniedException,
+      ConflictException,
+      InternalServerException,
+      ServiceQuotaExceededException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }),
+);
+/**
+ * Creates a new registration based on the **RegistrationType** field.
+ */
+export const createRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRegistrationRequest,
+  output: CreateRegistrationResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */

@@ -488,25 +488,25 @@ export class ConstraintViolationException extends S.TaggedError<ConstraintViolat
   "ConstraintViolationException",
   { Message: S.optional(S.String) },
 ) {}
-export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
-  "InternalServiceException",
-  {},
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  {},
-) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
   { Message: S.optional(S.String) },
 ) {}
+export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
+  "InternalServiceException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+  "InvalidParameterException",
+  { Message: S.optional(S.String) },
+) {}
 export class ThrottledException extends S.TaggedError<ThrottledException>()(
   "ThrottledException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 export class PaginationTokenExpiredException extends S.TaggedError<PaginationTokenExpiredException>()(
   "PaginationTokenExpiredException",
-  {},
+  { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -528,6 +528,60 @@ export const describeReportCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Lists the required tags for supported resource types in an Amazon Web Services account.
+ */
+export const listRequiredTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRequiredTagsInput,
+  output: ListRequiredTagsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    PaginationTokenExpiredException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Removes the specified tags from the specified resources. When you specify a tag key,
+ * the action removes both that key and its associated value. The operation succeeds even
+ * if you attempt to remove tags from a resource that were already removed. Note the
+ * following:
+ *
+ * - To remove tags from a resource, you need the necessary permissions for the
+ * service that the resource belongs to as well as permissions for removing tags.
+ * For more information, see the documentation for the service whose resource you
+ * want to untag.
+ *
+ * - You can only tag resources that are located in the specified Amazon Web Services Region for
+ * the calling Amazon Web Services account.
+ *
+ * **Minimum permissions**
+ *
+ * In addition to the `tag:UntagResources` permission required by this
+ * operation, you must also have the remove tags permission defined by the service that
+ * created the resource. For example, to remove the tags from an Amazon EC2 instance using the
+ * `UntagResources` operation, you must have both of the following
+ * permissions:
+ *
+ * - `tag:UntagResources`
+ *
+ * - `ec2:DeleteTags`
+ *
+ * In addition, some services might have specific requirements for untagging some
+ * types of resources. For example, to untag Amazon Web Services Glue Connection, you must also have the
+ * `glue:GetConnection` permission. If the expected minimum permissions
+ * don't work, check the documentation for that service's tagging APIs for more
+ * information.
+ */
+export const untagResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourcesInput,
+  output: UntagResourcesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+}));
 /**
  * Returns a table that shows counts of resources that are noncompliant with their tag
  * policies.
@@ -557,95 +611,6 @@ export const getComplianceSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * Returns all tag keys currently in use in the specified Amazon Web Services Region for the calling
- * account.
- *
- * This operation supports pagination, where the response can be sent in
- * multiple pages. You should check the `PaginationToken` response parameter to determine
- * if there are additional results available to return. Repeat the query, passing the
- * `PaginationToken` response parameter value as an input to the next request until you
- * recieve a `null` value. A null value for `PaginationToken` indicates that
- * there are no more results waiting to be returned.
- */
-export const getTagKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTagKeysInput,
-  output: GetTagKeysOutput,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    PaginationTokenExpiredException,
-    ThrottledException,
-  ],
-}));
-/**
- * Returns all tag values for the specified key that are used in the specified Amazon Web Services
- * Region for the calling account.
- *
- * This operation supports pagination, where the response can be sent in
- * multiple pages. You should check the `PaginationToken` response parameter to determine
- * if there are additional results available to return. Repeat the query, passing the
- * `PaginationToken` response parameter value as an input to the next request until you
- * recieve a `null` value. A null value for `PaginationToken` indicates that
- * there are no more results waiting to be returned.
- */
-export const getTagValues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTagValuesInput,
-  output: GetTagValuesOutput,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    PaginationTokenExpiredException,
-    ThrottledException,
-  ],
-}));
-/**
- * Lists the required tags for supported resource types in an Amazon Web Services account.
- */
-export const listRequiredTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRequiredTagsInput,
-  output: ListRequiredTagsOutput,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    PaginationTokenExpiredException,
-    ThrottledException,
-  ],
-}));
-/**
- * Generates a report that lists all tagged resources in the accounts across your
- * organization and tells whether each resource is compliant with the effective tag policy.
- * Compliance data is refreshed daily. The report is generated asynchronously.
- *
- * The generated report is saved to the following location:
- *
- * `s3://amzn-s3-demo-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv`
- *
- * For more information about evaluating resource compliance with tag policies, including
- * the required permissions, review Permissions for evaluating organization-wide compliance in the
- * *Tagging Amazon Web Services Resources and Tag Editor* user guide.
- *
- * You can call this operation only from the organization's
- * management account and from the us-east-1 Region.
- *
- * If the account associated with the identity used to call
- * `StartReportCreation` is different from the account that owns the Amazon S3
- * bucket, there must be a bucket policy attached to the bucket to provide access. For more
- * information, review Amazon S3 bucket
- * policy for report storage in the Tagging Amazon Web Services Resources and Tag
- * Editor user guide.
- */
-export const startReportCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartReportCreationInput,
-  output: StartReportCreationOutput,
-  errors: [
-    ConcurrentModificationException,
-    ConstraintViolationException,
-    InternalServiceException,
-    InvalidParameterException,
-    ThrottledException,
-  ],
-}));
 /**
  * Applies one or more tags to the specified resources. Note the following:
  *
@@ -708,43 +673,78 @@ export const tagResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Removes the specified tags from the specified resources. When you specify a tag key,
- * the action removes both that key and its associated value. The operation succeeds even
- * if you attempt to remove tags from a resource that were already removed. Note the
- * following:
+ * Generates a report that lists all tagged resources in the accounts across your
+ * organization and tells whether each resource is compliant with the effective tag policy.
+ * Compliance data is refreshed daily. The report is generated asynchronously.
  *
- * - To remove tags from a resource, you need the necessary permissions for the
- * service that the resource belongs to as well as permissions for removing tags.
- * For more information, see the documentation for the service whose resource you
- * want to untag.
+ * The generated report is saved to the following location:
  *
- * - You can only tag resources that are located in the specified Amazon Web Services Region for
- * the calling Amazon Web Services account.
+ * `s3://amzn-s3-demo-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv`
  *
- * **Minimum permissions**
+ * For more information about evaluating resource compliance with tag policies, including
+ * the required permissions, review Permissions for evaluating organization-wide compliance in the
+ * *Tagging Amazon Web Services Resources and Tag Editor* user guide.
  *
- * In addition to the `tag:UntagResources` permission required by this
- * operation, you must also have the remove tags permission defined by the service that
- * created the resource. For example, to remove the tags from an Amazon EC2 instance using the
- * `UntagResources` operation, you must have both of the following
- * permissions:
+ * You can call this operation only from the organization's
+ * management account and from the us-east-1 Region.
  *
- * - `tag:UntagResources`
- *
- * - `ec2:DeleteTags`
- *
- * In addition, some services might have specific requirements for untagging some
- * types of resources. For example, to untag Amazon Web Services Glue Connection, you must also have the
- * `glue:GetConnection` permission. If the expected minimum permissions
- * don't work, check the documentation for that service's tagging APIs for more
- * information.
+ * If the account associated with the identity used to call
+ * `StartReportCreation` is different from the account that owns the Amazon S3
+ * bucket, there must be a bucket policy attached to the bucket to provide access. For more
+ * information, review Amazon S3 bucket
+ * policy for report storage in the Tagging Amazon Web Services Resources and Tag
+ * Editor user guide.
  */
-export const untagResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourcesInput,
-  output: UntagResourcesOutput,
+export const startReportCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartReportCreationInput,
+  output: StartReportCreationOutput,
+  errors: [
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    InternalServiceException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Returns all tag keys currently in use in the specified Amazon Web Services Region for the calling
+ * account.
+ *
+ * This operation supports pagination, where the response can be sent in
+ * multiple pages. You should check the `PaginationToken` response parameter to determine
+ * if there are additional results available to return. Repeat the query, passing the
+ * `PaginationToken` response parameter value as an input to the next request until you
+ * recieve a `null` value. A null value for `PaginationToken` indicates that
+ * there are no more results waiting to be returned.
+ */
+export const getTagKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTagKeysInput,
+  output: GetTagKeysOutput,
   errors: [
     InternalServiceException,
     InvalidParameterException,
+    PaginationTokenExpiredException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Returns all tag values for the specified key that are used in the specified Amazon Web Services
+ * Region for the calling account.
+ *
+ * This operation supports pagination, where the response can be sent in
+ * multiple pages. You should check the `PaginationToken` response parameter to determine
+ * if there are additional results available to return. Repeat the query, passing the
+ * `PaginationToken` response parameter value as an input to the next request until you
+ * recieve a `null` value. A null value for `PaginationToken` indicates that
+ * there are no more results waiting to be returned.
+ */
+export const getTagValues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTagValuesInput,
+  output: GetTagValuesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    PaginationTokenExpiredException,
     ThrottledException,
   ],
 }));

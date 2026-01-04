@@ -766,30 +766,59 @@ export class GetOrganizationRecommendationResponse extends S.Class<GetOrganizati
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  {},
+  { message: S.String },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  {},
+  { message: S.String },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.String },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  {},
+  { message: S.String },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  {},
+  { message: S.String },
 ) {}
 
 //# Operations
+/**
+ * List a filterable set of Checks
+ */
+export const listChecks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListChecksRequest,
+  output: ListChecksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists the accounts that own the resources for an organization aggregate recommendation. This API only
+ * supports prioritized recommendations.
+ */
+export const listOrganizationRecommendationAccounts =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListOrganizationRecommendationAccountsRequest,
+    output: ListOrganizationRecommendationAccountsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
 /**
  * List Resources of a Recommendation within an Organization. This API only supports prioritized
  * recommendations.
@@ -802,21 +831,6 @@ export const listOrganizationRecommendationResources =
       AccessDeniedException,
       InternalServerException,
       ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * List a filterable set of Recommendations within an Organization. This API only supports prioritized
- * recommendations.
- */
-export const listOrganizationRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListOrganizationRecommendationsRequest,
-    output: ListOrganizationRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
       ThrottlingException,
       ValidationException,
     ],
@@ -837,19 +851,6 @@ export const listRecommendationResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
-/**
- * List a filterable set of Recommendations
- */
-export const listRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRecommendationsRequest,
-  output: ListRecommendationsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized
  * recommendations.
@@ -884,6 +885,50 @@ export const updateRecommendationLifecycle =
     ],
   }));
 /**
+ * Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized
+ * recommendations.
+ */
+export const getOrganizationRecommendation =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetOrganizationRecommendationRequest,
+    output: GetOrganizationRecommendationResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ResourceNotFoundException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * List a filterable set of Recommendations within an Organization. This API only supports prioritized
+ * recommendations.
+ */
+export const listOrganizationRecommendations =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListOrganizationRecommendationsRequest,
+    output: ListOrganizationRecommendationsResponse,
+    errors: [
+      AccessDeniedException,
+      InternalServerException,
+      ThrottlingException,
+      ValidationException,
+    ],
+  }));
+/**
+ * List a filterable set of Recommendations
+ */
+export const listRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRecommendationsRequest,
+  output: ListRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Update one or more exclusion status for a list of recommendation resources
  */
 export const batchUpdateRecommendationResourceExclusion =
@@ -912,48 +957,3 @@ export const getRecommendation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     ValidationException,
   ],
 }));
-/**
- * List a filterable set of Checks
- */
-export const listChecks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListChecksRequest,
-  output: ListChecksResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the accounts that own the resources for an organization aggregate recommendation. This API only
- * supports prioritized recommendations.
- */
-export const listOrganizationRecommendationAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListOrganizationRecommendationAccountsRequest,
-    output: ListOrganizationRecommendationAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
-/**
- * Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized
- * recommendations.
- */
-export const getOrganizationRecommendation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOrganizationRecommendationRequest,
-    output: GetOrganizationRecommendationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));

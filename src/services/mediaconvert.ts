@@ -4014,166 +4014,34 @@ export class CreateJobResponse extends S.Class<CreateJobResponse>(
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {},
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ) {}
 
 //# Operations
-/**
- * Permanently delete a queue you have created.
- */
-export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteQueueRequest,
-  output: DeleteQueueResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
- */
-export const disassociateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateCertificateRequest,
-    output: DisassociateCertificateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
- */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
- */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
- */
-export const associateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateCertificateRequest,
-    output: AssociateCertificateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-    ],
-  }),
-);
-/**
- * Permanently cancel a job. Once you have canceled a job, you can't start it again.
- */
-export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelJobRequest,
-  output: CancelJobResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create a new resource share request for MediaConvert resources with AWS Support.
- */
-export const createResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateResourceShareRequest,
-  output: CreateResourceShareResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Permanently delete a job template you have created.
- */
-export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJobTemplateRequest,
-  output: DeleteJobTemplateResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
 /**
  * Permanently delete a policy that you created.
  */
@@ -4191,11 +4059,123 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Permanently delete a preset you have created.
+ * Retrieve the JSON for a specific transcoding job.
  */
-export const deletePreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePresetRequest,
-  output: DeletePresetResponse,
+export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJobRequest,
+  output: GetJobResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieve the JSON for a specific queue.
+ */
+export const getQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueueRequest,
+  output: GetQueueResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
+ */
+export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEndpointsRequest,
+  output: DescribeEndpointsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieve the JSON for a specific job template.
+ */
+export const getJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJobTemplateRequest,
+  output: GetJobTemplateResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieve the JSON for a specific preset.
+ */
+export const getPreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPresetRequest,
+  output: GetPresetResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieve the tags for a MediaConvert resource.
+ */
+export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieve a JSON array of all available Job engine versions and the date they expire.
+ */
+export const listVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVersionsRequest,
+  output: ListVersionsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
+ */
+export const startJobsQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartJobsQueryRequest,
+  output: StartJobsQueryResponse,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4383,6 +4363,154 @@ export const updateQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
+ * Permanently delete a preset you have created.
+ */
+export const deletePreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePresetRequest,
+  output: DeletePresetResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Permanently delete a queue you have created.
+ */
+export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueueRequest,
+  output: DeleteQueueResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
+ */
+export const disassociateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: DisassociateCertificateRequest,
+    output: DisassociateCertificateResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceQuotaExceededException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+ */
+export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+ */
+export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
+ */
+export const associateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: AssociateCertificateRequest,
+    output: AssociateCertificateResponse,
+    errors: [
+      BadRequestException,
+      ConflictException,
+      ForbiddenException,
+      InternalServerErrorException,
+      NotFoundException,
+      ServiceQuotaExceededException,
+      TooManyRequestsException,
+    ],
+  }),
+);
+/**
+ * Permanently cancel a job. Once you have canceled a job, you can't start it again.
+ */
+export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelJobRequest,
+  output: CancelJobResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a new resource share request for MediaConvert resources with AWS Support.
+ */
+export const createResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceShareRequest,
+  output: CreateResourceShareResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Permanently delete a job template you have created.
+ */
+export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJobTemplateRequest,
+  output: DeleteJobTemplateResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
  * Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
  */
 export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -4399,139 +4527,11 @@ export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   ],
 }));
 /**
- * Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
- */
-export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEndpointsRequest,
-  output: DescribeEndpointsResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve the JSON for a specific job template.
- */
-export const getJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJobTemplateRequest,
-  output: GetJobTemplateResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve the JSON for a specific preset.
- */
-export const getPreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPresetRequest,
-  output: GetPresetResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve the tags for a MediaConvert resource.
- */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve a JSON array of all available Job engine versions and the date they expire.
- */
-export const listVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListVersionsRequest,
-  output: ListVersionsResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
- */
-export const startJobsQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartJobsQueryRequest,
-  output: StartJobsQueryResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
 export const createJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobTemplateRequest,
   output: CreateJobTemplateResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve the JSON for a specific queue.
- */
-export const getQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQueueRequest,
-  output: GetQueueResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve the JSON for a specific transcoding job.
- */
-export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJobRequest,
-  output: GetJobResponse,
   errors: [
     BadRequestException,
     ConflictException,

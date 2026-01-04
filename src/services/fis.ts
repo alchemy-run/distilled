@@ -1374,22 +1374,22 @@ export class GetExperimentResponse extends S.Class<GetExperimentResponse>(
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {},
-  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
+) {}
+export class ValidationException extends S.TaggedError<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  {},
+  { message: S.optional(S.String) },
   T.AwsQueryError({
     code: "ServiceQuotaExceededException",
     httpResponseCode: 402,
@@ -1414,15 +1414,6 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   errors: [],
 }));
 /**
- * Gets information about the specified target account configuration of the experiment template.
- */
-export const getTargetAccountConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTargetAccountConfigurationRequest,
-    output: GetTargetAccountConfigurationResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-  }));
-/**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1430,23 +1421,6 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   output: ListTagsForResourceResponse,
   errors: [],
 }));
-/**
- * Stops the specified experiment.
- */
-export const stopExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopExperimentRequest,
-  output: StopExperimentResponse,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
- * Updates the target account configuration for the specified experiment template.
- */
-export const updateTargetAccountConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateTargetAccountConfigurationRequest,
-    output: UpdateTargetAccountConfigurationResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-  }));
 /**
  * Deletes the specified target account configuration of the experiment template.
  */
@@ -1457,6 +1431,33 @@ export const deleteTargetAccountConfiguration =
     errors: [ResourceNotFoundException, ValidationException],
   }));
 /**
+ * Gets information about the specified safety lever.
+ */
+export const getSafetyLever = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSafetyLeverRequest,
+  output: GetSafetyLeverResponse,
+  errors: [ResourceNotFoundException],
+}));
+/**
+ * Lists the resolved targets information of the specified experiment.
+ */
+export const listExperimentResolvedTargets =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: ListExperimentResolvedTargetsRequest,
+    output: ListExperimentResolvedTargetsResponse,
+    errors: [ResourceNotFoundException, ValidationException],
+  }));
+/**
+ * Updates the specified safety lever state.
+ */
+export const updateSafetyLeverState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: UpdateSafetyLeverStateRequest,
+    output: UpdateSafetyLeverStateResponse,
+    errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  }),
+);
+/**
  * Gets information about the specified target account configuration of the experiment.
  */
 export const getExperimentTargetAccountConfiguration =
@@ -1465,16 +1466,6 @@ export const getExperimentTargetAccountConfiguration =
     output: GetExperimentTargetAccountConfigurationResponse,
     errors: [ResourceNotFoundException, ValidationException],
   }));
-/**
- * Gets information about the specified experiment template.
- */
-export const getExperimentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetExperimentTemplateRequest,
-    output: GetExperimentTemplateResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-  }),
-);
 /**
  * Lists the available FIS actions.
  */
@@ -1530,15 +1521,41 @@ export const listTargetResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
   }),
 );
 /**
- * Updates the specified safety lever state.
+ * Gets information about the specified experiment template.
  */
-export const updateSafetyLeverState = /*@__PURE__*/ /*#__PURE__*/ API.make(
+export const getExperimentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
-    input: UpdateSafetyLeverStateRequest,
-    output: UpdateSafetyLeverStateResponse,
-    errors: [ConflictException, ResourceNotFoundException, ValidationException],
+    input: GetExperimentTemplateRequest,
+    output: GetExperimentTemplateResponse,
+    errors: [ResourceNotFoundException, ValidationException],
   }),
 );
+/**
+ * Gets information about the specified target account configuration of the experiment template.
+ */
+export const getTargetAccountConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: GetTargetAccountConfigurationRequest,
+    output: GetTargetAccountConfigurationResponse,
+    errors: [ResourceNotFoundException, ValidationException],
+  }));
+/**
+ * Stops the specified experiment.
+ */
+export const stopExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopExperimentRequest,
+  output: StopExperimentResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Updates the target account configuration for the specified experiment template.
+ */
+export const updateTargetAccountConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    input: UpdateTargetAccountConfigurationRequest,
+    output: UpdateTargetAccountConfigurationResponse,
+    errors: [ResourceNotFoundException, ValidationException],
+  }));
 /**
  * Creates a target account configuration for the experiment template. A target account configuration
  * is required when `accountTargeting` of `experimentOptions` is set to `multi-account`.
@@ -1557,35 +1574,23 @@ export const createTargetAccountConfiguration =
     ],
   }));
 /**
- * Gets information about the specified safety lever.
+ * Gets information about the specified FIS action.
  */
-export const getSafetyLever = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSafetyLeverRequest,
-  output: GetSafetyLeverResponse,
-  errors: [ResourceNotFoundException],
+export const getAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetActionRequest,
+  output: GetActionResponse,
+  errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
- * Lists the resolved targets information of the specified experiment.
+ * Gets information about the specified resource type.
  */
-export const listExperimentResolvedTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListExperimentResolvedTargetsRequest,
-    output: ListExperimentResolvedTargetsResponse,
+export const getTargetResourceType = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    input: GetTargetResourceTypeRequest,
+    output: GetTargetResourceTypeResponse,
     errors: [ResourceNotFoundException, ValidationException],
-  }));
-/**
- * Starts running an experiment from the specified experiment template.
- */
-export const startExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartExperimentRequest,
-  output: StartExperimentResponse,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
+  }),
+);
 /**
  * Updates the specified experiment template.
  */
@@ -1600,6 +1605,19 @@ export const updateExperimentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
     ],
   }),
 );
+/**
+ * Starts running an experiment from the specified experiment template.
+ */
+export const startExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartExperimentRequest,
+  output: StartExperimentResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an experiment template.
  *
@@ -1629,24 +1647,6 @@ export const createExperimentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
       ServiceQuotaExceededException,
       ValidationException,
     ],
-  }),
-);
-/**
- * Gets information about the specified FIS action.
- */
-export const getAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetActionRequest,
-  output: GetActionResponse,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
- * Gets information about the specified resource type.
- */
-export const getTargetResourceType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTargetResourceTypeRequest,
-    output: GetTargetResourceTypeResponse,
-    errors: [ResourceNotFoundException, ValidationException],
   }),
 );
 /**
